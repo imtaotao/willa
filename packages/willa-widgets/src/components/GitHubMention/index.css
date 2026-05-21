@@ -1,0 +1,208 @@
+@import "@willa-ui/content/components/Skeleton.css";
+
+.willa-prose-github-mention-wrap {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.willa-prose-github-mention {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.44rem;
+  max-width: 100%;
+  margin: 0 0.14rem;
+  padding: 0.12rem 0.42rem 0.12rem 0.22rem;
+  border-radius: 999px;
+  background: var(--willa-github-pill-bg);
+  color: var(--willa-text-strong);
+  text-decoration: none;
+  text-shadow: none;
+  vertical-align: middle;
+  transition:
+    color 180ms ease,
+    opacity 180ms ease;
+}
+
+.willa-prose-github-mention:hover {
+  background: var(--willa-github-pill-bg-hover);
+  color: var(--willa-accent);
+}
+
+.willa-prose-github-mention:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-prose-github-mention-avatar {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  border-radius: 999px;
+  object-fit: cover;
+  background: var(--willa-cover-bg);
+  transform: none;
+}
+
+.willa-prose-github-mention-copy {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+}
+
+.willa-prose-github-mention-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  color: currentColor;
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.willa-prose-github-hover-card {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 14px);
+  z-index: 12;
+  display: flex;
+  width: min(20rem, calc(100vw - 2rem));
+  flex-direction: column;
+  gap: 0.78rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--willa-github-hover-card-border);
+  border-radius: 18px;
+  background: var(--willa-github-hover-card-fill);
+  box-shadow: var(--willa-github-hover-card-shadow);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-14px) scale(0.96);
+  transform-origin: left top;
+  will-change: opacity, transform;
+  transition:
+    opacity 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.willa-prose-github-hover-card::before {
+  content: "";
+  position: absolute;
+  left: 1.15rem;
+  bottom: 100%;
+  width: 14px;
+  height: 14px;
+  background: var(--willa-github-hover-card-fill);
+  border-left: 1px solid var(--willa-github-hover-card-border);
+  border-top: 1px solid var(--willa-github-hover-card-border);
+  box-shadow: var(--willa-github-hover-card-arrow-shadow);
+  transform: translateY(7px) rotate(45deg);
+}
+
+.willa-prose-github-mention-wrap[data-open="true"]
+  .willa-prose-github-hover-card {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.willa-prose-github-hover-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.82rem;
+}
+
+.willa-prose-github-hover-card-avatar {
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  flex: none;
+  border-radius: 999px;
+  object-fit: cover;
+  background: var(--willa-cover-bg);
+}
+
+.willa-prose-github-hover-card-avatar--fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--willa-text-faint);
+}
+
+.willa-prose-github-hover-card-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+
+.willa-prose-github-hover-card-title {
+  color: var(--willa-text-strong);
+  font-family: var(--willa-title-font);
+  font-size: 1.04rem;
+  font-weight: 650;
+  line-height: 1.24;
+}
+
+.willa-prose-github-hover-card-subtitle {
+  color: var(--willa-text-faint);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.willa-prose-github-hover-card-description {
+  color: var(--willa-text-soft);
+  font-size: 0.88rem;
+  font-weight: 500;
+  line-height: 1.62;
+}
+
+.willa-prose-github-hover-card-loading,
+.willa-prose-github-hover-card-error {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.46rem;
+  color: var(--willa-text-soft);
+  font-size: 0.84rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.willa-prose-github-hover-card-loading {
+  width: min(100%, 13rem);
+}
+
+.willa-prose-github-hover-card-error {
+  color: var(--willa-github-hover-card-error);
+}
+
+.willa-prose-github-hover-card-error svg {
+  width: 0.96rem;
+  height: 0.96rem;
+  flex: none;
+}
+
+.willa-prose-github-hover-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.48rem;
+}
+
+.willa-prose-github-hover-card-meta-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.24rem 0.5rem;
+  border-radius: 999px;
+  background: var(--willa-github-hover-card-meta-bg);
+  color: var(--willa-text-faint);
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+@media (max-width: 767px) {
+  .willa-prose-github-mention {
+    gap: 0.4rem;
+  }
+}

@@ -1,0 +1,40 @@
+import { SummaryCards } from "willa/SummaryCards";
+import "willa/SummaryCards.css";
+
+import { defineDoc } from "#example/catalog/defineDoc";
+
+const items = [
+  {
+    title: "内容",
+    content: "面向长内容页面的基础组件。",
+  },
+  { title: "场景", content: "嵌入式内容和特殊场景组件。" },
+  { title: "样式", content: "聚合样式和单组件 CSS 入口。" },
+];
+
+export default defineDoc({
+  id: "summary-cards",
+  name: "SummaryCards",
+  packageName: "willa/SummaryCards",
+  description: "用于概括相关信息的紧凑卡片组。",
+  imports: [{ name: "SummaryCards", from: "willa/SummaryCards" }],
+  css: "willa/SummaryCards.css",
+  demo: {
+    name: "SummaryCards",
+    component: SummaryCards,
+    props: { items },
+  },
+  props: [
+    {
+      name: "items",
+      type: "Array<{ title: string; content: string | string[] }>",
+      required: true,
+      description: "需要渲染的卡片列表。",
+    },
+    {
+      name: "className",
+      type: "string",
+      description: "可选的外层 className。",
+    },
+  ],
+});

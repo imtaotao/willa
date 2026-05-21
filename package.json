@@ -1,0 +1,38 @@
+{
+  "name": "willa-workspace",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "author": "chentao.arthur",
+  "description": "Willa UI component library monorepo.",
+  "scripts": {
+    "prepare": "husky",
+    "dev": "pnpm --filter willa-example run dev",
+    "build": "pnpm --stream --filter willa-example run build",
+    "dev:packages": "pnpm --parallel --stream --filter './packages/*' run dev",
+    "build:packages": "pnpm -r --stream --filter './packages/*' run build",
+    "preview": "pnpm --filter willa-example run preview",
+    "test": "pnpm -r --if-present test",
+    "typecheck": "tsc -p . --noEmit --skipLibCheck",
+    "format": "prettier --write --ignore-path .gitignore \"*.{js,mjs,cjs,ts,tsx,json,md,css}\" \"packages/**/*.{js,mjs,cjs,ts,tsx,json,md,yaml,yml,css}\" \"example/**/*.{js,mjs,cjs,ts,tsx,json,md,yaml,yml,css,html}\"",
+    "format:md": "prettier --write --ignore-path .gitignore --no-error-on-unmatched-pattern \"*.md\" \"docs/**/*.md\" \"packages/**/*.md\" \"example/**/*.md\""
+  },
+  "lint-staged": {
+    "*.{js,mjs,cjs,ts,tsx,json,md,yaml,yml,css}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "husky": "catalog:",
+    "prettier": "catalog:",
+    "lint-staged": "catalog:",
+    "typescript": "catalog:"
+  },
+  "packageManager": "pnpm@10.27.0",
+  "engines": {
+    "node": ">=22",
+    "pnpm": "=10.27.0"
+  }
+}

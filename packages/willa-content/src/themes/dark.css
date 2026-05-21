@@ -1,0 +1,149 @@
+:root[data-wk-theme="dark"] .willa-shell,
+:root[data-wk-theme="dark"] .willa-lightbox {
+  --willa-surface-soft: rgba(255, 255, 255, 0.045);
+  --willa-surface-tint: rgba(255, 255, 255, 0.03);
+  --willa-text-strong: #f3f4f6;
+  --willa-text: rgba(255, 255, 255, 0.86);
+  --willa-text-soft: rgba(255, 255, 255, 0.68);
+  --willa-text-faint: rgba(255, 255, 255, 0.52);
+  --willa-line: rgba(255, 255, 255, 0.11);
+  --willa-line-strong: rgba(255, 255, 255, 0.18);
+  --willa-accent: #7dd3fc;
+  --willa-accent-2: #86efac;
+  --willa-accent-2-soft: rgba(134, 239, 172, 0.12);
+  --willa-focus-ring: rgba(122, 162, 247, 0.5);
+  --willa-panel-bg: rgba(28, 31, 36, 0.98);
+  --willa-skeleton-bg: linear-gradient(
+    90deg,
+    rgba(148, 163, 184, 0.1),
+    rgba(148, 163, 184, 0.22),
+    rgba(148, 163, 184, 0.1)
+  );
+  --willa-cover-bg: #111317;
+  --willa-image-bg: #151d29;
+  --willa-floating-bg: rgba(29, 32, 37, 0.96);
+  --willa-lightbox-bg: rgba(17, 19, 23, 0.68);
+  --willa-lightbox-solid-bg: #111317;
+  --willa-code-block-bg: #151d29;
+  --willa-code-block-border: rgba(255, 255, 255, 0.06);
+  --willa-code-line-highlight: rgba(0, 0, 0, 0.36);
+  --willa-code-meta-border: transparent;
+  --willa-code-lang-bg: transparent;
+  --willa-code-lang-color: rgba(235, 235, 245, 0.38);
+  --willa-code-copy-copied-border: rgba(134, 239, 172, 0.42);
+  --willa-code-text: #c9d1d9;
+  --willa-code-muted: #8b949e;
+  --willa-code-keyword: #ff7b72;
+  --willa-code-string: #a5d6ff;
+  --willa-code-number: #79c0ff;
+  --willa-code-title: #d2a8ff;
+  --willa-code-comment: #8b949e;
+  --willa-code-attr: #79c0ff;
+  --willa-code-symbol: #ffa657;
+  --willa-code-deletion: #ffdcd7;
+  --willa-code-addition: #aff5b4;
+  --willa-audio-border: rgba(134, 239, 172, 0.18);
+  --willa-audio-border-hover: rgba(134, 239, 172, 0.22);
+  --willa-audio-bg:
+    linear-gradient(135deg, rgba(134, 239, 172, 0.09), transparent 62%),
+    var(--willa-surface-tint);
+  --willa-audio-bg-hover: var(--willa-audio-bg);
+  --willa-audio-inline-bg:
+    linear-gradient(135deg, rgba(134, 239, 172, 0.11), transparent 58%),
+    rgba(134, 239, 172, 0.06);
+  --willa-audio-visual-bg: rgba(134, 239, 172, 0.1);
+  --willa-audio-fallback-bg:
+    radial-gradient(
+      circle at 50% 22%,
+      rgba(134, 239, 172, 0.22),
+      transparent 34%
+    ),
+    rgba(134, 239, 172, 0.08);
+  --willa-audio-accent: #86efac;
+  --willa-audio-player-border: rgba(134, 239, 172, 0.22);
+  --willa-audio-player-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 100%),
+    rgba(134, 239, 172, 0.08);
+  --willa-audio-progress-bg: rgba(255, 255, 255, 0.1);
+  --willa-audio-progress-fill: linear-gradient(90deg, #34d399, #86efac);
+  --willa-audio-status-bg: rgba(134, 239, 172, 0.12);
+  --willa-audio-status-color: #86efac;
+  --willa-audio-error-bg: rgba(248, 113, 113, 0.1);
+  --willa-audio-error-border: rgba(248, 113, 113, 0.28);
+  --willa-audio-error-status-bg: rgba(248, 113, 113, 0.14);
+  --willa-audio-error-status-color: #fca5a5;
+  --willa-video-border: rgba(125, 211, 252, 0.2);
+  --willa-video-border-hover: rgba(125, 211, 252, 0.24);
+  --willa-video-inline-bg:
+    linear-gradient(135deg, rgba(135, 188, 221, 0.11), transparent 58%),
+    rgba(135, 188, 221, 0.06);
+  --willa-video-fallback-bg:
+    linear-gradient(135deg, rgba(125, 211, 252, 0.09), transparent 52%),
+    linear-gradient(315deg, rgba(134, 239, 172, 0.08), transparent 56%),
+    var(--willa-image-bg);
+  --willa-video-play-bg: rgba(17, 24, 39, 0.9);
+  --willa-video-play-color: #ffffff;
+  --willa-video-play-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  --willa-video-link-border: rgba(135, 188, 221, 0.24);
+  --willa-video-link-border-hover: rgba(135, 188, 221, 0.32);
+  --willa-video-link-bg: rgba(135, 188, 221, 0.08);
+  --willa-video-link-bg-hover: rgba(135, 188, 221, 0.12);
+  --willa-video-link-icon: #bae6fd;
+  --willa-media-popover-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+  --willa-step-marker-bg: #f3f4f6;
+  --willa-step-marker-color: #111827;
+  --willa-step-line: rgba(255, 255, 255, 0.16);
+  --willa-callout-note-accent: #93c5fd;
+  --willa-callout-note-bg: rgba(96, 165, 250, 0.14);
+  --willa-callout-note-border: rgba(147, 197, 253, 0.28);
+  --willa-callout-note-shadow: transparent;
+  --willa-callout-tip-accent: #86efac;
+  --willa-callout-tip-bg: rgba(74, 222, 128, 0.13);
+  --willa-callout-tip-border: rgba(134, 239, 172, 0.26);
+  --willa-callout-tip-shadow: transparent;
+  --willa-callout-warning-accent: #fbbf24;
+  --willa-callout-warning-bg: rgba(251, 191, 36, 0.14);
+  --willa-callout-warning-border: rgba(251, 191, 36, 0.3);
+  --willa-callout-warning-shadow: transparent;
+  --willa-callout-success-accent: var(--willa-callout-tip-accent);
+  --willa-callout-success-bg: var(--willa-callout-tip-bg);
+  --willa-callout-success-border: var(--willa-callout-tip-border);
+  --willa-callout-success-shadow: var(--willa-callout-tip-shadow);
+  --willa-callout-error-accent: #fca5a5;
+  --willa-callout-error-bg: rgba(248, 113, 113, 0.13);
+  --willa-callout-error-border: rgba(252, 165, 165, 0.28);
+  --willa-callout-error-shadow: transparent;
+  --willa-fancy-list-title: #93c5fd;
+  --willa-fancy-list-border: rgba(96, 165, 250, 0.22);
+  --willa-fancy-list-bg: rgba(37, 99, 235, 0.12);
+  --willa-fancy-list-divider: rgba(96, 165, 250, 0.2);
+  --willa-fancy-list-line: rgba(219, 234, 254, 0.82);
+  --willa-chat-bg: rgba(255, 255, 255, 0.04);
+  --willa-chat-avatar-bg: rgba(255, 255, 255, 0.1);
+  --willa-chat-avatar-assistant-bg: rgba(125, 211, 252, 0.18);
+  --willa-chat-avatar-assistant-color: #b9e6ff;
+  --willa-chat-avatar-sparkles-bg: rgba(192, 132, 252, 0.18);
+  --willa-chat-avatar-sparkles-color: #e9d5ff;
+  --willa-chat-avatar-cat-bg: rgba(251, 146, 60, 0.18);
+  --willa-chat-avatar-cat-color: #fed7aa;
+  --willa-chat-avatar-idea-bg: rgba(250, 204, 21, 0.18);
+  --willa-chat-avatar-idea-color: #fde68a;
+  --willa-chat-avatar-book-bg: rgba(56, 189, 248, 0.18);
+  --willa-chat-avatar-book-color: #bae6fd;
+  --willa-chat-avatar-moon-bg: rgba(129, 140, 248, 0.18);
+  --willa-chat-avatar-moon-color: #c7d2fe;
+  --willa-chat-avatar-system-bg: rgba(255, 255, 255, 0.1);
+  --willa-chat-avatar-user-bg: rgba(255, 255, 255, 0.1);
+  --willa-chat-bubble-bg: rgba(24, 24, 27, 0.96);
+  --willa-chat-bubble-assistant-bg: rgba(5, 150, 105, 0.18);
+  --willa-chat-bubble-system-bg: rgba(38, 38, 42, 0.96);
+  --willa-chat-bubble-user-bg: rgba(37, 99, 235, 0.18);
+  --willa-chat-bubble-left-border: rgba(52, 211, 153, 0.24);
+  --willa-chat-bubble-right-border: rgba(96, 165, 250, 0.34);
+  --willa-url-link-bg: rgba(255, 255, 255, 0.14);
+  --willa-url-link-bg-hover: rgba(125, 211, 252, 0.18);
+  --willa-poem-bg: rgba(255, 255, 255, 0.075);
+  --willa-poem-border: rgba(255, 255, 255, 0.09);
+  --willa-poem-divider: rgba(255, 255, 255, 0.08);
+  --willa-summary-card-bg: rgba(255, 255, 255, 0.045);
+}

@@ -1,0 +1,44 @@
+{
+  "include": ["packages/*/src", "example/src"],
+  "compilerOptions": {
+    "target": "ES2018",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "preserve",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "noEmitOnError": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true,
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
+    "paths": {
+      "#example/*": ["./example/src/*"],
+
+      "willa": ["./packages/willa/src"],
+      "willa/*": [
+        "./packages/willa/src/*/index.tsx",
+        "./packages/willa/src/*/index.ts",
+        "./packages/willa/src/*.tsx",
+        "./packages/willa/src/*.ts"
+      ],
+
+      "@willa-ui/*": ["./packages/willa-*/src"],
+      "@willa-ui/content/*": ["./packages/willa-content/src/*"],
+      "@willa-ui/shared/*": ["./packages/willa-shared/src/*"],
+      "@willa-ui/widgets/*": ["./packages/willa-widgets/src/*"],
+
+      "#widgets/*": ["./packages/willa-widgets/src/*"],
+      "#content/*": ["./packages/willa-content/src/*"],
+      "#shared/*": ["./packages/willa-shared/src/*"]
+    }
+  }
+}

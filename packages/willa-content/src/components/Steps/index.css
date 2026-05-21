@@ -1,0 +1,167 @@
+.willa-steps-block {
+  margin: 1.7rem 0;
+}
+
+.willa-steps-block-title {
+  margin-bottom: 0.9rem;
+  color: var(--willa-text-strong);
+  font-family: var(--willa-title-font);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.willa-steps-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: willa-steps;
+}
+
+.willa-steps-block--horizontal .willa-steps-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+  column-gap: 1.25rem;
+}
+
+.willa-step {
+  position: relative;
+  padding: 0 0 1.15rem 3rem;
+  counter-increment: willa-steps;
+}
+
+.willa-step::before {
+  content: counter(willa-steps);
+  position: absolute;
+  top: 0.02rem;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 999px;
+  background: var(--willa-step-marker-bg);
+  color: var(--willa-step-marker-color);
+  font-family: var(--willa-code-font);
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.willa-step::after {
+  content: "";
+  position: absolute;
+  top: 2.1rem;
+  bottom: 0.2rem;
+  left: 0.92rem;
+  width: 1px;
+  background: var(--willa-step-line);
+}
+
+.willa-step:last-child {
+  padding-bottom: 0;
+}
+
+.willa-step:last-child::after {
+  display: none;
+}
+
+.willa-steps-block--horizontal .willa-step {
+  min-width: 0;
+  padding: 2.75rem 0 0;
+}
+
+.willa-steps-block--horizontal .willa-step::before {
+  top: 0;
+  left: 0;
+}
+
+.willa-steps-block--horizontal .willa-step::after {
+  top: 0.92rem;
+  right: -0.45rem;
+  bottom: auto;
+  left: 2.35rem;
+  width: auto;
+  height: 1px;
+}
+
+.willa-step-title {
+  margin-bottom: 0.44rem;
+  color: var(--willa-text-strong);
+  font-size: 0.96rem;
+  font-weight: 600;
+  line-height: 1.48;
+}
+
+.willa-step-body,
+.willa-step-body .willa-prose-p,
+.willa-step-body .willa-prose-ul,
+.willa-step-body .willa-prose-ol,
+.willa-step-body .willa-prose-li {
+  color: var(--willa-text-soft);
+  font-size: 0.94rem;
+  font-weight: 500;
+  line-height: 1.78;
+  text-shadow: none;
+}
+
+.willa-step-body .willa-prose-p,
+.willa-step-body .willa-prose-ul,
+.willa-step-body .willa-prose-ol {
+  margin-bottom: 0.62rem;
+}
+
+.willa-step-body .willa-prose-li + .willa-prose-li {
+  margin-top: 0.46rem;
+}
+
+.willa-step-line + .willa-step-line {
+  margin-top: 0.5rem;
+}
+
+.willa-step-line > :last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+  .willa-steps-block {
+    margin: 1.5rem 0;
+  }
+
+  .willa-steps-block--horizontal .willa-steps-list {
+    display: block;
+  }
+
+  .willa-steps-block--horizontal .willa-step,
+  .willa-step {
+    padding-left: 2.7rem;
+  }
+
+  .willa-steps-block--horizontal .willa-step {
+    padding-top: 0;
+    padding-bottom: 1.15rem;
+  }
+
+  .willa-steps-block--horizontal .willa-step:last-child {
+    padding-bottom: 0;
+  }
+
+  .willa-steps-block--horizontal .willa-step::before,
+  .willa-step::before {
+    top: 0.02rem;
+    left: 0;
+    width: 1.7rem;
+    height: 1.7rem;
+  }
+
+  .willa-steps-block--horizontal .willa-step::after,
+  .willa-step::after {
+    top: 2.1rem;
+    right: auto;
+    bottom: 0.2rem;
+    left: 0.84rem;
+    width: 1px;
+    height: auto;
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "willa-example",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "typecheck": "tsc -p ../tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "willa": "workspace:*",
+    "@radix-ui/react-icons": "catalog:",
+    "aidly": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "classnames": "catalog:"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "vite-tsconfig-paths": "catalog:",
+    "vite": "catalog:",
+    "auklet": "catalog:",
+    "typescript": "catalog:"
+  }
+}

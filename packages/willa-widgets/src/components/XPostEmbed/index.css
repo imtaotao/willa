@@ -1,0 +1,52 @@
+@import "@willa-ui/content/components/Skeleton.css";
+
+.willa-prose-x-post-embed {
+  margin: 0 0 1.35rem;
+  display: block;
+}
+
+.willa-prose-x-post-embed-widget [twdiv="yes"] {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.willa-prose-x-post-embed-loading,
+.willa-prose-x-post-embed-error {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 220px;
+  padding: 1rem 1.2rem;
+  color: var(--willa-text-faint);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.willa-prose-x-post-embed-loading {
+  position: relative;
+}
+
+.willa-prose-x-post-embed-loading-placeholder {
+  width: min(100%, 520px);
+}
+
+.willa-prose-x-post-embed-loading .willa-prose-skeleton-line {
+  height: 12px;
+  border-radius: 999px;
+}
+
+.willa-prose-x-post-embed-widget .twitter-tweet.twitter-tweet-rendered {
+  border-radius: 13px !important;
+  overflow: hidden !important;
+}
+
+@media (max-width: 767px) {
+  .willa-prose-x-post-embed-widget {
+    width: 100%;
+  }
+
+  .willa-prose-x-post-embed-widget > div {
+    width: 100% !important;
+  }
+}

@@ -1,0 +1,65 @@
+import { EnglishCards } from "willa/EnglishCards";
+import "willa/EnglishCards.css";
+
+import { defineDoc } from "#example/catalog/defineDoc";
+
+const items = [
+  {
+    word: "component",
+    translation: "组件",
+    explanation: "一个可复用的界面构建单元。",
+    example: {
+      text: "Each Willa component can be imported directly.",
+      translation: "每个 Willa 组件都可以直接导入。",
+    },
+    tags: ["ui", "react"],
+  },
+];
+
+export default defineDoc({
+  id: "english-cards",
+  name: "EnglishCards",
+  category: "widgets",
+  packageName: "willa/EnglishCards",
+  description: "展示翻译、例句和参考信息的单词卡片。",
+  imports: [{ name: "EnglishCards", from: "willa/EnglishCards" }],
+  css: "willa/EnglishCards.css",
+  demo: {
+    name: "EnglishCards",
+    component: EnglishCards,
+    props: { title: "词汇卡片", openApi: false, items },
+  },
+  props: [
+    {
+      name: "items",
+      type: "EnglishCardItem[]",
+      required: true,
+      description: "需要渲染的词汇条目。",
+    },
+    {
+      name: "openApi",
+      type: "boolean | EnglishCardsOpenApiConfig",
+      description: "可选的词典 API 查询配置。",
+    },
+    {
+      name: "words",
+      type: "string[]",
+      description: "需要通过词典 API 查询的单词列表。",
+    },
+    {
+      name: "defaultMode",
+      type: '"study" | "practice"',
+      description: "初始展示模式。",
+    },
+    {
+      name: "title",
+      type: "ReactNode",
+      description: "可选的分区标题。",
+    },
+    {
+      name: "className",
+      type: "string",
+      description: "可选的外层 className。",
+    },
+  ],
+});

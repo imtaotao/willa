@@ -1,0 +1,270 @@
+.willa-prose-pre {
+  margin: 0 0 1.08rem;
+  overflow-x: auto;
+  padding: 0;
+  border-radius: 8px;
+  background: var(--willa-code-block-bg);
+  border: 0;
+  box-shadow: none;
+}
+
+.willa-prose-pre--copied {
+  background: var(--willa-accent-2-soft);
+}
+
+.willa-prose-code-block {
+  position: relative;
+  margin: 0;
+  min-width: max-content;
+  padding-bottom: 0;
+}
+
+.willa-prose-code-meta {
+  position: absolute;
+  top: 0.42rem;
+  right: 0.78rem;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--willa-code-meta-border);
+  pointer-events: none;
+}
+
+.willa-prose-code-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding: 0.22rem 0.52rem;
+  border-radius: 2px;
+  border: 1px solid var(--willa-code-block-border);
+  background: var(--willa-surface-tint);
+  color: var(--willa-code-lang-color);
+  font-family: var(--willa-code-font);
+  font-size: 0.72rem;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  pointer-events: auto;
+  opacity: 0;
+  transition:
+    opacity 180ms ease,
+    background 180ms ease;
+}
+
+.willa-prose-code-block:hover .willa-prose-code-copy,
+.willa-prose-code-copy:focus-visible {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .willa-prose-code-copy {
+    opacity: 1;
+  }
+}
+
+.willa-prose-code-copy:hover {
+  background: var(--willa-surface-soft);
+}
+
+.willa-prose-code-copy--copied {
+  background: var(--willa-accent-2-soft);
+  border-color: var(--willa-code-copy-copied-border);
+  color: var(--willa-accent-2);
+}
+
+.willa-prose-code-copy:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-prose-code-lang {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border-radius: 999px;
+  background: var(--willa-code-lang-bg);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--willa-code-lang-color);
+  font-family: var(--willa-code-font);
+}
+
+.willa-prose-code-block > code,
+.willa-prose-code-block code {
+  font-family: var(--willa-code-font);
+}
+
+.willa-prose-code {
+  color: var(--willa-code-text);
+  font-family: var(--willa-code-font);
+  padding: 1rem 0;
+  font-size: 0.86rem;
+  line-height: 1.7;
+  white-space: pre;
+  tab-size: 2;
+  font-variant-ligatures: contextual;
+  font-feature-settings:
+    "ss01" 1,
+    "ss02" 1,
+    "ss03" 1,
+    "ss06" 1,
+    "zero" 1;
+}
+
+.willa-prose-code-line {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  column-gap: 0.8rem;
+  min-height: 1.7em;
+  padding: 0 1rem;
+}
+
+.willa-prose-code-line:first-child {
+  padding-right: 8.8rem;
+}
+
+.willa-prose-code-line--single {
+  display: block;
+}
+
+.willa-prose-code-line-number {
+  color: var(--willa-code-muted);
+  text-align: right;
+  user-select: none;
+}
+
+.willa-prose-code-line-content {
+  min-width: 0;
+}
+
+.willa-prose-code-line--single .willa-prose-code-line-content {
+  display: inline;
+}
+
+.willa-prose-code-line--highlight {
+  background: var(--willa-code-line-highlight);
+}
+
+.willa-prose-pre .hljs {
+  background: transparent;
+  padding: 0;
+  white-space: pre;
+}
+
+.willa-prose-code.hljs,
+.willa-prose-code-block > .hljs,
+.willa-prose-code-block > code.hljs {
+  display: block;
+  background: transparent !important;
+}
+
+.willa-prose-code.hljs {
+  padding: 1rem 0;
+}
+
+.willa-prose-pre .hljs,
+.willa-prose-pre .hljs-subst {
+  color: var(--willa-code-text);
+}
+
+.willa-prose-pre .hljs,
+.willa-prose-pre .hljs * {
+  font-style: normal !important;
+}
+
+.willa-prose-pre .hljs-comment,
+.willa-prose-pre .hljs-quote,
+.willa-prose-pre .hljs-doctag {
+  color: var(--willa-code-comment) !important;
+}
+
+.willa-prose-pre .hljs-keyword,
+.willa-prose-pre .hljs-selector-tag,
+.willa-prose-pre .hljs-type,
+.willa-prose-pre .hljs-template-tag {
+  color: var(--willa-code-keyword) !important;
+}
+
+.willa-prose-pre .hljs-string,
+.willa-prose-pre .hljs-regexp,
+.willa-prose-pre .hljs-meta .hljs-string {
+  color: var(--willa-code-string) !important;
+}
+
+.willa-prose-pre .hljs-attr,
+.willa-prose-pre .hljs-attribute,
+.willa-prose-pre .hljs-property,
+.willa-prose-pre .hljs-params {
+  color: var(--willa-code-attr) !important;
+}
+
+.willa-prose-pre .hljs-number,
+.willa-prose-pre .hljs-literal,
+.willa-prose-pre .hljs-bullet {
+  color: var(--willa-code-number) !important;
+}
+
+.willa-prose-pre .hljs-built_in,
+.willa-prose-pre .hljs-symbol,
+.willa-prose-pre .hljs-variable,
+.willa-prose-pre .hljs-template-variable,
+.willa-prose-pre .hljs-selector-id,
+.willa-prose-pre .hljs-selector-class {
+  color: var(--willa-code-symbol) !important;
+}
+
+.willa-prose-pre .hljs-title,
+.willa-prose-pre .hljs-title.function_,
+.willa-prose-pre .hljs-title.class_,
+.willa-prose-pre .hljs-name,
+.willa-prose-pre .hljs-section,
+.willa-prose-pre .hljs-function {
+  color: var(--willa-code-title) !important;
+}
+
+.willa-prose-pre .hljs-meta,
+.willa-prose-pre .hljs-tag,
+.willa-prose-pre .hljs-selector-attr,
+.willa-prose-pre .hljs-selector-pseudo {
+  color: var(--willa-code-muted) !important;
+}
+
+.willa-prose-pre .hljs-deletion {
+  color: var(--willa-code-deletion) !important;
+}
+
+.willa-prose-pre .hljs-addition {
+  color: var(--willa-code-addition) !important;
+}
+
+.willa-prose-pre .hljs-emphasis {
+  font-style: italic !important;
+}
+
+.willa-prose-pre .hljs-strong {
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  .willa-prose-code-line {
+    grid-template-columns: 0 minmax(0, 1fr);
+    column-gap: 0;
+  }
+
+  .willa-prose-code-line-number {
+    display: none;
+  }
+
+  .willa-prose-code {
+    padding-top: 1rem;
+  }
+
+  .willa-prose-code.hljs {
+    margin-top: 0;
+  }
+}

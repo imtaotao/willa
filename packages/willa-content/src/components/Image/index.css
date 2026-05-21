@@ -1,0 +1,87 @@
+.willa-prose-image,
+.willa-prose-gallery {
+  margin: 0 0 1.35rem;
+}
+
+.willa-prose-image,
+.willa-prose-gallery-item {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.willa-prose-image-button,
+.willa-prose-gallery-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: var(--willa-image-bg);
+  cursor: zoom-in;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.willa-prose-image-button:focus-visible,
+.willa-prose-gallery-button:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-prose-image-asset,
+.willa-prose-gallery-asset {
+  display: block;
+  width: 100%;
+  background: var(--willa-image-bg);
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+
+.willa-prose-image-asset {
+  max-height: 34rem;
+  object-fit: contain;
+}
+
+.willa-prose-gallery {
+  --willa-gallery-columns: 2;
+  display: grid;
+  grid-template-columns: repeat(var(--willa-gallery-columns), minmax(0, 1fr));
+  gap: 12px;
+}
+
+.willa-prose-gallery-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.willa-prose-gallery-asset {
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+.willa-prose-image-button:hover .willa-prose-image-asset,
+.willa-prose-gallery-button:hover .willa-prose-gallery-asset {
+  opacity: 0.96;
+}
+
+.willa-prose-image-caption {
+  margin-top: 8px;
+}
+
+.willa-prose-image-caption,
+.willa-prose-gallery-caption {
+  color: var(--willa-text-faint);
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+@media (max-width: 767px) {
+  .willa-prose-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+}

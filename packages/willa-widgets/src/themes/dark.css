@@ -1,0 +1,87 @@
+:root[data-wk-theme="dark"] .willa-shell {
+  --willa-inline-code-bg: #242832;
+  --willa-heading-1: #ffffff;
+  --willa-heading-2: #dbeafe;
+  --willa-heading-3: #bfdbfe;
+  --willa-heading-4: #cbd5e1;
+  --willa-heading-5: #94a3b8;
+  --willa-heading-6: #64748b;
+  --willa-prose-selection-bg: rgb(223, 223, 223);
+  --willa-prose-selection-color: inherit;
+  --willa-prose-marker-color: #8a8f98;
+  --willa-prose-nested-marker-color: #6c7280;
+  --willa-prose-mark-bg: rgba(250, 204, 21, 0.16);
+  --willa-prose-quote-color: rgba(255, 255, 255, 0.5);
+  --willa-prose-quote-border: rgba(255, 255, 255, 0.18);
+  --willa-prose-link-color: #e5e5e5;
+  --willa-prose-link-hover-color: #ffffff;
+  --willa-prose-link-decoration: #6c7280;
+  --willa-prose-link-hover-decoration: #9ca3af;
+  --willa-prose-link-decoration-thickness: 1.25px;
+  --willa-english-cards-border: rgba(255, 255, 255, 0.18);
+  --willa-english-cards-bg: #111318;
+  --willa-english-cards-shadow: 0 16px 38px rgba(0, 0, 0, 0.42);
+  --willa-english-control-border: rgba(255, 255, 255, 0.18);
+  --willa-english-control-bg: #242832;
+  --willa-english-control-border-hover: rgba(156, 185, 221, 0.18);
+  --willa-english-control-bg-hover: rgba(255, 255, 255, 0.07);
+  --willa-english-control-color-hover: var(--willa-text-strong);
+  --willa-english-card-accent: #9cb9dd;
+  --willa-english-card-bg: #171d26;
+  --willa-english-card-border: rgba(156, 185, 221, 0.12);
+  --willa-english-card-section-bg: rgba(255, 255, 255, 0.045);
+  --willa-english-card-section-strong-bg: rgba(96, 165, 250, 0.055);
+  --willa-english-card-section-border: rgba(156, 185, 221, 0.12);
+  --willa-english-card-shadow: 0 10px 26px rgba(0, 0, 0, 0.32);
+  --willa-english-card-divider: rgba(255, 255, 255, 0.08);
+  --willa-english-card-translation-border: var(
+    --willa-english-card-section-border
+  );
+  --willa-english-card-openapi-border: rgba(156, 185, 221, 0.12);
+  --willa-english-card-openapi-bg: rgba(96, 165, 250, 0.055);
+  --willa-english-card-openapi-color: #c0d2e8;
+  --willa-english-card-openapi-error-border: rgba(248, 113, 113, 0.2);
+  --willa-english-card-openapi-error-bg: rgba(248, 113, 113, 0.08);
+  --willa-english-card-openapi-error-color: #fca5a5;
+  --willa-english-card-chip-border: rgba(255, 255, 255, 0.1);
+  --willa-english-card-chip-bg: rgba(255, 255, 255, 0.045);
+  --willa-english-card-meta-bg: rgba(255, 255, 255, 0.045);
+  --willa-english-card-action-hover-bg: rgba(255, 255, 255, 0.07);
+  --willa-english-card-link-bg: rgba(255, 255, 255, 0.045);
+  --willa-english-card-link-bg-hover: rgba(255, 255, 255, 0.07);
+  --willa-english-card-link-border-hover: rgba(156, 185, 221, 0.18);
+  --willa-english-card-resource-bg: #1a1d21;
+  --willa-english-card-resource-border: rgba(255, 255, 255, 0.1);
+  --willa-english-card-resource-shadow: 0 16px 38px rgba(0, 0, 0, 0.36);
+  --willa-english-card-practice-input-border: rgba(255, 255, 255, 0.18);
+  --willa-english-card-practice-input-bg: #101319;
+  --willa-english-card-practice-input-focus-border: rgba(156, 185, 221, 0.22);
+  --willa-english-card-practice-input-focus-shadow: 0 0 0 3px
+    rgba(156, 185, 221, 0.08);
+  --willa-english-card-result-correct: #86efac;
+  --willa-english-card-result-incorrect: #fcd34d;
+  --willa-english-card-example-underline: color-mix(
+    in srgb,
+    var(--willa-english-card-accent) 58%,
+    transparent
+  );
+  --willa-github-pill-bg: rgba(255, 255, 255, 0.14);
+  --willa-github-pill-bg-hover: rgba(125, 211, 252, 0.18);
+  --willa-github-hover-card-fill: #1a1d21;
+  --willa-github-hover-card-border: rgba(255, 255, 255, 0.1);
+  --willa-github-hover-card-shadow: 0 20px 46px rgba(0, 0, 0, 0.28);
+  --willa-github-hover-card-arrow-shadow: -4px -4px 14px rgba(0, 0, 0, 0.12);
+  --willa-github-hover-card-meta-bg: rgba(255, 255, 255, 0.08);
+  --willa-github-hover-card-error: #fda29b;
+  --willa-web-embed-border: rgba(125, 211, 252, 0.2);
+  --willa-web-embed-bg:
+    linear-gradient(135deg, rgba(125, 211, 252, 0.09), transparent 58%),
+    rgba(255, 255, 255, 0.02);
+  --willa-web-embed-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
+  --willa-web-embed-hover-bg: rgba(125, 211, 252, 0.12);
+  --willa-web-embed-title-hover: #bae6fd;
+  --willa-web-embed-frame-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 100%),
+    var(--willa-panel-bg);
+  --willa-web-embed-iframe-bg: #ffffff;
+}

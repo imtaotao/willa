@@ -1,0 +1,44 @@
+{
+  "name": "@willa-ui/shared",
+  "version": "0.0.1",
+  "description": "Shared utilities and types for Willa UI.",
+  "author": "chentao.arthur",
+  "license": "MIT",
+  "scripts": {
+    "build": "auk build",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "unpkg": "./dist/index.global.js",
+  "types": "./dist/index.d.cts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "aidly": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "catalog:"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
+    "auklet": "catalog:",
+    "vitest": "catalog:",
+    "typescript": "catalog:"
+  }
+}
