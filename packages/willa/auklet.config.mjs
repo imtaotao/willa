@@ -1,6 +1,6 @@
-import type { AukletConfig } from "auklet";
+import { defineConfig } from "auklet";
 
-export const config: AukletConfig = {
+export const config = defineConfig({
   modules: true,
   styles: {
     dependencies: {
@@ -22,4 +22,4 @@ export const config: AukletConfig = {
       },
     },
   },
-};
+});
