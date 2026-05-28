@@ -13,19 +13,24 @@
     "dev:packages": "pnpm --parallel --stream --filter './packages/*' run dev",
     "build:packages": "pnpm -r --stream --filter './packages/*' run build",
     "preview": "pnpm --filter willa-example run preview",
+    "publish:alpha": "auk publish --filter '@willa-ui/*' --filter willa --version alpha",
+    "publish:beta": "auk publish --filter '@willa-ui/*' --filter willa --version beta",
+    "publish:patch": "auk publish --filter '@willa-ui/*' --filter willa --version patch",
+    "publish:minor": "auk publish --filter '@willa-ui/*' --filter willa --version minor",
+    "publish:major": "auk publish --filter '@willa-ui/*' --filter willa --version major",
     "test": "pnpm -r --if-present test",
     "typecheck": "tsc -p . --noEmit --skipLibCheck",
-    "format": "prettier --write --ignore-path .gitignore \"*.{js,mjs,cjs,ts,tsx,json,md,css}\" \"packages/**/*.{js,mjs,cjs,ts,tsx,json,md,yaml,yml,css}\" \"example/**/*.{js,mjs,cjs,ts,tsx,json,md,yaml,yml,css,html}\"",
-    "format:md": "prettier --write --ignore-path .gitignore --no-error-on-unmatched-pattern \"*.md\" \"docs/**/*.md\" \"packages/**/*.md\" \"example/**/*.md\""
+    "format": "prettier --write --ignore-unknown --ignore-path .gitignore \"**/*.{js,mjs,cjs,ts,tsx,json,md,yaml,yml,css,html}\""
   },
   "lint-staged": {
     "*.{js,mjs,cjs,ts,tsx,json,md,yaml,yml,css}": [
-      "prettier --write"
+      "prettier --write --ignore-unknown"
     ]
   },
   "devDependencies": {
     "@types/node": "catalog:",
     "husky": "catalog:",
+    "auklet": "catalog:",
     "prettier": "catalog:",
     "lint-staged": "catalog:",
     "typescript": "catalog:"

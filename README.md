@@ -5,17 +5,12 @@
 
 </div>
 
-Willa UI is a React component library extracted from blog content rendering work.
-It contains reusable content components, small widget integrations, and shared
-utilities for building rich article-like pages.
-
-This repository uses a monorepo structure and builds packages with `auklet`.
+Willa UI is a React component library for blogs, community content platforms,
+and rich article-like pages. It contains reusable content components, small
+widget integrations, and shared utilities for building composable content
+experiences.
 
 **Online docs**: https://imtaotao.github.io/willa/
-
-**Contributor guide**: [CONTRIBUTING.md](./CONTRIBUTING.md)
-
-**CSS guide**: [docs/css-guidelines.md](./docs/css-guidelines.md)
 
 ## Packages
 

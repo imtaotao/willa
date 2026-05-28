@@ -5,6 +5,7 @@
   "author": "chentao.arthur",
   "license": "MIT",
   "scripts": {
+    "dev": "auk dev",
     "build": "auk build",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage"
