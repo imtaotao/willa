@@ -62,9 +62,9 @@ const mergeEnglishCardItem = (
 };
 
 const getErrorMessage = (error: unknown) => {
-  if (isAbortError(error)) return "词典请求已取消";
+  if (isAbortError(error)) return "Dictionary request was cancelled.";
 
-  return error instanceof Error ? error.message : "词典请求失败";
+  return error instanceof Error ? error.message : "Dictionary request failed.";
 };
 
 const isAbortError = (error: unknown) => {

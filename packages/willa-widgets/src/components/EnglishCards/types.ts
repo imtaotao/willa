@@ -36,7 +36,6 @@ export type EnglishCardResource = {
 export type EnglishCardsOpenApiConfig = {
   enabled?: boolean;
   language?: string;
-  endpoint?: string;
 };
 
 export type EnglishCardsProps = {

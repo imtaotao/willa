@@ -20,7 +20,7 @@
     "publish:major": "auk publish --filter '@willa-ui/*' --filter willa --version major",
     "test": "pnpm -r --if-present test",
     "typecheck": "tsc -p . --noEmit --skipLibCheck",
-    "format": "prettier --write --ignore-unknown --ignore-path .gitignore \"**/*.{js,mjs,cjs,ts,tsx,json,md,yaml,yml,css,html}\""
+    "format": "prettier --write --ignore-unknown --ignore-path .gitignore \"**/*.{js,mjs,cjs,ts,tsx,json,md,css,html}\""
   },
   "lint-staged": {
     "*.{js,mjs,cjs,ts,tsx,json,md,yaml,yml,css}": [
