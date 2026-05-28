@@ -28,8 +28,8 @@ catalogs:
       specifier: 1.37.0
       version: 1.37.0
     auklet:
-      specifier: 0.0.27
-      version: 0.0.27
+      specifier: 0.0.28
+      version: 0.0.28
     classnames:
       specifier: 2.5.1
       version: 2.5.1
@@ -75,7 +75,7 @@ importers:
         version: 22.17.0
       auklet:
         specifier: "catalog:"
-        version: 0.0.27(unrun@0.3.0)
+        version: 0.0.28(unrun@0.3.0)
       husky:
         specifier: "catalog:"
         version: 9.0.11
@@ -118,7 +118,7 @@ importers:
         version: 19.2.3(@types/react@19.2.14)
       auklet:
         specifier: "catalog:"
-        version: 0.0.27(unrun@0.3.0)
+        version: 0.0.28(unrun@0.3.0)
       typescript:
         specifier: "catalog:"
         version: 6.0.3
@@ -155,7 +155,7 @@ importers:
         version: 1.6.0(vitest@1.6.0(@types/node@22.17.0))
       auklet:
         specifier: "catalog:"
-        version: 0.0.27(unrun@0.3.0)
+        version: 0.0.28(unrun@0.3.0)
       typescript:
         specifier: "catalog:"
         version: 6.0.3
@@ -198,7 +198,7 @@ importers:
         version: 1.6.0(vitest@1.6.0(@types/node@22.17.0))
       auklet:
         specifier: "catalog:"
-        version: 0.0.27(unrun@0.3.0)
+        version: 0.0.28(unrun@0.3.0)
       typescript:
         specifier: "catalog:"
         version: 6.0.3
@@ -223,7 +223,7 @@ importers:
         version: 1.6.0(vitest@1.6.0(@types/node@22.17.0))
       auklet:
         specifier: "catalog:"
-        version: 0.0.27(unrun@0.3.0)
+        version: 0.0.28(unrun@0.3.0)
       typescript:
         specifier: "catalog:"
         version: 6.0.3
@@ -266,7 +266,7 @@ importers:
         version: 1.6.0(vitest@1.6.0(@types/node@22.17.0))
       auklet:
         specifier: "catalog:"
-        version: 0.0.27(unrun@0.3.0)
+        version: 0.0.28(unrun@0.3.0)
       typescript:
         specifier: "catalog:"
         version: 6.0.3
@@ -1258,10 +1258,10 @@ packages:
       }
     engines: { node: ">=20.19.0" }
 
-  auklet@0.0.27:
+  auklet@0.0.28:
     resolution:
       {
-        integrity: sha512-cm+jCOpPRtvm1iXknqawjpoEdz1Jv/l0rqVGfbQ3UGmWT7YNffUzSK8aXM5bl3AiVINjLnolOhvntRGn4HL7Zg==,
+        integrity: sha512-3rDFSiyFM92/5H+/zUyISkBR+JzJlF4IMeKcrRSc12QJbzh0syr5gRTUbT45mHeysGw+jB1mlQI1CnsQ1yADqg==,
       }
     engines: { node: ">=22", pnpm: "=10.27.0" }
     hasBin: true
@@ -3342,7 +3342,7 @@ snapshots:
       estree-walker: 3.0.3
       pathe: 2.0.3
 
-  auklet@0.0.27(unrun@0.3.0):
+  auklet@0.0.28(unrun@0.3.0):
     dependencies:
       aidly: 1.37.0
       briefing: 0.0.5
