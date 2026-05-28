@@ -34,8 +34,7 @@ export function EnglishCardContent(props: {
           renderLines(item.translation, "translation")
         ) : (
           <p className="willa-english-card-line willa-english-card-line--empty">
-            正在尝试从有道词典获取中文释义；需要固定展示时，可以在 items
-            里手动补充。
+            Fetching Chinese definitions from Youdao Dictionary.
           </p>
         )}
       </section>
@@ -88,8 +87,8 @@ const EnglishCardOpenApiStatus = (props: { state: OpenApiWordState }) => {
 
   const copy =
     state.status === "loading"
-      ? "正在从有道词典获取"
-      : (state.message ?? "词典 API 暂未配置");
+      ? "Fetching from Youdao Dictionary."
+      : (state.message ?? "Dictionary API is not available.");
 
   return (
     <div

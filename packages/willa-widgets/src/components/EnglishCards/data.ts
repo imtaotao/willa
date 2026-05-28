@@ -4,13 +4,12 @@ import type {
 } from "#widgets/components/EnglishCards/types";
 
 export type NormalizedOpenApiConfig = Required<
-  Pick<EnglishCardsOpenApiConfig, "enabled" | "endpoint" | "language">
+  Pick<EnglishCardsOpenApiConfig, "enabled" | "language">
 >;
 
 const DICTIONARY_CACHE_TTL = 1000 * 60 * 60 * 24 * 30;
 const DICTIONARY_CACHE_PREFIX = "willa:english-card:dictionary:v1";
-const LOCAL_DICTIONARY_ENDPOINT = "/api/dictionary/youdao/jsonapi";
-const REMOTE_DICTIONARY_ENDPOINT = "https://dict.youdao.com/jsonapi";
+const DEFAULT_DICTIONARY_ENDPOINT = "https://dict.youdao.com/jsonapi";
 
 type DictionaryCacheEntry = {
   cachedAt: number;
@@ -26,18 +25,14 @@ export function normalizeOpenApiConfig(
 ): NormalizedOpenApiConfig {
   if (typeof openApi !== "object" || openApi === null) {
     return {
-      enabled: openApi !== false,
+      enabled: openApi === true,
       language: "en",
-      endpoint: getDefaultDictionaryEndpoint(),
     };
   }
 
   return {
     enabled: openApi.enabled ?? true,
     language: openApi.language ?? "en",
-    endpoint: trimTrailingSlash(
-      openApi.endpoint ?? getDefaultDictionaryEndpoint(),
-    ),
   };
 }
 
@@ -49,11 +44,11 @@ export async function fetchDictionaryWord(
   const cachedItem = readCache(word, config);
   if (cachedItem) return cachedItem;
 
-  const value = await fetchDictionaryJson(word, config, requestInit);
+  const value = await fetchDictionaryJson(word, requestInit);
   const item = parseDictionaryResponse(value, word);
 
   if (!item.translation && !item.explanation && !item.example) {
-    throw new Error("词典接口未返回可展示数据");
+    throw new Error("Dictionary response did not include displayable content.");
   }
 
   writeCache(word, config, item);
@@ -62,18 +57,17 @@ export async function fetchDictionaryWord(
 
 const fetchDictionaryJson = async (
   word: string,
-  config: NormalizedOpenApiConfig,
   requestInit: Pick<RequestInit, "signal">,
 ) => {
-  const response = await fetch(createDictionaryUrl(word, config), requestInit);
+  const response = await fetch(createDictionaryUrl(word), requestInit);
   if (!response.ok) throw new Error(await readDictionaryError(response));
 
   return response.json() as Promise<unknown>;
 };
 
-const createDictionaryUrl = (word: string, config: NormalizedOpenApiConfig) => {
+const createDictionaryUrl = (word: string) => {
   const url = new URL(
-    config.endpoint,
+    DEFAULT_DICTIONARY_ENDPOINT,
     typeof window === "undefined" ? undefined : window.location.origin,
   );
   url.searchParams.set("jsonversion", "2");
@@ -370,7 +364,7 @@ const createCacheKey = (word: string, config: NormalizedOpenApiConfig) => {
 };
 
 const readDictionaryError = async (response: Response) => {
-  const fallbackMessage = `词典接口返回 ${response.status}`;
+  const fallbackMessage = `Dictionary request failed with ${response.status}.`;
 
   try {
     const value = await response.clone().json();
@@ -380,7 +374,7 @@ const readDictionaryError = async (response: Response) => {
       "resolution",
     ]);
 
-    return message ? `词典接口：${message}` : fallbackMessage;
+    return message ? `Dictionary request failed: ${message}` : fallbackMessage;
   } catch {
     const message = (await response.text()).trim();
 
@@ -407,12 +401,6 @@ const createAudioUrl = (word: string) => {
   url.searchParams.set("audio", word);
 
   return url.toString();
-};
-
-const getDefaultDictionaryEndpoint = () => {
-  return isLocalBrowser()
-    ? LOCAL_DICTIONARY_ENDPOINT
-    : REMOTE_DICTIONARY_ENDPOINT;
 };
 
 const isLocalBrowser = () => {
@@ -459,10 +447,6 @@ const readString = (
     }
   }
   return undefined;
-};
-
-const trimTrailingSlash = (value: string) => {
-  return value.replace(/\/+$/, "");
 };
 
 const record = (value: unknown): Record<string, unknown> | undefined => {
