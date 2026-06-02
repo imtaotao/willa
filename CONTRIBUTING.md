@@ -77,6 +77,16 @@ pnpm run publish:minor -- --otp <code>
 pnpm run publish:major -- --otp <code>
 ```
 
+For token-based publishing, pass the npm token through auklet instead of writing
+the token into `.npmrc`:
+
+```bash
+pnpm run publish:alpha -- --token <npm-token>
+```
+
+The root `.npmrc` only declares the npm registry auth placeholder. Keep real npm
+tokens in the shell, CI secrets, or a local user-level npm config.
+
 The publish scripts select `@willa-ui/*` packages plus the unscoped `willa`
 package. Auklet skips private workspace packages, validates internal
 `workspace:*` dependencies, runs package builds, and publishes in dependency
