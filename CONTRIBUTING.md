@@ -41,7 +41,7 @@ Common commands:
 ```bash
 pnpm run format
 pnpm run typecheck
-pnpm --stream --filter @willa-ui/content --filter @willa-ui/widgets --filter willa run build
+pnpm run build:packages
 pnpm run build
 ```
 
@@ -95,10 +95,9 @@ The root `.npmrc` only declares the npm registry auth placeholder required by
 npm publish. Keep real npm tokens in `.env.local`, the shell, CI secrets, or a
 local user-level npm config.
 
-The publish scripts select `@willa-ui/*` packages plus the unscoped `willa`
-package. Auklet skips private workspace packages, validates internal
-`workspace:*` dependencies, runs package builds, and publishes in dependency
-order.
+The publish scripts use auklet workspace publishing. Auklet skips private
+workspace packages, validates internal `workspace:*` dependencies, runs package
+builds, and publishes in dependency order.
 
 ## Commit Messages
 
