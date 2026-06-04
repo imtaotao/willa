@@ -1,82 +1,33 @@
 import { useEffect, useState, type ComponentProps } from "react";
+import { CheckIcon, ClipboardIcon } from "@radix-ui/react-icons";
 import { isArray } from "aidly";
 import classNames from "classnames";
-import hljs from "highlight.js";
 
-import { copyToClipboard } from "@willa-ui/shared";
+import {
+  copyToClipboard,
+  highlightCodeToHtml,
+  parseCodeMeta,
+} from "@willa-ui/shared";
 
-const parseCodeMeta = (className?: string) => {
-  const languageMatch = /language-([^\s]+)/.exec(className ?? "");
-  const languageValue = languageMatch?.[1] ?? "text";
-  const [rawLanguage = "text", rawMeta = ""] = languageValue.split("--meta-");
-  const highlightLines = new Set<number>();
-  const normalizedMeta = rawMeta.replace(/_/g, " ");
-  const showLineNumbers = /(?:^|[^A-Za-z0-9-])ln(?:$|[^A-Za-z0-9-])/.test(
-    normalizedMeta,
-  );
-
-  for (const match of rawMeta.matchAll(/\{([^}]+)\}/g)) {
-    for (const part of match[1].split(",")) {
-      const rangeMatch = /^\s*(\d+)(?:-(\d+))?\s*$/.exec(part);
-      if (!rangeMatch) continue;
-
-      const start = Number(rangeMatch[1]);
-      const end = Number(rangeMatch[2] ?? rangeMatch[1]);
-      if (!Number.isInteger(start) || !Number.isInteger(end)) continue;
-
-      for (let line = start; line <= end; line += 1) {
-        if (line > 0) highlightLines.add(line);
-      }
-    }
-  }
-
-  return { rawLanguage, highlightLines, showLineNumbers };
+export type CodeBlockProps = ComponentProps<"pre"> & {
+  children?: unknown;
+  copiedDuration?: number;
 };
 
-const normalizeHljsLanguage = (language: string) => {
-  const key = language.toLowerCase();
-  const aliasMap: Record<string, string> = {
-    js: "javascript",
-    jsx: "javascript",
-    ts: "typescript",
-    tsx: "typescript",
-    sh: "bash",
-    shell: "bash",
-    yml: "yaml",
-    md: "markdown",
-  };
-  return aliasMap[key] ?? key;
-};
-
-const highlightCodeToHtml = (code: string, rawLanguage: string) => {
-  const language = normalizeHljsLanguage(rawLanguage);
-
-  if (hljs.getLanguage(language)) {
-    return {
-      html: hljs.highlight(code, { language }).value,
-      display: rawLanguage,
-    };
-  }
-
-  const result = hljs.highlightAuto(code);
-  return {
-    html: result.value,
-    display: result.language ?? rawLanguage,
-  };
-};
-
-export function CodeBlock(
-  props: ComponentProps<"pre"> & { children?: unknown },
-) {
+export function CodeBlock(props: CodeBlockProps) {
+  const { copiedDuration = 300 } = props;
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "failed">(
     "idle",
   );
 
   useEffect(() => {
     if (copyStatus === "idle") return;
-    const timer = window.setTimeout(() => setCopyStatus("idle"), 900);
+    const timer = window.setTimeout(
+      () => setCopyStatus("idle"),
+      copiedDuration,
+    );
     return () => window.clearTimeout(timer);
-  }, [copyStatus]);
+  }, [copiedDuration, copyStatus]);
 
   const child = isArray(props.children) ? props.children[0] : props.children;
 
@@ -91,7 +42,6 @@ export function CodeBlock(
     const code = String(codeProps.children ?? "").replace(/\n$/, "");
     const { html, display } = highlightCodeToHtml(code, rawLanguage);
     const label = (display || rawLanguage || "txt").toLowerCase();
-    const copyText = copyStatus === "copied" ? "已复制" : "复制";
     const lines = html.split("\n");
     const lineNumbers = Array.from({ length: lines.length }, (_, index) =>
       String(index + 1),
@@ -106,6 +56,9 @@ export function CodeBlock(
       >
         <div className="willa-prose-code-block">
           <div className="willa-prose-code-meta">
+            <span className="willa-prose-code-lang" aria-hidden="true">
+              {label}
+            </span>
             <button
               type="button"
               className={classNames(
@@ -124,11 +77,8 @@ export function CodeBlock(
                 })();
               }}
             >
-              <span className="willa-prose-code-copy-label">{copyText}</span>
+              {copyStatus === "copied" ? <CheckIcon /> : <ClipboardIcon />}
             </button>
-            <span className="willa-prose-code-lang" aria-hidden="true">
-              {label}
-            </span>
           </div>
           <code className={`willa-prose-code hljs language-${rawLanguage}`}>
             {lines.map((line, index) => {

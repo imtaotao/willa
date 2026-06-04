@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ChatBubbleIcon, CodeIcon, FileTextIcon } from "@radix-ui/react-icons";
 import { Badge } from "willa/Badge";
 import "willa/Badge.css";
 import { Tabs } from "willa/Tabs";
@@ -28,6 +29,7 @@ const docsItems = [
   {
     value: "react",
     label: "React",
+    icon: <CodeIcon />,
     children: (
       <p>在内容页中展示 React 示例，可以把安装、基础代码和样式导入拆成标签。</p>
     ),
@@ -35,6 +37,7 @@ const docsItems = [
   {
     value: "css",
     label: "CSS",
+    icon: <FileTextIcon />,
     children: (
       <p>
         单组件样式通过 <code>willa/Tabs.css</code> 引入，主题变量来自 content
@@ -45,6 +48,7 @@ const docsItems = [
   {
     value: "disabled",
     label: "待补充",
+    icon: <ChatBubbleIcon />,
     disabled: true,
     children: "这个面板不会被选中。",
   },
@@ -124,6 +128,10 @@ export default defineDoc({
       content: <Tabs items={docsItems} defaultValue="css" />,
     },
     {
+      title: "图标标签",
+      content: <Tabs items={docsItems} />,
+    },
+    {
       title: "小尺寸",
       content: <Tabs size="sm" items={tabsItems} />,
     },
@@ -168,6 +176,11 @@ export default defineDoc({
       name: "className",
       type: "string",
       description: "可选的外层 className。",
+    },
+    {
+      name: "TabsItem.icon",
+      type: "ReactNode",
+      description: "展示在标签文案前面的图标。",
     },
   ],
 });

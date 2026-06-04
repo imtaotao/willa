@@ -7,8 +7,9 @@ export { Card } from "#content/components/Card";
 export { Callout } from "#content/components/Callout";
 export { ChatThread } from "#content/components/ChatThread";
 export { CodeBlock } from "#content/components/CodeBlock";
+export type { CodeBlockProps } from "#content/components/CodeBlock";
+export { CodeTabs } from "#content/components/CodeTabs";
 export { DetailsBlock } from "#content/components/DetailsBlock";
-export { FancyList } from "#content/components/FancyList";
 export { flattenText, createHeadingIdFactory } from "@willa-ui/shared";
 export { Image } from "#content/components/Image";
 export { ImageGallery } from "#content/components/ImageGallery";
@@ -50,11 +51,12 @@ export type {
   CardVariant,
 } from "#content/components/Card";
 export type { CalloutProps, CalloutTone } from "#content/components/Callout";
-export type { DetailsBlockProps } from "#content/components/DetailsBlock";
 export type {
-  FancyListItem,
-  FancyListProps,
-} from "#content/components/FancyList";
+  CodeTabsItem,
+  CodeTabsProps,
+  CodeTabsSize,
+} from "#content/components/CodeTabs";
+export type { DetailsBlockProps } from "#content/components/DetailsBlock";
 export type { ImageProps } from "#content/components/Image";
 export type {
   ImageGalleryItem,

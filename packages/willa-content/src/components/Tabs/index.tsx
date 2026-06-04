@@ -12,6 +12,7 @@ export type TabsItem = {
   value: string;
   label: ReactNode;
   children: ReactNode;
+  icon?: ReactNode;
   disabled?: boolean;
 };
 
@@ -148,6 +149,11 @@ export function Tabs(props: TabsProps) {
               data-willa-tabs-index={index}
               onClick={() => selectValue(item.value)}
             >
+              {item.icon ? (
+                <span className="willa-tabs-tab-icon" aria-hidden="true">
+                  {item.icon}
+                </span>
+              ) : null}
               {item.label}
             </button>
           );

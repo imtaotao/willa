@@ -571,6 +571,15 @@ select {
   overflow: visible;
 }
 
+.docs-props-group {
+  display: grid;
+  gap: 10px;
+}
+
+.docs-props-group + .docs-props-group {
+  margin-top: 1.5rem;
+}
+
 .docs-props th,
 .docs-props td {
   position: relative;

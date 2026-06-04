@@ -66,8 +66,7 @@
     "@willa-ui/shared": "workspace:*",
     "@radix-ui/react-icons": "catalog:",
     "aidly": "catalog:",
-    "classnames": "catalog:",
-    "highlight.js": "catalog:"
+    "classnames": "catalog:"
   },
   "peerDependencies": {
     "react": "catalog:",

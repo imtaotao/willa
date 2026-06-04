@@ -107,6 +107,8 @@
   --willa-lightbox-solid-bg: #111317;
   --willa-code-block-bg: #151d29;
   --willa-code-block-border: rgba(255, 255, 255, 0.06);
+  --willa-code-tabs-border: rgba(255, 255, 255, 0.08);
+  --willa-code-tabs-list-bg: rgba(255, 255, 255, 0.045);
   --willa-code-line-highlight: rgba(0, 0, 0, 0.36);
   --willa-code-meta-border: transparent;
   --willa-code-lang-bg: transparent;
@@ -194,11 +196,6 @@
   --willa-callout-error-bg: rgba(248, 113, 113, 0.13);
   --willa-callout-error-border: rgba(252, 165, 165, 0.28);
   --willa-callout-error-shadow: transparent;
-  --willa-fancy-list-title: #93c5fd;
-  --willa-fancy-list-border: rgba(96, 165, 250, 0.22);
-  --willa-fancy-list-bg: rgba(37, 99, 235, 0.12);
-  --willa-fancy-list-divider: rgba(96, 165, 250, 0.2);
-  --willa-fancy-list-line: rgba(219, 234, 254, 0.82);
   --willa-chat-bg: rgba(255, 255, 255, 0.04);
   --willa-chat-avatar-bg: rgba(255, 255, 255, 0.1);
   --willa-chat-avatar-assistant-bg: rgba(125, 211, 252, 0.18);

@@ -24,17 +24,34 @@ const PropToken = (props: { value: string; kind: "名称" | "类型" }) => (
 
 export function DocView({ doc }: DocViewProps) {
   const [expandedPanel, setExpandedPanel] = useState<ExpandedPanel>(null);
-  const sortedProps = useMemo(() => {
-    return doc.props
-      .map((prop, index) => ({ prop, index }))
-      .sort((a, b) => {
-        if (a.prop.required !== b.prop.required) {
-          return a.prop.required ? -1 : 1;
-        }
+  const propGroups = useMemo(() => {
+    const groups: Array<{ title: string; props: typeof doc.props }> = [];
 
-        return a.index - b.index;
-      })
-      .map((item) => item.prop);
+    for (const prop of doc.props) {
+      const title = prop.group ?? "属性";
+      let group = groups.find((item) => item.title === title);
+
+      if (!group) {
+        group = { title, props: [] };
+        groups.push(group);
+      }
+
+      group.props.push(prop);
+    }
+
+    return groups.map((group) => ({
+      ...group,
+      props: group.props
+        .map((prop, index) => ({ prop, index }))
+        .sort((a, b) => {
+          if (a.prop.required !== b.prop.required) {
+            return a.prop.required ? -1 : 1;
+          }
+
+          return a.index - b.index;
+        })
+        .map((item) => item.prop),
+    }));
   }, [doc.props]);
 
   useEffect(() => {
@@ -84,34 +101,38 @@ export function DocView({ doc }: DocViewProps) {
         </div>
 
         <div className="docs-props">
-          <div className="docs-panel-title">属性</div>
-          <table>
-            <thead>
-              <tr>
-                <th>名称</th>
-                <th>类型</th>
-                <th>说明</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sortedProps.map((prop) => (
-                <tr key={prop.name}>
-                  <td>
-                    <div className="docs-prop-name-cell">
-                      <PropToken value={prop.name} kind="名称" />
-                      {prop.required ? (
-                        <span className="docs-required">必填</span>
-                      ) : null}
-                    </div>
-                  </td>
-                  <td>
-                    <PropToken value={prop.type} kind="类型" />
-                  </td>
-                  <td>{prop.description}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {propGroups.map((group) => (
+            <div className="docs-props-group" key={group.title}>
+              <div className="docs-panel-title">{group.title}</div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>名称</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {group.props.map((prop) => (
+                    <tr key={prop.name}>
+                      <td>
+                        <div className="docs-prop-name-cell">
+                          <PropToken value={prop.name} kind="名称" />
+                          {prop.required ? (
+                            <span className="docs-required">必填</span>
+                          ) : null}
+                        </div>
+                      </td>
+                      <td>
+                        <PropToken value={prop.type} kind="类型" />
+                      </td>
+                      <td>{prop.description}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))}
         </div>
       </div>
       <div className="docs-preview">

@@ -30,7 +30,8 @@
     "dist"
   ],
   "dependencies": {
-    "aidly": "catalog:"
+    "aidly": "catalog:",
+    "highlight.js": "catalog:"
   },
   "peerDependencies": {
     "react": "catalog:"

@@ -1,0 +1,117 @@
+.willa-code-tabs {
+  display: grid;
+  gap: 0;
+  min-width: 0;
+  margin: 1.25rem 0;
+  overflow: hidden;
+  border: 1px solid var(--willa-code-tabs-border);
+  border-radius: 8px;
+  background: var(--willa-code-block-bg);
+  color: var(--willa-code-text);
+  font-family: var(--willa-body-font);
+  transition: background 180ms ease;
+}
+
+.willa-code-tabs .willa-tabs-list {
+  display: flex;
+  width: auto;
+  min-width: 0;
+  max-width: none;
+  margin-bottom: 0.38rem;
+  flex-wrap: nowrap;
+  gap: 0;
+  overflow-x: auto;
+  border-radius: 0;
+  border-bottom: 1px solid var(--willa-code-tabs-border);
+  background: var(--willa-code-tabs-list-bg);
+  padding: 0.18rem;
+}
+
+.willa-code-tabs .willa-tabs-tab {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--willa-tabs-tab-text);
+  font: inherit;
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.willa-code-tabs--sm .willa-tabs-tab {
+  min-height: 1.8rem;
+  padding: 0.28rem 0.64rem;
+  font-size: 0.82rem;
+}
+
+.willa-code-tabs--md .willa-tabs-tab {
+  min-height: 2.08rem;
+  padding: 0.36rem 0.78rem;
+  font-size: 0.9rem;
+}
+
+.willa-code-tabs .willa-tabs-tab:hover:not(:disabled) {
+  background: var(--willa-tabs-tab-bg-hover);
+  color: var(--willa-tabs-tab-text-hover);
+}
+
+.willa-code-tabs .willa-tabs-tab[aria-selected="true"] {
+  border-color: var(--willa-tabs-tab-active-border);
+  background: var(--willa-tabs-tab-active-bg);
+  color: var(--willa-tabs-tab-active-text);
+}
+
+.willa-code-tabs .willa-tabs-tab:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-code-tabs .willa-tabs-tab:disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
+}
+
+.willa-code-tabs > .willa-tabs-panel {
+  min-width: 0;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 0;
+}
+
+.willa-code-tabs-panel {
+  position: relative;
+  min-width: 0;
+  overflow-x: auto;
+  padding-top: 0.12rem;
+}
+
+.willa-code-tabs .willa-prose-pre {
+  margin: 0;
+  border-radius: 0;
+  background: var(--willa-code-block-bg);
+}
+
+.willa-code-tabs .willa-prose-pre--copied {
+  background: var(--willa-accent-2-soft);
+}
+
+@media (max-width: 767px) {
+  .willa-code-tabs .willa-tabs-list {
+    width: auto;
+  }
+
+  .willa-code-tabs .willa-tabs-tab {
+    flex: none;
+  }
+}

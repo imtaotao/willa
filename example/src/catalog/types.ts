@@ -4,6 +4,7 @@ export type PropRow = {
   name: string;
   type: string;
   required?: boolean;
+  group?: string;
   description: string;
 };
 

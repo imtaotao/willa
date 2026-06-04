@@ -177,9 +177,6 @@ importers:
       classnames:
         specifier: "catalog:"
         version: 2.5.1
-      highlight.js:
-        specifier: "catalog:"
-        version: 11.11.1
       react:
         specifier: "catalog:"
         version: 19.2.6
@@ -211,6 +208,9 @@ importers:
       aidly:
         specifier: "catalog:"
         version: 1.37.0
+      highlight.js:
+        specifier: "catalog:"
+        version: 11.11.1
       react:
         specifier: "catalog:"
         version: 19.2.6
