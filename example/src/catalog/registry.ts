@@ -36,6 +36,7 @@ const docSpecGroups = {
     "Steps",
     "SummaryCards",
     "Tabs",
+    "Toast",
     "UrlLink",
     "VideoEmbed",
     "VideoLink",

@@ -1,0 +1,209 @@
+.willa-toast-viewport {
+  position: fixed;
+  z-index: 100;
+  display: grid;
+  gap: 0.65rem;
+  box-sizing: border-box;
+  width: min(24rem, calc(100vw - 2rem));
+  max-width: calc(100vw - 2rem);
+  padding: 0;
+  pointer-events: none;
+  font-family: var(--willa-body-font);
+}
+
+.willa-toast-viewport--top-left {
+  top: 1rem;
+  left: 1rem;
+}
+
+.willa-toast-viewport--top-center {
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.willa-toast-viewport--top-right {
+  top: 1rem;
+  right: 1rem;
+}
+
+.willa-toast-viewport--bottom-left {
+  bottom: 1rem;
+  left: 1rem;
+}
+
+.willa-toast-viewport--bottom-center {
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.willa-toast-viewport--bottom-right {
+  right: 1rem;
+  bottom: 1rem;
+}
+
+.willa-toast {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  gap: 0.72rem;
+  align-items: start;
+  box-sizing: border-box;
+  min-height: 3.25rem;
+  padding: 0.82rem 0.78rem 0.82rem 0.88rem;
+  border: 1px solid var(--willa-toast-border);
+  border-left-color: var(--willa-toast-tone);
+  border-left-width: 3px;
+  border-radius: 0.72rem;
+  background: var(--willa-toast-bg);
+  box-shadow: var(--willa-toast-shadow);
+  color: var(--willa-toast-text);
+  pointer-events: auto;
+  animation: willa-toast-enter 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.willa-toast-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-top: 0.1rem;
+  color: var(--willa-toast-tone);
+}
+
+.willa-toast-icon svg,
+.willa-toast-close svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.willa-toast-content {
+  display: grid;
+  min-width: 0;
+  gap: 0.24rem;
+}
+
+.willa-toast-title {
+  color: var(--willa-toast-title);
+  font-size: 0.92rem;
+  font-weight: 620;
+  line-height: 1.38;
+}
+
+.willa-toast-description {
+  color: var(--willa-toast-description);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.willa-toast-action,
+.willa-toast-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.8rem;
+  margin-top: -0.1rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--willa-toast-action-text);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.82rem;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.willa-toast-action {
+  padding: 0 0.58rem;
+}
+
+.willa-toast-close {
+  width: 1.8rem;
+  padding: 0;
+  color: var(--willa-toast-close-text);
+}
+
+.willa-toast-action:hover,
+.willa-toast-close:hover {
+  border-color: var(--willa-toast-control-border-hover);
+  background: var(--willa-toast-control-bg-hover);
+  color: var(--willa-toast-control-text-hover);
+}
+
+.willa-toast-action:focus-visible,
+.willa-toast-close:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-toast--info {
+  --willa-toast-tone: var(--willa-toast-info);
+}
+
+.willa-toast--success {
+  --willa-toast-tone: var(--willa-toast-success);
+}
+
+.willa-toast--warning {
+  --willa-toast-tone: var(--willa-toast-warning);
+}
+
+.willa-toast--error {
+  --willa-toast-tone: var(--willa-toast-error);
+}
+
+@keyframes willa-toast-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -0.35rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (max-width: 767px) {
+  .willa-toast-viewport {
+    right: 0.75rem;
+    left: 0.75rem;
+    width: auto;
+    max-width: none;
+    transform: none;
+  }
+
+  .willa-toast-viewport--top-left,
+  .willa-toast-viewport--top-center,
+  .willa-toast-viewport--top-right {
+    top: 0.75rem;
+  }
+
+  .willa-toast-viewport--bottom-left,
+  .willa-toast-viewport--bottom-center,
+  .willa-toast-viewport--bottom-right {
+    bottom: 0.75rem;
+  }
+
+  .willa-toast {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .willa-toast-action {
+    grid-column: 2 / 3;
+    justify-self: start;
+    margin-top: 0.1rem;
+    padding: 0 0.52rem;
+  }
+
+  .willa-toast-close {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+  }
+}

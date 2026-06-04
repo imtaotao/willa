@@ -47,6 +47,7 @@ export function App() {
   const [activeId, setActiveId] = useState(getInitialActiveId);
   const [loadedDoc, setLoadedDoc] = useState<ComponentDoc | null>(null);
   const [isDocLoading, setIsDocLoading] = useState(false);
+  const [docError, setDocError] = useState<string | null>(null);
   const activeEntry = componentDocRegistry.find((doc) => doc.id === activeId);
 
   useEffect(() => {
@@ -79,17 +80,23 @@ export function App() {
     if (!activeEntry) {
       setLoadedDoc(null);
       setIsDocLoading(false);
+      setDocError(null);
       return;
     }
 
     let disposed = false;
     setIsDocLoading(true);
     setLoadedDoc(null);
+    setDocError(null);
 
     loadComponentDoc(activeEntry)
       .then((doc) => {
         if (disposed) return;
         setLoadedDoc(doc);
+      })
+      .catch((error: unknown) => {
+        if (disposed) return;
+        setDocError(error instanceof Error ? error.message : String(error));
       })
       .finally(() => {
         if (disposed) return;
@@ -190,6 +197,8 @@ export function App() {
             <UsageGuide />
           ) : loadedDoc ? (
             <DocView doc={loadedDoc} />
+          ) : docError ? (
+            <div className="docs-empty">组件加载失败：{docError}</div>
           ) : (
             <Skeleton
               loading={isDocLoading}

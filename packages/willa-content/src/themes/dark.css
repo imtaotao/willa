@@ -1,6 +1,7 @@
 :root[data-wk-theme="dark"] .willa-shell,
 :root[data-wk-theme="dark"] .willa-lightbox,
-:root[data-wk-theme="dark"] .willa-dialog {
+:root[data-wk-theme="dark"] .willa-dialog,
+:root[data-wk-theme="dark"] .willa-toast-viewport {
   --willa-surface-soft: rgba(255, 255, 255, 0.045);
   --willa-surface-tint: rgba(255, 255, 255, 0.03);
   --willa-text-strong: #f3f4f6;
@@ -129,6 +130,21 @@
   --willa-dialog-close-border: rgba(255, 255, 255, 0.1);
   --willa-dialog-close-border-hover: rgba(125, 211, 252, 0.2);
   --willa-dialog-close-text: var(--willa-text-soft);
+  --willa-toast-bg: rgba(28, 31, 36, 0.98);
+  --willa-toast-border: rgba(255, 255, 255, 0.11);
+  --willa-toast-shadow: none;
+  --willa-toast-title: var(--willa-text-strong);
+  --willa-toast-text: var(--willa-text);
+  --willa-toast-description: var(--willa-text-soft);
+  --willa-toast-close-text: var(--willa-text-faint);
+  --willa-toast-action-text: var(--willa-text-strong);
+  --willa-toast-control-bg-hover: rgba(255, 255, 255, 0.08);
+  --willa-toast-control-border-hover: rgba(255, 255, 255, 0.1);
+  --willa-toast-control-text-hover: var(--willa-text-strong);
+  --willa-toast-info: #7dd3fc;
+  --willa-toast-success: #86efac;
+  --willa-toast-warning: #fbbf24;
+  --willa-toast-error: #fca5a5;
   --willa-code-block-bg: #151d29;
   --willa-code-block-border: rgba(255, 255, 255, 0.06);
   --willa-code-tabs-border: rgba(255, 255, 255, 0.08);
