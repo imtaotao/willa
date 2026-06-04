@@ -71,6 +71,8 @@
   --willa-card-shadow-hover: 0 14px 30px rgba(15, 23, 42, 0.1);
   --willa-card-media-bg: var(--willa-surface-soft);
   --willa-card-eyebrow: var(--willa-text-faint);
+  --willa-separator-line: rgba(15, 23, 42, 0.12);
+  --willa-separator-label: var(--willa-text-faint);
   --willa-tabs-list-bg: rgba(15, 23, 42, 0.045);
   --willa-tabs-tab-text: var(--willa-text-soft);
   --willa-tabs-tab-text-hover: var(--willa-text-strong);

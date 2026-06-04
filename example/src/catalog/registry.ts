@@ -25,6 +25,7 @@ const docSpecGroups = {
     "ImageGallery",
     "Lightbox",
     "Poem",
+    "Separator",
     "Skeleton",
     "Step",
     "Steps",

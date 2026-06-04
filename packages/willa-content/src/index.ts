@@ -13,6 +13,7 @@ export { Image } from "#content/components/Image";
 export { ImageGallery } from "#content/components/ImageGallery";
 export { Lightbox, normalizeLightboxImage } from "#content/components/Lightbox";
 export { Poem } from "#content/components/Poem";
+export { Separator } from "#content/components/Separator";
 export { Skeleton } from "#content/components/Skeleton";
 export { Step, Steps } from "#content/components/Steps";
 export { SummaryCards } from "#content/components/SummaryCards";
@@ -56,6 +57,12 @@ export type {
   LightboxState,
 } from "#content/components/Lightbox";
 export type { PoemProps } from "#content/components/Poem";
+export type {
+  SeparatorAlign,
+  SeparatorOrientation,
+  SeparatorProps,
+  SeparatorSize,
+} from "#content/components/Separator";
 export type { SkeletonProps } from "#content/components/Skeleton";
 export type { StepProps, StepsProps } from "#content/components/Steps";
 export type { SummaryCardsProps } from "#content/components/SummaryCards";
