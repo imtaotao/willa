@@ -10,6 +10,7 @@ export { CodeBlock } from "#content/components/CodeBlock";
 export type { CodeBlockProps } from "#content/components/CodeBlock";
 export { CodeTabs } from "#content/components/CodeTabs";
 export { DetailsBlock } from "#content/components/DetailsBlock";
+export { Dialog } from "#content/components/Dialog";
 export { flattenText, createHeadingIdFactory } from "@willa-ui/shared";
 export { Image } from "#content/components/Image";
 export { ImageGallery } from "#content/components/ImageGallery";
@@ -57,6 +58,7 @@ export type {
   CodeTabsSize,
 } from "#content/components/CodeTabs";
 export type { DetailsBlockProps } from "#content/components/DetailsBlock";
+export type { DialogProps, DialogSize } from "#content/components/Dialog";
 export type { ImageProps } from "#content/components/Image";
 export type {
   ImageGalleryItem,

@@ -81,8 +81,8 @@
 }
 
 .willa-avatar--md {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2.75rem;
+  height: 2.75rem;
   font-size: 0.86rem;
 }
 
@@ -167,15 +167,15 @@
 }
 
 .willa-avatar-preview-close {
-  position: absolute;
-  top: -0.75rem;
-  right: -0.75rem;
-  z-index: 1;
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 2.25rem;
+  height: 2.25rem;
   padding: 0;
   border: 1px solid var(--willa-avatar-preview-close-border);
   border-radius: 999px;
@@ -200,6 +200,14 @@
 }
 
 .willa-avatar-preview-close svg {
-  width: 1rem;
-  height: 1rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke-width: 2.4;
+}
+
+@media (max-width: 767px) {
+  .willa-avatar-preview-close {
+    top: 0.9rem;
+    right: 0.9rem;
+  }
 }

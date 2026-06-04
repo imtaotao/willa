@@ -289,18 +289,21 @@ const AvatarPreview = (props: AvatarPreviewProps) => {
       aria-label={props.alt || props.closeLabel}
       onClick={props.onClose}
     >
+      <button
+        className="willa-avatar-preview-close"
+        type="button"
+        aria-label={props.closeLabel}
+        onClick={(event) => {
+          event.stopPropagation();
+          props.onClose();
+        }}
+      >
+        <Cross2Icon aria-hidden="true" />
+      </button>
       <figure
         className="willa-avatar-preview-figure"
         onClick={(event) => event.stopPropagation()}
       >
-        <button
-          className="willa-avatar-preview-close"
-          type="button"
-          aria-label={props.closeLabel}
-          onClick={props.onClose}
-        >
-          <Cross2Icon aria-hidden="true" />
-        </button>
         {props.src ? (
           <img
             className="willa-avatar-preview-image"

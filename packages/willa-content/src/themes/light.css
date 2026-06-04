@@ -1,5 +1,6 @@
 .willa-shell,
-.willa-lightbox {
+.willa-lightbox,
+.willa-dialog {
   --willa-body-font: var(--site-font-body, system-ui, sans-serif);
   --willa-title-font: var(--site-font-title, system-ui, sans-serif);
   --willa-code-font:
@@ -109,6 +110,18 @@
   --willa-floating-bg: rgba(255, 255, 255, 0.96);
   --willa-lightbox-bg: rgba(248, 250, 252, 0.68);
   --willa-lightbox-solid-bg: #f8fafc;
+  --willa-dialog-overlay-bg: rgba(248, 250, 252, 0.68);
+  --willa-dialog-bg: rgba(255, 255, 255, 0.98);
+  --willa-dialog-border: rgba(15, 23, 42, 0.12);
+  --willa-dialog-shadow: 0 18px 42px rgba(15, 23, 42, 0.16);
+  --willa-dialog-divider: rgba(15, 23, 42, 0.08);
+  --willa-dialog-title: var(--willa-text-strong);
+  --willa-dialog-description: var(--willa-text-soft);
+  --willa-dialog-close-bg: rgba(15, 23, 42, 0.04);
+  --willa-dialog-close-bg-hover: rgba(15, 23, 42, 0.08);
+  --willa-dialog-close-border: rgba(15, 23, 42, 0.08);
+  --willa-dialog-close-border-hover: rgba(37, 99, 235, 0.2);
+  --willa-dialog-close-text: var(--willa-text-soft);
   --willa-code-block-bg: #f6f6f7;
   --willa-code-block-border: rgba(60, 60, 67, 0.12);
   --willa-code-tabs-border: rgba(60, 60, 67, 0.12);
