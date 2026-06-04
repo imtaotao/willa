@@ -1,5 +1,6 @@
 export { AudioEmbed } from "#content/components/AudioEmbed";
 export { AudioLink } from "#content/components/AudioLink";
+export { Badge } from "#content/components/Badge";
 export { Button } from "#content/components/Button";
 export { Callout } from "#content/components/Callout";
 export { ChatThread } from "#content/components/ChatThread";
@@ -21,6 +22,12 @@ export { VideoLink } from "#content/components/VideoLink";
 export type { ChatThreadProps } from "#content/components/ChatThread";
 export type { AudioEmbedProps } from "#content/components/AudioEmbed";
 export type { AudioLinkProps } from "#content/components/AudioLink";
+export type {
+  BadgeProps,
+  BadgeSize,
+  BadgeTone,
+  BadgeVariant,
+} from "#content/components/Badge";
 export type {
   ButtonProps,
   ButtonSize,

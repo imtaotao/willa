@@ -1,0 +1,107 @@
+.willa-badge {
+  --willa-badge-bg: var(--willa-badge-neutral-bg);
+  --willa-badge-border: var(--willa-badge-neutral-border);
+  --willa-badge-text: var(--willa-badge-neutral-text);
+  --willa-badge-solid-bg: var(--willa-badge-neutral-solid-bg);
+  --willa-badge-solid-text: var(--willa-badge-neutral-solid-text);
+
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: var(--willa-body-font);
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: none;
+  vertical-align: 0.08em;
+  white-space: nowrap;
+}
+
+.willa-badge--info {
+  --willa-badge-bg: var(--willa-badge-info-bg);
+  --willa-badge-border: var(--willa-badge-info-border);
+  --willa-badge-text: var(--willa-badge-info-text);
+  --willa-badge-solid-bg: var(--willa-badge-info-solid-bg);
+  --willa-badge-solid-text: var(--willa-badge-info-solid-text);
+}
+
+.willa-badge--success {
+  --willa-badge-bg: var(--willa-badge-success-bg);
+  --willa-badge-border: var(--willa-badge-success-border);
+  --willa-badge-text: var(--willa-badge-success-text);
+  --willa-badge-solid-bg: var(--willa-badge-success-solid-bg);
+  --willa-badge-solid-text: var(--willa-badge-success-solid-text);
+}
+
+.willa-badge--warning {
+  --willa-badge-bg: var(--willa-badge-warning-bg);
+  --willa-badge-border: var(--willa-badge-warning-border);
+  --willa-badge-text: var(--willa-badge-warning-text);
+  --willa-badge-solid-bg: var(--willa-badge-warning-solid-bg);
+  --willa-badge-solid-text: var(--willa-badge-warning-solid-text);
+}
+
+.willa-badge--danger {
+  --willa-badge-bg: var(--willa-badge-danger-bg);
+  --willa-badge-border: var(--willa-badge-danger-border);
+  --willa-badge-text: var(--willa-badge-danger-text);
+  --willa-badge-solid-bg: var(--willa-badge-danger-solid-bg);
+  --willa-badge-solid-text: var(--willa-badge-danger-solid-text);
+}
+
+.willa-badge--soft {
+  border-color: var(--willa-badge-border);
+  background: var(--willa-badge-bg);
+  color: var(--willa-badge-text);
+}
+
+.willa-badge--outline {
+  border-color: var(--willa-badge-border);
+  background: transparent;
+  color: var(--willa-badge-text);
+}
+
+.willa-badge--solid {
+  border-color: transparent;
+  background: var(--willa-badge-solid-bg);
+  color: var(--willa-badge-solid-text);
+}
+
+.willa-badge--sm {
+  gap: 0.26rem;
+  min-height: 1.45rem;
+  padding: 0.28rem 0.48rem;
+  font-size: 0.72rem;
+}
+
+.willa-badge--md {
+  gap: 0.32rem;
+  min-height: 1.72rem;
+  padding: 0.34rem 0.6rem;
+  font-size: 0.82rem;
+}
+
+.willa-badge-label {
+  min-width: 0;
+  overflow: hidden;
+  color: currentColor;
+  text-overflow: ellipsis;
+}
+
+.willa-badge-icon {
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+}
+
+.willa-badge-icon svg {
+  width: 1em;
+  height: 1em;
+}

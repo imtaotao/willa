@@ -13,6 +13,7 @@ const docSpecGroups = {
   content: [
     "AudioEmbed",
     "AudioLink",
+    "Badge",
     "Button",
     "Callout",
     "ChatThread",

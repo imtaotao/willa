@@ -422,6 +422,11 @@ select {
   margin: 0;
 }
 
+.docs-preview-inner > .willa-badge,
+.docs-preview-inner > .willa-button {
+  justify-self: start;
+}
+
 .docs-demo-stack,
 .docs-demo-group {
   display: grid;
