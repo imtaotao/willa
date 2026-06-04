@@ -1,11 +1,12 @@
-import type {
-  CSSProperties,
-  HTMLAttributes,
-  ImgHTMLAttributes,
-  MouseEvent,
-  ReactNode,
+import {
+  useEffect,
+  useState,
+  type CSSProperties,
+  type HTMLAttributes,
+  type ImgHTMLAttributes,
+  type MouseEvent,
+  type ReactNode,
 } from "react";
-import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import classNames from "classnames";

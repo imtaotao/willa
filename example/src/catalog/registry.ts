@@ -28,6 +28,7 @@ const docSpecGroups = {
     "IconButton",
     "Kbd",
     "Lightbox",
+    "Pagination",
     "Poem",
     "Separator",
     "Skeleton",

@@ -17,6 +17,7 @@ export { ImageGallery } from "#content/components/ImageGallery";
 export { IconButton } from "#content/components/IconButton";
 export { Kbd, KbdShortcut } from "#content/components/Kbd";
 export { Lightbox, normalizeLightboxImage } from "#content/components/Lightbox";
+export { Pagination } from "#content/components/Pagination";
 export { Poem } from "#content/components/Poem";
 export { Separator } from "#content/components/Separator";
 export { Skeleton } from "#content/components/Skeleton";
@@ -81,6 +82,11 @@ export type {
   LightboxImage,
   LightboxState,
 } from "#content/components/Lightbox";
+export type {
+  PaginationEllipsisContext,
+  PaginationProps,
+  PaginationSize,
+} from "#content/components/Pagination";
 export type { PoemProps } from "#content/components/Poem";
 export type {
   SeparatorAlign,

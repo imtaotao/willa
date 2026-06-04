@@ -1,11 +1,13 @@
-import type {
-  AnchorHTMLAttributes,
-  ButtonHTMLAttributes,
-  CSSProperties,
-  MouseEvent,
-  ReactNode,
+import {
+  useEffect,
+  useRef,
+  useState,
+  type AnchorHTMLAttributes,
+  type ButtonHTMLAttributes,
+  type CSSProperties,
+  type MouseEvent,
+  type ReactNode,
 } from "react";
-import { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { copyToClipboard, flattenText } from "@willa-ui/shared";
 

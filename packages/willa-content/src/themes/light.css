@@ -90,6 +90,17 @@
   --willa-kbd-border: rgba(15, 23, 42, 0.14);
   --willa-kbd-separator: var(--willa-text-faint);
   --willa-kbd-text: var(--willa-text-strong);
+  --willa-pagination-bg: rgba(255, 255, 255, 0.72);
+  --willa-pagination-bg-hover: rgba(37, 99, 235, 0.06);
+  --willa-pagination-border: rgba(15, 23, 42, 0.1);
+  --willa-pagination-border-hover: rgba(37, 99, 235, 0.22);
+  --willa-pagination-text: var(--willa-text-soft);
+  --willa-pagination-text-hover: var(--willa-text-strong);
+  --willa-pagination-current-bg: #dbeafe;
+  --willa-pagination-current-border: rgba(37, 99, 235, 0.18);
+  --willa-pagination-current-text: var(--willa-text-strong);
+  --willa-pagination-disabled-text: var(--willa-text-faint);
+  --willa-pagination-ellipsis-text: var(--willa-text-faint);
   --willa-separator-line: rgba(15, 23, 42, 0.12);
   --willa-separator-label: var(--willa-text-faint);
   --willa-tabs-list-bg: rgba(15, 23, 42, 0.045);

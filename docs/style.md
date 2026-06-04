@@ -47,6 +47,25 @@ export type { AudioLinkProps } from "@willa-ui/content/components/AudioLink";
 Shared types can live in `@willa-ui/shared`, but component entries should still
 provide convenient type exports.
 
+## Imports
+
+When a module needs both React runtime values and React types, keep them in one
+import statement with inline `type` specifiers:
+
+```tsx
+import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
+```
+
+Do not split the same React module into adjacent value and type imports:
+
+```tsx
+import type { MouseEvent, ReactNode } from "react";
+import { useState } from "react";
+```
+
+Pure type-only React imports are still fine when no runtime React value is
+needed.
+
 ## Naming
 
 Component names should describe general meaning and should not carry historical
