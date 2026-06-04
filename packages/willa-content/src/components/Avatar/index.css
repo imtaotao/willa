@@ -1,0 +1,205 @@
+.willa-avatar {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--willa-avatar-border);
+  background: var(--willa-avatar-custom-bg, var(--willa-avatar-bg));
+  color: var(--willa-avatar-custom-text, var(--willa-avatar-text));
+  font-family: var(--willa-body-font);
+  font-weight: 700;
+  line-height: 1;
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: none;
+  vertical-align: middle;
+  user-select: none;
+  appearance: none;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.willa-avatar--interactive {
+  cursor: pointer;
+}
+
+.willa-avatar--interactive:hover {
+  border-color: var(--willa-avatar-border-hover);
+  box-shadow: var(--willa-avatar-shadow-hover);
+  transform: translateY(-1px);
+}
+
+.willa-avatar:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-avatar-hover-root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.willa-avatar-hover-card {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  left: 50%;
+  z-index: 90;
+  width: max-content;
+  max-width: min(18rem, calc(100vw - 2rem));
+  padding: 0.85rem;
+  border: 1px solid var(--willa-avatar-hover-card-border);
+  border-radius: 0.85rem;
+  background: var(--willa-avatar-hover-card-bg);
+  box-shadow: var(--willa-avatar-hover-card-shadow);
+  color: var(--willa-avatar-hover-card-text);
+  font-family: var(--willa-body-font);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -0.35rem);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.willa-avatar-hover-root:hover .willa-avatar-hover-card,
+.willa-avatar-hover-root:focus-within .willa-avatar-hover-card {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+.willa-avatar--sm {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 0.72rem;
+}
+
+.willa-avatar--md {
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 0.86rem;
+}
+
+.willa-avatar--lg {
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.08rem;
+}
+
+.willa-avatar--xl {
+  width: 4rem;
+  height: 4rem;
+  font-size: 1.36rem;
+}
+
+.willa-avatar--circle {
+  border-radius: 999px;
+}
+
+.willa-avatar--rounded {
+  border-radius: 0.72rem;
+}
+
+.willa-avatar--square {
+  border-radius: 0.45rem;
+}
+
+.willa-avatar-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.willa-avatar-initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.willa-avatar-preview {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: var(--willa-lightbox-bg);
+  backdrop-filter: blur(8px);
+}
+
+.willa-avatar-preview-figure {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.willa-avatar-preview-image,
+.willa-avatar-preview-initials {
+  display: flex;
+  width: min(72vw, 20rem);
+  height: min(72vw, 20rem);
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--willa-avatar-border);
+  border-radius: 1.5rem;
+  background: var(--willa-avatar-bg);
+  color: var(--willa-avatar-text);
+  font-family: var(--willa-body-font);
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.willa-avatar-preview-image {
+  object-fit: cover;
+}
+
+.willa-avatar-preview-close {
+  position: absolute;
+  top: -0.75rem;
+  right: -0.75rem;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--willa-avatar-preview-close-border);
+  border-radius: 999px;
+  background: var(--willa-avatar-preview-close-bg);
+  color: var(--willa-avatar-preview-close-text);
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.willa-avatar-preview-close:hover {
+  border-color: var(--willa-avatar-preview-close-border-hover);
+  background: var(--willa-avatar-preview-close-bg-hover);
+  transform: translateY(-1px);
+}
+
+.willa-avatar-preview-close:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-avatar-preview-close svg {
+  width: 1rem;
+  height: 1rem;
+}

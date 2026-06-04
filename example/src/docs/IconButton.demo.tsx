@@ -150,13 +150,15 @@ export default defineDoc({
   ],
   props: [
     {
-      name: "ariaLabel *",
+      name: "ariaLabel",
       type: "string",
+      required: true,
       description: "无可见文字时提供给辅助技术的按钮名称。",
     },
     {
-      name: "icon *",
+      name: "icon",
       type: "ReactNode",
+      required: true,
       description: "按钮内展示的图标。",
     },
     {

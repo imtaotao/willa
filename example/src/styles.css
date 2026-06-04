@@ -354,6 +354,11 @@ select {
   overflow: visible;
 }
 
+.docs-preview:has(.willa-avatar-hover-card) {
+  z-index: 4;
+  overflow: visible;
+}
+
 .docs-reference {
   z-index: 2;
   overflow: visible;
@@ -427,6 +432,8 @@ select {
   min-width: 0;
 }
 
+.docs-preview-primary > .willa-avatar,
+.docs-preview-primary > .willa-avatar-hover-root,
 .docs-preview-primary > .willa-badge,
 .docs-preview-primary > .willa-button,
 .docs-preview-primary > .willa-icon-button,

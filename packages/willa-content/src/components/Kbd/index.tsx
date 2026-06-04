@@ -7,10 +7,10 @@ export type KbdVariant = "surface" | "outline";
 export type KbdShortcutSeparator = "plus" | "none";
 
 export type KbdProps = {
+  children: ReactNode;
   size?: KbdSize;
   variant?: KbdVariant;
   className?: string;
-  children?: ReactNode;
 } & Omit<HTMLAttributes<HTMLElement>, "children">;
 
 export type KbdShortcutProps = {

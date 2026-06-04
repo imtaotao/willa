@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { EnterFullScreenIcon, ExitFullScreenIcon } from "@radix-ui/react-icons";
 import { CodeBlock } from "willa/CodeBlock";
 import "willa/CodeBlock.css";
@@ -24,6 +24,18 @@ const PropToken = (props: { value: string; kind: "名称" | "类型" }) => (
 
 export function DocView({ doc }: DocViewProps) {
   const [expandedPanel, setExpandedPanel] = useState<ExpandedPanel>(null);
+  const sortedProps = useMemo(() => {
+    return doc.props
+      .map((prop, index) => ({ prop, index }))
+      .sort((a, b) => {
+        if (a.prop.required !== b.prop.required) {
+          return a.prop.required ? -1 : 1;
+        }
+
+        return a.index - b.index;
+      })
+      .map((item) => item.prop);
+  }, [doc.props]);
 
   useEffect(() => {
     setExpandedPanel(null);
@@ -82,7 +94,7 @@ export function DocView({ doc }: DocViewProps) {
               </tr>
             </thead>
             <tbody>
-              {doc.props.map((prop) => (
+              {sortedProps.map((prop) => (
                 <tr key={prop.name}>
                   <td>
                     <div className="docs-prop-name-cell">

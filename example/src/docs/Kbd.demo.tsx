@@ -107,11 +107,13 @@ export default defineDoc({
     {
       name: "children",
       type: "ReactNode",
+      required: true,
       description: "按键展示内容。",
     },
     {
       name: "keys",
       type: "Array<ReactNode>",
+      required: true,
       description: "KbdShortcut 组件渲染的组合按键列表。",
     },
     {
