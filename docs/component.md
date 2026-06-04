@@ -153,7 +153,7 @@ Every demo should include:
 
 Component docs are grouped by category:
 
-- content: built-in components and base content components.
+- content: built-in components and base product/content components.
 - widgets: scenario components.
 
 ## Acceptance Checklist

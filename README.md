@@ -5,18 +5,19 @@
 
 </div>
 
-Willa UI is a React component library for blogs, community content platforms,
-and rich article-like pages. It contains reusable content components, small
-widget integrations, and shared utilities for building composable content
-experiences.
+Willa UI is a React component library for AI products, blogs, documentation
+sites, content platforms, MDX pages, and rich interactive content rendering. It
+contains reusable product primitives, content components, AI-oriented
+interaction patterns, small widget integrations, and shared utilities for
+building composable product and content experiences.
 
 **Online docs**: https://imtaotao.github.io/willa/
 
 ## Packages
 
 - `willa`: the public entry package for all exported components.
-- `@willa-ui/content`: content components such as code blocks, media, callouts,
-  steps, poems, and cards.
+- `@willa-ui/content`: product and content components such as buttons, cards,
+  code blocks, media, callouts, dialogs, tabs, and progress indicators.
 - `@willa-ui/widgets`: integration-style components for GitHub, X/Twitter, web
   embeds, and other special content.
 - `@willa-ui/shared`: shared utilities used by the package internals.

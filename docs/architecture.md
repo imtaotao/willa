@@ -8,14 +8,16 @@ see [Willa Component Guide](./component.md). For CSS and theme rules, see
 
 ## Project Scope
 
-Willa is a React component library for blogs, community content platforms,
-article pages, documentation, MDX pages, and rich content rendering. The core
+Willa is a React component library for AI products, blogs, documentation sites,
+content platforms, MDX pages, and rich interactive content rendering. The core
 requirements are:
 
 - Components can be imported from package root entries.
 - Components can be imported from single-component entries.
 - Component CSS can be composed per component.
 - Light and dark theme CSS can be composed across packages.
+- Product interaction components and content rendering components can be
+  combined without crossing package ownership boundaries.
 - The example app can consume source code directly for development and docs.
 
 The repository is a pnpm workspace monorepo. Packages are built with `auklet`.
@@ -64,6 +66,8 @@ not maintain their own `tsconfig.json`; they use the root `tsconfig.json`.
 
 - `architecture.md`: overall structure, module relationships, build flow, and
   pitfalls.
+- `component-roadmap.md`: component roadmap and future AI product component
+  planning.
 - `component.md`: component creation, migration, exports, and example rules.
 - `css.md`: CSS, theme variables, and cross-package style dependency rules.
 - `style.md`: TypeScript, React, and documentation code style.
@@ -75,10 +79,11 @@ exports all public components and does not export `@willa-ui/shared`. It usually
 does not own component implementations or theme variables; it combines content
 and widgets outputs.
 
-`packages/willa-content` is the base content component package, published as
-`@willa-ui/content`. It contains general content components such as
-`CodeBlock`, `Callout`, `Image`, `AudioEmbed`, `VideoEmbed`, and `Steps`. It
-also provides shared theme tokens.
+`packages/willa-content` is the base product and content component package,
+published as `@willa-ui/content`. It contains general product and content
+components such as `Button`, `Card`, `CodeBlock`, `Callout`, `Image`,
+`AudioEmbed`, `VideoEmbed`, `Tabs`, `Dialog`, and `Steps`. It also provides
+shared theme tokens.
 
 `packages/willa-widgets` is the scenario component package, published as
 `@willa-ui/widgets`. It contains platform integrations, MDX composition,

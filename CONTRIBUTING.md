@@ -7,10 +7,11 @@ existing implementation patterns.
 
 ## Project Scope
 
-Willa is a React component library for blogs, community content platforms,
-article pages, documentation, MDX pages, and rich content rendering. Components
-should work independently while preserving single-component imports,
-single-component CSS imports, and composable theme CSS.
+Willa is a React component library for AI products, blogs, documentation sites,
+content platforms, MDX pages, and rich interactive content rendering.
+Components should support product-style interaction and content rendering while
+preserving single-component imports, single-component CSS imports, and
+composable theme CSS.
 
 The repository is a pnpm workspace monorepo. Packages are built with `auklet`.
 Package structure, path aliases, build outputs, and module relationships are

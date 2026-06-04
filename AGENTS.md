@@ -6,8 +6,8 @@ details.
 
 ## Project Context
 
-Willa is a React component library for blogs, community content platforms,
-article pages, documentation, MDX pages, and rich content rendering.
+Willa is a React component library for AI products, blogs, documentation sites,
+content platforms, MDX pages, and rich interactive content rendering.
 
 The repository is a pnpm workspace monorepo. Packages are built with `auklet`.
 
