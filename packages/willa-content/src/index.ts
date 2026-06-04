@@ -12,6 +12,7 @@ export { CodeTabs } from "#content/components/CodeTabs";
 export { DetailsBlock } from "#content/components/DetailsBlock";
 export { Dialog } from "#content/components/Dialog";
 export { flattenText, createHeadingIdFactory } from "@willa-ui/shared";
+export { FileCard } from "#content/components/FileCard";
 export { Image } from "#content/components/Image";
 export { ImageGallery } from "#content/components/ImageGallery";
 export { IconButton } from "#content/components/IconButton";
@@ -61,6 +62,7 @@ export type {
 } from "#content/components/CodeTabs";
 export type { DetailsBlockProps } from "#content/components/DetailsBlock";
 export type { DialogProps, DialogSize } from "#content/components/Dialog";
+export type { FileCardProps, FileCardTone } from "#content/components/FileCard";
 export type { ImageProps } from "#content/components/Image";
 export type {
   ImageGalleryItem,

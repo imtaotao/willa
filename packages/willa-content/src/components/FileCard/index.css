@@ -1,0 +1,153 @@
+.willa-file-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.82rem;
+  align-items: center;
+  box-sizing: border-box;
+  width: min(100%, var(--willa-file-card-width, 18rem));
+  min-height: 4.25rem;
+  padding: 0.86rem 1rem;
+  border: 1px solid var(--willa-file-card-border);
+  border-radius: 8px;
+  background: var(--willa-file-card-bg);
+  color: var(--willa-file-card-text);
+  font-family: var(--willa-body-font);
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.willa-file-card--interactive {
+  cursor: pointer;
+}
+
+.willa-file-card--interactive:hover {
+  border-color: var(--willa-file-card-border-hover);
+  background: var(--willa-file-card-bg-hover);
+  box-shadow: var(--willa-file-card-shadow-hover);
+  color: var(--willa-file-card-text);
+  transform: translateY(-1px);
+}
+
+.willa-file-card:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-file-card-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 2.28rem;
+  height: 2.6rem;
+  border-radius: 0.36rem;
+  background: var(--willa-file-card-icon-bg);
+  color: var(--willa-file-card-icon-text);
+  font-size: 0.72rem;
+  font-weight: 760;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  overflow: hidden;
+}
+
+.willa-file-card-icon::after {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  width: 0.62rem;
+  height: 0.62rem;
+  background: var(--willa-file-card-icon-fold);
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+  content: "";
+}
+
+.willa-file-card-icon > svg,
+.willa-file-card-icon > img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.willa-file-card-icon-label {
+  position: relative;
+  z-index: 1;
+}
+
+.willa-file-card-content {
+  display: grid;
+  min-width: 0;
+  gap: 0.25rem;
+}
+
+.willa-file-card-name {
+  overflow: hidden;
+  color: var(--willa-file-card-title);
+  font-size: 0.94rem;
+  font-weight: 520;
+  line-height: 1.32;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.willa-file-card-meta {
+  overflow: hidden;
+  color: var(--willa-file-card-meta);
+  font-size: 0.82rem;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.willa-file-card--excel {
+  --willa-file-card-icon-bg: var(--willa-file-card-excel-bg);
+  --willa-file-card-icon-text: var(--willa-file-card-excel-text);
+}
+
+.willa-file-card--word {
+  --willa-file-card-icon-bg: var(--willa-file-card-word-bg);
+  --willa-file-card-icon-text: var(--willa-file-card-word-text);
+}
+
+.willa-file-card--pdf {
+  --willa-file-card-icon-bg: var(--willa-file-card-pdf-bg);
+  --willa-file-card-icon-text: var(--willa-file-card-pdf-text);
+}
+
+.willa-file-card--ppt {
+  --willa-file-card-icon-bg: var(--willa-file-card-ppt-bg);
+  --willa-file-card-icon-text: var(--willa-file-card-ppt-text);
+}
+
+.willa-file-card--archive {
+  --willa-file-card-icon-bg: var(--willa-file-card-archive-bg);
+  --willa-file-card-icon-text: var(--willa-file-card-archive-text);
+}
+
+.willa-file-card--code {
+  --willa-file-card-icon-bg: var(--willa-file-card-code-bg);
+  --willa-file-card-icon-text: var(--willa-file-card-code-text);
+}
+
+.willa-file-card--text {
+  --willa-file-card-icon-bg: var(--willa-file-card-neutral-icon-bg);
+  --willa-file-card-icon-text: var(--willa-file-card-neutral-icon-text);
+}
+
+.willa-file-card--neutral {
+  --willa-file-card-icon-bg: var(--willa-file-card-neutral-bg);
+  --willa-file-card-icon-text: var(--willa-file-card-neutral-text);
+}
+
+@media (max-width: 767px) {
+  .willa-file-card {
+    --willa-file-card-width: 100%;
+  }
+}
