@@ -1,5 +1,6 @@
 export { AudioEmbed } from "#content/components/AudioEmbed";
 export { AudioLink } from "#content/components/AudioLink";
+export { Button } from "#content/components/Button";
 export { Callout } from "#content/components/Callout";
 export { ChatThread } from "#content/components/ChatThread";
 export { CodeBlock } from "#content/components/CodeBlock";
@@ -20,6 +21,11 @@ export { VideoLink } from "#content/components/VideoLink";
 export type { ChatThreadProps } from "#content/components/ChatThread";
 export type { AudioEmbedProps } from "#content/components/AudioEmbed";
 export type { AudioLinkProps } from "#content/components/AudioLink";
+export type {
+  ButtonProps,
+  ButtonSize,
+  ButtonVariant,
+} from "#content/components/Button";
 export type { CalloutProps, CalloutTone } from "#content/components/Callout";
 export type { DetailsBlockProps } from "#content/components/DetailsBlock";
 export type {

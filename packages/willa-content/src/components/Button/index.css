@@ -1,0 +1,176 @@
+.willa-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  border: 1px solid transparent;
+  border-radius: 0.55rem;
+  font-family: var(--willa-body-font);
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.willa-button:hover {
+  transform: translateY(-1px);
+}
+
+.willa-button:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-button:disabled,
+.willa-button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.52;
+  transform: none;
+}
+
+.willa-button--loading {
+  cursor: wait;
+}
+
+.willa-button--copied,
+.willa-button--copied:hover {
+  border-color: var(--willa-button-copied-border);
+  background: var(--willa-button-copied-bg);
+  color: var(--willa-button-copied-text);
+  box-shadow: var(--willa-button-copied-shadow);
+}
+
+.willa-button--sm {
+  gap: 0.4rem;
+  min-height: 2rem;
+  padding: 0.42rem 0.7rem;
+  font-size: 0.78rem;
+}
+
+.willa-button--md {
+  gap: 0.48rem;
+  min-height: 2.38rem;
+  padding: 0.58rem 0.92rem;
+  font-size: 0.94rem;
+}
+
+.willa-button--lg {
+  gap: 0.54rem;
+  min-height: 2.8rem;
+  padding: 0.74rem 1.14rem;
+  font-size: 1.08rem;
+}
+
+.willa-button--solid {
+  background: var(--willa-button-custom-bg, var(--willa-button-solid-bg));
+  color: var(--willa-button-custom-text, var(--willa-button-solid-text));
+  box-shadow: var(--willa-button-solid-shadow);
+}
+
+.willa-button--solid:hover {
+  background: var(--willa-button-custom-bg, var(--willa-button-solid-bg-hover));
+  color: var(--willa-button-custom-text, var(--willa-button-solid-text));
+  box-shadow: var(--willa-button-solid-shadow-hover);
+}
+
+.willa-button--soft {
+  background: var(--willa-button-custom-bg, var(--willa-button-soft-bg));
+  color: var(--willa-button-custom-text, var(--willa-button-soft-text));
+}
+
+.willa-button--soft:hover {
+  background: var(--willa-button-custom-bg, var(--willa-button-soft-bg-hover));
+  color: var(--willa-button-custom-text, var(--willa-button-soft-text));
+}
+
+.willa-button--outline {
+  border-color: var(--willa-button-outline-border);
+  background: var(--willa-button-custom-bg, transparent);
+  color: var(--willa-button-custom-text, var(--willa-button-outline-text));
+}
+
+.willa-button--outline:hover {
+  border-color: var(--willa-button-outline-border-hover);
+  background: var(
+    --willa-button-custom-bg,
+    var(--willa-button-outline-bg-hover)
+  );
+  color: var(--willa-button-custom-text, var(--willa-button-outline-text));
+}
+
+.willa-button--ghost {
+  background: var(--willa-button-custom-bg, transparent);
+  color: var(--willa-button-custom-text, var(--willa-button-ghost-text));
+}
+
+.willa-button--ghost:hover {
+  background: var(--willa-button-custom-bg, var(--willa-button-ghost-bg-hover));
+  color: var(--willa-button-custom-text, var(--willa-button-ghost-text));
+}
+
+.willa-button--link {
+  min-height: auto;
+  padding-right: 0;
+  padding-left: 0;
+  border-color: transparent;
+  background: var(--willa-button-custom-bg, transparent);
+  color: var(--willa-button-custom-text, var(--willa-button-link-text));
+  box-shadow: none;
+}
+
+.willa-button--link:hover {
+  background: var(--willa-button-custom-bg, transparent);
+  color: var(--willa-button-custom-text, var(--willa-button-link-text-hover));
+  box-shadow: none;
+}
+
+.willa-button-label {
+  min-width: 0;
+  overflow: hidden;
+  color: currentColor;
+  text-overflow: ellipsis;
+}
+
+.willa-button-icon {
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+}
+
+.willa-button-icon svg {
+  width: 1em;
+  height: 1em;
+}
+
+.willa-button-spinner {
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 999px;
+  opacity: 0.78;
+  animation: willa-button-spin 720ms linear infinite;
+}
+
+@keyframes willa-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -88,6 +88,14 @@ structure, layout, state, and variable references. Theme colors, shadows,
 backgrounds, and border colors belong in theme variables. See
 [Willa CSS Guide](./css.md) for details.
 
+New component themes should use subtle tints and neutral text instead of heavy
+saturated fills. Blue can be used for default actions, while green should be
+reserved for positive semantic states such as success or copied. Dark theme
+values should follow the existing neutral surface style first and use color
+accents sparingly. When a component introduces theme variables, define both
+light and dark values in the owning package and check contrast, hover, focus,
+disabled, and selected/copied states in both themes.
+
 When adding a component, confirm:
 
 - Structural styles live in the component directory's `index.css`.

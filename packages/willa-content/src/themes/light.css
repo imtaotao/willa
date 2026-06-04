@@ -17,6 +17,27 @@
   --willa-accent-2-soft: rgba(5, 150, 105, 0.1);
   --willa-focus-ring: rgba(37, 99, 235, 0.34);
   --willa-panel-bg: rgba(255, 255, 255, 0.98);
+  --willa-button-solid-bg: #dbeafe;
+  --willa-button-solid-bg-hover: #bfdbfe;
+  --willa-button-solid-text: var(--willa-text-strong);
+  --willa-button-solid-shadow: 0 10px 22px rgba(37, 99, 235, 0.1);
+  --willa-button-solid-shadow-hover: 0 12px 26px rgba(37, 99, 235, 0.14);
+  --willa-button-soft-bg: rgba(37, 99, 235, 0.08);
+  --willa-button-soft-bg-hover: rgba(37, 99, 235, 0.12);
+  --willa-button-soft-text: var(--willa-text-strong);
+  --willa-button-outline-border: rgba(37, 99, 235, 0.2);
+  --willa-button-outline-border-hover: rgba(37, 99, 235, 0.32);
+  --willa-button-outline-bg-hover: rgba(37, 99, 235, 0.06);
+  --willa-button-outline-text: var(--willa-text-strong);
+  --willa-button-ghost-bg-hover: rgba(15, 23, 42, 0.07);
+  --willa-button-ghost-text: var(--willa-text-strong);
+  --willa-button-link-text: var(--willa-text-strong);
+  --willa-button-link-text-hover: var(--willa-text);
+  --willa-button-copied-bg: #dff7ea;
+  --willa-button-copied-border: rgba(47, 148, 97, 0.24);
+  --willa-button-copied-text: var(--willa-text-strong);
+  --willa-button-copied-shadow:
+    0 0 0 3px rgba(47, 148, 97, 0.12), 0 0 18px rgba(47, 148, 97, 0.22);
   --willa-skeleton-bg: linear-gradient(
     90deg,
     rgba(148, 163, 184, 0.14),
