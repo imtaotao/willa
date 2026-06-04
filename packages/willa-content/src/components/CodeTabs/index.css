@@ -21,10 +21,16 @@
   flex-wrap: nowrap;
   gap: 0;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   border-radius: 0;
   border-bottom: 1px solid var(--willa-code-tabs-border);
   background: var(--willa-code-tabs-list-bg);
   padding: 0.18rem;
+  scrollbar-width: none;
+}
+
+.willa-code-tabs .willa-tabs-list::-webkit-scrollbar {
+  display: none;
 }
 
 .willa-code-tabs .willa-tabs-tab {
@@ -92,7 +98,6 @@
 .willa-code-tabs-panel {
   position: relative;
   min-width: 0;
-  overflow-x: auto;
   padding-top: 0.12rem;
 }
 
@@ -107,11 +112,8 @@
 }
 
 @media (max-width: 767px) {
-  .willa-code-tabs .willa-tabs-list {
-    width: auto;
-  }
-
   .willa-code-tabs .willa-tabs-tab {
-    flex: none;
+    min-height: 2.38rem;
+    touch-action: manipulation;
   }
 }

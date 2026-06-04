@@ -37,17 +37,13 @@ export default defineDoc({
     import { Button } from "willa/Button";
     import "willa/Button.css";
 
-    export function Example() {
-      return (
-        <Button
-          href="https://github.com"
-          target="_blank"
-          trailingIcon={<ArrowRightIcon />}
-        >
-          阅读原文
-        </Button>
-      );
-    }
+    <Button
+      href="https://github.com"
+      target="_blank"
+      trailingIcon={<ArrowRightIcon />}
+    >
+      阅读原文
+    </Button>
   `,
   sections: [
     {

@@ -129,6 +129,8 @@ Demos should cover:
 - Main props and key states.
 - Visual states driven by theme variables.
 - Common composition with other components.
+- Mobile rendering and interaction states for components with dense controls,
+  long text, horizontal navigation, floating panels, portals, or media layouts.
 
 Prefer a single data definition and let `defineDoc` generate both preview and
 React example code. Complex scenarios can pass explicit `code` and use
@@ -163,6 +165,8 @@ After adding a public component, confirm:
 - willa single-component import works, such as `import { CodeBlock } from "willa/CodeBlock"`.
 - Single-component CSS works, such as `import "willa/CodeBlock.css"`.
 - The example demo renders correctly.
+- Mobile layouts avoid horizontal page overflow, keep interactive targets usable,
+  and handle hover-dependent behavior on touch devices.
 - `pnpm run typecheck` passes.
 - Relevant package builds pass; at minimum run `pnpm run build:packages`.
 

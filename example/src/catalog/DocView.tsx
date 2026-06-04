@@ -1,8 +1,12 @@
 import classNames from "classnames";
 import { useEffect, useMemo, useState } from "react";
 import { EnterFullScreenIcon, ExitFullScreenIcon } from "@radix-ui/react-icons";
+import { Badge } from "willa/Badge";
 import { CodeBlock } from "willa/CodeBlock";
+import { IconButton } from "willa/IconButton";
+import "willa/Badge.css";
 import "willa/CodeBlock.css";
+import "willa/IconButton.css";
 
 import type { ComponentDoc } from "#example/catalog/types";
 
@@ -73,21 +77,23 @@ export function DocView({ doc }: DocViewProps) {
     >
       <div className="docs-reference">
         <div className="docs-panel-toolbar">
-          <button
-            type="button"
+          <IconButton
             className="docs-panel-action"
-            aria-label={
+            variant="ghost"
+            size="sm"
+            ariaLabel={
               expandedPanel === "reference" ? "还原介绍卡片" : "展开介绍卡片"
             }
             aria-pressed={expandedPanel === "reference"}
+            icon={
+              expandedPanel === "reference" ? (
+                <ExitFullScreenIcon />
+              ) : (
+                <EnterFullScreenIcon />
+              )
+            }
             onClick={() => toggleExpandedPanel("reference")}
-          >
-            {expandedPanel === "reference" ? (
-              <ExitFullScreenIcon />
-            ) : (
-              <EnterFullScreenIcon />
-            )}
-          </button>
+          />
         </div>
 
         <h2>{doc.name}</h2>
@@ -119,7 +125,9 @@ export function DocView({ doc }: DocViewProps) {
                         <div className="docs-prop-name-cell">
                           <PropToken value={prop.name} kind="名称" />
                           {prop.required ? (
-                            <span className="docs-required">必填</span>
+                            <Badge size="sm" tone="danger" variant="soft">
+                              必填
+                            </Badge>
                           ) : null}
                         </div>
                       </td>
@@ -137,21 +145,23 @@ export function DocView({ doc }: DocViewProps) {
       </div>
       <div className="docs-preview">
         <div className="docs-panel-toolbar">
-          <button
-            type="button"
+          <IconButton
             className="docs-panel-action"
-            aria-label={
+            variant="ghost"
+            size="sm"
+            ariaLabel={
               expandedPanel === "preview" ? "还原效果卡片" : "展开效果卡片"
             }
             aria-pressed={expandedPanel === "preview"}
+            icon={
+              expandedPanel === "preview" ? (
+                <ExitFullScreenIcon />
+              ) : (
+                <EnterFullScreenIcon />
+              )
+            }
             onClick={() => toggleExpandedPanel("preview")}
-          >
-            {expandedPanel === "preview" ? (
-              <ExitFullScreenIcon />
-            ) : (
-              <EnterFullScreenIcon />
-            )}
-          </button>
+          />
         </div>
 
         <div className="docs-preview-inner">

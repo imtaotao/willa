@@ -167,3 +167,13 @@
     padding: 0.8rem 1rem 0.95rem;
   }
 }
+
+@media (max-width: 480px) {
+  .willa-dialog-footer {
+    flex-direction: column-reverse;
+  }
+
+  .willa-dialog-footer > .willa-button {
+    width: 100%;
+  }
+}

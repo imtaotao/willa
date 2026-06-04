@@ -205,9 +205,44 @@
   stroke-width: 2.4;
 }
 
+@media (hover: none) {
+  .willa-avatar--interactive:hover {
+    transform: none;
+  }
+}
+
 @media (max-width: 767px) {
+  .willa-avatar-hover-card {
+    position: fixed;
+    top: auto;
+    right: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    width: auto;
+    max-width: none;
+    transform: translateY(0.35rem);
+  }
+
+  .willa-avatar-hover-root:hover .willa-avatar-hover-card,
+  .willa-avatar-hover-root:focus-within .willa-avatar-hover-card {
+    transform: translateY(0);
+  }
+
+  .willa-avatar-preview {
+    padding: 1rem;
+  }
+
+  .willa-avatar-preview-image,
+  .willa-avatar-preview-initials {
+    width: min(84vw, 20rem);
+    height: min(84vw, 20rem);
+    border-radius: 1.1rem;
+  }
+
   .willa-avatar-preview-close {
     top: 0.9rem;
     right: 0.9rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 }

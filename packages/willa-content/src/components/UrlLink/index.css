@@ -45,5 +45,11 @@
 @media (max-width: 767px) {
   .willa-prose-url-link {
     gap: 0.34rem;
+    max-width: calc(100vw - 2rem);
+  }
+
+  .willa-prose-url-link-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

@@ -172,3 +172,28 @@
     transform: rotate(360deg);
   }
 }
+
+@media (hover: none) {
+  .willa-button:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .willa-button {
+    touch-action: manipulation;
+  }
+
+  .willa-button--sm {
+    min-height: 2.25rem;
+    padding-inline: 0.76rem;
+  }
+
+  .willa-button--md {
+    min-height: 2.5rem;
+  }
+
+  .willa-button--lg {
+    min-height: 2.88rem;
+  }
+}

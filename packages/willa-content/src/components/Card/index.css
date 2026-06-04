@@ -146,7 +146,26 @@
   gap: 0.5rem;
 }
 
+@media (hover: none) {
+  .willa-card--interactive:hover {
+    transform: none;
+  }
+}
+
 @media (max-width: 767px) {
+  .willa-card--sm {
+    padding: 0.78rem;
+  }
+
+  .willa-card--md {
+    padding: 0.9rem;
+  }
+
+  .willa-card--lg {
+    gap: 0.96rem;
+    padding: 1rem;
+  }
+
   .willa-card-footer {
     align-items: flex-start;
     flex-direction: column;

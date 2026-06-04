@@ -1,26 +1,4 @@
 .willa-icon-button {
-  --willa-icon-button-solid-bg: var(--willa-button-solid-bg);
-  --willa-icon-button-solid-bg-hover: var(--willa-button-solid-bg-hover);
-  --willa-icon-button-solid-text: var(--willa-button-solid-text);
-  --willa-icon-button-solid-shadow: var(--willa-button-solid-shadow);
-  --willa-icon-button-solid-shadow-hover: var(
-    --willa-button-solid-shadow-hover
-  );
-  --willa-icon-button-soft-bg: var(--willa-button-soft-bg);
-  --willa-icon-button-soft-bg-hover: var(--willa-button-soft-bg-hover);
-  --willa-icon-button-soft-text: var(--willa-button-soft-text);
-  --willa-icon-button-outline-border: var(--willa-button-outline-border);
-  --willa-icon-button-outline-border-hover: var(
-    --willa-button-outline-border-hover
-  );
-  --willa-icon-button-outline-bg-hover: var(--willa-button-outline-bg-hover);
-  --willa-icon-button-outline-text: var(--willa-button-outline-text);
-  --willa-icon-button-ghost-bg-hover: var(--willa-button-ghost-bg-hover);
-  --willa-icon-button-ghost-text: var(--willa-button-ghost-text);
-  --willa-icon-button-copied-bg: var(--willa-button-copied-bg);
-  --willa-icon-button-copied-border: var(--willa-button-copied-border);
-  --willa-icon-button-copied-text: var(--willa-button-copied-text);
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -87,96 +65,66 @@
 }
 
 .willa-icon-button--solid {
-  background: var(
-    --willa-icon-button-custom-bg,
-    var(--willa-icon-button-solid-bg)
-  );
-  color: var(
-    --willa-icon-button-custom-text,
-    var(--willa-icon-button-solid-text)
-  );
-  box-shadow: var(--willa-icon-button-solid-shadow);
+  background: var(--willa-icon-button-custom-bg, var(--willa-button-solid-bg));
+  color: var(--willa-icon-button-custom-text, var(--willa-button-solid-text));
+  box-shadow: var(--willa-button-solid-shadow);
 }
 
 .willa-icon-button--solid:hover {
   background: var(
     --willa-icon-button-custom-bg,
-    var(--willa-icon-button-solid-bg-hover)
+    var(--willa-button-solid-bg-hover)
   );
-  color: var(
-    --willa-icon-button-custom-text,
-    var(--willa-icon-button-solid-text)
-  );
-  box-shadow: var(--willa-icon-button-solid-shadow-hover);
+  color: var(--willa-icon-button-custom-text, var(--willa-button-solid-text));
+  box-shadow: var(--willa-button-solid-shadow-hover);
 }
 
 .willa-icon-button--soft {
-  background: var(
-    --willa-icon-button-custom-bg,
-    var(--willa-icon-button-soft-bg)
-  );
-  color: var(
-    --willa-icon-button-custom-text,
-    var(--willa-icon-button-soft-text)
-  );
+  background: var(--willa-icon-button-custom-bg, var(--willa-button-soft-bg));
+  color: var(--willa-icon-button-custom-text, var(--willa-button-soft-text));
 }
 
 .willa-icon-button--soft:hover {
   background: var(
     --willa-icon-button-custom-bg,
-    var(--willa-icon-button-soft-bg-hover)
+    var(--willa-button-soft-bg-hover)
   );
-  color: var(
-    --willa-icon-button-custom-text,
-    var(--willa-icon-button-soft-text)
-  );
+  color: var(--willa-icon-button-custom-text, var(--willa-button-soft-text));
 }
 
 .willa-icon-button--outline {
-  border-color: var(--willa-icon-button-outline-border);
+  border-color: var(--willa-button-outline-border);
   background: var(--willa-icon-button-custom-bg, transparent);
-  color: var(
-    --willa-icon-button-custom-text,
-    var(--willa-icon-button-outline-text)
-  );
+  color: var(--willa-icon-button-custom-text, var(--willa-button-outline-text));
 }
 
 .willa-icon-button--outline:hover {
-  border-color: var(--willa-icon-button-outline-border-hover);
+  border-color: var(--willa-button-outline-border-hover);
   background: var(
     --willa-icon-button-custom-bg,
-    var(--willa-icon-button-outline-bg-hover)
+    var(--willa-button-outline-bg-hover)
   );
-  color: var(
-    --willa-icon-button-custom-text,
-    var(--willa-icon-button-outline-text)
-  );
+  color: var(--willa-icon-button-custom-text, var(--willa-button-outline-text));
 }
 
 .willa-icon-button--ghost {
   background: var(--willa-icon-button-custom-bg, transparent);
-  color: var(
-    --willa-icon-button-custom-text,
-    var(--willa-icon-button-ghost-text)
-  );
+  color: var(--willa-icon-button-custom-text, var(--willa-button-ghost-text));
 }
 
 .willa-icon-button--ghost:hover {
   background: var(
     --willa-icon-button-custom-bg,
-    var(--willa-icon-button-ghost-bg-hover)
+    var(--willa-button-ghost-bg-hover)
   );
-  color: var(
-    --willa-icon-button-custom-text,
-    var(--willa-icon-button-ghost-text)
-  );
+  color: var(--willa-icon-button-custom-text, var(--willa-button-ghost-text));
 }
 
 .willa-icon-button--copied,
 .willa-icon-button--copied:hover {
-  border-color: var(--willa-icon-button-copied-border);
-  background: var(--willa-icon-button-copied-bg);
-  color: var(--willa-icon-button-copied-text);
+  border-color: var(--willa-button-copied-border);
+  background: var(--willa-button-copied-bg);
+  color: var(--willa-button-copied-text);
   box-shadow: none;
 }
 
@@ -209,5 +157,32 @@
 @keyframes willa-icon-button-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (hover: none) {
+  .willa-icon-button:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .willa-icon-button {
+    touch-action: manipulation;
+  }
+
+  .willa-icon-button--sm {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .willa-icon-button--md {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .willa-icon-button--lg {
+    width: 2.88rem;
+    height: 2.88rem;
   }
 }

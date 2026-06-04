@@ -146,8 +146,22 @@
   --willa-file-card-icon-text: var(--willa-file-card-neutral-text);
 }
 
+@media (hover: none) {
+  .willa-file-card--interactive:hover {
+    transform: none;
+  }
+}
+
 @media (max-width: 767px) {
   .willa-file-card {
     --willa-file-card-width: 100%;
+
+    min-height: 4rem;
+    padding: 0.78rem 0.86rem;
+  }
+
+  .willa-file-card-icon {
+    width: 2.12rem;
+    height: 2.42rem;
   }
 }

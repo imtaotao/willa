@@ -31,6 +31,7 @@ const docSpecGroups = {
     "Lightbox",
     "Pagination",
     "Poem",
+    "Progress",
     "Separator",
     "Skeleton",
     "Step",

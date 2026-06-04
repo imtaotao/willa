@@ -194,6 +194,17 @@
   background: var(--willa-panel-bg);
 }
 
+@media (hover: none) {
+  .willa-prose-video-embed:hover {
+    transform: none;
+  }
+
+  .willa-prose-video-embed:hover .willa-prose-video-embed-poster {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @media (max-width: 767px) {
   .willa-prose-video-embed {
     grid-template-columns: 1fr auto;

@@ -1,9 +1,11 @@
 import { unindent } from "aidly";
 import { useState } from "react";
+import { Button } from "willa/Button";
 import { Image } from "willa/Image";
 import { ImageGallery } from "willa/ImageGallery";
 import { Lightbox } from "willa/Lightbox";
 
+import "willa/Button.css";
 import "willa/Image.css";
 import "willa/ImageGallery.css";
 import "willa/Lightbox.css";
@@ -45,13 +47,9 @@ const LightboxPreview = () => {
 
       <section className="docs-demo-group">
         <div className="docs-demo-title">传入 image 的受控弹层</div>
-        <button
-          type="button"
-          className="docs-demo-button"
-          onClick={() => setControlledOpen(true)}
-        >
+        <Button variant="outline" onClick={() => setControlledOpen(true)}>
           打开受控预览
-        </button>
+        </Button>
         {controlledOpen ? (
           <Lightbox
             image={roadImage}
@@ -69,6 +67,7 @@ export default defineDoc({
   packageName: "willa/Lightbox",
   description: "占满视口的图片预览弹层。",
   imports: [
+    { name: "Button", from: "willa/Button" },
     { name: "Image", from: "willa/Image" },
     { name: "ImageGallery", from: "willa/ImageGallery" },
     { name: "Lightbox", from: "willa/Lightbox" },
@@ -80,10 +79,12 @@ export default defineDoc({
   },
   code: unindent(`
     import { useState } from "react";
+    import { Button } from "willa/Button";
     import { Image } from "willa/Image";
     import { ImageGallery } from "willa/ImageGallery";
     import { Lightbox } from "willa/Lightbox";
 
+    import "willa/Button.css";
     import "willa/Image.css";
     import "willa/ImageGallery.css";
     import "willa/Lightbox.css";
@@ -118,9 +119,9 @@ export default defineDoc({
             <ImageGallery images={galleryImages} columns={2} />
           </Lightbox>
 
-          <button type="button" onClick={() => setControlledOpen(true)}>
+          <Button variant="outline" onClick={() => setControlledOpen(true)}>
             打开受控预览
-          </button>
+          </Button>
           {controlledOpen ? (
             <Lightbox
               image={roadImage}

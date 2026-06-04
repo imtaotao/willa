@@ -1,4 +1,9 @@
-import { useEffect, useState, type ComponentProps } from "react";
+import {
+  useEffect,
+  useState,
+  type ComponentProps,
+  type CSSProperties,
+} from "react";
 import { CheckIcon, ClipboardIcon } from "@radix-ui/react-icons";
 import { isArray } from "aidly";
 import classNames from "classnames";
@@ -43,17 +48,19 @@ export function CodeBlock(props: CodeBlockProps) {
     const { html, display } = highlightCodeToHtml(code, rawLanguage);
     const label = (display || rawLanguage || "txt").toLowerCase();
     const lines = html.split("\n");
+    const rawLines = code.split("\n");
+    const maxLineLength = Math.max(1, ...rawLines.map((line) => line.length));
+    const codeStyle = {
+      "--willa-code-scroll-width": `calc(${maxLineLength}ch + ${
+        showLineNumbers ? "8.05rem" : "5rem"
+      })`,
+    } as CSSProperties;
     const lineNumbers = Array.from({ length: lines.length }, (_, index) =>
       String(index + 1),
     );
 
     return (
-      <div
-        className={classNames(
-          "willa-prose-pre",
-          copyStatus === "copied" && "willa-prose-pre--copied",
-        )}
-      >
+      <div className="willa-prose-pre">
         <div className="willa-prose-code-block">
           <div className="willa-prose-code-meta">
             <span className="willa-prose-code-lang" aria-hidden="true">
@@ -80,7 +87,10 @@ export function CodeBlock(props: CodeBlockProps) {
               {copyStatus === "copied" ? <CheckIcon /> : <ClipboardIcon />}
             </button>
           </div>
-          <code className={`willa-prose-code hljs language-${rawLanguage}`}>
+          <code
+            className={`willa-prose-code hljs language-${rawLanguage}`}
+            style={codeStyle}
+          >
             {lines.map((line, index) => {
               const lineNumber = index + 1;
               return (

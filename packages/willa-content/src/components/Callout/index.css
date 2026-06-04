@@ -2,22 +2,20 @@
   --willa-callout-accent: var(--willa-callout-note-accent);
   --willa-callout-bg: var(--willa-callout-note-bg);
   --willa-callout-border: var(--willa-callout-note-border);
-  --willa-callout-shadow: var(--willa-callout-note-shadow);
+  --willa-callout-icon-bg: var(--willa-callout-note-icon-bg);
 
-  margin: 1.42rem 0;
-  padding: 1rem 1.08rem 1.02rem;
+  margin: 1.32rem 0;
+  padding: 0.92rem 1rem;
   border: 1px solid var(--willa-callout-border);
-  border-left: 4px solid var(--willa-callout-accent);
   border-radius: 8px;
   background: var(--willa-callout-bg);
-  box-shadow: 0 12px 32px var(--willa-callout-shadow);
 }
 
 .willa-callout-header {
   display: flex;
   align-items: center;
-  gap: 0.56rem;
-  margin-bottom: 0.36rem;
+  gap: 0.72rem;
+  margin-bottom: 0.26rem;
 }
 
 .willa-callout-icon {
@@ -25,21 +23,23 @@
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  width: 1.2rem;
-  height: 1.2rem;
+  width: 1.54rem;
+  height: 1.54rem;
+  border-radius: 0.5rem;
+  background: var(--willa-callout-icon-bg);
   color: var(--willa-callout-accent);
 }
 
 .willa-callout-icon svg {
-  width: 1.16rem;
-  height: 1.16rem;
+  width: 0.9rem;
+  height: 0.9rem;
 }
 
 .willa-callout-title {
   color: var(--willa-text-strong);
-  font-family: var(--willa-title-font);
-  font-size: 0.96rem;
-  font-weight: 600;
+  font-family: var(--willa-body-font);
+  font-size: 0.9rem;
+  font-weight: 560;
   line-height: 1.45;
 }
 
@@ -49,8 +49,8 @@
 .willa-callout-body .willa-prose-ol,
 .willa-callout-body .willa-prose-li {
   color: var(--willa-text-soft);
-  font-size: 0.96rem;
-  line-height: 1.72;
+  font-size: 0.92rem;
+  line-height: 1.66;
   text-shadow: none;
 }
 
@@ -66,33 +66,37 @@
   --willa-callout-accent: var(--willa-callout-tip-accent);
   --willa-callout-bg: var(--willa-callout-tip-bg);
   --willa-callout-border: var(--willa-callout-tip-border);
-  --willa-callout-shadow: var(--willa-callout-tip-shadow);
+  --willa-callout-icon-bg: var(--willa-callout-tip-icon-bg);
 }
 
 .willa-callout--warning {
   --willa-callout-accent: var(--willa-callout-warning-accent);
   --willa-callout-bg: var(--willa-callout-warning-bg);
   --willa-callout-border: var(--willa-callout-warning-border);
-  --willa-callout-shadow: var(--willa-callout-warning-shadow);
+  --willa-callout-icon-bg: var(--willa-callout-warning-icon-bg);
 }
 
 .willa-callout--success {
   --willa-callout-accent: var(--willa-callout-success-accent);
   --willa-callout-bg: var(--willa-callout-success-bg);
   --willa-callout-border: var(--willa-callout-success-border);
-  --willa-callout-shadow: var(--willa-callout-success-shadow);
+  --willa-callout-icon-bg: var(--willa-callout-success-icon-bg);
 }
 
 .willa-callout--error {
   --willa-callout-accent: var(--willa-callout-error-accent);
   --willa-callout-bg: var(--willa-callout-error-bg);
   --willa-callout-border: var(--willa-callout-error-border);
-  --willa-callout-shadow: var(--willa-callout-error-shadow);
+  --willa-callout-icon-bg: var(--willa-callout-error-icon-bg);
 }
 
 @media (max-width: 767px) {
   .willa-callout {
     margin: 1.2rem 0;
     padding: 0.82rem 0.86rem;
+  }
+
+  .willa-callout-header {
+    align-items: flex-start;
   }
 }

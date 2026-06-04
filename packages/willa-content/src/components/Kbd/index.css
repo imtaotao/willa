@@ -52,3 +52,10 @@
 .willa-kbd-shortcut--no-separator {
   gap: 0.24rem;
 }
+
+@media (max-width: 767px) {
+  .willa-kbd-shortcut {
+    flex-wrap: wrap;
+    row-gap: 0.22rem;
+  }
+}

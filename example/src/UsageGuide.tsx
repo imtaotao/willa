@@ -1,10 +1,28 @@
 import { unindent } from "aidly";
+import { Card } from "willa/Card";
 import { CodeBlock } from "willa/CodeBlock";
+import { CodeTabs, type CodeTabsItem } from "willa/CodeTabs";
+import "willa/Card.css";
 import "willa/CodeBlock.css";
+import "willa/CodeTabs.css";
 
-const installCode = unindent(`
-  pnpm add willa
-`);
+const installItems: Array<CodeTabsItem> = [
+  {
+    label: "npm",
+    language: "bash",
+    code: "npm install willa",
+  },
+  {
+    label: "pnpm",
+    language: "bash",
+    code: "pnpm add willa",
+  },
+  {
+    label: "yarn",
+    language: "bash",
+    code: "yarn add willa",
+  },
+];
 
 const bundledCssCode = unindent(`
   // src/main.tsx
@@ -42,12 +60,6 @@ const iifeCode = unindent(`
 
 const usageItems = [
   {
-    title: "安装",
-    description: "Willa 对外提供统一包，内部按组件拆分产物。",
-    code: installCode,
-    language: "language-bash",
-  },
-  {
     title: "IIFE",
     description:
       "无构建环境可以通过全局变量 Willa 使用组件，CSS 使用 dist 产物路径。",
@@ -71,7 +83,7 @@ const usageItems = [
 
 export function UsageGuide() {
   return (
-    <section className="docs-usage" id="usage">
+    <Card className="docs-usage" id="usage" padding="lg">
       <div className="docs-usage-heading">
         <p className="docs-panel-title">安装使用</p>
         <h2>在项目中使用 Willa</h2>
@@ -82,6 +94,14 @@ export function UsageGuide() {
       </div>
 
       <div className="docs-usage-grid">
+        <section className="docs-usage-section">
+          <div>
+            <h3>安装</h3>
+            <p>Willa 对外提供统一包，内部按组件拆分产物。</p>
+          </div>
+          <CodeTabs items={installItems} size="sm" />
+        </section>
+
         {usageItems.map((item) => (
           <section className="docs-usage-section" key={item.title}>
             <div>
@@ -94,6 +114,6 @@ export function UsageGuide() {
           </section>
         ))}
       </div>
-    </section>
+    </Card>
   );
 }

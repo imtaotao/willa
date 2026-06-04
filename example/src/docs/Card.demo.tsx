@@ -40,15 +40,11 @@ export default defineDoc({
     import { Card } from "willa/Card";
     import "willa/Card.css";
 
-    export function Example() {
-      return (
-        <Card
-          eyebrow="指南"
-          title="构建内容组件"
-          description="用统一的结构和主题变量组织文章页里的推荐资源。"
-        />
-      );
-    }
+    <Card
+      eyebrow="指南"
+      title="构建内容组件"
+      description="用统一的结构和主题变量组织文章页里的推荐资源。"
+    />
   `,
   sections: [
     {

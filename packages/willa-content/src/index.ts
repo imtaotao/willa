@@ -20,6 +20,7 @@ export { Kbd, KbdShortcut } from "#content/components/Kbd";
 export { Lightbox, normalizeLightboxImage } from "#content/components/Lightbox";
 export { Pagination } from "#content/components/Pagination";
 export { Poem } from "#content/components/Poem";
+export { Progress } from "#content/components/Progress";
 export { Separator } from "#content/components/Separator";
 export { Skeleton } from "#content/components/Skeleton";
 export { Step, Steps } from "#content/components/Steps";
@@ -91,6 +92,11 @@ export type {
   PaginationSize,
 } from "#content/components/Pagination";
 export type { PoemProps } from "#content/components/Poem";
+export type {
+  ProgressProps,
+  ProgressSize,
+  ProgressTone,
+} from "#content/components/Progress";
 export type {
   SeparatorAlign,
   SeparatorOrientation,

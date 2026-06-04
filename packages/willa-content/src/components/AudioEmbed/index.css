@@ -371,6 +371,13 @@
   display: none;
 }
 
+@media (hover: none) {
+  .willa-prose-audio-embed:hover,
+  .willa-prose-audio-embed-toggle:hover {
+    transform: none;
+  }
+}
+
 @media (max-width: 767px) {
   .willa-prose-audio-embed {
     grid-template-columns: 1fr auto;

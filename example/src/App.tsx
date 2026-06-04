@@ -1,6 +1,10 @@
 import { GitHubLogoIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
+import { Callout } from "willa/Callout";
+import { IconButton } from "willa/IconButton";
 import { Skeleton } from "willa/Skeleton";
+import "willa/Callout.css";
+import "willa/IconButton.css";
 import "willa/Skeleton.css";
 
 import {
@@ -164,31 +168,23 @@ export function App() {
             <p className="docs-header-subtitle">内容组件与场景组件示例</p>
           </div>
           <nav className="docs-actions" aria-label="示例控制">
-            <a
-              className="docs-header-link"
+            <IconButton
               href="https://github.com/imtaotao/willa"
               target="_blank"
-              rel="noreferrer"
-              aria-label="打开 GitHub 仓库"
-            >
-              <GitHubLogoIcon className="docs-theme-icon" />
-            </a>
-            <button
-              type="button"
-              className="docs-theme-button"
-              aria-label={
-                theme === "dark" ? "切换到亮色主题" : "切换到暗色主题"
-              }
+              variant="outline"
+              size="md"
+              ariaLabel="打开 GitHub 仓库"
+              icon={<GitHubLogoIcon />}
+            />
+            <IconButton
+              variant="outline"
+              size="md"
+              ariaLabel={theme === "dark" ? "切换到亮色主题" : "切换到暗色主题"}
+              icon={theme === "dark" ? <SunIcon /> : <MoonIcon />}
               onClick={() =>
                 setTheme((current) => (current === "dark" ? "light" : "dark"))
               }
-            >
-              {theme === "dark" ? (
-                <SunIcon className="docs-theme-icon" />
-              ) : (
-                <MoonIcon className="docs-theme-icon" />
-              )}
-            </button>
+            />
           </nav>
         </header>
 
@@ -198,7 +194,9 @@ export function App() {
           ) : loadedDoc ? (
             <DocView doc={loadedDoc} />
           ) : docError ? (
-            <div className="docs-empty">组件加载失败：{docError}</div>
+            <Callout tone="error" title="组件加载失败">
+              {docError}
+            </Callout>
           ) : (
             <Skeleton
               loading={isDocLoading}
@@ -211,7 +209,7 @@ export function App() {
               blockHeight={220}
               label="加载组件文档"
             >
-              <span className="docs-empty">暂无组件</span>
+              <Callout title="暂无组件">当前没有可展示的组件。</Callout>
             </Skeleton>
           )}
         </div>

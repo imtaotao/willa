@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import type { ReactNode } from "react";
 import classNames from "classnames";
 
 import { CodeBlock } from "#content/components/CodeBlock";

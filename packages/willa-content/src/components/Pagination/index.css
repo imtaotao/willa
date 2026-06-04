@@ -106,9 +106,31 @@
   --willa-pagination-icon-size: 1rem;
 }
 
+@media (hover: none) {
+  .willa-pagination-control:hover:not(:disabled) {
+    transform: none;
+  }
+}
+
 @media (max-width: 767px) {
   .willa-pagination-list {
+    flex-wrap: nowrap;
     gap: 0.3rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding-bottom: 0.1rem;
+    scrollbar-width: none;
+  }
+
+  .willa-pagination-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .willa-pagination-control,
+  .willa-pagination-ellipsis {
+    min-width: max(var(--willa-pagination-item-size), 2.25rem);
+    height: max(var(--willa-pagination-item-size), 2.25rem);
+    touch-action: manipulation;
   }
 
   .willa-pagination-control-label {

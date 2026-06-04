@@ -37,13 +37,9 @@ export default defineDoc({
     import { Badge } from "willa/Badge";
     import "willa/Badge.css";
 
-    export function Example() {
-      return (
-        <Badge tone="info" icon={<RocketIcon />}>
-          新功能
-        </Badge>
-      );
-    }
+    <Badge tone="info" icon={<RocketIcon />}>
+      新功能
+    </Badge>
   `,
   sections: [
     {
