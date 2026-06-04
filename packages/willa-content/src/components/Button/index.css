@@ -43,14 +43,6 @@
   cursor: wait;
 }
 
-.willa-button--copied,
-.willa-button--copied:hover {
-  border-color: var(--willa-button-copied-border);
-  background: var(--willa-button-copied-bg);
-  color: var(--willa-button-copied-text);
-  box-shadow: var(--willa-button-copied-shadow);
-}
-
 .willa-button--sm {
   gap: 0.4rem;
   min-height: 2rem;
@@ -135,10 +127,17 @@
   box-shadow: none;
 }
 
+.willa-button--copied,
+.willa-button--copied:hover {
+  border-color: var(--willa-button-copied-border);
+  background: var(--willa-button-copied-bg);
+  color: var(--willa-button-copied-text);
+  box-shadow: none;
+}
+
 .willa-button-label {
   min-width: 0;
   overflow: hidden;
-  color: currentColor;
   text-overflow: ellipsis;
 }
 
@@ -149,7 +148,6 @@
   flex: none;
   align-items: center;
   justify-content: center;
-  color: currentColor;
 }
 
 .willa-button-icon svg {

@@ -29,6 +29,7 @@ const docSpecGroups = {
     "Step",
     "Steps",
     "SummaryCards",
+    "Tabs",
     "UrlLink",
     "VideoEmbed",
     "VideoLink",

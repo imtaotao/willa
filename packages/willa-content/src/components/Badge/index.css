@@ -87,7 +87,6 @@
 .willa-badge-label {
   min-width: 0;
   overflow: hidden;
-  color: currentColor;
   text-overflow: ellipsis;
 }
 
@@ -98,7 +97,6 @@
   flex: none;
   align-items: center;
   justify-content: center;
-  color: currentColor;
 }
 
 .willa-badge-icon svg {

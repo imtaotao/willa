@@ -1,0 +1,98 @@
+.willa-tabs {
+  display: grid;
+  gap: 0.8rem;
+  min-width: 0;
+  margin: 1.25rem 0;
+  color: var(--willa-text);
+  font-family: var(--willa-body-font);
+}
+
+.willa-tabs-list {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  flex-wrap: wrap;
+  gap: 0.12rem;
+  border-radius: 8px;
+  background: var(--willa-tabs-list-bg);
+  padding: 0.18rem;
+}
+
+.willa-tabs-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--willa-tabs-tab-text);
+  font: inherit;
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.willa-tabs--sm .willa-tabs-tab {
+  min-height: 1.86rem;
+  padding: 0.3rem 0.64rem;
+  font-size: 0.84rem;
+}
+
+.willa-tabs--md .willa-tabs-tab {
+  min-height: 2.18rem;
+  padding: 0.4rem 0.78rem;
+  font-size: 0.92rem;
+}
+
+.willa-tabs-tab:hover:not(:disabled) {
+  background: var(--willa-tabs-tab-bg-hover);
+  color: var(--willa-tabs-tab-text-hover);
+}
+
+.willa-tabs-tab[aria-selected="true"] {
+  border-color: var(--willa-tabs-tab-active-border);
+  background: var(--willa-tabs-tab-active-bg);
+  color: var(--willa-tabs-tab-active-text);
+}
+
+.willa-tabs-tab:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-tabs-tab:disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
+}
+
+.willa-tabs-panel {
+  min-width: 0;
+  color: var(--willa-text-soft);
+  font-size: 0.94rem;
+  line-height: 1.72;
+  padding: 0.1rem 0.08rem 0;
+}
+
+.willa-tabs-panel > :first-child {
+  margin-top: 0;
+}
+
+.willa-tabs-panel > :last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+  .willa-tabs-list {
+    width: 100%;
+  }
+
+  .willa-tabs-tab {
+    flex: 1 1 auto;
+  }
+}

@@ -54,11 +54,9 @@
   --willa-button-ghost-text: var(--willa-text-strong);
   --willa-button-link-text: var(--willa-text);
   --willa-button-link-text-hover: var(--willa-text-strong);
-  --willa-button-copied-bg: rgba(134, 239, 172, 0.18);
-  --willa-button-copied-border: rgba(134, 239, 172, 0.3);
-  --willa-button-copied-text: var(--willa-accent-2);
-  --willa-button-copied-shadow:
-    0 0 0 3px rgba(134, 239, 172, 0.12), 0 0 20px rgba(134, 239, 172, 0.24);
+  --willa-button-copied-bg: rgba(255, 255, 255, 0.08);
+  --willa-button-copied-border: rgba(134, 239, 172, 0.2);
+  --willa-button-copied-text: var(--willa-text-strong);
   --willa-card-bg: rgba(255, 255, 255, 0.055);
   --willa-card-bg-hover: rgba(255, 255, 255, 0.075);
   --willa-card-soft-bg: rgba(255, 255, 255, 0.045);
@@ -69,6 +67,13 @@
   --willa-card-shadow-hover: none;
   --willa-card-media-bg: rgba(255, 255, 255, 0.06);
   --willa-card-eyebrow: var(--willa-text-faint);
+  --willa-tabs-list-bg: rgba(255, 255, 255, 0.055);
+  --willa-tabs-tab-text: var(--willa-text-soft);
+  --willa-tabs-tab-text-hover: var(--willa-text-strong);
+  --willa-tabs-tab-bg-hover: rgba(255, 255, 255, 0.065);
+  --willa-tabs-tab-active-bg: rgba(255, 255, 255, 0.12);
+  --willa-tabs-tab-active-border: rgba(255, 255, 255, 0.08);
+  --willa-tabs-tab-active-text: var(--willa-text-strong);
   --willa-skeleton-bg: linear-gradient(
     90deg,
     rgba(148, 163, 184, 0.1),
