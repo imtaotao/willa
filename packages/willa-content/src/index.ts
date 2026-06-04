@@ -11,6 +11,8 @@ export { FancyList } from "#content/components/FancyList";
 export { flattenText, createHeadingIdFactory } from "@willa-ui/shared";
 export { Image } from "#content/components/Image";
 export { ImageGallery } from "#content/components/ImageGallery";
+export { IconButton } from "#content/components/IconButton";
+export { Kbd, KbdShortcut } from "#content/components/Kbd";
 export { Lightbox, normalizeLightboxImage } from "#content/components/Lightbox";
 export { Poem } from "#content/components/Poem";
 export { Separator } from "#content/components/Separator";
@@ -52,6 +54,19 @@ export type {
   ImageGalleryItem,
   ImageGalleryProps,
 } from "#content/components/ImageGallery";
+export type {
+  IconButtonProps,
+  IconButtonShape,
+  IconButtonSize,
+  IconButtonVariant,
+} from "#content/components/IconButton";
+export type {
+  KbdProps,
+  KbdShortcutProps,
+  KbdShortcutSeparator,
+  KbdSize,
+  KbdVariant,
+} from "#content/components/Kbd";
 export type {
   LightboxImage,
   LightboxState,

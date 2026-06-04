@@ -428,7 +428,11 @@ select {
 }
 
 .docs-preview-primary > .willa-badge,
-.docs-preview-primary > .willa-button {
+.docs-preview-primary > .willa-button,
+.docs-preview-primary > .willa-icon-button,
+.docs-preview-primary > .willa-kbd,
+.docs-preview-primary > .willa-kbd-shortcut,
+.docs-preview-primary > .willa-prose-url-link {
   justify-self: start;
 }
 

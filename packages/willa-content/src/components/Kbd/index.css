@@ -1,0 +1,54 @@
+.willa-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.65em;
+  border: 1px solid var(--willa-kbd-border);
+  border-radius: 6px;
+  color: var(--willa-kbd-text);
+  font-family: var(--willa-code-font);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1;
+  text-align: center;
+  vertical-align: 0.08em;
+  white-space: nowrap;
+}
+
+.willa-kbd--surface {
+  background: var(--willa-kbd-bg);
+}
+
+.willa-kbd--outline {
+  background: transparent;
+}
+
+.willa-kbd--sm {
+  min-height: 1.35rem;
+  padding: 0.18rem 0.38rem;
+  font-size: 0.72rem;
+}
+
+.willa-kbd--md {
+  min-height: 1.62rem;
+  padding: 0.24rem 0.48rem;
+  font-size: 0.82rem;
+}
+
+.willa-kbd-shortcut {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  vertical-align: 0.08em;
+}
+
+.willa-kbd-shortcut-separator {
+  color: var(--willa-kbd-separator);
+  font-family: var(--willa-body-font);
+  font-size: 0.82rem;
+  line-height: 1;
+}
+
+.willa-kbd-shortcut--no-separator {
+  gap: 0.24rem;
+}

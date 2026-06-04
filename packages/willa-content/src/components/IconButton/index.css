@@ -1,0 +1,213 @@
+.willa-icon-button {
+  --willa-icon-button-solid-bg: var(--willa-button-solid-bg);
+  --willa-icon-button-solid-bg-hover: var(--willa-button-solid-bg-hover);
+  --willa-icon-button-solid-text: var(--willa-button-solid-text);
+  --willa-icon-button-solid-shadow: var(--willa-button-solid-shadow);
+  --willa-icon-button-solid-shadow-hover: var(
+    --willa-button-solid-shadow-hover
+  );
+  --willa-icon-button-soft-bg: var(--willa-button-soft-bg);
+  --willa-icon-button-soft-bg-hover: var(--willa-button-soft-bg-hover);
+  --willa-icon-button-soft-text: var(--willa-button-soft-text);
+  --willa-icon-button-outline-border: var(--willa-button-outline-border);
+  --willa-icon-button-outline-border-hover: var(
+    --willa-button-outline-border-hover
+  );
+  --willa-icon-button-outline-bg-hover: var(--willa-button-outline-bg-hover);
+  --willa-icon-button-outline-text: var(--willa-button-outline-text);
+  --willa-icon-button-ghost-bg-hover: var(--willa-button-ghost-bg-hover);
+  --willa-icon-button-ghost-text: var(--willa-button-ghost-text);
+  --willa-icon-button-copied-bg: var(--willa-button-copied-bg);
+  --willa-icon-button-copied-border: var(--willa-button-copied-border);
+  --willa-icon-button-copied-text: var(--willa-button-copied-text);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  font-family: var(--willa-body-font);
+  line-height: 1;
+  text-decoration: none;
+  text-shadow: none;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.willa-icon-button:hover {
+  transform: translateY(-1px);
+}
+
+.willa-icon-button:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-icon-button:disabled,
+.willa-icon-button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.52;
+  transform: none;
+}
+
+.willa-icon-button--loading {
+  cursor: wait;
+}
+
+.willa-icon-button--sm {
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.9rem;
+}
+
+.willa-icon-button--md {
+  width: 2.38rem;
+  height: 2.38rem;
+  font-size: 1rem;
+}
+
+.willa-icon-button--lg {
+  width: 2.8rem;
+  height: 2.8rem;
+  font-size: 1.12rem;
+}
+
+.willa-icon-button--square {
+  border-radius: 0.55rem;
+}
+
+.willa-icon-button--circle {
+  border-radius: 999px;
+}
+
+.willa-icon-button--solid {
+  background: var(
+    --willa-icon-button-custom-bg,
+    var(--willa-icon-button-solid-bg)
+  );
+  color: var(
+    --willa-icon-button-custom-text,
+    var(--willa-icon-button-solid-text)
+  );
+  box-shadow: var(--willa-icon-button-solid-shadow);
+}
+
+.willa-icon-button--solid:hover {
+  background: var(
+    --willa-icon-button-custom-bg,
+    var(--willa-icon-button-solid-bg-hover)
+  );
+  color: var(
+    --willa-icon-button-custom-text,
+    var(--willa-icon-button-solid-text)
+  );
+  box-shadow: var(--willa-icon-button-solid-shadow-hover);
+}
+
+.willa-icon-button--soft {
+  background: var(
+    --willa-icon-button-custom-bg,
+    var(--willa-icon-button-soft-bg)
+  );
+  color: var(
+    --willa-icon-button-custom-text,
+    var(--willa-icon-button-soft-text)
+  );
+}
+
+.willa-icon-button--soft:hover {
+  background: var(
+    --willa-icon-button-custom-bg,
+    var(--willa-icon-button-soft-bg-hover)
+  );
+  color: var(
+    --willa-icon-button-custom-text,
+    var(--willa-icon-button-soft-text)
+  );
+}
+
+.willa-icon-button--outline {
+  border-color: var(--willa-icon-button-outline-border);
+  background: var(--willa-icon-button-custom-bg, transparent);
+  color: var(
+    --willa-icon-button-custom-text,
+    var(--willa-icon-button-outline-text)
+  );
+}
+
+.willa-icon-button--outline:hover {
+  border-color: var(--willa-icon-button-outline-border-hover);
+  background: var(
+    --willa-icon-button-custom-bg,
+    var(--willa-icon-button-outline-bg-hover)
+  );
+  color: var(
+    --willa-icon-button-custom-text,
+    var(--willa-icon-button-outline-text)
+  );
+}
+
+.willa-icon-button--ghost {
+  background: var(--willa-icon-button-custom-bg, transparent);
+  color: var(
+    --willa-icon-button-custom-text,
+    var(--willa-icon-button-ghost-text)
+  );
+}
+
+.willa-icon-button--ghost:hover {
+  background: var(
+    --willa-icon-button-custom-bg,
+    var(--willa-icon-button-ghost-bg-hover)
+  );
+  color: var(
+    --willa-icon-button-custom-text,
+    var(--willa-icon-button-ghost-text)
+  );
+}
+
+.willa-icon-button--copied,
+.willa-icon-button--copied:hover {
+  border-color: var(--willa-icon-button-copied-border);
+  background: var(--willa-icon-button-copied-bg);
+  color: var(--willa-icon-button-copied-text);
+  box-shadow: none;
+}
+
+.willa-icon-button-icon {
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.willa-icon-button-icon svg {
+  width: 1em;
+  height: 1em;
+}
+
+.willa-icon-button-spinner {
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 999px;
+  opacity: 0.78;
+  animation: willa-icon-button-spin 720ms linear infinite;
+}
+
+@keyframes willa-icon-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

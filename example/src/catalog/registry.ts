@@ -23,6 +23,8 @@ const docSpecGroups = {
     "FancyList",
     "Image",
     "ImageGallery",
+    "IconButton",
+    "Kbd",
     "Lightbox",
     "Poem",
     "Separator",
