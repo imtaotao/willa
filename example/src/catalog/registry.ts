@@ -15,6 +15,7 @@ const docSpecGroups = {
     "AudioLink",
     "Badge",
     "Button",
+    "Card",
     "Callout",
     "ChatThread",
     "CodeBlock",

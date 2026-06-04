@@ -1,5 +1,7 @@
 import classNames from "classnames";
 
+import { Card } from "#content/components/Card";
+
 type SummaryCardItem = {
   title: string;
   content: string | Array<string>;
@@ -21,22 +23,22 @@ export function SummaryCards(props: SummaryCardsProps) {
           : [item.content];
 
         return (
-          <article
+          <Card
             key={`${item.title}-${index}`}
+            variant="soft"
+            padding="md"
+            title={item.title}
             className="willa-summary-card"
           >
-            <h3 className="willa-summary-card-title">{item.title}</h3>
-            <div className="willa-summary-card-body">
-              {lines.map((line, lineIndex) => (
-                <p
-                  key={`${item.title}-${index}-${lineIndex}`}
-                  className="willa-summary-card-line"
-                >
-                  {line}
-                </p>
-              ))}
-            </div>
-          </article>
+            {lines.map((line, lineIndex) => (
+              <p
+                key={`${item.title}-${index}-${lineIndex}`}
+                className="willa-summary-card-line"
+              >
+                {line}
+              </p>
+            ))}
+          </Card>
         );
       })}
     </section>

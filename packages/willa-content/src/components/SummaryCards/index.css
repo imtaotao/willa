@@ -5,29 +5,14 @@
   margin: 1.8rem 0;
 }
 
-.willa-summary-card {
-  padding: 1rem 1rem 0.95rem;
-  border-radius: 14px;
-  background: var(--willa-summary-card-bg);
-}
-
-.willa-summary-card-title {
-  margin: 0;
-  color: var(--willa-text-strong);
-  font-family: var(--willa-title-font);
+.willa-summary-card .willa-card-title {
   font-size: 0.96rem;
   font-weight: 600;
   line-height: 1.45;
 }
 
-.willa-summary-card-body {
-  margin-top: 0.72rem;
-}
-
 .willa-summary-card-line {
   margin: 0;
-  color: var(--willa-text-soft);
-  font-size: 0.92rem;
   line-height: 1.82;
 }
 
@@ -40,11 +25,6 @@
     grid-template-columns: 1fr;
     gap: 0.88rem;
     margin: 1.5rem 0;
-  }
-
-  .willa-summary-card {
-    padding: 0.92rem 0.92rem 0.88rem;
-    border-radius: 12px;
   }
 
   .willa-summary-card-line {

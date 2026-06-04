@@ -1,1 +1,62 @@
-@import "../Image/index.css";
+.willa-prose-gallery {
+  --willa-gallery-columns: 2;
+  display: grid;
+  grid-template-columns: repeat(var(--willa-gallery-columns), minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 1.35rem;
+}
+
+.willa-prose-gallery-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.willa-prose-gallery-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: var(--willa-image-bg);
+  cursor: zoom-in;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.willa-prose-gallery-button:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-prose-gallery-asset {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: var(--willa-image-bg);
+  object-fit: contain;
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+
+.willa-prose-gallery-button:hover .willa-prose-gallery-asset {
+  opacity: 0.96;
+}
+
+.willa-prose-gallery-caption {
+  color: var(--willa-text-faint);
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+@media (max-width: 767px) {
+  .willa-prose-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+}

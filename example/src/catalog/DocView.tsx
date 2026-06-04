@@ -101,19 +101,6 @@ export function DocView({ doc }: DocViewProps) {
             </tbody>
           </table>
         </div>
-
-        {doc.sections?.length ? (
-          <div className="docs-extra-sections">
-            {doc.sections.map((section) => (
-              <section className="docs-extra-section" key={section.title}>
-                <div className="docs-panel-title">{section.title}</div>
-                <div className="docs-extra-section-content">
-                  {section.content}
-                </div>
-              </section>
-            ))}
-          </div>
-        ) : null}
       </div>
       <div className="docs-preview">
         <div className="docs-panel-toolbar">
@@ -134,7 +121,22 @@ export function DocView({ doc }: DocViewProps) {
           </button>
         </div>
 
-        <div className="docs-preview-inner">{doc.preview}</div>
+        <div className="docs-preview-inner">
+          <div className="docs-preview-primary">{doc.preview}</div>
+
+          {doc.sections?.length ? (
+            <div className="docs-preview-sections">
+              {doc.sections.map((section) => (
+                <section className="docs-preview-section" key={section.title}>
+                  <div className="docs-panel-title">{section.title}</div>
+                  <div className="docs-preview-section-content">
+                    {section.content}
+                  </div>
+                </section>
+              ))}
+            </div>
+          ) : null}
+        </div>
       </div>
     </section>
   );

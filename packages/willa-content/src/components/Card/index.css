@@ -1,0 +1,158 @@
+.willa-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--willa-text);
+  font-family: var(--willa-body-font);
+  text-decoration: none;
+  text-shadow: none;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.willa-card--surface {
+  border-color: var(--willa-card-border);
+  background: var(--willa-card-bg);
+  box-shadow: var(--willa-card-shadow);
+}
+
+.willa-card--soft {
+  border-color: transparent;
+  background: var(--willa-card-soft-bg);
+  box-shadow: none;
+}
+
+.willa-card--outline {
+  border-color: var(--willa-card-border);
+  background: transparent;
+  box-shadow: none;
+}
+
+.willa-card--interactive {
+  cursor: pointer;
+}
+
+.willa-card--interactive:hover {
+  border-color: var(--willa-card-border-hover);
+  background: var(--willa-card-bg-hover);
+  box-shadow: var(--willa-card-shadow-hover);
+  color: var(--willa-text);
+  transform: translateY(-1px);
+}
+
+.willa-card:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-card--sm {
+  gap: 0.76rem;
+  padding: 0.86rem;
+}
+
+.willa-card--md {
+  gap: 0.92rem;
+  padding: 1rem;
+}
+
+.willa-card--lg {
+  gap: 1.08rem;
+  padding: 1.16rem;
+}
+
+.willa-card-media {
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--willa-card-media-bg);
+}
+
+.willa-card-media > * {
+  display: block;
+  width: 100%;
+}
+
+.willa-card-content {
+  display: grid;
+  min-width: 0;
+  gap: 0.48rem;
+}
+
+.willa-card-eyebrow {
+  color: var(--willa-card-eyebrow);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.willa-card-title {
+  margin: 0;
+  color: var(--willa-text-strong);
+  font-family: var(--willa-title-font);
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.42;
+}
+
+.willa-card-description {
+  margin: 0;
+  color: var(--willa-text-soft);
+  font-size: 0.92rem;
+  line-height: 1.68;
+}
+
+.willa-card-body {
+  color: var(--willa-text-soft);
+  font-size: 0.92rem;
+  line-height: 1.72;
+}
+
+.willa-card-body > :first-child {
+  margin-top: 0;
+}
+
+.willa-card-body > :last-child {
+  margin-bottom: 0;
+}
+
+.willa-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  min-width: 0;
+  padding-top: 0.82rem;
+  border-top: 1px solid var(--willa-card-divider);
+  color: var(--willa-text-faint);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.willa-card-footer-content {
+  min-width: 0;
+}
+
+.willa-card-actions {
+  display: inline-flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+@media (max-width: 767px) {
+  .willa-card-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .willa-card-actions {
+    justify-content: flex-start;
+  }
+}

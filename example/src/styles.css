@@ -415,16 +415,45 @@ select {
 
 .docs-preview-inner {
   display: grid;
-  gap: 14px;
+  gap: 20px;
 }
 
 .docs-preview-inner > * {
   margin: 0;
 }
 
-.docs-preview-inner > .willa-badge,
-.docs-preview-inner > .willa-button {
+.docs-preview-primary {
+  display: grid;
+  min-width: 0;
+}
+
+.docs-preview-primary > .willa-badge,
+.docs-preview-primary > .willa-button {
   justify-self: start;
+}
+
+.docs-preview-sections {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+
+.docs-preview-section {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  border-top: 1px solid var(--willa-line);
+  padding-top: 18px;
+}
+
+.docs-preview-section-content {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.docs-preview-section-content > * {
+  margin: 0;
 }
 
 .docs-demo-stack,
@@ -512,8 +541,7 @@ select {
 }
 
 .docs-code-block,
-.docs-props,
-.docs-extra-section {
+.docs-props {
   display: grid;
   gap: 10px;
   margin-top: 18px;
@@ -573,30 +601,6 @@ select {
   text-overflow: ellipsis;
   vertical-align: top;
   white-space: nowrap;
-}
-
-.docs-extra-sections {
-  display: grid;
-  gap: 18px;
-}
-
-.docs-extra-section-content {
-  color: var(--willa-text-soft);
-  font-size: 13px;
-  line-height: 1.65;
-}
-
-.docs-extra-section-content p {
-  margin: 0;
-}
-
-.docs-extra-section-content code {
-  border-radius: 4px;
-  background: var(--willa-inline-code-bg);
-  padding: 0.12em 0.32em;
-  color: var(--willa-text-strong);
-  font-family: var(--willa-code-font);
-  font-size: 0.94em;
 }
 
 .docs-meta-list {

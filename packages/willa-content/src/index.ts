@@ -2,6 +2,7 @@ export { AudioEmbed } from "#content/components/AudioEmbed";
 export { AudioLink } from "#content/components/AudioLink";
 export { Badge } from "#content/components/Badge";
 export { Button } from "#content/components/Button";
+export { Card } from "#content/components/Card";
 export { Callout } from "#content/components/Callout";
 export { ChatThread } from "#content/components/ChatThread";
 export { CodeBlock } from "#content/components/CodeBlock";
@@ -33,6 +34,11 @@ export type {
   ButtonSize,
   ButtonVariant,
 } from "#content/components/Button";
+export type {
+  CardPadding,
+  CardProps,
+  CardVariant,
+} from "#content/components/Card";
 export type { CalloutProps, CalloutTone } from "#content/components/Callout";
 export type { DetailsBlockProps } from "#content/components/DetailsBlock";
 export type {
