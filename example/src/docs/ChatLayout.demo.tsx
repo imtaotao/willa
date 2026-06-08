@@ -3,14 +3,17 @@ import { Badge } from "willa/Badge";
 import { Button } from "willa/Button";
 import { ChatLayout } from "willa/ChatLayout";
 import { ChatMessage } from "willa/ChatMessage";
+import { Composer } from "willa/Composer";
 import { Group } from "willa/Group";
-import { PromptInput } from "willa/PromptInput";
+import { MessageList } from "willa/MessageList";
 import "willa/Badge.css";
 import "willa/Button.css";
 import "willa/ChatLayout.css";
 import "willa/ChatMessage.css";
-import "willa/Group.css";
 import "willa/PromptInput.css";
+import "willa/Composer.css";
+import "willa/Group.css";
+import "willa/MessageList.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
@@ -79,13 +82,6 @@ const contextItemStyle = {
   fontSize: "0.82rem",
 } as const;
 
-const messagesStyle = {
-  display: "grid",
-  gap: "1rem",
-  maxWidth: "48rem",
-  margin: "0 auto",
-} as const;
-
 const compactLayoutStyle = {
   width: "min(100%, 52rem)",
   margin: "0 auto",
@@ -99,8 +95,9 @@ const ChatLayoutPreview = () => {
       sidebarWidth="15rem"
       messages={<ChatMessages />}
       input={
-        <PromptInput
+        <Composer
           minRows={2}
+          model={<Badge tone="info">Willa AI Pro</Badge>}
           footer="已连接 3 个上下文，Enter 发送"
           placeholder="继续追问、补充要求或选择工具..."
           submitLabel="发送"
@@ -153,7 +150,7 @@ const ChatSidebar = () => {
 
 const ChatMessages = () => {
   return (
-    <div style={messagesStyle}>
+    <MessageList>
       <ChatMessage role="system" compact>
         模型已加载产品反馈、路线图和客服记录。
       </ChatMessage>
@@ -167,7 +164,7 @@ const ChatMessages = () => {
       <ChatMessage role="tool" name="文件检索" status="已完成" compact>
         已读取 24 条反馈，命中 7 条高优先级问题。
       </ChatMessage>
-    </div>
+    </MessageList>
   );
 };
 
@@ -186,23 +183,25 @@ export default defineDoc({
   code: `
     import { ChatLayout } from "willa/ChatLayout";
     import { ChatMessage } from "willa/ChatMessage";
-    import { PromptInput } from "willa/PromptInput";
+    import { Composer } from "willa/Composer";
+    import { MessageList } from "willa/MessageList";
     import "willa/ChatLayout.css";
     import "willa/ChatMessage.css";
-    import "willa/PromptInput.css";
+    import "willa/Composer.css";
+    import "willa/MessageList.css";
 
     <ChatLayout
       header="产品反馈分析"
       sidebar="feedback.csv / roadmap.md / support-log.json"
       messages={
-        <>
+        <MessageList>
           <ChatMessage role="user">帮我找出三个优先级。</ChatMessage>
           <ChatMessage role="assistant" name="Willa AI">
             建议优先处理登录失败、导出超时和移动端表单校验异常。
           </ChatMessage>
-        </>
+        </MessageList>
       }
-      input={<PromptInput minRows={2} placeholder="继续追问..." />}
+      input={<Composer minRows={2} placeholder="继续追问..." />}
     />
   `,
   sections: [
@@ -214,7 +213,7 @@ export default defineDoc({
             header={<ChatHeader />}
             messages={<ChatMessages />}
             input={
-              <PromptInput
+              <Composer
                 minRows={2}
                 footer="适合窄页面、嵌入式对话和单任务流程。"
                 placeholder="输入下一步要求..."
@@ -234,7 +233,7 @@ export default defineDoc({
           sidebarWidth={260}
           messages={<ChatMessages />}
           input={
-            <PromptInput
+            <Composer
               minRows={2}
               footer="侧栏可以放会话、文件、工具或引用来源。"
               placeholder="根据右侧上下文继续生成..."
@@ -250,9 +249,7 @@ export default defineDoc({
           <ChatLayout
             header="新会话"
             empty="选择模板或输入问题开始新的 AI 任务。"
-            input={
-              <PromptInput minRows={2} placeholder="描述你想完成的任务..." />
-            }
+            input={<Composer minRows={2} placeholder="描述你想完成的任务..." />}
           />
         </div>
       ),

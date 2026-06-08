@@ -10,7 +10,7 @@ type ResolvedDocSpec = readonly [name: string, category: DocCategory];
 const docModules = import.meta.glob<DocModule>("../docs/*.demo.tsx");
 
 const docSpecGroups = {
-  ai: ["ChatLayout", "ChatMessage", "PromptInput"],
+  ai: ["ChatLayout", "ChatMessage", "Composer", "MessageList", "PromptInput"],
   widgets: [
     "EnglishCards",
     "GitHubMention",
