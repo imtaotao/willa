@@ -86,6 +86,18 @@
   --willa-card-shadow-hover: none;
   --willa-card-media-bg: rgba(255, 255, 255, 0.06);
   --willa-card-eyebrow: var(--willa-text-faint);
+  --willa-download-bg: rgba(255, 255, 255, 0.075);
+  --willa-download-bg-hover: rgba(125, 211, 252, 0.12);
+  --willa-download-border: rgba(255, 255, 255, 0.11);
+  --willa-download-border-hover: rgba(125, 211, 252, 0.24);
+  --willa-download-button-bg: rgba(255, 255, 255, 0.075);
+  --willa-download-button-border: rgba(255, 255, 255, 0.12);
+  --willa-download-button-shadow: none;
+  --willa-download-text: var(--willa-text);
+  --willa-download-text-hover: var(--willa-text-strong);
+  --willa-download-meta: var(--willa-text-soft);
+  --willa-download-icon: var(--willa-text-soft);
+  --willa-download-action: var(--willa-accent);
   --willa-file-card-bg: rgba(255, 255, 255, 0.055);
   --willa-file-card-bg-hover: rgba(255, 255, 255, 0.08);
   --willa-file-card-border: rgba(255, 255, 255, 0.08);

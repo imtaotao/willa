@@ -11,6 +11,7 @@ export type { CodeBlockProps } from "#content/components/CodeBlock";
 export { CodeTabs } from "#content/components/CodeTabs";
 export { DetailsBlock } from "#content/components/DetailsBlock";
 export { Dialog } from "#content/components/Dialog";
+export { Download } from "#content/components/Download";
 export { EmptyState } from "#content/components/EmptyState";
 export { flattenText, createHeadingIdFactory } from "@willa-ui/shared";
 export { FileCard } from "#content/components/FileCard";
@@ -73,6 +74,11 @@ export type {
 } from "#content/components/CodeTabs";
 export type { DetailsBlockProps } from "#content/components/DetailsBlock";
 export type { DialogProps, DialogSize } from "#content/components/Dialog";
+export type {
+  DownloadProps,
+  DownloadSize,
+  DownloadVariant,
+} from "#content/components/Download";
 export type {
   EmptyStateAlign,
   EmptyStateProps,

@@ -1,19 +1,15 @@
 import { useState } from "react";
-import {
-  DownloadIcon,
-  FileTextIcon,
-  MagicWandIcon,
-  MixIcon,
-  ReaderIcon,
-} from "@radix-ui/react-icons";
+import { MagicWandIcon, MixIcon, ReaderIcon } from "@radix-ui/react-icons";
 import { Badge } from "willa/Badge";
 import { Button } from "willa/Button";
 import { Composer } from "willa/Composer";
+import { Download } from "willa/Download";
 import { Group } from "willa/Group";
 import "willa/Badge.css";
 import "willa/Button.css";
 import "willa/PromptInput.css";
 import "willa/Composer.css";
+import "willa/Download.css";
 import "willa/Group.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
@@ -50,13 +46,6 @@ const contextStyle = {
   gap: "0.42rem",
 } as const;
 
-const attachmentLinkStyle = {
-  display: "inline-flex",
-  minWidth: 0,
-  color: "inherit",
-  textDecoration: "none",
-} as const;
-
 const stateGridStyle = {
   display: "grid",
   gap: "0.85rem",
@@ -90,33 +79,16 @@ const ComposerPreview = () => {
         }
         attachments={
           <span style={contextStyle}>
-            <a
+            <Download
               href="data:text/csv;charset=utf-8,id,feedback%0A1,%E5%B8%8C%E6%9C%9B%E8%A1%A8%E6%A0%BC%E5%AF%BC%E5%87%BA%E6%9B%B4%E5%BF%AB"
-              download="feedback.csv"
-              style={attachmentLinkStyle}
-            >
-              <Badge
-                icon={<FileTextIcon />}
-                trailingIcon={<DownloadIcon />}
-                size="sm"
-              >
-                feedback.csv
-              </Badge>
-            </a>
-            <a
+              downloadName="feedback.csv"
+              name="feedback.csv"
+            />
+            <Download
               href="data:text/markdown;charset=utf-8,%23%20Roadmap%0A%0A- AI%20Composer%0A- Message%20actions"
-              download="roadmap.md"
-              style={attachmentLinkStyle}
-            >
-              <Badge
-                icon={<FileTextIcon />}
-                trailingIcon={<DownloadIcon />}
-                size="sm"
-                tone="info"
-              >
-                roadmap.md
-              </Badge>
-            </a>
+              downloadName="roadmap.md"
+              name="roadmap.md"
+            />
           </span>
         }
         actions={
@@ -152,25 +124,16 @@ export default defineDoc({
     component: ComposerPreview,
   },
   code: `
-    import { DownloadIcon, FileTextIcon } from "@radix-ui/react-icons";
-    import { Badge } from "willa/Badge";
     import { Composer } from "willa/Composer";
-    import "willa/Badge.css";
+    import { Download } from "willa/Download";
     import "willa/Composer.css";
+    import "willa/Download.css";
 
     <Composer
       header="产品分析助手"
       model="Willa AI Pro"
       attachments={
-        <a href="/feedback.csv" download>
-          <Badge
-            icon={<FileTextIcon />}
-            trailingIcon={<DownloadIcon />}
-            size="sm"
-          >
-            feedback.csv
-          </Badge>
-        </a>
+        <Download href="/feedback.csv" name="feedback.csv" />
       }
       footer="已连接 2 个上下文，Enter 发送"
       placeholder="让 AI 帮我分析这些反馈的优先级..."
