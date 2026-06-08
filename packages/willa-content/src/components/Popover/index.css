@@ -1,0 +1,128 @@
+.willa-popover {
+  display: inline-flex;
+  max-width: 100%;
+}
+
+.willa-popover-content {
+  position: fixed;
+  z-index: 85;
+  box-sizing: border-box;
+  display: grid;
+  max-width: min(24rem, calc(100vw - 1rem));
+  border: 1px solid var(--willa-popover-border);
+  border-radius: 0.8rem;
+  background: var(--willa-popover-bg);
+  color: var(--willa-popover-text);
+  box-shadow: var(--willa-popover-shadow);
+  font-family: var(--willa-body-font);
+  outline: 0;
+}
+
+.willa-popover-content--sm {
+  width: min(18rem, calc(100vw - 1rem));
+  padding: 0.72rem;
+  gap: 0.62rem;
+  font-size: 0.86rem;
+}
+
+.willa-popover-content--md {
+  width: min(22rem, calc(100vw - 1rem));
+  padding: 0.9rem;
+  gap: 0.75rem;
+  font-size: 0.92rem;
+}
+
+.willa-popover-content--lg {
+  width: min(28rem, calc(100vw - 1rem));
+  padding: 1rem;
+  gap: 0.85rem;
+  font-size: 0.94rem;
+}
+
+.willa-popover-header {
+  display: grid;
+  gap: 0.28rem;
+  min-width: 0;
+}
+
+.willa-popover-title {
+  margin: 0;
+  color: var(--willa-popover-title);
+  font-family: var(--willa-title-font);
+  font-size: 1em;
+  font-weight: 650;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+.willa-popover-description {
+  margin: 0;
+  color: var(--willa-popover-description);
+  font-size: 0.92em;
+  line-height: 1.55;
+}
+
+.willa-popover-body {
+  min-width: 0;
+  color: var(--willa-popover-text);
+  line-height: 1.55;
+}
+
+.willa-popover-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  min-width: 0;
+  padding-top: 0.72rem;
+  border-top: 1px solid var(--willa-popover-divider);
+}
+
+.willa-popover-arrow {
+  position: absolute;
+  width: 0.72rem;
+  height: 0.72rem;
+  border: 1px solid var(--willa-popover-border);
+  background: var(--willa-popover-bg);
+  transform: rotate(45deg);
+}
+
+.willa-popover-content--top .willa-popover-arrow,
+.willa-popover-content--bottom .willa-popover-arrow {
+  left: calc(50% - 0.36rem);
+}
+
+.willa-popover-content--left .willa-popover-arrow,
+.willa-popover-content--right .willa-popover-arrow {
+  top: calc(50% - 0.36rem);
+}
+
+.willa-popover-content--top .willa-popover-arrow {
+  bottom: -0.37rem;
+  border-top-color: transparent;
+  border-left-color: transparent;
+}
+
+.willa-popover-content--right .willa-popover-arrow {
+  left: -0.37rem;
+  border-top-color: transparent;
+  border-right-color: transparent;
+}
+
+.willa-popover-content--bottom .willa-popover-arrow {
+  top: -0.37rem;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+}
+
+.willa-popover-content--left .willa-popover-arrow {
+  right: -0.37rem;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+}
+
+@media (max-width: 520px) {
+  .willa-popover-content {
+    width: calc(100vw - 1rem);
+  }
+}

@@ -22,6 +22,7 @@ export { Lightbox, normalizeLightboxImage } from "#content/components/Lightbox";
 export { Menu } from "#content/components/Menu";
 export { Pagination } from "#content/components/Pagination";
 export { Poem } from "#content/components/Poem";
+export { Popover } from "#content/components/Popover";
 export { Progress } from "#content/components/Progress";
 export { Separator } from "#content/components/Separator";
 export { Skeleton } from "#content/components/Skeleton";
@@ -30,6 +31,7 @@ export { SummaryCards } from "#content/components/SummaryCards";
 export { Tabs } from "#content/components/Tabs";
 export { TextArea } from "#content/components/TextArea";
 export { createToast, toast } from "#content/components/Toast";
+export { Tooltip } from "#content/components/Tooltip";
 export { UrlLink } from "#content/components/UrlLink";
 export { VideoEmbed } from "#content/components/VideoEmbed";
 export { VideoLink } from "#content/components/VideoLink";
@@ -110,6 +112,12 @@ export type {
 } from "#content/components/Pagination";
 export type { PoemProps } from "#content/components/Poem";
 export type {
+  PopoverAlign,
+  PopoverProps,
+  PopoverSide,
+  PopoverSize,
+} from "#content/components/Popover";
+export type {
   ProgressProps,
   ProgressSize,
   ProgressTone,
@@ -138,6 +146,12 @@ export type {
   ToastPlacement,
   ToastTone,
 } from "#content/components/Toast";
+export type {
+  TooltipAlign,
+  TooltipProps,
+  TooltipSide,
+  TooltipSize,
+} from "#content/components/Tooltip";
 export type { UrlLinkProps } from "#content/components/UrlLink";
 export type { VideoEmbedProps } from "#content/components/VideoEmbed";
 export type { VideoLinkProps } from "#content/components/VideoLink";

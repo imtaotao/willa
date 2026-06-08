@@ -2,6 +2,8 @@
 .willa-lightbox,
 .willa-dialog,
 .willa-menu-content,
+.willa-popover-content,
+.willa-tooltip-content,
 .willa-toast-viewport {
   --willa-body-font: var(--site-font-body, system-ui, sans-serif);
   --willa-title-font: var(--site-font-title, system-ui, sans-serif);
@@ -143,6 +145,13 @@
   --willa-menu-danger-bg-hover: rgba(220, 38, 38, 0.08);
   --willa-menu-danger-text-hover: #b91c1c;
   --willa-menu-separator: rgba(15, 23, 42, 0.08);
+  --willa-popover-bg: rgba(255, 255, 255, 0.98);
+  --willa-popover-border: rgba(15, 23, 42, 0.11);
+  --willa-popover-shadow: 0 18px 38px rgba(15, 23, 42, 0.14);
+  --willa-popover-text: var(--willa-text);
+  --willa-popover-title: var(--willa-text-strong);
+  --willa-popover-description: var(--willa-text-soft);
+  --willa-popover-divider: rgba(15, 23, 42, 0.08);
   --willa-pagination-bg: rgba(255, 255, 255, 0.72);
   --willa-pagination-bg-hover: rgba(37, 99, 235, 0.06);
   --willa-pagination-border: rgba(15, 23, 42, 0.1);
@@ -226,6 +235,10 @@
   --willa-toast-error-bg: rgba(220, 38, 38, 0.09);
   --willa-toast-error-card-bg: #fff4f4;
   --willa-toast-error-border: rgba(220, 38, 38, 0.17);
+  --willa-tooltip-bg: rgba(17, 24, 39, 0.96);
+  --willa-tooltip-border: rgba(17, 24, 39, 0.12);
+  --willa-tooltip-shadow: 0 10px 22px rgba(15, 23, 42, 0.14);
+  --willa-tooltip-text: #ffffff;
   --willa-code-block-bg: #f6f6f7;
   --willa-code-block-border: rgba(60, 60, 67, 0.12);
   --willa-code-tabs-border: rgba(60, 60, 67, 0.12);
