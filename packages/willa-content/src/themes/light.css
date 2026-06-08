@@ -206,6 +206,17 @@
   --willa-dialog-close-border: rgba(15, 23, 42, 0.08);
   --willa-dialog-close-border-hover: rgba(37, 99, 235, 0.2);
   --willa-dialog-close-text: var(--willa-text-soft);
+  --willa-empty-state-soft-bg: rgba(37, 99, 235, 0.035);
+  --willa-empty-state-soft-border: rgba(37, 99, 235, 0.1);
+  --willa-empty-state-outline-bg: rgba(255, 255, 255, 0.66);
+  --willa-empty-state-outline-border: rgba(15, 23, 42, 0.14);
+  --willa-empty-state-icon-bg: rgba(37, 99, 235, 0.08);
+  --willa-empty-state-icon-border: rgba(37, 99, 235, 0.14);
+  --willa-empty-state-icon-text: #2563eb;
+  --willa-empty-state-title: var(--willa-text-strong);
+  --willa-empty-state-text: var(--willa-text);
+  --willa-empty-state-description: var(--willa-text-soft);
+  --willa-empty-state-footer: var(--willa-text-faint);
   --willa-toast-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
   --willa-toast-title: var(--willa-text-strong);
   --willa-toast-text: var(--willa-text);

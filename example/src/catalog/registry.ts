@@ -23,6 +23,7 @@ const docSpecGroups = {
     "CodeTabs",
     "DetailsBlock",
     "Dialog",
+    "EmptyState",
     "FileCard",
     "Image",
     "ImageGallery",
