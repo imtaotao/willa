@@ -5,8 +5,10 @@ import {
 } from "@radix-ui/react-icons";
 import { Button } from "willa/Button";
 import { EmptyState } from "willa/EmptyState";
+import { Group } from "willa/Group";
 import "willa/Button.css";
 import "willa/EmptyState.css";
+import "willa/Group.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
@@ -14,12 +16,6 @@ const rowStyle = {
   display: "grid",
   gap: "0.9rem",
   width: "100%",
-} as const;
-
-const actionStyle = {
-  display: "flex",
-  flexWrap: "wrap",
-  gap: "0.55rem",
 } as const;
 
 export default defineDoc({
@@ -30,6 +26,7 @@ export default defineDoc({
   imports: [
     { name: "EmptyState", from: "willa/EmptyState" },
     { name: "Button", from: "willa/Button" },
+    { name: "Group", from: "willa/Group" },
   ],
   css: "willa/EmptyState.css",
   demo: {
@@ -40,14 +37,14 @@ export default defineDoc({
       title: "没有找到结果",
       description: "换一个关键词，或清空筛选条件后重新搜索。",
       actions: (
-        <>
+        <Group gap="sm" justify="center">
           <Button size="sm" variant="solid">
             清空筛选
           </Button>
           <Button size="sm" variant="ghost">
             新建内容
           </Button>
-        </>
+        </Group>
       ),
     },
   },
@@ -55,14 +52,21 @@ export default defineDoc({
     import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
     import { Button } from "willa/Button";
     import { EmptyState } from "willa/EmptyState";
+    import { Group } from "willa/Group";
     import "willa/Button.css";
     import "willa/EmptyState.css";
+    import "willa/Group.css";
 
     <EmptyState
       icon={<MagnifyingGlassIcon />}
       title="没有找到结果"
       description="换一个关键词，或清空筛选条件后重新搜索。"
-      actions={<Button size="sm">清空筛选</Button>}
+      actions={
+        <Group gap="sm">
+          <Button size="sm">清空筛选</Button>
+          <Button size="sm" variant="ghost">新建内容</Button>
+        </Group>
+      }
     />
   `,
   sections: [
@@ -74,14 +78,14 @@ export default defineDoc({
           title="没有找到匹配内容"
           description="当前筛选条件过窄，可以减少标签或换一个关键词。"
           actions={
-            <div style={actionStyle}>
+            <Group gap="sm" justify="center">
               <Button size="sm" variant="solid">
                 清空筛选
               </Button>
               <Button size="sm" variant="outline">
                 保存搜索
               </Button>
-            </div>
+            </Group>
           }
         />
       ),
@@ -96,14 +100,14 @@ export default defineDoc({
           description="上传资料或选择知识库后，助手才能基于你的内容生成回答。"
           variant="outline"
           actions={
-            <>
+            <Group gap="sm">
               <Button size="sm" variant="solid">
                 添加资料
               </Button>
               <Button size="sm" variant="ghost">
                 选择知识库
               </Button>
-            </>
+            </Group>
           }
           footer="建议优先添加和当前任务直接相关的文档，减少无关噪音。"
         />

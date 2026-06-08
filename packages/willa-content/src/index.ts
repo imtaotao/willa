@@ -14,6 +14,7 @@ export { Dialog } from "#content/components/Dialog";
 export { EmptyState } from "#content/components/EmptyState";
 export { flattenText, createHeadingIdFactory } from "@willa-ui/shared";
 export { FileCard } from "#content/components/FileCard";
+export { Group } from "#content/components/Group";
 export { Image } from "#content/components/Image";
 export { ImageGallery } from "#content/components/ImageGallery";
 export { IconButton } from "#content/components/IconButton";
@@ -21,6 +22,7 @@ export { Input } from "#content/components/Input";
 export { Kbd, KbdShortcut } from "#content/components/Kbd";
 export { Lightbox, normalizeLightboxImage } from "#content/components/Lightbox";
 export { Menu } from "#content/components/Menu";
+export { NotFound } from "#content/components/NotFound";
 export { Pagination } from "#content/components/Pagination";
 export { Poem } from "#content/components/Poem";
 export { Popover } from "#content/components/Popover";
@@ -77,6 +79,14 @@ export type {
   EmptyStateVariant,
 } from "#content/components/EmptyState";
 export type { FileCardProps, FileCardTone } from "#content/components/FileCard";
+export type {
+  GroupAlign,
+  GroupDirection,
+  GroupGap,
+  GroupGapPreset,
+  GroupJustify,
+  GroupProps,
+} from "#content/components/Group";
 export type { ImageProps } from "#content/components/Image";
 export type {
   ImageGalleryItem,
@@ -113,6 +123,7 @@ export type {
   MenuSide,
   MenuSize,
 } from "#content/components/Menu";
+export type { NotFoundProps } from "#content/components/NotFound";
 export type {
   PaginationEllipsisContext,
   PaginationProps,
