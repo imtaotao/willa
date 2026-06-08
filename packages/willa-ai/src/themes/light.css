@@ -1,89 +1,100 @@
 .willa-shell {
-  --willa-chat-layout-bg: linear-gradient(
-    135deg,
-    rgba(248, 250, 252, 0.96),
-    rgba(239, 246, 255, 0.74)
-  );
-  --willa-chat-layout-main-bg: rgba(255, 255, 255, 0.5);
-  --willa-chat-layout-sidebar-bg: linear-gradient(
-    180deg,
-    rgba(248, 250, 252, 0.92),
-    rgba(239, 246, 255, 0.6)
-  );
-  --willa-chat-layout-header-bg: rgba(255, 255, 255, 0.68);
-  --willa-chat-layout-input-bg: rgba(255, 255, 255, 0.72);
-  --willa-chat-layout-border: rgba(37, 99, 235, 0.14);
-  --willa-chat-layout-divider: rgba(148, 163, 184, 0.18);
+  --willa-chat-layout-bg: #f4f6f8;
+  --willa-chat-layout-main-bg: #f8fafc;
+  --willa-chat-layout-sidebar-bg: #f1f5f9;
+  --willa-chat-layout-header-bg: #f8fafc;
+  --willa-chat-layout-input-bg: #f1f5f9;
+  --willa-chat-layout-border: #dbe3ec;
+  --willa-chat-layout-divider: #e2e8f0;
   --willa-chat-layout-text: var(--willa-text);
   --willa-chat-layout-muted: var(--willa-text-soft);
   --willa-message-list-text: var(--willa-text);
   --willa-message-list-muted: var(--willa-text-soft);
-  --willa-composer-bg: rgba(255, 255, 255, 0.94);
-  --willa-composer-border: rgba(148, 163, 184, 0.26);
-  --willa-composer-border-focus: rgba(37, 99, 235, 0.42);
-  --willa-composer-divider: rgba(148, 163, 184, 0.16);
-  --willa-composer-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+  --willa-message-actions-bg: #f8fafc;
+  --willa-message-actions-bg-hover: #f1f5f9;
+  --willa-message-actions-border: #e2e8f0;
+  --willa-message-actions-border-hover: #cbd5e1;
+  --willa-message-actions-text: var(--willa-text-soft);
+  --willa-message-actions-text-hover: var(--willa-text-strong);
+  --willa-message-actions-active-bg: #eff6ff;
+  --willa-message-actions-active-border: #bfdbfe;
+  --willa-message-actions-active-text: var(--willa-accent);
+  --willa-message-actions-positive: #047857;
+  --willa-message-actions-negative: #dc2626;
+  --willa-thinking-indicator-bg: #f8fafc;
+  --willa-thinking-indicator-border: #dbeafe;
+  --willa-thinking-indicator-text: var(--willa-text);
+  --willa-thinking-indicator-title: var(--willa-text-strong);
+  --willa-thinking-indicator-muted: var(--willa-text-soft);
+  --willa-thinking-indicator-mark-bg: #eff6ff;
+  --willa-thinking-indicator-neutral: var(--willa-text-soft);
+  --willa-thinking-indicator-accent: #2563eb;
+  --willa-thinking-indicator-success: #047857;
+  --willa-thinking-indicator-warning: #b45309;
+  --willa-thinking-indicator-step-bg: #f1f5f9;
+  --willa-thinking-indicator-step-border: #e2e8f0;
+  --willa-thinking-indicator-step-active-bg: #eff6ff;
+  --willa-thinking-indicator-step-active-border: #bfdbfe;
+  --willa-thinking-indicator-step-active-text: var(--willa-accent);
+  --willa-thinking-indicator-step-done-bg: #ecfdf5;
+  --willa-thinking-indicator-step-done-border: #bbf7d0;
+  --willa-thinking-indicator-step-done-text: #047857;
+  --willa-suggestion-chips-bg: #f8fafc;
+  --willa-suggestion-chips-bg-hover: #f1f5f9;
+  --willa-suggestion-chips-border: #e2e8f0;
+  --willa-suggestion-chips-border-hover: #cbd5e1;
+  --willa-suggestion-chips-text: var(--willa-text);
+  --willa-suggestion-chips-text-hover: var(--willa-text-strong);
+  --willa-suggestion-chips-muted: var(--willa-text-soft);
+  --willa-suggestion-chips-selected-bg: #eff6ff;
+  --willa-suggestion-chips-selected-border: #bfdbfe;
+  --willa-suggestion-chips-selected-text: var(--willa-accent);
+  --willa-composer-bg: #fbfcfe;
+  --willa-composer-header-bg: #ffffff;
+  --willa-composer-border: #cfd8e3;
+  --willa-composer-border-focus: #93c5fd;
+  --willa-composer-divider: #dbe3ec;
+  --willa-composer-shadow: 0 16px 40px rgba(15, 23, 42, 0.09);
   --willa-composer-shadow-focus:
-    0 0 0 3px rgba(37, 99, 235, 0.1), 0 16px 38px rgba(15, 23, 42, 0.08);
-  --willa-composer-strip-bg: rgba(248, 250, 252, 0.72);
-  --willa-composer-input-bg: rgba(255, 255, 255, 0.96);
-  --willa-composer-input-bg-hover: rgba(248, 250, 252, 0.98);
+    0 0 0 3px #dbeafe, 0 20px 46px rgba(15, 23, 42, 0.11);
+  --willa-composer-strip-bg: #f3f8ff;
+  --willa-composer-input-bg: #fbfdff;
+  --willa-composer-input-bg-hover: #fbfdff;
   --willa-composer-text: var(--willa-text);
   --willa-composer-title: var(--willa-text-strong);
   --willa-composer-muted: var(--willa-text-soft);
-  --willa-chat-message-bg: linear-gradient(
-    135deg,
-    rgba(219, 234, 254, 0.9),
-    rgba(239, 246, 255, 0.72)
-  );
-  --willa-chat-message-assistant-bg: linear-gradient(
-    135deg,
-    rgba(219, 234, 254, 0.9),
-    rgba(239, 246, 255, 0.72)
-  );
-  --willa-chat-message-user-bg: linear-gradient(
-    135deg,
-    rgba(165, 243, 252, 0.78),
-    rgba(207, 250, 254, 0.62)
-  );
-  --willa-chat-message-system-bg: linear-gradient(
-    135deg,
-    rgba(241, 245, 249, 0.92),
-    rgba(226, 232, 240, 0.74)
-  );
-  --willa-chat-message-developer-bg: linear-gradient(
-    135deg,
-    rgba(224, 231, 255, 0.82),
-    rgba(237, 233, 254, 0.68)
-  );
-  --willa-chat-message-tool-bg: linear-gradient(
-    135deg,
-    rgba(254, 243, 199, 0.82),
-    rgba(255, 237, 213, 0.62)
-  );
-  --willa-chat-message-border: rgba(37, 99, 235, 0.18);
-  --willa-chat-message-user-border: rgba(8, 145, 178, 0.22);
-  --willa-chat-message-system-border: rgba(100, 116, 139, 0.14);
-  --willa-chat-message-developer-border: rgba(99, 102, 241, 0.18);
-  --willa-chat-message-tool-border: rgba(217, 119, 6, 0.2);
-  --willa-chat-message-accent: rgba(37, 99, 235, 0.62);
-  --willa-chat-message-user-accent: rgba(8, 145, 178, 0.6);
-  --willa-chat-message-system-accent: rgba(100, 116, 139, 0.36);
-  --willa-chat-message-developer-accent: rgba(124, 58, 237, 0.48);
-  --willa-chat-message-tool-accent: rgba(217, 119, 6, 0.5);
+  --willa-chat-message-bg: #f8fafc;
+  --willa-chat-message-assistant-bg: #f8fafc;
+  --willa-chat-message-user-bg: #eff6ff;
+  --willa-chat-message-system-bg: #f1f5f9;
+  --willa-chat-message-developer-bg: #f5f3ff;
+  --willa-chat-message-tool-bg: #fffbeb;
+  --willa-chat-message-border: #dbe3ec;
+  --willa-chat-message-user-border: #bfdbfe;
+  --willa-chat-message-system-border: #d1d9e4;
+  --willa-chat-message-developer-border: #ddd6fe;
+  --willa-chat-message-tool-border: #fde68a;
+  --willa-chat-message-accent: #60a5fa;
+  --willa-chat-message-user-accent: #60a5fa;
+  --willa-chat-message-system-accent: #94a3b8;
+  --willa-chat-message-developer-accent: #a78bfa;
+  --willa-chat-message-tool-accent: #f59e0b;
   --willa-chat-message-shadow: none;
   --willa-chat-message-text: var(--willa-text);
   --willa-chat-message-name: var(--willa-text-strong);
   --willa-chat-message-meta: var(--willa-text-soft);
   --willa-chat-message-system-text: var(--willa-text-soft);
   --willa-chat-message-developer-text: var(--willa-text);
-  --willa-prompt-input-bg: rgba(255, 255, 255, 0.94);
-  --willa-prompt-input-bg-hover: rgba(248, 250, 252, 0.96);
-  --willa-prompt-input-border: rgba(148, 163, 184, 0.28);
-  --willa-prompt-input-border-hover: rgba(100, 116, 139, 0.34);
-  --willa-prompt-input-border-focus: rgba(37, 99, 235, 0.36);
-  --willa-prompt-input-ring: rgba(37, 99, 235, 0.1);
-  --willa-prompt-input-highlight: rgba(148, 163, 184, 0.38);
+  --willa-prompt-input-bg: #fcfdff;
+  --willa-prompt-input-bg-hover: #fcfdff;
+  --willa-prompt-input-border: #b7d7ff;
+  --willa-prompt-input-border-hover: #7db4ff;
+  --willa-prompt-input-border-focus: #3b82f6;
+  --willa-prompt-input-footer-bg: #ffffff;
+  --willa-prompt-input-footer-border: #bfdbfe;
+  --willa-prompt-input-ring: #dbeafe;
+  --willa-prompt-input-shadow: 0 14px 34px rgba(37, 99, 235, 0.1);
+  --willa-prompt-input-shadow-focus: 0 18px 42px rgba(37, 99, 235, 0.16);
   --willa-prompt-input-text: var(--willa-text-strong);
   --willa-prompt-input-placeholder: var(--willa-text-faint);
   --willa-prompt-input-meta: var(--willa-text-soft);

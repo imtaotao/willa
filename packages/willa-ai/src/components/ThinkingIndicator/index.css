@@ -1,0 +1,180 @@
+.willa-thinking-indicator {
+  display: inline-grid;
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  border: 1px solid var(--willa-thinking-indicator-border);
+  border-radius: 8px;
+  background: var(--willa-thinking-indicator-bg);
+  color: var(--willa-thinking-indicator-text);
+  font-family: var(--willa-body-font);
+}
+
+.willa-thinking-indicator--sm {
+  gap: 0.58rem;
+  padding: 0.42rem 0.58rem;
+}
+
+.willa-thinking-indicator--md {
+  gap: 0.68rem;
+  padding: 0.58rem 0.72rem;
+}
+
+.willa-thinking-indicator--compact {
+  border-color: transparent;
+  background: transparent;
+  padding: 0;
+}
+
+.willa-thinking-indicator-mark {
+  display: inline-flex;
+  width: 1.52rem;
+  height: 1.52rem;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--willa-thinking-indicator-mark-bg);
+  color: var(--willa-thinking-indicator-mark);
+}
+
+.willa-thinking-indicator--compact .willa-thinking-indicator-mark {
+  width: auto;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  background: transparent;
+}
+
+.willa-thinking-indicator-mark svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.willa-thinking-indicator-body {
+  display: grid;
+  min-width: 0;
+  gap: 0.18rem;
+}
+
+.willa-thinking-indicator-label {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--willa-thinking-indicator-title);
+  font-size: 0.86rem;
+  font-weight: 620;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.willa-thinking-indicator--sm .willa-thinking-indicator-label {
+  font-size: 0.8rem;
+}
+
+.willa-thinking-indicator-description {
+  color: var(--willa-thinking-indicator-muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.willa-thinking-indicator-steps {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 0.36rem;
+  padding-block-start: 0.16rem;
+}
+
+.willa-thinking-indicator-step {
+  display: inline-flex;
+  max-width: 100%;
+  min-height: 1.38rem;
+  align-items: center;
+  border: 1px solid var(--willa-thinking-indicator-step-border);
+  border-radius: 999px;
+  background: var(--willa-thinking-indicator-step-bg);
+  color: var(--willa-thinking-indicator-muted);
+  font-size: 0.72rem;
+  font-weight: 560;
+  line-height: 1;
+  padding: 0 0.48rem;
+}
+
+.willa-thinking-indicator-step--done {
+  border-color: var(--willa-thinking-indicator-step-done-border);
+  background: var(--willa-thinking-indicator-step-done-bg);
+  color: var(--willa-thinking-indicator-step-done-text);
+}
+
+.willa-thinking-indicator-step--active {
+  border-color: var(--willa-thinking-indicator-step-active-border);
+  background: var(--willa-thinking-indicator-step-active-bg);
+  color: var(--willa-thinking-indicator-step-active-text);
+}
+
+.willa-thinking-indicator-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.14rem;
+}
+
+.willa-thinking-indicator-dots span {
+  width: 0.24rem;
+  height: 0.24rem;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.44;
+}
+
+.willa-thinking-indicator--animated .willa-thinking-indicator-dots span {
+  animation: willa-thinking-indicator-dot 960ms ease-in-out infinite;
+}
+
+.willa-thinking-indicator--animated
+  .willa-thinking-indicator-dots
+  span:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.willa-thinking-indicator--animated
+  .willa-thinking-indicator-dots
+  span:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+.willa-thinking-indicator--neutral {
+  --willa-thinking-indicator-mark: var(--willa-thinking-indicator-neutral);
+}
+
+.willa-thinking-indicator--accent {
+  --willa-thinking-indicator-mark: var(--willa-thinking-indicator-accent);
+}
+
+.willa-thinking-indicator--success {
+  --willa-thinking-indicator-mark: var(--willa-thinking-indicator-success);
+}
+
+.willa-thinking-indicator--warning {
+  --willa-thinking-indicator-mark: var(--willa-thinking-indicator-warning);
+}
+
+@keyframes willa-thinking-indicator-dot {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-0.12rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .willa-thinking-indicator {
+    width: 100%;
+  }
+}

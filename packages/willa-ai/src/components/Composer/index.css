@@ -29,7 +29,8 @@
   align-items: center;
   gap: 0.85rem;
   border-bottom: 1px solid var(--willa-composer-divider);
-  padding: 0.72rem 0.9rem 0.64rem;
+  background: var(--willa-composer-header-bg);
+  padding: 0.82rem 0.9rem 0.66rem;
 }
 
 .willa-composer-meta {
@@ -70,10 +71,6 @@
   box-shadow: none;
 }
 
-.willa-composer .willa-composer-input::before {
-  display: none;
-}
-
 .willa-composer .willa-composer-input:hover:not(.willa-prompt-input--disabled) {
   background: var(--willa-composer-input-bg-hover);
 }
@@ -90,8 +87,22 @@
   padding: 1rem 1rem 0.92rem;
 }
 
-.willa-composer-input .willa-prompt-input-footer {
-  padding-top: 0.1rem;
+.willa-composer
+  .willa-composer-input.willa-prompt-input--md
+  .willa-prompt-input-footer {
+  margin: 0 -0.9rem -0.84rem;
+  padding: 0.64rem 0.9rem 0.7rem;
+}
+
+.willa-composer
+  .willa-composer-input.willa-prompt-input--lg
+  .willa-prompt-input-footer {
+  margin: 0 -1rem -0.92rem;
+  padding: 0.72rem 1rem 0.78rem;
+}
+
+.willa-composer .willa-prompt-input-footer {
+  border-top-color: var(--willa-composer-divider);
 }
 
 .willa-composer-input .willa-prompt-input-control {

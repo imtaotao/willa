@@ -46,6 +46,15 @@ to content; only `Mdx`'s own prose and heading variables belong to widgets.
 Likewise, an AI component that renders `Button`, `CodeBlock`, or `FileCard`
 should reuse those content variables instead of redefining them.
 
+AI package themes should keep large surfaces neutral. Layout shells, composer
+containers, prompt inputs, message lists, and process cards should use neutral
+surface tokens first. Role colors such as user, assistant, developer, tool,
+success, and warning should be weak accents on borders, marks, or selected
+states instead of dominant page backgrounds or broad gradients. In light
+theme, do not use pure white or translucent white as the default component
+surface when the page background is already white; prefer opaque off-white and
+light gray layers so component boundaries stay visible.
+
 ## Component CSS
 
 Component `index.css` files can contain:

@@ -5,12 +5,14 @@ import { Button } from "willa/Button";
 import { Composer } from "willa/Composer";
 import { Download } from "willa/Download";
 import { Group } from "willa/Group";
+import { SuggestionChips } from "willa/SuggestionChips";
 import "willa/Badge.css";
 import "willa/Button.css";
 import "willa/PromptInput.css";
 import "willa/Composer.css";
 import "willa/Download.css";
 import "willa/Group.css";
+import "willa/SuggestionChips.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
@@ -58,6 +60,15 @@ const ComposerPreview = () => {
 
   return (
     <div style={stackStyle}>
+      <SuggestionChips
+        size="sm"
+        items={[
+          { id: "priority", label: "整理优先级" },
+          { id: "risk", label: "提取风险" },
+          { id: "summary", label: "生成摘要" },
+        ]}
+        onSelect={(item) => setValue(String(item.label))}
+      />
       <Composer
         value={value}
         header={
@@ -126,19 +137,29 @@ export default defineDoc({
   code: `
     import { Composer } from "willa/Composer";
     import { Download } from "willa/Download";
+    import { SuggestionChips } from "willa/SuggestionChips";
     import "willa/Composer.css";
     import "willa/Download.css";
+    import "willa/SuggestionChips.css";
 
-    <Composer
-      header="产品分析助手"
-      model="Willa AI Pro"
-      attachments={
-        <Download href="/feedback.csv" name="feedback.csv" />
-      }
-      footer="已连接 2 个上下文，Enter 发送"
-      placeholder="让 AI 帮我分析这些反馈的优先级..."
-      onSubmit={(prompt) => console.log(prompt)}
-    />
+    <>
+      <SuggestionChips
+        items={[
+          { id: "priority", label: "整理优先级" },
+          { id: "risk", label: "提取风险" },
+        ]}
+      />
+      <Composer
+        header="产品分析助手"
+        model="Willa AI Pro"
+        attachments={
+          <Download href="/feedback.csv" name="feedback.csv" />
+        }
+        footer="已连接 2 个上下文，Enter 发送"
+        placeholder="让 AI 帮我分析这些反馈的优先级..."
+        onSubmit={(prompt) => console.log(prompt)}
+      />
+    </>
   `,
   sections: [
     {

@@ -3,9 +3,11 @@ import { CheckIcon, ClockIcon } from "@radix-ui/react-icons";
 import { Button } from "willa/Button";
 import { ChatMessage } from "willa/ChatMessage";
 import { MessageList } from "willa/MessageList";
+import { ThinkingIndicator } from "willa/ThinkingIndicator";
 import "willa/Button.css";
 import "willa/ChatMessage.css";
 import "willa/MessageList.css";
+import "willa/ThinkingIndicator.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
@@ -109,6 +111,13 @@ const MessageListPreview = () => {
               {message.content}
             </ChatMessage>
           ))}
+          <ChatMessage role="assistant" name="Willa AI" status="检索中">
+            <ThinkingIndicator
+              compact
+              status="searching"
+              label="正在检索相关组件"
+            />
+          </ChatMessage>
           {extraMessages.slice(0, count).map((message, index) => (
             <ChatMessage
               key={message}
@@ -140,12 +149,21 @@ export default defineDoc({
   code: `
     import { ChatMessage } from "willa/ChatMessage";
     import { MessageList } from "willa/MessageList";
+    import { ThinkingIndicator } from "willa/ThinkingIndicator";
     import "willa/ChatMessage.css";
     import "willa/MessageList.css";
+    import "willa/ThinkingIndicator.css";
 
     <div style={{ height: 360 }}>
       <MessageList>
         <ChatMessage role="user">帮我总结这次组件调整。</ChatMessage>
+        <ChatMessage role="assistant" name="Willa AI" status="检索中">
+          <ThinkingIndicator
+            compact
+            status="searching"
+            label="正在检索相关组件"
+          />
+        </ChatMessage>
         <ChatMessage role="assistant" name="Willa AI">
           本次主要影响 AI 包、willa 聚合入口和示例站。
         </ChatMessage>

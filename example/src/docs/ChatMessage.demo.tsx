@@ -1,10 +1,8 @@
 import { CheckIcon, CopyIcon, ReloadIcon } from "@radix-ui/react-icons";
-import { Button } from "willa/Button";
 import { ChatMessage } from "willa/ChatMessage";
-import { Group } from "willa/Group";
-import "willa/Button.css";
+import { MessageActions } from "willa/MessageActions";
 import "willa/ChatMessage.css";
-import "willa/Group.css";
+import "willa/MessageActions.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
@@ -33,14 +31,12 @@ const ChatMessagePreview = () => {
         name="Willa AI"
         meta="已生成"
         actions={
-          <Group gap="xs">
-            <Button size="sm" variant="ghost" icon={<CopyIcon />}>
-              复制
-            </Button>
-            <Button size="sm" variant="ghost" icon={<ReloadIcon />}>
-              重试
-            </Button>
-          </Group>
+          <MessageActions
+            items={[
+              { id: "copy", label: "复制", icon: <CopyIcon /> },
+              { id: "retry", label: "重试", icon: <ReloadIcon /> },
+            ]}
+          />
         }
         footer="基于 12 条反馈归纳"
       >

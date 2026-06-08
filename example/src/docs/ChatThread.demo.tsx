@@ -21,7 +21,8 @@ export default defineDoc({
   id: "chat-thread",
   name: "ChatThread",
   packageName: "willa/ChatThread",
-  description: "用于展示左右对齐消息的聊天记录块。",
+  description:
+    "用于博客、文档站和 MDX 内容里的轻量聊天记录块；AI 产品对话流优先使用 ChatLayout、MessageList 和 ChatMessage。",
   imports: [{ name: "ChatThread", from: "willa/ChatThread" }],
   css: "willa/ChatThread.css",
   demo: {
