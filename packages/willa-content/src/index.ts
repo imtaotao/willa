@@ -16,6 +16,7 @@ export { FileCard } from "#content/components/FileCard";
 export { Image } from "#content/components/Image";
 export { ImageGallery } from "#content/components/ImageGallery";
 export { IconButton } from "#content/components/IconButton";
+export { Input } from "#content/components/Input";
 export { Kbd, KbdShortcut } from "#content/components/Kbd";
 export { Lightbox, normalizeLightboxImage } from "#content/components/Lightbox";
 export { Pagination } from "#content/components/Pagination";
@@ -26,6 +27,7 @@ export { Skeleton } from "#content/components/Skeleton";
 export { Step, Steps } from "#content/components/Steps";
 export { SummaryCards } from "#content/components/SummaryCards";
 export { Tabs } from "#content/components/Tabs";
+export { TextArea } from "#content/components/TextArea";
 export { createToast, toast } from "#content/components/Toast";
 export { UrlLink } from "#content/components/UrlLink";
 export { VideoEmbed } from "#content/components/VideoEmbed";
@@ -76,6 +78,11 @@ export type {
   IconButtonVariant,
 } from "#content/components/IconButton";
 export type {
+  InputProps,
+  InputSize,
+  InputVariant,
+} from "#content/components/Input";
+export type {
   KbdProps,
   KbdShortcutProps,
   KbdShortcutSeparator,
@@ -107,6 +114,12 @@ export type { SkeletonProps } from "#content/components/Skeleton";
 export type { StepProps, StepsProps } from "#content/components/Steps";
 export type { SummaryCardsProps } from "#content/components/SummaryCards";
 export type { TabsItem, TabsProps, TabsSize } from "#content/components/Tabs";
+export type {
+  TextAreaProps,
+  TextAreaResize,
+  TextAreaSize,
+  TextAreaVariant,
+} from "#content/components/TextArea";
 export type {
   ToastAction,
   ToastApi,

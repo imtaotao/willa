@@ -39,6 +39,7 @@
 
       "#ai/*": ["./packages/willa-ai/src/*"],
       "#content/*": ["./packages/willa-content/src/*"],
+      "#widgets/*": ["./packages/willa-widgets/src/*"],
       "#shared/*": ["./packages/willa-shared/src/*"]
     }
   }
