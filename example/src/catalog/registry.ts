@@ -25,6 +25,7 @@ const docSpecGroups = {
     "Dialog",
     "EmptyState",
     "FileCard",
+    "FileTree",
     "Group",
     "Image",
     "ImageGallery",

@@ -111,6 +111,17 @@
   --willa-file-card-neutral-icon-text: var(--willa-text-strong);
   --willa-file-card-neutral-bg: rgba(255, 255, 255, 0.14);
   --willa-file-card-neutral-text: var(--willa-text-strong);
+  --willa-file-tree-bg: rgba(255, 255, 255, 0.045);
+  --willa-file-tree-border: rgba(255, 255, 255, 0.11);
+  --willa-file-tree-text: var(--willa-text);
+  --willa-file-tree-title: var(--willa-text-strong);
+  --willa-file-tree-meta: var(--willa-text-faint);
+  --willa-file-tree-muted-text: var(--willa-text-faint);
+  --willa-file-tree-guide: rgba(255, 255, 255, 0.11);
+  --willa-file-tree-icon: var(--willa-text-soft);
+  --willa-file-tree-folder-icon: #86efac;
+  --willa-file-tree-selected-bg: rgba(134, 239, 172, 0.1);
+  --willa-file-tree-selected-border: rgba(134, 239, 172, 0.34);
   --willa-input-bg: rgba(255, 255, 255, 0.06);
   --willa-input-bg-hover: rgba(255, 255, 255, 0.08);
   --willa-input-bg-focus: rgba(255, 255, 255, 0.075);

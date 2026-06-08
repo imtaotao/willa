@@ -14,6 +14,7 @@ export { Dialog } from "#content/components/Dialog";
 export { EmptyState } from "#content/components/EmptyState";
 export { flattenText, createHeadingIdFactory } from "@willa-ui/shared";
 export { FileCard } from "#content/components/FileCard";
+export { FileTree } from "#content/components/FileTree";
 export { Group } from "#content/components/Group";
 export { Image } from "#content/components/Image";
 export { ImageGallery } from "#content/components/ImageGallery";
@@ -79,6 +80,12 @@ export type {
   EmptyStateVariant,
 } from "#content/components/EmptyState";
 export type { FileCardProps, FileCardTone } from "#content/components/FileCard";
+export type {
+  FileTreeItem,
+  FileTreeItemType,
+  FileTreeProps,
+  FileTreeSize,
+} from "#content/components/FileTree";
 export type {
   GroupAlign,
   GroupDirection,
