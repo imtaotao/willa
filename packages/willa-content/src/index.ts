@@ -38,6 +38,7 @@ export { Tabs } from "#content/components/Tabs";
 export { TextArea } from "#content/components/TextArea";
 export { createToast, toast } from "#content/components/Toast";
 export { Tooltip } from "#content/components/Tooltip";
+export { Upload } from "#content/components/Upload";
 export { UrlLink } from "#content/components/UrlLink";
 export { VideoEmbed } from "#content/components/VideoEmbed";
 export { VideoLink } from "#content/components/VideoLink";
@@ -193,6 +194,15 @@ export type {
   TooltipSide,
   TooltipSize,
 } from "#content/components/Tooltip";
+export type {
+  UploadErrorHandler,
+  UploadFileKind,
+  UploadHandler,
+  UploadItem,
+  UploadProps,
+  UploadSize,
+  UploadStatusHandler,
+} from "#content/components/Upload";
 export type { UrlLinkProps } from "#content/components/UrlLink";
 export type { VideoEmbedProps } from "#content/components/VideoEmbed";
 export type { VideoLinkProps } from "#content/components/VideoLink";

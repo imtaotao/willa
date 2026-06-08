@@ -58,6 +58,7 @@ const docSpecGroups = {
     "TextArea",
     "Toast",
     "Tooltip",
+    "Upload",
     "UrlLink",
     "VideoEmbed",
     "VideoLink",
