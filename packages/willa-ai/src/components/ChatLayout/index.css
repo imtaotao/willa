@@ -1,0 +1,139 @@
+.willa-chat-layout {
+  display: grid;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 32rem;
+  overflow: hidden;
+  border: 1px solid var(--willa-chat-layout-border);
+  border-radius: 1rem;
+  background: var(--willa-chat-layout-bg);
+  color: var(--willa-chat-layout-text);
+  font-family: var(--willa-body-font);
+}
+
+.willa-chat-layout-header,
+.willa-chat-layout-footer {
+  box-sizing: border-box;
+  min-width: 0;
+  border-color: var(--willa-chat-layout-divider);
+  background: var(--willa-chat-layout-header-bg);
+}
+
+.willa-chat-layout-header {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--willa-chat-layout-divider);
+}
+
+.willa-chat-layout-footer {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--willa-chat-layout-divider);
+  color: var(--willa-chat-layout-muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.willa-chat-layout-body {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  grid-template-columns:
+    var(--willa-chat-layout-sidebar-width, 16rem)
+    minmax(0, 1fr);
+}
+
+.willa-chat-layout--sidebar-right .willa-chat-layout-body {
+  grid-template-columns:
+    minmax(0, 1fr)
+    var(--willa-chat-layout-sidebar-width, 16rem);
+}
+
+.willa-chat-layout:not(.willa-chat-layout--with-sidebar)
+  .willa-chat-layout-body {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.willa-chat-layout-sidebar {
+  box-sizing: border-box;
+  min-width: 0;
+  overflow: auto;
+  border-right: 1px solid var(--willa-chat-layout-divider);
+  background: var(--willa-chat-layout-sidebar-bg);
+  padding: 0.9rem;
+}
+
+.willa-chat-layout--sidebar-right .willa-chat-layout-sidebar {
+  border-right: 0;
+  border-left: 1px solid var(--willa-chat-layout-divider);
+}
+
+.willa-chat-layout-main {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr) auto;
+  background: var(--willa-chat-layout-main-bg);
+}
+
+.willa-chat-layout-messages {
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: 1rem;
+}
+
+.willa-chat-layout-input {
+  box-sizing: border-box;
+  min-width: 0;
+  border-top: 1px solid var(--willa-chat-layout-divider);
+  background: var(--willa-chat-layout-input-bg);
+  padding: 0.9rem 1rem 1rem;
+}
+
+.willa-chat-layout--sticky-input .willa-chat-layout-input {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+}
+
+.willa-chat-layout-empty {
+  display: grid;
+  min-height: 12rem;
+  place-items: center;
+  color: var(--willa-chat-layout-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .willa-chat-layout {
+    min-height: 28rem;
+    border-radius: 0.85rem;
+  }
+
+  .willa-chat-layout-body,
+  .willa-chat-layout--sidebar-right .willa-chat-layout-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .willa-chat-layout--sidebar-right .willa-chat-layout-sidebar,
+  .willa-chat-layout-sidebar {
+    max-height: 13rem;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 1px solid var(--willa-chat-layout-divider);
+  }
+
+  .willa-chat-layout-messages {
+    padding: 0.82rem;
+  }
+
+  .willa-chat-layout-input,
+  .willa-chat-layout-header,
+  .willa-chat-layout-footer {
+    padding-right: 0.82rem;
+    padding-left: 0.82rem;
+  }
+}

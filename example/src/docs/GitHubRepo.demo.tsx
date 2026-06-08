@@ -27,6 +27,16 @@ export default defineDoc({
       />
     ),
   },
+  code: `
+    import { GitHubRepo } from "willa/GitHubRepo";
+    import "willa/GitHubRepo.css";
+
+    <GitHubRepo
+      repo="imtaotao/auklet"
+      description="这个 monorepo 使用的构建工具。"
+      language="TypeScript"
+    />
+  `,
   props: [
     {
       name: "repo",

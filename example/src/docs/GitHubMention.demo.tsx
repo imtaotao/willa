@@ -27,6 +27,16 @@ export default defineDoc({
       />
     ),
   },
+  code: `
+    import { GitHubMention } from "willa/GitHubMention";
+    import "willa/GitHubMention.css";
+
+    <GitHubMention
+      username="imtaotao"
+      name="Tao"
+      avatarUrl="https://github.com/imtaotao.png"
+    />
+  `,
   props: [
     {
       name: "username",
