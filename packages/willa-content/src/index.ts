@@ -19,6 +19,7 @@ export { IconButton } from "#content/components/IconButton";
 export { Input } from "#content/components/Input";
 export { Kbd, KbdShortcut } from "#content/components/Kbd";
 export { Lightbox, normalizeLightboxImage } from "#content/components/Lightbox";
+export { Menu } from "#content/components/Menu";
 export { Pagination } from "#content/components/Pagination";
 export { Poem } from "#content/components/Poem";
 export { Progress } from "#content/components/Progress";
@@ -93,6 +94,15 @@ export type {
   LightboxImage,
   LightboxState,
 } from "#content/components/Lightbox";
+export type {
+  MenuActionItem,
+  MenuAlign,
+  MenuItem,
+  MenuProps,
+  MenuSeparatorItem,
+  MenuSide,
+  MenuSize,
+} from "#content/components/Menu";
 export type {
   PaginationEllipsisContext,
   PaginationProps,

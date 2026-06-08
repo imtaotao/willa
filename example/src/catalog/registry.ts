@@ -30,6 +30,7 @@ const docSpecGroups = {
     "Input",
     "Kbd",
     "Lightbox",
+    "Menu",
     "Pagination",
     "Poem",
     "Progress",

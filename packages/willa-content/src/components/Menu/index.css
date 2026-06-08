@@ -1,0 +1,129 @@
+.willa-menu {
+  display: inline-flex;
+  max-width: 100%;
+}
+
+.willa-menu-content {
+  position: fixed;
+  z-index: 80;
+  box-sizing: border-box;
+  display: grid;
+  min-width: 12rem;
+  max-width: min(22rem, calc(100vw - 1rem));
+  gap: 0.18rem;
+  padding: 0.32rem;
+  border: 1px solid var(--willa-menu-border);
+  border-radius: 0.7rem;
+  background: var(--willa-menu-bg);
+  color: var(--willa-menu-text);
+  box-shadow: var(--willa-menu-shadow);
+  font-family: var(--willa-body-font);
+}
+
+.willa-menu-content--sm {
+  font-size: 0.84rem;
+}
+
+.willa-menu-content--md {
+  font-size: 0.92rem;
+}
+
+.willa-menu-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.62rem;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--willa-menu-text);
+  font: inherit;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.willa-menu-content--sm .willa-menu-item {
+  min-height: 2rem;
+  padding: 0.42rem 0.52rem;
+}
+
+.willa-menu-content--md .willa-menu-item {
+  min-height: 2.35rem;
+  padding: 0.52rem 0.62rem;
+}
+
+.willa-menu-item:hover:not(:disabled),
+.willa-menu-item:focus-visible {
+  background: var(--willa-menu-item-bg-hover);
+  color: var(--willa-menu-item-text-hover);
+  outline: 0;
+}
+
+.willa-menu-item:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.willa-menu-item--danger {
+  color: var(--willa-menu-danger-text);
+}
+
+.willa-menu-item--danger:hover:not(:disabled),
+.willa-menu-item--danger:focus-visible {
+  background: var(--willa-menu-danger-bg-hover);
+  color: var(--willa-menu-danger-text-hover);
+}
+
+.willa-menu-item-icon,
+.willa-menu-item-trailing {
+  display: inline-flex;
+  min-width: 1em;
+  color: var(--willa-menu-muted);
+}
+
+.willa-menu-item-icon svg,
+.willa-menu-item-trailing svg {
+  width: 1em;
+  height: 1em;
+}
+
+.willa-menu-item-content {
+  display: grid;
+  min-width: 0;
+  gap: 0.14rem;
+}
+
+.willa-menu-item-label,
+.willa-menu-item-description {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.willa-menu-item-label {
+  color: inherit;
+  white-space: nowrap;
+}
+
+.willa-menu-item-description {
+  color: var(--willa-menu-muted);
+  font-size: 0.86em;
+}
+
+.willa-menu-separator {
+  height: 1px;
+  margin: 0.24rem 0.38rem;
+  background: var(--willa-menu-separator);
+}
+
+.willa-menu-empty {
+  padding: 0.6rem 0.7rem;
+  color: var(--willa-menu-muted);
+  font-size: 0.9em;
+}
