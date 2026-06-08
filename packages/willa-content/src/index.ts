@@ -81,7 +81,10 @@ export type {
 } from "#content/components/EmptyState";
 export type { FileCardProps, FileCardTone } from "#content/components/FileCard";
 export type {
+  FileTreeFileItem,
+  FileTreeFolderItem,
   FileTreeItem,
+  FileTreeItemBase,
   FileTreeItemType,
   FileTreeProps,
   FileTreeSize,

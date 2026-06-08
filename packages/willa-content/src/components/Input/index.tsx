@@ -15,14 +15,18 @@ export type InputProps = Omit<
 > & {
   size?: InputSize;
   variant?: InputVariant;
+  width?: CSSProperties["width"];
   invalid?: boolean;
-  fullWidth?: boolean;
   leadingIcon?: ReactNode;
   trailingIcon?: ReactNode;
   leadingAddon?: ReactNode;
   trailingAddon?: ReactNode;
   inputClassName?: string;
   backgroundColor?: string;
+  rangeColor?: string;
+  rangeHeight?: CSSProperties["height"];
+  rangeThumbColor?: string;
+  rangeTrackColor?: string;
   textColor?: string;
 };
 
@@ -30,14 +34,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const {
     size = "md",
     variant = "outline",
+    width,
     invalid = false,
-    fullWidth = false,
     leadingIcon,
     trailingIcon,
     leadingAddon,
     trailingAddon,
     inputClassName,
     backgroundColor,
+    rangeColor,
+    rangeHeight,
+    rangeThumbColor,
+    rangeTrackColor,
     textColor,
     className,
     disabled,
@@ -48,7 +56,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     invalid ||
     inputProps["aria-invalid"] === true ||
     inputProps["aria-invalid"] === "true";
-  const inputStyle = getInputStyle({ backgroundColor, textColor, style });
+  const isRange = inputProps.type === "range";
+  const inputStyle = getInputStyle({
+    backgroundColor,
+    rangeColor,
+    rangeHeight,
+    rangeThumbColor,
+    rangeTrackColor,
+    textColor,
+    width,
+    style,
+  });
 
   return (
     <span
@@ -56,7 +74,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         "willa-input",
         `willa-input--${size}`,
         `willa-input--${variant}`,
-        fullWidth && "willa-input--full",
+        isRange && "willa-input--range",
         disabled && "willa-input--disabled",
         isInvalid && "willa-input--invalid",
         className,
@@ -75,7 +93,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
       <input
         {...inputProps}
         ref={ref}
-        className={classNames("willa-input-control", inputClassName)}
+        className={classNames(
+          "willa-input-control",
+          isRange && "willa-input-control--range",
+          inputClassName,
+        )}
         disabled={disabled}
         aria-invalid={isInvalid || inputProps["aria-invalid"]}
       />
@@ -95,15 +117,40 @@ Input.displayName = "Input";
 
 const getInputStyle = (options: {
   backgroundColor?: string;
+  rangeColor?: string;
+  rangeHeight?: CSSProperties["height"];
+  rangeThumbColor?: string;
+  rangeTrackColor?: string;
   textColor?: string;
+  width?: CSSProperties["width"];
   style?: CSSProperties;
 }) => {
-  const { backgroundColor, textColor, style } = options;
+  const {
+    backgroundColor,
+    rangeColor,
+    rangeHeight,
+    rangeThumbColor,
+    rangeTrackColor,
+    textColor,
+    width,
+    style,
+  } = options;
 
   return {
     ...style,
+    ...(width === undefined ? undefined : { width }),
     ...(backgroundColor
       ? { "--willa-input-custom-bg": backgroundColor }
+      : undefined),
+    ...(rangeColor ? { "--willa-input-custom-range": rangeColor } : undefined),
+    ...(rangeHeight
+      ? { "--willa-input-custom-range-height": rangeHeight }
+      : undefined),
+    ...(rangeThumbColor
+      ? { "--willa-input-custom-range-thumb": rangeThumbColor }
+      : undefined),
+    ...(rangeTrackColor
+      ? { "--willa-input-custom-range-track": rangeTrackColor }
       : undefined),
     ...(textColor ? { "--willa-input-custom-text": textColor } : undefined),
   } as CSSProperties;

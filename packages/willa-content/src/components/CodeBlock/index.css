@@ -100,7 +100,7 @@
   opacity: 0;
 }
 
-@media (hover: none) {
+@media (hover: none), (max-width: 767px) {
   .willa-prose-pre {
     overflow-x: auto;
   }

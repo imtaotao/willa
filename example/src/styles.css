@@ -470,11 +470,6 @@ select {
   vertical-align: top;
 }
 
-.docs-props td:has(.docs-prop-token:hover),
-.docs-props td:has(.docs-prop-token:focus-within) {
-  z-index: 30;
-}
-
 .docs-props th {
   color: var(--willa-text-soft);
   font-weight: 700;
@@ -528,6 +523,7 @@ select {
 .docs-prop-name-cell {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 6px;
   min-width: 0;
 }
@@ -540,79 +536,15 @@ select {
   outline: 0;
 }
 
-.docs-prop-token:hover,
-.docs-prop-token:focus-within {
-  z-index: 40;
+.docs-prop-token--type code {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .docs-prop-name-cell .docs-prop-token {
-  flex: 1;
-}
-
-.docs-prop-popover {
-  position: absolute;
-  left: 0;
-  top: calc(100% + 8px);
-  z-index: 50;
-  display: grid;
-  gap: 7px;
-  width: max-content;
-  max-width: min(520px, calc(100vw - 96px));
-  border: 1px solid rgba(15, 23, 42, 0.14);
-  border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.16);
-  color: #111827;
-  opacity: 0;
-  padding: 10px 12px;
-  pointer-events: none;
-  transform: translateY(-4px);
-  transition:
-    opacity 140ms ease,
-    transform 140ms ease;
-}
-
-.docs-prop-popover::before {
-  position: absolute;
-  right: 0;
-  bottom: 100%;
-  left: 0;
-  height: 8px;
-  content: "";
-}
-
-.docs-prop-token:hover .docs-prop-popover,
-.docs-prop-token:focus-within .docs-prop-popover {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-.docs-prop-popover-label {
-  color: #64748b;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.docs-prop-popover code {
-  display: block;
-  max-width: 100%;
-  overflow: auto;
-  text-overflow: clip;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-:root[data-wk-theme="dark"] .docs-prop-popover {
-  border-color: rgba(255, 255, 255, 0.16);
-  background: #111827;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.34);
-  color: #f8fafc;
-}
-
-:root[data-wk-theme="dark"] .docs-prop-popover-label {
-  color: #94a3b8;
+  flex: 0 1 auto;
 }
 
 @media (max-width: 1040px) {
@@ -620,7 +552,12 @@ select {
     grid-template-columns: 1fr;
   }
 
+  .docs-main {
+    order: 1;
+  }
+
   .docs-sidebar {
+    order: 2;
     position: static;
     height: auto;
     border-right: 0;
@@ -666,6 +603,14 @@ select {
     gap: 18px;
   }
 
+  .docs-preview {
+    order: 1;
+  }
+
+  .docs-reference {
+    order: 2;
+  }
+
   .docs-preview,
   .docs-reference,
   .docs-loading {
@@ -678,10 +623,6 @@ select {
 
   .docs-preview-sections {
     gap: 16px;
-  }
-
-  .docs-prop-popover {
-    max-width: calc(100vw - 44px);
   }
 
   .docs-props table,
@@ -728,10 +669,6 @@ select {
 
   .docs-prop-token {
     max-width: 100%;
-  }
-
-  .docs-prop-popover {
-    display: none;
   }
 
   .docs-meta-list {

@@ -1,7 +1,7 @@
 {
   "name": "@willa-ui/ai",
   "version": "0.0.3-alpha.284d401",
-  "description": "Willa UI widget components.",
+  "description": "Willa UI AI product components.",
   "author": "chentao.arthur",
   "license": "MIT",
   "scripts": {

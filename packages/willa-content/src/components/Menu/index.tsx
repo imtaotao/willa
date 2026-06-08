@@ -118,17 +118,19 @@ export function Menu(props: MenuProps) {
     if (!triggerElement || typeof window === "undefined") return;
 
     const rect = triggerElement.getBoundingClientRect();
-    const contentWidth = contentRef.current?.offsetWidth ?? rect.width;
+    const contentElement = contentRef.current;
+    const contentWidth = contentElement?.offsetWidth ?? rect.width;
+    const contentHeight = contentElement?.offsetHeight ?? 0;
     const top =
       side === "bottom"
         ? rect.bottom + offset
-        : rect.top - (contentRef.current?.offsetHeight ?? 0) - offset;
+        : rect.top - contentHeight - offset;
     const left = getMenuLeft(rect, contentWidth, align);
 
     setPosition({
-      top: Math.max(8, top),
-      left: Math.max(8, left),
-      minWidth: rect.width,
+      top: clamp(top, 8, window.innerHeight - contentHeight - 8),
+      left: clamp(left, 8, window.innerWidth - contentWidth - 8),
+      minWidth: Math.min(rect.width, window.innerWidth - 16),
     });
   }, [align, offset, side]);
 
@@ -177,6 +179,8 @@ export function Menu(props: MenuProps) {
   useEffect(() => {
     if (isOpen) {
       updatePosition();
+    } else {
+      setPosition(undefined);
     }
   }, [isOpen, updatePosition]);
 
@@ -374,7 +378,12 @@ const getMenuContentStyle = (position: MenuPosition | undefined) => {
     top: position ? `${position.top}px` : undefined,
     left: position ? `${position.left}px` : undefined,
     minWidth: position ? `${position.minWidth}px` : undefined,
+    visibility: position ? undefined : "hidden",
   } as CSSProperties;
+};
+
+const clamp = (value: number, min: number, max: number) => {
+  return Math.min(Math.max(value, min), Math.max(min, max));
 };
 
 const composeRefs = <T,>(

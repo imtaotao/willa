@@ -1,4 +1,6 @@
 .willa-file-tree {
+  container-type: inline-size;
+  position: relative;
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
@@ -8,6 +10,11 @@
   background: var(--willa-file-tree-bg);
   color: var(--willa-file-tree-text);
   font-family: var(--willa-body-font);
+}
+
+.willa-file-tree--resizable {
+  max-width: 100%;
+  min-width: 10rem;
 }
 
 .willa-file-tree-list {
@@ -48,8 +55,8 @@
 
 .willa-file-tree-row[href]:hover,
 .willa-file-tree-row--clickable:hover {
-  border-color: var(--willa-file-card-border-hover);
-  background: var(--willa-file-card-bg-hover);
+  border-color: var(--willa-file-tree-border-hover);
+  background: var(--willa-file-tree-bg-hover);
   color: var(--willa-file-tree-text);
 }
 
@@ -141,6 +148,48 @@
   line-height: 1.35;
 }
 
+.willa-file-tree-meta {
+  justify-self: end;
+  max-width: 10rem;
+  min-width: 0;
+}
+
+.willa-file-tree-resizer {
+  position: absolute;
+  top: 0.65rem;
+  right: -0.38rem;
+  bottom: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.76rem;
+  border-radius: 999px;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.willa-file-tree-resizer::before {
+  width: 2px;
+  height: 2.2rem;
+  border-radius: 999px;
+  background: transparent;
+  content: "";
+  transition:
+    background-color 160ms ease,
+    height 160ms ease;
+}
+
+.willa-file-tree-resizer:hover::before,
+.willa-file-tree-resizer:focus-visible::before {
+  height: 3rem;
+  background: var(--willa-file-tree-border-hover);
+}
+
+.willa-file-tree-resizer:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
 .willa-file-tree--sm {
   padding: 0.75rem;
 }
@@ -162,6 +211,10 @@
     overflow-x: auto;
   }
 
+  .willa-file-tree-resizer {
+    display: none;
+  }
+
   .willa-file-tree-list {
     min-width: max-content;
   }
@@ -172,5 +225,19 @@
 
   .willa-file-tree-meta {
     grid-column: 4;
+    justify-self: start;
+    max-width: 100%;
+  }
+}
+
+@container (max-width: 22rem) {
+  .willa-file-tree-row {
+    grid-template-columns: auto auto auto minmax(0, 1fr);
+  }
+
+  .willa-file-tree-meta {
+    grid-column: 4;
+    justify-self: start;
+    max-width: 100%;
   }
 }

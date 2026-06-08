@@ -1,10 +1,12 @@
 import {
   useMemo,
+  useRef,
   useState,
   type AnchorHTMLAttributes,
   type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
+  type PointerEvent,
   type ReactNode,
 } from "react";
 import classNames from "classnames";
@@ -19,23 +21,36 @@ import {
 export type FileTreeItemType = "file" | "folder";
 export type FileTreeSize = "sm" | "md";
 
-export type FileTreeItem = {
+export type FileTreeItemBase = {
   name: ReactNode;
   type?: FileTreeItemType;
   id?: string;
-  href?: string;
   meta?: ReactNode;
   description?: ReactNode;
   icon?: ReactNode;
   selected?: boolean;
   muted?: boolean;
+};
+
+export type FileTreeFileItem = FileTreeItemBase & {
+  type?: "file";
+  href?: string;
+  children?: never;
+};
+
+export type FileTreeFolderItem = FileTreeItemBase & {
+  type?: "folder";
+  href?: never;
   children?: Array<FileTreeItem>;
 };
+
+export type FileTreeItem = FileTreeFileItem | FileTreeFolderItem;
 
 export type FileTreeProps = {
   items: Array<FileTreeItem>;
   size?: FileTreeSize;
   width?: CSSProperties["width"];
+  resizable?: boolean;
   collapsible?: boolean;
   defaultExpandedIds?: Array<string>;
   expandedIds?: Array<string>;
@@ -49,6 +64,7 @@ export function FileTree(props: FileTreeProps) {
     items,
     size = "md",
     width,
+    resizable = false,
     collapsible = false,
     defaultExpandedIds,
     expandedIds,
@@ -58,6 +74,8 @@ export function FileTree(props: FileTreeProps) {
     style,
     ...treeProps
   } = props;
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [resizedWidth, setResizedWidth] = useState<number>();
   const initialExpandedIds = useMemo(() => {
     return new Set(defaultExpandedIds ?? collectExpandableIds(items));
   }, [defaultExpandedIds, items]);
@@ -73,14 +91,68 @@ export function FileTree(props: FileTreeProps) {
 
     onExpandedChange?.([...nextExpandedIds]);
   };
+  const updateResizedWidth = (nextWidth: number) => {
+    const rootElement = rootRef.current;
+    const maxWidth =
+      rootElement?.parentElement?.getBoundingClientRect().width ??
+      rootElement?.getBoundingClientRect().width ??
+      nextWidth;
+
+    setResizedWidth(clampWidth(nextWidth, 160, maxWidth));
+  };
+  const handleResizePointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if (!resizable) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const rootElement = rootRef.current;
+    if (!rootElement || typeof window === "undefined") return;
+
+    const startX = event.clientX;
+    const startWidth = rootElement.getBoundingClientRect().width;
+    const parentWidth =
+      rootElement.parentElement?.getBoundingClientRect().width ?? startWidth;
+    const handlePointerMove = (moveEvent: globalThis.PointerEvent) => {
+      setResizedWidth(
+        clampWidth(startWidth + moveEvent.clientX - startX, 160, parentWidth),
+      );
+    };
+    const handlePointerUp = () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+    };
+
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
+  };
+  const handleResizeKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (!resizable) return;
+
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+
+    event.preventDefault();
+    const currentWidth =
+      resizedWidth ?? rootRef.current?.getBoundingClientRect().width ?? 240;
+    updateResizedWidth(
+      event.key === "ArrowLeft" ? currentWidth - 16 : currentWidth + 16,
+    );
+  };
+  const resolvedStyle = {
+    ...style,
+    ...(width === undefined ? null : { width }),
+    ...(resizedWidth === undefined ? null : { width: `${resizedWidth}px` }),
+  };
 
   return (
     <div
       {...treeProps}
-      style={width === undefined ? style : { ...style, width }}
+      ref={rootRef}
+      style={resolvedStyle}
       className={classNames(
         "willa-file-tree",
         `willa-file-tree--${size}`,
+        resizable && "willa-file-tree--resizable",
         className,
       )}
     >
@@ -94,9 +166,21 @@ export function FileTree(props: FileTreeProps) {
             onFileClick,
             depth: 0,
             keyPath: String(item.id ?? index),
+            expandedId: getFileTreeItemExpandedId(item, String(index)),
           }),
         )}
       </div>
+      {resizable ? (
+        <div
+          aria-label="调整文件树宽度"
+          aria-orientation="vertical"
+          className="willa-file-tree-resizer"
+          onKeyDown={handleResizeKeyDown}
+          onPointerDown={handleResizePointerDown}
+          role="separator"
+          tabIndex={0}
+        />
+      ) : null}
     </div>
   );
 }
@@ -109,6 +193,7 @@ const renderFileTreeItem = (options: {
   onFileClick?: (item: FileTreeItem) => void;
   depth: number;
   keyPath: string;
+  expandedId: string;
 }) => {
   const {
     collapsible,
@@ -118,20 +203,24 @@ const renderFileTreeItem = (options: {
     onFileClick,
     depth,
     keyPath,
+    expandedId,
   } = options;
   const hasChildren = Boolean(item.children?.length);
   const type = item.type ?? (hasChildren ? "folder" : "file");
   const isFile = type === "file";
   const isClickableFile = isFile && Boolean(onFileClick);
-  const isExpanded = !collapsible || !hasChildren || expandedIds.has(keyPath);
+  const isExpanded =
+    !collapsible || !hasChildren || expandedIds.has(expandedId);
+  const nameTitle = getFileTreeItemTextTitle(item.name);
+  const metaTitle = getFileTreeItemTextTitle(item.meta);
   const toggleExpanded = () => {
     if (!collapsible || !hasChildren) return;
 
     const nextExpandedIds = new Set(expandedIds);
-    if (nextExpandedIds.has(keyPath)) {
-      nextExpandedIds.delete(keyPath);
+    if (nextExpandedIds.has(expandedId)) {
+      nextExpandedIds.delete(expandedId);
     } else {
-      nextExpandedIds.add(keyPath);
+      nextExpandedIds.add(expandedId);
     }
 
     onExpandedChange(nextExpandedIds);
@@ -140,12 +229,45 @@ const renderFileTreeItem = (options: {
     if (!isClickableFile) return;
     onFileClick?.(item);
   };
-  const handleFileKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (!isClickableFile) return;
+  const handleRowKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      focusAdjacentTreeItem(event.currentTarget, event.key === "ArrowDown");
+      return;
+    }
+
+    if (event.key === "ArrowRight") {
+      if (collapsible && hasChildren && !isExpanded) {
+        event.preventDefault();
+        toggleExpanded();
+      }
+      return;
+    }
+
+    if (event.key === "ArrowLeft") {
+      if (collapsible && hasChildren && isExpanded) {
+        event.preventDefault();
+        toggleExpanded();
+      }
+      return;
+    }
+
     if (event.key !== "Enter" && event.key !== " ") return;
 
     event.preventDefault();
-    handleFileClick();
+    if (collapsible && hasChildren && !item.href) {
+      toggleExpanded();
+      return;
+    }
+
+    if (isClickableFile) {
+      handleFileClick();
+      return;
+    }
+
+    if (event.currentTarget instanceof HTMLAnchorElement) {
+      event.currentTarget.click();
+    }
   };
   const content = (
     <>
@@ -154,33 +276,22 @@ const renderFileTreeItem = (options: {
           <span key={index} className="willa-file-tree-guide" />
         ))}
       </span>
-      {collapsible && hasChildren ? (
-        <button
-          className="willa-file-tree-toggle"
-          type="button"
-          aria-label={isExpanded ? "收起目录" : "展开目录"}
-          aria-expanded={isExpanded}
-          onClick={(event) => {
-            event.stopPropagation();
-            toggleExpanded();
-          }}
-        >
-          {isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
-        </button>
-      ) : (
-        <span className="willa-file-tree-toggle" aria-hidden="true">
-          {hasChildren && isExpanded ? (
+      <span className="willa-file-tree-toggle" aria-hidden="true">
+        {hasChildren ? (
+          isExpanded ? (
             <ChevronDownIcon />
           ) : (
             <ChevronRightIcon />
-          )}
-        </span>
-      )}
+          )
+        ) : null}
+      </span>
       <span className="willa-file-tree-icon" aria-hidden="true">
         {item.icon ?? getDefaultIcon(type, item.name)}
       </span>
       <span className="willa-file-tree-content">
-        <span className="willa-file-tree-name">{item.name}</span>
+        <span className="willa-file-tree-name" title={nameTitle}>
+          {item.name}
+        </span>
         {item.description ? (
           <span className="willa-file-tree-description">
             {item.description}
@@ -188,7 +299,9 @@ const renderFileTreeItem = (options: {
         ) : null}
       </span>
       {item.meta ? (
-        <span className="willa-file-tree-meta">{item.meta}</span>
+        <span className="willa-file-tree-meta" title={metaTitle}>
+          {item.meta}
+        </span>
       ) : null}
     </>
   );
@@ -202,32 +315,38 @@ const renderFileTreeItem = (options: {
   );
   const rowProps = {
     onClick:
-      collapsible && hasChildren && !item.href
+      collapsible && hasChildren
         ? toggleExpanded
         : isClickableFile
           ? handleFileClick
           : undefined,
   };
 
+  const treeItemProps = {
+    "aria-expanded": collapsible && hasChildren ? isExpanded : undefined,
+    "aria-level": depth + 1,
+    role: "treeitem",
+    tabIndex: 0,
+  } as const;
+
   return (
-    <div key={keyPath} className="willa-file-tree-item" role="treeitem">
+    <div key={keyPath} className="willa-file-tree-item">
       {item.href ? (
         <a
+          {...treeItemProps}
           className={className}
           href={item.href}
           {...getLinkProps(item.href)}
-          aria-expanded={collapsible && hasChildren ? isExpanded : undefined}
+          onKeyDown={handleRowKeyDown}
           onClick={isClickableFile ? handleFileClick : undefined}
         >
           {content}
         </a>
       ) : (
         <div
+          {...treeItemProps}
           className={className}
-          aria-expanded={collapsible && hasChildren ? isExpanded : undefined}
-          role={isClickableFile ? "button" : undefined}
-          tabIndex={isClickableFile ? 0 : undefined}
-          onKeyDown={isClickableFile ? handleFileKeyDown : undefined}
+          onKeyDown={handleRowKeyDown}
           {...rowProps}
         >
           {content}
@@ -244,12 +363,30 @@ const renderFileTreeItem = (options: {
               onFileClick,
               depth: depth + 1,
               keyPath: `${keyPath}-${child.id ?? index}`,
+              expandedId: getFileTreeItemExpandedId(
+                child,
+                `${keyPath}-${index}`,
+              ),
             }),
           )}
         </div>
       ) : null}
     </div>
   );
+};
+
+const focusAdjacentTreeItem = (currentItem: HTMLElement, forward: boolean) => {
+  const tree = currentItem.closest('[role="tree"]');
+  if (!tree) return;
+
+  const items = Array.from(
+    tree.querySelectorAll<HTMLElement>('[role="treeitem"]'),
+  );
+  const currentIndex = items.indexOf(currentItem);
+  if (currentIndex < 0) return;
+
+  const nextIndex = forward ? currentIndex + 1 : currentIndex - 1;
+  items[nextIndex]?.focus();
 };
 
 const collectExpandableIds = (
@@ -263,8 +400,26 @@ const collectExpandableIds = (
 
     if (!item.children?.length) return [];
 
-    return [keyPath, ...collectExpandableIds(item.children, keyPath)];
+    return [
+      getFileTreeItemExpandedId(item, keyPath),
+      ...collectExpandableIds(item.children, keyPath),
+    ];
   });
+};
+
+const getFileTreeItemExpandedId = (
+  item: FileTreeItem,
+  fallbackKeyPath: string,
+) => {
+  return item.id ?? fallbackKeyPath;
+};
+
+const getFileTreeItemTextTitle = (value: ReactNode) => {
+  return typeof value === "string" ? value : undefined;
+};
+
+const clampWidth = (value: number, min: number, max: number) => {
+  return Math.min(Math.max(value, min), Math.max(min, max));
 };
 
 const getDefaultIcon = (type: FileTreeItemType, name: ReactNode) => {

@@ -83,7 +83,10 @@ not maintain their own `tsconfig.json`; they use the root `tsconfig.json`.
 `packages/willa` is the public aggregate package, published as `willa`. It
 exports all public components and does not export `@willa-ui/shared`. It usually
 does not own component implementations or theme variables; it combines content,
-AI, and widgets outputs.
+widgets, and AI outputs once the AI package has public components. At the
+moment, the aggregate package depends on content and widgets; AI should be added
+to its package and CSS dependencies when the first public AI component is
+exported.
 
 `packages/willa-content` is the base product and content component package,
 published as `@willa-ui/content`. It contains general product and content
@@ -119,7 +122,8 @@ Dependencies must remain one-way:
 - content can depend on shared.
 - ai can depend on shared and content.
 - widgets can depend on shared and content.
-- willa can depend on and export content, AI, and widgets.
+- willa currently depends on content and widgets; it can add AI once AI has
+  public components.
 - example can depend on all public packages and source aliases.
 
 Do not make content depend on AI or widgets. Do not move AI-specific or
@@ -140,7 +144,7 @@ flowchart LR
   widgets --> shared
   widgets --> content
   willa --> content
-  willa --> ai
+  willa -. future public AI components .-> ai
   willa --> widgets
   example --> willa
   example --> content
@@ -216,7 +220,7 @@ flowchart LR
   contentCss --> widgetsCss
   widgetsOwn --> widgetsCss
   contentCss --> willaCss
-  aiCss --> willaCss
+  aiCss -. future public AI components .-> willaCss
   widgetsCss --> willaCss
 ```
 

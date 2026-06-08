@@ -45,6 +45,7 @@ export type TooltipProps = {
 type TooltipTriggerProps = {
   onMouseEnter?: MouseEventHandler<HTMLElement>;
   onMouseLeave?: MouseEventHandler<HTMLElement>;
+  onClick?: MouseEventHandler<HTMLElement>;
   onFocus?: FocusEventHandler<HTMLElement>;
   onBlur?: FocusEventHandler<HTMLElement>;
   onKeyDown?: KeyboardEventHandler<HTMLElement>;
@@ -172,6 +173,25 @@ export function Tooltip(props: TooltipProps) {
     };
   }, [isOpen, updatePosition]);
 
+  useEffect(() => {
+    if (!isOpen || typeof document === "undefined") return;
+
+    const handleDocumentPointerDown = (event: PointerEvent) => {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (triggerRef.current?.contains(target)) return;
+      if (contentRef.current?.contains(target)) return;
+
+      closeTooltip();
+    };
+
+    document.addEventListener("pointerdown", handleDocumentPointerDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handleDocumentPointerDown);
+    };
+  }, [closeTooltip, isOpen]);
+
   const handleTriggerMouseEnter = (event: MouseEvent<HTMLElement>) => {
     children.props.onMouseEnter?.(event);
     if (!event.defaultPrevented) {
@@ -184,6 +204,14 @@ export function Tooltip(props: TooltipProps) {
     if (!event.defaultPrevented) {
       closeTooltip();
     }
+  };
+
+  const handleTriggerClick = (event: MouseEvent<HTMLElement>) => {
+    children.props.onClick?.(event);
+    if (event.defaultPrevented || !isCoarsePointer()) return;
+
+    clearOpenTimer();
+    setTooltipOpen(!isOpen);
   };
 
   const handleTriggerFocus = (event: FocusEvent<HTMLElement>) => {
@@ -219,6 +247,7 @@ export function Tooltip(props: TooltipProps) {
       "aria-describedby": isOpen ? id : undefined,
       onMouseEnter: handleTriggerMouseEnter,
       onMouseLeave: handleTriggerMouseLeave,
+      onClick: handleTriggerClick,
       onFocus: handleTriggerFocus,
       onBlur: handleTriggerBlur,
       onKeyDown: handleTriggerKeyDown,
@@ -317,6 +346,17 @@ const getTooltipContentStyle = (position: TooltipPosition | undefined) => {
 
 const clamp = (value: number, min: number, max: number) => {
   return Math.min(Math.max(value, min), Math.max(min, max));
+};
+
+const isCoarsePointer = () => {
+  if (
+    typeof window === "undefined" ||
+    typeof window.matchMedia !== "function"
+  ) {
+    return false;
+  }
+
+  return window.matchMedia("(pointer: coarse)").matches;
 };
 
 const composeRefs = <T,>(

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   CheckCircledIcon,
   EnvelopeClosedIcon,
@@ -21,6 +22,40 @@ const rowStyle = {
   alignItems: "center",
 } as const;
 
+const RangeInputPreview = () => {
+  const [strength, setStrength] = useState(60);
+
+  return (
+    <div style={stackStyle}>
+      <Input
+        type="range"
+        min={0}
+        max={100}
+        step={1}
+        value={strength}
+        width="18rem"
+        rangeColor="#3b82f6"
+        rangeHeight="0.5rem"
+        rangeTrackColor="rgba(59, 130, 246, 0.18)"
+        aria-label="生成强度"
+        onChange={(event) => setStrength(Number(event.currentTarget.value))}
+      />
+      <Input
+        type="range"
+        min={0}
+        max={1}
+        step={0.1}
+        defaultValue={0.7}
+        width="100%"
+        rangeColor="#14b8a6"
+        rangeThumbColor="#ecfeff"
+        rangeTrackColor="rgba(20, 184, 166, 0.18)"
+        aria-label="温度"
+      />
+    </div>
+  );
+};
+
 export default defineDoc({
   id: "input",
   name: "Input",
@@ -34,7 +69,7 @@ export default defineDoc({
     props: {
       placeholder: "搜索文档、组件或提示词",
       leadingIcon: <MagnifyingGlassIcon />,
-      fullWidth: true,
+      width: "100%",
     },
   },
   code: `
@@ -45,7 +80,7 @@ export default defineDoc({
     <Input
       placeholder="搜索文档、组件或提示词"
       leadingIcon={<MagnifyingGlassIcon />}
-      fullWidth
+      width="100%"
     />
   `,
   sections: [
@@ -90,6 +125,10 @@ export default defineDoc({
       ),
     },
     {
+      title: "范围输入",
+      content: <RangeInputPreview />,
+    },
+    {
       title: "状态",
       content: (
         <div style={stackStyle}>
@@ -128,14 +167,20 @@ export default defineDoc({
       description: "输入框视觉类型。",
     },
     {
+      name: "type",
+      type: "HTMLInputTypeAttribute",
+      description:
+        "原生 input 类型；设置为 range 时会展示滑块输入样式，value、min、max、step、onChange 和 onInput 等原生属性保持透传。",
+    },
+    {
       name: "invalid",
       type: "boolean",
       description: "展示错误状态。",
     },
     {
-      name: "fullWidth",
-      type: "boolean",
-      description: "是否占满父容器宽度。",
+      name: "width",
+      type: "CSSProperties['width']",
+      description: "自定义输入框宽度；设置为 100% 时占满父容器。",
     },
     {
       name: "leadingIcon",
@@ -166,6 +211,26 @@ export default defineDoc({
       name: "backgroundColor",
       type: "string",
       description: "自定义输入框背景颜色，支持 CSS 颜色值。",
+    },
+    {
+      name: "rangeColor",
+      type: "string",
+      description: "自定义 range 主色，影响滑块边框和浏览器原生强调色。",
+    },
+    {
+      name: "rangeHeight",
+      type: "CSSProperties['height']",
+      description: "自定义 range 轨道高度，建议使用 px、rem 等长度值。",
+    },
+    {
+      name: "rangeThumbColor",
+      type: "string",
+      description: "自定义 range 滑块背景色。",
+    },
+    {
+      name: "rangeTrackColor",
+      type: "string",
+      description: "自定义 range 轨道背景色。",
     },
     {
       name: "textColor",

@@ -4,9 +4,11 @@ import { EnterFullScreenIcon, ExitFullScreenIcon } from "@radix-ui/react-icons";
 import { Badge } from "willa/Badge";
 import { CodeBlock } from "willa/CodeBlock";
 import { IconButton } from "willa/IconButton";
+import { Tooltip } from "willa/Tooltip";
 import "willa/Badge.css";
 import "willa/CodeBlock.css";
 import "willa/IconButton.css";
+import "willa/Tooltip.css";
 
 import type { ComponentDoc } from "#example/catalog/types";
 
@@ -17,13 +19,21 @@ type DocViewProps = {
 type ExpandedPanel = "reference" | "preview" | null;
 
 const PropToken = (props: { value: string; kind: "名称" | "类型" }) => (
-  <span className="docs-prop-token" tabIndex={0}>
-    <code>{props.value}</code>
-    <span className="docs-prop-popover" role="tooltip">
-      <span className="docs-prop-popover-label">{props.kind}</span>
+  <Tooltip
+    content={`${props.kind}: ${props.value}`}
+    side="bottom"
+    align="start"
+  >
+    <span
+      className={classNames(
+        "docs-prop-token",
+        `docs-prop-token--${props.kind === "名称" ? "name" : "type"}`,
+      )}
+      tabIndex={0}
+    >
       <code>{props.value}</code>
     </span>
-  </span>
+  </Tooltip>
 );
 
 export function DocView({ doc }: DocViewProps) {

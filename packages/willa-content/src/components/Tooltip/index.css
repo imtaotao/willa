@@ -63,9 +63,3 @@
   left: -0.31rem;
   transform: rotate(135deg);
 }
-
-@media (hover: none) {
-  .willa-tooltip-content {
-    display: none;
-  }
-}

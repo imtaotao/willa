@@ -62,13 +62,7 @@ export function Group(props: GroupProps) {
       style={groupStyle}
       className={classNames(
         "willa-group",
-        isGroupGapPreset(gap) && `willa-group--gap-${gap}`,
-        `willa-group--align-${align}`,
-        `willa-group--justify-${justify}`,
-        `willa-group--direction-${direction}`,
-        wrap && "willa-group--wrap",
         grow && "willa-group--grow",
-        inline && "willa-group--inline",
         className,
       )}
     >

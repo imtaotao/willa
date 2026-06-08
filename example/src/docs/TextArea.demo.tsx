@@ -10,7 +10,7 @@ const stackStyle = {
 } as const;
 
 export default defineDoc({
-  id: "textarea",
+  id: "text-area",
   name: "TextArea",
   packageName: "willa/TextArea",
   description: "用于多行文本、提示词、反馈内容和 AI 输入区域的文本框。",

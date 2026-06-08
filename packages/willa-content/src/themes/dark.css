@@ -112,7 +112,9 @@
   --willa-file-card-neutral-bg: rgba(255, 255, 255, 0.14);
   --willa-file-card-neutral-text: var(--willa-text-strong);
   --willa-file-tree-bg: rgba(255, 255, 255, 0.045);
+  --willa-file-tree-bg-hover: rgba(255, 255, 255, 0.08);
   --willa-file-tree-border: rgba(255, 255, 255, 0.11);
+  --willa-file-tree-border-hover: rgba(125, 211, 252, 0.2);
   --willa-file-tree-text: var(--willa-text);
   --willa-file-tree-title: var(--willa-text-strong);
   --willa-file-tree-meta: var(--willa-text-faint);
@@ -137,6 +139,12 @@
   --willa-input-disabled-text: var(--willa-text-faint);
   --willa-input-invalid-border: rgba(252, 165, 165, 0.42);
   --willa-input-invalid-ring: rgba(252, 165, 165, 0.13);
+  --willa-input-range-accent: var(--willa-accent);
+  --willa-input-range-height: 0.36rem;
+  --willa-input-range-track: rgba(125, 211, 252, 0.16);
+  --willa-input-range-thumb: #1f2937;
+  --willa-input-range-thumb-border: rgba(125, 211, 252, 0.48);
+  --willa-input-range-thumb-shadow: rgba(0, 0, 0, 0.34);
   --willa-kbd-bg: rgba(255, 255, 255, 0.08);
   --willa-kbd-border: rgba(255, 255, 255, 0.14);
   --willa-kbd-separator: var(--willa-text-faint);

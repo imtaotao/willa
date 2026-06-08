@@ -266,6 +266,13 @@ Use this rule:
   stay local.
 - Component-local variables must have reasonable fallbacks.
 
+For prop-driven layout components, keep each layout value in one source of
+truth. If a component computes `display`, `gap`, `align-items`, or similar
+values from props, do not mirror the same matrix in CSS modifier classes unless
+those classes are the only source of the behavior. CSS should still own
+structural selectors that cannot be expressed on the root element, such as
+child selectors for grouped item growth.
+
 ## FAQ
 
 What should an AI or widgets component do if it needs content base tokens?

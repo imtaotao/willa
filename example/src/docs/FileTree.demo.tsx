@@ -1,9 +1,12 @@
 import { useMemo, useState } from "react";
+import { unindent } from "aidly";
 import { FileTextIcon } from "@radix-ui/react-icons";
 import { CodeBlock } from "willa/CodeBlock";
 import { FileTree, type FileTreeItem } from "willa/FileTree";
+import { Group } from "willa/Group";
 import "willa/CodeBlock.css";
 import "willa/FileTree.css";
+import "willa/Group.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
@@ -48,6 +51,12 @@ const repositoryItems: Array<FileTreeItem> = [
           {
             id: "payments-readme",
             name: "README.md",
+            icon: <FileTextIcon />,
+          },
+          {
+            id: "payments-long-report",
+            name: "quarterly-payment-reconciliation-report-2026-final.md",
+            meta: "finance / reconciliation / archived",
             icon: <FileTextIcon />,
           },
         ],
@@ -115,47 +124,56 @@ const demoFiles: Array<DemoFile> = [
   {
     id: "agents",
     language: "md",
-    code: `# AGENTS.md
+    code: unindent(`
+      # AGENTS.md
 
-通用约定会作用于整个仓库。
+      通用约定会作用于整个仓库。
 
-- 使用 pnpm workspace 管理包
-- 组件样式由 auklet 自动推导
-- 内容组件放在 @willa-ui/content`,
+      - 使用 pnpm workspace 管理包
+      - 组件样式由 auklet 自动推导
+      - 内容组件放在 @willa-ui/content
+    `),
   },
   {
     id: "payments-override",
     language: "md",
-    code: `# AGENTS.override.md
+    code: unindent(`
+      # AGENTS.override.md
 
-payments 服务使用独立规则。
+      payments 服务使用独立规则。
 
-- 优先保证支付链路可回滚
-- 接口变更需要补充兼容说明`,
+      - 优先保证支付链路可回滚
+      - 接口变更需要补充兼容说明
+    `),
   },
   {
     id: "payments-readme",
     language: "md",
-    code: `# payments
+    code: unindent(`
+      # payments
 
-支付服务包含订单创建、支付确认和退款任务。`,
+      支付服务包含订单创建、支付确认和退款任务。
+    `),
+  },
+  {
+    id: "payments-long-report",
+    language: "md",
+    code: unindent(`
+      # quarterly-payment-reconciliation-report-2026-final.md
+
+      用于演示文件名和 meta 被截断时的完整提示。
+    `),
   },
   {
     id: "search-readme",
     language: "md",
-    code: `# search
+    code: unindent(`
+      # search
 
-搜索服务负责索引构建、召回和排序配置。`,
+      搜索服务负责索引构建、召回和排序配置。
+    `),
   },
 ];
-
-const fileTreePreviewStyle = {
-  display: "flex",
-  alignItems: "stretch",
-  flexWrap: "wrap",
-  gap: "0.85rem",
-  width: "100%",
-} as const;
 
 const fileTreeCodeStyle = {
   display: "grid",
@@ -173,10 +191,11 @@ const FileTreeCodePreview = () => {
     demoFiles.find((file) => file.id === currentId) ?? demoFiles[0];
 
   return (
-    <div style={fileTreePreviewStyle}>
+    <Group align="stretch" gap="0.85rem" style={{ width: "100%" }}>
       <FileTree
         items={items}
         collapsible
+        resizable
         width="min(100%, 16rem)"
         onFileClick={(item) => {
           if (typeof item.id === "string") {
@@ -191,7 +210,7 @@ const FileTreeCodePreview = () => {
           </code>
         </CodeBlock>
       </div>
-    </div>
+    </Group>
   );
 };
 
@@ -199,13 +218,20 @@ const markSelectedFile = (
   items: Array<FileTreeItem>,
   selectedId: string,
 ): Array<FileTreeItem> => {
-  return items.map((item) => ({
-    ...item,
-    selected: item.id === selectedId,
-    children: item.children
-      ? markSelectedFile(item.children, selectedId)
-      : undefined,
-  }));
+  return items.map((item) => {
+    if (!item.children) {
+      return {
+        ...item,
+        selected: item.id === selectedId,
+      };
+    }
+
+    return {
+      ...item,
+      selected: item.id === selectedId,
+      children: markSelectedFile(item.children, selectedId),
+    };
+  });
 };
 
 export default defineDoc({
@@ -223,8 +249,10 @@ export default defineDoc({
     import { useMemo, useState } from "react";
     import { CodeBlock } from "willa/CodeBlock";
     import { FileTree } from "willa/FileTree";
+    import { Group } from "willa/Group";
     import "willa/CodeBlock.css";
     import "willa/FileTree.css";
+    import "willa/Group.css";
 
     const items = [
       {
@@ -264,17 +292,11 @@ export default defineDoc({
       );
 
       return (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "stretch",
-            flexWrap: "wrap",
-            gap: "0.85rem",
-          }}
-        >
+        <Group align="stretch" gap="0.85rem">
           <FileTree
             items={selectedItems}
             collapsible
+            resizable
             width="min(100%, 16rem)"
             onFileClick={(item) => {
               if (item.id) setCurrentId(item.id);
@@ -283,7 +305,7 @@ export default defineDoc({
           <CodeBlock>
             <code className="language-md--meta-ln">{files[currentId]}</code>
           </CodeBlock>
-        </div>
+        </Group>
       );
     }
   `,
@@ -294,7 +316,7 @@ export default defineDoc({
         <FileTree
           items={repositoryItems}
           collapsible
-          defaultExpandedIds={["1"]}
+          defaultExpandedIds={["services"]}
         />
       ),
     },
@@ -320,6 +342,11 @@ export default defineDoc({
       type: "CSSProperties['width']",
       description:
         "文件树根节点宽度，支持百分比、min()、clamp() 等响应式 CSS 宽度值。",
+    },
+    {
+      name: "resizable",
+      type: "boolean",
+      description: "是否允许拖拽右侧边缘调整文件树宽度。",
     },
     {
       name: "collapsible",
@@ -385,7 +412,7 @@ export default defineDoc({
       name: "FileTreeItem.meta",
       type: "ReactNode",
       group: "FileTreeItem",
-      description: "右侧补充信息。",
+      description: "右侧补充信息；字符串类型内容在 hover 时会展示完整提示。",
     },
     {
       name: "FileTreeItem.description",
@@ -403,7 +430,7 @@ export default defineDoc({
       name: "FileTreeItem.href",
       type: "string",
       group: "FileTreeItem",
-      description: "传入后节点渲染为链接。",
+      description: "文件节点链接地址；目录节点使用 children，不同时传 href。",
     },
     {
       name: "FileTreeItem.selected",

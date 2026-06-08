@@ -42,7 +42,6 @@ const docSpecGroups = {
     "Separator",
     "Skeleton",
     "Spinner",
-    "Step",
     "Steps",
     "SummaryCards",
     "Tabs",

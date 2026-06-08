@@ -120,6 +120,16 @@ export default defineDoc({
         </Tooltip>
       ),
     },
+    {
+      title: "触屏边界",
+      content: (
+        <p style={{ margin: 0, color: "var(--docs-text-muted)" }}>
+          Tooltip
+          在触屏设备上支持点击触发和外部点击关闭，适合展示解释性提示；需要承载操作说明、确认或交互内容时，使用
+          Popover 或 Menu。
+        </p>
+      ),
+    },
   ],
   props: [
     {

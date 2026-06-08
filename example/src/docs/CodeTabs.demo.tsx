@@ -1,3 +1,4 @@
+import { unindent } from "aidly";
 import { CodeTabs, type CodeTabsItem } from "willa/CodeTabs";
 import "willa/CodeTabs.css";
 
@@ -25,37 +26,41 @@ const usageItems: Array<CodeTabsItem> = [
   {
     label: "ShareButton.tsx",
     language: "tsx",
-    code: `import { useState } from "react";
-import { Button } from "willa/Button";
-import "willa/Button.css";
+    code: unindent(`
+      import { useState } from "react";
+      import { Button } from "willa/Button";
+      import "willa/Button.css";
 
-type ShareButtonProps = {
-  url: string;
-};
+      type ShareButtonProps = {
+        url: string;
+      };
 
-export function ShareButton(props: ShareButtonProps) {
-  const [copied, setCopied] = useState(false);
+      export function ShareButton(props: ShareButtonProps) {
+        const [copied, setCopied] = useState(false);
 
-  return (
-    <Button
-      copyText={props.url}
-      variant={copied ? "solid" : "soft"}
-      onClick={() => setCopied(true)}
-    >
-      {copied ? "已复制" : "复制链接"}
-    </Button>
-  );
-}`,
+        return (
+          <Button
+            copyText={props.url}
+            variant={copied ? "solid" : "soft"}
+            onClick={() => setCopied(true)}
+          >
+            {copied ? "已复制" : "复制链接"}
+          </Button>
+        );
+      }
+    `),
     highlightLines: [5, [12, 16]],
   },
   {
     label: "theme.css",
     language: "css",
-    code: `.share-button {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-}`,
+    code: unindent(`
+      .share-button {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+      }
+    `),
   },
 ];
 
@@ -63,36 +68,44 @@ const languageItems: Array<CodeTabsItem> = [
   {
     label: "C++",
     language: "c++",
-    code: `#include <iostream>
+    code: unindent(`
+      #include <iostream>
 
-int main() {
-  std::cout << "Hello Willa";
-}`,
+      int main() {
+        std::cout << "Hello Willa";
+      }
+    `),
   },
   {
     label: "Rust",
     language: "rust",
-    code: `fn main() {
-  println!("Hello Willa");
-}`,
+    code: unindent(`
+      fn main() {
+        println!("Hello Willa");
+      }
+    `),
   },
   {
     label: "Go",
     language: "go",
-    code: `package main
+    code: unindent(`
+      package main
 
-import "fmt"
+      import "fmt"
 
-func main() {
-  fmt.Println("Hello Willa")
-}`,
+      func main() {
+        fmt.Println("Hello Willa")
+      }
+    `),
   },
   {
     label: "HTML",
     language: "html",
-    code: `<article class="willa-card">
-  <h2>Hello Willa</h2>
-</article>`,
+    code: unindent(`
+      <article class="willa-card">
+        <h2>Hello Willa</h2>
+      </article>
+    `),
   },
 ];
 
