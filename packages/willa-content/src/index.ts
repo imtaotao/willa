@@ -27,6 +27,7 @@ export { Popover } from "#content/components/Popover";
 export { Progress } from "#content/components/Progress";
 export { Separator } from "#content/components/Separator";
 export { Skeleton } from "#content/components/Skeleton";
+export { Spinner } from "#content/components/Spinner";
 export { Step, Steps } from "#content/components/Steps";
 export { SummaryCards } from "#content/components/SummaryCards";
 export { Tabs } from "#content/components/Tabs";
@@ -136,6 +137,12 @@ export type {
   SeparatorSize,
 } from "#content/components/Separator";
 export type { SkeletonProps } from "#content/components/Skeleton";
+export type {
+  SpinnerLabelPosition,
+  SpinnerProps,
+  SpinnerSize,
+  SpinnerTone,
+} from "#content/components/Spinner";
 export type { StepProps, StepsProps } from "#content/components/Steps";
 export type { SummaryCardsProps } from "#content/components/SummaryCards";
 export type { TabsItem, TabsProps, TabsSize } from "#content/components/Tabs";

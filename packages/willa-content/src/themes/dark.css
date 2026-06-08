@@ -170,6 +170,12 @@
   --willa-progress-success-indicator: #6fcf97;
   --willa-progress-warning-indicator: #d8a93d;
   --willa-progress-danger-indicator: #df8d8d;
+  --willa-spinner-default: #7dd3fc;
+  --willa-spinner-neutral: rgba(255, 255, 255, 0.58);
+  --willa-spinner-success: #86efac;
+  --willa-spinner-warning: #fbbf24;
+  --willa-spinner-danger: #fca5a5;
+  --willa-spinner-label: var(--willa-text-soft);
   --willa-separator-line: rgba(255, 255, 255, 0.12);
   --willa-separator-label: var(--willa-text-faint);
   --willa-tabs-list-bg: rgba(255, 255, 255, 0.055);

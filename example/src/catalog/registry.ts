@@ -38,6 +38,7 @@ const docSpecGroups = {
     "Progress",
     "Separator",
     "Skeleton",
+    "Spinner",
     "Step",
     "Steps",
     "SummaryCards",
