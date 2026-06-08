@@ -62,6 +62,7 @@
     "**/*.css"
   ],
   "dependencies": {
+    "@willa-ui/ai": "workspace:*",
     "@willa-ui/content": "workspace:*",
     "@willa-ui/widgets": "workspace:*"
   },

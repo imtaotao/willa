@@ -1,0 +1,114 @@
+.willa-prompt-input {
+  display: grid;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  gap: 0.75rem;
+  border: 1px solid var(--willa-prompt-input-border);
+  border-radius: 0.85rem;
+  background: var(--willa-prompt-input-bg);
+  color: var(--willa-prompt-input-text);
+  font-family: var(--willa-body-font);
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.willa-prompt-input:hover:not(.willa-prompt-input--disabled) {
+  border-color: var(--willa-prompt-input-border-hover);
+  background: var(--willa-prompt-input-bg-hover);
+}
+
+.willa-prompt-input:focus-within {
+  border-color: var(--willa-prompt-input-border-focus);
+  box-shadow: 0 0 0 3px var(--willa-prompt-input-ring);
+}
+
+.willa-prompt-input--disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.willa-prompt-input--md {
+  padding: 0.8rem;
+}
+
+.willa-prompt-input--lg {
+  padding: 0.95rem;
+}
+
+.willa-prompt-input-control {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-height: calc(var(--willa-prompt-input-max-rows) * 1.45em);
+  min-height: calc(var(--willa-prompt-input-min-rows) * 1.45em);
+  overflow-y: auto;
+  resize: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: 0;
+  line-height: 1.45;
+}
+
+.willa-prompt-input--md .willa-prompt-input-control {
+  font-size: 0.95rem;
+}
+
+.willa-prompt-input--lg .willa-prompt-input-control {
+  font-size: 1.02rem;
+}
+
+.willa-prompt-input-control::placeholder {
+  color: var(--willa-prompt-input-placeholder);
+  opacity: 1;
+}
+
+.willa-prompt-input-control:disabled {
+  cursor: not-allowed;
+}
+
+.willa-prompt-input-footer {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.willa-prompt-input-meta {
+  min-width: 0;
+  color: var(--willa-prompt-input-meta);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.willa-prompt-input-actions {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.willa-prompt-input-submit {
+  flex: none;
+}
+
+@media (max-width: 767px) {
+  .willa-prompt-input {
+    border-radius: 0.75rem;
+  }
+
+  .willa-prompt-input-footer {
+    align-items: flex-end;
+  }
+
+  .willa-prompt-input-meta {
+    font-size: 0.78rem;
+  }
+}

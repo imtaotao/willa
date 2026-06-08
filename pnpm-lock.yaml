@@ -131,6 +131,9 @@ importers:
 
   packages/willa:
     dependencies:
+      "@willa-ui/ai":
+        specifier: workspace:*
+        version: link:../willa-ai
       "@willa-ui/content":
         specifier: workspace:*
         version: link:../willa-content
@@ -165,9 +168,6 @@ importers:
 
   packages/willa-ai:
     dependencies:
-      "@mdx-js/react":
-        specifier: "catalog:"
-        version: 3.1.1(@types/react@19.2.14)(react@19.2.6)
       "@radix-ui/react-icons":
         specifier: "catalog:"
         version: 1.3.2(react@19.2.6)

@@ -1,2 +1,11 @@
 .willa-shell {
+  --willa-prompt-input-bg: rgba(255, 255, 255, 0.96);
+  --willa-prompt-input-bg-hover: rgba(255, 255, 255, 0.99);
+  --willa-prompt-input-border: rgba(15, 23, 42, 0.11);
+  --willa-prompt-input-border-hover: rgba(37, 99, 235, 0.2);
+  --willa-prompt-input-border-focus: rgba(37, 99, 235, 0.34);
+  --willa-prompt-input-ring: rgba(37, 99, 235, 0.13);
+  --willa-prompt-input-text: var(--willa-text-strong);
+  --willa-prompt-input-placeholder: var(--willa-text-faint);
+  --willa-prompt-input-meta: var(--willa-text-soft);
 }

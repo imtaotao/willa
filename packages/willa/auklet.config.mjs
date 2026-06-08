@@ -13,6 +13,7 @@ export const config = defineConfig({
   modules: true,
   styles: {
     dependencies: {
+      "@willa-ui/ai": styleDependency,
       "@willa-ui/content": styleDependency,
       "@willa-ui/widgets": styleDependency,
     },

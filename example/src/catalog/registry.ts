@@ -10,6 +10,15 @@ type ResolvedDocSpec = readonly [name: string, category: DocCategory];
 const docModules = import.meta.glob<DocModule>("../docs/*.demo.tsx");
 
 const docSpecGroups = {
+  ai: ["PromptInput"],
+  widgets: [
+    "EnglishCards",
+    "GitHubMention",
+    "GitHubRepo",
+    "Mdx",
+    "WebEmbed",
+    "XPostEmbed",
+  ],
   content: [
     "AudioEmbed",
     "AudioLink",
@@ -51,14 +60,6 @@ const docSpecGroups = {
     "UrlLink",
     "VideoEmbed",
     "VideoLink",
-  ],
-  widgets: [
-    "EnglishCards",
-    "GitHubMention",
-    "GitHubRepo",
-    "Mdx",
-    "WebEmbed",
-    "XPostEmbed",
   ],
 } satisfies DocSpecGroups;
 

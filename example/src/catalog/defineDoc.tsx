@@ -15,7 +15,7 @@ export type DemoElement = {
 type ComponentDocInput = {
   id: string;
   name: string;
-  category?: "content" | "widgets";
+  category?: "content" | "ai" | "widgets";
   packageName: string;
   description: string;
   imports: Array<{ name: string; from: string }>;

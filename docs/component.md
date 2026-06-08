@@ -81,8 +81,7 @@ When adding an AI component, usually update:
 - `packages/willa-ai/src/components/ComponentName/index.tsx`
 - `packages/willa-ai/src/components/ComponentName/index.css`
 - `packages/willa-ai/src/index.ts`
-- `packages/willa/src/ComponentName/index.tsx`, if the component should be
-  exposed through the aggregate package
+- `packages/willa/src/ComponentName/index.tsx`
 - `packages/willa-ai/src/themes/light.css` and `dark.css`, if the component
   needs AI-owned theme variables
 - `example/src/docs/ComponentName.demo.tsx`
@@ -173,7 +172,7 @@ Every demo should include:
 
 Component docs are grouped by category:
 
-- content: built-in components and base product/content components.
+- content: base product/content components.
 - ai: AI product and AI interaction components.
 - widgets: scenario components.
 

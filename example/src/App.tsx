@@ -23,8 +23,9 @@ const docGroups: Array<{
   id: ComponentDocEntry["category"];
   label: string;
 }> = [
-  { id: "content", label: "内容组件" },
+  { id: "ai", label: "AI 组件" },
   { id: "widgets", label: "场景组件" },
+  { id: "content", label: "基础组件" },
 ];
 
 const getDocIdFromHash = () => {
@@ -165,7 +166,7 @@ export function App() {
         <header className="docs-header">
           <div className="docs-header-title">
             <p className="docs-kicker">Willa Components</p>
-            <p className="docs-header-subtitle">内容组件与场景组件示例</p>
+            <p className="docs-header-subtitle">AI、场景与基础组件示例</p>
           </div>
           <nav className="docs-actions" aria-label="示例控制">
             <IconButton
