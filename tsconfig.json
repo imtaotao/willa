@@ -32,11 +32,12 @@
       ],
 
       "@willa-ui/*": ["./packages/willa-*/src"],
+      "@willa-ui/ai/*": ["./packages/willa-ai/src/*"],
       "@willa-ui/content/*": ["./packages/willa-content/src/*"],
       "@willa-ui/shared/*": ["./packages/willa-shared/src/*"],
       "@willa-ui/widgets/*": ["./packages/willa-widgets/src/*"],
 
-      "#widgets/*": ["./packages/willa-widgets/src/*"],
+      "#ai/*": ["./packages/willa-ai/src/*"],
       "#content/*": ["./packages/willa-content/src/*"],
       "#shared/*": ["./packages/willa-shared/src/*"]
     }

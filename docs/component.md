@@ -5,13 +5,18 @@ example docs, and acceptance checks for Willa. Package responsibilities and
 dependency relationships are documented in [Willa Architecture](./architecture.md).
 Code style is documented in [Willa Style Guide](./style.md). CSS and theme
 variables are documented in [Willa CSS Guide](./css.md).
+Future component planning is tracked in
+[Willa Component Roadmap](./component-roadmap.md).
 
 ## Package Ownership
 
 Before adding a component, choose its package based on the architecture guide:
 
 - `@willa-ui/content`: general content rendering, such as text, media, lists,
-  callouts, code blocks, and rich article content.
+  callouts, code blocks, product primitives, and rich article content.
+- `@willa-ui/ai`: AI product scenes and AI-specific composition, such as prompt
+  inputs, chat messages, source citations, tool call displays, context panels,
+  generation cards, and agent status views.
 - `@willa-ui/widgets`: platform integrations, MDX composition, and more
   scenario-specific components, such as GitHub, X, web embeds, and
   EnglishCards.
@@ -19,16 +24,16 @@ Before adding a component, choose its package based on the architecture guide:
   processing, clipboard helpers, and similar logic. It must not contain React
   components or component CSS.
 - `willa`: the public aggregate package that exposes public components from
-  content and widgets.
+  content, AI, and widgets.
 
 Dependency direction is defined in [Willa Architecture](./architecture.md). A
-component used only by widgets is not automatically a widgets component; first
-judge whether its meaning is general enough for content.
+component used only by AI or widgets is not automatically owned by that package;
+first judge whether its meaning is general enough for content.
 
 ## File Organization
 
-Component directories use the component name. content and widgets use the same
-shape:
+Component directories use the component name. content, AI, and widgets use the
+same shape:
 
 ```text
 src/components/ComponentName/
@@ -71,6 +76,18 @@ When adding a content component, usually update:
 When adding a widgets component, replace `willa-content` with `willa-widgets`
 and make sure the willa aggregate package exports it.
 
+When adding an AI component, usually update:
+
+- `packages/willa-ai/src/components/ComponentName/index.tsx`
+- `packages/willa-ai/src/components/ComponentName/index.css`
+- `packages/willa-ai/src/index.ts`
+- `packages/willa/src/ComponentName/index.tsx`, if the component should be
+  exposed through the aggregate package
+- `packages/willa-ai/src/themes/light.css` and `dark.css`, if the component
+  needs AI-owned theme variables
+- `example/src/docs/ComponentName.demo.tsx`
+- `example/src/catalog/registry.ts`
+
 Single-component entries must export both the component and its types:
 
 ```tsx
@@ -104,6 +121,9 @@ When adding a component, confirm:
 - widgets components that compose content components express CSS dependencies
   through `styles.dependencies` in `auklet.config.mjs`; they do not copy content
   CSS or theme variables.
+- AI components that compose content components follow the same rule: reuse
+  content CSS through `styles.dependencies` instead of copying content CSS or
+  theme variables.
 - Single-component CSS is available through `willa/ComponentName.css`.
 
 ## Example Docs
@@ -154,6 +174,7 @@ Every demo should include:
 Component docs are grouped by category:
 
 - content: built-in components and base product/content components.
+- ai: AI product and AI interaction components.
 - widgets: scenario components.
 
 ## Acceptance Checklist

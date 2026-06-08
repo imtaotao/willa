@@ -37,6 +37,8 @@ crosses boundaries.
   component ownership, review the pitfalls in `docs/architecture.md`.
 - New component, component migration, exports, example docs, or public entry
   changes: read `docs/component.md`.
+- Component roadmap, future component planning, or AI product component
+  planning: read `docs/component-roadmap.md`.
 - Component CSS, theme variables, cross-package CSS dependencies, or portal
   styling: read `docs/css.md`.
 - TypeScript, React implementation style, naming, comments, or demo code style:
@@ -48,8 +50,9 @@ crosses boundaries.
 
 ## Working Rules
 
-- Keep package responsibilities clear. Do not make content depend on widgets.
-- Do not copy content theme variables into widgets.
+- Keep package responsibilities clear. Do not make content depend on widgets or
+  AI.
+- Do not copy content theme variables into widgets or AI.
 - Do not add component theme variables to the `willa` aggregate package.
 - Do not add per-package `tsconfig.json` files; use the root `tsconfig.json`.
 - Use `auklet.config.mjs` with `defineConfig`; do not use

@@ -18,6 +18,8 @@ building composable product and content experiences.
 - `willa`: the public entry package for all exported components.
 - `@willa-ui/content`: product and content components such as buttons, cards,
   code blocks, media, callouts, dialogs, tabs, and progress indicators.
+- `@willa-ui/ai`: AI product components such as prompt inputs, chat messages,
+  citations, tool calls, and agent status views.
 - `@willa-ui/widgets`: integration-style components for GitHub, X/Twitter, web
   embeds, and other special content.
 - `@willa-ui/shared`: shared utilities used by the package internals.
