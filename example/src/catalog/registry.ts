@@ -11,14 +11,18 @@ const docModules = import.meta.glob<DocModule>("../docs/*.demo.tsx");
 
 const docSpecGroups = {
   ai: [
+    "AttachmentList",
     "ChatLayout",
     "ChatMessage",
     "Composer",
+    "GenerationCard",
     "MessageActions",
     "MessageList",
     "PromptInput",
+    "ReasoningSteps",
     "SuggestionChips",
     "ThinkingIndicator",
+    "ToolCallCard",
   ],
   widgets: [
     "EnglishCards",
@@ -65,13 +69,11 @@ const docSpecGroups = {
     "SourceCard",
     "Spinner",
     "Steps",
-    "SummaryCards",
     "Tabs",
     "TextArea",
     "Toast",
     "Tooltip",
     "Upload",
-    "UrlLink",
     "VideoEmbed",
     "VideoLink",
   ],

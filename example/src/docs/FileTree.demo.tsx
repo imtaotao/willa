@@ -328,7 +328,7 @@ export default defineDoc({
   props: [
     {
       name: "items",
-      type: "FileTreeItem[]",
+      type: "Array<FileTreeItem>",
       required: true,
       description: "文件树数据。",
     },
@@ -355,17 +355,17 @@ export default defineDoc({
     },
     {
       name: "defaultExpandedIds",
-      type: "string[]",
+      type: "Array<string>",
       description: "非受控模式下默认展开的节点 id。",
     },
     {
       name: "expandedIds",
-      type: "string[]",
+      type: "Array<string>",
       description: "受控模式下展开的节点 id。",
     },
     {
       name: "onExpandedChange",
-      type: "(expandedIds: string[]) => void",
+      type: "(expandedIds: Array<string>) => void",
       description: "展开节点变化时触发。",
     },
     {
@@ -404,7 +404,7 @@ export default defineDoc({
     },
     {
       name: "FileTreeItem.children",
-      type: "FileTreeItem[]",
+      type: "Array<FileTreeItem>",
       group: "FileTreeItem",
       description: "子级节点。",
     },

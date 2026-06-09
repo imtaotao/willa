@@ -8,13 +8,11 @@
   border: 1px solid var(--willa-prompt-input-border);
   border-radius: 0.95rem;
   background: var(--willa-prompt-input-bg);
-  box-shadow: var(--willa-prompt-input-shadow);
   color: var(--willa-prompt-input-text);
   font-family: var(--willa-body-font);
   transition:
     background-color 160ms ease,
-    border-color 160ms ease,
-    box-shadow 160ms ease;
+    border-color 160ms ease;
 }
 
 .willa-prompt-input:hover:not(.willa-prompt-input--disabled) {
@@ -24,9 +22,6 @@
 
 .willa-prompt-input:focus-within {
   border-color: var(--willa-prompt-input-border-focus);
-  box-shadow:
-    0 0 0 3px var(--willa-prompt-input-ring),
-    var(--willa-prompt-input-shadow-focus);
 }
 
 .willa-prompt-input--disabled {

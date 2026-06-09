@@ -12,6 +12,12 @@
   font-family: var(--willa-body-font);
 }
 
+.willa-thinking-indicator--collapsible {
+  width: min(100%, 32rem);
+  max-width: 100%;
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .willa-thinking-indicator--sm {
   gap: 0.58rem;
   padding: 0.42rem 0.58rem;
@@ -26,6 +32,46 @@
   border-color: transparent;
   background: transparent;
   padding: 0;
+}
+
+.willa-thinking-indicator-toggle {
+  display: grid;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.58rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  text-align: start;
+}
+
+.willa-thinking-indicator-toggle:focus-visible {
+  border-radius: 6px;
+  box-shadow: 0 0 0 3px var(--willa-thinking-indicator-ring);
+  outline: none;
+}
+
+.willa-thinking-indicator-toggle-body {
+  display: grid;
+  min-width: 0;
+  gap: 0.14rem;
+}
+
+.willa-thinking-indicator-toggle-icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--willa-thinking-indicator-muted);
+  transition: transform 150ms ease;
+}
+
+.willa-thinking-indicator--collapsed .willa-thinking-indicator-toggle-icon {
+  transform: rotate(-90deg);
 }
 
 .willa-thinking-indicator-mark {
@@ -56,6 +102,10 @@
   display: grid;
   min-width: 0;
   gap: 0.18rem;
+}
+
+.willa-thinking-indicator--collapsible .willa-thinking-indicator-body {
+  padding-block-start: 0.1rem;
 }
 
 .willa-thinking-indicator-label {

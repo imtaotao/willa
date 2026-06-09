@@ -100,12 +100,12 @@ export default defineDoc({
   props: [
     {
       name: "value",
-      type: "number | string | readonly string[]",
+      type: "number | string | ReadonlyArray<string>",
       description: "受控值，沿用原生 input range 语义。",
     },
     {
       name: "defaultValue",
-      type: "number | string | readonly string[]",
+      type: "number | string | ReadonlyArray<string>",
       description: "非受控默认值。",
     },
     {

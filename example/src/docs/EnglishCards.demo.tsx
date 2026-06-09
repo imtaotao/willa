@@ -1,5 +1,7 @@
 import { EnglishCards } from "willa/EnglishCards";
+import { Separator } from "willa/Separator";
 import "willa/EnglishCards.css";
+import "willa/Separator.css";
 import { unindent } from "aidly";
 
 import { defineDoc } from "#example/catalog/defineDoc";
@@ -26,6 +28,8 @@ const EnglishCardsPreview = () => {
         <div className="docs-demo-title">静态词条</div>
         <EnglishCards title="词汇卡片" openApi={false} items={items} />
       </section>
+
+      <Separator className="docs-demo-separator" size="sm" />
 
       <section className="docs-demo-group">
         <div className="docs-demo-title">词典 API 查询</div>
@@ -81,7 +85,7 @@ export default defineDoc({
   props: [
     {
       name: "items",
-      type: "EnglishCardItem[]",
+      type: "Array<EnglishCardItem>",
       required: true,
       description: "需要渲染的词汇条目。",
     },
@@ -92,7 +96,7 @@ export default defineDoc({
     },
     {
       name: "words",
-      type: "string[]",
+      type: "Array<string>",
       description: "需要通过词典 API 查询的单词列表。",
     },
     {

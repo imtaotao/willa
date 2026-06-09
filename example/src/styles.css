@@ -350,14 +350,13 @@ select {
 .docs-preview-primary > .willa-icon-button,
 .docs-preview-primary > .willa-kbd,
 .docs-preview-primary > .willa-kbd-shortcut,
-.docs-preview-primary > .willa-pagination,
-.docs-preview-primary > .willa-prose-url-link {
+.docs-preview-primary > .willa-pagination {
   justify-self: start;
 }
 
 .docs-preview-sections {
   display: grid;
-  gap: 18px;
+  gap: 16px;
   min-width: 0;
 }
 
@@ -365,8 +364,12 @@ select {
   display: grid;
   gap: 12px;
   min-width: 0;
-  border-top: 1px solid var(--willa-line);
-  padding-top: 18px;
+}
+
+.docs-preview-separator,
+.docs-props-separator,
+.docs-demo-separator {
+  margin: 0;
 }
 
 .docs-preview-section-content {
@@ -383,16 +386,6 @@ select {
 .docs-demo-group {
   display: grid;
   gap: 14px;
-}
-
-.docs-demo-group {
-  border-top: 1px solid var(--willa-line);
-  padding-top: 16px;
-}
-
-.docs-demo-group:first-child {
-  border-top: 0;
-  padding-top: 0;
 }
 
 .docs-demo-title {
@@ -454,10 +447,6 @@ select {
 .docs-props-group {
   display: grid;
   gap: 10px;
-}
-
-.docs-props-group + .docs-props-group {
-  margin-top: 1.5rem;
 }
 
 .docs-props th,

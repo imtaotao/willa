@@ -51,7 +51,7 @@ export default defineDoc({
     import { PromptInput } from "willa/PromptInput";
     import "willa/PromptInput.css";
 
-    function PromptInputPreview() {
+    const PromptInputPreview = () => {
       const [value, setValue] = useState("");
 
       return (
@@ -66,7 +66,7 @@ export default defineDoc({
           }}
         />
       );
-    }
+    };
   `,
   sections: [
     {

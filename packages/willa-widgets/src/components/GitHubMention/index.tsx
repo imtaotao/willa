@@ -132,7 +132,7 @@ export function GitHubMention({
   const detailItems = [
     displayFollowers != null ? `${displayFollowers} followers` : null,
     displayRepositories != null ? `${displayRepositories} repositories` : null,
-  ].filter(Boolean) as string[];
+  ].filter(Boolean) as Array<string>;
 
   return (
     <span

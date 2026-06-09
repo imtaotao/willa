@@ -92,8 +92,7 @@
   color: var(--willa-message-actions-negative);
 }
 
-.willa-message-action-icon,
-.willa-message-action-spinner {
+.willa-message-action-icon {
   display: inline-flex;
   width: 1em;
   height: 1em;
@@ -108,11 +107,8 @@
 }
 
 .willa-message-action-spinner {
-  box-sizing: border-box;
-  border: 2px solid currentColor;
-  border-block-start-color: transparent;
-  border-radius: 999px;
-  animation: willa-message-action-spin 720ms linear infinite;
+  width: 1em;
+  height: 1em;
 }
 
 .willa-message-action-label {
@@ -142,12 +138,6 @@
   clip: rect(0, 0, 0, 0);
   overflow: hidden;
   white-space: nowrap;
-}
-
-@keyframes willa-message-action-spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 @media (max-width: 767px) {

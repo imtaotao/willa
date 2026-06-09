@@ -175,7 +175,7 @@ Variable names should follow component meaning:
 - `GitHubRepo` and `GitHubMention` can share `--willa-github-*`.
 
 Do not make unrelated components reuse another component's variable names. For
-example, `UrlLink` should not use `--willa-github-pill-bg`.
+example, `Citation` should not use `--willa-github-pill-bg`.
 
 Generic tokens can use short names:
 

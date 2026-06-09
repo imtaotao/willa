@@ -14,16 +14,6 @@
   color: inherit;
 }
 
-.willa-not-found.willa-empty-state--sm .willa-empty-state-icon {
-  width: auto;
-  height: auto;
-}
-
-.willa-not-found.willa-empty-state--lg .willa-empty-state-icon {
-  width: auto;
-  height: auto;
-}
-
 .willa-not-found-badge {
   display: inline-flex;
   align-items: center;

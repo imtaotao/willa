@@ -93,10 +93,13 @@ live near the component definition.
 
 ```tsx
 export interface ImageGalleryProps {
-  images: ImageItem[];
+  images: Array<ImageItem>;
   columns?: number;
 }
 ```
+
+Array types should use `Array<T>` instead of bracket array syntax so nested and
+union arrays stay visually consistent in public props and docs.
 
 Only types reused across packages, or public types unrelated to a specific
 component, should move to `@willa-ui/shared`. Do not move component-private

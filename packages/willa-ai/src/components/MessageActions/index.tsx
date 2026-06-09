@@ -1,4 +1,5 @@
 import type { ComponentPropsWithoutRef, MouseEvent, ReactNode } from "react";
+import { Spinner } from "@willa-ui/content/components/Spinner";
 import classNames from "classnames";
 
 export type MessageActionsSize = "sm" | "md";
@@ -17,7 +18,7 @@ export type MessageActionItem = {
 };
 
 export type MessageActionsProps = {
-  items?: MessageActionItem[];
+  items?: Array<MessageActionItem>;
   size?: MessageActionsSize;
   variant?: MessageActionsVariant;
   showLabels?: boolean;
@@ -73,7 +74,12 @@ export function MessageActions({
           }}
         >
           {item.loading ? (
-            <span className="willa-message-action-spinner" aria-hidden="true" />
+            <Spinner
+              className="willa-message-action-spinner"
+              size="xs"
+              label=""
+              aria-hidden="true"
+            />
           ) : item.icon ? (
             <span className="willa-message-action-icon" aria-hidden="true">
               {item.icon}

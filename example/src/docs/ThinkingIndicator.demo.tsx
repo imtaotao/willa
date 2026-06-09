@@ -23,9 +23,12 @@ const ThinkingIndicatorPreview = () => {
     <div style={frameStyle}>
       <ChatMessage role="assistant" name="Willa AI" meta="处理中">
         <ThinkingIndicator
+          collapsible
+          defaultCollapsed
           status="searching"
           label="正在检索上下文"
           description="会先读取相关文档，再整理可执行建议。"
+          summary="AI 正在处理公开任务状态。"
           steps={["理解问题", "检索资料", "生成回答"]}
           activeStep={1}
         />
@@ -52,14 +55,32 @@ export default defineDoc({
     import "willa/ThinkingIndicator.css";
 
     <ThinkingIndicator
+      collapsible
+      defaultCollapsed
       status="searching"
       label="正在检索上下文"
       description="会先读取相关文档，再整理可执行建议。"
+      summary="AI 正在处理公开任务状态。"
       steps={["理解问题", "检索资料", "生成回答"]}
       activeStep={1}
     />
   `,
   sections: [
+    {
+      title: "折叠状态",
+      content: (
+        <ThinkingIndicator
+          collapsible
+          defaultCollapsed
+          status="working"
+          label="正在整理工具结果"
+          description="已读取相关文件，正在压缩成可展示的用户摘要。"
+          summary="中间处理过程默认隐藏。"
+          steps={["读取文件", "整理证据", "生成摘要"]}
+          activeStep={2}
+        />
+      ),
+    },
     {
       title: "状态类型",
       content: (
@@ -116,7 +137,7 @@ export default defineDoc({
     },
     {
       name: "steps",
-      type: "ReactNode[]",
+      type: "Array<ReactNode>",
       description: "公开任务步骤，不用于展示模型内部思维链。",
     },
     {
@@ -143,6 +164,31 @@ export default defineDoc({
       name: "compact",
       type: "boolean",
       description: "是否使用无边框的轻量形态。",
+    },
+    {
+      name: "collapsible",
+      type: "boolean",
+      description: "是否允许折叠状态详情，默认 false。",
+    },
+    {
+      name: "collapsed",
+      type: "boolean",
+      description: "受控折叠状态。",
+    },
+    {
+      name: "defaultCollapsed",
+      type: "boolean",
+      description: "非受控模式下的默认折叠状态。",
+    },
+    {
+      name: "summary",
+      type: "ReactNode",
+      description: "折叠态摘要；未传时使用 description 或 label。",
+    },
+    {
+      name: "onCollapsedChange",
+      type: "(collapsed: boolean) => void",
+      description: "折叠状态变化时触发。",
     },
   ],
 });

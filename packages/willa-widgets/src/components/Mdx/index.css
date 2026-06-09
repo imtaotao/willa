@@ -268,9 +268,6 @@
   color: inherit;
 }
 
-.willa-prose-hr {
-  height: 1px;
+.willa-prose-separator {
   margin: 1.6rem 0;
-  border: 0;
-  background: var(--willa-line);
 }

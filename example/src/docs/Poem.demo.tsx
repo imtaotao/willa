@@ -56,12 +56,12 @@ export default defineDoc({
     },
     {
       name: "preface",
-      type: "string | string[]",
+      type: "string | Array<string>",
       description: "正文前的小序或序言。",
     },
     {
       name: "lines",
-      type: "Array<string | string[]>",
+      type: "Array<string | Array<string>>",
       required: true,
       description: "按节分组的诗歌文本。",
     },

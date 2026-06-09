@@ -34,7 +34,7 @@ const UploadPreview = () => {
   );
 };
 
-const resolveSummary = (files: UploadItem[]) => {
+const resolveSummary = (files: Array<UploadItem>) => {
   if (files.length === 0) {
     return "暂无已选文件";
   }
@@ -193,29 +193,29 @@ export default defineDoc({
     },
     {
       name: "onFilesChange",
-      type: "(files: UploadItem[]) => void",
+      type: "(files: Array<UploadItem>) => void",
       description: "文件列表变化回调。",
     },
     {
       name: "onUpload",
-      type: "(files: UploadItem[], allFiles: UploadItem[], reportProgress: (progress: number) => void) => void | Promise<void>",
+      type: "(files: Array<UploadItem>, allFiles: Array<UploadItem>, reportProgress: (progress: number) => void) => void | Promise<void>",
       description:
         "实际上传逻辑。返回 Promise 时组件会自动展示内部 loading；调用 reportProgress 可更新内部进度。",
     },
     {
       name: "onUploadStart",
-      type: "(files: UploadItem[], allFiles: UploadItem[]) => void",
+      type: "(files: Array<UploadItem>, allFiles: Array<UploadItem>) => void",
       description: "文件进入上传流程时触发。",
     },
     {
       name: "onUploadComplete",
-      type: "(files: UploadItem[], allFiles: UploadItem[]) => void",
+      type: "(files: Array<UploadItem>, allFiles: Array<UploadItem>) => void",
       description:
         "上传 Promise 成功完成后触发；未传 onUpload 时会紧随 start 触发。",
     },
     {
       name: "onUploadError",
-      type: "(error: unknown, files: UploadItem[], allFiles: UploadItem[]) => void",
+      type: "(error: unknown, files: Array<UploadItem>, allFiles: Array<UploadItem>) => void",
       description: "上传 Promise 失败或同步抛错时触发。",
     },
     {

@@ -16,7 +16,7 @@ import "willa/PromptInput.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
-const suggestions: SuggestionChipItem[] = [
+const suggestions: Array<SuggestionChipItem> = [
   {
     id: "summarize",
     label: "总结这份文档",
@@ -143,7 +143,7 @@ export default defineDoc({
   props: [
     {
       name: "items",
-      type: "SuggestionChipItem[]",
+      type: "Array<SuggestionChipItem>",
       required: true,
       description: "建议项列表。",
     },
@@ -159,12 +159,12 @@ export default defineDoc({
     },
     {
       name: "selectedIds",
-      type: "string[]",
+      type: "Array<string>",
       description: "受控选中项 id。",
     },
     {
       name: "defaultSelectedIds",
-      type: "string[]",
+      type: "Array<string>",
       description: "非受控默认选中项 id。",
     },
     {
@@ -184,7 +184,7 @@ export default defineDoc({
     },
     {
       name: "onChange",
-      type: "(selectedIds: string[], item: SuggestionChipItem, event: MouseEvent<HTMLButtonElement>) => void",
+      type: "(selectedIds: Array<string>, item: SuggestionChipItem, event: MouseEvent<HTMLButtonElement>) => void",
       description: "选中项变化时触发。",
     },
     {

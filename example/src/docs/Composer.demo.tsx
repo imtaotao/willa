@@ -3,14 +3,12 @@ import { MagicWandIcon, MixIcon, ReaderIcon } from "@radix-ui/react-icons";
 import { Badge } from "willa/Badge";
 import { Button } from "willa/Button";
 import { Composer } from "willa/Composer";
-import { Download } from "willa/Download";
 import { Group } from "willa/Group";
 import { SuggestionChips } from "willa/SuggestionChips";
 import "willa/Badge.css";
 import "willa/Button.css";
 import "willa/PromptInput.css";
 import "willa/Composer.css";
-import "willa/Download.css";
 import "willa/Group.css";
 import "willa/SuggestionChips.css";
 
@@ -38,14 +36,6 @@ const headerTextStyle = {
   fontSize: "0.78rem",
   fontWeight: 400,
   lineHeight: 1.4,
-} as const;
-
-const contextStyle = {
-  display: "flex",
-  minWidth: 0,
-  alignItems: "center",
-  flexWrap: "wrap",
-  gap: "0.42rem",
 } as const;
 
 const stateGridStyle = {
@@ -88,20 +78,22 @@ const ComposerPreview = () => {
             </Button>
           </Group>
         }
-        attachments={
-          <span style={contextStyle}>
-            <Download
-              href="data:text/csv;charset=utf-8,id,feedback%0A1,%E5%B8%8C%E6%9C%9B%E8%A1%A8%E6%A0%BC%E5%AF%BC%E5%87%BA%E6%9B%B4%E5%BF%AB"
-              downloadName="feedback.csv"
-              name="feedback.csv"
-            />
-            <Download
-              href="data:text/markdown;charset=utf-8,%23%20Roadmap%0A%0A- AI%20Composer%0A- Message%20actions"
-              downloadName="roadmap.md"
-              name="roadmap.md"
-            />
-          </span>
-        }
+        attachments={[
+          {
+            id: "feedback",
+            name: "feedback.csv",
+            meta: "12 KB",
+            href: "data:text/csv;charset=utf-8,id,feedback%0A1,%E5%B8%8C%E6%9C%9B%E8%A1%A8%E6%A0%BC%E5%AF%BC%E5%87%BA%E6%9B%B4%E5%BF%AB",
+            downloadName: "feedback.csv",
+          },
+          {
+            id: "roadmap",
+            name: "roadmap.md",
+            meta: "8 KB",
+            href: "data:text/markdown;charset=utf-8,%23%20Roadmap%0A%0A- AI%20Composer%0A- Message%20actions",
+            downloadName: "roadmap.md",
+          },
+        ]}
         actions={
           <Button size="sm" variant="ghost" icon={<MagicWandIcon />}>
             优化
@@ -136,10 +128,8 @@ export default defineDoc({
   },
   code: `
     import { Composer } from "willa/Composer";
-    import { Download } from "willa/Download";
     import { SuggestionChips } from "willa/SuggestionChips";
     import "willa/Composer.css";
-    import "willa/Download.css";
     import "willa/SuggestionChips.css";
 
     <>
@@ -152,9 +142,9 @@ export default defineDoc({
       <Composer
         header="产品分析助手"
         model="Willa AI Pro"
-        attachments={
-          <Download href="/feedback.csv" name="feedback.csv" />
-        }
+        attachments={[
+          { id: "feedback", name: "feedback.csv", href: "/feedback.csv" },
+        ]}
         footer="已连接 2 个上下文，Enter 发送"
         placeholder="让 AI 帮我分析这些反馈的优先级..."
         onSubmit={(prompt) => console.log(prompt)}
@@ -213,7 +203,12 @@ export default defineDoc({
       name: "attachments",
       type: "ReactNode",
       description:
-        "上下文附件区域，可以放文件、图片、网页或代码片段；需要下载时传入链接或自定义操作组件。",
+        "上下文附件数据。Composer 会通过 AttachmentList 渲染附件区域。",
+    },
+    {
+      name: "attachmentListProps",
+      type: 'Omit<AttachmentListProps, "items">',
+      description: "传给内部 AttachmentList 的配置。",
     },
     {
       name: "actions",

@@ -9,7 +9,7 @@ import "willa/SourceCard.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
-const sources: SourceCardProps[] = [
+const sources: Array<SourceCardProps> = [
   {
     title: "AI 产品组件路线",
     description:

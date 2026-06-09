@@ -1,5 +1,10 @@
 import type { AriaRole, CSSProperties, ReactNode } from "react";
 import classNames from "classnames";
+import {
+  AttachmentList,
+  type AttachmentListItem,
+  type AttachmentListProps,
+} from "#ai/components/AttachmentList";
 import { PromptInput, type PromptInputProps } from "#ai/components/PromptInput";
 
 export type ComposerProps = Omit<
@@ -9,7 +14,8 @@ export type ComposerProps = Omit<
   header?: ReactNode;
   model?: ReactNode;
   tools?: ReactNode;
-  attachments?: ReactNode;
+  attachments?: Array<AttachmentListItem>;
+  attachmentListProps?: Omit<AttachmentListProps, "items">;
   actions?: ReactNode;
   footer?: ReactNode;
   id?: string;
@@ -26,6 +32,7 @@ export function Composer(props: ComposerProps) {
     model,
     tools,
     attachments,
+    attachmentListProps,
     actions,
     footer,
     id,
@@ -38,7 +45,7 @@ export function Composer(props: ComposerProps) {
   } = props;
   const hasHeader = isRenderable(header);
   const hasToolbar = isRenderable(model) || isRenderable(tools);
-  const hasAttachments = isRenderable(attachments);
+  const hasAttachments = attachments !== undefined && attachments.length > 0;
 
   return (
     <section
@@ -63,7 +70,9 @@ export function Composer(props: ComposerProps) {
         </div>
       ) : null}
       {hasAttachments ? (
-        <div className="willa-composer-attachments">{attachments}</div>
+        <div className="willa-composer-attachments">
+          <AttachmentList items={attachments} {...attachmentListProps} />
+        </div>
       ) : null}
       <PromptInput
         {...promptInputProps}

@@ -1,13 +1,15 @@
 import classNames from "classnames";
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { EnterFullScreenIcon, ExitFullScreenIcon } from "@radix-ui/react-icons";
 import { Badge } from "willa/Badge";
 import { CodeBlock } from "willa/CodeBlock";
 import { IconButton } from "willa/IconButton";
+import { Separator } from "willa/Separator";
 import { Tooltip } from "willa/Tooltip";
 import "willa/Badge.css";
 import "willa/CodeBlock.css";
 import "willa/IconButton.css";
+import "willa/Separator.css";
 import "willa/Tooltip.css";
 
 import type { ComponentDoc } from "#example/catalog/types";
@@ -117,39 +119,44 @@ export function DocView({ doc }: DocViewProps) {
         </div>
 
         <div className="docs-props">
-          {propGroups.map((group) => (
-            <div className="docs-props-group" key={group.title}>
-              <div className="docs-panel-title">{group.title}</div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>名称</th>
-                    <th>类型</th>
-                    <th>说明</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {group.props.map((prop) => (
-                    <tr key={prop.name}>
-                      <td>
-                        <div className="docs-prop-name-cell">
-                          <PropToken value={prop.name} kind="名称" />
-                          {prop.required ? (
-                            <Badge size="sm" tone="danger" variant="soft">
-                              必填
-                            </Badge>
-                          ) : null}
-                        </div>
-                      </td>
-                      <td>
-                        <PropToken value={prop.type} kind="类型" />
-                      </td>
-                      <td>{prop.description}</td>
+          {propGroups.map((group, index) => (
+            <Fragment key={group.title}>
+              {index > 0 ? (
+                <Separator className="docs-props-separator" size="sm" />
+              ) : null}
+              <div className="docs-props-group">
+                <div className="docs-panel-title">{group.title}</div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>名称</th>
+                      <th>类型</th>
+                      <th>说明</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {group.props.map((prop) => (
+                      <tr key={prop.name}>
+                        <td>
+                          <div className="docs-prop-name-cell">
+                            <PropToken value={prop.name} kind="名称" />
+                            {prop.required ? (
+                              <Badge size="sm" tone="danger" variant="soft">
+                                必填
+                              </Badge>
+                            ) : null}
+                          </div>
+                        </td>
+                        <td>
+                          <PropToken value={prop.type} kind="类型" />
+                        </td>
+                        <td>{prop.description}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Fragment>
           ))}
         </div>
       </div>
@@ -180,12 +187,15 @@ export function DocView({ doc }: DocViewProps) {
           {doc.sections?.length ? (
             <div className="docs-preview-sections">
               {doc.sections.map((section) => (
-                <section className="docs-preview-section" key={section.title}>
-                  <div className="docs-panel-title">{section.title}</div>
-                  <div className="docs-preview-section-content">
-                    {section.content}
-                  </div>
-                </section>
+                <Fragment key={section.title}>
+                  <Separator className="docs-preview-separator" size="sm" />
+                  <section className="docs-preview-section">
+                    <div className="docs-panel-title">{section.title}</div>
+                    <div className="docs-preview-section-content">
+                      {section.content}
+                    </div>
+                  </section>
+                </Fragment>
               ))}
             </div>
           ) : null}

@@ -1,5 +1,9 @@
-import type { ComponentPropsWithoutRef, MouseEvent, ReactNode } from "react";
-import { useState } from "react";
+import {
+  useState,
+  type ComponentPropsWithoutRef,
+  type MouseEvent,
+  type ReactNode,
+} from "react";
 import classNames from "classnames";
 
 export type SuggestionChipsSize = "sm" | "md";
@@ -14,11 +18,11 @@ export type SuggestionChipItem = {
 };
 
 export type SuggestionChipsProps = {
-  items: SuggestionChipItem[];
+  items: Array<SuggestionChipItem>;
   size?: SuggestionChipsSize;
   variant?: SuggestionChipsVariant;
-  selectedIds?: string[];
-  defaultSelectedIds?: string[];
+  selectedIds?: Array<string>;
+  defaultSelectedIds?: Array<string>;
   multiple?: boolean;
   disabled?: boolean;
   onSelect?: (
@@ -26,7 +30,7 @@ export type SuggestionChipsProps = {
     event: MouseEvent<HTMLButtonElement>,
   ) => void;
   onChange?: (
-    selectedIds: string[],
+    selectedIds: Array<string>,
     item: SuggestionChipItem,
     event: MouseEvent<HTMLButtonElement>,
   ) => void;
@@ -127,7 +131,7 @@ export function SuggestionChips({
 const getNextSelectedIds = (options: {
   id: string;
   multiple: boolean;
-  selectedIds: string[];
+  selectedIds: Array<string>;
 }) => {
   const { id, multiple, selectedIds } = options;
 

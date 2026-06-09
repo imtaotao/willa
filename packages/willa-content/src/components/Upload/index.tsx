@@ -24,20 +24,20 @@ export type UploadItem = {
 };
 
 export type UploadHandler = (
-  files: UploadItem[],
-  allFiles: UploadItem[],
+  files: Array<UploadItem>,
+  allFiles: Array<UploadItem>,
   reportProgress: (progress: number) => void,
 ) => void | Promise<void>;
 
 export type UploadStatusHandler = (
-  files: UploadItem[],
-  allFiles: UploadItem[],
+  files: Array<UploadItem>,
+  allFiles: Array<UploadItem>,
 ) => void;
 
 export type UploadErrorHandler = (
   error: unknown,
-  files: UploadItem[],
-  allFiles: UploadItem[],
+  files: Array<UploadItem>,
+  allFiles: Array<UploadItem>,
 ) => void;
 
 type UploadBaseProps = {
@@ -57,7 +57,7 @@ type UploadBaseProps = {
   onUploadStart?: UploadStatusHandler;
   onUploadComplete?: UploadStatusHandler;
   onUploadError?: UploadErrorHandler;
-  onFilesChange?: (files: UploadItem[]) => void;
+  onFilesChange?: (files: Array<UploadItem>) => void;
   onFileRemove?: (file: UploadItem) => void;
   className?: string;
 };
@@ -88,8 +88,8 @@ export function Upload({
   ...props
 }: UploadProps) {
   const inputId = useId();
-  const itemsRef = useRef<UploadItem[]>([]);
-  const [items, setItems] = useState<UploadItem[]>([]);
+  const itemsRef = useRef<Array<UploadItem>>([]);
+  const [items, setItems] = useState<Array<UploadItem>>([]);
   const [dragging, setDragging] = useState(false);
   const [pendingUploads, setPendingUploads] = useState(0);
   const [internalProgress, setInternalProgress] = useState<
@@ -99,7 +99,7 @@ export function Upload({
   const resolvedProgress = normalizeProgress(progress ?? internalProgress);
   const isDisabled = disabled || isUploading;
 
-  const commitItems = (nextItems: UploadItem[]) => {
+  const commitItems = (nextItems: Array<UploadItem>) => {
     const nextIds = new Set(nextItems.map((item) => item.id));
 
     itemsRef.current.forEach((item) => {
@@ -113,7 +113,7 @@ export function Upload({
     onFilesChange?.(nextItems);
   };
 
-  const addFiles = (fileList: FileList | File[]) => {
+  const addFiles = (fileList: FileList | Array<File>) => {
     if (isDisabled) {
       return;
     }
@@ -186,7 +186,10 @@ export function Upload({
     commitItems(nextItems);
   };
 
-  const runUpload = (uploadItems: UploadItem[], allItems: UploadItem[]) => {
+  const runUpload = (
+    uploadItems: Array<UploadItem>,
+    allItems: Array<UploadItem>,
+  ) => {
     if (
       uploadItems.length === 0 ||
       (!onUpload && !onUploadStart && !onUploadComplete)

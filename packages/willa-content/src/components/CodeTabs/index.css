@@ -107,10 +107,6 @@
   background: var(--willa-code-block-bg);
 }
 
-.willa-code-tabs .willa-prose-pre--copied {
-  background: var(--willa-accent-2-soft);
-}
-
 @media (max-width: 767px) {
   .willa-code-tabs .willa-tabs-tab {
     min-height: 2.38rem;

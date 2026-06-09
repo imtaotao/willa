@@ -137,7 +137,7 @@ export function GitHubRepo({
     (stars ?? remoteData?.stargazers_count) != null
       ? `${stars ?? remoteData?.stargazers_count} stars`
       : null,
-  ].filter(Boolean) as string[];
+  ].filter(Boolean) as Array<string>;
   const displayDescription =
     description?.trim() || remoteData?.description?.trim() || "";
 

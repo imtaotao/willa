@@ -116,7 +116,7 @@ export function App() {
   return (
     <main className="docs-app">
       <aside className="docs-sidebar">
-        <a className="docs-brand" href="/">
+        <a className="docs-brand" href={`#/${usagePageId}`}>
           Willa
         </a>
         <nav className="docs-nav" aria-label="组件列表">

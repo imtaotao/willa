@@ -33,6 +33,7 @@ const CitationPreview = () => {
       <p style={paragraphStyle}>
         文档中的引用标记需要足够轻量，既可以作为脚注入口，也可以承载来源状态{" "}
         <Citation
+          size="xs"
           label="组件指南"
           source="component.md"
           index="1"
@@ -41,6 +42,7 @@ const CitationPreview = () => {
         />
         。当内容来自已经核验的资料时，可以用状态标明可信度{" "}
         <Citation
+          size="xs"
           label="架构说明"
           source="architecture.md"
           index="2"
@@ -72,6 +74,7 @@ export default defineDoc({
     <p>
       文档中的引用标记需要足够轻量
       <Citation
+        size="xs"
         label="组件指南"
         source="component.md"
         index="1"
@@ -105,6 +108,20 @@ export default defineDoc({
       ),
     },
     {
+      title: "链接来源",
+      content: (
+        <Group gap="sm" wrap>
+          <Citation href="https://openai.com/research" index="1" />
+          <Citation
+            href="https://github.com/openai"
+            source="GitHub"
+            index="2"
+            tone="info"
+          />
+        </Group>
+      ),
+    },
+    {
       title: "带摘要",
       content: (
         <Citation
@@ -119,16 +136,29 @@ export default defineDoc({
       ),
     },
     {
-      title: "紧凑引用",
+      title: "尺寸",
       content: (
         <Group gap="xs" wrap>
-          <Citation size="sm" label="API" source="component.md" index="A" />
           <Citation
-            size="sm"
-            label="主题"
-            source="css.md"
+            size="xs"
+            label="正文引用"
+            source="component.md"
+            index="A"
+          />
+          <Citation size="sm" label="来源标签" source="css.md" index="B" />
+          <Citation
+            size="md"
+            label="证据入口"
+            source="architecture.md"
             icon={<FileTextIcon />}
             tone="info"
+          />
+          <Citation
+            size="lg"
+            label="重点证据"
+            source="audit-log.json"
+            status="可信"
+            tone="success"
           />
         </Group>
       ),
@@ -138,8 +168,8 @@ export default defineDoc({
     {
       name: "label",
       type: "ReactNode",
-      required: true,
-      description: "引用标题或短文案。",
+      description:
+        "引用标题或短文案。未传 label 但传入 href 时，会默认展示链接域名。",
     },
     {
       name: "source",
@@ -173,8 +203,9 @@ export default defineDoc({
     },
     {
       name: "size",
-      type: '"sm" | "md"',
-      description: "尺寸，默认 md。",
+      type: '"xs" | "sm" | "md" | "lg"',
+      description:
+        "尺寸，默认 md。xs 适合正文内引用，sm/md 适合来源标签，lg 适合重点证据入口。",
     },
     {
       name: "selected",

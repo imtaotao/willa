@@ -4,11 +4,13 @@ import { Button } from "willa/Button";
 import { Image } from "willa/Image";
 import { ImageGallery } from "willa/ImageGallery";
 import { Lightbox } from "willa/Lightbox";
+import { Separator } from "willa/Separator";
 
 import "willa/Button.css";
 import "willa/Image.css";
 import "willa/ImageGallery.css";
 import "willa/Lightbox.css";
+import "willa/Separator.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
@@ -44,6 +46,8 @@ const LightboxPreview = () => {
           <ImageGallery images={galleryImages} columns={2} />
         </Lightbox>
       </section>
+
+      <Separator className="docs-demo-separator" size="sm" />
 
       <section className="docs-demo-group">
         <div className="docs-demo-title">传入 image 的受控弹层</div>

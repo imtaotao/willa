@@ -22,7 +22,7 @@ const frameStyle = {
 const MessageActionsPreview = () => {
   const [copied, setCopied] = useState(false);
 
-  const actions: MessageActionItem[] = [
+  const actions: Array<MessageActionItem> = [
     {
       id: "copy",
       label: copied ? "已复制" : "复制",
@@ -135,7 +135,7 @@ export default defineDoc({
   props: [
     {
       name: "items",
-      type: "MessageActionItem[]",
+      type: "Array<MessageActionItem>",
       description: "动作项列表。",
     },
     {

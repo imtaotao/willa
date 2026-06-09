@@ -38,7 +38,7 @@ export default defineDoc({
     },
     {
       name: "messages",
-      type: "Array<{ align?: 'left' | 'right'; avatar?: string; name?: string; content: string | string[] }>",
+      type: "Array<{ align?: 'left' | 'right'; avatar?: string; name?: string; content: string | Array<string> }>",
       required: true,
       description: "需要渲染的消息列表。",
     },
