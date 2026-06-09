@@ -59,56 +59,23 @@ export function CodeTabs(props: CodeTabsProps) {
   );
 }
 
-function CodeTabsPanel(props: {
+const CodeTabsPanel = (props: {
   item: CodeTabsItem;
   showLineNumbers: boolean;
   copiedDuration: number;
-}) {
+}) => {
   const { item, showLineNumbers, copiedDuration } = props;
   const shouldShowLineNumbers = item.showLineNumbers ?? showLineNumbers;
-  const className = createCodeTabsCodeClassName(
-    item.language,
-    shouldShowLineNumbers,
-    item.highlightLines,
-  );
 
   return (
     <div className="willa-code-tabs-panel">
-      <CodeBlock copiedDuration={copiedDuration}>
-        <code className={className}>{item.code}</code>
-      </CodeBlock>
+      <CodeBlock
+        code={item.code}
+        copiedDuration={copiedDuration}
+        highlightLines={item.highlightLines}
+        language={item.language}
+        showLineNumbers={shouldShowLineNumbers}
+      />
     </div>
   );
-}
-
-const createCodeTabsCodeClassName = (
-  language = "text",
-  showLineNumbers: boolean,
-  highlightLines:
-    | Array<number | readonly [start: number, end: number]>
-    | undefined,
-) => {
-  const meta = [
-    showLineNumbers ? "ln" : "",
-    formatCodeTabsHighlightLines(highlightLines),
-  ].filter(Boolean);
-
-  if (!meta.length) return `language-${language}`;
-
-  return `language-${language}--meta-${meta.join("_")}`;
-};
-
-const formatCodeTabsHighlightLines = (
-  highlightLines:
-    | Array<number | readonly [start: number, end: number]>
-    | undefined,
-) => {
-  const ranges = (highlightLines ?? [])
-    .map((range) => {
-      if (typeof range === "number") return String(range);
-      return `${range[0]}-${range[1]}`;
-    })
-    .filter(Boolean);
-
-  return ranges.length ? `{${ranges.join(",")}}` : "";
 };

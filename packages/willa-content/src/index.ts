@@ -7,7 +7,7 @@ export { Card } from "#content/components/Card";
 export { Callout } from "#content/components/Callout";
 export { ChatThread } from "#content/components/ChatThread";
 export { CodeBlock } from "#content/components/CodeBlock";
-export type { CodeBlockProps } from "#content/components/CodeBlock";
+
 export { CodeTabs } from "#content/components/CodeTabs";
 export { DetailsBlock } from "#content/components/DetailsBlock";
 export { Dialog } from "#content/components/Dialog";
@@ -29,6 +29,7 @@ export { Pagination } from "#content/components/Pagination";
 export { Poem } from "#content/components/Poem";
 export { Popover } from "#content/components/Popover";
 export { Progress } from "#content/components/Progress";
+export { RangeInput } from "#content/components/RangeInput";
 export { Separator } from "#content/components/Separator";
 export { Skeleton } from "#content/components/Skeleton";
 export { Spinner } from "#content/components/Spinner";
@@ -158,6 +159,7 @@ export type {
   ProgressSize,
   ProgressTone,
 } from "#content/components/Progress";
+export type { RangeInputProps } from "#content/components/RangeInput";
 export type {
   SeparatorAlign,
   SeparatorOrientation,
@@ -203,6 +205,10 @@ export type {
   UploadSize,
   UploadStatusHandler,
 } from "#content/components/Upload";
+export type {
+  CodeBlockHighlightLine,
+  CodeBlockProps,
+} from "#content/components/CodeBlock";
 export type { UrlLinkProps } from "#content/components/UrlLink";
 export type { VideoEmbedProps } from "#content/components/VideoEmbed";
 export type { VideoLinkProps } from "#content/components/VideoLink";

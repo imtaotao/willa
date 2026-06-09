@@ -8,7 +8,6 @@ export type ChatLayoutProps = {
   sidebar?: ReactNode;
   sidebarPosition?: ChatLayoutSidebarPosition;
   sidebarWidth?: number | string;
-  messages?: ReactNode;
   input?: ReactNode;
   footer?: ReactNode;
   empty?: ReactNode;
@@ -22,7 +21,6 @@ export function ChatLayout(props: ChatLayoutProps) {
     sidebar,
     sidebarPosition = "left",
     sidebarWidth,
-    messages,
     input,
     footer,
     empty,
@@ -36,7 +34,7 @@ export function ChatLayout(props: ChatLayoutProps) {
   const hasSidebar = isRenderable(sidebar);
   const hasInput = isRenderable(input);
   const hasFooter = isRenderable(footer);
-  const content = messages ?? children ?? empty;
+  const content = children ?? empty;
   const layoutStyle = getChatLayoutStyle({ sidebarWidth, style });
 
   return (

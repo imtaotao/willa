@@ -93,7 +93,6 @@ const ChatLayoutPreview = () => {
       header={<ChatHeader />}
       sidebar={<ChatSidebar />}
       sidebarWidth="15rem"
-      messages={<ChatMessages />}
       input={
         <Composer
           minRows={2}
@@ -104,7 +103,9 @@ const ChatLayoutPreview = () => {
         />
       }
       footer="当前会话会保留消息、上下文和工具调用记录。"
-    />
+    >
+      <ChatMessages />
+    </ChatLayout>
   );
 };
 
@@ -193,16 +194,15 @@ export default defineDoc({
     <ChatLayout
       header="产品反馈分析"
       sidebar="feedback.csv / roadmap.md / support-log.json"
-      messages={
-        <MessageList>
-          <ChatMessage role="user">帮我找出三个优先级。</ChatMessage>
-          <ChatMessage role="assistant" name="Willa AI">
-            建议优先处理登录失败、导出超时和移动端表单校验异常。
-          </ChatMessage>
-        </MessageList>
-      }
       input={<Composer minRows={2} placeholder="继续追问..." />}
-    />
+    >
+      <MessageList>
+        <ChatMessage role="user">帮我找出三个优先级。</ChatMessage>
+        <ChatMessage role="assistant" name="Willa AI">
+          建议优先处理登录失败、导出超时和移动端表单校验异常。
+        </ChatMessage>
+      </MessageList>
+    </ChatLayout>
   `,
   sections: [
     {
@@ -211,7 +211,6 @@ export default defineDoc({
         <div style={compactLayoutStyle}>
           <ChatLayout
             header={<ChatHeader />}
-            messages={<ChatMessages />}
             input={
               <Composer
                 minRows={2}
@@ -219,7 +218,9 @@ export default defineDoc({
                 placeholder="输入下一步要求..."
               />
             }
-          />
+          >
+            <ChatMessages />
+          </ChatLayout>
         </div>
       ),
     },
@@ -231,7 +232,6 @@ export default defineDoc({
           sidebar={<ChatSidebar />}
           sidebarPosition="right"
           sidebarWidth={260}
-          messages={<ChatMessages />}
           input={
             <Composer
               minRows={2}
@@ -239,7 +239,9 @@ export default defineDoc({
               placeholder="根据右侧上下文继续生成..."
             />
           }
-        />
+        >
+          <ChatMessages />
+        </ChatLayout>
       ),
     },
     {
@@ -277,14 +279,9 @@ export default defineDoc({
       description: "侧栏宽度；number 会按 px 处理，也可以传 CSS 宽度字符串。",
     },
     {
-      name: "messages",
-      type: "ReactNode",
-      description: "消息区域内容，通常组合 ChatMessage 或后续 MessageList。",
-    },
-    {
       name: "children",
       type: "ReactNode",
-      description: "消息区域的备用写法；当 messages 未传时渲染 children。",
+      description: "主消息区域内容，通常组合 MessageList 和 ChatMessage。",
     },
     {
       name: "input",
@@ -299,7 +296,7 @@ export default defineDoc({
     {
       name: "empty",
       type: "ReactNode",
-      description: "没有 messages 和 children 时展示的空状态内容。",
+      description: "没有 children 时展示的空状态内容。",
     },
     {
       name: "stickyInput",

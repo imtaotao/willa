@@ -1,0 +1,167 @@
+import { useState } from "react";
+import { RangeInput } from "willa/RangeInput";
+import "willa/RangeInput.css";
+
+import { defineDoc } from "#example/catalog/defineDoc";
+
+const stackStyle = {
+  display: "grid",
+  gap: "0.85rem",
+  width: "min(100%, 28rem)",
+} as const;
+
+const RangeInputPreview = () => {
+  const [strength, setStrength] = useState(60);
+
+  return (
+    <div style={stackStyle}>
+      <RangeInput
+        min={0}
+        max={100}
+        step={1}
+        value={strength}
+        width="18rem"
+        height="0.5rem"
+        color="#3b82f6"
+        trackColor="rgba(59, 130, 246, 0.18)"
+        aria-label="生成强度"
+        onChange={(event) => setStrength(Number(event.currentTarget.value))}
+      />
+      <RangeInput
+        min={0}
+        max={1}
+        step={0.1}
+        defaultValue={0.7}
+        color="#14b8a6"
+        thumbColor="#ecfeff"
+        trackColor="rgba(20, 184, 166, 0.18)"
+        aria-label="温度"
+      />
+    </div>
+  );
+};
+
+export default defineDoc({
+  id: "range-input",
+  name: "RangeInput",
+  packageName: "willa/RangeInput",
+  description: "用于模型参数、音视频进度和数值配置的范围输入。",
+  imports: [{ name: "RangeInput", from: "willa/RangeInput" }],
+  css: "willa/RangeInput.css",
+  demo: {
+    name: "RangeInputPreview",
+    component: RangeInputPreview,
+  },
+  code: `
+    import { RangeInput } from "willa/RangeInput";
+    import "willa/RangeInput.css";
+
+    <RangeInput
+      min={0}
+      max={100}
+      step={1}
+      defaultValue={60}
+      aria-label="生成强度"
+    />
+  `,
+  sections: [
+    {
+      title: "宽高与颜色",
+      content: (
+        <div style={stackStyle}>
+          <RangeInput
+            defaultValue={35}
+            width="100%"
+            height="0.42rem"
+            color="#2563eb"
+            aria-label="蓝色滑块"
+          />
+          <RangeInput
+            defaultValue={72}
+            height="0.5rem"
+            color="#0f766e"
+            thumbColor="#ecfeff"
+            trackColor="rgba(15, 118, 110, 0.16)"
+            aria-label="自定义滑块"
+          />
+        </div>
+      ),
+    },
+    {
+      title: "状态",
+      content: (
+        <div style={stackStyle}>
+          <RangeInput defaultValue={45} aria-label="默认滑块" />
+          <RangeInput disabled defaultValue={45} aria-label="禁用滑块" />
+        </div>
+      ),
+    },
+  ],
+  props: [
+    {
+      name: "value",
+      type: "number | string | readonly string[]",
+      description: "受控值，沿用原生 input range 语义。",
+    },
+    {
+      name: "defaultValue",
+      type: "number | string | readonly string[]",
+      description: "非受控默认值。",
+    },
+    {
+      name: "min",
+      type: "number | string",
+      description: "最小值。",
+    },
+    {
+      name: "max",
+      type: "number | string",
+      description: "最大值。",
+    },
+    {
+      name: "step",
+      type: "number | string",
+      description: "步进值。",
+    },
+    {
+      name: "width",
+      type: "CSSProperties['width']",
+      description: "滑块宽度，默认占满父容器。",
+    },
+    {
+      name: "height",
+      type: "CSSProperties['height']",
+      description: "轨道高度，滑块尺寸会随高度自动调整。",
+    },
+    {
+      name: "color",
+      type: "string",
+      description: "主色，影响滑块边框和浏览器强调色。",
+    },
+    {
+      name: "thumbColor",
+      type: "string",
+      description: "滑块圆点背景色。",
+    },
+    {
+      name: "trackColor",
+      type: "string",
+      description: "轨道背景色。",
+    },
+    {
+      name: "onChange",
+      type: "ChangeEventHandler<HTMLInputElement>",
+      description: "值变化后的回调，沿用原生 input 事件。",
+    },
+    {
+      name: "onInput",
+      type: "FormEventHandler<HTMLInputElement>",
+      description: "拖拽过程中的原生 input 事件回调。",
+    },
+    {
+      name: "disabled",
+      type: "boolean",
+      description: "是否禁用。",
+    },
+  ],
+});

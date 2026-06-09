@@ -1,8 +1,9 @@
 import {
   useEffect,
   useState,
-  type ComponentProps,
+  type ComponentPropsWithoutRef,
   type CSSProperties,
+  type ReactNode,
 } from "react";
 import { CheckIcon, ClipboardIcon } from "@radix-ui/react-icons";
 import { isArray } from "aidly";
@@ -10,17 +11,39 @@ import classNames from "classnames";
 
 import {
   copyToClipboard,
+  createCodeHighlightLines,
   highlightCodeToHtml,
   parseCodeMeta,
 } from "@willa-ui/shared";
 
-export type CodeBlockProps = ComponentProps<"pre"> & {
-  children?: unknown;
+export type CodeBlockHighlightLine =
+  | number
+  | readonly [start: number, end: number];
+
+export type CodeBlockProps = Omit<
+  ComponentPropsWithoutRef<"div">,
+  "children"
+> & {
+  children?: ReactNode;
+  code?: string;
+  language?: string;
+  showLineNumbers?: boolean;
+  highlightLines?: Array<CodeBlockHighlightLine>;
   copiedDuration?: number;
 };
 
 export function CodeBlock(props: CodeBlockProps) {
-  const { copiedDuration = 300 } = props;
+  const {
+    children,
+    code,
+    language,
+    showLineNumbers,
+    highlightLines,
+    copiedDuration = 300,
+    className,
+    node: _node,
+    ...rootProps
+  } = props as CodeBlockProps & { node?: unknown };
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "failed">(
     "idle",
   );
@@ -34,25 +57,26 @@ export function CodeBlock(props: CodeBlockProps) {
     return () => window.clearTimeout(timer);
   }, [copiedDuration, copyStatus]);
 
-  const child = isArray(props.children) ? props.children[0] : props.children;
+  const codeInput = resolveCodeBlockInput({
+    children,
+    code,
+    highlightLines,
+    language,
+    showLineNumbers,
+  });
 
-  if (child && typeof child === "object" && "props" in (child as any)) {
-    const codeProps = (child as any).props as {
-      className?: string;
-      children?: unknown;
-    };
-    const { rawLanguage, highlightLines, showLineNumbers } = parseCodeMeta(
-      codeProps.className,
+  if (codeInput) {
+    const { html, display } = highlightCodeToHtml(
+      codeInput.code,
+      codeInput.rawLanguage,
     );
-    const code = String(codeProps.children ?? "").replace(/\n$/, "");
-    const { html, display } = highlightCodeToHtml(code, rawLanguage);
-    const label = (display || rawLanguage || "txt").toLowerCase();
+    const label = (display || codeInput.rawLanguage || "txt").toLowerCase();
     const lines = html.split("\n");
-    const rawLines = code.split("\n");
+    const rawLines = codeInput.code.split("\n");
     const maxLineLength = Math.max(1, ...rawLines.map((line) => line.length));
     const codeStyle = {
       "--willa-code-scroll-width": `calc(${maxLineLength}ch + ${
-        showLineNumbers ? "8.05rem" : "5rem"
+        codeInput.showLineNumbers ? "8.05rem" : "5rem"
       })`,
     } as CSSProperties;
     const lineNumbers = Array.from({ length: lines.length }, (_, index) =>
@@ -60,7 +84,7 @@ export function CodeBlock(props: CodeBlockProps) {
     );
 
     return (
-      <div className="willa-prose-pre">
+      <div {...rootProps} className={classNames("willa-prose-pre", className)}>
         <div className="willa-prose-code-block">
           <div className="willa-prose-code-meta">
             <span className="willa-prose-code-lang" aria-hidden="true">
@@ -79,7 +103,7 @@ export function CodeBlock(props: CodeBlockProps) {
                 }
                 void (async () => {
                   setCopyStatus("idle");
-                  const ok = await copyToClipboard(code);
+                  const ok = await copyToClipboard(codeInput.code);
                   setCopyStatus(ok ? "copied" : "failed");
                 })();
               }}
@@ -88,7 +112,7 @@ export function CodeBlock(props: CodeBlockProps) {
             </button>
           </div>
           <code
-            className={`willa-prose-code hljs language-${rawLanguage}`}
+            className={`willa-prose-code hljs language-${codeInput.rawLanguage}`}
             style={codeStyle}
           >
             {lines.map((line, index) => {
@@ -98,12 +122,13 @@ export function CodeBlock(props: CodeBlockProps) {
                   key={lineNumber}
                   className={classNames(
                     "willa-prose-code-line",
-                    !showLineNumbers && "willa-prose-code-line--single",
-                    highlightLines.has(lineNumber) &&
+                    !codeInput.showLineNumbers &&
+                      "willa-prose-code-line--single",
+                    codeInput.highlightLines.has(lineNumber) &&
                       "willa-prose-code-line--highlight",
                   )}
                 >
-                  {showLineNumbers ? (
+                  {codeInput.showLineNumbers ? (
                     <span className="willa-prose-code-line-number">
                       {lineNumbers[index]}
                     </span>
@@ -121,5 +146,48 @@ export function CodeBlock(props: CodeBlockProps) {
     );
   }
 
-  return <div className="willa-prose-pre">{props.children}</div>;
+  return (
+    <div {...rootProps} className={classNames("willa-prose-pre", className)}>
+      {children}
+    </div>
+  );
 }
+
+const resolveCodeBlockInput = (options: {
+  children?: ReactNode;
+  code?: string;
+  highlightLines?: Array<CodeBlockHighlightLine>;
+  language?: string;
+  showLineNumbers?: boolean;
+}) => {
+  const { children, code, highlightLines, language, showLineNumbers } = options;
+
+  if (code !== undefined) {
+    return {
+      code: code.replace(/\n$/, ""),
+      highlightLines: createCodeHighlightLines(highlightLines),
+      rawLanguage: language ?? "text",
+      showLineNumbers: showLineNumbers ?? false,
+    };
+  }
+
+  const child = isArray(children) ? children[0] : children;
+  if (!child || typeof child !== "object" || !("props" in child)) {
+    return undefined;
+  }
+
+  const codeProps = (
+    child as { props: { className?: string; children?: unknown } }
+  ).props;
+  const meta = parseCodeMeta(codeProps.className);
+
+  return {
+    code: String(codeProps.children ?? "").replace(/\n$/, ""),
+    highlightLines:
+      highlightLines === undefined
+        ? meta.highlightLines
+        : createCodeHighlightLines(highlightLines),
+    rawLanguage: language ?? meta.rawLanguage,
+    showLineNumbers: showLineNumbers ?? meta.showLineNumbers,
+  };
+};

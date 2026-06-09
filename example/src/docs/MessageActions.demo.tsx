@@ -178,12 +178,6 @@ export default defineDoc({
       description: "动作文案，也会作为默认无障碍名称。",
     },
     {
-      name: "ariaLabel",
-      type: "string",
-      group: "MessageActionItem",
-      description: "当 label 不是字符串时，补充无障碍名称。",
-    },
-    {
       name: "icon",
       type: "ReactNode",
       group: "MessageActionItem",

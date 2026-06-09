@@ -8,7 +8,6 @@ export type MessageActionTone = "neutral" | "positive" | "negative" | "danger";
 export type MessageActionItem = {
   id: string;
   label: ReactNode;
-  ariaLabel?: string;
   icon?: ReactNode;
   tone?: MessageActionTone;
   active?: boolean;
@@ -65,7 +64,7 @@ export function MessageActions({
           )}
           type="button"
           disabled={item.disabled || item.loading}
-          aria-label={item.ariaLabel ?? resolveAriaLabel(item.label)}
+          aria-label={resolveAriaLabel(item.label)}
           aria-pressed={item.active}
           title={resolveTitle(item.label)}
           onClick={(event) => {

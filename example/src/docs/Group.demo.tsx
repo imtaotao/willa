@@ -152,11 +152,6 @@ export default defineDoc({
       description: "是否允许换行，默认开启。",
     },
     {
-      name: "grow",
-      type: "boolean",
-      description: "是否让直接子元素等分剩余空间。",
-    },
-    {
       name: "inline",
       type: "boolean",
       description: "是否使用 inline-flex。",

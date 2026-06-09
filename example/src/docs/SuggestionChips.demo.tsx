@@ -178,17 +178,12 @@ export default defineDoc({
       description: "是否禁用整组建议。",
     },
     {
-      name: "ariaLabel",
-      type: "string",
-      description: "建议组的无障碍名称，默认“建议提示”。",
-    },
-    {
       name: "onSelect",
       type: "(item: SuggestionChipItem, event: MouseEvent<HTMLButtonElement>) => void",
       description: "点击建议项时触发。",
     },
     {
-      name: "onSelectedIdsChange",
+      name: "onChange",
       type: "(selectedIds: string[], item: SuggestionChipItem, event: MouseEvent<HTMLButtonElement>) => void",
       description: "选中项变化时触发。",
     },

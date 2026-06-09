@@ -21,12 +21,11 @@ export type SuggestionChipsProps = {
   defaultSelectedIds?: string[];
   multiple?: boolean;
   disabled?: boolean;
-  ariaLabel?: string;
   onSelect?: (
     item: SuggestionChipItem,
     event: MouseEvent<HTMLButtonElement>,
   ) => void;
-  onSelectedIdsChange?: (
+  onChange?: (
     selectedIds: string[],
     item: SuggestionChipItem,
     event: MouseEvent<HTMLButtonElement>,
@@ -41,9 +40,8 @@ export function SuggestionChips({
   defaultSelectedIds = [],
   multiple = false,
   disabled = false,
-  ariaLabel = "建议提示",
   onSelect,
-  onSelectedIdsChange,
+  onChange,
   className,
   ...props
 }: SuggestionChipsProps) {
@@ -69,7 +67,6 @@ export function SuggestionChips({
         className,
       )}
       role="list"
-      aria-label={ariaLabel}
     >
       {items.map((item) => {
         const isSelected = currentSelectedIds.includes(item.id);
@@ -101,7 +98,7 @@ export function SuggestionChips({
                 }
 
                 onSelect?.(item, event);
-                onSelectedIdsChange?.(nextSelectedIds, item, event);
+                onChange?.(nextSelectedIds, item, event);
               }}
             >
               {item.icon ? (

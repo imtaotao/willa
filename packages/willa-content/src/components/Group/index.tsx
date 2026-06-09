@@ -25,7 +25,6 @@ export type GroupProps = {
   justify?: GroupJustify;
   direction?: GroupDirection;
   wrap?: boolean;
-  grow?: boolean;
   inline?: boolean;
   className?: string;
   children?: ReactNode;
@@ -39,7 +38,6 @@ export function Group(props: GroupProps) {
     justify = "start",
     direction = "row",
     wrap = true,
-    grow = false,
     inline = false,
     className,
     children,
@@ -60,11 +58,7 @@ export function Group(props: GroupProps) {
     <Component
       {...groupProps}
       style={groupStyle}
-      className={classNames(
-        "willa-group",
-        grow && "willa-group--grow",
-        className,
-      )}
+      className={classNames("willa-group", className)}
     >
       {children}
     </Component>

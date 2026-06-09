@@ -59,6 +59,7 @@ const docSpecGroups = {
     "Poem",
     "Popover",
     "Progress",
+    "RangeInput",
     "Separator",
     "Skeleton",
     "Spinner",

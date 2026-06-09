@@ -17,7 +17,7 @@ export type TextAreaProps = Omit<
   variant?: TextAreaVariant;
   resize?: TextAreaResize;
   invalid?: boolean;
-  fullWidth?: boolean;
+  width?: CSSProperties["width"];
   backgroundColor?: string;
   textColor?: string;
 };
@@ -29,7 +29,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       variant = "outline",
       resize = "vertical",
       invalid = false,
-      fullWidth = false,
+      width,
       backgroundColor,
       textColor,
       className,
@@ -43,6 +43,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const textAreaStyle = getTextAreaStyle({
       backgroundColor,
       textColor,
+      width,
       style,
     });
 
@@ -55,7 +56,6 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           `willa-textarea--${size}`,
           `willa-textarea--${variant}`,
           `willa-textarea--resize-${resize}`,
-          fullWidth && "willa-textarea--full",
           isInvalid && "willa-textarea--invalid",
           className,
         )}
@@ -71,12 +71,14 @@ TextArea.displayName = "TextArea";
 const getTextAreaStyle = (options: {
   backgroundColor?: string;
   textColor?: string;
+  width?: CSSProperties["width"];
   style?: CSSProperties;
 }) => {
-  const { backgroundColor, textColor, style } = options;
+  const { backgroundColor, textColor, width, style } = options;
 
   return {
     ...style,
+    ...(width === undefined ? undefined : { width }),
     ...(backgroundColor
       ? { "--willa-input-custom-bg": backgroundColor }
       : undefined),

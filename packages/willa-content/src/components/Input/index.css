@@ -21,22 +21,6 @@
   background: var(--willa-input-custom-bg, var(--willa-input-soft-bg));
 }
 
-.willa-input.willa-input--range {
-  min-width: 12rem;
-  min-height: auto;
-  padding: 0;
-  border-color: transparent;
-  background: transparent;
-  transition: none;
-}
-
-.willa-input.willa-input--range:hover:not(.willa-input--disabled),
-.willa-input.willa-input--range:focus-within {
-  border-color: transparent;
-  background: transparent;
-  box-shadow: none;
-}
-
 .willa-input:hover:not(.willa-input--disabled) {
   border-color: var(--willa-input-border-hover);
   background: var(--willa-input-custom-bg, var(--willa-input-bg-hover));
@@ -104,96 +88,6 @@
 }
 
 .willa-input-control:disabled {
-  cursor: not-allowed;
-}
-
-.willa-input-control--range {
-  --willa-input-range-resolved-height: var(
-    --willa-input-custom-range-height,
-    var(--willa-input-range-height)
-  );
-  --willa-input-range-resolved-thumb-size: max(
-    1rem,
-    calc(var(--willa-input-range-resolved-height) * 2.6)
-  );
-  height: var(--willa-input-range-resolved-thumb-size);
-  padding: 0;
-  appearance: none;
-  accent-color: var(
-    --willa-input-custom-range,
-    var(--willa-input-range-accent)
-  );
-  background: transparent;
-  cursor: pointer;
-  touch-action: pan-y;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-}
-
-.willa-input-control--range::-webkit-slider-runnable-track {
-  height: var(--willa-input-range-resolved-height);
-  border-radius: 999px;
-  background: var(
-    --willa-input-custom-range-track,
-    var(--willa-input-range-track)
-  );
-}
-
-.willa-input-control--range::-webkit-slider-thumb {
-  width: var(--willa-input-range-resolved-thumb-size);
-  height: var(--willa-input-range-resolved-thumb-size);
-  margin-top: calc(
-    (
-        var(--willa-input-range-resolved-height) -
-          var(--willa-input-range-resolved-thumb-size)
-      ) /
-      2
-  );
-  border: 2px solid
-    var(--willa-input-custom-range, var(--willa-input-range-thumb-border));
-  border-radius: 999px;
-  appearance: none;
-  -webkit-appearance: none;
-  background: var(
-    --willa-input-custom-range-thumb,
-    var(--willa-input-range-thumb)
-  );
-  box-shadow: 0 1px 4px var(--willa-input-range-thumb-shadow);
-  cursor: grab;
-}
-
-.willa-input-control--range:active::-webkit-slider-thumb {
-  cursor: grabbing;
-}
-
-.willa-input-control--range::-moz-range-track {
-  height: var(--willa-input-range-resolved-height);
-  border-radius: 999px;
-  background: var(
-    --willa-input-custom-range-track,
-    var(--willa-input-range-track)
-  );
-}
-
-.willa-input-control--range::-moz-range-thumb {
-  width: calc(var(--willa-input-range-resolved-thumb-size) - 0.2rem);
-  height: calc(var(--willa-input-range-resolved-thumb-size) - 0.2rem);
-  border: 2px solid
-    var(--willa-input-custom-range, var(--willa-input-range-thumb-border));
-  border-radius: 999px;
-  background: var(
-    --willa-input-custom-range-thumb,
-    var(--willa-input-range-thumb)
-  );
-  box-shadow: 0 1px 4px var(--willa-input-range-thumb-shadow);
-  cursor: grab;
-}
-
-.willa-input-control--range:active::-moz-range-thumb {
-  cursor: grabbing;
-}
-
-.willa-input-control--range:disabled {
   cursor: not-allowed;
 }
 
