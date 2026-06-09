@@ -98,4 +98,20 @@
   --willa-prompt-input-text: var(--willa-text-strong);
   --willa-prompt-input-placeholder: var(--willa-text-faint);
   --willa-prompt-input-meta: var(--willa-text-soft);
+  --willa-source-card-bg: #fcfdff;
+  --willa-source-card-solid-bg: #f3f8ff;
+  --willa-source-card-border: #d2e5ff;
+  --willa-source-card-border-hover: #8fc2ff;
+  --willa-source-card-selected-bg: #eff6ff;
+  --willa-source-card-selected-border: #60a5fa;
+  --willa-source-card-ring: #93c5fd;
+  --willa-source-card-shadow: 0 10px 26px rgba(37, 99, 235, 0.06);
+  --willa-source-card-shadow-hover: 0 14px 32px rgba(37, 99, 235, 0.12);
+  --willa-source-card-text: var(--willa-text);
+  --willa-source-card-title: var(--willa-text-strong);
+  --willa-source-card-muted: var(--willa-text-soft);
+  --willa-source-card-source: var(--willa-accent);
+  --willa-source-card-mark-bg: #eaf4ff;
+  --willa-source-card-mark-border: #bfdbfe;
+  --willa-source-card-mark-text: #2563eb;
 }

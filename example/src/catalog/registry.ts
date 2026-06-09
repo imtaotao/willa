@@ -17,6 +17,7 @@ const docSpecGroups = {
     "MessageActions",
     "MessageList",
     "PromptInput",
+    "SourceCard",
     "SuggestionChips",
     "ThinkingIndicator",
   ],

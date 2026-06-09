@@ -27,6 +27,12 @@ export type {
   PromptInputSize,
   PromptInputSubmitEvent,
 } from "#ai/components/PromptInput";
+export { SourceCard } from "#ai/components/SourceCard";
+export type {
+  SourceCardProps,
+  SourceCardSize,
+  SourceCardVariant,
+} from "#ai/components/SourceCard";
 export { SuggestionChips } from "#ai/components/SuggestionChips";
 export type {
   SuggestionChipItem,
