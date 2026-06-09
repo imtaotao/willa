@@ -1,0 +1,192 @@
+.willa-citation {
+  display: inline-flex;
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+  align-items: center;
+  gap: 0.42rem;
+  border: 1px solid var(--willa-citation-border);
+  border-radius: 999px;
+  background: var(--willa-citation-bg);
+  color: var(--willa-citation-text);
+  font-family: var(--willa-body-font);
+  text-align: left;
+  text-decoration: none;
+  vertical-align: middle;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease,
+    transform 150ms ease;
+}
+
+.willa-citation--sm {
+  min-height: 1.8rem;
+  padding: 0.22rem 0.5rem 0.22rem 0.28rem;
+  font-size: 0.76rem;
+}
+
+.willa-citation--md {
+  min-height: 2.1rem;
+  padding: 0.28rem 0.62rem 0.28rem 0.34rem;
+  font-size: 0.84rem;
+}
+
+.willa-citation--interactive {
+  appearance: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+.willa-citation--interactive:hover {
+  border-color: var(--willa-citation-border-hover);
+  background: var(--willa-citation-bg-hover);
+  color: var(--willa-citation-text-hover);
+  transform: translateY(-1px);
+}
+
+.willa-citation--interactive:focus-visible {
+  outline: 2px solid var(--willa-citation-ring);
+  outline-offset: 2px;
+}
+
+.willa-citation--selected {
+  border-color: var(--willa-citation-selected-border);
+  background: var(--willa-citation-selected-bg);
+  color: var(--willa-citation-selected-text);
+}
+
+.willa-citation-mark {
+  display: inline-grid;
+  box-sizing: border-box;
+  width: 1.34rem;
+  height: 1.34rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid var(--willa-citation-mark-border);
+  border-radius: 999px;
+  background: var(--willa-citation-mark-bg);
+  color: var(--willa-citation-mark-text);
+  font-size: 0.7em;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.willa-citation-mark svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.willa-citation-body {
+  display: grid;
+  min-width: 0;
+  gap: 0.06rem;
+}
+
+.willa-citation-main {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.32rem;
+}
+
+.willa-citation-label,
+.willa-citation-source,
+.willa-citation-detail,
+.willa-citation-status {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.willa-citation-label {
+  color: var(--willa-citation-title);
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.willa-citation-source {
+  color: var(--willa-citation-muted);
+  font-size: 0.9em;
+  line-height: 1.25;
+}
+
+.willa-citation-detail {
+  color: var(--willa-citation-muted);
+  font-size: 0.88em;
+  line-height: 1.3;
+}
+
+.willa-citation-status {
+  flex: none;
+  color: var(--willa-citation-status);
+  font-size: 0.84em;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.willa-citation-link-icon {
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  color: var(--willa-citation-muted);
+}
+
+.willa-citation-link-icon svg {
+  width: 1em;
+  height: 1em;
+}
+
+.willa-citation--info {
+  --willa-citation-bg: var(--willa-citation-info-bg);
+  --willa-citation-bg-hover: var(--willa-citation-info-bg-hover);
+  --willa-citation-border: var(--willa-citation-info-border);
+  --willa-citation-border-hover: var(--willa-citation-info-border-hover);
+  --willa-citation-mark-bg: var(--willa-citation-info-mark-bg);
+  --willa-citation-mark-border: var(--willa-citation-info-mark-border);
+  --willa-citation-mark-text: var(--willa-citation-info-mark-text);
+}
+
+.willa-citation--success {
+  --willa-citation-bg: var(--willa-citation-success-bg);
+  --willa-citation-bg-hover: var(--willa-citation-success-bg-hover);
+  --willa-citation-border: var(--willa-citation-success-border);
+  --willa-citation-border-hover: var(--willa-citation-success-border-hover);
+  --willa-citation-mark-bg: var(--willa-citation-success-mark-bg);
+  --willa-citation-mark-border: var(--willa-citation-success-mark-border);
+  --willa-citation-mark-text: var(--willa-citation-success-mark-text);
+}
+
+.willa-citation--warning {
+  --willa-citation-bg: var(--willa-citation-warning-bg);
+  --willa-citation-bg-hover: var(--willa-citation-warning-bg-hover);
+  --willa-citation-border: var(--willa-citation-warning-border);
+  --willa-citation-border-hover: var(--willa-citation-warning-border-hover);
+  --willa-citation-mark-bg: var(--willa-citation-warning-mark-bg);
+  --willa-citation-mark-border: var(--willa-citation-warning-mark-border);
+  --willa-citation-mark-text: var(--willa-citation-warning-mark-text);
+}
+
+@media (max-width: 767px) {
+  .willa-citation {
+    align-items: flex-start;
+    border-radius: 0.86rem;
+  }
+
+  .willa-citation-body {
+    flex: 1 1 auto;
+  }
+
+  .willa-citation-main {
+    display: grid;
+    gap: 0.08rem;
+  }
+
+  .willa-citation-label,
+  .willa-citation-source,
+  .willa-citation-detail {
+    white-space: normal;
+  }
+}

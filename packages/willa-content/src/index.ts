@@ -6,6 +6,7 @@ export { Button } from "#content/components/Button";
 export { Card } from "#content/components/Card";
 export { Callout } from "#content/components/Callout";
 export { ChatThread } from "#content/components/ChatThread";
+export { Citation } from "#content/components/Citation";
 export { CodeBlock } from "#content/components/CodeBlock";
 
 export { CodeTabs } from "#content/components/CodeTabs";
@@ -32,6 +33,7 @@ export { Progress } from "#content/components/Progress";
 export { RangeInput } from "#content/components/RangeInput";
 export { Separator } from "#content/components/Separator";
 export { Skeleton } from "#content/components/Skeleton";
+export { SourceCard } from "#content/components/SourceCard";
 export { Spinner } from "#content/components/Spinner";
 export { Step, Steps } from "#content/components/Steps";
 export { SummaryCards } from "#content/components/SummaryCards";
@@ -69,6 +71,11 @@ export type {
   CardVariant,
 } from "#content/components/Card";
 export type { CalloutProps, CalloutTone } from "#content/components/Callout";
+export type {
+  CitationProps,
+  CitationSize,
+  CitationTone,
+} from "#content/components/Citation";
 export type {
   CodeTabsItem,
   CodeTabsProps,
@@ -167,6 +174,11 @@ export type {
   SeparatorSize,
 } from "#content/components/Separator";
 export type { SkeletonProps } from "#content/components/Skeleton";
+export type {
+  SourceCardProps,
+  SourceCardSize,
+  SourceCardVariant,
+} from "#content/components/SourceCard";
 export type {
   SpinnerLabelPosition,
   SpinnerProps,

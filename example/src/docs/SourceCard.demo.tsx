@@ -65,9 +65,9 @@ const SourceCardPreview = () => (
 export default defineDoc({
   id: "source-card",
   name: "SourceCard",
-  category: "ai",
+  category: "content",
   packageName: "willa/SourceCard",
-  description: "用于展示 AI 搜索、RAG 和文档问答里的来源、片段和跳转入口。",
+  description: "用于展示来源、资料、搜索结果、摘要片段和跳转入口。",
   imports: [{ name: "SourceCard", from: "willa/SourceCard" }],
   css: "willa/SourceCard.css",
   demo: {
