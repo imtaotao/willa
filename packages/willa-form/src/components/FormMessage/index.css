@@ -1,0 +1,76 @@
+.willa-form-message {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  box-sizing: border-box;
+  max-width: 100%;
+  align-items: flex-start;
+  border: 1px solid var(--willa-form-message-border);
+  border-radius: 0.68rem;
+  background: var(--willa-form-message-bg);
+  color: var(--willa-form-message-text);
+  font-family: var(--willa-body-font);
+  font-size: 0.9rem;
+  gap: 0.62rem;
+  line-height: 1.48;
+  padding: 0.62rem 0.68rem;
+}
+
+.willa-form-message--info {
+  --willa-form-message-bg: var(--willa-toast-info-card-bg);
+  --willa-form-message-border: var(--willa-toast-info-border);
+  --willa-form-message-text: var(--willa-toast-text);
+  --willa-form-message-icon-bg: var(--willa-toast-info-bg);
+  --willa-form-message-icon-text: var(--willa-toast-info);
+}
+
+.willa-form-message--success {
+  --willa-form-message-bg: var(--willa-toast-success-card-bg);
+  --willa-form-message-border: var(--willa-toast-success-border);
+  --willa-form-message-text: var(--willa-toast-text);
+  --willa-form-message-icon-bg: var(--willa-toast-success-bg);
+  --willa-form-message-icon-text: var(--willa-toast-success);
+}
+
+.willa-form-message--warning {
+  --willa-form-message-bg: var(--willa-toast-warning-card-bg);
+  --willa-form-message-border: var(--willa-toast-warning-border);
+  --willa-form-message-text: var(--willa-toast-text);
+  --willa-form-message-icon-bg: var(--willa-toast-warning-bg);
+  --willa-form-message-icon-text: var(--willa-toast-warning);
+}
+
+.willa-form-message--error {
+  --willa-form-message-bg: var(--willa-toast-error-card-bg);
+  --willa-form-message-border: var(--willa-toast-error-border);
+  --willa-form-message-text: var(--willa-toast-text);
+  --willa-form-message-icon-bg: var(--willa-toast-error-bg);
+  --willa-form-message-icon-text: var(--willa-toast-error);
+}
+
+.willa-form-message-icon {
+  display: inline-flex;
+  width: 1.55rem;
+  height: 1.55rem;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.42rem;
+  background: var(--willa-form-message-icon-bg);
+  color: var(--willa-form-message-icon-text);
+  margin-top: 0.02rem;
+}
+
+.willa-form-message-icon svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.willa-form-message-content {
+  min-width: 0;
+}
+
+@media (max-width: 767px) {
+  .willa-form-message {
+    font-size: 0.88rem;
+  }
+}

@@ -24,6 +24,7 @@ const rowStyle = {
 export default defineDoc({
   id: "input",
   name: "Input",
+  category: "form",
   packageName: "willa/Input",
   description: "用于表单、搜索、配置和 AI 产品输入区域的单行输入框。",
   imports: [{ name: "Input", from: "willa/Input" }],

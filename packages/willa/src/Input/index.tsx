@@ -3,4 +3,4 @@ export {
   type InputProps,
   type InputSize,
   type InputVariant,
-} from "@willa-ui/content/components/Input";
+} from "@willa-ui/form/components/Input";

@@ -1,0 +1,84 @@
+{
+  "name": "@willa-ui/form",
+  "version": "0.0.3-alpha.284d401",
+  "description": "Willa UI form components.",
+  "author": "chentao.arthur",
+  "license": "MIT",
+  "scripts": {
+    "dev": "auk dev",
+    "build": "auk build",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/es/index.d.ts",
+        "default": "./dist/es/index.js"
+      },
+      "require": {
+        "types": "./dist/lib/index.d.ts",
+        "default": "./dist/lib/index.js"
+      }
+    },
+    "./*": {
+      "import": {
+        "types": "./dist/es/*/index.d.ts",
+        "default": "./dist/es/*/index.js"
+      },
+      "require": {
+        "types": "./dist/lib/*/index.d.ts",
+        "default": "./dist/lib/*/index.js"
+      }
+    },
+    "./*.css": {
+      "import": "./dist/es/*/style/index.css",
+      "require": "./dist/lib/*/style/index.css",
+      "default": "./dist/es/*/style/index.css"
+    },
+    "./style.css": {
+      "import": "./dist/es/style/index.css",
+      "require": "./dist/lib/style/index.css",
+      "default": "./dist/es/style/index.css"
+    },
+    "./themes/*.css": {
+      "import": "./dist/es/themes/*.css",
+      "require": "./dist/lib/themes/*.css",
+      "default": "./dist/es/themes/*.css"
+    },
+    "./external.css": {
+      "import": "./dist/es/style/external.css",
+      "require": "./dist/lib/style/external.css",
+      "default": "./dist/es/style/external.css"
+    }
+  },
+  "main": "./dist/lib/index.js",
+  "module": "./dist/es/index.js",
+  "unpkg": "./dist/index.global.js",
+  "types": "./dist/es/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "dependencies": {
+    "@willa-ui/content": "workspace:*",
+    "@willa-ui/shared": "workspace:*",
+    "@radix-ui/react-icons": "catalog:",
+    "aidly": "catalog:",
+    "classnames": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
+    "auklet": "catalog:",
+    "vitest": "catalog:",
+    "typescript": "catalog:"
+  }
+}

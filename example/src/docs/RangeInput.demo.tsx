@@ -44,6 +44,7 @@ const RangeInputPreview = () => {
 export default defineDoc({
   id: "range-input",
   name: "RangeInput",
+  category: "form",
   packageName: "willa/RangeInput",
   description: "用于模型参数、音视频进度和数值配置的范围输入。",
   imports: [{ name: "RangeInput", from: "willa/RangeInput" }],

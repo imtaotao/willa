@@ -1,0 +1,70 @@
+.willa-form-field {
+  display: grid;
+  box-sizing: border-box;
+  max-width: 100%;
+  color: var(--willa-form-text);
+  font-family: var(--willa-body-font);
+}
+
+.willa-form-field--sm {
+  gap: 0.42rem;
+  font-size: 0.86rem;
+}
+
+.willa-form-field--md {
+  gap: 0.5rem;
+  font-size: 0.94rem;
+}
+
+.willa-form-field--horizontal {
+  grid-template-columns: minmax(7.5rem, 0.34fr) minmax(0, 1fr);
+  align-items: start;
+  column-gap: 1rem;
+}
+
+.willa-form-field-label {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.28rem;
+  color: var(--willa-form-label);
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.willa-form-field-label-text {
+  min-width: 0;
+}
+
+.willa-form-field-required {
+  color: var(--willa-form-required);
+  font-weight: 700;
+}
+
+.willa-form-field-control {
+  display: grid;
+  min-width: 0;
+  gap: 0.42rem;
+}
+
+.willa-form-field-description,
+.willa-form-field-error {
+  margin: 0;
+  font-size: 0.88em;
+  line-height: 1.45;
+}
+
+.willa-form-field-description {
+  color: var(--willa-form-description);
+}
+
+.willa-form-field-error {
+  color: var(--willa-form-error);
+}
+
+@media (max-width: 767px) {
+  .willa-form-field--horizontal {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.5rem;
+  }
+}

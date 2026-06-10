@@ -1,0 +1,60 @@
+.willa-form-group {
+  display: grid;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  color: var(--willa-form-text);
+  font-family: var(--willa-body-font);
+  padding: 0;
+}
+
+.willa-form-group--gap-sm {
+  gap: 0.65rem;
+}
+
+.willa-form-group--gap-md {
+  gap: 0.9rem;
+}
+
+.willa-form-group--gap-lg {
+  gap: 1.18rem;
+}
+
+.willa-form-group-header {
+  display: grid;
+  min-width: 0;
+  gap: 0.28rem;
+  margin: 0;
+  padding: 0;
+}
+
+.willa-form-group-title {
+  color: var(--willa-form-label);
+  font-size: 0.98rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.willa-form-group-description {
+  color: var(--willa-form-description);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.willa-form-group-content {
+  display: grid;
+  min-width: 0;
+  gap: inherit;
+}
+
+.willa-form-group--columns-2 .willa-form-group-content {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 1rem;
+}
+
+@media (max-width: 767px) {
+  .willa-form-group--columns-2 .willa-form-group-content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

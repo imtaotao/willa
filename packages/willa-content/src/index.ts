@@ -21,7 +21,6 @@ export { Group } from "#content/components/Group";
 export { Image } from "#content/components/Image";
 export { ImageGallery } from "#content/components/ImageGallery";
 export { IconButton } from "#content/components/IconButton";
-export { Input } from "#content/components/Input";
 export { Kbd, KbdShortcut } from "#content/components/Kbd";
 export { Lightbox, normalizeLightboxImage } from "#content/components/Lightbox";
 export { Menu } from "#content/components/Menu";
@@ -30,17 +29,14 @@ export { Pagination } from "#content/components/Pagination";
 export { Poem } from "#content/components/Poem";
 export { Popover } from "#content/components/Popover";
 export { Progress } from "#content/components/Progress";
-export { RangeInput } from "#content/components/RangeInput";
 export { Separator } from "#content/components/Separator";
 export { Skeleton } from "#content/components/Skeleton";
 export { SourceCard } from "#content/components/SourceCard";
 export { Spinner } from "#content/components/Spinner";
 export { Step, Steps } from "#content/components/Steps";
 export { Tabs } from "#content/components/Tabs";
-export { TextArea } from "#content/components/TextArea";
 export { createToast, toast } from "#content/components/Toast";
 export { Tooltip } from "#content/components/Tooltip";
-export { Upload } from "#content/components/Upload";
 export { VideoEmbed } from "#content/components/VideoEmbed";
 export { VideoLink } from "#content/components/VideoLink";
 
@@ -122,11 +118,6 @@ export type {
   IconButtonVariant,
 } from "#content/components/IconButton";
 export type {
-  InputProps,
-  InputSize,
-  InputVariant,
-} from "#content/components/Input";
-export type {
   KbdProps,
   KbdShortcutProps,
   KbdShortcutSeparator,
@@ -164,7 +155,6 @@ export type {
   ProgressSize,
   ProgressTone,
 } from "#content/components/Progress";
-export type { RangeInputProps } from "#content/components/RangeInput";
 export type {
   SeparatorAlign,
   SeparatorOrientation,
@@ -186,12 +176,6 @@ export type {
 export type { StepProps, StepsProps } from "#content/components/Steps";
 export type { TabsItem, TabsProps, TabsSize } from "#content/components/Tabs";
 export type {
-  TextAreaProps,
-  TextAreaResize,
-  TextAreaSize,
-  TextAreaVariant,
-} from "#content/components/TextArea";
-export type {
   ToastAction,
   ToastApi,
   ToastConfig,
@@ -205,15 +189,6 @@ export type {
   TooltipSide,
   TooltipSize,
 } from "#content/components/Tooltip";
-export type {
-  UploadErrorHandler,
-  UploadFileKind,
-  UploadHandler,
-  UploadItem,
-  UploadProps,
-  UploadSize,
-  UploadStatusHandler,
-} from "#content/components/Upload";
 export type {
   CodeBlockHighlightLine,
   CodeBlockProps,

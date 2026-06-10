@@ -4,4 +4,4 @@ export {
   type TextAreaResize,
   type TextAreaSize,
   type TextAreaVariant,
-} from "@willa-ui/content/components/TextArea";
+} from "@willa-ui/form/components/TextArea";

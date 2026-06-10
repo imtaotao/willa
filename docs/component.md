@@ -14,6 +14,9 @@ Before adding a component, choose its package based on the architecture guide:
 
 - `@willa-ui/content`: general content rendering, such as text, media, lists,
   callouts, code blocks, product primitives, and rich article content.
+- `@willa-ui/form`: form controls and form layout, such as input, textarea,
+  select, checkbox, radio, switch, date picker, upload, form field, and form
+  actions.
 - `@willa-ui/ai`: AI product scenes and AI-specific composition, such as prompt
   inputs, chat messages, source citations, tool call displays, context panels,
   generation cards, and agent status views.
@@ -24,7 +27,7 @@ Before adding a component, choose its package based on the architecture guide:
   processing, clipboard helpers, and similar logic. It must not contain React
   components or component CSS.
 - `willa`: the public aggregate package that exposes public components from
-  content, AI, and widgets.
+  content, form, AI, and widgets.
 
 Dependency direction is defined in [Willa Architecture](./architecture.md). A
 component used only by AI or widgets is not automatically owned by that package;
@@ -32,8 +35,8 @@ first judge whether its meaning is general enough for content.
 
 ## File Organization
 
-Component directories use the component name. content, AI, and widgets use the
-same shape:
+Component directories use the component name. content, form, AI, and widgets
+use the same shape:
 
 ```text
 src/components/ComponentName/
@@ -72,6 +75,9 @@ When adding a content component, usually update:
   component needs theme variables
 - `example/src/docs/ComponentName.demo.tsx`
 - `example/src/catalog/registry.ts`
+
+When adding a form component, replace `willa-content` with `willa-form` and
+make sure the willa aggregate package exports it.
 
 When adding a widgets component, replace `willa-content` with `willa-widgets`
 and make sure the willa aggregate package exports it.
@@ -120,6 +126,9 @@ When adding a component, confirm:
 - widgets components that compose content components express CSS dependencies
   through `styles.dependencies` in `auklet.config.mjs`; they do not copy content
   CSS or theme variables.
+- form components that compose content components follow the same rule: reuse
+  content CSS through `styles.dependencies` instead of copying content CSS or
+  theme variables.
 - AI components that compose content components follow the same rule: reuse
   content CSS through `styles.dependencies` instead of copying content CSS or
   theme variables.
@@ -173,6 +182,7 @@ Every demo should include:
 Component docs are grouped by category:
 
 - content: base product/content components.
+- form: form controls and form layout components.
 - ai: AI product and AI interaction components.
 - widgets: scenario components.
 

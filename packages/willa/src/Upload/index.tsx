@@ -1,4 +1,4 @@
-export { Upload } from "@willa-ui/content/components/Upload";
+export { Upload } from "@willa-ui/form/components/Upload";
 export type {
   UploadErrorHandler,
   UploadFileKind,
@@ -7,4 +7,4 @@ export type {
   UploadProps,
   UploadSize,
   UploadStatusHandler,
-} from "@willa-ui/content/components/Upload";
+} from "@willa-ui/form/components/Upload";

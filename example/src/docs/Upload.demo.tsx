@@ -45,6 +45,7 @@ const resolveSummary = (files: Array<UploadItem>) => {
 export default defineDoc({
   id: "upload",
   name: "Upload",
+  category: "form",
   packageName: "willa/Upload",
   description:
     "用于任意文件上传，支持点击选择和拖拽上传；图片、音频、视频可预览，其他文件通过下载入口查看。",

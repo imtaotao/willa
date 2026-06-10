@@ -12,6 +12,7 @@ const stackStyle = {
 export default defineDoc({
   id: "text-area",
   name: "TextArea",
+  category: "form",
   packageName: "willa/TextArea",
   description: "用于多行文本、提示词、反馈内容和 AI 输入区域的文本框。",
   imports: [{ name: "TextArea", from: "willa/TextArea" }],

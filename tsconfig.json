@@ -33,14 +33,16 @@
 
       "@willa-ui/*": ["./packages/willa-*/src"],
       "@willa-ui/ai/*": ["./packages/willa-ai/src/*"],
-      "@willa-ui/content/*": ["./packages/willa-content/src/*"],
+      "@willa-ui/form/*": ["./packages/willa-form/src/*"],
       "@willa-ui/shared/*": ["./packages/willa-shared/src/*"],
+      "@willa-ui/content/*": ["./packages/willa-content/src/*"],
       "@willa-ui/widgets/*": ["./packages/willa-widgets/src/*"],
 
       "#ai/*": ["./packages/willa-ai/src/*"],
+      "#form/*": ["./packages/willa-form/src/*"],
+      "#shared/*": ["./packages/willa-shared/src/*"],
       "#content/*": ["./packages/willa-content/src/*"],
-      "#widgets/*": ["./packages/willa-widgets/src/*"],
-      "#shared/*": ["./packages/willa-shared/src/*"]
+      "#widgets/*": ["./packages/willa-widgets/src/*"]
     }
   }
 }

@@ -295,12 +295,9 @@ select {
   padding: 24px;
 }
 
-.docs-preview:has(.docs-github-preview) {
-  z-index: 3;
-  overflow: visible;
-}
-
-.docs-preview:has(.willa-avatar-hover-card) {
+.docs-preview:has(.docs-github-preview),
+.docs-preview:has(.willa-avatar-hover-card),
+.docs-preview:has(.willa-prose-github-hover-card) {
   z-index: 4;
   overflow: visible;
 }

@@ -26,6 +26,8 @@ Variables live in the theme files of the package that owns the component:
 - content component variables live in
   `packages/willa-content/src/themes/light.css` and
   `packages/willa-content/src/themes/dark.css`.
+- form component variables live in `packages/willa-form/src/themes/light.css`
+  and `packages/willa-form/src/themes/dark.css`.
 - AI component variables live in `packages/willa-ai/src/themes/light.css` and
   `packages/willa-ai/src/themes/dark.css`.
 - widgets component variables live in
@@ -35,16 +37,16 @@ Variables live in the theme files of the package that owns the component:
 - `Lightbox` variables still belong to content, even though Lightbox renders
   through a portal into `document.body`.
 
-Do not copy content variables into AI or widgets themes. AI and widgets already
-depend on content CSS and themes through `styles.dependencies`, so they should
-reuse content as the variable source.
+Do not copy content variables into form, AI, or widgets themes. These packages
+already depend on content CSS and themes through `styles.dependencies`, so they
+should reuse content as the variable source.
 
 When adding or migrating a component, decide ownership by where the component
 source lives, not by which package uses the component. For example, `Mdx`
 renders `Image`, `Callout`, and `CodeBlock`, but those variables still belong
 to content; only `Mdx`'s own prose and heading variables belong to widgets.
-Likewise, an AI component that renders `Button`, `CodeBlock`, or `FileCard`
-should reuse those content variables instead of redefining them.
+Likewise, a form or AI component that renders `Button`, `CodeBlock`, or
+`FileCard` should reuse those content variables instead of redefining them.
 
 AI package themes should keep large surfaces neutral. Layout shells, composer
 containers, prompt inputs, message lists, and process cards should use neutral
@@ -132,7 +134,7 @@ blocks the translucent backdrop.
 
 Cross-package CSS dependencies are declared through `auklet.config.mjs`.
 
-`@willa-ui/ai` and `@willa-ui/widgets` depend on content:
+`@willa-ui/form`, `@willa-ui/ai`, and `@willa-ui/widgets` depend on content:
 
 ```js
 styles: {
@@ -149,13 +151,14 @@ styles: {
 }
 ```
 
-This means AI and widgets can use base tokens and component styles provided by
-content. Their themes should only add variables owned by their own package.
+This means form, AI, and widgets can use base tokens and component styles
+provided by content. Their themes should only add variables owned by their own
+package.
 
-If an AI or widgets component directly imports a content component, it should
-also declare the content CSS dependency instead of copying content styles or
-theme variables. This keeps CSS sources consistent when building that package
-alone, building the willa aggregate package, and using single-component
+If a form, AI, or widgets component directly imports a content component, it
+should also declare the content CSS dependency instead of copying content styles
+or theme variables. This keeps CSS sources consistent when building that
+package alone, building the willa aggregate package, and using single-component
 entries.
 
 The `willa` aggregate package composes public package CSS into entries such as:
@@ -232,6 +235,17 @@ When adding a widgets component:
 4. Confirm `packages/willa-widgets/src/index.ts` and
    `packages/willa/src/ComponentName/index.tsx` export the component.
 
+When adding a form component:
+
+1. Write structural styles in
+   `packages/willa-form/src/components/ComponentName/index.css`.
+2. Add form-owned theme variables in
+   `packages/willa-form/src/themes/light.css` and `dark.css`.
+3. If it composes content components, reuse content theme variables instead of
+   copying them.
+4. Confirm `packages/willa-form/src/index.ts` and
+   `packages/willa/src/ComponentName/index.tsx` export the component.
+
 When adding an AI component:
 
 1. Write structural styles in
@@ -283,13 +297,14 @@ structural selectors that cannot be expressed on the root element.
 
 ## FAQ
 
-What should an AI or widgets component do if it needs content base tokens?
+What should a form, AI, or widgets component do if it needs content base tokens?
 
 Reference variables provided by the content theme, such as
 `--willa-text-strong`, `--willa-line`, and `--willa-focus-ring`. Do not redefine
-these base tokens in AI or widgets themes.
+these base tokens in form, AI, or widgets themes.
 
-Should AI or widgets copy content variables when composing content components?
+Should form, AI, or widgets copy content variables when composing content
+components?
 
 No. Declare the dependency through `styles.dependencies` in `auklet.config.mjs`
 so the build output combines content CSS.
@@ -311,7 +326,7 @@ Before adding or changing CSS, confirm:
 
 - Variables are defined in the package that owns the component.
 - Component CSS does not hardcode theme colors.
-- AI and widgets do not copy content variables.
+- Form, AI, and widgets do not copy content variables.
 - Portal component variable scope covers the actual DOM location.
 - The `willa` aggregate package composes CSS through `styles.dependencies`
   instead of hand-writing duplicate variables.

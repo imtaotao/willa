@@ -72,7 +72,8 @@
     "react-twitter-widgets": "catalog:"
   },
   "peerDependencies": {
-    "react": "catalog:"
+    "react": "catalog:",
+    "react-dom": "catalog:"
   },
   "devDependencies": {
     "@types/react": "catalog:",

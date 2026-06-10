@@ -1,0 +1,48 @@
+.willa-form {
+  display: grid;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  color: var(--willa-form-text);
+  font-family: var(--willa-body-font);
+}
+
+.willa-form--gap-sm {
+  gap: 0.75rem;
+}
+
+.willa-form--gap-md {
+  gap: 1rem;
+}
+
+.willa-form--gap-lg {
+  gap: 1.32rem;
+}
+
+.willa-form-body {
+  display: grid;
+  min-width: 0;
+  gap: inherit;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.willa-form-body:disabled {
+  cursor: not-allowed;
+}
+
+.willa-form-error {
+  box-sizing: border-box;
+  border: 1px solid var(--willa-form-error-border);
+  border-radius: 0.7rem;
+  background: var(--willa-form-error-bg);
+  color: var(--willa-form-error);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  padding: 0.62rem 0.72rem;
+}
+
+.willa-form-actions-slot {
+  min-width: 0;
+}
