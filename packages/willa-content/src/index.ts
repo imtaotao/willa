@@ -10,6 +10,7 @@ export { Citation } from "#content/components/Citation";
 export { CodeBlock } from "#content/components/CodeBlock";
 
 export { CodeTabs } from "#content/components/CodeTabs";
+export { DataTable } from "#content/components/DataTable";
 export { DetailsBlock } from "#content/components/DetailsBlock";
 export { Dialog } from "#content/components/Dialog";
 export { Download } from "#content/components/Download";
@@ -34,6 +35,7 @@ export { Skeleton } from "#content/components/Skeleton";
 export { SourceCard } from "#content/components/SourceCard";
 export { Spinner } from "#content/components/Spinner";
 export { Step, Steps } from "#content/components/Steps";
+export { Table } from "#content/components/Table";
 export { Tabs } from "#content/components/Tabs";
 export { createToast, toast } from "#content/components/Toast";
 export { Tooltip } from "#content/components/Tooltip";
@@ -75,6 +77,18 @@ export type {
   CodeTabsProps,
   CodeTabsSize,
 } from "#content/components/CodeTabs";
+export type {
+  DataTableAlign,
+  DataTableCell,
+  DataTableItem,
+  DataTablePagination,
+  DataTableProps,
+  DataTableRowTone,
+  DataTableSelectionMode,
+  DataTableSize,
+  DataTableSortDirection,
+  DataTableSortState,
+} from "#content/components/DataTable";
 export type { DetailsBlockProps } from "#content/components/DetailsBlock";
 export type { DialogProps, DialogSize } from "#content/components/Dialog";
 export type {
@@ -174,6 +188,18 @@ export type {
   SpinnerTone,
 } from "#content/components/Spinner";
 export type { StepProps, StepsProps } from "#content/components/Steps";
+export type {
+  TableAlign,
+  TableCell,
+  TableItem,
+  TablePagination,
+  TableProps,
+  TableRowTone,
+  TableSelectionMode,
+  TableSize,
+  TableSortDirection,
+  TableSortState,
+} from "#content/components/Table";
 export type { TabsItem, TabsProps, TabsSize } from "#content/components/Tabs";
 export type {
   ToastAction,
