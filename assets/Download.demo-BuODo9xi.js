@@ -1,0 +1,10 @@
+import{ag as e}from"./index-BHVmaN2F.js";import{D as a}from"./index-C-EYJJG2.js";import{d as n}from"./defineDoc-CUYqPx2J.js";const t="data:text/plain;charset=utf-8,%E8%BF%99%E6%98%AF%20Willa%20Download%20%E7%BB%84%E4%BB%B6%E7%9A%84%E6%BC%94%E7%A4%BA%E6%96%87%E4%BB%B6%E3%80%82",o={display:"flex",minWidth:0,alignItems:"center",flexWrap:"wrap",gap:"0.75rem"},i=()=>e.jsxs("div",{style:o,children:[e.jsx(a,{href:t,name:"product-brief.txt",meta:"2 KB"}),e.jsx(a,{href:t,name:"feedback.csv",downloadName:"feedback.csv",variant:"button",size:"md"})]}),m=n({id:"download",name:"Download",packageName:"willa/Download",description:"用于附件、资料和导出结果的轻量下载入口。",imports:[{name:"Download",from:"willa/Download"}],css:"willa/Download.css",demo:{name:"DownloadPreview",component:i},code:`
+    import { Download } from "willa/Download";
+    import "willa/Download.css";
+
+    <Download
+      href="/files/product-brief.txt"
+      name="product-brief.txt"
+      meta="2 KB"
+    />
+  `,sections:[{title:"附件下载",content:e.jsxs("div",{style:o,children:[e.jsx(a,{href:t,name:"feedback.csv",meta:"12 KB"}),e.jsx(a,{href:t,name:"roadmap.md",meta:"Markdown"}),e.jsx(a,{href:t,name:"report.pdf",meta:"428 KB"})]})},{title:"按钮形态",content:e.jsxs("div",{style:o,children:[e.jsx(a,{href:t,name:"下载报告",downloadName:"report.pdf",variant:"button",size:"md"}),e.jsx(a,{href:t,name:"不可下载",variant:"button",size:"md",disabled:!0})]})},{title:"纯文本形态",content:e.jsx(a,{href:t,name:"下载原始数据",meta:"CSV",variant:"plain"})}],props:[{name:"href",type:"string",required:!0,description:"下载地址。"},{name:"name",type:"ReactNode",required:!0,description:"下载入口主文案，通常是文件名或动作文案。"},{name:"meta",type:"ReactNode",description:"文件大小、格式或补充说明。"},{name:"downloadName",type:"string",description:"下载保存时使用的文件名；默认开启原生 download。"},{name:"variant",type:'"chip" | "button" | "plain"',description:"下载入口形态，默认 chip。"},{name:"size",type:'"sm" | "md"',description:"尺寸，默认 sm。"},{name:"icon",type:"ReactNode",description:"左侧图标。"},{name:"trailingIcon",type:"ReactNode",description:"右侧图标，默认下载图标。"},{name:"disabled",type:"boolean",description:"禁用下载入口。"}]});export{m as default};
