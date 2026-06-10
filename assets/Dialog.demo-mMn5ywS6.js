@@ -1,0 +1,53 @@
+import{aj as i,ai as ee,ah as e,q as te,a9 as v}from"./index-C2E4XHzt.js";import{B as n}from"./index-3DZYmbrW.js";/* empty css              */import{d as oe}from"./defineDoc-5r0NM0Fx.js";import"./heading-BzvB6qDP.js";const ie=["a[href]","button:not([disabled])","textarea:not([disabled])","input:not([disabled])","select:not([disabled])","[tabindex]:not([tabindex='-1'])"].join(","),O=f=>Array.from(f.querySelectorAll(ie));function m(f){const{open:j,defaultOpen:K,onOpenChange:c,trigger:a,title:s,description:d,children:D,footer:w,closeText:P="取消",confirmText:C,onConfirm:p,ariaLabel:L,size:$="md",closeOnOverlayClick:q=!0,closeOnEscape:A=!0,showCloseButton:H=!0,className:M,overlayClassName:U,contentClassName:V}=f,N=j!==void 0,[W,_]=i.useState(K??!1),u=j??W,E=i.useId(),B=s?`${E}-title`:void 0,T=d?`${E}-description`:void 0,g=i.useRef(null),y=i.useRef(null),h=i.useCallback(t=>{N||_(t),c==null||c(t)},[N,c]),r=i.useCallback(()=>{h(!1)},[h]);i.useEffect(()=>{if(!u||typeof document>"u")return;const t=document.body.style.overflow;y.current=document.activeElement instanceof HTMLElement?document.activeElement:null,document.body.style.overflow="hidden";const l=window.setTimeout(()=>{const o=g.current;if(!o)return;(O(o)[0]??o).focus()},0);return()=>{var o;window.clearTimeout(l),document.body.style.overflow=t,(o=y.current)==null||o.focus(),y.current=null}},[u]);const G=t=>{var l,o;(o=a==null?void 0:(l=a.props).onClick)==null||o.call(l,t),t.defaultPrevented||h(!0)},J=t=>{!q||t.target!==t.currentTarget||r()},Q=t=>{if(t.key==="Escape"&&A){t.stopPropagation(),r();return}if(t.key!=="Tab")return;const l=g.current;if(!l)return;const o=O(l);if(o.length===0){t.preventDefault(),l.focus();return}const x=o[0],R=o[o.length-1],S=document.activeElement;if(t.shiftKey&&S===x){t.preventDefault(),R.focus();return}!t.shiftKey&&S===R&&(t.preventDefault(),x.focus())},X=()=>{p==null||p(),r()},Y=i.isValidElement(a)?i.cloneElement(a,{"aria-expanded":u,"aria-haspopup":"dialog",onClick:G}):null,k=w??(w===void 0&&(C!==void 0||p)?e.jsxs(e.Fragment,{children:[e.jsx(n,{type:"button",variant:"ghost",onClick:r,children:P}),e.jsx(n,{type:"button",variant:"solid",onClick:X,children:C??"确认"})]}):null),Z=u&&typeof document<"u"?ee.createPortal(e.jsx("div",{className:v("willa-dialog",U),onClick:J,children:e.jsxs("div",{ref:g,className:v("willa-dialog-panel",`willa-dialog-panel--${$}`,M),role:"dialog","aria-modal":"true","aria-label":s?void 0:L??"Dialog","aria-labelledby":B,"aria-describedby":T,tabIndex:-1,onKeyDown:Q,children:[H?e.jsx("button",{type:"button",className:"willa-dialog-close",onClick:r,"aria-label":"关闭",children:e.jsx(te,{})}):null,s||d?e.jsxs("header",{className:"willa-dialog-header",children:[s?e.jsx("h2",{id:B,className:"willa-dialog-title",children:s}):null,d?e.jsx("p",{id:T,className:"willa-dialog-description",children:d}):null]}):null,D?e.jsx("div",{className:v("willa-dialog-body",V),children:D}):null,k?e.jsx("footer",{className:"willa-dialog-footer",children:k}):null]})}),document.body):null;return e.jsxs(e.Fragment,{children:[Y,Z]})}const F={display:"grid",gap:"0.65rem"},b={margin:0,color:"var(--willa-text)"},z={margin:0,color:"var(--willa-text-soft)",fontSize:"0.88rem"},I={display:"flex",flexWrap:"wrap",justifyContent:"flex-end",gap:"0.55rem"},de=oe({id:"dialog",name:"Dialog",packageName:"willa/Dialog",description:"用于确认操作、补充信息和轻量表单的基础弹层。",imports:[{name:"Dialog",from:"willa/Dialog"}],css:"willa/Dialog.css",demo:{name:"Dialog",component:m,props:{trigger:e.jsx(n,{variant:"soft",children:"打开 Dialog"}),title:"发布前确认",description:"确认后内容会进入公开队列。",confirmText:"确认发布"},children:e.jsxs("div",{style:F,children:[e.jsx("p",{style:b,children:"这篇内容包含 3 张图片和 2 个代码片段。"}),e.jsx("p",{style:z,children:"发布后仍然可以继续编辑，但读者会看到最新版本。"})]})},code:`
+    import { Dialog } from "willa/Dialog";
+    import { Button } from "willa/Button";
+    import "willa/Dialog.css";
+    import "willa/Button.css";
+
+    <Dialog
+      trigger={<Button variant="soft">打开 Dialog</Button>}
+      title="发布前确认"
+      description="确认后内容会进入公开队列。"
+      confirmText="确认发布"
+    >
+      <p>这篇内容包含 3 张图片和 2 个代码片段。</p>
+    </Dialog>;
+  `,sections:[{title:"自定义底部",code:`
+        <Dialog
+          trigger={<Button variant="outline">打开设置</Button>}
+          title="阅读偏好"
+          description="这些设置只会影响当前设备。"
+          footer={
+            <div style={footerStyle}>
+              <Button variant="ghost">稍后再说</Button>
+              <Button variant="solid">保存设置</Button>
+            </div>
+          }
+        >
+          <div style={contentStyle}>
+            <p style={paragraphStyle}>可以在这里放入表单、说明或自定义组件。</p>
+            <p style={noteStyle}>Dialog 只负责弹层结构，内容由业务自己组合。</p>
+          </div>
+        </Dialog>;
+      `,content:e.jsx(m,{trigger:e.jsx(n,{variant:"outline",children:"打开设置"}),title:"阅读偏好",description:"这些设置只会影响当前设备。",footer:e.jsxs("div",{style:I,children:[e.jsx(n,{variant:"ghost",children:"稍后再说"}),e.jsx(n,{variant:"solid",children:"保存设置"})]}),children:e.jsxs("div",{style:F,children:[e.jsx("p",{style:b,children:"可以在这里放入表单、说明或自定义组件。"}),e.jsx("p",{style:z,children:"Dialog 只负责弹层结构，内容由业务自己组合。"})]})})},{title:"尺寸",code:`
+        <div style={footerStyle}>
+          <Dialog
+            trigger={<Button variant="soft">小尺寸</Button>}
+            title="小尺寸弹层"
+            description="适合简短确认。"
+            size="sm"
+            confirmText="知道了"
+          />
+          <Dialog
+            trigger={<Button variant="soft">大尺寸</Button>}
+            title="大尺寸弹层"
+            description="适合展示更多内容。"
+            size="lg"
+            confirmText="关闭"
+          >
+            <p style={paragraphStyle}>
+              大尺寸会提供更宽的内容区域，但仍然会限制最大高度并允许内容滚动。
+            </p>
+          </Dialog>
+        </div>;
+      `,content:e.jsxs("div",{style:I,children:[e.jsx(m,{trigger:e.jsx(n,{variant:"soft",children:"小尺寸"}),title:"小尺寸弹层",description:"适合简短确认。",size:"sm",confirmText:"知道了"}),e.jsx(m,{trigger:e.jsx(n,{variant:"soft",children:"大尺寸"}),title:"大尺寸弹层",description:"适合展示更多内容。",size:"lg",confirmText:"关闭",children:e.jsx("p",{style:b,children:"大尺寸会提供更宽的内容区域，但仍然会限制最大高度并允许内容滚动。"})})]})}],props:[{name:"open",type:"boolean",description:"受控打开状态。"},{name:"defaultOpen",type:"boolean",description:"非受控默认打开状态。"},{name:"onOpenChange",type:"(open: boolean) => void",description:"打开状态变化时触发。"},{name:"trigger",type:"ReactElement",description:"触发打开弹层的元素，会自动注入点击事件和 aria 状态。"},{name:"title",type:"ReactNode",description:"弹层标题。"},{name:"description",type:"ReactNode",description:"标题下方的补充说明。"},{name:"children",type:"ReactNode",description:"弹层主体内容。"},{name:"footer",type:"ReactNode",description:"自定义底部区域；传入后会替代默认操作按钮。"},{name:"confirmText",type:"ReactNode",description:"默认确认按钮文案；传入后会渲染默认底部。"},{name:"closeText",type:"ReactNode",description:"默认取消按钮文案。"},{name:"onConfirm",type:"() => void",description:"点击默认确认按钮时触发，随后关闭弹层。"},{name:"size",type:'"sm" | "md" | "lg"',description:"弹层宽度尺寸。"},{name:"closeOnOverlayClick",type:"boolean",description:"点击遮罩时是否关闭，默认开启。"},{name:"closeOnEscape",type:"boolean",description:"按 Escape 时是否关闭，默认开启。"},{name:"showCloseButton",type:"boolean",description:"是否展示右上角关闭按钮，默认展示。"},{name:"ariaLabel",type:"string",description:"无标题弹层的可访问名称。"},{name:"className",type:"string",description:"传给弹层面板的类名。"},{name:"overlayClassName",type:"string",description:"传给遮罩层的类名。"},{name:"contentClassName",type:"string",description:"传给主体内容区域的类名。"}]});export{de as default};
