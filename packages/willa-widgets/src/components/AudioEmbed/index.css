@@ -1,5 +1,7 @@
 .willa-prose-audio-embed {
   display: grid;
+  width: 100%;
+  max-width: 100%;
   grid-template-columns: 5.6rem minmax(0, 1fr) auto;
   align-items: stretch;
   min-height: 7rem;

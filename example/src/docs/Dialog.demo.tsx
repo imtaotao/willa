@@ -64,11 +64,29 @@ export default defineDoc({
       confirmText="确认发布"
     >
       <p>这篇内容包含 3 张图片和 2 个代码片段。</p>
-    </Dialog>
+    </Dialog>;
   `,
   sections: [
     {
       title: "自定义底部",
+      code: `
+        <Dialog
+          trigger={<Button variant="outline">打开设置</Button>}
+          title="阅读偏好"
+          description="这些设置只会影响当前设备。"
+          footer={
+            <div style={footerStyle}>
+              <Button variant="ghost">稍后再说</Button>
+              <Button variant="solid">保存设置</Button>
+            </div>
+          }
+        >
+          <div style={contentStyle}>
+            <p style={paragraphStyle}>可以在这里放入表单、说明或自定义组件。</p>
+            <p style={noteStyle}>Dialog 只负责弹层结构，内容由业务自己组合。</p>
+          </div>
+        </Dialog>;
+      `,
       content: (
         <Dialog
           trigger={<Button variant="outline">打开设置</Button>}
@@ -90,6 +108,28 @@ export default defineDoc({
     },
     {
       title: "尺寸",
+      code: `
+        <div style={footerStyle}>
+          <Dialog
+            trigger={<Button variant="soft">小尺寸</Button>}
+            title="小尺寸弹层"
+            description="适合简短确认。"
+            size="sm"
+            confirmText="知道了"
+          />
+          <Dialog
+            trigger={<Button variant="soft">大尺寸</Button>}
+            title="大尺寸弹层"
+            description="适合展示更多内容。"
+            size="lg"
+            confirmText="关闭"
+          >
+            <p style={paragraphStyle}>
+              大尺寸会提供更宽的内容区域，但仍然会限制最大高度并允许内容滚动。
+            </p>
+          </Dialog>
+        </div>;
+      `,
       content: (
         <div style={footerStyle}>
           <Dialog

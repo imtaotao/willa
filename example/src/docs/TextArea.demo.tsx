@@ -6,7 +6,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const stackStyle = {
   display: "grid",
   gap: "0.85rem",
-  maxWidth: "34rem",
+  maxWidth: "42rem",
 } as const;
 
 export default defineDoc({
@@ -30,15 +30,20 @@ export default defineDoc({
     import { TextArea } from "willa/TextArea";
     import "willa/TextArea.css";
 
-    <TextArea
-      placeholder="告诉 Willa 你想生成什么内容..."
-      width="100%"
-      rows={4}
-    />
+    <TextArea placeholder="告诉 Willa 你想生成什么内容..." width="100%" rows={4} />;
   `,
   sections: [
     {
       title: "基础输入",
+      code: `
+        <div style={stackStyle}>
+          <TextArea placeholder="输入反馈内容" width="100%" />
+          <TextArea
+            defaultValue="总结这篇文章，并输出 3 个适合社交媒体传播的标题。"
+            width="100%"
+          />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <TextArea placeholder="输入反馈内容" width="100%" />
@@ -51,6 +56,13 @@ export default defineDoc({
     },
     {
       title: "尺寸",
+      code: `
+        <div style={stackStyle}>
+          <TextArea size="sm" placeholder="紧凑文本框" width="100%" />
+          <TextArea size="md" placeholder="默认文本框" width="100%" />
+          <TextArea size="lg" placeholder="大尺寸文本框" width="100%" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <TextArea size="sm" placeholder="紧凑文本框" width="100%" />
@@ -61,6 +73,12 @@ export default defineDoc({
     },
     {
       title: "Resize",
+      code: `
+        <div style={stackStyle}>
+          <TextArea resize="none" placeholder="不可拖拽调整" width="100%" />
+          <TextArea resize="vertical" placeholder="仅允许垂直调整" width="100%" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <TextArea resize="none" placeholder="不可拖拽调整" width="100%" />
@@ -74,6 +92,13 @@ export default defineDoc({
     },
     {
       title: "状态",
+      code: `
+        <div style={stackStyle}>
+          <TextArea invalid defaultValue="提示词不能为空。" width="100%" />
+          <TextArea disabled defaultValue="不可编辑的文本内容。" width="100%" />
+          <TextArea variant="soft" placeholder="柔和背景" width="100%" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <TextArea invalid defaultValue="提示词不能为空。" width="100%" />
@@ -84,6 +109,21 @@ export default defineDoc({
     },
     {
       title: "自定义颜色",
+      code: `
+        <div style={stackStyle}>
+          <TextArea
+            backgroundColor="rgba(147, 197, 253, 0.16)"
+            placeholder="自定义背景"
+            width="100%"
+          />
+          <TextArea
+            backgroundColor="#f6e7c8"
+            textColor="#3f2a12"
+            defaultValue="可以用于特殊场景的自定义配色。"
+            width="100%"
+          />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <TextArea

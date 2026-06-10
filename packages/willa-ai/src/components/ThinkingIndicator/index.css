@@ -6,7 +6,7 @@
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   border: 1px solid var(--willa-thinking-indicator-border);
-  border-radius: 8px;
+  border-radius: 0.9rem;
   background: var(--willa-thinking-indicator-bg);
   color: var(--willa-thinking-indicator-text);
   font-family: var(--willa-body-font);
@@ -19,13 +19,13 @@
 }
 
 .willa-thinking-indicator--sm {
-  gap: 0.58rem;
-  padding: 0.42rem 0.58rem;
+  gap: 0.64rem;
+  padding: 0.56rem 0.68rem;
 }
 
 .willa-thinking-indicator--md {
-  gap: 0.68rem;
-  padding: 0.58rem 0.72rem;
+  gap: 0.78rem;
+  padding: 0.74rem 0.86rem;
 }
 
 .willa-thinking-indicator--compact {
@@ -41,7 +41,7 @@
   min-width: 0;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 0.58rem;
+  gap: 0.68rem;
   border: 0;
   background: transparent;
   color: inherit;
@@ -76,12 +76,12 @@
 
 .willa-thinking-indicator-mark {
   display: inline-flex;
-  width: 1.52rem;
-  height: 1.52rem;
+  width: 1.76rem;
+  height: 1.76rem;
   flex: none;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
+  border-radius: 0.62rem;
   background: var(--willa-thinking-indicator-mark-bg);
   color: var(--willa-thinking-indicator-mark);
 }
@@ -112,8 +112,8 @@
   min-width: 0;
   overflow: hidden;
   color: var(--willa-thinking-indicator-title);
-  font-size: 0.86rem;
-  font-weight: 620;
+  font-size: 0.9rem;
+  font-weight: 680;
   line-height: 1.35;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -143,11 +143,11 @@
   min-height: 1.38rem;
   align-items: center;
   border: 1px solid var(--willa-thinking-indicator-step-border);
-  border-radius: 999px;
+  border-radius: 0.5rem;
   background: var(--willa-thinking-indicator-step-bg);
   color: var(--willa-thinking-indicator-muted);
   font-size: 0.72rem;
-  font-weight: 560;
+  font-weight: 620;
   line-height: 1;
   padding: 0 0.48rem;
 }

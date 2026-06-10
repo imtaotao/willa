@@ -44,8 +44,7 @@ const sources: Array<SourceCardProps> = [
 const frameStyle = {
   display: "grid",
   gap: "0.82rem",
-  width: "min(100%, 38rem)",
-  margin: "0 auto",
+  width: "min(100%, 56rem)",
 } as const;
 
 const compactGridStyle = {
@@ -87,11 +86,34 @@ export default defineDoc({
       index="1"
       href="#"
       selected
-    />
+    />;
   `,
   sections: [
     {
       title: "紧凑来源",
+      code: `
+        <div style={compactGridStyle}>
+          <SourceCard
+            size="sm"
+            title="组件创建规范"
+            source="component.md"
+            url="docs/component.md"
+            meta="规范"
+            index="A"
+            href="#"
+          />
+          <SourceCard
+            size="sm"
+            variant="solid"
+            title="CSS 主题规则"
+            source="css.md"
+            url="docs/css.md"
+            meta="主题"
+            index="B"
+            href="#"
+          />
+        </div>;
+      `,
       content: (
         <div style={compactGridStyle}>
           <SourceCard
@@ -118,11 +140,23 @@ export default defineDoc({
     },
     {
       title: "知识库引用",
+      code: `
+        <SourceCard
+          variant="solid"
+          title="对话消息组件设计"
+          description="ChatMessage 负责单条消息，MessageList 负责消息流和自动滚动，Composer 负责输入组合。"
+          source="AI 组件设计"
+          url="knowledge/ai-components"
+          meta="引用 3"
+          icon={<FileTextIcon />}
+          href="#"
+        />;
+      `,
       content: (
         <SourceCard
           variant="solid"
           title="对话消息组件设计"
-          description="ChatMessage 负责单条消息，MessageList 负责消息流和自动滚动，ChatLayout 负责页面骨架。"
+          description="ChatMessage 负责单条消息，MessageList 负责消息流和自动滚动，Composer 负责输入组合。"
           source="AI 组件设计"
           url="knowledge/ai-components"
           meta="引用 3"

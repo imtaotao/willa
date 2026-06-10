@@ -1,13 +1,4 @@
 :root[data-wk-theme="dark"] .willa-shell {
-  --willa-chat-layout-bg: rgba(15, 23, 42, 0.86);
-  --willa-chat-layout-main-bg: rgba(15, 23, 42, 0.42);
-  --willa-chat-layout-sidebar-bg: rgba(15, 23, 42, 0.62);
-  --willa-chat-layout-header-bg: rgba(15, 23, 42, 0.62);
-  --willa-chat-layout-input-bg: rgba(15, 23, 42, 0.72);
-  --willa-chat-layout-border: rgba(148, 163, 184, 0.18);
-  --willa-chat-layout-divider: rgba(148, 163, 184, 0.16);
-  --willa-chat-layout-text: var(--willa-text);
-  --willa-chat-layout-muted: var(--willa-text-soft);
   --willa-attachment-list-bg: rgba(255, 255, 255, 0.055);
   --willa-attachment-list-bg-hover: rgba(255, 255, 255, 0.08);
   --willa-attachment-list-border: rgba(255, 255, 255, 0.1);
@@ -22,6 +13,8 @@
   --willa-attachment-list-uploading-border: rgba(96, 165, 250, 0.32);
   --willa-attachment-list-error-bg: rgba(252, 165, 165, 0.1);
   --willa-attachment-list-error-border: rgba(252, 165, 165, 0.22);
+  --willa-attachment-list-error-bg-hover: rgba(252, 165, 165, 0.14);
+  --willa-attachment-list-error-border-hover: rgba(252, 165, 165, 0.3);
   --willa-attachment-list-remove-bg-hover: rgba(255, 255, 255, 0.08);
   --willa-attachment-list-progress-bg: rgba(96, 165, 250, 0.14);
   --willa-attachment-list-progress-bar: #93c5fd;

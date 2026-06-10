@@ -12,7 +12,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const stackStyle = {
   display: "grid",
   gap: "0.9rem",
-  width: "100%",
+  width: "min(100%, 56rem)",
 } as const;
 
 export default defineDoc({
@@ -54,14 +54,30 @@ export default defineDoc({
       actions={
         <Group gap="sm" justify="center">
           <Button size="sm">返回首页</Button>
-          <Button size="sm" variant="ghost">查看文档</Button>
+          <Button size="sm" variant="ghost">
+            查看文档
+          </Button>
         </Group>
       }
-    />
+    />;
   `,
   sections: [
     {
       title: "默认 404",
+      code: `
+        <NotFound
+          actions={
+            <Group gap="sm" justify="center">
+              <Button size="sm" variant="solid">
+                返回首页
+              </Button>
+              <Button size="sm" variant="ghost">
+                联系支持
+              </Button>
+            </Group>
+          }
+        />;
+      `,
       content: (
         <NotFound
           actions={
@@ -79,6 +95,15 @@ export default defineDoc({
     },
     {
       title: "资源不存在",
+      code: `
+        <NotFound
+          icon={<FileTextIcon />}
+          title="文档不存在"
+          description="这篇文档可能已被归档，或当前账号没有访问权限。"
+          variant="outline"
+          footer="检查链接是否完整，或回到文档列表重新选择。"
+        />;
+      `,
       content: (
         <NotFound
           icon={<FileTextIcon />}
@@ -91,6 +116,24 @@ export default defineDoc({
     },
     {
       title: "左对齐布局",
+      code: `
+        <div style={stackStyle}>
+          <NotFound
+            align="start"
+            icon={<MagnifyingGlassIcon />}
+            title="没有找到页面"
+            description="当前路径没有匹配到任何内容，可以尝试搜索关键词。"
+            size="md"
+            actions={
+              <Group gap="sm">
+                <Button size="sm" variant="outline">
+                  搜索内容
+                </Button>
+              </Group>
+            }
+          />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <NotFound

@@ -11,9 +11,13 @@ import "willa/ThinkingIndicator.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
+const userAvatarSrc = "https://github.com/imtaotao.png";
+const assistantAvatarSrc = "https://github.com/openai.png";
+const toolAvatarSrc = "https://github.com/github.png";
+
 const frameStyle = {
   display: "grid",
-  width: "min(100%, 50rem)",
+  width: "min(100%, 60rem)",
   height: "28rem",
   minWidth: 0,
   gridTemplateRows: "auto minmax(0, 1fr)",
@@ -25,7 +29,7 @@ const frameStyle = {
 
 const compactFrameStyle = {
   ...frameStyle,
-  width: "min(100%, 42rem)",
+  width: "min(100%, 52rem)",
   height: "22rem",
 } as const;
 
@@ -99,6 +103,15 @@ const MessageListPreview = () => {
               role={message.role}
               meta={message.meta || undefined}
               name={message.role === "assistant" ? "Willa AI" : undefined}
+              showAvatar={message.role === "user" ? true : undefined}
+              avatarSrc={
+                message.role === "assistant"
+                  ? assistantAvatarSrc
+                  : message.role === "user"
+                    ? userAvatarSrc
+                    : undefined
+              }
+              avatarAlt={message.role === "user" ? "imtaotao" : undefined}
               compact={message.role === "system"}
               status={
                 message.role === "assistant" ? (
@@ -111,7 +124,12 @@ const MessageListPreview = () => {
               {message.content}
             </ChatMessage>
           ))}
-          <ChatMessage role="assistant" name="Willa AI" status="检索中">
+          <ChatMessage
+            role="assistant"
+            name="Willa AI"
+            avatarSrc={assistantAvatarSrc}
+            status="检索中"
+          >
             <ThinkingIndicator
               compact
               status="searching"
@@ -123,6 +141,7 @@ const MessageListPreview = () => {
               key={message}
               role={index % 2 === 0 ? "assistant" : "tool"}
               name={index % 2 === 0 ? "Willa AI" : "检查任务"}
+              avatarSrc={index % 2 === 0 ? assistantAvatarSrc : toolAvatarSrc}
               compact={index % 2 === 1}
             >
               {message}
@@ -156,23 +175,70 @@ export default defineDoc({
 
     <div style={{ height: 360 }}>
       <MessageList>
-        <ChatMessage role="user">帮我总结这次组件调整。</ChatMessage>
-        <ChatMessage role="assistant" name="Willa AI" status="检索中">
-          <ThinkingIndicator
-            compact
-            status="searching"
-            label="正在检索相关组件"
-          />
+        <ChatMessage
+          role="user"
+          showAvatar
+          avatarSrc="https://github.com/imtaotao.png"
+          avatarAlt="imtaotao"
+        >
+          帮我总结这次组件调整。
         </ChatMessage>
-        <ChatMessage role="assistant" name="Willa AI">
+        <ChatMessage
+          role="assistant"
+          name="Willa AI"
+          avatarSrc="https://github.com/openai.png"
+          status="检索中"
+        >
+          <ThinkingIndicator compact status="searching" label="正在检索相关组件" />
+        </ChatMessage>
+        <ChatMessage
+          role="assistant"
+          name="Willa AI"
+          avatarSrc="https://github.com/openai.png"
+        >
           本次主要影响 AI 包、willa 聚合入口和示例站。
         </ChatMessage>
       </MessageList>
-    </div>
+    </div>;
   `,
   sections: [
     {
       title: "加载历史",
+      code: `
+        <div style={compactFrameStyle}>
+          <div style={toolbarStyle}>
+            <span style={toolbarTextStyle}>顶部可放历史消息加载状态</span>
+          </div>
+          <div style={viewportStyle}>
+            <MessageList
+              loading
+              loadingLabel={
+                <>
+                  <ClockIcon /> 正在加载更早的消息
+                </>
+              }
+            >
+              <ChatMessage
+                role="user"
+                showAvatar
+                avatarSrc="https://github.com/imtaotao.png"
+                avatarAlt="imtaotao"
+                meta="09:38"
+              >
+                先看一下有哪些文件改动。
+              </ChatMessage>
+              <ChatMessage
+                role="assistant"
+                name="Willa AI"
+                avatarSrc="https://github.com/openai.png"
+                meta="09:39"
+              >
+                我会先检查工作区、组件入口和文档注册。
+              </ChatMessage>
+            </MessageList>
+          </div>
+        </div>;
+      `,
       content: (
         <div style={compactFrameStyle}>
           <div style={toolbarStyle}>
@@ -187,10 +253,21 @@ export default defineDoc({
                 </>
               }
             >
-              <ChatMessage role="user" meta="09:38">
+              <ChatMessage
+                role="user"
+                showAvatar
+                avatarSrc={userAvatarSrc}
+                avatarAlt="imtaotao"
+                meta="09:38"
+              >
                 先看一下有哪些文件改动。
               </ChatMessage>
-              <ChatMessage role="assistant" name="Willa AI" meta="09:39">
+              <ChatMessage
+                role="assistant"
+                name="Willa AI"
+                avatarSrc={assistantAvatarSrc}
+                meta="09:39"
+              >
                 我会先检查工作区、组件入口和文档注册。
               </ChatMessage>
             </MessageList>
@@ -200,6 +277,13 @@ export default defineDoc({
     },
     {
       title: "空列表",
+      code: `
+        <div style={compactFrameStyle}>
+          <div style={viewportStyle}>
+            <MessageList empty="还没有消息，可以从一个问题或提示词开始。" />
+          </div>
+        </div>;
+      `,
       content: (
         <div style={compactFrameStyle}>
           <div style={viewportStyle}>
@@ -210,14 +294,46 @@ export default defineDoc({
     },
     {
       title: "内容宽度",
+      code: `
+        <div style={compactFrameStyle}>
+          <div style={viewportStyle}>
+            <MessageList maxWidth="34rem" gap="0.75rem">
+              <ChatMessage
+                role="user"
+                showAvatar
+                avatarSrc="https://github.com/imtaotao.png"
+                avatarAlt="imtaotao"
+              >
+                这个区域适合嵌入在窄侧栏里吗？
+              </ChatMessage>
+              <ChatMessage
+                role="assistant"
+                name="Willa AI"
+                avatarSrc="https://github.com/openai.png"
+              >
+                可以，通过 maxWidth 和 gap 控制消息流的阅读宽度和间距。
+              </ChatMessage>
+            </MessageList>
+          </div>
+        </div>;
+      `,
       content: (
         <div style={compactFrameStyle}>
           <div style={viewportStyle}>
             <MessageList maxWidth="34rem" gap="0.75rem">
-              <ChatMessage role="user">
+              <ChatMessage
+                role="user"
+                showAvatar
+                avatarSrc={userAvatarSrc}
+                avatarAlt="imtaotao"
+              >
                 这个区域适合嵌入在窄侧栏里吗？
               </ChatMessage>
-              <ChatMessage role="assistant" name="Willa AI">
+              <ChatMessage
+                role="assistant"
+                name="Willa AI"
+                avatarSrc={assistantAvatarSrc}
+              >
                 可以，通过 maxWidth 和 gap 控制消息流的阅读宽度和间距。
               </ChatMessage>
             </MessageList>

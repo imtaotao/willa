@@ -9,6 +9,12 @@ const SkeletonPreview = () => (
   </Skeleton>
 );
 
+const customColorFrameStyle = {
+  display: "grid",
+  width: "min(100%, 34rem)",
+  gap: "0.75rem",
+} as const;
+
 export default defineDoc({
   id: "skeleton",
   name: "Skeleton",
@@ -25,19 +31,59 @@ export default defineDoc({
     import { Skeleton } from "willa/Skeleton";
     import "willa/Skeleton.css";
 
-    export function Demo() {
-      return (
-        <Skeleton
-          loading
-          lines={["44%", "100%", "76%"]}
-          block
-          blockHeight={160}
-        >
-          <div>Loaded content</div>
-        </Skeleton>
-      );
-    }
+    <Skeleton loading lines={["44%", "100%", "76%"]} block blockHeight={160}>
+      <div>Loaded content</div>
+    </Skeleton>;
   `,
+  sections: [
+    {
+      title: "自定义颜色",
+      code: `
+        <div style={{ display: "grid", gap: "0.75rem" }}>
+          <Skeleton
+            loading
+            color="#82a3ec"
+            lines={[
+              { width: "42%", height: "0.82rem" },
+              "100%",
+              "68%",
+            ]}
+          >
+            <div>Loaded content</div>
+          </Skeleton>
+          <Skeleton
+            loading
+            color="#8dd7c7"
+            lines={["36%", "92%", "74%"]}
+            block
+            blockHeight={96}
+          >
+            <div>Loaded content</div>
+          </Skeleton>
+        </div>;
+      `,
+      content: (
+        <div style={customColorFrameStyle}>
+          <Skeleton
+            loading
+            color="#82a3ec"
+            lines={[{ width: "42%", height: "0.82rem" }, "100%", "68%"]}
+          >
+            <div>Loaded content</div>
+          </Skeleton>
+          <Skeleton
+            loading
+            color="#8dd7c7"
+            lines={["36%", "92%", "74%"]}
+            block
+            blockHeight={96}
+          >
+            <div>Loaded content</div>
+          </Skeleton>
+        </div>
+      ),
+    },
+  ],
   props: [
     {
       name: "loading",
@@ -81,6 +127,11 @@ export default defineDoc({
       name: "label",
       type: "string",
       description: "loading 状态下的无障碍标签。",
+    },
+    {
+      name: "color",
+      type: "string",
+      description: "自定义骨架屏颜色，会生成同色系 shimmer 渐变。",
     },
   ],
 });

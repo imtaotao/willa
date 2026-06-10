@@ -6,7 +6,7 @@
   min-width: 0;
   gap: 0.75rem;
   border: 1px solid var(--willa-prompt-input-border);
-  border-radius: 0.95rem;
+  border-radius: 1rem;
   background: var(--willa-prompt-input-bg);
   color: var(--willa-prompt-input-text);
   font-family: var(--willa-body-font);
@@ -35,7 +35,7 @@
 
 .willa-prompt-input--md .willa-prompt-input-footer {
   margin: 0 -0.8rem -0.8rem;
-  border-radius: 0 0 0.85rem 0.85rem;
+  border-radius: 0 0 0.92rem 0.92rem;
   padding: 0.64rem 0.8rem 0.7rem;
 }
 
@@ -45,7 +45,7 @@
 
 .willa-prompt-input--lg .willa-prompt-input-footer {
   margin: 0 -0.95rem -0.95rem;
-  border-radius: 0 0 0.95rem 0.95rem;
+  border-radius: 0 0 0.98rem 0.98rem;
   padding: 0.72rem 0.95rem 0.78rem;
 }
 
@@ -91,7 +91,7 @@
   flex-wrap: wrap;
   border-top: 1px solid var(--willa-prompt-input-footer-border);
   background: var(--willa-prompt-input-footer-bg);
-  gap: 0.75rem;
+  gap: 0.8rem;
 }
 
 .willa-prompt-input-meta {

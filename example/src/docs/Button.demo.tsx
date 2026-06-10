@@ -43,11 +43,20 @@ export default defineDoc({
       trailingIcon={<ArrowRightIcon />}
     >
       阅读原文
-    </Button>
+    </Button>;
   `,
   sections: [
     {
       title: "视觉类型",
+      code: `
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+          <Button>主要操作</Button>
+          <Button variant="soft">柔和操作</Button>
+          <Button variant="outline">次要操作</Button>
+          <Button variant="ghost">轻量操作</Button>
+          <Button variant="link">文本链接</Button>
+        </div>;
+      `,
       content: (
         <div style={buttonRowStyle}>
           <Button>主要操作</Button>
@@ -62,6 +71,19 @@ export default defineDoc({
     },
     {
       title: "尺寸和图标",
+      code: `
+        import { ArrowRightIcon, DownloadIcon } from "@radix-ui/react-icons";
+
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+          <Button size="sm" icon={<DownloadIcon />}>
+            下载
+          </Button>
+          <Button size="md" trailingIcon={<ArrowRightIcon />}>
+            查看详情
+          </Button>
+          <Button size="lg">开始阅读</Button>
+        </div>;
+      `,
       content: (
         <div style={buttonRowStyle}>
           <Button size="sm" icon={<DownloadIcon />}>
@@ -76,6 +98,14 @@ export default defineDoc({
     },
     {
       title: "禁用状态",
+      code: `
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+          <Button disabled>不可点击</Button>
+          <Button href="https://github.com" disabled variant="outline">
+            禁用链接
+          </Button>
+        </div>;
+      `,
       content: (
         <div style={buttonRowStyle}>
           <Button disabled>不可点击</Button>
@@ -87,6 +117,14 @@ export default defineDoc({
     },
     {
       title: "加载状态",
+      code: `
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+          <Button loading>保存中</Button>
+          <Button loading loadingText="提交中" variant="outline">
+            提交
+          </Button>
+        </div>;
+      `,
       content: (
         <div style={buttonRowStyle}>
           <Button loading>保存中</Button>
@@ -101,6 +139,16 @@ export default defineDoc({
     },
     {
       title: "点击复制",
+      code: `
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+          <Button copyText variant="soft">
+            pnpm add willa
+          </Button>
+          <Button copyText="import { Button } from 'willa/Button';">
+            复制组件引入
+          </Button>
+        </div>;
+      `,
       content: (
         <div style={buttonRowStyle}>
           <Button copyText variant="soft">
@@ -117,6 +165,16 @@ export default defineDoc({
     },
     {
       title: "自定义颜色",
+      code: `
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+          <Button backgroundColor="#f6e7c8" textColor="#3f2a12">
+            暖色按钮
+          </Button>
+          <Button variant="outline" backgroundColor="rgba(96, 165, 250, 0.12)">
+            自定义背景
+          </Button>
+        </div>;
+      `,
       content: (
         <div style={buttonRowStyle}>
           <Button backgroundColor="#f6e7c8" textColor="#3f2a12">

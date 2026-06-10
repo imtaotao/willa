@@ -127,7 +127,9 @@ export default defineDoc({
           actions={
             <FormActions>
               <Button variant="ghost">取消</Button>
-              <Button type="submit" loading={submitting}>保存</Button>
+              <Button type="submit" loading={submitting}>
+                保存
+              </Button>
             </FormActions>
           }
         >
@@ -160,6 +162,23 @@ export default defineDoc({
   sections: [
     {
       title: "表单级错误",
+      code: `
+        <Form
+          error="保存失败，请检查配置名称和默认模式。"
+          actions={
+            <FormActions>
+              <Button variant="outline">返回</Button>
+              <Button type="submit">重新提交</Button>
+            </FormActions>
+          }
+        >
+          <FormGroup title="提交配置">
+            <FormField label="配置名称" error="配置名称不能为空。">
+              <Input invalid defaultValue="" width="100%" />
+            </FormField>
+          </FormGroup>
+        </Form>;
+      `,
       content: (
         <Form
           error="保存失败，请检查配置名称和默认模式。"
@@ -180,6 +199,24 @@ export default defineDoc({
     },
     {
       title: "禁用状态",
+      code: `
+        <Form
+          disabled
+          actions={
+            <FormActions>
+              <Button disabled>保存</Button>
+            </FormActions>
+          }
+        >
+          <FormGroup title="只读配置">
+            <FormMessage tone="info">loading 或 disabled 会禁用表单主体。</FormMessage>
+            <FormField label="配置名称">
+              <Input defaultValue="已锁定配置" width="100%" />
+            </FormField>
+            <Checkbox defaultChecked label="企业策略锁定" />
+          </FormGroup>
+        </Form>;
+      `,
       content: (
         <Form
           disabled

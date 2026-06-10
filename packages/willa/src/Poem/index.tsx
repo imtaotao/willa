@@ -1,1 +1,1 @@
-export { Poem, type PoemProps } from "@willa-ui/content/components/Poem";
+export { Poem, type PoemProps } from "@willa-ui/widgets/components/Poem";

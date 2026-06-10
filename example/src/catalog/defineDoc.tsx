@@ -1,5 +1,5 @@
-import { createElement, type ComponentType, type ReactNode } from "react";
 import { unindent } from "aidly";
+import { createElement, type ComponentType, type ReactNode } from "react";
 
 import type { PropRow } from "#example/catalog/types";
 
@@ -21,13 +21,92 @@ type ComponentDocInput = {
   imports: Array<{ name: string; from: string }>;
   css: string;
   demo: DemoElement;
-  code?: string;
+  code: string;
   props: Array<PropRow>;
-  sections?: Array<{
-    title: string;
-    content: ReactNode;
-  }>;
+  sections?: Array<ComponentDocSectionInput>;
 };
+
+type ComponentDocSectionInput = {
+  title: string;
+  code: string;
+  content: ReactNode;
+};
+
+const willaDemoImportNames = new Set([
+  "AttachmentList",
+  "AudioEmbed",
+  "AudioLink",
+  "Avatar",
+  "Badge",
+  "Button",
+  "Callout",
+  "Card",
+  "ChatMessage",
+  "ChatThread",
+  "Checkbox",
+  "Citation",
+  "CodeBlock",
+  "CodeTabs",
+  "Composer",
+  "DatePicker",
+  "DetailsBlock",
+  "Dialog",
+  "Download",
+  "EmptyState",
+  "EnglishCards",
+  "FileCard",
+  "FileTree",
+  "Form",
+  "FormActions",
+  "FormField",
+  "FormGroup",
+  "FormMessage",
+  "GenerationCard",
+  "GitHubMention",
+  "GitHubRepo",
+  "Group",
+  "IconButton",
+  "Image",
+  "ImageGallery",
+  "Input",
+  "Kbd",
+  "KbdShortcut",
+  "Lightbox",
+  "Mdx",
+  "Menu",
+  "MessageActions",
+  "MessageList",
+  "NotFound",
+  "Pagination",
+  "Poem",
+  "Popover",
+  "Progress",
+  "PromptInput",
+  "Radio",
+  "RangeInput",
+  "ReasoningSteps",
+  "Select",
+  "Separator",
+  "Skeleton",
+  "SourceCard",
+  "Spinner",
+  "Step",
+  "Steps",
+  "SuggestionChips",
+  "Switch",
+  "Table",
+  "Tabs",
+  "TextArea",
+  "ThinkingIndicator",
+  "Toast",
+  "ToolCallCard",
+  "Tooltip",
+  "Upload",
+  "VideoEmbed",
+  "VideoLink",
+  "WebEmbed",
+  "XPostEmbed",
+]);
 
 export function defineDoc(input: ComponentDocInput) {
   return {
@@ -37,9 +116,12 @@ export function defineDoc(input: ComponentDocInput) {
     packageName: input.packageName,
     description: input.description,
     preview: renderDemoElement(input.demo),
-    code: input.code ? unindent(input.code) : createDemoCode(input),
+    code: completeDemoCode(input, unindent(input.code)),
     props: input.props,
-    sections: input.sections,
+    sections: input.sections?.map((section) => ({
+      ...section,
+      code: createSectionCode(input, section),
+    })),
   };
 }
 
@@ -57,136 +139,79 @@ const DemoElementRenderer = ({ element }: { element: DemoElement }) => {
   return <>{renderDemoElement(element)}</>;
 };
 
-const createDemoCode = (input: ComponentDocInput) => {
-  const imports = input.imports
-    .map((item) => `import { ${item.name} } from "${item.from}";`)
-    .join("\n");
-
-  return unindent(
-    [imports, `import "${input.css}";`, "", formatElement(input.demo, 0)].join(
-      "\n",
-    ),
-  );
-};
-
-const formatElement = (element: DemoElement, depth: number): string => {
-  const indent = "  ".repeat(depth);
-  const childIndent = "  ".repeat(depth + 1);
-  const propLines = Object.entries(element.props ?? {}).map(([key, value]) =>
-    formatProp(key, value, depth + 1),
-  );
-  const children = element.children;
-
-  if (!children || (Array.isArray(children) && children.length === 0)) {
-    if (propLines.length === 0) return `${indent}<${element.name} />`;
-
-    return [`${indent}<${element.name}`, ...propLines, `${indent}/>`].join(
-      "\n",
-    );
-  }
-
-  const opening =
-    propLines.length === 0
-      ? `${indent}<${element.name}>`
-      : [`${indent}<${element.name}`, ...propLines, `${indent}>`].join("\n");
-  const formattedChildren = Array.isArray(children)
-    ? children.map((child) => formatElement(child, depth + 1)).join("\n")
-    : `${childIndent}${String(children)}`;
-
-  return [opening, formattedChildren, `${indent}</${element.name}>`].join("\n");
-};
-
-const formatProp = (key: string, value: unknown, depth: number): string => {
-  const indent = "  ".repeat(depth);
-
-  if (typeof value === "string") {
-    return `${indent}${key}="${escapeAttribute(value)}"`;
-  }
-
-  if (typeof value === "boolean") {
-    return value ? `${indent}${key}` : `${indent}${key}={false}`;
-  }
-
-  if (typeof value === "number") {
-    return `${indent}${key}={${value}}`;
-  }
-
-  const expression = formatExpression(value, depth);
-
-  return `${indent}${key}={${expression}}`;
-};
-
-const formatExpression = (value: unknown, depth: number) => {
-  return formatValue(value, depth);
-};
-
-const formatValue = (value: unknown, depth: number): string => {
-  if (Array.isArray(value)) {
-    if (value.length === 0) return "[]";
-
-    const indent = "  ".repeat(depth);
-    const childIndent = "  ".repeat(depth + 1);
-    const lines = value.map((item) => {
-      const formatted = formatValue(item, depth + 1);
-      return indentFirstLine(formatted, childIndent, true);
-    });
-
-    return ["[", ...lines, `${indent}]`].join("\n");
-  }
-
-  if (isPlainObject(value)) {
-    const entries = Object.entries(value);
-    if (entries.length === 0) return "{}";
-
-    const indent = "  ".repeat(depth);
-    const childIndent = "  ".repeat(depth + 1);
-    const lines = entries.map(([key, item]) => {
-      const formatted = formatValue(item, depth + 1);
-      const [firstLine, ...restLines] = formatted.split("\n");
-      const propLines = [`${childIndent}${key}: ${firstLine}`, ...restLines];
-      propLines[propLines.length - 1] += ",";
-
-      return propLines.join("\n");
-    });
-
-    return ["{", ...lines, `${indent}}`].join("\n");
-  }
-
-  if (typeof value === "string") return JSON.stringify(value);
-  if (typeof value === "number" || typeof value === "boolean") {
-    return String(value);
-  }
-
-  if (value == null) return String(value);
-
-  const json = JSON.stringify(value);
-  if (json) return json;
-
-  return String(value);
-};
-
-const indentFirstLine = (
-  value: string,
-  indent: string,
-  trailingComma: boolean,
+const createSectionCode = (
+  input: ComponentDocInput,
+  section: ComponentDocSectionInput,
 ) => {
-  const lines = value.split("\n");
-  lines[0] = `${indent}${lines[0]}`;
-  if (trailingComma) {
-    lines[lines.length - 1] += ",";
+  return completeDemoCode(input, unindent(section.code));
+};
+
+const completeDemoCode = (input: ComponentDocInput, code: string) => {
+  const body = unindent(code);
+  const importedNames = getImportedNames(body);
+  const jsxNames = getJsxComponentNames(body);
+  const importLines = input.imports
+    .filter((item) => !importedNames.has(item.name))
+    .map((item) => `import { ${item.name} } from "${item.from}";`);
+  const inferredImportLines = Array.from(jsxNames)
+    .filter((name) => shouldInferWillaImport(name))
+    .filter((name) => !importedNames.has(name))
+    .filter((name) => !input.imports.some((item) => item.name === name))
+    .sort()
+    .map((name) => `import { ${name} } from "willa/${name}";`);
+  const cssLines = [
+    input.css,
+    ...Array.from(jsxNames)
+      .filter(shouldInferWillaImport)
+      .map((name) => `willa/${name}.css`),
+  ]
+    .filter(shouldInferCssImport)
+    .filter((path, index, paths) => paths.indexOf(path) === index)
+    .filter(
+      (path) => !body.includes(`"${path}"`) && !body.includes(`'${path}'`),
+    )
+    .map((path) => `import "${path}";`);
+  const prefix = [...importLines, ...inferredImportLines, ...cssLines];
+
+  if (prefix.length === 0) return body;
+
+  return unindent([prefix.join("\n"), "", body].join("\n"));
+};
+
+const getImportedNames = (code: string) => {
+  const names = new Set<string>();
+  const importPattern = /import\s*\{([^}]+)\}\s*from\s*["'][^"']+["']/g;
+
+  for (const match of code.matchAll(importPattern)) {
+    for (const part of match[1].split(",")) {
+      const name = part
+        .trim()
+        .replace(/^type\s+/, "")
+        .split(/\s+as\s+/)[0]
+        .trim();
+
+      if (name) names.add(name);
+    }
   }
 
-  return lines.join("\n");
+  return names;
 };
 
-const isPlainObject = (value: unknown): value is Record<string, unknown> => {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    Object.getPrototypeOf(value) === Object.prototype
-  );
+const getJsxComponentNames = (code: string) => {
+  const names = new Set<string>();
+  const jsxPattern = /<([A-Z][A-Za-z0-9]*)\b/g;
+
+  for (const match of code.matchAll(jsxPattern)) {
+    names.add(match[1]);
+  }
+
+  return names;
 };
 
-const escapeAttribute = (value: string) => {
-  return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+const shouldInferWillaImport = (name: string) => {
+  return willaDemoImportNames.has(name);
+};
+
+const shouldInferCssImport = (path: string) => {
+  return !path.includes("/Step.css");
 };

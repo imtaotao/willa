@@ -1,9 +1,0 @@
-.willa-data-table .willa-table-element {
-  min-width: 38rem;
-}
-
-@media (max-width: 767px) {
-  .willa-data-table .willa-table-element {
-    min-width: 36rem;
-  }
-}

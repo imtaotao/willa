@@ -11,7 +11,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const stackStyle = {
   display: "grid",
   gap: "0.85rem",
-  maxWidth: "32rem",
+  maxWidth: "42rem",
 } as const;
 
 const rowStyle = {
@@ -47,11 +47,22 @@ export default defineDoc({
       placeholder="搜索文档、组件或提示词"
       leadingIcon={<MagnifyingGlassIcon />}
       width="100%"
-    />
+    />;
   `,
   sections: [
     {
       title: "基础状态",
+      code: `
+        <div style={stackStyle}>
+          <Input placeholder="请输入项目名称" />
+          <Input placeholder="搜索上下文" leadingIcon={<MagnifyingGlassIcon />} />
+          <Input
+            defaultValue="ready@example.com"
+            leadingIcon={<EnvelopeClosedIcon />}
+            trailingIcon={<CheckCircledIcon />}
+          />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <Input placeholder="请输入项目名称" />
@@ -69,6 +80,13 @@ export default defineDoc({
     },
     {
       title: "尺寸",
+      code: `
+        <div style={stackStyle}>
+          <Input size="sm" placeholder="紧凑输入" />
+          <Input size="md" placeholder="默认输入" />
+          <Input size="lg" placeholder="大尺寸输入" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <Input size="sm" placeholder="紧凑输入" />
@@ -79,6 +97,12 @@ export default defineDoc({
     },
     {
       title: "附加内容",
+      code: `
+        <div style={stackStyle}>
+          <Input leadingAddon="https://" trailingAddon=".com" defaultValue="willa-ui" />
+          <Input leadingAddon="模型" defaultValue="gpt-4.1" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <Input
@@ -92,6 +116,13 @@ export default defineDoc({
     },
     {
       title: "状态",
+      code: `
+        <div style={stackStyle}>
+          <Input invalid defaultValue="missing-api-key" />
+          <Input disabled defaultValue="不可编辑" />
+          <Input variant="soft" placeholder="柔和背景" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <Input invalid defaultValue="missing-api-key" />
@@ -102,6 +133,16 @@ export default defineDoc({
     },
     {
       title: "自定义颜色",
+      code: `
+        <div style={rowStyle}>
+          <Input backgroundColor="rgba(147, 197, 253, 0.18)" placeholder="自定义背景" />
+          <Input
+            backgroundColor="#f6e7c8"
+            textColor="#3f2a12"
+            defaultValue="warm field"
+          />
+        </div>;
+      `,
       content: (
         <div style={rowStyle}>
           <Input

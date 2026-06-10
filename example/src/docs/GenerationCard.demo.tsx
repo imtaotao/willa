@@ -18,8 +18,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const frameStyle = {
   display: "grid",
   gap: "0.82rem",
-  width: "min(100%, 44rem)",
-  margin: "0 auto",
+  width: "min(100%, 58rem)",
 } as const;
 
 const previewTextStyle = {
@@ -88,11 +87,40 @@ export default defineDoc({
       defaultCollapsed
     >
       本周反馈集中在导出稳定性、批量处理体验和主题配置理解成本。
-    </GenerationCard>
+    </GenerationCard>;
   `,
   sections: [
     {
       title: "折叠结果",
+      code: `
+        <GenerationCard
+          collapsible
+          defaultCollapsed
+          title="客服回复草稿"
+          status="completed"
+          description="已生成可人工确认后发送的回复。"
+          summary="查看生成正文"
+          metrics={[
+            { label: "语气", value: "克制" },
+            { label: "风险", value: "低" },
+          ]}
+          actions={
+            <Group gap="xs" wrap>
+              <Button size="sm" variant="soft" trailingIcon={<CopyIcon />}>
+                复制
+              </Button>
+              <Button size="sm" variant="solid">
+                采纳
+              </Button>
+            </Group>
+          }
+        >
+          <p style={previewTextStyle}>
+            我们已经确认你的导出任务失败，建议先重试一次；如果仍失败，可以保留任务 ID
+            联系支持，我们会继续追踪。
+          </p>
+        </GenerationCard>;
+      `,
       content: (
         <GenerationCard
           collapsible
@@ -125,6 +153,44 @@ export default defineDoc({
     },
     {
       title: "生成状态",
+      code: `
+        <div style={frameStyle}>
+          <GenerationCard
+            title="生成发布说明"
+            status="generating"
+            description="正在合并 commit、issue 和手写补充说明。"
+            meta="2/4"
+            metrics={[
+              { label: "已读取", value: "18 条" },
+              { label: "阶段", value: "整理中" },
+            ]}
+          >
+            <p style={previewTextStyle}>正在提取破坏性变更、功能亮点和迁移提示。</p>
+          </GenerationCard>
+          <GenerationCard
+            title="生成竞品分析"
+            status="pending"
+            description="任务已经进入队列，等待上一个生成请求完成。"
+            meta="排队中"
+          />
+          <GenerationCard
+            title="生成长文大纲"
+            status="failed"
+            description="上下文里缺少目标读者和发布渠道，需要补充任务约束。"
+            meta="缺少输入"
+            actions={
+              <Group gap="xs" wrap>
+                <Button size="sm" variant="soft" trailingIcon={<ReloadIcon />}>
+                  重试
+                </Button>
+                <Button size="sm" variant="ghost">
+                  补充上下文
+                </Button>
+              </Group>
+            }
+          />
+        </div>;
+      `,
       content: (
         <div style={frameStyle}>
           <GenerationCard
@@ -168,6 +234,35 @@ export default defineDoc({
     },
     {
       title: "结果操作",
+      code: `
+        <GenerationCard
+          title="首页文案候选"
+          status="completed"
+          description="适合直接用于产品首屏的短文案。"
+          icon={<MagicWandIcon />}
+          metrics={[
+            { label: "长度", value: "42 字" },
+            { label: "语气", value: "克制" },
+          ]}
+          actions={
+            <Group gap="xs" wrap>
+              <Button size="sm" variant="soft" trailingIcon={<CopyIcon />}>
+                复制
+              </Button>
+              <Button size="sm" variant="ghost" trailingIcon={<Pencil1Icon />}>
+                编辑
+              </Button>
+              <Button size="sm" variant="solid">
+                插入
+              </Button>
+            </Group>
+          }
+        >
+          <p style={previewTextStyle}>
+            用清晰的上下文、可控的工具和可信的证据链，快速搭建面向真实业务的 AI 产品。
+          </p>
+        </GenerationCard>;
+      `,
       content: (
         <GenerationCard
           title="首页文案候选"

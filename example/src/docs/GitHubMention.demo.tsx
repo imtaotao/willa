@@ -35,7 +35,7 @@ export default defineDoc({
       username="imtaotao"
       name="Tao"
       avatarUrl="https://github.com/imtaotao.png"
-    />
+    />;
   `,
   props: [
     {

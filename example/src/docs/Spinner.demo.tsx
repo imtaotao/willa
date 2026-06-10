@@ -15,7 +15,7 @@ const rowStyle = {
 const panelStyle = {
   display: "grid",
   gap: "0.9rem",
-  width: "100%",
+  width: "min(100%, 34rem)",
 } as const;
 
 const loadingCardStyle = {
@@ -48,11 +48,18 @@ export default defineDoc({
     import { Spinner } from "willa/Spinner";
     import "willa/Spinner.css";
 
-    <Spinner label="生成中" />
+    <Spinner label="生成中" />;
   `,
   sections: [
     {
       title: "基础用法",
+      code: `
+        <div style={rowStyle}>
+          <Spinner label="" />
+          <Spinner label="加载中" />
+          <Spinner label="生成回答中" labelPosition="block" />
+        </div>;
+      `,
       content: (
         <div style={rowStyle}>
           <Spinner label="" />
@@ -63,6 +70,14 @@ export default defineDoc({
     },
     {
       title: "尺寸",
+      code: `
+        <div style={rowStyle}>
+          <Spinner size="xs" label="XS" />
+          <Spinner size="sm" label="Small" />
+          <Spinner size="md" label="Medium" />
+          <Spinner size="lg" label="Large" />
+        </div>;
+      `,
       content: (
         <div style={rowStyle}>
           <Spinner size="xs" label="XS" />
@@ -74,6 +89,15 @@ export default defineDoc({
     },
     {
       title: "色调",
+      code: `
+        <div style={rowStyle}>
+          <Spinner tone="default" label="Default" />
+          <Spinner tone="neutral" label="Neutral" />
+          <Spinner tone="success" label="Success" />
+          <Spinner tone="warning" label="Warning" />
+          <Spinner tone="danger" label="Danger" />
+        </div>;
+      `,
       content: (
         <div style={rowStyle}>
           <Spinner tone="default" label="Default" />
@@ -86,6 +110,16 @@ export default defineDoc({
     },
     {
       title: "组合场景",
+      code: `
+        <div style={panelStyle}>
+          <div style={loadingCardStyle}>
+            <Spinner size="lg" label="正在分析上下文" labelPosition="block" />
+          </div>
+          <Button loading variant="outline">
+            提交中
+          </Button>
+        </div>;
+      `,
       content: (
         <div style={panelStyle}>
           <div style={loadingCardStyle}>

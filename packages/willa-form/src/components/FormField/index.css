@@ -1,6 +1,7 @@
 .willa-form-field {
   display: grid;
   box-sizing: border-box;
+  width: 100%;
   max-width: 100%;
   color: var(--willa-form-text);
   font-family: var(--willa-body-font);

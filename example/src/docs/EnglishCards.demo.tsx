@@ -9,6 +9,8 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const items = [
   {
     word: "component",
+    phonetic: "/kəmˈpoʊnənt/",
+    partOfSpeech: "noun",
     translation: "组件",
     explanation: "一个可复用的界面构建单元。",
     example: {
@@ -17,13 +19,42 @@ const items = [
     },
     tags: ["ui", "react"],
   },
+  {
+    word: "interface",
+    phonetic: "/ˈɪntərfeɪs/",
+    partOfSpeech: "noun",
+    translation: "界面；接口",
+    explanation: "连接用户、系统或模块的交互边界。",
+    example: {
+      text: "A clean interface makes product workflows easier to scan.",
+      translation: "清晰的界面能让产品流程更容易扫读。",
+    },
+    tags: ["product", "design"],
+  },
+  {
+    word: "context",
+    phonetic: "/ˈkɑːntekst/",
+    partOfSpeech: "noun",
+    translation: "上下文",
+    explanation: "帮助理解当前任务、内容或决策的相关信息。",
+    example: {
+      text: "The assistant needs enough context before generating an answer.",
+      translation: "助手在生成答案前需要足够的上下文。",
+    },
+    tags: ["ai", "workflow"],
+  },
 ];
 
 const openApiWords = ["architecture", "component", "pragmatic"];
 
+const previewStyle = {
+  width: "min(100%, 64rem)",
+  margin: "0 auto",
+} as const;
+
 const EnglishCardsPreview = () => {
   return (
-    <div className="docs-demo-stack">
+    <div className="docs-demo-stack" style={previewStyle}>
       <section className="docs-demo-group">
         <div className="docs-demo-title">静态词条</div>
         <EnglishCards title="词汇卡片" openApi={false} items={items} />

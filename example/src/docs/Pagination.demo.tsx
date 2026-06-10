@@ -9,7 +9,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const stackStyle = {
   display: "grid",
   gap: "0.75rem",
-  justifyItems: "start",
+  justifyItems: "center",
 } as const;
 
 const rowStyle = {
@@ -49,15 +49,46 @@ export default defineDoc({
     import { Pagination } from "willa/Pagination";
     import "willa/Pagination.css";
 
-    <Pagination defaultPage={6} pageCount={20} />
+    <Pagination defaultPage={6} pageCount={20} />;
   `,
   sections: [
     {
       title: "受控状态",
+      code: `
+        import { useState } from "react";
+        import { Badge } from "willa/Badge";
+        import { Pagination } from "willa/Pagination";
+        import "willa/Badge.css";
+        import "willa/Pagination.css";
+
+        const Demo = () => {
+          const [page, setPage] = useState(4);
+
+          return (
+            <div
+              style={{
+                display: "grid",
+                gap: "0.75rem",
+                justifyItems: "center",
+              }}
+            >
+              <Badge tone="info">当前页：{page}</Badge>
+              <Pagination page={page} pageCount={12} onPageChange={setPage} />
+            </div>
+          );
+        };
+      `,
       content: <ControlledPaginationExample />,
     },
     {
       title: "分页链接",
+      code: `
+        <Pagination
+          defaultPage={3}
+          pageCount={9}
+          getPageHref={(page) => \`#/posts/page-\${page}\`}
+        />
+      `,
       content: (
         <Pagination
           defaultPage={3}
@@ -68,6 +99,15 @@ export default defineDoc({
     },
     {
       title: "自定义省略号跳转",
+      code: `
+        <Pagination
+          defaultPage={7}
+          pageCount={30}
+          getEllipsisPage={({ direction, startPage, endPage }) =>
+            direction === "end" ? endPage : startPage
+          }
+        />;
+      `,
       content: (
         <Pagination
           defaultPage={7}
@@ -80,6 +120,19 @@ export default defineDoc({
     },
     {
       title: "紧凑展示",
+      code: `
+        <div style={rowStyle}>
+          <Pagination defaultPage={5} pageCount={10} size="sm" showFirstLast={false} />
+          <Pagination
+            defaultPage={1}
+            pageCount={6}
+            size="sm"
+            siblingCount={0}
+            boundaryCount={1}
+            showPrevNext={false}
+          />
+        </div>;
+      `,
       content: (
         <div style={rowStyle}>
           <Pagination
@@ -101,6 +154,9 @@ export default defineDoc({
     },
     {
       title: "禁用",
+      code: `
+        <Pagination page={2} pageCount={6} disabled />;
+      `,
       content: <Pagination page={2} pageCount={6} disabled />,
     },
   ],

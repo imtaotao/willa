@@ -1,5 +1,7 @@
 .willa-details {
   display: block;
+  width: 100%;
+  max-width: 100%;
 }
 
 .willa-details-summary {

@@ -21,6 +21,18 @@ export default defineDoc({
       href: "https://developer.mozilla.org/",
     },
   },
+  code: `
+    import { VideoLink } from "willa/VideoLink";
+    import "willa/VideoLink.css";
+
+    <VideoLink
+      label="观看示例视频"
+      provider="MDN"
+      volume={0.35}
+      src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+      href="https://developer.mozilla.org/"
+    />;
+  `,
   props: [
     {
       name: "src",

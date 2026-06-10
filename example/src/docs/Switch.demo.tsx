@@ -6,7 +6,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const stackStyle = {
   display: "grid",
   gap: "0.9rem",
-  maxWidth: "34rem",
+  maxWidth: "42rem",
 } as const;
 
 export default defineDoc({
@@ -34,11 +34,22 @@ export default defineDoc({
       label="启用自动摘要"
       description="生成结果后自动提取重点。"
       defaultChecked
-    />
+    />;
   `,
   sections: [
     {
       title: "配置项",
+      code: `
+        <div style={stackStyle}>
+          <Switch label="联网检索" description="允许模型访问公开资料。" />
+          <Switch
+            defaultChecked
+            label="引用来源"
+            description="回答里展示来源和可信度。"
+          />
+          <Switch disabled label="企业策略锁定" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <Switch label="联网检索" description="允许模型访问公开资料。" />
@@ -53,6 +64,12 @@ export default defineDoc({
     },
     {
       title: "状态",
+      code: `
+        <div style={stackStyle}>
+          <Switch invalid label="错误状态" />
+          <Switch size="sm" label="紧凑开关" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <Switch invalid label="错误状态" />

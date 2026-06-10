@@ -3,6 +3,17 @@ import "willa/XPostEmbed.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
+const previewStyle = {
+  width: "min(100%, 35rem)",
+  margin: "0 auto",
+} as const;
+
+const XPostEmbedPreview = () => (
+  <div style={previewStyle}>
+    <XPostEmbed id="20" title="Twitter 账号的第一条公开帖子" />
+  </div>
+);
+
 export default defineDoc({
   id: "x-post-embed",
   name: "XPostEmbed",
@@ -12,13 +23,15 @@ export default defineDoc({
   imports: [{ name: "XPostEmbed", from: "willa/XPostEmbed" }],
   css: "willa/XPostEmbed.css",
   demo: {
-    name: "XPostEmbed",
-    component: XPostEmbed,
-    props: {
-      id: "20",
-      title: "Twitter 账号的第一条公开帖子",
-    },
+    name: "XPostEmbedPreview",
+    component: XPostEmbedPreview,
   },
+  code: `
+    import { XPostEmbed } from "willa/XPostEmbed";
+    import "willa/XPostEmbed.css";
+
+    <XPostEmbed id="20" title="Twitter 账号的第一条公开帖子" />;
+  `,
   props: [
     {
       name: "id",

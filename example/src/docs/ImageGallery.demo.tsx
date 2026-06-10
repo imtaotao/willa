@@ -34,6 +34,26 @@ export default defineDoc({
       ],
     },
   },
+  code: `
+    import { ImageGallery } from "willa/ImageGallery";
+    import "willa/ImageGallery.css";
+
+    <ImageGallery
+      columns={3}
+      images={[
+        {
+          src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80",
+          alt: "湖边风景",
+          caption: "湖泊",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&q=80",
+          alt: "山间公路",
+          caption: "公路",
+        },
+      ]}
+    />;
+  `,
   props: [
     {
       name: "images",

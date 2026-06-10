@@ -3,6 +3,25 @@ import "willa/VideoEmbed.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
+const previewStyle = {
+  width: "min(100%, 52rem)",
+  margin: "0 auto",
+} as const;
+
+const VideoEmbedPreview = () => (
+  <div style={previewStyle}>
+    <VideoEmbed
+      title="Big Buck Bunny"
+      description="一个带内联控制条的短视频示例。"
+      duration="0:10"
+      provider="MDN"
+      volume={0.35}
+      src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+      href="https://developer.mozilla.org/"
+    />
+  </div>
+);
+
 export default defineDoc({
   id: "video-embed",
   name: "VideoEmbed",
@@ -11,18 +30,23 @@ export default defineDoc({
   imports: [{ name: "VideoEmbed", from: "willa/VideoEmbed" }],
   css: "willa/VideoEmbed.css",
   demo: {
-    name: "VideoEmbed",
-    component: VideoEmbed,
-    props: {
-      title: "Big Buck Bunny",
-      description: "一个带内联控制条的短视频示例。",
-      duration: "0:10",
-      provider: "MDN",
-      volume: 0.35,
-      src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-      href: "https://developer.mozilla.org/",
-    },
+    name: "VideoEmbedPreview",
+    component: VideoEmbedPreview,
   },
+  code: `
+    import { VideoEmbed } from "willa/VideoEmbed";
+    import "willa/VideoEmbed.css";
+
+    <VideoEmbed
+      title="Big Buck Bunny"
+      description="一个带内联控制条的短视频示例。"
+      duration="0:10"
+      provider="MDN"
+      volume={0.35}
+      src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+      href="https://developer.mozilla.org/"
+    />;
+  `,
   props: [
     {
       name: "title",

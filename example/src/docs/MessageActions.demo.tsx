@@ -8,11 +8,12 @@ import "willa/MessageActions.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
+const assistantAvatarSrc = "https://github.com/openai.png";
+
 const frameStyle = {
   display: "grid",
   gap: "1rem",
-  width: "min(100%, 46rem)",
-  margin: "0 auto",
+  width: "min(100%, 58rem)",
   border: "1px solid var(--willa-line)",
   borderRadius: "0.9rem",
   background: "var(--willa-panel-bg)",
@@ -51,6 +52,7 @@ const MessageActionsPreview = () => {
       <ChatMessage
         role="assistant"
         name="Willa AI"
+        avatarSrc={assistantAvatarSrc}
         meta="已生成"
         actions={<MessageActions items={actions} />}
       >
@@ -74,20 +76,71 @@ export default defineDoc({
     component: MessageActionsPreview,
   },
   code: `
-    import { CopyIcon, ReloadIcon } from "@radix-ui/react-icons";
-    import { MessageActions } from "willa/MessageActions";
+    import { useState } from "react";
+    import { CheckIcon, CopyIcon, ReloadIcon } from "@radix-ui/react-icons";
+    import { ChatMessage } from "willa/ChatMessage";
+    import { MessageActions, type MessageActionItem } from "willa/MessageActions";
+    import "willa/ChatMessage.css";
     import "willa/MessageActions.css";
 
-    <MessageActions
-      items={[
-        { id: "copy", label: "复制", icon: <CopyIcon /> },
+    const assistantAvatarSrc = "https://github.com/openai.png";
+
+    const Demo = () => {
+      const [copied, setCopied] = useState(false);
+
+      const actions: Array<MessageActionItem> = [
+        {
+          id: "copy",
+          label: copied ? "已复制" : "复制",
+          icon: copied ? <CheckIcon /> : <CopyIcon />,
+          active: copied,
+          onClick: () => {
+            setCopied(true);
+            window.setTimeout(() => setCopied(false), 600);
+          },
+        },
         { id: "regenerate", label: "重试", icon: <ReloadIcon /> },
-      ]}
-    />
+        {
+          id: "accept",
+          label: "采纳",
+          icon: <CheckIcon />,
+          tone: "positive",
+        },
+      ];
+
+      return (
+        <ChatMessage
+          role="assistant"
+          name="Willa AI"
+          avatarSrc={assistantAvatarSrc}
+          meta="已生成"
+          actions={<MessageActions items={actions} />}
+        >
+          <p>可以先按影响面、紧急程度和实现成本拆分。</p>
+          <p>优先处理阻塞登录的问题，其次是批量导出，最后再看主题配置。</p>
+        </ChatMessage>
+      );
+    };
   `,
   sections: [
     {
       title: "文字标签",
+      code: `
+        <MessageActions
+          showLabels
+          variant="soft"
+          items={[
+            { id: "copy", label: "复制", icon: <CopyIcon /> },
+            { id: "retry", label: "重新生成", icon: <ReloadIcon /> },
+            {
+              id: "accept",
+              label: "采纳",
+              icon: <CheckIcon />,
+              tone: "positive",
+            },
+          ]}
+        />;
+      `,
       content: (
         <MessageActions
           showLabels
@@ -107,6 +160,29 @@ export default defineDoc({
     },
     {
       title: "状态",
+      code: `
+        <MessageActions
+          showLabels
+          items={[
+            {
+              id: "copied",
+              label: "已复制",
+              icon: <CheckIcon />,
+              active: true,
+            },
+            {
+              id: "retrying",
+              label: "重试中",
+              loading: true,
+            },
+            {
+              id: "disabled",
+              label: "不可用",
+              disabled: true,
+            },
+          ]}
+        />;
+      `,
       content: (
         <MessageActions
           showLabels

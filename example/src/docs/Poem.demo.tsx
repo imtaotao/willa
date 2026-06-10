@@ -34,8 +34,27 @@ export default defineDoc({
       author: "苏轼",
       preface: "丙辰中秋，欢饮达旦，大醉，作此篇，兼怀子由。",
       lines,
+      width: "36rem",
     },
   },
+  code: `
+    import { Poem } from "willa/Poem";
+    import "willa/Poem.css";
+
+    const lines = [
+      ["明月几时有？把酒问青天。", "不知天上宫阙，今夕是何年。"],
+      ["人有悲欢离合，月有阴晴圆缺，此事古难全。", "但愿人长久，千里共婵娟。"],
+    ];
+
+    <Poem
+      title="水调歌头·明月几时有"
+      dynasty="宋"
+      author="苏轼"
+      preface="丙辰中秋，欢饮达旦，大醉，作此篇，兼怀子由。"
+      lines={lines}
+      width="36rem"
+    />;
+  `,
   props: [
     {
       name: "title",
@@ -66,14 +85,14 @@ export default defineDoc({
       description: "按节分组的诗歌文本。",
     },
     {
+      name: "width",
+      type: "number | string",
+      description: "诗歌块宽度，数字会按 px 处理，默认 40rem。",
+    },
+    {
       name: "className",
       type: "string",
       description: "可选的外层 className。",
-    },
-    {
-      name: "children",
-      type: "ReactNode",
-      description: "预留的子节点内容。",
     },
   ],
 });

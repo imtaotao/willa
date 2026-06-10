@@ -13,11 +13,6 @@ export type {
   ChatMessageProps,
   ChatMessageRole,
 } from "#ai/components/ChatMessage";
-export { ChatLayout } from "#ai/components/ChatLayout";
-export type {
-  ChatLayoutProps,
-  ChatLayoutSidebarPosition,
-} from "#ai/components/ChatLayout";
 export { Composer } from "#ai/components/Composer";
 export type { ComposerProps } from "#ai/components/Composer";
 export { GenerationCard } from "#ai/components/GenerationCard";

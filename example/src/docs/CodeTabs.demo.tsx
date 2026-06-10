@@ -143,19 +143,38 @@ export default defineDoc({
       },
     ];
 
-    <CodeTabs items={items} showLineNumbers />
+    <CodeTabs items={items} showLineNumbers />;
   `,
   sections: [
     {
       title: "多语言高亮",
+      code: `
+        <CodeTabs items={languageItems} />;
+      `,
       content: <CodeTabs items={languageItems} />,
     },
     {
       title: "尺寸",
+      code: `
+        <CodeTabs items={installItems} size="sm" />;
+      `,
       content: <CodeTabs items={installItems} size="sm" />,
     },
     {
       title: "禁用标签",
+      code: `
+        <CodeTabs
+          items={[
+            ...installItems,
+            {
+              label: "bun",
+              language: "bash",
+              code: "bun add willa",
+              disabled: true,
+            },
+          ]}
+        />;
+      `,
       content: (
         <CodeTabs
           items={[

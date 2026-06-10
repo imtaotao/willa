@@ -1,7 +1,9 @@
 .willa-tabs {
   display: grid;
+  width: 100%;
   gap: 0.8rem;
   min-width: 0;
+  max-width: 100%;
   margin: 1.25rem 0;
   color: var(--willa-text);
   font-family: var(--willa-body-font);

@@ -19,6 +19,7 @@ export type ComponentDoc = {
   props: Array<PropRow>;
   sections?: Array<{
     title: string;
+    code: string;
     content: ReactNode;
   }>;
 };

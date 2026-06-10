@@ -33,12 +33,28 @@ const initialItems: Array<AttachmentListItem> = [
     status: "uploading",
     progress: 64,
   },
+  {
+    id: "error",
+    name: "customer-export.xlsx",
+    meta: "上传失败",
+    status: "error",
+    actions: (
+      <Button size="sm" variant="ghost" icon={<ReloadIcon />}>
+        重试
+      </Button>
+    ),
+  },
 ];
 
 const frameStyle = {
   display: "grid",
   gap: "0.85rem",
-  width: "min(100%, 42rem)",
+  width: "min(100%, 48rem)",
+} as const;
+
+const stackFrameStyle = {
+  display: "grid",
+  width: "min(100%, 34rem)",
 } as const;
 
 const AttachmentListPreview = () => {
@@ -68,23 +84,6 @@ const AttachmentListPreview = () => {
             currentItems.filter((currentItem) => currentItem.id !== item.id),
           )
         }
-      />
-      <AttachmentList
-        layout="stack"
-        size="md"
-        items={[
-          {
-            id: "error",
-            name: "customer-export.xlsx",
-            meta: "上传失败",
-            status: "error",
-            actions: (
-              <Button size="sm" variant="ghost" icon={<ReloadIcon />}>
-                重试
-              </Button>
-            ),
-          },
-        ]}
       />
     </div>
   );
@@ -169,32 +168,72 @@ export default defineDoc({
   sections: [
     {
       title: "纵向布局",
+      code: `
+        <div style={{ width: "min(100%, 34rem)" }}>
+          <AttachmentList
+            layout="stack"
+            items={[
+              {
+                id: "architecture",
+                name: "architecture.md",
+                meta: "仓库结构和包边界",
+              },
+              {
+                id: "component",
+                name: "component.md",
+                meta: "组件创建和迁移规则",
+              },
+            ]}
+          />
+        </div>;
+      `,
       content: (
-        <AttachmentList
-          layout="stack"
-          items={[
-            {
-              id: "architecture",
-              name: "architecture.md",
-              meta: "仓库结构和包边界",
-              icon: <FileTextIcon />,
-            },
-            {
-              id: "component",
-              name: "component.md",
-              meta: "组件创建和迁移规则",
-              icon: <FileTextIcon />,
-            },
-          ]}
-        />
+        <div style={stackFrameStyle}>
+          <AttachmentList
+            layout="stack"
+            items={[
+              {
+                id: "architecture",
+                name: "architecture.md",
+                meta: "仓库结构和包边界",
+                icon: <FileTextIcon />,
+              },
+              {
+                id: "component",
+                name: "component.md",
+                meta: "组件创建和迁移规则",
+                icon: <FileTextIcon />,
+              },
+            ]}
+          />
+        </div>
       ),
     },
     {
       title: "空状态",
+      code: `
+        <AttachmentList items={[]} empty="暂无上下文附件" />;
+      `,
       content: <AttachmentList items={[]} empty="暂无上下文附件" />,
     },
     {
       title: "组合操作",
+      code: `
+        <AttachmentList
+          items={[
+            {
+              id: "logs",
+              name: "agent-run.log",
+              meta: "执行日志",
+              actions: (
+                <Button size="sm" variant="ghost">
+                  查看
+                </Button>
+              ),
+            },
+          ]}
+        />;
+      `,
       content: (
         <Group gap="sm" direction="column" align="stretch">
           <AttachmentList

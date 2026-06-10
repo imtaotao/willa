@@ -12,7 +12,6 @@ const docModules = import.meta.glob<DocModule>("../docs/*.demo.tsx");
 const docSpecGroups = {
   ai: [
     "AttachmentList",
-    "ChatLayout",
     "ChatMessage",
     "Composer",
     "GenerationCard",
@@ -25,10 +24,15 @@ const docSpecGroups = {
     "ToolCallCard",
   ],
   widgets: [
+    "AudioEmbed",
+    "AudioLink",
     "EnglishCards",
     "GitHubMention",
     "GitHubRepo",
     "Mdx",
+    "Poem",
+    "VideoEmbed",
+    "VideoLink",
     "WebEmbed",
     "XPostEmbed",
   ],
@@ -49,8 +53,6 @@ const docSpecGroups = {
     "Upload",
   ],
   content: [
-    "AudioEmbed",
-    "AudioLink",
     "Avatar",
     "Badge",
     "Button",
@@ -60,7 +62,6 @@ const docSpecGroups = {
     "Citation",
     "CodeBlock",
     "CodeTabs",
-    "DataTable",
     "DetailsBlock",
     "Dialog",
     "Download",
@@ -76,7 +77,6 @@ const docSpecGroups = {
     "Menu",
     "NotFound",
     "Pagination",
-    "Poem",
     "Popover",
     "Progress",
     "Separator",
@@ -88,8 +88,6 @@ const docSpecGroups = {
     "Tabs",
     "Toast",
     "Tooltip",
-    "VideoEmbed",
-    "VideoLink",
   ],
 } satisfies DocSpecGroups;
 

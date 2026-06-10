@@ -46,12 +46,27 @@ export default defineDoc({
 
     <Group gap="sm">
       <Button size="sm">返回首页</Button>
-      <Button size="sm" variant="ghost">查看文档</Button>
-    </Group>
+      <Button size="sm" variant="ghost">
+        查看文档
+      </Button>
+    </Group>;
   `,
   sections: [
     {
       title: "操作按钮",
+      code: `
+        <Group gap="sm">
+          <Button size="sm" variant="solid">
+            保存
+          </Button>
+          <Button size="sm" variant="outline">
+            预览
+          </Button>
+          <Button size="sm" variant="ghost">
+            取消
+          </Button>
+        </Group>;
+      `,
       content: (
         <Group gap="sm">
           <Button size="sm" variant="solid">
@@ -68,6 +83,14 @@ export default defineDoc({
     },
     {
       title: "标签集合",
+      code: `
+        <Group gap="xs">
+          <Badge tone="info">AI 产品</Badge>
+          <Badge tone="success">已发布</Badge>
+          <Badge tone="warning">需要审核</Badge>
+          <Badge>文档站</Badge>
+        </Group>;
+      `,
       content: (
         <Group gap="xs">
           <Badge tone="info">AI 产品</Badge>
@@ -79,6 +102,16 @@ export default defineDoc({
     },
     {
       title: "自定义间距",
+      code: `
+        <Group gap="14px">
+          <Button size="sm" variant="solid">
+            应用
+          </Button>
+          <Button size="sm" variant="outline">
+            重置
+          </Button>
+        </Group>;
+      `,
       content: (
         <Group gap="14px">
           <Button size="sm" variant="solid">
@@ -92,6 +125,19 @@ export default defineDoc({
     },
     {
       title: "竖向排列",
+      code: `
+        <Group direction="column" align="start" gap="sm">
+          <Button size="sm" variant="solid">
+            开始生成
+          </Button>
+          <Button size="sm" variant="outline">
+            保存草稿
+          </Button>
+          <Button size="sm" variant="ghost">
+            稍后处理
+          </Button>
+        </Group>;
+      `,
       content: (
         <Group direction="column" align="start" gap="sm">
           <Button size="sm" variant="solid">
@@ -108,6 +154,16 @@ export default defineDoc({
     },
     {
       title: "对齐方式",
+      code: `
+        <Group gap="sm" justify="end">
+          <Button size="sm" variant="outline">
+            取消
+          </Button>
+          <Button size="sm" variant="solid">
+            保存
+          </Button>
+        </Group>;
+      `,
       content: (
         <Group gap="sm" justify="end">
           <Button size="sm" variant="outline">

@@ -203,7 +203,8 @@ export default defineDoc({
   id: "table",
   name: "Table",
   packageName: "willa/Table",
-  description: "通过 items 渲染轻量表格，支持自定义单元格和右侧操作区。",
+  description:
+    "通过 items 渲染表格和产品数据列表，支持自定义单元格、排序、选择、分页、展开行和右侧操作区。",
   imports: [{ name: "Table", from: "willa/Table" }],
   css: "willa/Table.css",
   demo: {
@@ -230,15 +231,43 @@ export default defineDoc({
       },
     ];
 
-    <Table
-      caption="组件能力覆盖表"
-      items={items}
-      stickyActions
-    />
+    <Table caption="组件能力覆盖表" items={items} stickyActions />;
   `,
   sections: [
     {
       title: "基础表格",
+      code: `
+        const items = [
+          {
+            key: "prompt-input",
+            cells: [
+              { key: "name", label: "组件", value: "PromptInput", sortable: true },
+              { key: "owner", label: "归属", value: "AI" },
+              {
+                key: "status",
+                label: "状态",
+                render: <Badge tone="success">稳定</Badge>,
+              },
+              {
+                key: "coverage",
+                label: "覆盖能力",
+                value: "输入、提交、禁用、自动高度和辅助信息",
+              },
+            ],
+            actions: (
+              <Button size="sm" variant="ghost">
+                查看
+              </Button>
+            ),
+          },
+        ];
+
+        <Table
+          caption="组件能力覆盖表"
+          items={items}
+          defaultSort={{ key: "name", direction: "asc" }}
+        />;
+      `,
       content: (
         <Table
           caption="组件能力覆盖表"
@@ -249,6 +278,35 @@ export default defineDoc({
     },
     {
       title: "选择与固定操作列",
+      code: `
+        const items = [
+          {
+            key: "prompt-input",
+            cells: [
+              { key: "name", label: "组件", value: "PromptInput" },
+              { key: "owner", label: "归属", value: "AI" },
+              {
+                key: "coverage",
+                label: "覆盖能力",
+                value: "输入、提交、禁用、自动高度和辅助信息",
+              },
+            ],
+            actions: (
+              <Button size="sm" variant="ghost">
+                查看
+              </Button>
+            ),
+          },
+        ];
+
+        <Table
+          caption="横向滚动时保留操作入口"
+          items={items}
+          selectionMode="multiple"
+          stickyActions
+          actionsWidth="5.6rem"
+        />;
+      `,
       content: (
         <Table
           caption="横向滚动时保留操作入口"
@@ -261,6 +319,32 @@ export default defineDoc({
     },
     {
       title: "分页与展开",
+      code: `
+        const items = [
+          {
+            key: "prompt-input",
+            cells: [
+              { key: "name", label: "组件", value: "PromptInput" },
+              { key: "owner", label: "归属", value: "AI" },
+            ],
+            expanded: "PromptInput 适合作为 AI 对话、智能搜索和生成任务的输入入口。",
+          },
+          {
+            key: "upload",
+            cells: [
+              { key: "name", label: "组件", value: "Upload" },
+              { key: "owner", label: "归属", value: "Form" },
+            ],
+          },
+        ];
+
+        <Table
+          caption="分页后仍可展开查看详情"
+          items={items}
+          defaultExpandedKeys={["prompt-input"]}
+          pagination={{ pageSize: 2 }}
+        />;
+      `,
       content: (
         <Table
           caption="分页后仍可展开查看详情"
@@ -272,6 +356,45 @@ export default defineDoc({
     },
     {
       title: "自定义单元格",
+      code: `
+        const items = [
+          {
+            key: "feedback-summary",
+            cells: [
+              {
+                key: "task",
+                label: "任务",
+                value: "产品反馈摘要生成",
+                render: (
+                  <span
+                    style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
+                  >
+                    <Badge tone="info">AI</Badge>
+                    <strong>产品反馈摘要生成</strong>
+                  </span>
+                ),
+              },
+              {
+                key: "detail",
+                label: "说明",
+                value:
+                  "从近 128 条用户反馈中提取高频问题、风险提示和下一步可执行建议。",
+                title:
+                  "从近 128 条用户反馈中提取高频问题、风险提示和下一步可执行建议。",
+              },
+              {
+                key: "result",
+                label: "结果",
+                value: "已生成",
+                render: <Badge tone="success">已生成</Badge>,
+                align: "end",
+              },
+            ],
+          },
+        ];
+
+        <Table caption="自定义渲染和溢出提示" items={items} stickyActions />;
+      `,
       content: (
         <Table
           caption="自定义渲染和溢出提示"
@@ -281,7 +404,36 @@ export default defineDoc({
       ),
     },
     {
+      title: "加载与空态",
+      code: `
+        <div style={{ display: "grid", gap: "1rem" }}>
+          <Table items={[]} loading loadingText="正在同步组件状态..." />
+          <Table items={[]} empty="没有匹配的组件" />
+        </div>;
+      `,
+      content: (
+        <div style={{ display: "grid", gap: "1rem" }}>
+          <Table items={[]} loading loadingText="正在同步组件状态..." />
+          <Table items={[]} empty="没有匹配的组件" />
+        </div>
+      ),
+    },
+    {
       title: "紧凑尺寸",
+      code: `
+        const items = [
+          {
+            key: "mobile",
+            cells: [
+              { key: "task", label: "任务", value: "移动端校验" },
+              { key: "owner", label: "负责人", value: "Design" },
+              { key: "progress", label: "进度", value: "82%", align: "end" },
+            ],
+          },
+        ];
+
+        <Table size="sm" items={items} />;
+      `,
       content: <Table size="sm" items={compactItems} />,
     },
   ],

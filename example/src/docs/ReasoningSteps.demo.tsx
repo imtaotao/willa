@@ -8,11 +8,12 @@ import "willa/ReasoningSteps.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
+const assistantAvatarSrc = "https://github.com/openai.png";
+
 const frameStyle = {
   display: "grid",
   gap: "1rem",
-  width: "min(100%, 46rem)",
-  margin: "0 auto",
+  width: "min(100%, 58rem)",
 } as const;
 
 const detailStyle = {
@@ -54,7 +55,12 @@ const ReasoningStepsPreview = () => {
 
   return (
     <div style={frameStyle}>
-      <ChatMessage role="assistant" name="Willa AI" meta="推理中">
+      <ChatMessage
+        role="assistant"
+        name="Willa AI"
+        avatarSrc={assistantAvatarSrc}
+        meta="推理中"
+      >
         <ReasoningSteps
           collapsible
           defaultCollapsed
@@ -178,6 +184,15 @@ export default defineDoc({
   sections: [
     {
       title: "折叠过程",
+      code: `
+        <ReasoningSteps
+          collapsible
+          defaultCollapsed
+          activeStep={1}
+          summary="默认隐藏 AI 的中间处理过程，用户需要时再展开。"
+          steps={reasoningSteps}
+        />;
+      `,
       content: (
         <ReasoningSteps
           collapsible
@@ -190,10 +205,39 @@ export default defineDoc({
     },
     {
       title: "点击查看详情",
+      code: `
+        <InteractiveReasoningSteps />;
+      `,
       content: <InteractiveReasoningSteps />,
     },
     {
       title: "错误节点",
+      code: `
+        <ReasoningSteps
+          activeStep={1}
+          steps={[
+            {
+              id: "load",
+              title: "加载上下文",
+              description: "已读取相关组件和文档。",
+              meta: "已完成",
+            },
+            {
+              id: "build",
+              title: "运行构建",
+              description: "构建失败时可以单独标记错误节点。",
+              status: "error",
+              meta: "需要处理",
+            },
+            {
+              id: "retry",
+              title: "重试验证",
+              description: "等待修复后继续。",
+              meta: "等待中",
+            },
+          ]}
+        />;
+      `,
       content: (
         <ReasoningSteps
           activeStep={1}
@@ -223,6 +267,31 @@ export default defineDoc({
     },
     {
       title: "附加内容",
+      code: `
+        <ReasoningSteps
+          activeStep={2}
+          steps={[
+            {
+              id: "intent",
+              title: "识别意图",
+              description: "判断用户需要的是组件实现，而不是方案讨论。",
+              meta: "已完成",
+            },
+            {
+              id: "evidence",
+              title: "核对证据",
+              content: "确认 AI 包边界、导出入口、CSS 变量和 demo 注册。",
+              meta: "已完成",
+            },
+            {
+              id: "deliver",
+              title: "交付结果",
+              description: "完成实现并跑最小验证。",
+              meta: "进行中",
+            },
+          ]}
+        />;
+      `,
       content: (
         <ReasoningSteps
           activeStep={2}

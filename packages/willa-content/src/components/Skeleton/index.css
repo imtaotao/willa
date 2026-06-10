@@ -1,6 +1,8 @@
 .willa-prose-skeleton {
   display: block;
   position: relative;
+  width: 100%;
+  max-width: 100%;
 }
 
 .willa-prose-skeleton-content {

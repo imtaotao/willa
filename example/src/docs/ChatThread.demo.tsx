@@ -22,7 +22,7 @@ export default defineDoc({
   name: "ChatThread",
   packageName: "willa/ChatThread",
   description:
-    "用于博客、文档站和 MDX 内容里的轻量聊天记录块；AI 产品对话流优先使用 ChatLayout、MessageList 和 ChatMessage。",
+    "用于博客、文档站和 MDX 内容里的轻量聊天记录块；AI 产品对话流优先使用 MessageList 和 ChatMessage。",
   imports: [{ name: "ChatThread", from: "willa/ChatThread" }],
   css: "willa/ChatThread.css",
   demo: {
@@ -30,6 +30,27 @@ export default defineDoc({
     component: ChatThread,
     props: { title: "组件备注", messages },
   },
+  code: `
+    import { ChatThread } from "willa/ChatThread";
+    import "willa/ChatThread.css";
+
+    <ChatThread
+      title="组件备注"
+      messages={[
+        {
+          name: "作者",
+          avatar: "idea",
+          content: "公共包会导出所有组件。",
+        },
+        {
+          align: "right",
+          name: "审阅者",
+          avatar: "user",
+          content: "单组件引入可以让示例更轻量。",
+        },
+      ]}
+    />;
+  `,
   props: [
     {
       name: "title",

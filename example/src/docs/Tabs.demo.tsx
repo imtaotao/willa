@@ -116,27 +116,77 @@ export default defineDoc({
       },
     ];
 
-    <Tabs items={items} />
+    <Tabs items={items} />;
   `,
   sections: [
     {
       title: "基础用法",
+      code: `
+        <Tabs items={tabsItems} />;
+      `,
       content: <Tabs items={tabsItems} />,
     },
     {
       title: "禁用标签",
+      code: `
+        <Tabs items={docsItems} defaultValue="css" />;
+      `,
       content: <Tabs items={docsItems} defaultValue="css" />,
     },
     {
       title: "图标标签",
+      code: `
+        <Tabs items={docsItems} />;
+      `,
       content: <Tabs items={docsItems} />,
     },
     {
       title: "小尺寸",
+      code: `
+        <Tabs size="sm" items={tabsItems} />;
+      `,
       content: <Tabs size="sm" items={tabsItems} />,
     },
     {
       title: "受控状态",
+      code: `
+        import { useState } from "react";
+        import { Badge } from "willa/Badge";
+        import { Tabs } from "willa/Tabs";
+        import "willa/Badge.css";
+        import "willa/Tabs.css";
+
+        const Demo = () => {
+          const [value, setValue] = useState("draft");
+
+          return (
+            <div style={{ display: "grid", gap: "0.75rem" }}>
+              <Badge tone="info">当前：{value}</Badge>
+              <Tabs
+                value={value}
+                onValueChange={setValue}
+                items={[
+                  {
+                    value: "draft",
+                    label: "草稿",
+                    children: "保存还没有发布的内容提纲。",
+                  },
+                  {
+                    value: "review",
+                    label: "审核",
+                    children: "集中查看需要修改或确认的信息。",
+                  },
+                  {
+                    value: "published",
+                    label: "已发布",
+                    children: "展示已经对外可见的内容版本。",
+                  },
+                ]}
+              />
+            </div>
+          );
+        };
+      `,
       content: <ControlledTabsExample />,
     },
   ],

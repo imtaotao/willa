@@ -6,7 +6,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const stackStyle = {
   display: "grid",
   gap: "0.9rem",
-  maxWidth: "34rem",
+  maxWidth: "42rem",
 } as const;
 
 export default defineDoc({
@@ -34,11 +34,20 @@ export default defineDoc({
       label="允许 AI 读取当前文档"
       description="只会读取你选择的上下文范围。"
       defaultChecked
-    />
+    />;
   `,
   sections: [
     {
       title: "状态",
+      code: `
+        <div style={stackStyle}>
+          <Checkbox label="普通选项" />
+          <Checkbox defaultChecked label="已选中选项" />
+          <Checkbox indeterminate label="部分选中" />
+          <Checkbox invalid label="错误状态" />
+          <Checkbox disabled label="禁用选项" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <Checkbox label="普通选项" />
@@ -51,6 +60,12 @@ export default defineDoc({
     },
     {
       title: "尺寸",
+      code: `
+        <div style={stackStyle}>
+          <Checkbox size="sm" label="紧凑选项" />
+          <Checkbox size="md" label="默认选项" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <Checkbox size="sm" label="紧凑选项" />

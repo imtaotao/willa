@@ -41,6 +41,17 @@ export default defineDoc({
     props: { title: "项目准备", markerColor: "#2563eb" },
     children: steps,
   },
+  code: `
+    import { Step } from "willa/Step";
+    import { Steps } from "willa/Steps";
+    import "willa/Steps.css";
+
+    <Steps title="项目准备" markerColor="#2563eb">
+      <Step title="安装">使用 pnpm 安装依赖。</Step>
+      <Step title="构建">发布前先构建所有包。</Step>
+      <Step title="运行">启动示例应用。</Step>
+    </Steps>;
+  `,
   props: [
     {
       name: "title",

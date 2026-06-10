@@ -6,7 +6,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const stackStyle = {
   display: "grid",
   gap: "0.9rem",
-  maxWidth: "34rem",
+  maxWidth: "42rem",
 } as const;
 
 export default defineDoc({
@@ -38,11 +38,25 @@ export default defineDoc({
       label="均衡模式"
       description="兼顾响应速度和回答质量。"
       defaultChecked
-    />
+    />;
   `,
   sections: [
     {
       title: "选项组",
+      code: `
+        <div style={stackStyle}>
+          <Radio name="tone" value="fast" label="快速" />
+          <Radio
+            name="tone"
+            value="balanced"
+            label="均衡"
+            description="推荐给大多数任务。"
+            defaultChecked
+          />
+          <Radio name="tone" value="quality" label="高质量" />
+          <Radio name="tone" value="disabled" label="不可用选项" disabled />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <Radio name="tone" value="fast" label="快速" />
@@ -60,6 +74,12 @@ export default defineDoc({
     },
     {
       title: "状态",
+      code: `
+        <div style={stackStyle}>
+          <Radio name="state" value="invalid" label="错误状态" invalid />
+          <Radio name="state-size" value="sm" size="sm" label="紧凑选项" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <Radio name="state" value="invalid" label="错误状态" invalid />

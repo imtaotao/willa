@@ -312,6 +312,13 @@ export default defineDoc({
   sections: [
     {
       title: "默认收起",
+      code: `
+        <FileTree
+          items={repositoryItems}
+          collapsible
+          defaultExpandedIds={["services"]}
+        />;
+      `,
       content: (
         <FileTree
           items={repositoryItems}
@@ -322,6 +329,9 @@ export default defineDoc({
     },
     {
       title: "AI 项目资料",
+      code: `
+        <FileTree items={aiProjectItems} size="sm" collapsible />;
+      `,
       content: <FileTree items={aiProjectItems} size="sm" collapsible />,
     },
   ],

@@ -21,6 +21,7 @@ export type SkeletonProps = {
   inline?: boolean;
   keepChildrenMounted?: boolean;
   label?: string;
+  color?: string;
 };
 
 const formatSize = (value: number | string | undefined) => {
@@ -47,6 +48,13 @@ const createLineStyle = (line: SkeletonLineSpec) => {
   } as CSSProperties;
 };
 
+const createSkeletonBackground = (color: string | undefined) => {
+  const value = color?.trim();
+  if (!value) return undefined;
+
+  return `linear-gradient(90deg, color-mix(in srgb, ${value} 72%, transparent), ${value}, color-mix(in srgb, ${value} 72%, transparent))`;
+};
+
 export function Skeleton({
   loading,
   children,
@@ -59,6 +67,7 @@ export function Skeleton({
   inline,
   keepChildrenMounted,
   label = "Loading",
+  color,
 }: SkeletonProps) {
   if (!loading && !keepChildrenMounted) return <>{children}</>;
 
@@ -79,6 +88,7 @@ export function Skeleton({
   );
   const skeletonStyle = {
     "--willa-skeleton-block-height": formatSize(blockHeight),
+    "--willa-skeleton-bg": createSkeletonBackground(color),
   } as CSSProperties;
 
   return (

@@ -10,8 +10,6 @@ import {
   type ComponentType,
 } from "react";
 import {
-  AudioEmbed as WillaAudioEmbed,
-  AudioLink as WillaAudioLink,
   Callout,
   ChatThread,
   Citation,
@@ -19,12 +17,9 @@ import {
   DetailsBlock,
   Image as WillaImage,
   ImageGallery as WillaImageGallery,
-  Poem,
   Separator,
   Step,
   Steps,
-  VideoEmbed as WillaVideoEmbed,
-  VideoLink as WillaVideoLink,
 } from "@willa-ui/content";
 import {
   createHeadingIdFactory,
@@ -33,17 +28,28 @@ import {
 } from "@willa-ui/shared";
 
 import type { LightboxState, ResolveAssetUrl } from "@willa-ui/shared";
-import type {
-  AudioEmbedProps,
-  AudioLinkProps,
-  ImageGalleryProps,
-  VideoEmbedProps,
-  VideoLinkProps,
-} from "@willa-ui/content";
+import type { ImageGalleryProps } from "@willa-ui/content";
 
+import {
+  AudioEmbed as WillaAudioEmbed,
+  type AudioEmbedProps,
+} from "#widgets/components/AudioEmbed";
+import {
+  AudioLink as WillaAudioLink,
+  type AudioLinkProps,
+} from "#widgets/components/AudioLink";
 import { EnglishCards } from "#widgets/components/EnglishCards";
 import { GitHubMention } from "#widgets/components/GitHubMention";
 import { GitHubRepo } from "#widgets/components/GitHubRepo";
+import { Poem } from "#widgets/components/Poem";
+import {
+  VideoEmbed as WillaVideoEmbed,
+  type VideoEmbedProps,
+} from "#widgets/components/VideoEmbed";
+import {
+  VideoLink as WillaVideoLink,
+  type VideoLinkProps,
+} from "#widgets/components/VideoLink";
 import { WebEmbed } from "#widgets/components/WebEmbed";
 import { XPostEmbed } from "#widgets/components/XPostEmbed";
 

@@ -63,11 +63,30 @@ export default defineDoc({
       step={1}
       defaultValue={60}
       aria-label="生成强度"
-    />
+    />;
   `,
   sections: [
     {
       title: "宽高与颜色",
+      code: `
+        <div style={stackStyle}>
+          <RangeInput
+            defaultValue={35}
+            width="100%"
+            height="0.42rem"
+            color="#2563eb"
+            aria-label="蓝色滑块"
+          />
+          <RangeInput
+            defaultValue={72}
+            height="0.5rem"
+            color="#0f766e"
+            thumbColor="#ecfeff"
+            trackColor="rgba(15, 118, 110, 0.16)"
+            aria-label="自定义滑块"
+          />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <RangeInput
@@ -90,6 +109,12 @@ export default defineDoc({
     },
     {
       title: "状态",
+      code: `
+        <div style={stackStyle}>
+          <RangeInput defaultValue={45} aria-label="默认滑块" />
+          <RangeInput disabled defaultValue={45} aria-label="禁用滑块" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <RangeInput defaultValue={45} aria-label="默认滑块" />

@@ -1,5 +1,3 @@
-export { AudioEmbed } from "#content/components/AudioEmbed";
-export { AudioLink } from "#content/components/AudioLink";
 export { Avatar } from "#content/components/Avatar";
 export { Badge } from "#content/components/Badge";
 export { Button } from "#content/components/Button";
@@ -10,7 +8,6 @@ export { Citation } from "#content/components/Citation";
 export { CodeBlock } from "#content/components/CodeBlock";
 
 export { CodeTabs } from "#content/components/CodeTabs";
-export { DataTable } from "#content/components/DataTable";
 export { DetailsBlock } from "#content/components/DetailsBlock";
 export { Dialog } from "#content/components/Dialog";
 export { Download } from "#content/components/Download";
@@ -27,7 +24,6 @@ export { Lightbox, normalizeLightboxImage } from "#content/components/Lightbox";
 export { Menu } from "#content/components/Menu";
 export { NotFound } from "#content/components/NotFound";
 export { Pagination } from "#content/components/Pagination";
-export { Poem } from "#content/components/Poem";
 export { Popover } from "#content/components/Popover";
 export { Progress } from "#content/components/Progress";
 export { Separator } from "#content/components/Separator";
@@ -39,12 +35,8 @@ export { Table } from "#content/components/Table";
 export { Tabs } from "#content/components/Tabs";
 export { createToast, toast } from "#content/components/Toast";
 export { Tooltip } from "#content/components/Tooltip";
-export { VideoEmbed } from "#content/components/VideoEmbed";
-export { VideoLink } from "#content/components/VideoLink";
 
 export type { ChatThreadProps } from "#content/components/ChatThread";
-export type { AudioEmbedProps } from "#content/components/AudioEmbed";
-export type { AudioLinkProps } from "#content/components/AudioLink";
 export type {
   AvatarProps,
   AvatarShape,
@@ -77,18 +69,6 @@ export type {
   CodeTabsProps,
   CodeTabsSize,
 } from "#content/components/CodeTabs";
-export type {
-  DataTableAlign,
-  DataTableCell,
-  DataTableItem,
-  DataTablePagination,
-  DataTableProps,
-  DataTableRowTone,
-  DataTableSelectionMode,
-  DataTableSize,
-  DataTableSortDirection,
-  DataTableSortState,
-} from "#content/components/DataTable";
 export type { DetailsBlockProps } from "#content/components/DetailsBlock";
 export type { DialogProps, DialogSize } from "#content/components/Dialog";
 export type {
@@ -157,7 +137,6 @@ export type {
   PaginationProps,
   PaginationSize,
 } from "#content/components/Pagination";
-export type { PoemProps } from "#content/components/Poem";
 export type {
   PopoverAlign,
   PopoverProps,
@@ -219,6 +198,4 @@ export type {
   CodeBlockHighlightLine,
   CodeBlockProps,
 } from "#content/components/CodeBlock";
-export type { VideoEmbedProps } from "#content/components/VideoEmbed";
-export type { VideoLinkProps } from "#content/components/VideoLink";
 export type { Heading, ResolveAssetUrl } from "@willa-ui/shared";

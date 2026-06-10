@@ -9,6 +9,9 @@ import {
 } from "react";
 import classNames from "classnames";
 
+import { EmptyState } from "#content/components/EmptyState";
+import { Spinner } from "#content/components/Spinner";
+
 export type TableSize = "sm" | "md" | "lg";
 export type TableAlign = "start" | "center" | "end";
 export type TableSortDirection = "asc" | "desc";
@@ -277,6 +280,17 @@ export function Table(props: TableProps) {
 
   const hideCellTooltip = () => setCellTooltip(null);
 
+  const renderEmptyState = () => {
+    if (typeof empty === "string" || typeof empty === "number") {
+      return <EmptyState title={empty} variant="plain" size="sm" compact />;
+    }
+    return (
+      <EmptyState title="暂无数据" variant="plain" size="sm" compact>
+        {empty}
+      </EmptyState>
+    );
+  };
+
   const renderCellContent = (cell: TableCell) => {
     const content = cell.render ?? cell.value;
     if (cell.ellipsis === false) return content;
@@ -386,14 +400,14 @@ export function Table(props: TableProps) {
             {loading ? (
               <tr>
                 <td className="willa-table-state" colSpan={columnCount}>
-                  {loadingText}
+                  <Spinner label={loadingText} size="sm" />
                 </td>
               </tr>
             ) : null}
             {!loading && items.length === 0 ? (
               <tr>
                 <td className="willa-table-state" colSpan={columnCount}>
-                  {empty}
+                  {renderEmptyState()}
                 </td>
               </tr>
             ) : null}

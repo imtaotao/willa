@@ -1,6 +1,8 @@
 .willa-prose-gallery {
   --willa-gallery-columns: 2;
   display: grid;
+  width: 100%;
+  max-width: 100%;
   grid-template-columns: repeat(var(--willa-gallery-columns), minmax(0, 1fr));
   gap: 12px;
   margin: 0 0 1.35rem;

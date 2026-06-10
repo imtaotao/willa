@@ -15,7 +15,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const rowStyle = {
   display: "grid",
   gap: "0.9rem",
-  width: "100%",
+  width: "min(100%, 56rem)",
 } as const;
 
 export default defineDoc({
@@ -64,14 +64,33 @@ export default defineDoc({
       actions={
         <Group gap="sm">
           <Button size="sm">清空筛选</Button>
-          <Button size="sm" variant="ghost">新建内容</Button>
+          <Button size="sm" variant="ghost">
+            新建内容
+          </Button>
         </Group>
       }
-    />
+    />;
   `,
   sections: [
     {
       title: "搜索无结果",
+      code: `
+        <EmptyState
+          icon={<MagnifyingGlassIcon />}
+          title="没有找到匹配内容"
+          description="当前筛选条件过窄，可以减少标签或换一个关键词。"
+          actions={
+            <Group gap="sm" justify="center">
+              <Button size="sm" variant="solid">
+                清空筛选
+              </Button>
+              <Button size="sm" variant="outline">
+                保存搜索
+              </Button>
+            </Group>
+          }
+        />;
+      `,
       content: (
         <EmptyState
           icon={<MagnifyingGlassIcon />}
@@ -92,6 +111,26 @@ export default defineDoc({
     },
     {
       title: "AI 上下文为空",
+      code: `
+        <EmptyState
+          align="start"
+          icon={<ChatBubbleIcon />}
+          title="还没有添加上下文"
+          description="上传资料或选择知识库后，助手才能基于你的内容生成回答。"
+          variant="outline"
+          actions={
+            <Group gap="sm">
+              <Button size="sm" variant="solid">
+                添加资料
+              </Button>
+              <Button size="sm" variant="ghost">
+                选择知识库
+              </Button>
+            </Group>
+          }
+          footer="建议优先添加和当前任务直接相关的文档，减少无关噪音。"
+        />;
+      `,
       content: (
         <EmptyState
           align="start"
@@ -115,6 +154,24 @@ export default defineDoc({
     },
     {
       title: "尺寸和样式",
+      code: `
+        <div style={rowStyle}>
+          <EmptyState
+            icon={<FileTextIcon />}
+            title="暂无文件"
+            description="文件上传后会展示在这里。"
+            size="sm"
+            variant="plain"
+          />
+          <EmptyState
+            icon={<FileTextIcon />}
+            title="资料库为空"
+            description="开始添加文档、链接或附件。"
+            size="lg"
+            variant="soft"
+          />
+        </div>;
+      `,
       content: (
         <div style={rowStyle}>
           <EmptyState
@@ -176,6 +233,11 @@ export default defineDoc({
       name: "align",
       type: '"start" | "center"',
       description: "内容对齐方式。",
+    },
+    {
+      name: "compact",
+      type: "boolean",
+      description: "是否使用更轻量的内嵌状态布局，适合表格或列表内部。",
     },
     {
       name: "className",

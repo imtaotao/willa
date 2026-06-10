@@ -79,6 +79,34 @@ export default defineDoc({
   sections: [
     {
       title: "MDX 兼容",
+      code: `
+        <dl className="docs-meta-list">
+          <div>
+            <dt>
+              <code>language-ts</code>
+            </dt>
+            <dd>设置语法高亮语言，不显示行号。</dd>
+          </div>
+          <div>
+            <dt>
+              <code>language-ts--meta-ln</code>
+            </dt>
+            <dd>显示行号。</dd>
+          </div>
+          <div>
+            <dt>
+              <code>language-ts--meta-{"{2,4-6}"}</code>
+            </dt>
+            <dd>高亮第 2 行和第 4 到 6 行。</dd>
+          </div>
+          <div>
+            <dt>
+              <code>language-ts--meta-ln_{"{2,4-6}"}</code>
+            </dt>
+            <dd>同时显示行号并高亮指定行。</dd>
+          </div>
+        </dl>;
+      `,
       content: (
         <dl className="docs-meta-list">
           <div>
@@ -110,6 +138,14 @@ export default defineDoc({
     },
     {
       title: "高亮区间",
+      code: `
+        <CodeBlock
+          code={\`const items = ["Button", "Input", "CodeBlock"];\n\nexport const names = items.map((item) => item.toLowerCase());\`}
+          language="ts"
+          showLineNumbers
+          highlightLines={[[1, 3]]}
+        />
+      `,
       content: (
         <CodeBlock
           code={`const items = ["Button", "Input", "CodeBlock"];\n\nexport const names = items.map((item) => item.toLowerCase());`}

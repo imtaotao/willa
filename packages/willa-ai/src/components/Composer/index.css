@@ -6,7 +6,7 @@
   min-width: 0;
   gap: 0;
   border: 1px solid var(--willa-composer-border);
-  border-radius: 1rem;
+  border-radius: 1.05rem;
   background: var(--willa-composer-bg);
   color: var(--willa-composer-text);
   font-family: var(--willa-body-font);
@@ -19,7 +19,7 @@
 
 .willa-composer:focus-within {
   border-color: var(--willa-composer-border-focus);
-  box-shadow: var(--willa-composer-shadow-focus);
+  box-shadow: var(--willa-composer-shadow);
 }
 
 .willa-composer-header {
@@ -27,10 +27,10 @@
   min-width: 0;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 0.85rem;
-  border-bottom: 1px solid var(--willa-composer-divider);
+  gap: 0.9rem;
+  border-bottom: 0;
   background: var(--willa-composer-header-bg);
-  padding: 0.82rem 0.9rem 0.66rem;
+  padding: 0.9rem 1rem 0.68rem;
 }
 
 .willa-composer-meta {
@@ -42,8 +42,8 @@
 .willa-composer-title {
   min-width: 0;
   color: var(--willa-composer-title);
-  font-size: 0.86rem;
-  font-weight: 600;
+  font-size: 0.9rem;
+  font-weight: 680;
   line-height: 1.4;
 }
 
@@ -58,10 +58,10 @@
 
 .willa-composer-attachments {
   flex-wrap: wrap;
-  border-bottom: 1px solid var(--willa-composer-divider);
+  border-bottom: 0;
   background: var(--willa-composer-strip-bg);
   color: var(--willa-composer-muted);
-  padding: 0.42rem 0.9rem;
+  padding: 0.48rem 1rem;
 }
 
 .willa-composer .willa-composer-input {
@@ -80,29 +80,29 @@
 }
 
 .willa-composer .willa-composer-input.willa-prompt-input--md {
-  padding: 0.92rem 0.9rem 0.84rem;
+  padding: 0.94rem 1rem 0.88rem;
 }
 
 .willa-composer .willa-composer-input.willa-prompt-input--lg {
-  padding: 1rem 1rem 0.92rem;
+  padding: 1.06rem 1.08rem 0.96rem;
 }
 
 .willa-composer
   .willa-composer-input.willa-prompt-input--md
   .willa-prompt-input-footer {
-  margin: 0 -0.9rem -0.84rem;
-  padding: 0.64rem 0.9rem 0.7rem;
+  margin: 0 -1rem -0.88rem;
+  padding: 0.68rem 1rem 0.74rem;
 }
 
 .willa-composer
   .willa-composer-input.willa-prompt-input--lg
   .willa-prompt-input-footer {
-  margin: 0 -1rem -0.92rem;
-  padding: 0.72rem 1rem 0.78rem;
+  margin: 0 -1.08rem -0.96rem;
+  padding: 0.76rem 1.08rem 0.82rem;
 }
 
 .willa-composer .willa-prompt-input-footer {
-  border-top-color: var(--willa-composer-divider);
+  border-top-color: transparent;
 }
 
 .willa-composer-input .willa-prompt-input-control {

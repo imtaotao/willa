@@ -40,8 +40,8 @@ export function AudioLink(props: AudioLinkProps) {
 Single-component entries must export both the component and its types:
 
 ```tsx
-export { AudioLink } from "@willa-ui/content/components/AudioLink";
-export type { AudioLinkProps } from "@willa-ui/content/components/AudioLink";
+export { AudioLink } from "@willa-ui/widgets/components/AudioLink";
+export type { AudioLinkProps } from "@willa-ui/widgets/components/AudioLink";
 ```
 
 Shared types can live in `@willa-ui/shared`, but component entries should still

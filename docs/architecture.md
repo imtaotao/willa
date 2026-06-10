@@ -94,8 +94,7 @@ content, form, AI, and widgets outputs. AI components are implemented in
 `packages/willa-content` is the base product and content component package,
 published as `@willa-ui/content`. It contains general product and content
 components such as `Button`, `Card`, `CodeBlock`, `Callout`, `Image`,
-`AudioEmbed`, `VideoEmbed`, `Tabs`, `Dialog`, and `Steps`. It also provides
-shared theme tokens.
+`Tabs`, `Dialog`, and `Steps`. It also provides shared theme tokens.
 
 `packages/willa-form` is the form component package, published as
 `@willa-ui/form`. It contains form controls and form layout components such as
@@ -113,8 +112,9 @@ on AI.
 
 `packages/willa-widgets` is the scenario component package, published as
 `@willa-ui/widgets`. It contains platform integrations, MDX composition,
-external embeds, and more domain-specific components such as `Mdx`,
-`GitHubRepo`, `XPostEmbed`, `WebEmbed`, and `EnglishCards`.
+external embeds, media-rich content blocks, and more domain-specific components
+such as `Mdx`, `GitHubRepo`, `XPostEmbed`, `WebEmbed`, `AudioEmbed`,
+`VideoEmbed`, `Poem`, and `EnglishCards`.
 
 `packages/willa-shared` is the shared utility package, published as
 `@willa-ui/shared`. It contains cross-package types, text utilities, node

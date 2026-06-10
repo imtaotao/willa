@@ -10,7 +10,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const stackStyle = {
   display: "grid",
   gap: "1rem",
-  width: "min(100%, 42rem)",
+  width: "min(100%, 56rem)",
 } as const;
 
 const PromptInputPreview = () => {
@@ -71,6 +71,15 @@ export default defineDoc({
   sections: [
     {
       title: "基础输入",
+      code: `
+        <div style={stackStyle}>
+          <PromptInput
+            defaultValue="请把下面的内容整理成三条行动项。"
+            footer="支持多行提示词输入"
+            submitLabel="生成"
+          />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <PromptInput
@@ -83,6 +92,19 @@ export default defineDoc({
     },
     {
       title: "工具操作",
+      code: `
+        <div style={stackStyle}>
+          <PromptInput
+            placeholder="输入你的产品需求或数据分析问题"
+            footer="上下文已连接到当前文档"
+            actions={
+              <Button size="sm" variant="ghost" icon={<MagicWandIcon />}>
+                优化
+              </Button>
+            }
+          />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <PromptInput
@@ -99,6 +121,16 @@ export default defineDoc({
     },
     {
       title: "提交状态",
+      code: `
+        <div style={stackStyle}>
+          <PromptInput
+            defaultValue="分析最近 7 天用户反馈里的高频问题。"
+            loading
+            footer="正在发送请求"
+          />
+          <PromptInput disabled placeholder="当前会话不可输入" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <PromptInput
@@ -112,6 +144,17 @@ export default defineDoc({
     },
     {
       title: "尺寸",
+      code: `
+        <div style={stackStyle}>
+          <PromptInput size="md" placeholder="默认尺寸" />
+          <PromptInput
+            size="lg"
+            minRows={4}
+            maxRows={10}
+            placeholder="更适合长提示词和复杂任务描述"
+          />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <PromptInput size="md" placeholder="默认尺寸" />

@@ -12,7 +12,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const stackStyle = {
   display: "grid",
   gap: "1rem",
-  maxWidth: "34rem",
+  maxWidth: "42rem",
 } as const;
 
 const rowStyle = {
@@ -60,11 +60,24 @@ export default defineDoc({
       required
     >
       <Input placeholder="输入项目名称" width="100%" />
-    </FormField>
+    </FormField>;
   `,
   sections: [
     {
       title: "字段状态",
+      code: `
+        <div style={stackStyle}>
+          <FormField label="名称" description="建议控制在 20 个字以内。">
+            <Input defaultValue="客户反馈分析" width="100%" />
+          </FormField>
+          <FormField label="说明" required>
+            <TextArea placeholder="描述这个配置的用途" width="100%" />
+          </FormField>
+          <FormField label="API Key" error="请输入有效的 API Key。">
+            <Input invalid defaultValue="missing" width="100%" />
+          </FormField>
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <FormField label="名称" description="建议控制在 20 个字以内。">
@@ -81,6 +94,25 @@ export default defineDoc({
     },
     {
       title: "横向布局",
+      code: `
+        <div style={stackStyle}>
+          <FormField
+            label="默认模型"
+            description="适合设置页和密集配置表单。"
+            orientation="horizontal"
+          >
+            <Input defaultValue="willa-ai-default" width="100%" />
+          </FormField>
+          <FormField label="提交" orientation="horizontal">
+            <div style={rowStyle}>
+              <Button size="sm">保存</Button>
+              <Button size="sm" variant="ghost">
+                取消
+              </Button>
+            </div>
+          </FormField>
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <FormField

@@ -3,6 +3,23 @@ import "willa/WebEmbed.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
+const previewStyle = {
+  width: "min(100%, 58rem)",
+  margin: "0 auto",
+} as const;
+
+const WebEmbedPreview = () => (
+  <div style={previewStyle}>
+    <WebEmbed
+      src="https://example.com"
+      title="示例网站"
+      description="一个简单的 iframe 嵌入示例。"
+      provider="示例"
+      height={360}
+    />
+  </div>
+);
+
 export default defineDoc({
   id: "web-embed",
   name: "WebEmbed",
@@ -12,16 +29,21 @@ export default defineDoc({
   imports: [{ name: "WebEmbed", from: "willa/WebEmbed" }],
   css: "willa/WebEmbed.css",
   demo: {
-    name: "WebEmbed",
-    component: WebEmbed,
-    props: {
-      src: "https://example.com",
-      title: "示例网站",
-      description: "一个简单的 iframe 嵌入示例。",
-      provider: "示例",
-      height: 260,
-    },
+    name: "WebEmbedPreview",
+    component: WebEmbedPreview,
   },
+  code: `
+    import { WebEmbed } from "willa/WebEmbed";
+    import "willa/WebEmbed.css";
+
+    <WebEmbed
+      src="https://example.com"
+      title="示例网站"
+      description="一个简单的 iframe 嵌入示例。"
+      provider="示例"
+      height={360}
+    />;
+  `,
   props: [
     {
       name: "src",

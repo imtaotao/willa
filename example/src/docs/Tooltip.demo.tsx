@@ -33,14 +33,14 @@ export default defineDoc({
     component: Tooltip,
     props: {
       content: "更多设置",
-      children: (
-        <IconButton
-          ariaLabel="更多设置"
-          icon={<QuestionMarkCircledIcon />}
-          variant="outline"
-        />
-      ),
     },
+    children: (
+      <IconButton
+        ariaLabel="更多设置"
+        icon={<QuestionMarkCircledIcon />}
+        variant="outline"
+      />
+    ),
   },
   code: `
     import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
@@ -55,11 +55,33 @@ export default defineDoc({
         icon={<QuestionMarkCircledIcon />}
         variant="outline"
       />
-    </Tooltip>
+    </Tooltip>;
   `,
   sections: [
     {
       title: "基础提示",
+      code: `
+        import { InfoCircledIcon } from "@radix-ui/react-icons";
+        import { Button } from "willa/Button";
+        import { IconButton } from "willa/IconButton";
+        import { Tooltip } from "willa/Tooltip";
+        import "willa/Button.css";
+        import "willa/IconButton.css";
+        import "willa/Tooltip.css";
+
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
+          <Tooltip content="复制当前链接">
+            <Button variant="outline">复制</Button>
+          </Tooltip>
+          <Tooltip content="这里会影响 AI 生成结果的长度">
+            <IconButton
+              ariaLabel="查看说明"
+              icon={<InfoCircledIcon />}
+              variant="soft"
+            />
+          </Tooltip>
+        </div>;
+      `,
       content: (
         <div style={rowStyle}>
           <Tooltip content="复制当前链接">
@@ -77,6 +99,22 @@ export default defineDoc({
     },
     {
       title: "展开方向",
+      code: `
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
+          <Tooltip content="上方提示" side="top" delay={0}>
+            <Button variant="outline">Top</Button>
+          </Tooltip>
+          <Tooltip content="右侧提示" side="right" delay={0}>
+            <Button variant="outline">Right</Button>
+          </Tooltip>
+          <Tooltip content="下方提示" side="bottom" delay={0}>
+            <Button variant="outline">Bottom</Button>
+          </Tooltip>
+          <Tooltip content="左侧提示" side="left" delay={0}>
+            <Button variant="outline">Left</Button>
+          </Tooltip>
+        </div>;
+      `,
       content: (
         <div style={rowStyle}>
           <Tooltip content="上方提示" side="top" delay={0}>
@@ -96,6 +134,21 @@ export default defineDoc({
     },
     {
       title: "尺寸和对齐",
+      code: `
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
+          <Tooltip content="小尺寸说明" size="sm" delay={0}>
+            <Button size="sm" variant="outline">
+              Small
+            </Button>
+          </Tooltip>
+          <Tooltip content="和触发元素左侧对齐" align="start" delay={0}>
+            <Button variant="outline">Start</Button>
+          </Tooltip>
+          <Tooltip content="和触发元素右侧对齐" align="end" delay={0}>
+            <Button variant="outline">End</Button>
+          </Tooltip>
+        </div>;
+      `,
       content: (
         <div style={rowStyle}>
           <Tooltip content="小尺寸说明" size="sm" delay={0}>
@@ -114,6 +167,11 @@ export default defineDoc({
     },
     {
       title: "受控状态",
+      code: `
+        <Tooltip content="一直展示的受控 Tooltip" open>
+          <Button variant="soft">受控展示</Button>
+        </Tooltip>;
+      `,
       content: (
         <Tooltip content="一直展示的受控 Tooltip" open>
           <Button variant="soft">受控展示</Button>
@@ -122,6 +180,12 @@ export default defineDoc({
     },
     {
       title: "触屏边界",
+      code: `
+        <p>
+          Tooltip 在触屏设备上支持点击触发和外部点击关闭。需要承载操作说明、
+          确认或交互内容时，使用 Popover 或 Menu。
+        </p>;
+      `,
       content: (
         <p style={{ margin: 0, color: "var(--docs-text-muted)" }}>
           Tooltip

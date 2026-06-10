@@ -93,7 +93,11 @@ export default defineDoc({
     },
   },
   code: `
-    import { DotsHorizontalIcon, Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
+    import {
+      DotsHorizontalIcon,
+      Pencil1Icon,
+      TrashIcon,
+    } from "@radix-ui/react-icons";
     import { Button } from "willa/Button";
     import { Menu } from "willa/Menu";
     import "willa/Button.css";
@@ -112,11 +116,34 @@ export default defineDoc({
           更多操作
         </Button>
       }
-    />
+    />;
   `,
   sections: [
     {
       title: "基础菜单",
+      code: `
+        <div style={rowStyle}>
+          <Menu
+            items={basicItems}
+            trigger={
+              <Button variant="outline" trailingIcon={<DotsHorizontalIcon />}>
+                更多操作
+              </Button>
+            }
+          />
+          <Menu
+            items={basicItems}
+            size="sm"
+            trigger={
+              <IconButton
+                ariaLabel="打开操作菜单"
+                icon={<DotsHorizontalIcon />}
+                variant="outline"
+              />
+            }
+          />
+        </div>;
+      `,
       content: (
         <div style={rowStyle}>
           <Menu
@@ -143,6 +170,9 @@ export default defineDoc({
     },
     {
       title: "描述和状态",
+      code: `
+        <Menu items={aiItems} trigger={<Button variant="soft">AI 生成模式</Button>} />;
+      `,
       content: (
         <Menu
           items={aiItems}
@@ -152,6 +182,25 @@ export default defineDoc({
     },
     {
       title: "对齐方式",
+      code: `
+        <div style={rowStyle}>
+          <Menu
+            align="start"
+            items={basicItems}
+            trigger={<Button variant="outline">左对齐</Button>}
+          />
+          <Menu
+            align="center"
+            items={basicItems}
+            trigger={<Button variant="outline">居中</Button>}
+          />
+          <Menu
+            align="end"
+            items={basicItems}
+            trigger={<Button variant="outline">右对齐</Button>}
+          />
+        </div>;
+      `,
       content: (
         <div style={rowStyle}>
           <Menu
@@ -174,6 +223,16 @@ export default defineDoc({
     },
     {
       title: "禁用项",
+      code: `
+        <Menu
+          items={[
+            { value: "copy", label: "复制链接" },
+            { value: "sync", label: "同步中", disabled: true },
+            { value: "archive", label: "归档" },
+          ]}
+          trigger={<Button variant="outline">带禁用项</Button>}
+        />;
+      `,
       content: (
         <Menu
           items={[

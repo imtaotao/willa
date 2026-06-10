@@ -16,6 +16,14 @@ export default defineDoc({
     props: { title: "实现说明", defaultOpen: true },
     children: "把补充细节收起来，不打断主要阅读流程。",
   },
+  code: `
+    import { DetailsBlock } from "willa/DetailsBlock";
+    import "willa/DetailsBlock.css";
+
+    <DetailsBlock title="实现说明" defaultOpen>
+      把补充细节收起来，不打断主要阅读流程。
+    </DetailsBlock>;
+  `,
   props: [
     {
       name: "title",

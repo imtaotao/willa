@@ -6,13 +6,13 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const fileListStyle = {
   display: "grid",
   gap: "0.75rem",
-  justifyItems: "start",
+  justifyItems: "center",
 } as const;
 
 const compactFileListStyle = {
   ...fileListStyle,
   gridTemplateColumns: "repeat(auto-fit, minmax(13.5rem, 1fr))",
-  width: "100%",
+  width: "min(100%, 56rem)",
 } as const;
 
 const files = [
@@ -58,11 +58,19 @@ export default defineDoc({
       {files.map((file) => (
         <FileCard key={file.name} name={file.name} size={file.size} />
       ))}
-    </div>
+    </div>;
   `,
   sections: [
     {
       title: "链接文件",
+      code: `
+        <FileCard
+          href="https://example.com/report.pdf"
+          target="_blank"
+          name="quarterly-report.pdf"
+          size="428 KB"
+        />;
+      `,
       content: (
         <FileCard
           href="https://example.com/report.pdf"
@@ -74,6 +82,13 @@ export default defineDoc({
     },
     {
       title: "自定义类型",
+      code: `
+        <div style={compactFileListStyle}>
+          <FileCard name="README" extension="md" size="2 KB" />
+          <FileCard name="dataset" extension="csv" size="24 KB" />
+          <FileCard name="archive.backup" tone="archive" size="1.2 MB" />
+        </div>;
+      `,
       content: (
         <div style={compactFileListStyle}>
           <FileCard name="README" extension="md" size="2 KB" />
@@ -84,6 +99,15 @@ export default defineDoc({
     },
     {
       title: "自定义图标",
+      code: `
+        <FileCard
+          name="design-source.fig"
+          extension="fig"
+          icon={<span>F</span>}
+          tone="neutral"
+          size="860 KB"
+        />;
+      `,
       content: (
         <FileCard
           name="design-source.fig"

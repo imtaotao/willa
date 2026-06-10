@@ -319,7 +319,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
                 <div
                   className="willa-date-picker-wheel"
                   style={{
-                    gridTemplateColumns: `repeat(${normalizedWheelColumns.length}, minmax(0, 1fr))`,
+                    gridTemplateColumns: `repeat(${normalizedWheelColumns.length}, minmax(3.75rem, 1fr))`,
                   }}
                 >
                   {normalizedWheelColumns.map((column) => {

@@ -41,11 +41,19 @@ export default defineDoc({
     import { IconButton } from "willa/IconButton";
     import "willa/IconButton.css";
 
-    <IconButton ariaLabel="分享文章" icon={<Share2Icon />} />
+    <IconButton ariaLabel="分享文章" icon={<Share2Icon />} />;
   `,
   sections: [
     {
       title: "视觉类型",
+      code: `
+        <div style={iconButtonRowStyle}>
+          <IconButton ariaLabel="收藏" icon={<BookmarkIcon />} variant="solid" />
+          <IconButton ariaLabel="喜欢" icon={<HeartIcon />} variant="soft" />
+          <IconButton ariaLabel="下载" icon={<DownloadIcon />} variant="outline" />
+          <IconButton ariaLabel="搜索" icon={<MagnifyingGlassIcon />} variant="ghost" />
+        </div>;
+      `,
       content: (
         <div style={iconButtonRowStyle}>
           <IconButton
@@ -69,6 +77,19 @@ export default defineDoc({
     },
     {
       title: "尺寸和形状",
+      code: `
+        <div style={iconButtonRowStyle}>
+          <IconButton ariaLabel="上一步" icon={<ArrowRightIcon />} size="sm" />
+          <IconButton ariaLabel="外部链接" icon={<ExternalLinkIcon />} shape="circle" />
+          <IconButton
+            ariaLabel="确认"
+            icon={<CheckIcon />}
+            shape="circle"
+            size="lg"
+            variant="outline"
+          />
+        </div>;
+      `,
       content: (
         <div style={iconButtonRowStyle}>
           <IconButton ariaLabel="上一步" icon={<ArrowRightIcon />} size="sm" />
@@ -89,6 +110,25 @@ export default defineDoc({
     },
     {
       title: "链接、禁用和加载",
+      code: `
+        <div style={iconButtonRowStyle}>
+          <IconButton
+            ariaLabel="打开 GitHub"
+            href="https://github.com"
+            icon={<ExternalLinkIcon />}
+            target="_blank"
+            variant="outline"
+          />
+          <IconButton ariaLabel="不可点击" disabled icon={<BookmarkIcon />} />
+          <IconButton
+            ariaLabel="保存"
+            icon={<CheckIcon />}
+            loading
+            loadingLabel="保存中"
+            variant="soft"
+          />
+        </div>;
+      `,
       content: (
         <div style={iconButtonRowStyle}>
           <IconButton
@@ -111,6 +151,21 @@ export default defineDoc({
     },
     {
       title: "点击复制",
+      code: `
+        <div style={iconButtonRowStyle}>
+          <IconButton
+            ariaLabel="复制安装命令"
+            copyText="pnpm add willa"
+            icon={<ClipboardCopyIcon />}
+          />
+          <IconButton
+            ariaLabel="复制组件引入"
+            copyText="import { IconButton } from 'willa/IconButton';"
+            icon={<ClipboardCopyIcon />}
+            variant="outline"
+          />
+        </div>;
+      `,
       content: (
         <div style={iconButtonRowStyle}>
           <IconButton
@@ -129,6 +184,23 @@ export default defineDoc({
     },
     {
       title: "自定义颜色",
+      code: `
+        <div style={iconButtonRowStyle}>
+          <IconButton
+            ariaLabel="暖色收藏"
+            backgroundColor="#f6e7c8"
+            icon={<BookmarkIcon />}
+            textColor="#3f2a12"
+          />
+          <IconButton
+            ariaLabel="蓝色搜索"
+            backgroundColor="rgba(96, 165, 250, 0.14)"
+            icon={<MagnifyingGlassIcon />}
+            textColor="currentColor"
+            variant="outline"
+          />
+        </div>;
+      `,
       content: (
         <div style={iconButtonRowStyle}>
           <IconButton

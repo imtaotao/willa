@@ -12,8 +12,9 @@ Future component planning is tracked in
 
 Before adding a component, choose its package based on the architecture guide:
 
-- `@willa-ui/content`: general content rendering, such as text, media, lists,
-  callouts, code blocks, product primitives, and rich article content.
+- `@willa-ui/content`: general content rendering, such as text, lists,
+  callouts, code blocks, product primitives, and reusable rich content
+  primitives.
 - `@willa-ui/form`: form controls and form layout, such as input, textarea,
   select, checkbox, radio, switch, date picker, upload, form field, and form
   actions.
@@ -21,8 +22,8 @@ Before adding a component, choose its package based on the architecture guide:
   inputs, chat messages, source citations, tool call displays, context panels,
   generation cards, and agent status views.
 - `@willa-ui/widgets`: platform integrations, MDX composition, and more
-  scenario-specific components, such as GitHub, X, web embeds, and
-  EnglishCards.
+  scenario-specific components, such as GitHub, X, web embeds, audio/video
+  embeds, poems, and EnglishCards.
 - `@willa-ui/shared`: cross-package utilities, types, text processing, node
   processing, clipboard helpers, and similar logic. It must not contain React
   components or component CSS.
@@ -96,8 +97,8 @@ When adding an AI component, usually update:
 Single-component entries must export both the component and its types:
 
 ```tsx
-export { AudioLink } from "@willa-ui/content/components/AudioLink";
-export type { AudioLinkProps } from "@willa-ui/content/components/AudioLink";
+export { AudioLink } from "@willa-ui/widgets/components/AudioLink";
+export type { AudioLinkProps } from "@willa-ui/widgets/components/AudioLink";
 ```
 
 Shared types can live in `@willa-ui/shared`, but component entries should still

@@ -1,4 +1,4 @@
 export {
   VideoLink,
   type VideoLinkProps,
-} from "@willa-ui/content/components/VideoLink";
+} from "@willa-ui/widgets/components/VideoLink";

@@ -6,7 +6,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const stackStyle = {
   display: "grid",
   gap: "0.9rem",
-  maxWidth: "34rem",
+  maxWidth: "42rem",
 } as const;
 
 const options = [
@@ -42,11 +42,30 @@ export default defineDoc({
       { value: "quality", label: "高质量模式" },
     ];
 
-    <Select options={options} defaultValue="balanced" width="100%" />
+    <Select options={options} defaultValue="balanced" width="100%" />;
   `,
   sections: [
     {
       title: "基础状态",
+      code: `
+        <div style={stackStyle}>
+          <Select placeholder="选择模型模式" options={options} width="100%" />
+          <Select
+            defaultValue="balanced"
+            options={options}
+            variant="soft"
+            width="100%"
+          />
+          <Select
+            invalid
+            defaultValue=""
+            placeholder="请选择必填项"
+            options={options}
+            width="100%"
+          />
+          <Select disabled defaultValue="fast" options={options} width="100%" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <Select placeholder="选择模型模式" options={options} width="100%" />
@@ -69,6 +88,13 @@ export default defineDoc({
     },
     {
       title: "尺寸",
+      code: `
+        <div style={stackStyle}>
+          <Select size="sm" options={options} defaultValue="fast" />
+          <Select size="md" options={options} defaultValue="balanced" />
+          <Select size="lg" options={options} defaultValue="quality" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <Select size="sm" options={options} defaultValue="fast" />

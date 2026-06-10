@@ -77,11 +77,23 @@ export default defineDoc({
       trigger={<Button variant="outline">打开设置</Button>}
     >
       <div>这里放表单、操作按钮或说明内容。</div>
-    </Popover>
+    </Popover>;
   `,
   sections: [
     {
       title: "基础浮层",
+      code: `
+        <Popover
+          title="内容策略"
+          description="适合放少量说明和一组轻量操作，不适合承载完整流程。"
+          trigger={<Button variant="outline">查看策略</Button>}
+        >
+          <div style={stackStyle}>
+            <Badge tone="info">轻量交互</Badge>
+            <span>点击外部区域或按 Escape 可以关闭浮层。</span>
+          </div>
+        </Popover>;
+      `,
       content: (
         <Popover
           title="内容策略"
@@ -97,6 +109,38 @@ export default defineDoc({
     },
     {
       title: "表单内容",
+      code: `
+        <Popover
+          title="快速配置"
+          description="Popover 可以承载输入框和按钮。"
+          trigger={
+            <Button icon={<GearIcon />} variant="soft">
+              配置参数
+            </Button>
+          }
+          footer={
+            <>
+              <Button size="sm" variant="ghost">
+                重置
+              </Button>
+              <Button size="sm" variant="solid">
+                应用
+              </Button>
+            </>
+          }
+        >
+          <div style={stackStyle}>
+            <div style={fieldStyle}>
+              <span style={labelStyle}>提示词前缀</span>
+              <Input defaultValue="请给出结构化回答" size="sm" />
+            </div>
+            <div style={fieldStyle}>
+              <span style={labelStyle}>温度</span>
+              <Input defaultValue="0.7" size="sm" />
+            </div>
+          </div>
+        </Popover>;
+      `,
       content: (
         <Popover
           title="快速配置"
@@ -132,6 +176,32 @@ export default defineDoc({
     },
     {
       title: "方向和对齐",
+      code: `
+        <div style={rowStyle}>
+          <Popover
+            title="上方"
+            side="top"
+            trigger={<Button variant="outline">Top</Button>}
+          >
+            <span>从上方展开。</span>
+          </Popover>
+          <Popover
+            title="右侧"
+            side="right"
+            align="center"
+            trigger={<Button variant="outline">Right</Button>}
+          >
+            <span>从右侧展开。</span>
+          </Popover>
+          <Popover
+            title="下方末端对齐"
+            align="end"
+            trigger={<Button variant="outline">End</Button>}
+          >
+            <span>和触发器右侧对齐。</span>
+          </Popover>
+        </div>;
+      `,
       content: (
         <div style={rowStyle}>
           <Popover
@@ -161,6 +231,15 @@ export default defineDoc({
     },
     {
       title: "受控状态",
+      code: `
+        <Popover
+          title="受控 Popover"
+          open
+          trigger={<Button variant="soft">保持展开</Button>}
+        >
+          <span>适合和外部状态、快捷键或引导流程配合。</span>
+        </Popover>;
+      `,
       content: (
         <Popover
           title="受控 Popover"

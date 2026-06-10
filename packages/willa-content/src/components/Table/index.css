@@ -168,9 +168,13 @@
 }
 
 .willa-table-state {
-  height: 7rem;
-  color: var(--willa-table-muted);
+  height: 5.5rem;
+  padding: 1rem;
   text-align: center;
+}
+
+.willa-table-state > * {
+  margin-inline: auto;
 }
 
 .willa-table-selection-header,

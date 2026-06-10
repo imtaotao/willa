@@ -1,6 +1,8 @@
 .willa-prose-x-post-embed {
   margin: 0 0 1.35rem;
   display: block;
+  width: 100%;
+  max-width: 100%;
 }
 
 .willa-prose-x-post-embed-widget [twdiv="yes"] {

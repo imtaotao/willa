@@ -17,7 +17,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const stackStyle = {
   display: "grid",
   gap: "0.85rem",
-  width: "min(100%, 44rem)",
+  width: "min(100%, 56rem)",
 } as const;
 
 const outputStyle = {
@@ -41,7 +41,7 @@ const headerTextStyle = {
 const stateGridStyle = {
   display: "grid",
   gap: "0.85rem",
-  width: "min(100%, 44rem)",
+  width: "min(100%, 56rem)",
 } as const;
 
 const ComposerPreview = () => {
@@ -149,11 +149,24 @@ export default defineDoc({
         placeholder="让 AI 帮我分析这些反馈的优先级..."
         onSubmit={(prompt) => console.log(prompt)}
       />
-    </>
+    </>;
   `,
   sections: [
     {
       title: "紧凑输入",
+      code: `
+        <div style={stackStyle}>
+          <Composer
+            footer="适合只需要输入和提交的场景"
+            actions={
+              <Button size="sm" variant="ghost" icon={<MagicWandIcon />}>
+                优化
+              </Button>
+            }
+            placeholder="输入任务目标..."
+          />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <Composer
@@ -170,6 +183,17 @@ export default defineDoc({
     },
     {
       title: "提交状态",
+      code: `
+        <div style={stateGridStyle}>
+          <Composer
+            loading
+            defaultValue="分析最近 7 天用户反馈里的高频问题。"
+            footer="正在发送请求"
+            minRows={2}
+          />
+          <Composer disabled minRows={2} placeholder="当前会话不可输入" />
+        </div>;
+      `,
       content: (
         <div style={stateGridStyle}>
           <Composer

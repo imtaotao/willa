@@ -19,6 +19,16 @@ export default defineDoc({
       title: "风景预览",
     },
   },
+  code: `
+    import { Image } from "willa/Image";
+    import "willa/Image.css";
+
+    <Image
+      src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80"
+      alt="金色时刻的湖边风景"
+      title="风景预览"
+    />;
+  `,
   props: [
     {
       name: "src",

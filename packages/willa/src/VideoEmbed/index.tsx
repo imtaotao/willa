@@ -1,4 +1,4 @@
 export {
   VideoEmbed,
   type VideoEmbedProps,
-} from "@willa-ui/content/components/VideoEmbed";
+} from "@willa-ui/widgets/components/VideoEmbed";

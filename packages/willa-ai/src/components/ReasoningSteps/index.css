@@ -20,11 +20,11 @@
 }
 
 .willa-reasoning-steps--sm .willa-reasoning-steps-list {
-  gap: 0.5rem;
+  gap: 0.58rem;
 }
 
 .willa-reasoning-steps--md .willa-reasoning-steps-list {
-  gap: 0.62rem;
+  gap: 0.72rem;
 }
 
 .willa-reasoning-steps--compact .willa-reasoning-steps-list {
@@ -45,12 +45,12 @@
   align-items: center;
   gap: 0.62rem;
   border: 1px solid var(--willa-reasoning-steps-card-border);
-  border-radius: 0.82rem;
+  border-radius: 0.9rem;
   background: var(--willa-reasoning-steps-card-bg);
   color: var(--willa-reasoning-steps-text);
   cursor: pointer;
   font: inherit;
-  padding: 0.62rem 0.72rem;
+  padding: 0.72rem 0.82rem;
   text-align: start;
   transition:
     border-color 150ms ease,
@@ -185,7 +185,7 @@
   display: grid;
   min-width: 0;
   border: 1px solid var(--willa-reasoning-steps-card-border);
-  border-radius: 0.82rem;
+  border-radius: 0.86rem;
   background: var(--willa-reasoning-steps-card-bg);
   transition:
     border-color 150ms ease,
@@ -216,13 +216,13 @@
 }
 
 .willa-reasoning-steps--sm .willa-reasoning-step-body {
-  gap: 0.18rem;
-  padding: 0.52rem 0.62rem;
+  gap: 0.22rem;
+  padding: 0.58rem 0.68rem;
 }
 
 .willa-reasoning-steps--md .willa-reasoning-step-body {
-  gap: 0.24rem;
-  padding: 0.68rem 0.76rem;
+  gap: 0.28rem;
+  padding: 0.76rem 0.84rem;
 }
 
 .willa-reasoning-step-header {
@@ -268,10 +268,10 @@
 
 .willa-reasoning-step-content {
   border: 1px solid var(--willa-reasoning-steps-panel-border);
-  border-radius: 0.64rem;
+  border-radius: 0.62rem;
   background: var(--willa-reasoning-steps-panel-bg);
   color: var(--willa-reasoning-steps-panel-text);
-  padding: 0.5rem 0.58rem;
+  padding: 0.56rem 0.64rem;
 }
 
 .willa-reasoning-step--active {

@@ -1,5 +1,7 @@
 .willa-prose-video-embed {
   display: grid;
+  width: 100%;
+  max-width: 100%;
   grid-template-columns: minmax(8.5rem, 34%) minmax(0, 1fr) auto;
   align-items: stretch;
   min-height: 8.25rem;

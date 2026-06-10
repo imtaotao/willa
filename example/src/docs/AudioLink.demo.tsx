@@ -21,6 +21,18 @@ export default defineDoc({
       href: "http://music.163.com/song?id=3370714076",
     },
   },
+  code: `
+    import { AudioLink } from "willa/AudioLink";
+    import "willa/AudioLink.css";
+
+    <AudioLink
+      label="播放音乐片段"
+      provider="网易云音乐"
+      volume={0.4}
+      src="http://music.163.com/song/media/outer/url?id=3370714076.mp3"
+      href="http://music.163.com/song?id=3370714076"
+    />;
+  `,
   props: [
     {
       name: "src",

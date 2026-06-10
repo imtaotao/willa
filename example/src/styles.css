@@ -144,7 +144,6 @@ select {
 }
 
 .docs-kicker,
-.docs-package,
 .docs-panel-title {
   margin: 0;
   color: #2563eb;
@@ -160,7 +159,6 @@ select {
 }
 
 :root[data-wk-theme="dark"] .docs-kicker,
-:root[data-wk-theme="dark"] .docs-package,
 :root[data-wk-theme="dark"] .docs-panel-title {
   color: #7dd3fc;
 }
@@ -254,129 +252,121 @@ select {
 
 .docs-section {
   display: grid;
-  grid-template-columns: minmax(360px, 1.1fr) minmax(280px, 0.9fr);
-  gap: 24px;
-  align-items: start;
+  gap: 18px;
   scroll-margin-top: 28px;
-  transition:
-    grid-template-columns 220ms ease,
-    gap 220ms ease;
 }
 
-.docs-section.is-reference-expanded {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0fr);
-  gap: 0;
-}
-
-.docs-section.is-preview-expanded {
-  grid-template-columns: minmax(0, 0fr) minmax(0, 1fr);
-  gap: 0;
-}
-
-.docs-preview,
-.docs-reference {
-  position: relative;
+.docs-intro,
+.docs-demo-block,
+.docs-props {
   display: grid;
-  gap: 14px;
   min-width: 0;
   border: 1px solid var(--willa-line);
   border-radius: 8px;
   background: var(--willa-panel-bg);
-  transition:
-    opacity 180ms ease,
-    border-color 180ms ease,
-    padding 220ms ease,
-    transform 220ms ease;
 }
 
-.docs-preview {
-  z-index: 1;
-  overflow: hidden;
+.docs-intro {
+  gap: 10px;
+  overflow: visible;
   padding: 24px;
 }
 
-.docs-preview:has(.docs-github-preview),
-.docs-preview:has(.willa-avatar-hover-card),
-.docs-preview:has(.willa-prose-github-hover-card) {
+.docs-demo-block {
+  gap: 0;
+  overflow: visible;
+}
+
+.docs-demo-block:has(.docs-github-preview),
+.docs-demo-block:has(.willa-avatar-hover-card),
+.docs-demo-block:has(.willa-prose-github-hover-card) {
   z-index: 4;
-  overflow: visible;
 }
 
-.docs-reference {
-  z-index: 2;
-  overflow: visible;
-  padding: 22px;
-}
-
-.docs-section.is-reference-expanded .docs-preview,
-.docs-section.is-preview-expanded .docs-reference {
-  pointer-events: none;
-  border-color: transparent;
-  opacity: 0;
-  padding-inline: 0;
-  transform: scale(0.985);
-}
-
-.docs-panel-toolbar {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.docs-panel-action:hover {
-  transform: none;
-}
-
-.docs-preview-inner {
-  display: grid;
-  gap: 20px;
-}
-
-.docs-preview-inner > * {
-  margin: 0;
-}
-
-.docs-preview-primary {
-  display: grid;
-  min-width: 0;
-}
-
-.docs-preview-primary > .willa-avatar,
-.docs-preview-primary > .willa-avatar-hover-root,
-.docs-preview-primary > .willa-badge,
-.docs-preview-primary > .willa-button,
-.docs-preview-primary > .willa-icon-button,
-.docs-preview-primary > .willa-kbd,
-.docs-preview-primary > .willa-kbd-shortcut,
-.docs-preview-primary > .willa-pagination {
-  justify-self: start;
-}
-
-.docs-preview-sections {
+.docs-demos {
   display: grid;
   gap: 16px;
   min-width: 0;
 }
 
-.docs-preview-section {
-  display: grid;
+.docs-demo-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 12px;
-  min-width: 0;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--willa-line);
 }
 
-.docs-preview-separator,
-.docs-props-separator,
-.docs-demo-separator {
-  margin: 0;
-}
+.docs-demo-block-preview {
+  --docs-demo-readable-width: 56rem;
+  --docs-demo-narrow-width: 42rem;
 
-.docs-preview-section-content {
   display: grid;
   gap: 14px;
+  justify-items: center;
   min-width: 0;
+  padding: 20px;
 }
 
-.docs-preview-section-content > * {
+.docs-demo-block-preview > * {
   margin: 0;
+}
+
+.docs-demo-block-preview
+  > :where(
+    .willa-card,
+    .willa-chat-message,
+    .willa-composer,
+    .willa-empty-state,
+    .willa-file-card,
+    .willa-form-message,
+    .willa-generation-card,
+    .willa-not-found,
+    .willa-prompt-input,
+    .willa-prose-skeleton,
+    .willa-reasoning-steps,
+    .willa-source-card,
+    .willa-thinking-indicator,
+    .willa-tool-call-card
+  ) {
+  width: min(100%, var(--docs-demo-readable-width));
+}
+
+.docs-demo-block-preview
+  > :where(
+    .willa-checkbox,
+    .willa-form,
+    .willa-form-field,
+    .willa-form-group,
+    .willa-input,
+    .willa-radio,
+    .willa-range-input,
+    .willa-select,
+    .willa-switch,
+    .willa-textarea
+  ) {
+  width: min(100%, var(--docs-demo-narrow-width));
+}
+
+.docs-demo-block-preview
+  > :where(
+    .willa-code-tabs,
+    .willa-file-tree,
+    .willa-message-list,
+    .willa-table,
+    .willa-prose,
+    .willa-prose-pre
+  ) {
+  justify-self: stretch;
+  width: 100%;
+}
+
+.docs-demo-block .willa-prose-pre {
+  margin: 0;
+  max-width: 100%;
+  border: 0;
+  border-radius: 0 0 8px 8px;
 }
 
 .docs-demo-stack,
@@ -405,7 +395,7 @@ select {
   padding: 24px;
 }
 
-.docs-reference h2 {
+.docs-intro h2 {
   margin: 0 0 8px;
   color: var(--willa-text-strong);
   font-size: 24px;
@@ -414,31 +404,16 @@ select {
 }
 
 .docs-description {
-  margin: 0 0 18px;
+  margin: 0;
   color: var(--willa-text-soft);
   line-height: 1.6;
 }
 
-.docs-code-block,
 .docs-props {
   display: grid;
   gap: 10px;
   min-width: 0;
-  margin-top: 18px;
-}
-
-.docs-code-block .willa-prose-pre {
-  margin: 0;
-  max-width: 100%;
-  border: 1px solid var(--willa-code-block-border);
-}
-
-.docs-props table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-  font-size: 13px;
-  overflow: visible;
+  padding: 20px;
 }
 
 .docs-props-group {
@@ -446,42 +421,43 @@ select {
   gap: 10px;
 }
 
-.docs-props th,
-.docs-props td {
-  position: relative;
-  z-index: 1;
-  border-top: 1px solid var(--willa-line);
-  padding: 10px 8px;
-  text-align: left;
-  vertical-align: top;
+.docs-props-separator,
+.docs-demo-separator {
+  margin: 0;
 }
 
-.docs-props th {
+.docs-demo-switch {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 2px;
+  border: 1px solid var(--willa-line);
+  border-radius: 7px;
+  background: var(--willa-surface-soft);
+  padding: 2px;
+}
+
+.docs-demo-switch-button {
+  min-width: 3rem;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
   color: var(--willa-text-soft);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
   font-weight: 700;
+  line-height: 1;
+  padding: 0.46rem 0.6rem;
 }
 
-.docs-props th:nth-child(1),
-.docs-props td:nth-child(1) {
-  width: 25%;
+.docs-demo-switch-button:hover {
+  color: var(--willa-text-strong);
 }
 
-.docs-props th:nth-child(2),
-.docs-props td:nth-child(2) {
-  width: 35%;
-}
-
-.docs-props code {
-  display: inline-block;
-  max-width: 100%;
-  border-radius: 4px;
-  background: var(--willa-inline-code-bg);
-  padding: 0.12em 0.32em;
-  font-family: var(--willa-code-font);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  vertical-align: top;
-  white-space: nowrap;
+.docs-demo-switch-button.is-active {
+  background: var(--willa-panel-bg);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+  color: var(--willa-text-strong);
 }
 
 .docs-meta-list {
@@ -522,11 +498,17 @@ select {
   outline: 0;
 }
 
-.docs-prop-token--type code {
-  overflow: visible;
-  text-overflow: clip;
-  white-space: normal;
-  overflow-wrap: anywhere;
+.docs-prop-token code {
+  display: inline-block;
+  max-width: 100%;
+  border-radius: 4px;
+  background: var(--willa-inline-code-bg);
+  padding: 0.12em 0.32em;
+  font-family: var(--willa-code-font);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  white-space: nowrap;
 }
 
 .docs-prop-name-cell .docs-prop-token {
@@ -589,63 +571,25 @@ select {
     gap: 18px;
   }
 
-  .docs-preview {
-    order: 1;
-  }
-
-  .docs-reference {
-    order: 2;
-  }
-
-  .docs-preview,
-  .docs-reference,
+  .docs-intro,
+  .docs-demo-block-preview,
+  .docs-props,
   .docs-loading {
     padding: 16px;
   }
 
-  .docs-preview-inner {
-    gap: 16px;
+  .docs-demo-block-header {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 12px 14px;
   }
 
-  .docs-preview-sections {
-    gap: 16px;
+  .docs-demo-switch {
+    width: 100%;
   }
 
-  .docs-props table,
-  .docs-props thead,
-  .docs-props tbody,
-  .docs-props tr,
-  .docs-props th,
-  .docs-props td {
-    display: block;
-    max-width: 100%;
-    min-width: 0;
-    width: 100% !important;
-  }
-
-  .docs-props table {
-    table-layout: auto;
-  }
-
-  .docs-props th {
-    display: none;
-  }
-
-  .docs-props td {
-    border-top: 0;
-    padding: 5px 0;
-  }
-
-  .docs-props tr {
-    display: grid;
-    gap: 4px;
-    border-top: 1px solid var(--willa-line);
-    padding: 12px 0;
-  }
-
-  .docs-props code {
-    white-space: normal;
-    word-break: break-word;
+  .docs-demo-switch-button {
+    flex: 1;
   }
 
   .docs-prop-name-cell {

@@ -71,11 +71,19 @@ export default defineDoc({
       }}
       onUploadStart={(files) => console.log("start", files)}
       onUploadComplete={(files) => console.log("done", files)}
-    />
+    />;
   `,
   sections: [
     {
       title: "任意文件",
+      code: `
+        <Upload
+          multiple
+          maxFiles={4}
+          label="上传资料"
+          description="选择图片、音频、视频或文档。非媒体文件会以下载入口展示。"
+        />;
+      `,
       content: (
         <Upload
           multiple
@@ -87,6 +95,16 @@ export default defineDoc({
     },
     {
       title: "仅媒体文件",
+      code: `
+        <Upload
+          accept="image/*,audio/*,video/*"
+          multiple
+          maxFiles={3}
+          label="上传媒体"
+          description="限制选择图片、音频和视频，适合多模态输入。"
+          actionLabel="选择媒体"
+        />;
+      `,
       content: (
         <Upload
           accept="image/*,audio/*,video/*"
@@ -100,6 +118,12 @@ export default defineDoc({
     },
     {
       title: "单文件",
+      code: `
+        <Upload
+          label="上传头像或附件"
+          description="未开启 multiple 时，每次选择会替换当前文件。"
+        />;
+      `,
       content: (
         <Upload
           label="上传头像或附件"
@@ -109,6 +133,13 @@ export default defineDoc({
     },
     {
       title: "禁用状态",
+      code: `
+        <Upload
+          disabled
+          label="上传已关闭"
+          description="当前任务不允许继续添加文件。"
+        />;
+      `,
       content: (
         <Upload
           disabled
@@ -119,6 +150,15 @@ export default defineDoc({
     },
     {
       title: "上传中",
+      code: `
+        <Upload
+          loading
+          progress={64}
+          label="正在上传"
+          description="业务侧可以通过 loading 接管上传状态。"
+          loadingLabel="处理中"
+        />;
+      `,
       content: (
         <Upload
           loading

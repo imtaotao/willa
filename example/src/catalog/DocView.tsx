@@ -1,24 +1,28 @@
 import classNames from "classnames";
-import { Fragment, useEffect, useMemo, useState } from "react";
-import { EnterFullScreenIcon, ExitFullScreenIcon } from "@radix-ui/react-icons";
+import { Fragment, useMemo, useState, type ReactNode } from "react";
 import { Badge } from "willa/Badge";
 import { CodeBlock } from "willa/CodeBlock";
-import { IconButton } from "willa/IconButton";
 import { Separator } from "willa/Separator";
+import { Table, type TableItem } from "willa/Table";
 import { Tooltip } from "willa/Tooltip";
 import "willa/Badge.css";
 import "willa/CodeBlock.css";
-import "willa/IconButton.css";
 import "willa/Separator.css";
+import "willa/Table.css";
 import "willa/Tooltip.css";
 
-import type { ComponentDoc } from "#example/catalog/types";
+import type { ComponentDoc, PropRow } from "#example/catalog/types";
 
 type DocViewProps = {
   doc: ComponentDoc;
 };
 
-type ExpandedPanel = "reference" | "preview" | null;
+type DemoBlockProps = {
+  title: string;
+  children: ReactNode;
+  code?: string;
+  primary?: boolean;
+};
 
 const PropToken = (props: { value: string; kind: "名称" | "类型" }) => (
   <Tooltip
@@ -38,8 +42,96 @@ const PropToken = (props: { value: string; kind: "名称" | "类型" }) => (
   </Tooltip>
 );
 
+const createPropTableItems = (props: Array<PropRow>) => {
+  return props.map((prop) => ({
+    key: prop.name,
+    cells: [
+      {
+        key: "name",
+        label: "名称",
+        width: "26%",
+        ellipsis: false,
+        render: (
+          <div className="docs-prop-name-cell">
+            <PropToken value={prop.name} kind="名称" />
+            {prop.required ? (
+              <Badge size="sm" tone="danger" variant="soft">
+                必填
+              </Badge>
+            ) : null}
+          </div>
+        ),
+      },
+      {
+        key: "type",
+        label: "类型",
+        width: "34%",
+        value: prop.type,
+        render: <PropToken value={prop.type} kind="类型" />,
+      },
+      {
+        key: "description",
+        label: "说明",
+        value: prop.description,
+      },
+    ],
+  })) satisfies Array<TableItem>;
+};
+
+const DemoBlock = (props: DemoBlockProps) => {
+  const [view, setView] = useState<"preview" | "source">("preview");
+  const canShowSource = Boolean(props.code);
+
+  return (
+    <section
+      className={classNames(
+        "docs-demo-block",
+        props.primary && "docs-demo-block--primary",
+      )}
+    >
+      <div className="docs-demo-block-header">
+        <div className="docs-panel-title">{props.title}</div>
+        {canShowSource ? (
+          <div
+            className="docs-demo-switch"
+            aria-label={`${props.title} 展示方式`}
+          >
+            <button
+              className={classNames(
+                "docs-demo-switch-button",
+                view === "preview" && "is-active",
+              )}
+              type="button"
+              onClick={() => setView("preview")}
+            >
+              效果
+            </button>
+            <button
+              className={classNames(
+                "docs-demo-switch-button",
+                view === "source" && "is-active",
+              )}
+              type="button"
+              onClick={() => setView("source")}
+            >
+              源码
+            </button>
+          </div>
+        ) : null}
+      </div>
+
+      {view === "source" && props.code ? (
+        <CodeBlock>
+          <code className="language-tsx--meta-ln">{props.code}</code>
+        </CodeBlock>
+      ) : (
+        <div className="docs-demo-block-preview">{props.children}</div>
+      )}
+    </section>
+  );
+};
+
 export function DocView({ doc }: DocViewProps) {
-  const [expandedPanel, setExpandedPanel] = useState<ExpandedPanel>(null);
   const propGroups = useMemo(() => {
     const groups: Array<{ title: string; props: typeof doc.props }> = [];
 
@@ -70,136 +162,48 @@ export function DocView({ doc }: DocViewProps) {
     }));
   }, [doc.props]);
 
-  useEffect(() => {
-    setExpandedPanel(null);
-  }, [doc.id]);
-
-  const toggleExpandedPanel = (panel: Exclude<ExpandedPanel, null>) => {
-    setExpandedPanel((current) => (current === panel ? null : panel));
-  };
-
   return (
     <section
-      className={classNames(
-        "docs-section",
-        expandedPanel === "reference" && "is-reference-expanded",
-        expandedPanel === "preview" && "is-preview-expanded",
-      )}
+      className={classNames("docs-section", `docs-section--${doc.id}`)}
       id={doc.id}
     >
-      <div className="docs-reference">
-        <div className="docs-panel-toolbar">
-          <IconButton
-            className="docs-panel-action"
-            variant="ghost"
-            size="sm"
-            ariaLabel={
-              expandedPanel === "reference" ? "还原介绍卡片" : "展开介绍卡片"
-            }
-            aria-pressed={expandedPanel === "reference"}
-            icon={
-              expandedPanel === "reference" ? (
-                <ExitFullScreenIcon />
-              ) : (
-                <EnterFullScreenIcon />
-              )
-            }
-            onClick={() => toggleExpandedPanel("reference")}
-          />
-        </div>
-
+      <div className="docs-intro">
         <h2>{doc.name}</h2>
         <p className="docs-description">{doc.description}</p>
-
-        <div className="docs-code-block">
-          <div className="docs-panel-title">React 示例</div>
-          <CodeBlock>
-            <code className="language-tsx--meta-ln">{doc.code}</code>
-          </CodeBlock>
-        </div>
-
-        <div className="docs-props">
-          {propGroups.map((group, index) => (
-            <Fragment key={group.title}>
-              {index > 0 ? (
-                <Separator className="docs-props-separator" size="sm" />
-              ) : null}
-              <div className="docs-props-group">
-                <div className="docs-panel-title">{group.title}</div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>名称</th>
-                      <th>类型</th>
-                      <th>说明</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {group.props.map((prop) => (
-                      <tr key={prop.name}>
-                        <td>
-                          <div className="docs-prop-name-cell">
-                            <PropToken value={prop.name} kind="名称" />
-                            {prop.required ? (
-                              <Badge size="sm" tone="danger" variant="soft">
-                                必填
-                              </Badge>
-                            ) : null}
-                          </div>
-                        </td>
-                        <td>
-                          <PropToken value={prop.type} kind="类型" />
-                        </td>
-                        <td>{prop.description}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </Fragment>
-          ))}
-        </div>
       </div>
-      <div className="docs-preview">
-        <div className="docs-panel-toolbar">
-          <IconButton
-            className="docs-panel-action"
-            variant="ghost"
-            size="sm"
-            ariaLabel={
-              expandedPanel === "preview" ? "还原效果卡片" : "展开效果卡片"
-            }
-            aria-pressed={expandedPanel === "preview"}
-            icon={
-              expandedPanel === "preview" ? (
-                <ExitFullScreenIcon />
-              ) : (
-                <EnterFullScreenIcon />
-              )
-            }
-            onClick={() => toggleExpandedPanel("preview")}
-          />
-        </div>
 
-        <div className="docs-preview-inner">
-          <div className="docs-preview-primary">{doc.preview}</div>
+      <div className="docs-demos">
+        <DemoBlock title="基础示例" code={doc.code} primary>
+          {doc.preview}
+        </DemoBlock>
 
-          {doc.sections?.length ? (
-            <div className="docs-preview-sections">
-              {doc.sections.map((section) => (
-                <Fragment key={section.title}>
-                  <Separator className="docs-preview-separator" size="sm" />
-                  <section className="docs-preview-section">
-                    <div className="docs-panel-title">{section.title}</div>
-                    <div className="docs-preview-section-content">
-                      {section.content}
-                    </div>
-                  </section>
-                </Fragment>
-              ))}
+        {doc.sections?.map((section) => (
+          <DemoBlock
+            key={section.title}
+            title={section.title}
+            code={section.code}
+          >
+            {section.content}
+          </DemoBlock>
+        ))}
+      </div>
+
+      <div className="docs-props">
+        {propGroups.map((group, index) => (
+          <Fragment key={group.title}>
+            {index > 0 ? (
+              <Separator className="docs-props-separator" size="sm" />
+            ) : null}
+            <div className="docs-props-group">
+              <div className="docs-panel-title">{group.title}</div>
+              <Table
+                className="docs-props-table"
+                items={createPropTableItems(group.props)}
+                size="sm"
+              />
             </div>
-          ) : null}
-        </div>
+          </Fragment>
+        ))}
       </div>
     </section>
   );

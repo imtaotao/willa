@@ -40,8 +40,7 @@ const suggestions: Array<SuggestionChipItem> = [
 const frameStyle = {
   display: "grid",
   gap: "0.85rem",
-  width: "min(100%, 46rem)",
-  margin: "0 auto",
+  width: "min(100%, 56rem)",
   border: "1px solid var(--willa-line)",
   borderRadius: "0.9rem",
   background: "var(--willa-panel-bg)",
@@ -95,11 +94,35 @@ export default defineDoc({
       onSelect={(item) => {
         console.log(item.label);
       }}
-    />
+    />;
   `,
   sections: [
     {
       title: "多选模式",
+      code: `
+        <SuggestionChips
+          multiple
+          variant="outline"
+          defaultSelectedIds={["reason"]}
+          items={[
+            {
+              id: "reason",
+              label: "补充推理依据",
+              icon: <MagicWandIcon />,
+            },
+            {
+              id: "source",
+              label: "附带来源链接",
+              icon: <MagnifyingGlassIcon />,
+            },
+            {
+              id: "short",
+              label: "回答精简一点",
+              disabled: true,
+            },
+          ]}
+        />;
+      `,
       content: (
         <SuggestionChips
           multiple
@@ -127,6 +150,17 @@ export default defineDoc({
     },
     {
       title: "紧凑建议",
+      code: `
+        <SuggestionChips
+          size="sm"
+          items={[
+            { id: "translate", label: "翻译" },
+            { id: "rewrite", label: "润色" },
+            { id: "extract", label: "提取要点" },
+            { id: "compare", label: "对比差异" },
+          ]}
+        />;
+      `,
       content: (
         <SuggestionChips
           size="sm"

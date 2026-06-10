@@ -7,11 +7,12 @@ import "willa/ThinkingIndicator.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
+const assistantAvatarSrc = "https://github.com/openai.png";
+
 const frameStyle = {
   display: "grid",
   gap: "1rem",
-  width: "min(100%, 46rem)",
-  margin: "0 auto",
+  width: "min(100%, 58rem)",
   border: "1px solid var(--willa-line)",
   borderRadius: "0.9rem",
   background: "var(--willa-panel-bg)",
@@ -21,7 +22,12 @@ const frameStyle = {
 const ThinkingIndicatorPreview = () => {
   return (
     <div style={frameStyle}>
-      <ChatMessage role="assistant" name="Willa AI" meta="处理中">
+      <ChatMessage
+        role="assistant"
+        name="Willa AI"
+        avatarSrc={assistantAvatarSrc}
+        meta="处理中"
+      >
         <ThinkingIndicator
           collapsible
           defaultCollapsed
@@ -63,11 +69,23 @@ export default defineDoc({
       summary="AI 正在处理公开任务状态。"
       steps={["理解问题", "检索资料", "生成回答"]}
       activeStep={1}
-    />
+    />;
   `,
   sections: [
     {
       title: "折叠状态",
+      code: `
+        <ThinkingIndicator
+          collapsible
+          defaultCollapsed
+          status="working"
+          label="正在整理工具结果"
+          description="已读取相关文件，正在压缩成可展示的用户摘要。"
+          summary="中间处理过程默认隐藏。"
+          steps={["读取文件", "整理证据", "生成摘要"]}
+          activeStep={2}
+        />;
+      `,
       content: (
         <ThinkingIndicator
           collapsible
@@ -83,6 +101,24 @@ export default defineDoc({
     },
     {
       title: "状态类型",
+      code: `
+        <div style={{ display: "grid", gap: "0.75rem", minWidth: 0 }}>
+          <ThinkingIndicator status="thinking" />
+          <ThinkingIndicator
+            status="searching"
+            icon={<MagnifyingGlassIcon />}
+            label="正在检索知识库"
+            tone="accent"
+          />
+          <ThinkingIndicator
+            status="reading"
+            icon={<ReaderIcon />}
+            label="正在读取文件"
+            tone="warning"
+          />
+          <ThinkingIndicator status="generating" tone="success" />
+        </div>;
+      `,
       content: (
         <div style={{ display: "grid", gap: "0.75rem", minWidth: 0 }}>
           <ThinkingIndicator status="thinking" />
@@ -104,6 +140,14 @@ export default defineDoc({
     },
     {
       title: "轻量模式",
+      code: `
+        <ThinkingIndicator
+          compact
+          size="sm"
+          status="working"
+          label="正在整理工具返回结果"
+        />;
+      `,
       content: (
         <ThinkingIndicator
           compact

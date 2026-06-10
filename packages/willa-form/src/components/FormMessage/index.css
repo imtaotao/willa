@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   box-sizing: border-box;
+  width: 100%;
   max-width: 100%;
   align-items: flex-start;
   border: 1px solid var(--willa-form-message-border);

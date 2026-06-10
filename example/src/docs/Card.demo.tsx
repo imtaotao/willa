@@ -12,6 +12,7 @@ const cardGridStyle = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(14rem, 1fr))",
   gap: "0.9rem",
+  width: "min(100%, 56rem)",
 } as const;
 
 const mediaStyle = {
@@ -44,11 +45,33 @@ export default defineDoc({
       eyebrow="指南"
       title="构建内容组件"
       description="用统一的结构和主题变量组织文章页里的推荐资源。"
-    />
+    />;
   `,
   sections: [
     {
       title: "基础用法",
+      code: `
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(14rem, 1fr))",
+            gap: "0.9rem",
+          }}
+        >
+          <Card
+            eyebrow="指南"
+            title="内容组件边界"
+            description="把文章、文档和 MDX 页面中高频出现的结构沉淀成可复用组件。"
+            footer={<Badge tone="info">Docs</Badge>}
+          />
+          <Card
+            eyebrow="资源"
+            title="组件主题变量"
+            description="主题值集中在所属包里维护，结构样式保持可组合。"
+            footer="5 分钟阅读"
+          />
+        </div>;
+      `,
       content: (
         <div style={cardGridStyle}>
           <Card
@@ -68,6 +91,15 @@ export default defineDoc({
     },
     {
       title: "可点击卡片",
+      code: `
+        <Card
+          href="https://github.com"
+          target="_blank"
+          eyebrow={<Badge tone="success">推荐</Badge>}
+          title="查看项目仓库"
+          description="把整张卡片作为明确的链接入口。"
+        />;
+      `,
       content: (
         <Card
           href="https://github.com"
@@ -81,6 +113,31 @@ export default defineDoc({
     },
     {
       title: "视觉类型",
+      code: `
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(14rem, 1fr))",
+            gap: "0.9rem",
+          }}
+        >
+          <Card
+            variant="surface"
+            title="Surface"
+            description="带边框和轻阴影的默认卡片。"
+          />
+          <Card
+            variant="soft"
+            title="Soft"
+            description="更轻的色块卡片，适合嵌在正文中。"
+          />
+          <Card
+            variant="outline"
+            title="Outline"
+            description="只保留边框，适合密集列表。"
+          />
+        </div>;
+      `,
       content: (
         <div style={cardGridStyle}>
           <Card
@@ -103,6 +160,20 @@ export default defineDoc({
     },
     {
       title: "组合内容",
+      code: `
+        <Card
+          padding="lg"
+          eyebrow={<Badge tone="warning">Preview</Badge>}
+          title="面向内容页的组合卡片"
+          description="Card 可以和 Badge、Button、媒体区域组合。"
+          footer="更新于今天"
+          actions={
+            <Button size="sm" variant="outline">
+              收藏
+            </Button>
+          }
+        />;
+      `,
       content: (
         <Card
           padding="lg"

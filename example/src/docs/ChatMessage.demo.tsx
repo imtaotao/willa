@@ -6,11 +6,15 @@ import "willa/MessageActions.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
+const userAvatarSrc = "https://github.com/imtaotao.png";
+const assistantAvatarSrc = "https://github.com/openai.png";
+const developerAvatarSrc = "https://github.com/vercel.png";
+const toolAvatarSrc = "https://github.com/github.png";
+
 const chatFrameStyle = {
   display: "grid",
   gap: "1rem",
-  width: "min(100%, 48rem)",
-  margin: "0 auto",
+  width: "min(100%, 58rem)",
   border: "1px solid var(--willa-line)",
   borderRadius: "0.9rem",
   background: "var(--willa-panel-bg)",
@@ -20,15 +24,28 @@ const chatFrameStyle = {
 const ChatMessagePreview = () => {
   return (
     <div style={chatFrameStyle}>
-      <ChatMessage role="assistant" name="Willa AI" meta="准备就绪" compact>
+      <ChatMessage
+        role="assistant"
+        name="Willa AI"
+        avatarSrc={assistantAvatarSrc}
+        meta="准备就绪"
+        compact
+      >
         你可以把产品反馈、会议纪要或用户访谈贴进来，我会帮你整理结构。
       </ChatMessage>
-      <ChatMessage role="user" meta="刚刚">
+      <ChatMessage
+        role="user"
+        showAvatar
+        avatarSrc={userAvatarSrc}
+        avatarAlt="imtaotao"
+        meta="刚刚"
+      >
         帮我把这段产品反馈整理成三个优先级。
       </ChatMessage>
       <ChatMessage
         role="assistant"
         name="Willa AI"
+        avatarSrc={assistantAvatarSrc}
         meta="已生成"
         actions={
           <MessageActions
@@ -63,31 +80,95 @@ export default defineDoc({
     import { ChatMessage } from "willa/ChatMessage";
     import "willa/ChatMessage.css";
 
-    <ChatMessage role="assistant" name="Willa AI" meta="已生成">
+    <ChatMessage
+      role="assistant"
+      name="Willa AI"
+      avatarSrc="https://github.com/openai.png"
+      meta="已生成"
+    >
       <p>可以先按影响面、紧急程度和实现成本拆分。</p>
       <p>我建议优先处理登录失败，其次是批量导出。</p>
-    </ChatMessage>
+    </ChatMessage>;
   `,
   sections: [
     {
       title: "完整角色",
-      content: (
+      code: `
         <div style={chatFrameStyle}>
           <ChatMessage role="system" compact>
             系统策略已加载，会优先使用仓库内组件规范。
           </ChatMessage>
-          <ChatMessage role="developer" meta="约束">
+          <ChatMessage
+            role="developer"
+            avatarSrc="https://github.com/vercel.png"
+            meta="约束"
+          >
             回答必须包含改动范围、验证命令和剩余风险。
           </ChatMessage>
-          <ChatMessage role="user" meta="09:41">
+          <ChatMessage
+            role="user"
+            showAvatar
+            avatarSrc="https://github.com/imtaotao.png"
+            avatarAlt="imtaotao"
+            meta="09:41"
+          >
             检查一下这个组件为什么样式没有生效。
           </ChatMessage>
-          <ChatMessage role="assistant" name="Willa AI" meta="09:42">
+          <ChatMessage
+            role="assistant"
+            name="Willa AI"
+            avatarSrc="https://github.com/openai.png"
+            meta="09:42"
+          >
             我会先确认入口导出、CSS 依赖和示例站实际 import 路径。
           </ChatMessage>
           <ChatMessage
             role="tool"
             name="构建检查"
+            avatarSrc="https://github.com/github.png"
+            status={
+              <>
+                <CheckIcon /> 通过
+              </>
+            }
+          >
+            \`pnpm run build\` 已生成 ChatMessage 的 CSS 产物。
+          </ChatMessage>
+        </div>;
+      `,
+      content: (
+        <div style={chatFrameStyle}>
+          <ChatMessage role="system" compact>
+            系统策略已加载，会优先使用仓库内组件规范。
+          </ChatMessage>
+          <ChatMessage
+            role="developer"
+            avatarSrc={developerAvatarSrc}
+            meta="约束"
+          >
+            回答必须包含改动范围、验证命令和剩余风险。
+          </ChatMessage>
+          <ChatMessage
+            role="user"
+            showAvatar
+            avatarSrc={userAvatarSrc}
+            avatarAlt="imtaotao"
+            meta="09:41"
+          >
+            检查一下这个组件为什么样式没有生效。
+          </ChatMessage>
+          <ChatMessage
+            role="assistant"
+            name="Willa AI"
+            avatarSrc={assistantAvatarSrc}
+            meta="09:42"
+          >
+            我会先确认入口导出、CSS 依赖和示例站实际 import 路径。
+          </ChatMessage>
+          <ChatMessage
+            role="tool"
+            name="构建检查"
+            avatarSrc={toolAvatarSrc}
             status={
               <>
                 <CheckIcon /> 通过
@@ -101,6 +182,26 @@ export default defineDoc({
     },
     {
       title: "状态与工具消息",
+      code: `
+        <div style={chatFrameStyle}>
+          <ChatMessage role="system" compact>
+            模型已切换到更适合长上下文的配置。
+          </ChatMessage>
+          <ChatMessage
+            role="tool"
+            name="文件检索"
+            avatarSrc="https://github.com/github.png"
+            status={
+              <>
+                <CheckIcon /> 已完成
+              </>
+            }
+            footer="读取 4 个文件，用时 1.2s"
+          >
+            已命中 architecture.md、component.md 和 css.md 中的相关规则。
+          </ChatMessage>
+        </div>;
+      `,
       content: (
         <div style={chatFrameStyle}>
           <ChatMessage role="system" compact>
@@ -109,6 +210,7 @@ export default defineDoc({
           <ChatMessage
             role="tool"
             name="文件检索"
+            avatarSrc={toolAvatarSrc}
             status={
               <>
                 <CheckIcon /> 已完成

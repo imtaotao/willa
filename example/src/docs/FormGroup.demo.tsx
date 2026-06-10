@@ -67,11 +67,38 @@ export default defineDoc({
       <FormField label="工作区名称">
         <Input defaultValue="Willa AI" />
       </FormField>
-    </FormGroup>
+    </FormGroup>;
   `,
   sections: [
     {
       title: "完整表单",
+      code: `
+        <Form
+          actions={
+            <FormActions>
+              <Button variant="ghost">取消</Button>
+              <Button type="submit">保存</Button>
+            </FormActions>
+          }
+        >
+          <FormGroup
+            title="模型配置"
+            description="适合产品设置、AI 参数和后台筛选场景。"
+          >
+            <FormField label="配置名称" required>
+              <Input defaultValue="内容生成助手" width="100%" />
+            </FormField>
+            <FormField label="默认模型">
+              <Select defaultValue="balanced" options={modelOptions} width="100%" />
+            </FormField>
+            <Checkbox
+              defaultChecked
+              label="允许联网检索"
+              description="启用后会在回答前检索公开资料。"
+            />
+          </FormGroup>
+        </Form>;
+      `,
       content: (
         <Form
           actions={
@@ -106,6 +133,16 @@ export default defineDoc({
     },
     {
       title: "双列布局",
+      code: `
+        <FormGroup title="基础信息" columns={2}>
+          <FormField label="项目名">
+            <Input placeholder="项目名" width="100%" />
+          </FormField>
+          <FormField label="负责人">
+            <Input placeholder="负责人" width="100%" />
+          </FormField>
+        </FormGroup>;
+      `,
       content: (
         <FormGroup title="基础信息" columns={2}>
           <FormField label="项目名">

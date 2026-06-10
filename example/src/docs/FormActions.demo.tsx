@@ -16,7 +16,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const stackStyle = {
   display: "grid",
   gap: "1rem",
-  maxWidth: "34rem",
+  maxWidth: "42rem",
 } as const;
 
 export default defineDoc({
@@ -55,11 +55,27 @@ export default defineDoc({
     <FormActions gap="md">
       <Button variant="ghost">取消</Button>
       <Button type="submit">保存</Button>
-    </FormActions>
+    </FormActions>;
   `,
   sections: [
     {
       title: "对齐方式",
+      code: `
+        <div style={stackStyle}>
+          <FormActions align="start">
+            <Button size="sm">保存</Button>
+            <Button size="sm" variant="ghost">
+              取消
+            </Button>
+          </FormActions>
+          <FormActions align="between">
+            <Button size="sm" variant="ghost">
+              删除
+            </Button>
+            <Button size="sm">保存</Button>
+          </FormActions>
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <FormActions align="start">
@@ -79,6 +95,29 @@ export default defineDoc({
     },
     {
       title: "图标操作",
+      code: `
+        <FormActions align="start" gap="xs">
+          <IconButton
+            icon={<ReloadIcon />}
+            ariaLabel="重新加载"
+            size="sm"
+            variant="ghost"
+          />
+          <IconButton
+            icon={<DownloadIcon />}
+            ariaLabel="下载"
+            size="sm"
+            variant="ghost"
+          />
+          <IconButton icon={<CheckIcon />} ariaLabel="确认" size="sm" variant="ghost" />
+          <IconButton
+            icon={<Cross2Icon />}
+            ariaLabel="关闭"
+            size="sm"
+            variant="ghost"
+          />
+        </FormActions>;
+      `,
       content: (
         <FormActions align="start" gap="xs">
           <IconButton
@@ -110,6 +149,12 @@ export default defineDoc({
     },
     {
       title: "纵向布局",
+      code: `
+        <FormActions direction="column">
+          <Button>确认提交</Button>
+          <Button variant="outline">稍后再说</Button>
+        </FormActions>;
+      `,
       content: (
         <FormActions direction="column">
           <Button>确认提交</Button>

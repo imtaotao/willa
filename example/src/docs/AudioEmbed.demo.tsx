@@ -3,6 +3,24 @@ import "willa/AudioEmbed.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
+const previewStyle = {
+  width: "min(100%, 48rem)",
+  margin: "0 auto",
+} as const;
+
+const AudioEmbedPreview = () => (
+  <div style={previewStyle}>
+    <AudioEmbed
+      title="音乐片段"
+      description="来自网易云音乐的外链音频示例。"
+      provider="网易云音乐"
+      volume={0.4}
+      src="http://music.163.com/song/media/outer/url?id=3370714076.mp3"
+      href="http://music.163.com/song?id=3370714076"
+    />
+  </div>
+);
+
 export default defineDoc({
   id: "audio-embed",
   name: "AudioEmbed",
@@ -11,17 +29,22 @@ export default defineDoc({
   imports: [{ name: "AudioEmbed", from: "willa/AudioEmbed" }],
   css: "willa/AudioEmbed.css",
   demo: {
-    name: "AudioEmbed",
-    component: AudioEmbed,
-    props: {
-      title: "音乐片段",
-      description: "来自网易云音乐的外链音频示例。",
-      provider: "网易云音乐",
-      volume: 0.4,
-      src: "http://music.163.com/song/media/outer/url?id=3370714076.mp3",
-      href: "http://music.163.com/song?id=3370714076",
-    },
+    name: "AudioEmbedPreview",
+    component: AudioEmbedPreview,
   },
+  code: `
+    import { AudioEmbed } from "willa/AudioEmbed";
+    import "willa/AudioEmbed.css";
+
+    <AudioEmbed
+      title="音乐片段"
+      description="来自网易云音乐的外链音频示例。"
+      provider="网易云音乐"
+      volume={0.4}
+      src="http://music.163.com/song/media/outer/url?id=3370714076.mp3"
+      href="http://music.163.com/song?id=3370714076"
+    />;
+  `,
   props: [
     {
       name: "title",

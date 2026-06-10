@@ -39,11 +39,20 @@ export default defineDoc({
 
     <Badge tone="info" icon={<RocketIcon />}>
       新功能
-    </Badge>
+    </Badge>;
   `,
   sections: [
     {
       title: "语义类型",
+      code: `
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+          <Badge>默认</Badge>
+          <Badge tone="info">文档</Badge>
+          <Badge tone="success">已发布</Badge>
+          <Badge tone="warning">实验性</Badge>
+          <Badge tone="danger">已废弃</Badge>
+        </div>;
+      `,
       content: (
         <div style={badgeRowStyle}>
           <Badge>默认</Badge>
@@ -56,6 +65,19 @@ export default defineDoc({
     },
     {
       title: "视觉类型",
+      code: `
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+          <Badge tone="info" variant="soft">
+            Soft
+          </Badge>
+          <Badge tone="info" variant="outline">
+            Outline
+          </Badge>
+          <Badge tone="info" variant="solid">
+            Solid
+          </Badge>
+        </div>;
+      `,
       content: (
         <div style={badgeRowStyle}>
           <Badge tone="info" variant="soft">
@@ -72,6 +94,25 @@ export default defineDoc({
     },
     {
       title: "尺寸和图标",
+      code: `
+        import {
+          CheckCircledIcon,
+          ClockIcon,
+          ExclamationTriangleIcon,
+        } from "@radix-ui/react-icons";
+
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+          <Badge size="sm" tone="success" icon={<CheckCircledIcon />}>
+            稳定
+          </Badge>
+          <Badge size="md" tone="warning" icon={<ExclamationTriangleIcon />}>
+            Beta
+          </Badge>
+          <Badge tone="neutral" trailingIcon={<ClockIcon />}>
+            3 分钟阅读
+          </Badge>
+        </div>;
+      `,
       content: (
         <div style={badgeRowStyle}>
           <Badge size="sm" tone="success" icon={<CheckCircledIcon />}>
@@ -88,6 +129,18 @@ export default defineDoc({
     },
     {
       title: "常见组合",
+      code: `
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+          <Badge tone="info">v0.3</Badge>
+          <Badge tone="success">推荐</Badge>
+          <Badge tone="warning" variant="outline">
+            Preview
+          </Badge>
+          <Badge tone="danger" variant="soft">
+            Breaking
+          </Badge>
+        </div>;
+      `,
       content: (
         <div style={badgeRowStyle}>
           <Badge tone="info">v0.3</Badge>

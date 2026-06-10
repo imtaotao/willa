@@ -5,7 +5,7 @@ import {
   resolveMediaAsset,
   resolveMediaVolume,
   type MediaContextProps,
-} from "#content/media";
+} from "@willa-ui/content/media";
 
 export type VideoEmbedProps = MediaContextProps & {
   href?: string;

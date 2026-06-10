@@ -26,19 +26,32 @@ export default defineDoc({
     import { Separator } from "willa/Separator";
     import "willa/Separator.css";
 
-    <Separator />
+    <Separator />;
   `,
   sections: [
     {
       title: "基础分隔",
+      code: `
+        <Separator />;
+      `,
       content: <Separator />,
     },
     {
       title: "带文案",
+      code: `
+        <Separator>相关阅读</Separator>;
+      `,
       content: <Separator>相关阅读</Separator>,
     },
     {
       title: "文案位置",
+      code: `
+        <div style={{ display: "grid", gap: "0.2rem" }}>
+          <Separator align="start">上文</Separator>
+          <Separator align="center">更多内容</Separator>
+          <Separator align="end">下文</Separator>
+        </div>;
+      `,
       content: (
         <div style={{ display: "grid", gap: "0.2rem" }}>
           <Separator align="start">上文</Separator>
@@ -49,6 +62,15 @@ export default defineDoc({
     },
     {
       title: "间距尺寸",
+      code: `
+        <div>
+          <p>第一段内容。</p>
+          <Separator size="sm" />
+          <p>第二段内容。</p>
+          <Separator size="lg" />
+          <p>第三段内容。</p>
+        </div>;
+      `,
       content: (
         <div>
           <p>第一段内容。</p>
@@ -61,6 +83,15 @@ export default defineDoc({
     },
     {
       title: "竖向分隔",
+      code: `
+        <div style={metaRowStyle}>
+          <span>Willa</span>
+          <Separator orientation="vertical" />
+          <span>3 分钟阅读</span>
+          <Separator orientation="vertical" />
+          <span>2026</span>
+        </div>;
+      `,
       content: (
         <div style={metaRowStyle}>
           <span>Willa</span>

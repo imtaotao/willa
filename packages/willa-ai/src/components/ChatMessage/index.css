@@ -5,7 +5,7 @@
   min-width: 0;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: flex-start;
-  gap: 0.7rem;
+  gap: 0.82rem;
   color: var(--willa-chat-message-text);
   font-family: var(--willa-body-font);
 }
@@ -35,7 +35,7 @@
   width: fit-content;
   max-width: min(100%, 42rem);
   min-width: 0;
-  gap: 0.42rem;
+  gap: 0.48rem;
 }
 
 .willa-chat-message--compact .willa-chat-message-body {
@@ -65,8 +65,8 @@
   min-width: 0;
   overflow: hidden;
   color: var(--willa-chat-message-name);
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.82rem;
+  font-weight: 700;
   line-height: 1.35;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -101,34 +101,21 @@
 }
 
 .willa-chat-message-content {
-  position: relative;
   box-sizing: border-box;
   min-width: 0;
-  padding: 0.7rem 0.86rem;
+  padding: 0.9rem 1.02rem;
   border: 1px solid var(--willa-chat-message-border);
-  border-radius: 0.72rem;
+  border-radius: 0.82rem;
   background: var(--willa-chat-message-bg);
   box-shadow: var(--willa-chat-message-shadow);
   color: var(--willa-chat-message-text);
-  font-size: 0.92rem;
+  font-size: 0.94rem;
   line-height: 1.68;
 }
 
-.willa-chat-message-content::before {
-  position: absolute;
-  top: 0.7rem;
-  bottom: auto;
-  left: 0;
-  width: 2px;
-  height: 1.15rem;
-  border-radius: 999px;
-  background: var(--willa-chat-message-accent);
-  content: "";
-}
-
 .willa-chat-message--compact .willa-chat-message-content {
-  padding: 0.56rem 0.72rem;
-  border-radius: 0.65rem;
+  padding: 0.62rem 0.78rem;
+  border-radius: 0.66rem;
   font-size: 0.88rem;
   line-height: 1.58;
 }
@@ -155,15 +142,9 @@
 }
 
 .willa-chat-message--user .willa-chat-message-content {
-  padding: 0.7rem 0.88rem;
+  padding: 0.9rem 1.02rem;
   border-color: var(--willa-chat-message-user-border);
   background: var(--willa-chat-message-user-bg);
-}
-
-.willa-chat-message--user .willa-chat-message-content::before {
-  right: 0;
-  left: auto;
-  background: var(--willa-chat-message-user-accent);
 }
 
 .willa-chat-message--system .willa-chat-message-body {
@@ -172,15 +153,13 @@
 }
 
 .willa-chat-message--system .willa-chat-message-content {
-  padding: 0.48rem 0.72rem;
-  border-color: var(--willa-chat-message-system-border);
-  background: var(--willa-chat-message-system-bg);
+  padding: 0.2rem 0;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
   color: var(--willa-chat-message-system-text);
+  font-size: 0.84rem;
   text-align: center;
-}
-
-.willa-chat-message--system .willa-chat-message-content::before {
-  display: none;
 }
 
 .willa-chat-message--developer .willa-chat-message-content {
@@ -190,18 +169,10 @@
   color: var(--willa-chat-message-developer-text);
 }
 
-.willa-chat-message--developer .willa-chat-message-content::before {
-  display: none;
-}
-
 .willa-chat-message--tool .willa-chat-message-content {
   padding: 0.72rem 0.86rem;
   border-color: var(--willa-chat-message-tool-border);
   background: var(--willa-chat-message-tool-bg);
-}
-
-.willa-chat-message--tool .willa-chat-message-content::before {
-  display: none;
 }
 
 .willa-chat-message-footer {
@@ -223,7 +194,7 @@
 
   .willa-chat-message-content {
     padding: 0.64rem 0.76rem;
-    border-radius: 0.68rem;
+    border-radius: 0.66rem;
     font-size: 0.88rem;
     line-height: 1.6;
   }

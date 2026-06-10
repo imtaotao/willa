@@ -62,11 +62,32 @@ export default defineDoc({
       name="Tao Tao"
       alt="Tao Tao"
       previewable
-    />
+    />;
   `,
   sections: [
     {
       title: "悬浮信息",
+      code: `
+        <div style={avatarRowStyle}>
+          <Avatar
+            src="https://github.com/imtaotao.png"
+            name="Tao Tao"
+            alt="Tao Tao"
+            hoverCard={
+              <div style={profileCardStyle}>
+                <strong style={profileNameStyle}>Tao Tao</strong>
+                <span style={profileMetaStyle}>
+                  Willa 组件库维护者，关注内容平台和文档体验。
+                </span>
+                <span style={profileStatStyle}>
+                  <span>128 篇文章</span>
+                  <span>4.8k 关注</span>
+                </span>
+              </div>
+            }
+          />
+        </div>;
+      `,
       content: (
         <div style={avatarRowStyle}>
           <Avatar
@@ -91,6 +112,24 @@ export default defineDoc({
     },
     {
       title: "点击预览和跳转",
+      code: `
+        <div style={avatarRowStyle}>
+          <Avatar
+            src="https://github.com/imtaotao.png"
+            name="Tao Tao"
+            alt="点击预览头像"
+            previewable
+          />
+          <Avatar
+            src="https://github.com/github.png"
+            name="GitHub"
+            alt="打开 GitHub"
+            href="https://github.com"
+            target="_blank"
+          />
+          <Avatar name="Hover Only" hoverable />
+        </div>;
+      `,
       content: (
         <div style={avatarRowStyle}>
           <Avatar
@@ -112,6 +151,14 @@ export default defineDoc({
     },
     {
       title: "图片和文本",
+      code: `
+        <div style={avatarRowStyle}>
+          <Avatar src="https://github.com/imtaotao.png" name="Tao Tao" alt="Tao Tao" />
+          <Avatar name="Willa UI" />
+          <Avatar name="Content Author" alt="文档作者" />
+          <Avatar src="https://example.invalid/avatar.png" name="Broken Image" />
+        </div>;
+      `,
       content: (
         <div style={avatarRowStyle}>
           <Avatar
@@ -130,6 +177,14 @@ export default defineDoc({
     },
     {
       title: "尺寸",
+      code: `
+        <div style={avatarRowStyle}>
+          <Avatar name="Small" size="sm" />
+          <Avatar name="Medium" size="md" />
+          <Avatar name="Large" size="lg" />
+          <Avatar name="Extra Large" size="xl" />
+        </div>;
+      `,
       content: (
         <div style={avatarRowStyle}>
           <Avatar name="Small" size="sm" />
@@ -141,6 +196,13 @@ export default defineDoc({
     },
     {
       title: "形状",
+      code: `
+        <div style={avatarRowStyle}>
+          <Avatar name="Circle" shape="circle" />
+          <Avatar name="Rounded" shape="rounded" />
+          <Avatar name="Square" shape="square" />
+        </div>;
+      `,
       content: (
         <div style={avatarRowStyle}>
           <Avatar name="Circle" shape="circle" />
@@ -151,6 +213,12 @@ export default defineDoc({
     },
     {
       title: "自定义颜色",
+      code: `
+        <div style={avatarRowStyle}>
+          <Avatar backgroundColor="#f6e7c8" name="Warm Author" textColor="#3f2a12" />
+          <Avatar backgroundColor="rgba(96, 165, 250, 0.14)" name="Blue Writer" />
+        </div>;
+      `,
       content: (
         <div style={avatarRowStyle}>
           <Avatar

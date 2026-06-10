@@ -1,7 +1,9 @@
 .willa-form-group {
   display: grid;
   box-sizing: border-box;
+  width: 100%;
   min-width: 0;
+  max-width: 100%;
   margin: 0;
   border: 0;
   color: var(--willa-form-text);

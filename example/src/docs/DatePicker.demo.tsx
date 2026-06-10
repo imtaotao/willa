@@ -19,7 +19,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const stackStyle: CSSProperties = {
   display: "grid",
   gap: "0.76rem",
-  maxWidth: "28rem",
+  maxWidth: "42rem",
 };
 
 const gridStyle: CSSProperties = {
@@ -82,6 +82,34 @@ export default defineDoc({
   sections: [
     {
       title: "粒度切换",
+      code: `
+        <div style={gridStyle}>
+          <DatePicker
+            mode="day"
+            defaultValue="2026-06-10"
+            width="100%"
+            aria-label="选择日期"
+          />
+          <DatePicker
+            mode="week"
+            defaultValue="2026-06-07"
+            width="100%"
+            aria-label="选择周"
+          />
+          <DatePicker
+            mode="month"
+            defaultValue="2026-06"
+            width="100%"
+            aria-label="选择月份"
+          />
+          <DatePicker
+            mode="year"
+            defaultValue="2026"
+            width="100%"
+            aria-label="选择年份"
+          />
+        </div>;
+      `,
       content: (
         <div style={gridStyle}>
           <DatePicker
@@ -113,6 +141,24 @@ export default defineDoc({
     },
     {
       title: "范围选择",
+      code: `
+        <div style={stackStyle}>
+          <DatePicker
+            range
+            mode="day"
+            defaultValue={{ start: "2026-06-10", end: "2026-06-18" }}
+            width="100%"
+            aria-label="选择日期范围"
+          />
+          <DatePicker
+            range
+            mode="week"
+            defaultValue={{ start: "2026-06-07", end: "2026-06-21" }}
+            width="100%"
+            aria-label="选择周范围"
+          />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <DatePicker
@@ -134,6 +180,31 @@ export default defineDoc({
     },
     {
       title: "滚动选择",
+      code: `
+        <div style={stackStyle}>
+          <DatePicker
+            picker="wheel"
+            wheelColumns="date"
+            defaultValue="2026-06-10"
+            width="100%"
+            aria-label="滚动选择年月日"
+          />
+          <DatePicker
+            picker="wheel"
+            wheelColumns="time"
+            defaultValue="09:30:00"
+            width="100%"
+            aria-label="滚动选择时分秒"
+          />
+          <DatePicker
+            picker="wheel"
+            wheelColumns="datetime"
+            defaultValue="2026-06-10 09:30:00"
+            width="100%"
+            aria-label="滚动选择日期时间"
+          />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <DatePicker
@@ -162,6 +233,30 @@ export default defineDoc({
     },
     {
       title: "表单内使用",
+      code: `
+        <Form
+          actions={
+            <FormActions>
+              <Button variant="ghost">取消</Button>
+              <Button type="submit">保存</Button>
+            </FormActions>
+          }
+        >
+          <FormGroup title="报表周期">
+            <FormField label="月份范围" required>
+              <DatePicker
+                range
+                name="reportRange"
+                defaultValue={{ start: "2026-06", end: "2026-09" }}
+                width="100%"
+              />
+            </FormField>
+            <FormMessage tone="info">
+              默认按月份选择，提交值会序列化为 start,end。
+            </FormMessage>
+          </FormGroup>
+        </Form>;
+      `,
       content: (
         <Form
           actions={
@@ -189,6 +284,26 @@ export default defineDoc({
     },
     {
       title: "范围限制",
+      code: `
+        <div style={stackStyle}>
+          <DatePicker
+            defaultValue="2026-06"
+            min="2026-04"
+            max="2026-12"
+            width="100%"
+          />
+          <DatePicker
+            mode="day"
+            placeholder="仅工作日可选"
+            disabledDate={(value) => {
+              const day = new Date(\`\${value}T00:00:00\`).getDay();
+
+              return day === 0 || day === 6;
+            }}
+            width="100%"
+          />
+        </div>
+      `,
       content: (
         <div style={stackStyle}>
           <DatePicker
@@ -212,6 +327,13 @@ export default defineDoc({
     },
     {
       title: "尺寸",
+      code: `
+        <div style={stackStyle}>
+          <DatePicker size="sm" defaultValue="2026-06" />
+          <DatePicker size="md" defaultValue="2026-06" />
+          <DatePicker size="lg" defaultValue="2026-06" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <DatePicker size="sm" defaultValue="2026-06" />

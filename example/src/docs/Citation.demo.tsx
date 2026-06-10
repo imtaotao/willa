@@ -14,8 +14,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const frameStyle = {
   display: "grid",
   gap: "1rem",
-  width: "min(100%, 46rem)",
-  margin: "0 auto",
+  width: "min(100%, 56rem)",
   border: "1px solid var(--willa-line)",
   borderRadius: "0.9rem",
   background: "var(--willa-panel-bg)",
@@ -81,11 +80,31 @@ export default defineDoc({
         tone="info"
         href="#"
       />
-    </p>
+    </p>;
   `,
   sections: [
     {
       title: "引用状态",
+      code: `
+        <Group gap="sm" wrap>
+          <Citation label="来源 1" source="component.md" index="1" href="#" />
+          <Citation
+            label="已核验"
+            source="architecture.md"
+            index={<CheckIcon />}
+            status="可信"
+            tone="success"
+            selected
+          />
+          <Citation
+            label="需要确认"
+            source="support-log.json"
+            index="3"
+            status="待核验"
+            tone="warning"
+          />
+        </Group>;
+      `,
       content: (
         <Group gap="sm" wrap>
           <Citation label="来源 1" source="component.md" index="1" href="#" />
@@ -109,6 +128,17 @@ export default defineDoc({
     },
     {
       title: "链接来源",
+      code: `
+        <Group gap="sm" wrap>
+          <Citation href="https://openai.com/research" index="1" />
+          <Citation
+            href="https://github.com/openai"
+            source="GitHub"
+            index="2"
+            tone="info"
+          />
+        </Group>;
+      `,
       content: (
         <Group gap="sm" wrap>
           <Citation href="https://openai.com/research" index="1" />
@@ -123,6 +153,17 @@ export default defineDoc({
     },
     {
       title: "带摘要",
+      code: `
+        <Citation
+          label="上下文命中"
+          source="AI 组件规划"
+          icon={<MagnifyingGlassIcon />}
+          tone="info"
+          href="#"
+        >
+          命中 ChatMessage、MessageList 和 SourceCard 相关规则。
+        </Citation>;
+      `,
       content: (
         <Citation
           label="上下文命中"
@@ -131,12 +172,32 @@ export default defineDoc({
           tone="info"
           href="#"
         >
-          命中 ChatLayout、MessageList 和 SourceCard 相关规则。
+          命中 ChatMessage、MessageList 和 SourceCard 相关规则。
         </Citation>
       ),
     },
     {
       title: "尺寸",
+      code: `
+        <Group gap="xs" wrap>
+          <Citation size="xs" label="正文引用" source="component.md" index="A" />
+          <Citation size="sm" label="来源标签" source="css.md" index="B" />
+          <Citation
+            size="md"
+            label="证据入口"
+            source="architecture.md"
+            icon={<FileTextIcon />}
+            tone="info"
+          />
+          <Citation
+            size="lg"
+            label="重点证据"
+            source="audit-log.json"
+            status="可信"
+            tone="success"
+          />
+        </Group>;
+      `,
       content: (
         <Group gap="xs" wrap>
           <Citation

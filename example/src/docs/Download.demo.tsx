@@ -46,11 +46,18 @@ export default defineDoc({
       href="/files/product-brief.txt"
       name="product-brief.txt"
       meta="2 KB"
-    />
+    />;
   `,
   sections: [
     {
       title: "附件下载",
+      code: `
+        <div style={stackStyle}>
+          <Download href={demoFileHref} name="feedback.csv" meta="12 KB" />
+          <Download href={demoFileHref} name="roadmap.md" meta="Markdown" />
+          <Download href={demoFileHref} name="report.pdf" meta="428 KB" />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <Download href={demoFileHref} name="feedback.csv" meta="12 KB" />
@@ -61,6 +68,24 @@ export default defineDoc({
     },
     {
       title: "按钮形态",
+      code: `
+        <div style={stackStyle}>
+          <Download
+            href={demoFileHref}
+            name="下载报告"
+            downloadName="report.pdf"
+            variant="button"
+            size="md"
+          />
+          <Download
+            href={demoFileHref}
+            name="不可下载"
+            variant="button"
+            size="md"
+            disabled
+          />
+        </div>;
+      `,
       content: (
         <div style={stackStyle}>
           <Download
@@ -82,6 +107,9 @@ export default defineDoc({
     },
     {
       title: "纯文本形态",
+      code: `
+        <Download href={demoFileHref} name="下载原始数据" meta="CSV" variant="plain" />;
+      `,
       content: (
         <Download
           href={demoFileHref}

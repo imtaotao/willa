@@ -14,6 +14,7 @@ export type EmptyStateProps = {
   variant?: EmptyStateVariant;
   size?: EmptyStateSize;
   align?: EmptyStateAlign;
+  compact?: boolean;
   className?: string;
   children?: ReactNode;
 } & Omit<HTMLAttributes<HTMLElement>, "title">;
@@ -28,6 +29,7 @@ export function EmptyState(props: EmptyStateProps) {
     variant = "soft",
     size = "md",
     align = "center",
+    compact = false,
     className,
     children,
     ...sectionProps
@@ -41,6 +43,7 @@ export function EmptyState(props: EmptyStateProps) {
         `willa-empty-state--${variant}`,
         `willa-empty-state--${size}`,
         `willa-empty-state--${align}`,
+        compact && "willa-empty-state--compact",
         className,
       )}
     >

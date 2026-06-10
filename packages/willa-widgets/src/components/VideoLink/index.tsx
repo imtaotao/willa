@@ -8,7 +8,7 @@ import {
   resolveMediaVolume,
   renderMediaLinkContent,
   type MediaContextProps,
-} from "#content/media";
+} from "@willa-ui/content/media";
 
 export type VideoLinkProps = MediaContextProps & {
   href?: string;

@@ -155,29 +155,119 @@ export default defineDoc({
     });
 
     <>
-      <Button onClick={() => toast.success("默认提示")}>
-        默认实例
-      </Button>
-      <Button onClick={() => compactToast.info("配置后的提示")}>
-        配置实例
-      </Button>
-    </>
+      <Button onClick={() => toast.success("默认提示")}>默认实例</Button>
+      <Button onClick={() => compactToast.info("配置后的提示")}>配置实例</Button>
+    </>;
   `,
   sections: [
     {
       title: "带操作",
+      code: `
+        import { Button } from "willa/Button";
+        import { toast } from "willa/Toast";
+        import "willa/Button.css";
+        import "willa/Toast.css";
+
+        <Button
+          variant="soft"
+          onClick={() => {
+            toast.info("草稿已归档", {
+              action: {
+                label: "撤销",
+                onClick: () => toast.success("已撤销归档"),
+              },
+            });
+          }}
+        >
+          显示操作
+        </Button>;
+      `,
       content: <ActionToastDemo />,
     },
     {
       title: "常驻提示",
+      code: `
+        import { Button } from "willa/Button";
+        import { toast } from "willa/Toast";
+        import "willa/Button.css";
+        import "willa/Toast.css";
+
+        <Button
+          variant="outline"
+          onClick={() => {
+            toast.warning("同步仍在进行", {
+              description: "这个提示不会自动关闭。",
+              duration: false,
+            });
+          }}
+        >
+          常驻提示
+        </Button>;
+      `,
       content: <PersistentToastDemo />,
     },
     {
       title: "配置 ToastConfig",
+      code: `
+        import { Button } from "willa/Button";
+        import { createToast } from "willa/Toast";
+        import "willa/Button.css";
+        import "willa/Toast.css";
+
+        const topToast = createToast({
+          placement: "top",
+          duration: 1600,
+          maxToasts: 2,
+        });
+
+        const bottomRightToast = createToast({
+          placement: "bottom-right",
+        });
+
+        <>
+          <Button
+            variant="soft"
+            onClick={() => {
+              topToast.info("顶部居中", {
+                description: "这个提示会更快关闭。",
+              });
+            }}
+          >
+            顶部配置
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              bottomRightToast.success("右下角提示");
+            }}
+          >
+            右下角配置
+          </Button>
+        </>;
+      `,
       content: <ToastConfigDemo />,
     },
     {
       title: "底部展示",
+      code: `
+        import { Button } from "willa/Button";
+        import { createToast } from "willa/Toast";
+        import "willa/Button.css";
+        import "willa/Toast.css";
+
+        const bottomToast = createToast({
+          placement: "bottom",
+        });
+
+        <Button
+          variant="soft"
+          onClick={() => {
+            bottomToast.info("会从底部出现");
+          }}
+        >
+          底部提示
+        </Button>;
+      `,
       content: (
         <Button
           variant="soft"

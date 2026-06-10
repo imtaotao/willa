@@ -42,11 +42,24 @@ export default defineDoc({
       description="willa-components.zip"
       value={68}
       showValue
-    />
+    />;
   `,
   sections: [
     {
       title: "媒体播放",
+      code: `
+        <div style={progressStackStyle}>
+          <Progress label="视频播放" value={42} bufferValue={64} size="sm" />
+          <Progress
+            label="音频播放"
+            description="01:24 / 03:40"
+            value={38}
+            bufferValue={56}
+            valueLabel="01:24"
+            tone="neutral"
+          />
+        </div>;
+      `,
       content: (
         <div style={progressStackStyle}>
           <Progress label="视频播放" value={42} bufferValue={64} size="sm" />
@@ -63,6 +76,25 @@ export default defineDoc({
     },
     {
       title: "下载进度",
+      code: `
+        <div style={progressStackStyle}>
+          <Progress
+            label="资源包下载"
+            description="还剩 12 MB"
+            value={76}
+            showValue
+            tone="success"
+            size="lg"
+          />
+          <Progress
+            label="同步失败"
+            description="网络连接已中断"
+            value={31}
+            valueLabel="31%"
+            tone="danger"
+          />
+        </div>;
+      `,
       content: (
         <div style={progressStackStyle}>
           <Progress
@@ -85,6 +117,9 @@ export default defineDoc({
     },
     {
       title: "自定义尺寸",
+      code: `
+        <Progress label="窄条进度" value={58} width={260} height={10} showValue />;
+      `,
       content: (
         <Progress
           label="窄条进度"
@@ -97,6 +132,13 @@ export default defineDoc({
     },
     {
       title: "不确定进度",
+      code: `
+        <Progress
+          label="正在准备文件"
+          description="等待服务端返回文件大小。"
+          indeterminate
+        />;
+      `,
       content: (
         <Progress
           label="正在准备文件"
@@ -107,6 +149,15 @@ export default defineDoc({
     },
     {
       title: "语义类型",
+      code: `
+        <div style={progressStackStyle}>
+          <Progress label="Default" value={62} tone="default" />
+          <Progress label="Neutral" value={62} tone="neutral" />
+          <Progress label="Success" value={62} tone="success" />
+          <Progress label="Warning" value={62} tone="warning" />
+          <Progress label="Danger" value={62} tone="danger" />
+        </div>;
+      `,
       content: (
         <div style={progressStackStyle}>
           <Progress label="Default" value={62} tone="default" />

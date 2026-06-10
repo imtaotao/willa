@@ -1,4 +1,4 @@
 export {
   AudioLink,
   type AudioLinkProps,
-} from "@willa-ui/content/components/AudioLink";
+} from "@willa-ui/widgets/components/AudioLink";

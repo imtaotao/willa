@@ -35,7 +35,7 @@ export default defineDoc({
       repo="imtaotao/auklet"
       description="这个 monorepo 使用的构建工具。"
       language="TypeScript"
-    />
+    />;
   `,
   props: [
     {

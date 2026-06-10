@@ -29,8 +29,18 @@
 }
 
 .willa-message-list-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.34rem;
   padding: 0.35rem 0 0.85rem;
   text-align: center;
+}
+
+.willa-message-list-loading svg {
+  width: 0.9em;
+  height: 0.9em;
+  flex: none;
 }
 
 .willa-message-list-empty {
