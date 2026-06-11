@@ -68,6 +68,7 @@ const docSpecGroups = {
     "CommentInput",
     "CommentList",
     "DetailsBlock",
+    "DescriptionList",
     "Dialog",
     "Download",
     "EmptyState",

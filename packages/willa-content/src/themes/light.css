@@ -271,6 +271,16 @@
     rgba(148, 163, 184, 0.28),
     rgba(148, 163, 184, 0.14)
   );
+  --willa-description-list-bg: #fcfdff;
+  --willa-description-list-item-bg: #fcfdff;
+  --willa-description-list-item-border: rgba(15, 23, 42, 0.08);
+  --willa-description-list-border: rgba(15, 23, 42, 0.1);
+  --willa-description-list-divider: rgba(15, 23, 42, 0.08);
+  --willa-description-list-title: var(--willa-text-strong);
+  --willa-description-list-text: var(--willa-text);
+  --willa-description-list-label: var(--willa-text-soft);
+  --willa-description-list-value: var(--willa-text-strong);
+  --willa-description-list-muted: var(--willa-text-soft);
   --willa-source-card-bg: #fcfdff;
   --willa-source-card-solid-bg: #f3f8ff;
   --willa-source-card-border: #d2e5ff;

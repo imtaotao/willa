@@ -53,6 +53,7 @@ const willaDemoImportNames = new Set([
   "Composer",
   "DatePicker",
   "DetailsBlock",
+  "DescriptionList",
   "Dialog",
   "Download",
   "EmptyState",

@@ -12,6 +12,7 @@ export { CommentList } from "#content/components/CommentList";
 
 export { CodeTabs } from "#content/components/CodeTabs";
 export { DetailsBlock } from "#content/components/DetailsBlock";
+export { DescriptionList } from "#content/components/DescriptionList";
 export { Dialog } from "#content/components/Dialog";
 export { Download } from "#content/components/Download";
 export { EmptyState } from "#content/components/EmptyState";
@@ -88,6 +89,13 @@ export type {
   CommentListProps,
 } from "#content/components/CommentList";
 export type { DetailsBlockProps } from "#content/components/DetailsBlock";
+export type {
+  DescriptionListColumns,
+  DescriptionListItem,
+  DescriptionListProps,
+  DescriptionListSize,
+  DescriptionListVariant,
+} from "#content/components/DescriptionList";
 export type { DialogProps, DialogSize } from "#content/components/Dialog";
 export type {
   DownloadProps,
