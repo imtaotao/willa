@@ -1,0 +1,65 @@
+import{al as t,x as i,u as r,a as e}from"./index-D4yNIa2_.js";import{B as n}from"./index-F6EMF-8j.js";/* empty css              */import{d as a}from"./defineDoc-Cmw2Yd3K.js";const o={display:"flex",flexWrap:"wrap",gap:"0.75rem",alignItems:"center"},p=a({id:"button",name:"Button",packageName:"willa/Button",description:"用于文章、文档和 MDX 内容中的跳转、下载、复制和 CTA 操作。",imports:[{name:"Button",from:"willa/Button"}],css:"willa/Button.css",demo:{name:"Button",component:n,props:{href:"https://github.com",target:"_blank",trailingIcon:t.jsx(e,{})},children:"阅读原文"},code:`
+    import { ArrowRightIcon } from "@radix-ui/react-icons";
+    import { Button } from "willa/Button";
+    import "willa/Button.css";
+
+    <Button
+      href="https://github.com"
+      target="_blank"
+      trailingIcon={<ArrowRightIcon />}
+    >
+      阅读原文
+    </Button>;
+  `,sections:[{title:"视觉类型",code:`
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+          <Button>主要操作</Button>
+          <Button variant="soft">柔和操作</Button>
+          <Button variant="outline">次要操作</Button>
+          <Button variant="ghost">轻量操作</Button>
+          <Button variant="link">文本链接</Button>
+        </div>;
+      `,content:t.jsxs("div",{style:o,children:[t.jsx(n,{children:"主要操作"}),t.jsx(n,{variant:"soft",children:"柔和操作"}),t.jsx(n,{variant:"outline",children:"次要操作"}),t.jsx(n,{variant:"ghost",children:"轻量操作"}),t.jsx(n,{variant:"link",trailingIcon:t.jsx(i,{}),children:"文本链接"})]})},{title:"尺寸和图标",code:`
+        import { ArrowRightIcon, DownloadIcon } from "@radix-ui/react-icons";
+
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+          <Button size="sm" icon={<DownloadIcon />}>
+            下载
+          </Button>
+          <Button size="md" trailingIcon={<ArrowRightIcon />}>
+            查看详情
+          </Button>
+          <Button size="lg">开始阅读</Button>
+        </div>;
+      `,content:t.jsxs("div",{style:o,children:[t.jsx(n,{size:"sm",icon:t.jsx(r,{}),children:"下载"}),t.jsx(n,{size:"md",trailingIcon:t.jsx(e,{}),children:"查看详情"}),t.jsx(n,{size:"lg",children:"开始阅读"})]})},{title:"禁用状态",code:`
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+          <Button disabled>不可点击</Button>
+          <Button href="https://github.com" disabled variant="outline">
+            禁用链接
+          </Button>
+        </div>;
+      `,content:t.jsxs("div",{style:o,children:[t.jsx(n,{disabled:!0,children:"不可点击"}),t.jsx(n,{href:"https://github.com",disabled:!0,variant:"outline",children:"禁用链接"})]})},{title:"加载状态",code:`
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+          <Button loading>保存中</Button>
+          <Button loading loadingText="提交中" variant="outline">
+            提交
+          </Button>
+        </div>;
+      `,content:t.jsxs("div",{style:o,children:[t.jsx(n,{loading:!0,children:"保存中"}),t.jsx(n,{loading:!0,loadingText:"提交中",variant:"outline",children:"提交"}),t.jsx(n,{href:"https://github.com",loading:!0,variant:"soft",children:"跳转中"})]})},{title:"点击复制",code:`
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+          <Button copyText variant="soft">
+            pnpm add willa
+          </Button>
+          <Button copyText="import { Button } from 'willa/Button';">
+            复制组件引入
+          </Button>
+        </div>;
+      `,content:t.jsxs("div",{style:o,children:[t.jsx(n,{copyText:!0,variant:"soft",children:"pnpm add willa"}),t.jsx(n,{copyText:"import { Button } from 'willa/Button';",children:"复制组件引入"}),t.jsx(n,{copyText:"pnpm add willa",variant:"outline",children:"复制安装命令"})]})},{title:"自定义颜色",code:`
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+          <Button backgroundColor="#f6e7c8" textColor="#3f2a12">
+            暖色按钮
+          </Button>
+          <Button variant="outline" backgroundColor="rgba(96, 165, 250, 0.12)">
+            自定义背景
+          </Button>
+        </div>;
+      `,content:t.jsxs("div",{style:o,children:[t.jsx(n,{backgroundColor:"#f6e7c8",textColor:"#3f2a12",children:"暖色按钮"}),t.jsx(n,{variant:"outline",backgroundColor:"rgba(96, 165, 250, 0.12)",children:"自定义背景"})]})}],props:[{name:"variant",type:'"solid" | "soft" | "outline" | "ghost" | "link"',description:"按钮的视觉类型。"},{name:"size",type:'"sm" | "md" | "lg"',description:"按钮尺寸。"},{name:"href",type:"string",description:"传入后渲染为链接按钮。"},{name:"icon",type:"ReactNode",description:"展示在文字前的图标。"},{name:"trailingIcon",type:"ReactNode",description:"展示在文字后的图标。"},{name:"disabled",type:"boolean",description:"禁用按钮或链接按钮。"},{name:"loading",type:"boolean",description:"展示加载状态，并阻止点击、复制和链接跳转。"},{name:"loadingText",type:"ReactNode",description:"加载时展示的替代文案，未传时保留原文案。"},{name:"backgroundColor",type:"string",description:"自定义按钮背景颜色，支持 CSS 颜色值。"},{name:"textColor",type:"string",description:"自定义按钮文字颜色，支持 CSS 颜色值。"},{name:"copyText",type:"boolean | string",description:"点击复制能力。传 true 时复制按钮文本，传字符串时复制指定文本，未传时不启用。"},{name:"copiedDuration",type:"number",description:"复制成功后的视觉反馈持续时间，单位为毫秒，默认为 300。"},{name:"onCopyText",type:"(text: string) => void",description:"复制成功后的回调。"},{name:"className",type:"string",description:"可选的外层 className。"},{name:"children",type:"ReactNode",description:"按钮内容。"}]});export{p as default};
