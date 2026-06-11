@@ -19,6 +19,7 @@ import classNames from "classnames";
 import { Button } from "#content/components/Button";
 
 export type DialogSize = "sm" | "md" | "lg";
+export type DialogTone = "default" | "danger";
 
 export type DialogProps = {
   open?: boolean;
@@ -30,15 +31,18 @@ export type DialogProps = {
   footer?: ReactNode;
   closeText?: ReactNode;
   confirmText?: ReactNode;
+  confirmDisabled?: boolean;
+  confirmLoading?: boolean;
   ariaLabel?: string;
   size?: DialogSize;
+  tone?: DialogTone;
   closeOnOverlayClick?: boolean;
   closeOnEscape?: boolean;
   showCloseButton?: boolean;
   className?: string;
   overlayClassName?: string;
   contentClassName?: string;
-  onConfirm?: () => void;
+  onConfirm?: () => void | Promise<void>;
   onOpenChange?: (open: boolean) => void;
 };
 
@@ -60,6 +64,15 @@ const getFocusableElements = (container: HTMLElement) => {
   return Array.from(container.querySelectorAll<HTMLElement>(focusableSelector));
 };
 
+const isPromiseLike = (value: unknown): value is PromiseLike<void> => {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "then" in value &&
+    typeof value.then === "function"
+  );
+};
+
 export function Dialog(props: DialogProps) {
   const {
     open,
@@ -72,9 +85,12 @@ export function Dialog(props: DialogProps) {
     footer,
     closeText = "取消",
     confirmText,
+    confirmDisabled = false,
+    confirmLoading = false,
     onConfirm,
     ariaLabel,
     size = "md",
+    tone = "default",
     closeOnOverlayClick = true,
     closeOnEscape = true,
     showCloseButton = true,
@@ -86,6 +102,7 @@ export function Dialog(props: DialogProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(
     defaultOpen ?? false,
   );
+  const [confirmPending, setConfirmPending] = useState(false);
   const isOpen = open ?? uncontrolledOpen;
   const dialogId = useId();
   const titleId = title ? `${dialogId}-title` : undefined;
@@ -132,6 +149,12 @@ export function Dialog(props: DialogProps) {
       previousFocusRef.current?.focus();
       previousFocusRef.current = null;
     };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setConfirmPending(false);
+    }
   }, [isOpen]);
 
   const handleTriggerClick = (event: MouseEvent<HTMLElement>) => {
@@ -182,8 +205,27 @@ export function Dialog(props: DialogProps) {
   };
 
   const handleConfirm = () => {
-    onConfirm?.();
-    closeDialog();
+    if (confirmDisabled || confirmLoading || confirmPending) return;
+
+    try {
+      const result = onConfirm?.();
+
+      if (isPromiseLike(result)) {
+        setConfirmPending(true);
+        void result
+          .then(() => {
+            closeDialog();
+          })
+          .catch(() => {
+            setConfirmPending(false);
+          });
+        return;
+      }
+
+      closeDialog();
+    } catch {
+      setConfirmPending(false);
+    }
   };
 
   const resolvedTrigger = isValidElement(trigger)
@@ -204,7 +246,14 @@ export function Dialog(props: DialogProps) {
         <Button type="button" variant="ghost" onClick={closeDialog}>
           {closeText}
         </Button>
-        <Button type="button" variant="solid" onClick={handleConfirm}>
+        <Button
+          type="button"
+          variant="solid"
+          className={`willa-dialog-confirm willa-dialog-confirm--${tone}`}
+          disabled={confirmDisabled}
+          loading={confirmLoading || confirmPending}
+          onClick={handleConfirm}
+        >
           {confirmText ?? "确认"}
         </Button>
       </>

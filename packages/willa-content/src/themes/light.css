@@ -314,6 +314,11 @@
   --willa-dialog-close-border: rgba(15, 23, 42, 0.08);
   --willa-dialog-close-border-hover: rgba(37, 99, 235, 0.2);
   --willa-dialog-close-text: var(--willa-text-soft);
+  --willa-dialog-danger-bg: #dc2626;
+  --willa-dialog-danger-bg-hover: #b91c1c;
+  --willa-dialog-danger-border: #dc2626;
+  --willa-dialog-danger-border-hover: #b91c1c;
+  --willa-dialog-danger-text: #ffffff;
   --willa-empty-state-soft-bg: rgba(37, 99, 235, 0.035);
   --willa-empty-state-soft-border: rgba(37, 99, 235, 0.1);
   --willa-empty-state-outline-bg: rgba(255, 255, 255, 0.66);

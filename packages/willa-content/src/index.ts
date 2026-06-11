@@ -96,7 +96,11 @@ export type {
   DescriptionListSize,
   DescriptionListVariant,
 } from "#content/components/DescriptionList";
-export type { DialogProps, DialogSize } from "#content/components/Dialog";
+export type {
+  DialogProps,
+  DialogSize,
+  DialogTone,
+} from "#content/components/Dialog";
 export type {
   DownloadProps,
   DownloadSize,

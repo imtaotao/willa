@@ -68,6 +68,185 @@ export default defineDoc({
   `,
   sections: [
     {
+      title: "确认操作",
+      code: `
+        <div style={footerStyle}>
+          <Dialog
+            trigger={<Button variant="soft">归档项目</Button>}
+            title="归档这个项目？"
+            description="归档后项目会从默认列表隐藏，但仍然可以在归档区恢复。"
+            confirmText="确认归档"
+            onConfirm={() => {
+              console.log("archive project");
+            }}
+          >
+            <p style={paragraphStyle}>相关成员仍然可以查看历史记录。</p>
+          </Dialog>
+          <Dialog
+            trigger={<Button variant="outline">删除草稿</Button>}
+            title="删除这份草稿？"
+            description="删除后无法恢复，请确认不再需要这份内容。"
+            confirmText="删除"
+            tone="danger"
+            onConfirm={() => {
+              console.log("delete draft");
+            }}
+          >
+            <p style={paragraphStyle}>草稿中的图片、附件和评论也会一起删除。</p>
+          </Dialog>
+        </div>;
+      `,
+      content: (
+        <div style={footerStyle}>
+          <Dialog
+            trigger={<Button variant="soft">归档项目</Button>}
+            title="归档这个项目？"
+            description="归档后项目会从默认列表隐藏，但仍然可以在归档区恢复。"
+            confirmText="确认归档"
+            onConfirm={() => {
+              console.log("archive project");
+            }}
+          >
+            <p style={paragraphStyle}>相关成员仍然可以查看历史记录。</p>
+          </Dialog>
+          <Dialog
+            trigger={<Button variant="outline">删除草稿</Button>}
+            title="删除这份草稿？"
+            description="删除后无法恢复，请确认不再需要这份内容。"
+            confirmText="删除"
+            tone="danger"
+            onConfirm={() => {
+              console.log("delete draft");
+            }}
+          >
+            <p style={paragraphStyle}>草稿中的图片、附件和评论也会一起删除。</p>
+          </Dialog>
+        </div>
+      ),
+    },
+    {
+      title: "确认状态",
+      code: `
+        <div style={footerStyle}>
+          <Dialog
+            trigger={<Button variant="soft">异步保存</Button>}
+            title="保存配置"
+            description="确认后会模拟一次异步提交，完成后自动关闭。"
+            confirmText="保存"
+            onConfirm={() => {
+              return new Promise<void>((resolve) => {
+                window.setTimeout(resolve, 1200);
+              });
+            }}
+          >
+            <p style={paragraphStyle}>保存期间确认按钮会进入 loading 状态。</p>
+          </Dialog>
+          <Dialog
+            trigger={<Button variant="outline">未满足条件</Button>}
+            title="提交前检查"
+            description="必填项未完成时可以禁用确认按钮。"
+            confirmText="提交"
+            confirmDisabled
+          >
+            <p style={paragraphStyle}>请先填写项目名称和默认模型。</p>
+          </Dialog>
+          <Dialog
+            trigger={<Button variant="outline">加载中状态</Button>}
+            title="正在提交"
+            description="外部受控请求也可以直接传入 confirmLoading。"
+            confirmText="提交中"
+            confirmLoading
+          >
+            <p style={paragraphStyle}>适合由业务自己管理请求状态的场景。</p>
+          </Dialog>
+        </div>;
+      `,
+      content: (
+        <div style={footerStyle}>
+          <Dialog
+            trigger={<Button variant="soft">异步保存</Button>}
+            title="保存配置"
+            description="确认后会模拟一次异步提交，完成后自动关闭。"
+            confirmText="保存"
+            onConfirm={() => {
+              return new Promise<void>((resolve) => {
+                window.setTimeout(resolve, 1200);
+              });
+            }}
+          >
+            <p style={paragraphStyle}>保存期间确认按钮会进入 loading 状态。</p>
+          </Dialog>
+          <Dialog
+            trigger={<Button variant="outline">未满足条件</Button>}
+            title="提交前检查"
+            description="必填项未完成时可以禁用确认按钮。"
+            confirmText="提交"
+            confirmDisabled
+          >
+            <p style={paragraphStyle}>请先填写项目名称和默认模型。</p>
+          </Dialog>
+          <Dialog
+            trigger={<Button variant="outline">加载中状态</Button>}
+            title="正在提交"
+            description="外部受控请求也可以直接传入 confirmLoading。"
+            confirmText="提交中"
+            confirmLoading
+          >
+            <p style={paragraphStyle}>适合由业务自己管理请求状态的场景。</p>
+          </Dialog>
+        </div>
+      ),
+    },
+    {
+      title: "关闭策略",
+      code: `
+        <div style={footerStyle}>
+          <Dialog
+            trigger={<Button variant="soft">必须操作</Button>}
+            title="确认离开编辑页？"
+            description="这个弹层不会被遮罩点击或 Escape 关闭。"
+            closeOnOverlayClick={false}
+            closeOnEscape={false}
+            showCloseButton={false}
+            confirmText="离开"
+          >
+            <p style={paragraphStyle}>未保存的内容会保留在本地草稿中。</p>
+          </Dialog>
+          <Dialog
+            trigger={<Button variant="outline">无标题弹层</Button>}
+            ariaLabel="快捷操作"
+            confirmText="知道了"
+          >
+            <p style={paragraphStyle}>没有 title 时，需要通过 ariaLabel 提供可访问名称。</p>
+          </Dialog>
+        </div>;
+      `,
+      content: (
+        <div style={footerStyle}>
+          <Dialog
+            trigger={<Button variant="soft">必须操作</Button>}
+            title="确认离开编辑页？"
+            description="这个弹层不会被遮罩点击或 Escape 关闭。"
+            closeOnOverlayClick={false}
+            closeOnEscape={false}
+            showCloseButton={false}
+            confirmText="离开"
+          >
+            <p style={paragraphStyle}>未保存的内容会保留在本地草稿中。</p>
+          </Dialog>
+          <Dialog
+            trigger={<Button variant="outline">无标题弹层</Button>}
+            ariaLabel="快捷操作"
+            confirmText="知道了"
+          >
+            <p style={paragraphStyle}>
+              没有 title 时，需要通过 ariaLabel 提供可访问名称。
+            </p>
+          </Dialog>
+        </div>
+      ),
+    },
+    {
       title: "自定义底部",
       code: `
         <Dialog
@@ -201,14 +380,30 @@ export default defineDoc({
       description: "默认确认按钮文案；传入后会渲染默认底部。",
     },
     {
+      name: "confirmDisabled",
+      type: "boolean",
+      description: "默认确认按钮是否禁用。",
+    },
+    {
+      name: "confirmLoading",
+      type: "boolean",
+      description: "默认确认按钮是否展示加载状态。",
+    },
+    {
       name: "closeText",
       type: "ReactNode",
       description: "默认取消按钮文案。",
     },
     {
       name: "onConfirm",
-      type: "() => void",
-      description: "点击默认确认按钮时触发，随后关闭弹层。",
+      type: "() => void | Promise<void>",
+      description:
+        "点击默认确认按钮时触发；返回 Promise 时会在成功后关闭弹层。",
+    },
+    {
+      name: "tone",
+      type: '"default" | "danger"',
+      description: "默认确认按钮的语义色，危险操作使用 danger。",
     },
     {
       name: "size",

@@ -132,6 +132,20 @@
   border-top: 1px solid var(--willa-dialog-divider);
 }
 
+.willa-dialog-confirm--danger {
+  --willa-button-custom-bg: var(--willa-dialog-danger-bg);
+  --willa-button-custom-text: var(--willa-dialog-danger-text);
+
+  border-color: var(--willa-dialog-danger-border);
+}
+
+.willa-dialog-confirm--danger:hover {
+  --willa-button-custom-bg: var(--willa-dialog-danger-bg-hover);
+  --willa-button-custom-text: var(--willa-dialog-danger-text);
+
+  border-color: var(--willa-dialog-danger-border-hover);
+}
+
 @keyframes willa-dialog-enter {
   from {
     opacity: 0;
