@@ -15,6 +15,7 @@ export const config = defineConfig({
     dependencies: {
       "@willa-ui/ai": styleDependency,
       "@willa-ui/form": styleDependency,
+      "@willa-ui/layout": styleDependency,
       "@willa-ui/content": styleDependency,
       "@willa-ui/widgets": styleDependency,
     },

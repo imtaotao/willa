@@ -17,10 +17,10 @@ import {
   DetailsBlock,
   Image as WillaImage,
   ImageGallery as WillaImageGallery,
-  Separator,
   Step,
   Steps,
 } from "@willa-ui/content";
+import { Separator } from "@willa-ui/layout";
 import {
   createHeadingIdFactory,
   flattenText,

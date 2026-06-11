@@ -1,7 +1,7 @@
 import { unindent } from "aidly";
 import { createElement, type ComponentType, type ReactNode } from "react";
 
-import type { PropRow } from "#example/catalog/types";
+import type { ComponentDoc, PropRow } from "#example/catalog/types";
 
 type DemoComponent = ComponentType<any>;
 
@@ -15,7 +15,7 @@ export type DemoElement = {
 type ComponentDocInput = {
   id: string;
   name: string;
-  category?: "content" | "form" | "ai" | "widgets";
+  category?: ComponentDoc["category"];
   packageName: string;
   description: string;
   imports: Array<{ name: string; from: string }>;
@@ -36,6 +36,7 @@ const willaDemoImportNames = new Set([
   "AttachmentList",
   "AudioEmbed",
   "AudioLink",
+  "AppShell",
   "Avatar",
   "Badge",
   "Breadcrumb",
@@ -53,6 +54,7 @@ const willaDemoImportNames = new Set([
   "CommentInput",
   "CommentList",
   "Composer",
+  "Container",
   "DatePicker",
   "DetailsBlock",
   "DescriptionList",
@@ -71,6 +73,7 @@ const willaDemoImportNames = new Set([
   "GenerationCard",
   "GitHubMention",
   "GitHubRepo",
+  "Grid",
   "Group",
   "IconButton",
   "Image",
@@ -84,8 +87,10 @@ const willaDemoImportNames = new Set([
   "Menu",
   "MessageActions",
   "MessageList",
+  "Masonry",
   "NotFound",
   "PageHeader",
+  "Panel",
   "Pagination",
   "Poem",
   "Popover",
@@ -98,9 +103,12 @@ const willaDemoImportNames = new Set([
   "Select",
   "Separator",
   "SectionHeader",
+  "SidebarLayout",
   "Skeleton",
   "SourceCard",
   "Spinner",
+  "SplitPane",
+  "Stack",
   "Step",
   "Steps",
   "SuggestionChips",
@@ -139,12 +147,27 @@ export function defineDoc(input: ComponentDocInput) {
 
 const renderDemoElement = (element: DemoElement) => {
   const children = Array.isArray(element.children)
-    ? element.children.map((child, index) => (
-        <DemoElementRenderer key={`${child.name}-${index}`} element={child} />
-      ))
+    ? element.children.map((child, index) =>
+        isDemoElement(child) ? (
+          <DemoElementRenderer key={`${child.name}-${index}`} element={child} />
+        ) : (
+          child
+        ),
+      )
     : element.children;
 
   return createElement(element.component, element.props, children);
+};
+
+const isDemoElement = (
+  value: ReactNode | DemoElement,
+): value is DemoElement => {
+  return Boolean(
+    value &&
+    typeof value === "object" &&
+    "name" in value &&
+    "component" in value,
+  );
 };
 
 const DemoElementRenderer = ({ element }: { element: DemoElement }) => {

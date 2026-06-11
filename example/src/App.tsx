@@ -26,6 +26,7 @@ const docGroups: Array<{
   { id: "ai", label: "AI 组件" },
   { id: "widgets", label: "场景组件" },
   { id: "form", label: "表单组件" },
+  { id: "layout", label: "布局组件" },
   { id: "content", label: "基础组件" },
 ];
 

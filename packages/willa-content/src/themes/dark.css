@@ -5,19 +5,6 @@
 :root[data-wk-theme="dark"] .willa-popover-content,
 :root[data-wk-theme="dark"] .willa-tooltip-content,
 :root[data-wk-theme="dark"] .willa-toast-viewport {
-  --willa-surface-soft: rgba(255, 255, 255, 0.045);
-  --willa-surface-tint: rgba(255, 255, 255, 0.03);
-  --willa-text-strong: #f3f4f6;
-  --willa-text: rgba(255, 255, 255, 0.86);
-  --willa-text-soft: rgba(255, 255, 255, 0.68);
-  --willa-text-faint: rgba(255, 255, 255, 0.52);
-  --willa-line: rgba(255, 255, 255, 0.11);
-  --willa-line-strong: rgba(255, 255, 255, 0.18);
-  --willa-accent: #7dd3fc;
-  --willa-accent-2: #86efac;
-  --willa-accent-2-soft: rgba(134, 239, 172, 0.12);
-  --willa-focus-ring: rgba(122, 162, 247, 0.5);
-  --willa-panel-bg: rgba(28, 31, 36, 0.98);
   --willa-avatar-bg: rgba(255, 255, 255, 0.1);
   --willa-avatar-border: rgba(255, 255, 255, 0.14);
   --willa-avatar-border-hover: rgba(134, 239, 172, 0.28);
@@ -76,16 +63,6 @@
   --willa-button-copied-bg: rgba(255, 255, 255, 0.08);
   --willa-button-copied-border: rgba(134, 239, 172, 0.2);
   --willa-button-copied-text: var(--willa-text-strong);
-  --willa-card-bg: rgba(255, 255, 255, 0.055);
-  --willa-card-bg-hover: rgba(255, 255, 255, 0.075);
-  --willa-card-soft-bg: rgba(255, 255, 255, 0.045);
-  --willa-card-border: rgba(255, 255, 255, 0.11);
-  --willa-card-border-hover: rgba(125, 211, 252, 0.22);
-  --willa-card-divider: rgba(255, 255, 255, 0.09);
-  --willa-card-shadow: none;
-  --willa-card-shadow-hover: none;
-  --willa-card-media-bg: rgba(255, 255, 255, 0.06);
-  --willa-card-eyebrow: var(--willa-text-faint);
   --willa-table-bg: rgba(255, 255, 255, 0.055);
   --willa-table-border: rgba(255, 255, 255, 0.11);
   --willa-table-divider: rgba(255, 255, 255, 0.08);
@@ -252,8 +229,6 @@
   --willa-spinner-warning: #fbbf24;
   --willa-spinner-danger: #fca5a5;
   --willa-spinner-label: var(--willa-text-soft);
-  --willa-separator-line: rgba(255, 255, 255, 0.12);
-  --willa-separator-label: var(--willa-text-faint);
   --willa-tabs-list-bg: rgba(255, 255, 255, 0.055);
   --willa-tabs-tab-text: var(--willa-text-soft);
   --willa-tabs-tab-text-hover: var(--willa-text-strong);

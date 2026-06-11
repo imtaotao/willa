@@ -63,8 +63,9 @@
   ],
   "dependencies": {
     "@willa-ui/ai": "workspace:*",
-    "@willa-ui/content": "workspace:*",
     "@willa-ui/form": "workspace:*",
+    "@willa-ui/layout": "workspace:*",
+    "@willa-ui/content": "workspace:*",
     "@willa-ui/widgets": "workspace:*"
   },
   "peerDependencies": {

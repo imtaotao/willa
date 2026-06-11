@@ -12,6 +12,9 @@ Future component planning is tracked in
 
 Before adding a component, choose its package based on the architecture guide:
 
+- `@willa-ui/layout`: layout primitives, such as card surfaces, separators,
+  groups, stacks, grids, masonry flows, containers, panels, resizable panes,
+  page headers, section headers, and page shells.
 - `@willa-ui/content`: general content rendering, such as text, lists,
   callouts, code blocks, product primitives, and reusable rich content
   primitives.
@@ -28,7 +31,7 @@ Before adding a component, choose its package based on the architecture guide:
   processing, clipboard helpers, and similar logic. It must not contain React
   components or component CSS.
 - `willa`: the public aggregate package that exposes public components from
-  content, form, AI, and widgets.
+  layout, content, form, AI, and widgets.
 
 Dependency direction is defined in [Willa Architecture](./architecture.md). A
 component used only by AI or widgets is not automatically owned by that package;
@@ -36,8 +39,8 @@ first judge whether its meaning is general enough for content.
 
 ## File Organization
 
-Component directories use the component name. content, form, AI, and widgets
-use the same shape:
+Component directories use the component name. layout, content, form, AI, and
+widgets use the same shape:
 
 ```text
 src/components/ComponentName/
@@ -76,6 +79,9 @@ When adding a content component, usually update:
   component needs theme variables
 - `example/src/docs/ComponentName.demo.tsx`
 - `example/src/catalog/registry.ts`
+
+When adding a layout component, replace `willa-content` with `willa-layout` and
+make sure the willa aggregate package exports it.
 
 When adding a form component, replace `willa-content` with `willa-form` and
 make sure the willa aggregate package exports it.
@@ -124,15 +130,12 @@ When adding a component, confirm:
 - Structural styles live in the component directory's `index.css`.
 - Theme variables live in the owning package's `src/themes/light.css` and
   `src/themes/dark.css`.
-- widgets components that compose content components express CSS dependencies
-  through `styles.dependencies` in `auklet.config.mjs`; they do not copy content
+- content components that compose layout components express CSS dependencies
+  through `styles.dependencies` in `auklet.config.mjs`; they do not copy layout
   CSS or theme variables.
-- form components that compose content components follow the same rule: reuse
-  content CSS through `styles.dependencies` instead of copying content CSS or
-  theme variables.
-- AI components that compose content components follow the same rule: reuse
-  content CSS through `styles.dependencies` instead of copying content CSS or
-  theme variables.
+- form, AI, and widgets components that compose layout or content components
+  follow the same rule: reuse upstream CSS through `styles.dependencies`
+  instead of copying upstream CSS or theme variables.
 - Single-component CSS is available through `willa/ComponentName.css`.
 
 ## Example Docs
@@ -188,6 +191,7 @@ Every demo should include:
 
 Component docs are grouped by category:
 
+- layout: layout primitives and page structure components.
 - content: base product/content components.
 - form: form controls and form layout components.
 - ai: AI product and AI interaction components.
@@ -197,7 +201,9 @@ Component docs are grouped by category:
 
 After adding a public component, confirm:
 
-- Package root import works, such as `import { CodeBlock } from "@willa-ui/content"`.
+- Package root import works from the owning package, such as
+  `import { CodeBlock } from "@willa-ui/content"` or
+  `import { Card } from "@willa-ui/layout"`.
 - willa root import works, such as `import { CodeBlock } from "willa"`.
 - willa single-component import works, such as `import { CodeBlock } from "willa/CodeBlock"`.
 - Single-component CSS works, such as `import "willa/CodeBlock.css"`.

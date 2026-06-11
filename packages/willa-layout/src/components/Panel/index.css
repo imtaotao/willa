@@ -1,0 +1,123 @@
+.willa-panel {
+  display: grid;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  gap: 0.9rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--willa-text);
+  font-family: var(--willa-body-font);
+}
+
+.willa-panel--surface {
+  border-color: var(--willa-panel-border);
+  background: var(--willa-panel-surface-bg);
+  box-shadow: var(--willa-panel-shadow);
+}
+
+.willa-panel--soft {
+  border-color: transparent;
+  background: var(--willa-panel-soft-bg);
+  box-shadow: none;
+}
+
+.willa-panel--outline {
+  border-color: var(--willa-panel-border);
+  background: transparent;
+  box-shadow: none;
+}
+
+.willa-panel--plain {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.willa-panel--padding-none {
+  padding: 0;
+}
+
+.willa-panel--padding-sm {
+  padding: 0.85rem;
+}
+
+.willa-panel--padding-md {
+  padding: 1rem;
+}
+
+.willa-panel--padding-lg {
+  padding: 1.25rem;
+}
+
+.willa-panel-header {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.willa-panel-heading {
+  display: grid;
+  min-width: 0;
+  gap: 0.3rem;
+}
+
+.willa-panel-title {
+  margin: 0;
+  color: var(--willa-text-strong);
+  font-family: var(--willa-title-font);
+  font-size: 1rem;
+  font-weight: 720;
+  line-height: 1.35;
+}
+
+.willa-panel-description {
+  margin: 0;
+  color: var(--willa-text-soft);
+  font-size: 0.9rem;
+  line-height: 1.58;
+}
+
+.willa-panel-actions {
+  display: inline-flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.willa-panel-body {
+  min-width: 0;
+}
+
+.willa-panel-footer {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.82rem;
+  border-top: 1px solid var(--willa-panel-divider);
+  color: var(--willa-text-faint);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 767px) {
+  .willa-panel--padding-lg {
+    padding: 1rem;
+  }
+
+  .willa-panel-header,
+  .willa-panel-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .willa-panel-actions {
+    justify-content: flex-start;
+  }
+}

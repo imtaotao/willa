@@ -63,6 +63,8 @@
     "**/*.css"
   ],
   "dependencies": {
+    "@willa-ui/form": "workspace:*",
+    "@willa-ui/layout": "workspace:*",
     "@willa-ui/content": "workspace:*",
     "@willa-ui/shared": "workspace:*",
     "@radix-ui/react-icons": "catalog:",

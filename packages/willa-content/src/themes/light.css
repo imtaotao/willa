@@ -5,23 +5,6 @@
 .willa-popover-content,
 .willa-tooltip-content,
 .willa-toast-viewport {
-  --willa-body-font: var(--site-font-body, system-ui, sans-serif);
-  --willa-title-font: var(--site-font-title, system-ui, sans-serif);
-  --willa-code-font:
-    "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-  --willa-surface-soft: rgba(15, 23, 42, 0.045);
-  --willa-surface-tint: rgba(15, 23, 42, 0.03);
-  --willa-text-strong: #111827;
-  --willa-text: rgba(17, 24, 39, 0.88);
-  --willa-text-soft: rgba(31, 41, 55, 0.72);
-  --willa-text-faint: rgba(31, 41, 55, 0.52);
-  --willa-line: rgba(15, 23, 42, 0.11);
-  --willa-line-strong: rgba(15, 23, 42, 0.18);
-  --willa-accent: #2563eb;
-  --willa-accent-2: #059669;
-  --willa-accent-2-soft: rgba(5, 150, 105, 0.1);
-  --willa-focus-ring: rgba(37, 99, 235, 0.34);
-  --willa-panel-bg: rgba(255, 255, 255, 0.98);
   --willa-avatar-bg: rgba(37, 99, 235, 0.1);
   --willa-avatar-border: rgba(37, 99, 235, 0.18);
   --willa-avatar-border-hover: rgba(37, 99, 235, 0.32);
@@ -80,16 +63,6 @@
   --willa-button-copied-bg: #dff7ea;
   --willa-button-copied-border: rgba(47, 148, 97, 0.24);
   --willa-button-copied-text: var(--willa-text-strong);
-  --willa-card-bg: rgba(255, 255, 255, 0.96);
-  --willa-card-bg-hover: rgba(255, 255, 255, 0.98);
-  --willa-card-soft-bg: rgba(37, 99, 235, 0.045);
-  --willa-card-border: rgba(15, 23, 42, 0.1);
-  --willa-card-border-hover: rgba(37, 99, 235, 0.24);
-  --willa-card-divider: rgba(15, 23, 42, 0.08);
-  --willa-card-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
-  --willa-card-shadow-hover: 0 14px 30px rgba(15, 23, 42, 0.1);
-  --willa-card-media-bg: var(--willa-surface-soft);
-  --willa-card-eyebrow: var(--willa-text-faint);
   --willa-table-bg: rgba(255, 255, 255, 0.94);
   --willa-table-border: rgba(15, 23, 42, 0.11);
   --willa-table-divider: rgba(15, 23, 42, 0.08);
@@ -256,8 +229,6 @@
   --willa-spinner-warning: #d28a17;
   --willa-spinner-danger: #dc2626;
   --willa-spinner-label: var(--willa-text-soft);
-  --willa-separator-line: rgba(15, 23, 42, 0.12);
-  --willa-separator-label: var(--willa-text-faint);
   --willa-tabs-list-bg: rgba(15, 23, 42, 0.045);
   --willa-tabs-tab-text: var(--willa-text-soft);
   --willa-tabs-tab-text-hover: var(--willa-text-strong);

@@ -4,4 +4,4 @@ export {
   type SeparatorOrientation,
   type SeparatorProps,
   type SeparatorSize,
-} from "@willa-ui/content/components/Separator";
+} from "@willa-ui/layout/components/Separator";

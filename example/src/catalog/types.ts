@@ -11,7 +11,7 @@ export type PropRow = {
 export type ComponentDoc = {
   id: string;
   name: string;
-  category: "content" | "form" | "ai" | "widgets";
+  category: "content" | "form" | "layout" | "ai" | "widgets";
   packageName: string;
   description: string;
   preview: ReactNode;

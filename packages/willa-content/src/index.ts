@@ -2,7 +2,6 @@ export { Avatar } from "#content/components/Avatar";
 export { Badge } from "#content/components/Badge";
 export { Breadcrumb } from "#content/components/Breadcrumb";
 export { Button } from "#content/components/Button";
-export { Card } from "#content/components/Card";
 export { Callout } from "#content/components/Callout";
 export { ChatThread } from "#content/components/ChatThread";
 export { Citation } from "#content/components/Citation";
@@ -20,7 +19,6 @@ export { EmptyState } from "#content/components/EmptyState";
 export { flattenText, createHeadingIdFactory } from "@willa-ui/shared";
 export { FileCard } from "#content/components/FileCard";
 export { FileTree } from "#content/components/FileTree";
-export { Group } from "#content/components/Group";
 export { Image } from "#content/components/Image";
 export { ImageGallery } from "#content/components/ImageGallery";
 export { IconButton } from "#content/components/IconButton";
@@ -29,12 +27,9 @@ export { Kbd, KbdShortcut } from "#content/components/Kbd";
 export { Lightbox, normalizeLightboxImage } from "#content/components/Lightbox";
 export { Menu } from "#content/components/Menu";
 export { NotFound } from "#content/components/NotFound";
-export { PageHeader } from "#content/components/PageHeader";
 export { Pagination } from "#content/components/Pagination";
 export { Popover } from "#content/components/Popover";
 export { Progress } from "#content/components/Progress";
-export { Separator } from "#content/components/Separator";
-export { SectionHeader } from "#content/components/SectionHeader";
 export { Skeleton } from "#content/components/Skeleton";
 export { SourceCard } from "#content/components/SourceCard";
 export { Spinner } from "#content/components/Spinner";
@@ -67,11 +62,6 @@ export type {
   ButtonSize,
   ButtonVariant,
 } from "#content/components/Button";
-export type {
-  CardPadding,
-  CardProps,
-  CardVariant,
-} from "#content/components/Card";
 export type { CalloutProps, CalloutTone } from "#content/components/Callout";
 export type {
   CitationProps,
@@ -131,14 +121,6 @@ export type {
   FileTreeProps,
   FileTreeSize,
 } from "#content/components/FileTree";
-export type {
-  GroupAlign,
-  GroupDirection,
-  GroupGap,
-  GroupGapPreset,
-  GroupJustify,
-  GroupProps,
-} from "#content/components/Group";
 export type { ImageProps } from "#content/components/Image";
 export type {
   ImageGalleryItem,
@@ -179,10 +161,6 @@ export type {
 } from "#content/components/Menu";
 export type { NotFoundProps } from "#content/components/NotFound";
 export type {
-  PageHeaderAlign,
-  PageHeaderProps,
-} from "#content/components/PageHeader";
-export type {
   PaginationEllipsisContext,
   PaginationProps,
   PaginationSize,
@@ -198,17 +176,6 @@ export type {
   ProgressSize,
   ProgressTone,
 } from "#content/components/Progress";
-export type {
-  SeparatorAlign,
-  SeparatorOrientation,
-  SeparatorProps,
-  SeparatorSize,
-} from "#content/components/Separator";
-export type {
-  SectionHeaderAlign,
-  SectionHeaderProps,
-  SectionHeaderSize,
-} from "#content/components/SectionHeader";
 export type { SkeletonProps } from "#content/components/Skeleton";
 export type {
   SourceCardProps,

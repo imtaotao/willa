@@ -23,6 +23,13 @@ and example docs are documented in [Willa Component Guide](./component.md).
 
 Variables live in the theme files of the package that owns the component:
 
+- base visual tokens, such as fonts, text colors, lines, surfaces, panel
+  backgrounds, accent colors, and focus rings, live in
+  `packages/willa-layout/src/themes/light.css` and
+  `packages/willa-layout/src/themes/dark.css`.
+- layout component variables live in
+  `packages/willa-layout/src/themes/light.css` and
+  `packages/willa-layout/src/themes/dark.css`.
 - content component variables live in
   `packages/willa-content/src/themes/light.css` and
   `packages/willa-content/src/themes/dark.css`.
@@ -37,16 +44,18 @@ Variables live in the theme files of the package that owns the component:
 - `Lightbox` variables still belong to content, even though Lightbox renders
   through a portal into `document.body`.
 
-Do not copy content variables into form, AI, or widgets themes. These packages
-already depend on content CSS and themes through `styles.dependencies`, so they
-should reuse content as the variable source.
+Do not copy layout or content variables into form, AI, or widgets themes.
+These packages already depend on layout and content CSS through
+`styles.dependencies`, so they should reuse the owning package as the variable
+source.
 
 When adding or migrating a component, decide ownership by where the component
 source lives, not by which package uses the component. For example, `Mdx`
 renders `Image`, `Callout`, and `CodeBlock`, but those variables still belong
 to content; only `Mdx`'s own prose and heading variables belong to widgets.
-Likewise, a form or AI component that renders `Button`, `CodeBlock`, or
-`FileCard` should reuse those content variables instead of redefining them.
+Likewise, a form or AI component that renders `Card`, `Button`, `CodeBlock`,
+or `FileCard` should reuse layout and content variables instead of redefining
+them.
 
 AI package themes should keep large surfaces neutral. Layout shells, composer
 containers, prompt inputs, message lists, and process cards should use neutral
@@ -138,11 +147,21 @@ blocks the translucent backdrop.
 
 Cross-package CSS dependencies are declared through `auklet.config.mjs`.
 
-`@willa-ui/form`, `@willa-ui/ai`, and `@willa-ui/widgets` depend on content:
+`@willa-ui/content`, `@willa-ui/form`, `@willa-ui/ai`, and
+`@willa-ui/widgets` depend on layout. Packages that compose content components
+also depend on content:
 
 ```js
 styles: {
   dependencies: {
+    "@willa-ui/layout": {
+      entry: "/style.css",
+      components: "/components/**.css",
+      themes: {
+        dark: "/themes/dark.css",
+        light: "/themes/light.css",
+      },
+    },
     "@willa-ui/content": {
       entry: "/style.css",
       components: "/components/**.css",
@@ -155,15 +174,16 @@ styles: {
 }
 ```
 
-This means form, AI, and widgets can use base tokens and component styles
-provided by content. Their themes should only add variables owned by their own
-package.
+This means higher-level packages can use base layout tokens and component
+styles provided by their dependencies. Their themes should only add variables
+owned by their own package.
 
-If a form, AI, or widgets component directly imports a content component, it
-should also declare the content CSS dependency instead of copying content styles
-or theme variables. This keeps CSS sources consistent when building that
-package alone, building the willa aggregate package, and using single-component
-entries.
+If content, form, AI, or widgets directly imports a layout component, it should
+declare the layout CSS dependency. If form, AI, or widgets directly imports a
+content component, it should also declare the content CSS dependency instead of
+copying content styles or theme variables. This keeps CSS sources consistent
+when building that package alone, building the willa aggregate package, and
+using single-component entries.
 
 The `willa` aggregate package composes public package CSS into entries such as:
 
@@ -301,17 +321,18 @@ structural selectors that cannot be expressed on the root element.
 
 ## FAQ
 
-What should a form, AI, or widgets component do if it needs content base tokens?
+What should a content, form, AI, or widgets component do if it needs base
+visual tokens?
 
-Reference variables provided by the content theme, such as
+Reference variables provided by the layout theme, such as
 `--willa-text-strong`, `--willa-line`, and `--willa-focus-ring`. Do not redefine
-these base tokens in form, AI, or widgets themes.
+these base tokens in content, form, AI, or widgets themes.
 
-Should form, AI, or widgets copy content variables when composing content
-components?
+Should higher-level packages copy layout or content variables when composing
+upstream components?
 
 No. Declare the dependency through `styles.dependencies` in `auklet.config.mjs`
-so the build output combines content CSS.
+so the build output combines upstream CSS.
 
 Can component CSS contain a special color such as `rgba(...)`?
 
@@ -330,7 +351,7 @@ Before adding or changing CSS, confirm:
 
 - Variables are defined in the package that owns the component.
 - Component CSS does not hardcode theme colors.
-- Form, AI, and widgets do not copy content variables.
+- Content, form, AI, and widgets do not copy upstream variables.
 - Portal component variable scope covers the actual DOM location.
 - The `willa` aggregate package composes CSS through `styles.dependencies`
   instead of hand-writing duplicate variables.

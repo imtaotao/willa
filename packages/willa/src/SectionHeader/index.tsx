@@ -3,4 +3,4 @@ export {
   type SectionHeaderAlign,
   type SectionHeaderProps,
   type SectionHeaderSize,
-} from "@willa-ui/content/components/SectionHeader";
+} from "@willa-ui/layout/components/SectionHeader";
