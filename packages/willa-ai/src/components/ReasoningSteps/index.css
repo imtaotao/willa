@@ -6,29 +6,31 @@
   gap: 0.58rem;
   color: var(--willa-reasoning-steps-text);
   font-family: var(--willa-body-font);
-}
 
-.willa-reasoning-steps-list {
-  display: grid;
-  box-sizing: border-box;
-  width: 100%;
-  min-width: 0;
-  margin: 0;
-  color: var(--willa-reasoning-steps-text);
-  list-style: none;
-  padding: 0;
-}
-
-.willa-reasoning-steps--sm .willa-reasoning-steps-list {
-  gap: 0.58rem;
-}
-
-.willa-reasoning-steps--md .willa-reasoning-steps-list {
-  gap: 0.72rem;
-}
-
-.willa-reasoning-steps--compact .willa-reasoning-steps-list {
-  gap: 0.16rem;
+  --willa-timeline-card-bg: var(--willa-reasoning-steps-card-bg);
+  --willa-timeline-card-bg-hover: var(--willa-reasoning-steps-card-bg-hover);
+  --willa-timeline-card-border: var(--willa-reasoning-steps-card-border);
+  --willa-timeline-card-border-hover: var(
+    --willa-reasoning-steps-card-border-hover
+  );
+  --willa-timeline-focus-border: var(--willa-reasoning-steps-focus-border);
+  --willa-timeline-focus-ring: var(--willa-reasoning-steps-focus-ring);
+  --willa-timeline-line: var(--willa-reasoning-steps-line);
+  --willa-timeline-marker-bg: var(--willa-reasoning-steps-marker-bg);
+  --willa-timeline-marker-border: var(--willa-reasoning-steps-marker-border);
+  --willa-timeline-marker-text: var(--willa-reasoning-steps-marker);
+  --willa-timeline-title: var(--willa-reasoning-steps-title);
+  --willa-timeline-text: var(--willa-reasoning-steps-text);
+  --willa-timeline-muted: var(--willa-reasoning-steps-muted);
+  --willa-timeline-info-bg: var(--willa-reasoning-steps-active-bg);
+  --willa-timeline-info-border: var(--willa-reasoning-steps-active-border);
+  --willa-timeline-info-text: var(--willa-reasoning-steps-active);
+  --willa-timeline-success-bg: var(--willa-reasoning-steps-done-bg);
+  --willa-timeline-success-border: var(--willa-reasoning-steps-done-border);
+  --willa-timeline-success-text: var(--willa-reasoning-steps-done);
+  --willa-timeline-danger-bg: var(--willa-reasoning-steps-error-bg);
+  --willa-timeline-danger-border: var(--willa-reasoning-steps-error-border);
+  --willa-timeline-danger-text: var(--willa-reasoning-steps-error);
 }
 
 .willa-reasoning-steps--collapsible {
@@ -44,13 +46,13 @@
   grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 0.62rem;
+  padding: 0.72rem 0.82rem;
   border: 1px solid var(--willa-reasoning-steps-card-border);
   border-radius: 0.9rem;
   background: var(--willa-reasoning-steps-card-bg);
   color: var(--willa-reasoning-steps-text);
   cursor: pointer;
   font: inherit;
-  padding: 0.72rem 0.82rem;
   text-align: start;
   transition:
     border-color 150ms ease,
@@ -65,8 +67,8 @@
 
 .willa-reasoning-steps-toggle:focus-visible {
   border-color: var(--willa-reasoning-steps-focus-border);
-  box-shadow: 0 0 0 3px var(--willa-reasoning-steps-focus-ring);
   outline: none;
+  box-shadow: 0 0 0 3px var(--willa-reasoning-steps-focus-ring);
 }
 
 .willa-reasoning-steps-toggle-main {
@@ -110,66 +112,15 @@
   transform: rotate(-90deg);
 }
 
-.willa-reasoning-step {
-  position: relative;
-  display: grid;
-  min-width: 0;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: flex-start;
-}
-
-.willa-reasoning-steps--sm .willa-reasoning-step {
-  gap: 0.58rem;
-}
-
-.willa-reasoning-steps--md .willa-reasoning-step {
-  gap: 0.7rem;
-}
-
-.willa-reasoning-step:not(:last-child)::before {
-  position: absolute;
-  top: 2rem;
-  bottom: -0.66rem;
-  left: 0.86rem;
-  width: 1px;
-  background: var(--willa-reasoning-steps-line);
-  content: "";
-}
-
-.willa-reasoning-steps--sm .willa-reasoning-step:not(:last-child)::before {
-  top: 1.72rem;
-  bottom: -0.54rem;
-  left: 0.74rem;
-}
-
-.willa-reasoning-steps--compact .willa-reasoning-step:not(:last-child)::before {
-  bottom: -0.2rem;
-}
-
-.willa-reasoning-step-marker {
-  z-index: 1;
-  display: inline-grid;
-  box-sizing: border-box;
-  flex: none;
-  place-items: center;
-  border: 1px solid var(--willa-reasoning-steps-marker-border);
+.willa-reasoning-steps-timeline .willa-timeline-marker {
   border-radius: 0.64rem;
-  background: var(--willa-reasoning-steps-marker-bg);
-  color: var(--willa-reasoning-steps-marker);
 }
 
-.willa-reasoning-steps--sm .willa-reasoning-step-marker {
-  width: 1.48rem;
-  height: 1.48rem;
+.willa-reasoning-steps--sm .willa-timeline-marker {
   border-radius: 0.52rem;
 }
 
-.willa-reasoning-steps--md .willa-reasoning-step-marker {
-  width: 1.72rem;
-  height: 1.72rem;
-}
-
-.willa-reasoning-step-marker svg {
+.willa-reasoning-steps-timeline .willa-timeline-icon svg {
   width: 0.92rem;
   height: 0.92rem;
 }
@@ -181,161 +132,41 @@
   background: currentColor;
 }
 
-.willa-reasoning-step-body {
-  display: grid;
-  min-width: 0;
-  border: 1px solid var(--willa-reasoning-steps-card-border);
-  border-radius: 0.86rem;
-  background: var(--willa-reasoning-steps-card-bg);
-  transition:
-    border-color 150ms ease,
-    background-color 150ms ease,
-    box-shadow 150ms ease;
-}
-
-.willa-reasoning-steps--interactive .willa-reasoning-step {
-  cursor: pointer;
-}
-
-.willa-reasoning-steps--interactive
-  .willa-reasoning-step:hover
-  .willa-reasoning-step-body {
-  border-color: var(--willa-reasoning-steps-card-border-hover);
-  background: var(--willa-reasoning-steps-card-bg-hover);
-}
-
-.willa-reasoning-steps--interactive .willa-reasoning-step:focus-visible {
-  outline: none;
-}
-
-.willa-reasoning-steps--interactive
-  .willa-reasoning-step:focus-visible
-  .willa-reasoning-step-body {
-  border-color: var(--willa-reasoning-steps-focus-border);
-  box-shadow: 0 0 0 3px var(--willa-reasoning-steps-focus-ring);
-}
-
-.willa-reasoning-steps--sm .willa-reasoning-step-body {
-  gap: 0.22rem;
-  padding: 0.58rem 0.68rem;
-}
-
-.willa-reasoning-steps--md .willa-reasoning-step-body {
-  gap: 0.28rem;
-  padding: 0.76rem 0.84rem;
-}
-
-.willa-reasoning-step-header {
-  display: flex;
-  min-width: 0;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.72rem;
-}
-
-.willa-reasoning-step-title {
-  min-width: 0;
-  overflow: hidden;
-  color: var(--willa-reasoning-steps-title);
+.willa-reasoning-steps-timeline .willa-timeline-item-title {
   font-weight: 660;
-  line-height: 1.35;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
-.willa-reasoning-steps--sm .willa-reasoning-step-title {
-  font-size: 0.82rem;
-}
-
-.willa-reasoning-steps--md .willa-reasoning-step-title {
-  font-size: 0.9rem;
-}
-
-.willa-reasoning-step-meta {
-  flex: none;
+.willa-reasoning-steps-timeline .willa-timeline-meta {
   color: var(--willa-reasoning-steps-meta);
-  font-size: 0.74rem;
-  line-height: 1.45;
-  white-space: nowrap;
-}
-
-.willa-reasoning-step-description,
-.willa-reasoning-step-content {
-  color: var(--willa-reasoning-steps-muted);
-  font-size: 0.8rem;
-  line-height: 1.55;
 }
 
 .willa-reasoning-step-content {
+  display: block;
+  box-sizing: border-box;
+  padding: 0.56rem 0.64rem;
   border: 1px solid var(--willa-reasoning-steps-panel-border);
   border-radius: 0.62rem;
   background: var(--willa-reasoning-steps-panel-bg);
   color: var(--willa-reasoning-steps-panel-text);
-  padding: 0.56rem 0.64rem;
 }
 
-.willa-reasoning-step--active {
-  --willa-reasoning-steps-marker: var(--willa-reasoning-steps-active);
-  --willa-reasoning-steps-meta: var(--willa-reasoning-steps-active);
-  --willa-reasoning-steps-marker-border: var(
-    --willa-reasoning-steps-active-border
-  );
-  --willa-reasoning-steps-marker-bg: var(--willa-reasoning-steps-active-bg);
-  --willa-reasoning-steps-card-border: var(
-    --willa-reasoning-steps-active-card-border
-  );
+.willa-reasoning-step--active .willa-timeline-card {
+  border-color: var(--willa-reasoning-steps-active-card-border);
 }
 
-.willa-reasoning-step--done {
-  --willa-reasoning-steps-marker: var(--willa-reasoning-steps-done);
-  --willa-reasoning-steps-meta: var(--willa-reasoning-steps-done);
-  --willa-reasoning-steps-marker-border: var(
-    --willa-reasoning-steps-done-border
-  );
-  --willa-reasoning-steps-marker-bg: var(--willa-reasoning-steps-done-bg);
-  --willa-reasoning-steps-card-border: var(
-    --willa-reasoning-steps-done-card-border
-  );
+.willa-reasoning-step--done .willa-timeline-card {
+  border-color: var(--willa-reasoning-steps-done-card-border);
 }
 
-.willa-reasoning-step--pending {
-  --willa-reasoning-steps-marker-border: var(
-    --willa-reasoning-steps-pending-border
-  );
-  --willa-reasoning-steps-marker-bg: var(--willa-reasoning-steps-pending-bg);
-  --willa-reasoning-steps-card-border: var(
-    --willa-reasoning-steps-pending-card-border
-  );
+.willa-reasoning-step--pending .willa-timeline-card {
+  border-color: var(--willa-reasoning-steps-pending-card-border);
 }
 
-.willa-reasoning-step--error {
-  --willa-reasoning-steps-marker: var(--willa-reasoning-steps-error);
-  --willa-reasoning-steps-meta: var(--willa-reasoning-steps-error);
-  --willa-reasoning-steps-marker-border: var(
-    --willa-reasoning-steps-error-border
-  );
-  --willa-reasoning-steps-marker-bg: var(--willa-reasoning-steps-error-bg);
-  --willa-reasoning-steps-card-border: var(
-    --willa-reasoning-steps-error-card-border
-  );
-}
-
-.willa-reasoning-steps--compact .willa-reasoning-step-body {
-  border-color: transparent;
-  background: transparent;
-  padding-inline: 0;
+.willa-reasoning-step--error .willa-timeline-card {
+  border-color: var(--willa-reasoning-steps-error-card-border);
 }
 
 @media (max-width: 767px) {
-  .willa-reasoning-step {
-    gap: 0.58rem;
-  }
-
-  .willa-reasoning-step-header {
-    display: grid;
-    gap: 0.16rem;
-  }
-
   .willa-reasoning-steps-toggle {
     grid-template-columns: minmax(0, 1fr) auto;
   }
@@ -344,8 +175,6 @@
     display: none;
   }
 
-  .willa-reasoning-step-title,
-  .willa-reasoning-step-meta,
   .willa-reasoning-steps-toggle-summary {
     white-space: normal;
   }

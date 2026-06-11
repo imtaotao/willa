@@ -12,6 +12,10 @@ import {
   DotsHorizontalIcon,
 } from "@radix-ui/react-icons";
 import classNames from "classnames";
+import {
+  Timeline,
+  type TimelineItem,
+} from "@willa-ui/content/components/Timeline";
 
 export type ReasoningStepStatus = "pending" | "active" | "done" | "error";
 export type ReasoningStepsSize = "sm" | "md";
@@ -111,67 +115,16 @@ export function ReasoningSteps({
       ) : null}
 
       {!isCollapsed ? (
-        <ol className="willa-reasoning-steps-list">
-          {steps.map((step, index) => {
-            const status = resolveReasoningStepStatus(step, index, activeStep);
-
-            return (
-              <li
-                key={step.id}
-                className={classNames(
-                  "willa-reasoning-step",
-                  `willa-reasoning-step--${status}`,
-                )}
-                role={isInteractive ? "button" : undefined}
-                tabIndex={isInteractive ? 0 : undefined}
-                onClick={(event) => {
-                  onStepClick?.({ step, index, status, event });
-                }}
-                onKeyDown={(event) => {
-                  if (!onStepClick) {
-                    return;
-                  }
-
-                  if (event.key !== "Enter" && event.key !== " ") {
-                    return;
-                  }
-
-                  event.preventDefault();
-                  onStepClick({ step, index, status, event });
-                }}
-              >
-                <span
-                  className="willa-reasoning-step-marker"
-                  aria-hidden="true"
-                >
-                  {step.icon ?? <ReasoningStepMark status={status} />}
-                </span>
-                <span className="willa-reasoning-step-body">
-                  <span className="willa-reasoning-step-header">
-                    <span className="willa-reasoning-step-title">
-                      {step.title}
-                    </span>
-                    {step.meta ? (
-                      <span className="willa-reasoning-step-meta">
-                        {step.meta}
-                      </span>
-                    ) : null}
-                  </span>
-                  {step.description ? (
-                    <span className="willa-reasoning-step-description">
-                      {step.description}
-                    </span>
-                  ) : null}
-                  {step.content ? (
-                    <span className="willa-reasoning-step-content">
-                      {step.content}
-                    </span>
-                  ) : null}
-                </span>
-              </li>
-            );
+        <Timeline
+          className="willa-reasoning-steps-timeline"
+          items={createReasoningTimelineItems({
+            activeStep,
+            onStepClick,
+            steps,
           })}
-        </ol>
+          size={size}
+          variant={compact ? "compact" : "default"}
+        />
       ) : null}
     </div>
   );
@@ -206,3 +159,43 @@ const resolveReasoningStepStatus = (
   }
   return "pending";
 };
+
+const createReasoningTimelineItems = (options: {
+  steps: Array<ReasoningStepItem>;
+  activeStep: number;
+  onStepClick?: (event: ReasoningStepClickEvent) => void;
+}): Array<TimelineItem> => {
+  const { steps, activeStep, onStepClick } = options;
+
+  return steps.map((step, index) => {
+    const status = resolveReasoningStepStatus(step, index, activeStep);
+
+    return {
+      id: step.id,
+      title: step.title,
+      description: step.description,
+      content: step.content ? (
+        <span className="willa-reasoning-step-content">{step.content}</span>
+      ) : undefined,
+      meta: step.meta,
+      icon: step.icon ?? <ReasoningStepMark status={status} />,
+      tone: reasoningStepToneMap[status],
+      className: classNames(
+        "willa-reasoning-step",
+        `willa-reasoning-step--${status}`,
+      ),
+      onClick: onStepClick
+        ? (event) => {
+            onStepClick({ step, index, status, event });
+          }
+        : undefined,
+    };
+  });
+};
+
+const reasoningStepToneMap = {
+  pending: "default",
+  active: "info",
+  done: "success",
+  error: "danger",
+} satisfies Record<ReasoningStepStatus, TimelineItem["tone"]>;

@@ -206,7 +206,52 @@ export default defineDoc({
     {
       title: "点击查看详情",
       code: `
-        <InteractiveReasoningSteps />;
+        import { useState } from "react";
+        import {
+          ReasoningSteps,
+          type ReasoningStepItem,
+        } from "willa/ReasoningSteps";
+        import "willa/ReasoningSteps.css";
+
+        const steps: Array<ReasoningStepItem> = [
+          {
+            id: "parse",
+            title: "理解用户问题",
+            description: "识别目标、约束和需要核对的上下文。",
+            meta: "已完成",
+          },
+          {
+            id: "search",
+            title: "检索相关资料",
+            description: "读取 architecture.md、component.md 和最近新增组件。",
+            meta: "进行中",
+          },
+          {
+            id: "draft",
+            title: "整理回答",
+            description: "把证据、判断和建议合并成可执行结论。",
+            meta: "等待中",
+          },
+        ];
+
+        const Demo = () => {
+          const [selectedStep, setSelectedStep] = useState(steps[0]);
+
+          return (
+            <div style={{ display: "grid", gap: "1rem" }}>
+              <ReasoningSteps
+                steps={steps}
+                activeStep={1}
+                onStepClick={({ step }) => setSelectedStep(step)}
+              />
+              <div>
+                <strong>{selectedStep.title}</strong>
+                <br />
+                {selectedStep.description}
+              </div>
+            </div>
+          );
+        };
       `,
       content: <InteractiveReasoningSteps />,
     },

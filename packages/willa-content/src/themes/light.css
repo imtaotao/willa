@@ -265,6 +265,31 @@
   --willa-tabs-tab-active-bg: #ffffff;
   --willa-tabs-tab-active-border: rgba(15, 23, 42, 0.06);
   --willa-tabs-tab-active-text: var(--willa-text-strong);
+  --willa-timeline-card-bg: #fcfdff;
+  --willa-timeline-card-bg-hover: #f7faff;
+  --willa-timeline-card-border: rgba(15, 23, 42, 0.1);
+  --willa-timeline-card-border-hover: rgba(37, 99, 235, 0.18);
+  --willa-timeline-focus-border: rgba(37, 99, 235, 0.28);
+  --willa-timeline-focus-ring: rgba(37, 99, 235, 0.12);
+  --willa-timeline-line: rgba(15, 23, 42, 0.12);
+  --willa-timeline-marker-bg: #f4f7fb;
+  --willa-timeline-marker-border: rgba(15, 23, 42, 0.12);
+  --willa-timeline-marker-text: #64748b;
+  --willa-timeline-title: var(--willa-text-strong);
+  --willa-timeline-text: var(--willa-text);
+  --willa-timeline-muted: var(--willa-text-soft);
+  --willa-timeline-info-bg: #eef5ff;
+  --willa-timeline-info-border: #bfdbfe;
+  --willa-timeline-info-text: #2563eb;
+  --willa-timeline-success-bg: #eefbf4;
+  --willa-timeline-success-border: #b7ebcd;
+  --willa-timeline-success-text: #059669;
+  --willa-timeline-warning-bg: #fff7e6;
+  --willa-timeline-warning-border: #f4d08a;
+  --willa-timeline-warning-text: #b7791f;
+  --willa-timeline-danger-bg: #fff1f1;
+  --willa-timeline-danger-border: #fecaca;
+  --willa-timeline-danger-text: #dc2626;
   --willa-skeleton-bg: linear-gradient(
     90deg,
     rgba(148, 163, 184, 0.14),

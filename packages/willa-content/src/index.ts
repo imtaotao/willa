@@ -38,6 +38,7 @@ export { Spinner } from "#content/components/Spinner";
 export { Step, Steps } from "#content/components/Steps";
 export { Table } from "#content/components/Table";
 export { Tabs } from "#content/components/Tabs";
+export { Timeline } from "#content/components/Timeline";
 export { createToast, toast } from "#content/components/Toast";
 export { Tooltip } from "#content/components/Tooltip";
 
@@ -217,6 +218,13 @@ export type {
   TableSortState,
 } from "#content/components/Table";
 export type { TabsItem, TabsProps, TabsSize } from "#content/components/Tabs";
+export type {
+  TimelineItem,
+  TimelineProps,
+  TimelineSize,
+  TimelineTone,
+  TimelineVariant,
+} from "#content/components/Timeline";
 export type {
   ToastAction,
   ToastApi,

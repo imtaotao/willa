@@ -105,6 +105,7 @@ const willaDemoImportNames = new Set([
   "Tabs",
   "TextArea",
   "ThinkingIndicator",
+  "Timeline",
   "Toast",
   "ToolCallCard",
   "Tooltip",

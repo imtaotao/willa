@@ -261,6 +261,31 @@
   --willa-tabs-tab-active-bg: rgba(255, 255, 255, 0.12);
   --willa-tabs-tab-active-border: rgba(255, 255, 255, 0.08);
   --willa-tabs-tab-active-text: var(--willa-text-strong);
+  --willa-timeline-card-bg: rgba(255, 255, 255, 0.055);
+  --willa-timeline-card-bg-hover: rgba(255, 255, 255, 0.075);
+  --willa-timeline-card-border: rgba(255, 255, 255, 0.1);
+  --willa-timeline-card-border-hover: rgba(125, 211, 252, 0.18);
+  --willa-timeline-focus-border: rgba(125, 211, 252, 0.26);
+  --willa-timeline-focus-ring: rgba(125, 211, 252, 0.12);
+  --willa-timeline-line: rgba(255, 255, 255, 0.12);
+  --willa-timeline-marker-bg: rgba(255, 255, 255, 0.07);
+  --willa-timeline-marker-border: rgba(255, 255, 255, 0.12);
+  --willa-timeline-marker-text: rgba(255, 255, 255, 0.7);
+  --willa-timeline-title: var(--willa-text-strong);
+  --willa-timeline-text: var(--willa-text);
+  --willa-timeline-muted: var(--willa-text-soft);
+  --willa-timeline-info-bg: rgba(125, 211, 252, 0.11);
+  --willa-timeline-info-border: rgba(125, 211, 252, 0.2);
+  --willa-timeline-info-text: #7dd3fc;
+  --willa-timeline-success-bg: rgba(134, 239, 172, 0.1);
+  --willa-timeline-success-border: rgba(134, 239, 172, 0.2);
+  --willa-timeline-success-text: #86efac;
+  --willa-timeline-warning-bg: rgba(251, 191, 36, 0.11);
+  --willa-timeline-warning-border: rgba(251, 191, 36, 0.22);
+  --willa-timeline-warning-text: #fbbf24;
+  --willa-timeline-danger-bg: rgba(252, 165, 165, 0.1);
+  --willa-timeline-danger-border: rgba(252, 165, 165, 0.22);
+  --willa-timeline-danger-text: #fca5a5;
   --willa-skeleton-bg: linear-gradient(
     90deg,
     rgba(148, 163, 184, 0.1),

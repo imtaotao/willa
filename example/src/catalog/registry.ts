@@ -93,6 +93,7 @@ const docSpecGroups = {
     "Steps",
     "Table",
     "Tabs",
+    "Timeline",
     "Toast",
     "Tooltip",
   ],
