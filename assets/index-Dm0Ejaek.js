@@ -1,0 +1,1 @@
+import{al as r,ac as m}from"./index-CQ5SwHlJ.js";function f(a){const{children:s,align:i="end",direction:o="row",gap:c="sm",sticky:l=!1,className:t,...n}=a;return r.jsx("div",{...n,className:m("willa-form-actions",`willa-form-actions--${i}`,`willa-form-actions--${o}`,`willa-form-actions--gap-${c}`,l&&"willa-form-actions--sticky",t),children:s})}export{f as F};
