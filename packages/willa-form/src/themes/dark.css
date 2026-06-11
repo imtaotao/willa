@@ -1,6 +1,7 @@
 :root[data-wk-theme="dark"] .willa-shell,
 :root[data-wk-theme="dark"] .willa-date-picker-panel,
-:root[data-wk-theme="dark"] .willa-select-list {
+:root[data-wk-theme="dark"] .willa-picker-panel,
+:root[data-wk-theme="dark"] .willa-tree-select-panel {
   --willa-upload-bg: rgba(255, 255, 255, 0.055);
   --willa-upload-bg-hover: rgba(125, 211, 252, 0.09);
   --willa-upload-border: rgba(255, 255, 255, 0.12);
@@ -65,8 +66,25 @@
   --willa-date-picker-selected-bg: rgba(125, 211, 252, 0.18);
   --willa-date-picker-selected-border: rgba(125, 211, 252, 0.42);
   --willa-date-picker-selected-text: var(--willa-text-strong);
-  --willa-select-list-bg: #20242b;
-  --willa-select-list-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
+  --willa-picker-bg: rgba(255, 255, 255, 0.06);
+  --willa-picker-bg-hover: rgba(255, 255, 255, 0.08);
+  --willa-picker-soft-bg: rgba(255, 255, 255, 0.045);
+  --willa-picker-border: rgba(255, 255, 255, 0.12);
+  --willa-picker-border-hover: rgba(125, 211, 252, 0.24);
+  --willa-picker-border-focus: rgba(125, 211, 252, 0.36);
+  --willa-picker-ring: rgba(125, 211, 252, 0.14);
+  --willa-picker-text: var(--willa-text-strong);
+  --willa-picker-muted: var(--willa-text-soft);
+  --willa-picker-placeholder: var(--willa-text-faint);
+  --willa-picker-panel-bg: #20242b;
+  --willa-picker-panel-border: rgba(255, 255, 255, 0.14);
+  --willa-picker-panel-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
+  --willa-picker-divider: rgba(255, 255, 255, 0.1);
+  --willa-picker-clear-bg-hover: rgba(255, 255, 255, 0.1);
+  --willa-picker-option-bg-hover: rgba(125, 211, 252, 0.1);
+  --willa-picker-option-bg-selected: rgba(125, 211, 252, 0.18);
+  --willa-picker-selected-text: var(--willa-text-strong);
+  --willa-picker-selected-mark: #bae6fd;
   --willa-form-text: var(--willa-text);
   --willa-form-label: var(--willa-text-strong);
   --willa-form-description: var(--willa-text-soft);

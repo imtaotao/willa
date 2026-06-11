@@ -7,12 +7,14 @@ export { FormGroup } from "#form/components/FormGroup";
 export { FormMessage } from "#form/components/FormMessage";
 export { FilterBar } from "#form/components/FilterBar";
 export { Input } from "#form/components/Input";
+export { Picker } from "#form/components/Picker";
 export { Radio } from "#form/components/Radio";
 export { RangeInput } from "#form/components/RangeInput";
 export { SearchInput } from "#form/components/SearchInput";
 export { Select } from "#form/components/Select";
 export { Switch } from "#form/components/Switch";
 export { TextArea } from "#form/components/TextArea";
+export { TreeSelect } from "#form/components/TreeSelect";
 export { Upload } from "#form/components/Upload";
 
 export type { CheckboxProps, CheckboxSize } from "#form/components/Checkbox";
@@ -59,6 +61,13 @@ export type {
   InputSize,
   InputVariant,
 } from "#form/components/Input";
+export type {
+  PickerItem,
+  PickerMode,
+  PickerProps,
+  PickerSize,
+  PickerVariant,
+} from "#form/components/Picker";
 export type { RadioProps, RadioSize } from "#form/components/Radio";
 export type { RangeInputProps } from "#form/components/RangeInput";
 export type { SearchInputProps } from "#form/components/SearchInput";
@@ -75,6 +84,13 @@ export type {
   TextAreaSize,
   TextAreaVariant,
 } from "#form/components/TextArea";
+export type {
+  TreeSelectItem,
+  TreeSelectMode,
+  TreeSelectProps,
+  TreeSelectSize,
+  TreeSelectVariant,
+} from "#form/components/TreeSelect";
 export type {
   UploadErrorHandler,
   UploadFileKind,

@@ -1,6 +1,7 @@
 .willa-shell,
 .willa-date-picker-panel,
-.willa-select-list {
+.willa-picker-panel,
+.willa-tree-select-panel {
   --willa-upload-bg: rgba(248, 250, 252, 0.92);
   --willa-upload-bg-hover: rgba(239, 246, 255, 0.92);
   --willa-upload-border: rgba(15, 23, 42, 0.14);
@@ -66,9 +67,26 @@
   --willa-date-picker-selected-bg: #dbeafe;
   --willa-date-picker-selected-border: rgba(37, 99, 235, 0.46);
   --willa-date-picker-selected-text: var(--willa-text-strong);
-  --willa-select-list-bg: #ffffff;
-  --willa-select-list-shadow:
+  --willa-picker-bg: rgba(255, 255, 255, 0.94);
+  --willa-picker-bg-hover: rgba(248, 250, 252, 0.98);
+  --willa-picker-soft-bg: rgba(15, 23, 42, 0.045);
+  --willa-picker-border: rgba(15, 23, 42, 0.12);
+  --willa-picker-border-hover: rgba(37, 99, 235, 0.24);
+  --willa-picker-border-focus: rgba(37, 99, 235, 0.4);
+  --willa-picker-ring: rgba(37, 99, 235, 0.13);
+  --willa-picker-text: var(--willa-text-strong);
+  --willa-picker-muted: var(--willa-text-soft);
+  --willa-picker-placeholder: var(--willa-text-faint);
+  --willa-picker-panel-bg: #ffffff;
+  --willa-picker-panel-border: rgba(15, 23, 42, 0.12);
+  --willa-picker-panel-shadow:
     0 18px 44px rgba(15, 23, 42, 0.12), 0 4px 12px rgba(15, 23, 42, 0.08);
+  --willa-picker-divider: rgba(15, 23, 42, 0.08);
+  --willa-picker-clear-bg-hover: rgba(15, 23, 42, 0.06);
+  --willa-picker-option-bg-hover: rgba(37, 99, 235, 0.07);
+  --willa-picker-option-bg-selected: #dbeafe;
+  --willa-picker-selected-text: var(--willa-text-strong);
+  --willa-picker-selected-mark: #2563eb;
   --willa-form-text: var(--willa-text);
   --willa-form-label: var(--willa-text-strong);
   --willa-form-description: var(--willa-text-soft);
