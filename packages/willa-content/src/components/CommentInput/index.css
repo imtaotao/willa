@@ -1,0 +1,95 @@
+.willa-comment-input {
+  --willa-input-panel-bg: var(--willa-comment-input-bg);
+  --willa-input-panel-bg-hover: var(--willa-comment-input-bg-hover);
+  --willa-input-panel-border: var(--willa-comment-input-border);
+  --willa-input-panel-border-hover: var(--willa-comment-input-border-hover);
+  --willa-input-panel-border-focus: var(--willa-comment-input-border-focus);
+  --willa-input-panel-footer-bg: var(--willa-comment-input-footer-bg);
+  --willa-input-panel-footer-border: var(--willa-comment-input-footer-border);
+  --willa-input-panel-text: var(--willa-comment-input-text);
+  --willa-input-panel-placeholder: var(--willa-comment-input-placeholder);
+  --willa-input-panel-meta: var(--willa-comment-input-muted);
+}
+
+.willa-comment-input-author {
+  display: flex;
+  align-items: center;
+  gap: 0.46rem;
+}
+
+.willa-comment-input-author-name {
+  color: var(--willa-comment-input-author);
+  font-size: 0.82rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.willa-comment-input-quote {
+  display: block;
+  min-width: 0;
+  padding: 0.04rem 0;
+  color: var(--willa-comment-input-muted);
+  font-size: 0.78rem;
+  line-height: 1.42;
+}
+
+.willa-comment-input-quote-mark {
+  color: var(--willa-comment-input-quote-mark);
+  font-family: var(--willa-title-font);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.willa-comment-input-quote-content {
+  min-width: 0;
+}
+
+.willa-comment-input-quote-author {
+  margin-right: 0.26rem;
+  color: var(--willa-comment-input-quote-author);
+  font-weight: 650;
+}
+
+.willa-comment-input-actions {
+  gap: 0.35rem;
+}
+
+.willa-comment-input-tool {
+  display: inline-flex;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--willa-comment-input-tool-border);
+  border-radius: 0.5rem;
+  background: var(--willa-comment-input-tool-bg);
+  color: var(--willa-comment-input-tool-text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 650;
+  line-height: 1;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.willa-comment-input-tool:hover:not(:disabled) {
+  border-color: var(--willa-comment-input-tool-border-hover);
+  background: var(--willa-comment-input-tool-bg-hover);
+  color: var(--willa-comment-input-tool-text-hover);
+}
+
+.willa-comment-input-tool:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+@media (max-width: 640px) {
+  .willa-comment-input-footer .willa-button {
+    width: 100%;
+  }
+}

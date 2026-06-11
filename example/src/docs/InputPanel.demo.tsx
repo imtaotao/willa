@@ -1,0 +1,223 @@
+import { useState } from "react";
+import { PaperPlaneIcon } from "@radix-ui/react-icons";
+import { Badge } from "willa/Badge";
+import { Button } from "willa/Button";
+import { Group } from "willa/Group";
+import { InputPanel } from "willa/InputPanel";
+import "willa/Badge.css";
+import "willa/Button.css";
+import "willa/Group.css";
+import "willa/InputPanel.css";
+
+import { defineDoc } from "#example/catalog/defineDoc";
+
+const panelFrameStyle = {
+  display: "grid",
+  gap: "0.85rem",
+  width: "min(100%, 52rem)",
+  margin: "0 auto",
+} as const;
+
+const InputPanelPreview = () => {
+  const [value, setValue] = useState("");
+  const [submitted, setSubmitted] = useState("");
+
+  return (
+    <div style={panelFrameStyle}>
+      <InputPanel
+        value={value}
+        onValueChange={setValue}
+        placeholder="写下问题、反馈或操作指令..."
+        footer={value ? `${value.length} 个字符` : "⌘ Enter 提交"}
+        onSubmit={(nextValue) => setSubmitted(nextValue)}
+      />
+      {submitted ? <Badge tone="success">已提交：{submitted}</Badge> : null}
+    </div>
+  );
+};
+
+export default defineDoc({
+  id: "input-panel",
+  name: "InputPanel",
+  category: "content",
+  packageName: "willa/InputPanel",
+  description: "用于封装多行输入、底部信息、快捷操作和提交按钮的通用输入面板。",
+  imports: [{ name: "InputPanel", from: "willa/InputPanel" }],
+  css: "willa/InputPanel.css",
+  demo: {
+    name: "InputPanelPreview",
+    component: InputPanelPreview,
+  },
+  code: `
+    import { useState } from "react";
+    import { InputPanel } from "willa/InputPanel";
+    import "willa/InputPanel.css";
+
+    const Demo = () => {
+      const [value, setValue] = useState("");
+
+      return (
+        <InputPanel
+          value={value}
+          onValueChange={setValue}
+          placeholder="写下问题、反馈或操作指令..."
+          footer={value ? \`\${value.length} 个字符\` : "⌘ Enter 提交"}
+          onSubmit={(nextValue) => console.log(nextValue)}
+        />
+      );
+    };
+  `,
+  sections: [
+    {
+      title: "Enter 发送",
+      code: `
+        import { PaperPlaneIcon } from "@radix-ui/react-icons";
+
+        <InputPanel
+          submitShortcut="enter"
+          submitIcon={<PaperPlaneIcon />}
+          submitLabel="发送"
+          placeholder="输入 AI 指令，Enter 发送，Shift Enter 换行"
+          footer="适合 AI 对话、搜索和生成任务入口"
+        />;
+      `,
+      content: (
+        <div style={panelFrameStyle}>
+          <InputPanel
+            submitShortcut="enter"
+            submitIcon={<PaperPlaneIcon />}
+            submitLabel="发送"
+            placeholder="输入 AI 指令，Enter 发送，Shift Enter 换行"
+            footer="适合 AI 对话、搜索和生成任务入口"
+          />
+        </div>
+      ),
+    },
+    {
+      title: "扩展区域",
+      code: `
+        <InputPanel
+          beforeInput={<Badge tone="info">引用：@产品设计</Badge>}
+          placeholder="回复这条讨论..."
+          actions={
+            <Group gap="xs">
+              <Button size="sm" variant="ghost">
+                @
+              </Button>
+              <Button size="sm" variant="ghost">
+                表情
+              </Button>
+            </Group>
+          }
+          footer="业务可以通过 beforeInput 和 actions 接入引用、提及、表情和附件"
+        />;
+      `,
+      content: (
+        <div style={panelFrameStyle}>
+          <InputPanel
+            beforeInput={<Badge tone="info">引用：@产品设计</Badge>}
+            placeholder="回复这条讨论..."
+            actions={
+              <Group gap="xs">
+                <Button size="sm" variant="ghost">
+                  @
+                </Button>
+                <Button size="sm" variant="ghost">
+                  表情
+                </Button>
+              </Group>
+            }
+            footer="业务可以通过 beforeInput 和 actions 接入引用、提及、表情和附件"
+          />
+        </div>
+      ),
+    },
+  ],
+  props: [
+    {
+      name: "value",
+      type: "string | number | readonly string[]",
+      description: "受控输入值，透传给 textarea。",
+    },
+    {
+      name: "defaultValue",
+      type: "string | number | readonly string[]",
+      description: "非受控默认值。",
+    },
+    {
+      name: "onValueChange",
+      type: "(value: string) => void",
+      description: "输入值变化回调。",
+    },
+    {
+      name: "onSubmit",
+      type: "(value: string, event: InputPanelSubmitEvent) => void",
+      description: "提交回调。",
+    },
+    {
+      name: "size",
+      type: '"md" | "lg"',
+      description: "输入面板尺寸。",
+    },
+    {
+      name: "autoResize",
+      type: "boolean",
+      description: "是否根据内容自动调整高度，默认开启。",
+    },
+    {
+      name: "minRows",
+      type: "number",
+      description: "最小行数，默认 3。",
+    },
+    {
+      name: "maxRows",
+      type: "number",
+      description: "自动高度时的最大行数，默认 8。",
+    },
+    {
+      name: "submitShortcut",
+      type: '"enter" | "mod-enter" | "none"',
+      description: "键盘提交方式，默认 mod-enter。",
+    },
+    {
+      name: "allowEmptySubmit",
+      type: "boolean",
+      description: "是否允许空内容提交。",
+    },
+    {
+      name: "loading",
+      type: "boolean",
+      description: "提交按钮加载态。",
+    },
+    {
+      name: "beforeInput",
+      type: "ReactNode",
+      description: "输入区上方内容，适合引用、上下文或附件摘要。",
+    },
+    {
+      name: "footer",
+      type: "ReactNode",
+      description: "底部左侧说明内容。",
+    },
+    {
+      name: "actions",
+      type: "ReactNode",
+      description: "提交按钮前的快捷操作。",
+    },
+    {
+      name: "submitLabel",
+      type: "ReactNode",
+      description: "提交按钮文案。",
+    },
+    {
+      name: "submitIcon",
+      type: "ReactNode",
+      description: "提交按钮图标。",
+    },
+    {
+      name: "submitButton",
+      type: "ReactNode",
+      description: "自定义提交按钮，传入后会替换默认按钮。",
+    },
+  ],
+});

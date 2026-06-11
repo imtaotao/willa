@@ -6,6 +6,9 @@ export { Callout } from "#content/components/Callout";
 export { ChatThread } from "#content/components/ChatThread";
 export { Citation } from "#content/components/Citation";
 export { CodeBlock } from "#content/components/CodeBlock";
+export { Comment } from "#content/components/Comment";
+export { CommentInput } from "#content/components/CommentInput";
+export { CommentList } from "#content/components/CommentList";
 
 export { CodeTabs } from "#content/components/CodeTabs";
 export { DetailsBlock } from "#content/components/DetailsBlock";
@@ -19,6 +22,7 @@ export { Group } from "#content/components/Group";
 export { Image } from "#content/components/Image";
 export { ImageGallery } from "#content/components/ImageGallery";
 export { IconButton } from "#content/components/IconButton";
+export { InputPanel } from "#content/components/InputPanel";
 export { Kbd, KbdShortcut } from "#content/components/Kbd";
 export { Lightbox, normalizeLightboxImage } from "#content/components/Lightbox";
 export { Menu } from "#content/components/Menu";
@@ -69,6 +73,20 @@ export type {
   CodeTabsProps,
   CodeTabsSize,
 } from "#content/components/CodeTabs";
+export type {
+  CommentProps,
+  CommentSize,
+  CommentVariant,
+} from "#content/components/Comment";
+export type {
+  CommentInputQuote,
+  CommentInputProps,
+  CommentInputSubmitContext,
+} from "#content/components/CommentInput";
+export type {
+  CommentListItem,
+  CommentListProps,
+} from "#content/components/CommentList";
 export type { DetailsBlockProps } from "#content/components/DetailsBlock";
 export type { DialogProps, DialogSize } from "#content/components/Dialog";
 export type {
@@ -111,6 +129,13 @@ export type {
   IconButtonSize,
   IconButtonVariant,
 } from "#content/components/IconButton";
+export type {
+  InputPanelProps,
+  InputPanelSize,
+  InputPanelSlotClassNames,
+  InputPanelSubmitEvent,
+  InputPanelSubmitShortcut,
+} from "#content/components/InputPanel";
 export type {
   KbdProps,
   KbdShortcutProps,

@@ -84,6 +84,7 @@
 
 .willa-input-control::placeholder {
   color: var(--willa-input-placeholder);
+  font-weight: 450;
   opacity: 1;
 }
 

@@ -1,39 +1,21 @@
-import {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-  type ChangeEvent,
-  type ComponentPropsWithoutRef,
-  type CSSProperties,
-  type KeyboardEvent,
-  type ReactNode,
-} from "react";
+import { forwardRef } from "react";
 import classNames from "classnames";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
-import { Button } from "@willa-ui/content/components/Button";
+import {
+  InputPanel,
+  type InputPanelProps,
+  type InputPanelSubmitEvent,
+} from "@willa-ui/content/components/InputPanel";
 
 export type PromptInputSize = "md" | "lg";
-export type PromptInputSubmitEvent = Parameters<
-  NonNullable<ComponentPropsWithoutRef<"form">["onSubmit"]>
->[0];
+export type PromptInputSubmitEvent = InputPanelSubmitEvent;
 
 export type PromptInputProps = Omit<
-  ComponentPropsWithoutRef<"textarea">,
-  "children" | "onSubmit" | "size"
+  InputPanelProps,
+  "children" | "onSubmit" | "size" | "submitShortcut"
 > & {
   size?: PromptInputSize;
-  autoResize?: boolean;
-  minRows?: number;
-  maxRows?: number;
   submitOnEnter?: boolean;
-  allowEmptySubmit?: boolean;
-  loading?: boolean;
-  footer?: ReactNode;
-  actions?: ReactNode;
-  submitLabel?: ReactNode;
-  submitIcon?: ReactNode;
   onSubmit?: (value: string, event: PromptInputSubmitEvent) => void;
 };
 
@@ -62,130 +44,46 @@ export const PromptInput = forwardRef<HTMLTextAreaElement, PromptInputProps>(
       onSubmit,
       ...textAreaProps
     } = props;
-    const textAreaRef = useRef<HTMLTextAreaElement>(null);
-    const [uncontrolledValue, setUncontrolledValue] = useState(() =>
-      String(defaultValue ?? ""),
-    );
-    const isControlled = value !== undefined;
-    const currentValue = String(isControlled ? value : uncontrolledValue);
-    const isSubmitDisabled =
-      disabled || loading || (!allowEmptySubmit && currentValue.trim() === "");
-    const promptInputStyle = getPromptInputStyle({ maxRows, minRows, style });
-
-    useImperativeHandle(forwardedRef, () => textAreaRef.current!, []);
-
-    useEffect(() => {
-      if (!autoResize) return;
-
-      resizeTextArea(textAreaRef.current);
-    }, [autoResize, currentValue, minRows, maxRows]);
-
-    const submitForm = () => {
-      const form = textAreaRef.current?.form;
-      if (!form) return;
-
-      form.requestSubmit();
-    };
-
-    const handleSubmit = (event: PromptInputSubmitEvent) => {
-      event.preventDefault();
-
-      if (isSubmitDisabled) return;
-
-      onSubmit?.(currentValue, event);
-    };
-
-    const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-      if (!isControlled) {
-        setUncontrolledValue(event.currentTarget.value);
-      }
-
-      onChange?.(event);
-    };
-
-    const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-      onKeyDown?.(event);
-
-      if (
-        event.defaultPrevented ||
-        !submitOnEnter ||
-        event.key !== "Enter" ||
-        event.shiftKey ||
-        event.metaKey ||
-        event.ctrlKey ||
-        event.altKey ||
-        event.nativeEvent.isComposing
-      ) {
-        return;
-      }
-
-      event.preventDefault();
-      submitForm();
-    };
 
     return (
-      <form
+      <InputPanel
+        {...textAreaProps}
+        ref={forwardedRef}
         className={classNames(
           "willa-prompt-input",
           `willa-prompt-input--${size}`,
           disabled && "willa-prompt-input--disabled",
           className,
         )}
-        style={promptInputStyle}
-        onSubmit={handleSubmit}
-      >
-        <textarea
-          {...textAreaProps}
-          ref={textAreaRef}
-          className="willa-prompt-input-control"
-          value={value}
-          defaultValue={isControlled ? undefined : defaultValue}
-          placeholder={placeholder}
-          disabled={disabled}
-          rows={minRows}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-        />
-        <div className="willa-prompt-input-footer">
-          <div className="willa-prompt-input-meta">{footer}</div>
-          <div className="willa-prompt-input-actions">
-            {actions}
-            <Button
-              className="willa-prompt-input-submit"
-              type="submit"
-              size={size === "lg" ? "md" : "sm"}
-              loading={loading}
-              disabled={isSubmitDisabled}
-              icon={submitIcon}
-            >
-              {submitLabel}
-            </Button>
-          </div>
-        </div>
-      </form>
+        slotClassNames={{
+          actions: "willa-prompt-input-actions",
+          control: "willa-prompt-input-control",
+          footer: "willa-prompt-input-footer",
+          meta: "willa-prompt-input-meta",
+          submit: "willa-prompt-input-submit",
+        }}
+        style={style}
+        size={size}
+        autoResize={autoResize}
+        minRows={minRows}
+        maxRows={maxRows}
+        submitShortcut={submitOnEnter ? "enter" : "none"}
+        allowEmptySubmit={allowEmptySubmit}
+        loading={loading}
+        footer={footer}
+        actions={actions}
+        submitLabel={submitLabel}
+        submitIcon={submitIcon}
+        value={value}
+        defaultValue={defaultValue}
+        placeholder={placeholder}
+        disabled={disabled}
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+        onSubmit={onSubmit}
+      />
     );
   },
 );
 
 PromptInput.displayName = "PromptInput";
-
-const resizeTextArea = (textArea: HTMLTextAreaElement | null) => {
-  if (!textArea) return;
-
-  textArea.style.height = "auto";
-  textArea.style.height = `${textArea.scrollHeight}px`;
-};
-
-const getPromptInputStyle = (options: {
-  maxRows: number;
-  minRows: number;
-  style?: CSSProperties;
-}) => {
-  const { maxRows, minRows, style } = options;
-
-  return {
-    ...style,
-    "--willa-prompt-input-max-rows": maxRows,
-    "--willa-prompt-input-min-rows": minRows,
-  } as CSSProperties;
-};

@@ -176,6 +176,6 @@
   --willa-prompt-input-footer-bg: #ffffff;
   --willa-prompt-input-footer-border: transparent;
   --willa-prompt-input-text: #202632;
-  --willa-prompt-input-placeholder: #8b99b5;
+  --willa-prompt-input-placeholder: var(--willa-text-faint);
   --willa-prompt-input-meta: #60708f;
 }
