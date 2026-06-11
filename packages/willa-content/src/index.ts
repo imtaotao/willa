@@ -1,5 +1,6 @@
 export { Avatar } from "#content/components/Avatar";
 export { Badge } from "#content/components/Badge";
+export { Breadcrumb } from "#content/components/Breadcrumb";
 export { Button } from "#content/components/Button";
 export { Card } from "#content/components/Card";
 export { Callout } from "#content/components/Callout";
@@ -28,10 +29,12 @@ export { Kbd, KbdShortcut } from "#content/components/Kbd";
 export { Lightbox, normalizeLightboxImage } from "#content/components/Lightbox";
 export { Menu } from "#content/components/Menu";
 export { NotFound } from "#content/components/NotFound";
+export { PageHeader } from "#content/components/PageHeader";
 export { Pagination } from "#content/components/Pagination";
 export { Popover } from "#content/components/Popover";
 export { Progress } from "#content/components/Progress";
 export { Separator } from "#content/components/Separator";
+export { SectionHeader } from "#content/components/SectionHeader";
 export { Skeleton } from "#content/components/Skeleton";
 export { SourceCard } from "#content/components/SourceCard";
 export { Spinner } from "#content/components/Spinner";
@@ -54,6 +57,11 @@ export type {
   BadgeTone,
   BadgeVariant,
 } from "#content/components/Badge";
+export type {
+  BreadcrumbItem,
+  BreadcrumbProps,
+  BreadcrumbSize,
+} from "#content/components/Breadcrumb";
 export type {
   ButtonProps,
   ButtonSize,
@@ -171,6 +179,10 @@ export type {
 } from "#content/components/Menu";
 export type { NotFoundProps } from "#content/components/NotFound";
 export type {
+  PageHeaderAlign,
+  PageHeaderProps,
+} from "#content/components/PageHeader";
+export type {
   PaginationEllipsisContext,
   PaginationProps,
   PaginationSize,
@@ -192,6 +204,11 @@ export type {
   SeparatorProps,
   SeparatorSize,
 } from "#content/components/Separator";
+export type {
+  SectionHeaderAlign,
+  SectionHeaderProps,
+  SectionHeaderSize,
+} from "#content/components/SectionHeader";
 export type { SkeletonProps } from "#content/components/Skeleton";
 export type {
   SourceCardProps,

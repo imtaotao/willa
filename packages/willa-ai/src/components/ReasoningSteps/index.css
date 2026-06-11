@@ -120,6 +120,15 @@
   border-radius: 0.52rem;
 }
 
+.willa-reasoning-steps--compact .willa-timeline-card {
+  padding: 0.7rem 0.82rem;
+  background: var(--willa-reasoning-steps-card-bg);
+}
+
+.willa-reasoning-steps--compact.willa-reasoning-steps--sm .willa-timeline-card {
+  padding: 0.62rem 0.72rem;
+}
+
 .willa-reasoning-steps-timeline .willa-timeline-icon svg {
   width: 0.92rem;
   height: 0.92rem;

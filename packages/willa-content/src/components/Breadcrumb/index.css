@@ -1,0 +1,92 @@
+.willa-breadcrumb {
+  box-sizing: border-box;
+  min-width: 0;
+  color: var(--willa-text-soft);
+  font-family: var(--willa-body-font);
+}
+
+.willa-breadcrumb-list {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.22rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.willa-breadcrumb-item {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.22rem;
+}
+
+.willa-breadcrumb-link,
+.willa-breadcrumb-current {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.32rem;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.willa-breadcrumb-link {
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+
+.willa-breadcrumb-link:hover {
+  color: var(--willa-text-strong);
+}
+
+.willa-breadcrumb-link:focus-visible {
+  border-radius: 0.28rem;
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-breadcrumb-current {
+  color: var(--willa-text-strong);
+  font-weight: 620;
+}
+
+.willa-breadcrumb-icon,
+.willa-breadcrumb-separator {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.willa-breadcrumb-icon svg,
+.willa-breadcrumb-separator svg {
+  width: 1em;
+  height: 1em;
+}
+
+.willa-breadcrumb-separator {
+  color: var(--willa-text-faint);
+}
+
+.willa-breadcrumb-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.willa-breadcrumb--sm {
+  font-size: 0.78rem;
+}
+
+.willa-breadcrumb--md {
+  font-size: 0.84rem;
+}

@@ -1,0 +1,104 @@
+.willa-section-header {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--willa-text);
+  font-family: var(--willa-body-font);
+}
+
+.willa-section-header--divided {
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--willa-line);
+}
+
+.willa-section-header-main {
+  display: grid;
+  min-width: 0;
+  gap: 0.38rem;
+}
+
+.willa-section-header-eyebrow {
+  color: var(--willa-text-faint);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.willa-section-header-heading {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.willa-section-header-title {
+  margin: 0;
+  color: var(--willa-text-strong);
+  font-family: var(--willa-title-font);
+  font-weight: 720;
+  line-height: 1.24;
+  letter-spacing: 0;
+}
+
+.willa-section-header--sm .willa-section-header-title {
+  font-size: 1rem;
+}
+
+.willa-section-header--md .willa-section-header-title {
+  font-size: 1.24rem;
+}
+
+.willa-section-header-meta {
+  color: var(--willa-text-soft);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.willa-section-header-description {
+  max-width: 48rem;
+  margin: 0;
+  color: var(--willa-text-soft);
+  font-size: 0.92rem;
+  line-height: 1.62;
+}
+
+.willa-section-header-actions {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.willa-section-header--center {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.willa-section-header--center .willa-section-header-main {
+  justify-items: center;
+}
+
+.willa-section-header--center .willa-section-header-actions {
+  justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .willa-section-header {
+    flex-direction: column;
+    gap: 0.72rem;
+  }
+
+  .willa-section-header-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
