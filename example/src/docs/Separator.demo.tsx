@@ -14,6 +14,7 @@ const metaRowStyle = {
 export default defineDoc({
   id: "separator",
   name: "Separator",
+  category: "layout",
   packageName: "willa/Separator",
   description: "用于内容段落、文章区块和行内元信息之间的轻量分隔。",
   imports: [{ name: "Separator", from: "willa/Separator" }],
@@ -42,6 +43,23 @@ export default defineDoc({
         <Separator>相关阅读</Separator>;
       `,
       content: <Separator>相关阅读</Separator>,
+    },
+    {
+      title: "线条样式",
+      code: `
+        <div style={{ display: "grid", gap: "0.2rem" }}>
+          <Separator variant="solid">实线</Separator>
+          <Separator variant="dashed">虚线</Separator>
+          <Separator variant="dotted">点线</Separator>
+        </div>;
+      `,
+      content: (
+        <div style={{ display: "grid", gap: "0.2rem" }}>
+          <Separator variant="solid">实线</Separator>
+          <Separator variant="dashed">虚线</Separator>
+          <Separator variant="dotted">点线</Separator>
+        </div>
+      ),
     },
     {
       title: "文案位置",
@@ -102,6 +120,13 @@ export default defineDoc({
         </div>
       ),
     },
+    {
+      title: "弱化文案",
+      code: `
+        <Separator plain>仅作为轻量分组提示</Separator>;
+      `,
+      content: <Separator plain>仅作为轻量分组提示</Separator>,
+    },
   ],
   props: [
     {
@@ -118,6 +143,16 @@ export default defineDoc({
       name: "align",
       type: '"start" | "center" | "end"',
       description: "横向带文案时的文案位置。",
+    },
+    {
+      name: "variant",
+      type: '"solid" | "dashed" | "dotted"',
+      description: "线条样式。",
+    },
+    {
+      name: "plain",
+      type: "boolean",
+      description: "是否弱化文案字重。",
     },
     {
       name: "decorative",

@@ -5,10 +5,14 @@ import { Button } from "willa/Button";
 import "willa/Button.css";
 import { FilterBar, type FilterBarItem } from "willa/FilterBar";
 import "willa/FilterBar.css";
+import { Group } from "willa/Group";
+import "willa/Group.css";
 import { SearchInput } from "willa/SearchInput";
 import "willa/SearchInput.css";
 import { Select } from "willa/Select";
 import "willa/Select.css";
+import { Stack } from "willa/Stack";
+import "willa/Stack.css";
 import { Table, type TableItem } from "willa/Table";
 import "willa/Table.css";
 
@@ -138,12 +142,10 @@ const customRenderItems: Array<TableItem> = [
         value: "产品反馈摘要生成",
         width: "12rem",
         render: (
-          <span
-            style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
-          >
+          <Group as="span" gap="xs" inline wrap={false}>
             <Badge tone="info">AI</Badge>
             <strong>产品反馈摘要生成</strong>
-          </span>
+          </Group>
         ),
       },
       {
@@ -177,12 +179,10 @@ const customRenderItems: Array<TableItem> = [
         value: "风险校验",
         width: "12rem",
         render: (
-          <span
-            style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
-          >
+          <Group as="span" gap="xs" inline wrap={false}>
             <Badge tone="warning">审核</Badge>
             <strong>风险校验</strong>
-          </span>
+          </Group>
         ),
       },
       {
@@ -208,13 +208,6 @@ const customRenderItems: Array<TableItem> = [
     ),
   },
 ];
-
-const tablePreviewStyle = {
-  display: "grid",
-  gap: "0.85rem",
-  width: "min(100%, 72rem)",
-  marginInline: "auto",
-} as const;
 
 const ownerOptions = [
   { value: "all", label: "全部归属" },
@@ -266,7 +259,7 @@ const FilterableTablePreview = () => {
   ];
 
   return (
-    <div style={tablePreviewStyle}>
+    <Stack gap="md" width="min(100%, 72rem)" style={{ marginInline: "auto" }}>
       <Table
         header={
           <FilterBar
@@ -301,7 +294,7 @@ const FilterableTablePreview = () => {
         stickyActions
         footer={`当前展示 ${filteredItems.length} / ${componentItems.length} 个组件。`}
       />
-    </div>
+    </Stack>
   );
 };
 
@@ -342,7 +335,11 @@ export default defineDoc({
   packageName: "willa/Table",
   description:
     "通过 items 渲染表格和产品数据列表，支持自定义单元格、排序、选择、分页、展开行和右侧操作区。",
-  imports: [{ name: "Table", from: "willa/Table" }],
+  imports: [
+    { name: "Table", from: "willa/Table" },
+    { name: "Stack", from: "willa/Stack" },
+    { name: "Group", from: "willa/Group" },
+  ],
   css: "willa/Table.css",
   demo: {
     name: "Table",
@@ -419,7 +416,7 @@ export default defineDoc({
           ];
 
           return (
-            <div style={{ width: "min(100%, 72rem)", marginInline: "auto" }}>
+            <Stack width="min(100%, 72rem)" style={{ marginInline: "auto" }}>
               <Table
                 header={
                   <FilterBar
@@ -453,7 +450,7 @@ export default defineDoc({
                 stickyActions
                 footer={\`当前展示 \${filteredItems.length} 个组件。\`}
               />
-            </div>
+            </Stack>
           );
         };
       `,
@@ -591,12 +588,10 @@ export default defineDoc({
                 label: "任务",
                 value: "产品反馈摘要生成",
                 render: (
-                  <span
-                    style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
-                  >
+                  <Group as="span" gap="xs" inline wrap={false}>
                     <Badge tone="info">AI</Badge>
                     <strong>产品反馈摘要生成</strong>
-                  </span>
+                  </Group>
                 ),
               },
               {
@@ -631,16 +626,16 @@ export default defineDoc({
     {
       title: "加载与空态",
       code: `
-        <div style={{ display: "grid", gap: "1rem" }}>
+        <Stack gap="lg">
           <Table items={[]} loading loadingText="正在同步组件状态..." />
           <Table items={[]} empty="没有匹配的组件" />
-        </div>;
+        </Stack>;
       `,
       content: (
-        <div style={{ display: "grid", gap: "1rem" }}>
+        <Stack gap="lg">
           <Table items={[]} loading loadingText="正在同步组件状态..." />
           <Table items={[]} empty="没有匹配的组件" />
-        </div>
+        </Stack>
       ),
     },
     {

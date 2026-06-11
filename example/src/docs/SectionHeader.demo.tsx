@@ -17,6 +17,7 @@ const previewStyle = {
 export default defineDoc({
   id: "section-header",
   name: "SectionHeader",
+  category: "layout",
   packageName: "willa/SectionHeader",
   description: "用于页面区块、卡片区和详情段落的标题与操作区。",
   imports: [{ name: "SectionHeader", from: "willa/SectionHeader" }],

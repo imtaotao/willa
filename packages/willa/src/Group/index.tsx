@@ -1,4 +1,4 @@
-export { Group } from "@willa-ui/content/components/Group";
+export { Group } from "@willa-ui/layout/components/Group";
 export type {
   GroupAlign,
   GroupDirection,
@@ -6,4 +6,4 @@ export type {
   GroupGapPreset,
   GroupJustify,
   GroupProps,
-} from "@willa-ui/content/components/Group";
+} from "@willa-ui/layout/components/Group";

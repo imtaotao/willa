@@ -1,16 +1,12 @@
 import { Progress } from "willa/Progress";
+import { Stack } from "willa/Stack";
 import "willa/Progress.css";
+import "willa/Stack.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
-const progressStackStyle = {
-  display: "grid",
-  gap: "1rem",
-  width: "min(100%, 28rem)",
-} as const;
-
 const ProgressPreview = () => (
-  <div style={progressStackStyle}>
+  <Stack gap="lg" width="min(100%, 28rem)">
     <Progress
       label="下载进度"
       description="willa-components.zip"
@@ -19,7 +15,7 @@ const ProgressPreview = () => (
       tone="default"
     />
     <Progress label="视频播放" value={42} bufferValue={64} size="sm" />
-  </div>
+  </Stack>
 );
 
 export default defineDoc({
@@ -27,7 +23,10 @@ export default defineDoc({
   name: "Progress",
   packageName: "willa/Progress",
   description: "用于视频播放、音频播放、下载任务和加载状态中的进度展示。",
-  imports: [{ name: "Progress", from: "willa/Progress" }],
+  imports: [
+    { name: "Progress", from: "willa/Progress" },
+    { name: "Stack", from: "willa/Stack" },
+  ],
   css: "willa/Progress.css",
   demo: {
     name: "ProgressPreview",
@@ -48,7 +47,7 @@ export default defineDoc({
     {
       title: "媒体播放",
       code: `
-        <div style={progressStackStyle}>
+        <Stack gap="lg" width="min(100%, 28rem)">
           <Progress label="视频播放" value={42} bufferValue={64} size="sm" />
           <Progress
             label="音频播放"
@@ -58,10 +57,10 @@ export default defineDoc({
             valueLabel="01:24"
             tone="neutral"
           />
-        </div>;
+        </Stack>;
       `,
       content: (
-        <div style={progressStackStyle}>
+        <Stack gap="lg" width="min(100%, 28rem)">
           <Progress label="视频播放" value={42} bufferValue={64} size="sm" />
           <Progress
             label="音频播放"
@@ -71,13 +70,13 @@ export default defineDoc({
             valueLabel="01:24"
             tone="neutral"
           />
-        </div>
+        </Stack>
       ),
     },
     {
       title: "下载进度",
       code: `
-        <div style={progressStackStyle}>
+        <Stack gap="lg" width="min(100%, 28rem)">
           <Progress
             label="资源包下载"
             description="还剩 12 MB"
@@ -93,10 +92,10 @@ export default defineDoc({
             valueLabel="31%"
             tone="danger"
           />
-        </div>;
+        </Stack>;
       `,
       content: (
-        <div style={progressStackStyle}>
+        <Stack gap="lg" width="min(100%, 28rem)">
           <Progress
             label="资源包下载"
             description="还剩 12 MB"
@@ -112,7 +111,7 @@ export default defineDoc({
             valueLabel="31%"
             tone="danger"
           />
-        </div>
+        </Stack>
       ),
     },
     {
@@ -150,22 +149,22 @@ export default defineDoc({
     {
       title: "语义类型",
       code: `
-        <div style={progressStackStyle}>
+        <Stack gap="lg" width="min(100%, 28rem)">
           <Progress label="Default" value={62} tone="default" />
           <Progress label="Neutral" value={62} tone="neutral" />
           <Progress label="Success" value={62} tone="success" />
           <Progress label="Warning" value={62} tone="warning" />
           <Progress label="Danger" value={62} tone="danger" />
-        </div>;
+        </Stack>;
       `,
       content: (
-        <div style={progressStackStyle}>
+        <Stack gap="lg" width="min(100%, 28rem)">
           <Progress label="Default" value={62} tone="default" />
           <Progress label="Neutral" value={62} tone="neutral" />
           <Progress label="Success" value={62} tone="success" />
           <Progress label="Warning" value={62} tone="warning" />
           <Progress label="Danger" value={62} tone="danger" />
-        </div>
+        </Stack>
       ),
     },
   ],

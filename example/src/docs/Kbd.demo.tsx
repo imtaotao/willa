@@ -1,14 +1,9 @@
+import { Group } from "willa/Group";
 import { Kbd, KbdShortcut } from "willa/Kbd";
+import "willa/Group.css";
 import "willa/Kbd.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
-
-const rowStyle = {
-  display: "flex",
-  flexWrap: "wrap",
-  alignItems: "center",
-  gap: "0.5rem",
-} as const;
 
 function KbdPreview() {
   return (
@@ -24,7 +19,10 @@ export default defineDoc({
   name: "Kbd",
   packageName: "willa/Kbd",
   description: "用于展示键盘按键、快捷键和命令提示的内联组件。",
-  imports: [{ name: "Kbd, KbdShortcut", from: "willa/Kbd" }],
+  imports: [
+    { name: "Kbd, KbdShortcut", from: "willa/Kbd" },
+    { name: "Group", from: "willa/Group" },
+  ],
   css: "willa/Kbd.css",
   demo: {
     name: "KbdPreview",
@@ -43,67 +41,67 @@ export default defineDoc({
     {
       title: "基础按键",
       code: `
-        <div style={rowStyle}>
+        <Group gap="sm">
           <Kbd>Esc</Kbd>
           <Kbd>Tab</Kbd>
           <Kbd>Enter</Kbd>
           <Kbd>Space</Kbd>
-        </div>;
+        </Group>;
       `,
       content: (
-        <div style={rowStyle}>
+        <Group gap="sm">
           <Kbd>Esc</Kbd>
           <Kbd>Tab</Kbd>
           <Kbd>Enter</Kbd>
           <Kbd>Space</Kbd>
-        </div>
+        </Group>
       ),
     },
     {
       title: "组合快捷键",
       code: `
-        <div style={rowStyle}>
+        <Group gap="sm">
           <KbdShortcut keys={["⌘", "K"]} />
           <KbdShortcut keys={["⌘", "Shift", "P"]} />
           <KbdShortcut keys={["Ctrl", "/"]} />
-        </div>;
+        </Group>;
       `,
       content: (
-        <div style={rowStyle}>
+        <Group gap="sm">
           <KbdShortcut keys={["⌘", "K"]} />
           <KbdShortcut keys={["⌘", "Shift", "P"]} />
           <KbdShortcut keys={["Ctrl", "/"]} />
-        </div>
+        </Group>
       ),
     },
     {
       title: "尺寸",
       code: `
-        <div style={rowStyle}>
+        <Group gap="sm">
           <Kbd size="sm">Esc</Kbd>
           <Kbd size="md">Esc</Kbd>
-        </div>;
+        </Group>;
       `,
       content: (
-        <div style={rowStyle}>
+        <Group gap="sm">
           <Kbd size="sm">Esc</Kbd>
           <Kbd size="md">Esc</Kbd>
-        </div>
+        </Group>
       ),
     },
     {
       title: "视觉类型",
       code: `
-        <div style={rowStyle}>
+        <Group gap="sm">
           <Kbd variant="surface">Enter</Kbd>
           <Kbd variant="outline">Enter</Kbd>
-        </div>;
+        </Group>;
       `,
       content: (
-        <div style={rowStyle}>
+        <Group gap="sm">
           <Kbd variant="surface">Enter</Kbd>
           <Kbd variant="outline">Enter</Kbd>
-        </div>
+        </Group>
       ),
     },
     {

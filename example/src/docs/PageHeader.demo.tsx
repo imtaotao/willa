@@ -36,6 +36,7 @@ const actions = (
 export default defineDoc({
   id: "page-header",
   name: "PageHeader",
+  category: "layout",
   packageName: "willa/PageHeader",
   description: "用于页面顶部的标题、层级、摘要和操作区。",
   imports: [{ name: "PageHeader", from: "willa/PageHeader" }],

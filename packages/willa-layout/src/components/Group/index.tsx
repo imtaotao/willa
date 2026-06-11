@@ -4,6 +4,7 @@ import type {
   HTMLAttributes,
   ReactNode,
 } from "react";
+import { Children } from "react";
 import classNames from "classnames";
 
 export type GroupGapPreset = "none" | "xs" | "sm" | "md" | "lg" | "xl";
@@ -26,6 +27,10 @@ export type GroupProps = {
   direction?: GroupDirection;
   wrap?: boolean;
   inline?: boolean;
+  grow?: boolean;
+  reverse?: boolean;
+  width?: string;
+  separator?: ReactNode;
   className?: string;
   children?: ReactNode;
 } & Omit<HTMLAttributes<HTMLElement>, "children">;
@@ -39,6 +44,10 @@ export function Group(props: GroupProps) {
     direction = "row",
     wrap = true,
     inline = false,
+    grow = false,
+    reverse = false,
+    width,
+    separator,
     className,
     children,
     style,
@@ -46,11 +55,12 @@ export function Group(props: GroupProps) {
   } = props;
   const groupStyle = {
     display: inline ? "inline-flex" : "flex",
-    flexDirection: direction,
+    flexDirection: resolveGroupDirection(direction, reverse),
     flexWrap: wrap ? "wrap" : "nowrap",
     alignItems: groupAlignMap[align],
     justifyContent: groupJustifyMap[justify],
     gap: resolveGroupGap(gap),
+    width,
     ...style,
   } satisfies CSSProperties;
 
@@ -58,9 +68,15 @@ export function Group(props: GroupProps) {
     <Component
       {...groupProps}
       style={groupStyle}
-      className={classNames("willa-group", className)}
+      className={classNames(
+        "willa-group",
+        grow && "willa-group--grow",
+        className,
+      )}
     >
-      {children}
+      {separator
+        ? renderGroupChildrenWithSeparator(children, separator)
+        : children}
     </Component>
   );
 }
@@ -82,6 +98,11 @@ const resolveGroupGap = (gap: GroupGap) => {
   return isGroupGapPreset(gap) ? groupGapMap[gap] : gap;
 };
 
+const resolveGroupDirection = (direction: GroupDirection, reverse: boolean) => {
+  if (!reverse) return direction;
+  return direction === "row" ? "row-reverse" : "column-reverse";
+};
+
 const groupAlignMap: Record<GroupAlign, CSSProperties["alignItems"]> = {
   start: "flex-start",
   center: "center",
@@ -97,4 +118,27 @@ const groupJustifyMap: Record<GroupJustify, CSSProperties["justifyContent"]> = {
   between: "space-between",
   around: "space-around",
   evenly: "space-evenly",
+};
+
+const renderGroupChildrenWithSeparator = (
+  children: ReactNode,
+  separator: ReactNode,
+) => {
+  return Children.toArray(children)
+    .filter((child) => child !== null && child !== undefined)
+    .flatMap((child, index, array) => {
+      const item = child;
+      if (index === array.length - 1) return [item];
+
+      return [
+        item,
+        <span
+          key={`separator-${index}`}
+          className="willa-group-separator"
+          aria-hidden="true"
+        >
+          {separator}
+        </span>,
+      ];
+    });
 };

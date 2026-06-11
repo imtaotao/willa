@@ -1,7 +1,7 @@
 import { unindent } from "aidly";
 import { createElement, type ComponentType, type ReactNode } from "react";
 
-import type { PropRow } from "#example/catalog/types";
+import type { ComponentDoc, PropRow } from "#example/catalog/types";
 
 type DemoComponent = ComponentType<any>;
 
@@ -15,7 +15,7 @@ export type DemoElement = {
 type ComponentDocInput = {
   id: string;
   name: string;
-  category?: "content" | "form" | "ai" | "widgets";
+  category?: ComponentDoc["category"];
   packageName: string;
   description: string;
   imports: Array<{ name: string; from: string }>;
@@ -36,6 +36,7 @@ const willaDemoImportNames = new Set([
   "AttachmentList",
   "AudioEmbed",
   "AudioLink",
+  "AppShell",
   "Avatar",
   "Badge",
   "Breadcrumb",
@@ -53,6 +54,7 @@ const willaDemoImportNames = new Set([
   "CommentInput",
   "CommentList",
   "Composer",
+  "Container",
   "DatePicker",
   "DetailsBlock",
   "DescriptionList",
@@ -71,6 +73,7 @@ const willaDemoImportNames = new Set([
   "GenerationCard",
   "GitHubMention",
   "GitHubRepo",
+  "Grid",
   "Group",
   "IconButton",
   "Image",
@@ -84,8 +87,10 @@ const willaDemoImportNames = new Set([
   "Menu",
   "MessageActions",
   "MessageList",
+  "Masonry",
   "NotFound",
   "PageHeader",
+  "Panel",
   "Pagination",
   "Poem",
   "Popover",
@@ -98,9 +103,12 @@ const willaDemoImportNames = new Set([
   "Select",
   "Separator",
   "SectionHeader",
+  "SidebarLayout",
   "Skeleton",
   "SourceCard",
   "Spinner",
+  "SplitPane",
+  "Stack",
   "Step",
   "Steps",
   "SuggestionChips",
@@ -139,12 +147,27 @@ export function defineDoc(input: ComponentDocInput) {
 
 const renderDemoElement = (element: DemoElement) => {
   const children = Array.isArray(element.children)
-    ? element.children.map((child, index) => (
-        <DemoElementRenderer key={`${child.name}-${index}`} element={child} />
-      ))
+    ? element.children.map((child, index) =>
+        isDemoElement(child) ? (
+          <DemoElementRenderer key={`${child.name}-${index}`} element={child} />
+        ) : (
+          child
+        ),
+      )
     : element.children;
 
   return createElement(element.component, element.props, children);
+};
+
+const isDemoElement = (
+  value: ReactNode | DemoElement,
+): value is DemoElement => {
+  return Boolean(
+    value &&
+    typeof value === "object" &&
+    "name" in value &&
+    "component" in value,
+  );
 };
 
 const DemoElementRenderer = ({ element }: { element: DemoElement }) => {
@@ -162,13 +185,27 @@ const completeDemoCode = (input: ComponentDocInput, code: string) => {
   const body = unindent(code);
   const importedNames = getImportedNames(body);
   const jsxNames = getJsxComponentNames(body);
-  const importLines = input.imports
-    .filter((item) => !importedNames.has(item.name))
-    .map((item) => `import { ${item.name} } from "${item.from}";`);
+  const referencedNames = getReferencedNames(body);
+  const importLines = createImportLines(
+    input.imports
+      .flatMap((item) =>
+        parseImportNames(item.name).map((name) => ({
+          from: item.from,
+          name,
+        })),
+      )
+      .filter((item) => !importedNames.has(item.name))
+      .filter((item) => referencedNames.has(item.name)),
+  );
   const inferredImportLines = Array.from(jsxNames)
     .filter((name) => shouldInferWillaImport(name))
     .filter((name) => !importedNames.has(name))
-    .filter((name) => !input.imports.some((item) => item.name === name))
+    .filter(
+      (name) =>
+        !input.imports.some((item) =>
+          parseImportNames(item.name).includes(name),
+        ),
+    )
     .sort()
     .map((name) => `import { ${name} } from "willa/${name}";`);
   const cssLines = [
@@ -209,6 +246,22 @@ const getImportedNames = (code: string) => {
   return names;
 };
 
+const getCodeWithoutImports = (code: string) => {
+  return code.replace(/import[\s\S]*?from\s*["'][^"']+["'];?/g, "");
+};
+
+const getReferencedNames = (code: string) => {
+  const names = new Set<string>();
+  const importFreeCode = getCodeWithoutImports(code);
+  const referencePattern = /\b[A-Za-z_$][A-Za-z0-9_$]*\b/g;
+
+  for (const match of importFreeCode.matchAll(referencePattern)) {
+    names.add(match[0]);
+  }
+
+  return names;
+};
+
 const getJsxComponentNames = (code: string) => {
   const names = new Set<string>();
   const jsxPattern = /<([A-Z][A-Za-z0-9]*)\b/g;
@@ -218,6 +271,26 @@ const getJsxComponentNames = (code: string) => {
   }
 
   return names;
+};
+
+const parseImportNames = (value: string) => {
+  return value
+    .split(",")
+    .map((name) => name.trim())
+    .filter(Boolean);
+};
+
+const createImportLines = (imports: Array<{ name: string; from: string }>) => {
+  const groups = new Map<string, Array<string>>();
+
+  for (const item of imports) {
+    groups.set(item.from, [...(groups.get(item.from) ?? []), item.name]);
+  }
+
+  return Array.from(groups.entries()).map(([from, names]) => {
+    const uniqueNames = Array.from(new Set(names)).sort();
+    return `import { ${uniqueNames.join(", ")} } from "${from}";`;
+  });
 };
 
 const shouldInferWillaImport = (name: string) => {

@@ -10,6 +10,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 export default defineDoc({
   id: "group",
   name: "Group",
+  category: "layout",
   packageName: "willa/Group",
   description: "用于按钮组、标签组和工具栏等横向排列场景的轻量布局组件。",
   imports: [
@@ -124,6 +125,44 @@ export default defineDoc({
       ),
     },
     {
+      title: "分隔符",
+      code: `
+        <Group gap="xs" separator="/">
+          <span>产品</span>
+          <span>组件</span>
+          <span>布局</span>
+        </Group>;
+      `,
+      content: (
+        <Group gap="xs" separator="/">
+          <span>产品</span>
+          <span>组件</span>
+          <span>布局</span>
+        </Group>
+      ),
+    },
+    {
+      title: "等宽填充",
+      code: `
+        <Group gap="sm" grow width="26rem">
+          <Button size="sm" variant="outline">
+            取消
+          </Button>
+          <Button size="sm">
+            保存
+          </Button>
+        </Group>;
+      `,
+      content: (
+        <Group gap="sm" grow width="26rem">
+          <Button size="sm" variant="outline">
+            取消
+          </Button>
+          <Button size="sm">保存</Button>
+        </Group>
+      ),
+    },
+    {
       title: "竖向排列",
       code: `
         <Group direction="column" align="start" gap="sm">
@@ -175,6 +214,27 @@ export default defineDoc({
         </Group>
       ),
     },
+    {
+      title: "反向排列",
+      code: `
+        <Group gap="sm" reverse>
+          <Button size="sm" variant="ghost">
+            取消
+          </Button>
+          <Button size="sm">
+            提交
+          </Button>
+        </Group>;
+      `,
+      content: (
+        <Group gap="sm" reverse>
+          <Button size="sm" variant="ghost">
+            取消
+          </Button>
+          <Button size="sm">提交</Button>
+        </Group>
+      ),
+    },
   ],
   props: [
     {
@@ -211,6 +271,26 @@ export default defineDoc({
       name: "inline",
       type: "boolean",
       description: "是否使用 inline-flex。",
+    },
+    {
+      name: "grow",
+      type: "boolean",
+      description: "是否让子元素等宽填充可用空间。",
+    },
+    {
+      name: "reverse",
+      type: "boolean",
+      description: "是否反向排列子元素。",
+    },
+    {
+      name: "width",
+      type: "string",
+      description: "外层宽度。",
+    },
+    {
+      name: "separator",
+      type: "ReactNode",
+      description: "子元素之间的分隔内容。",
     },
     {
       name: "as",

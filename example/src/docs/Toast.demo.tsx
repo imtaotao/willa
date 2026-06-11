@@ -1,16 +1,11 @@
 import { Button } from "willa/Button";
+import { Group } from "willa/Group";
 import { createToast, toast } from "willa/Toast";
 import "willa/Button.css";
+import "willa/Group.css";
 import "willa/Toast.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
-
-const rowStyle = {
-  display: "flex",
-  flexWrap: "wrap",
-  gap: "0.65rem",
-  alignItems: "center",
-} as const;
 
 let topToast: ReturnType<typeof createToast> | undefined;
 let bottomToast: ReturnType<typeof createToast> | undefined;
@@ -44,7 +39,7 @@ const getBottomRightToast = () => {
 
 const ToastPreview = () => {
   return (
-    <div style={rowStyle}>
+    <Group gap="md">
       <Button
         variant="solid"
         onClick={() => {
@@ -65,7 +60,7 @@ const ToastPreview = () => {
       >
         配置实例
       </Button>
-    </div>
+    </Group>
   );
 };
 
@@ -105,7 +100,7 @@ const PersistentToastDemo = () => {
 
 const ToastConfigDemo = () => {
   return (
-    <div style={rowStyle}>
+    <Group gap="md">
       <Button
         variant="soft"
         onClick={() => {
@@ -124,7 +119,7 @@ const ToastConfigDemo = () => {
       >
         右下角配置
       </Button>
-    </div>
+    </Group>
   );
 };
 
@@ -136,6 +131,8 @@ export default defineDoc({
   imports: [
     { name: "toast", from: "willa/Toast" },
     { name: "createToast", from: "willa/Toast" },
+    { name: "Button", from: "willa/Button" },
+    { name: "Group", from: "willa/Group" },
   ],
   css: "willa/Toast.css",
   demo: {

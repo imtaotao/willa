@@ -10,7 +10,9 @@ import {
   SuggestionChips,
   type SuggestionChipItem,
 } from "willa/SuggestionChips";
+import { Panel } from "willa/Panel";
 import { PromptInput } from "willa/PromptInput";
+import "willa/Panel.css";
 import "willa/SuggestionChips.css";
 import "willa/PromptInput.css";
 
@@ -37,21 +39,11 @@ const suggestions: Array<SuggestionChipItem> = [
   },
 ];
 
-const frameStyle = {
-  display: "grid",
-  gap: "0.85rem",
-  width: "min(100%, 56rem)",
-  border: "1px solid var(--willa-line)",
-  borderRadius: "0.9rem",
-  background: "var(--willa-panel-bg)",
-  padding: "1rem",
-} as const;
-
 const SuggestionChipsPreview = () => {
   const [value, setValue] = useState("");
 
   return (
-    <div style={frameStyle}>
+    <Panel padding="md" style={{ width: "min(100%, 56rem)" }}>
       <SuggestionChips
         items={suggestions}
         onSelect={(item) => {
@@ -65,7 +57,7 @@ const SuggestionChipsPreview = () => {
         maxRows={5}
         onChange={(event) => setValue(event.currentTarget.value)}
       />
-    </div>
+    </Panel>
   );
 };
 
@@ -75,7 +67,10 @@ export default defineDoc({
   category: "ai",
   packageName: "willa/SuggestionChips",
   description: "用于展示快捷提示词、推荐问题和 AI 任务入口。",
-  imports: [{ name: "SuggestionChips", from: "willa/SuggestionChips" }],
+  imports: [
+    { name: "SuggestionChips", from: "willa/SuggestionChips" },
+    { name: "Panel", from: "willa/Panel" },
+  ],
   css: "willa/SuggestionChips.css",
   demo: {
     name: "SuggestionChipsPreview",

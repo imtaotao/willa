@@ -1,0 +1,8 @@
+.willa-stack {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.willa-stack > * {
+  min-width: 0;
+}

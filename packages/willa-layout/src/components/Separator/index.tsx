@@ -4,11 +4,14 @@ import classNames from "classnames";
 export type SeparatorOrientation = "horizontal" | "vertical";
 export type SeparatorSize = "sm" | "md" | "lg";
 export type SeparatorAlign = "start" | "center" | "end";
+export type SeparatorVariant = "solid" | "dashed" | "dotted";
 
 export type SeparatorProps = {
   orientation?: SeparatorOrientation;
   size?: SeparatorSize;
   align?: SeparatorAlign;
+  variant?: SeparatorVariant;
+  plain?: boolean;
   decorative?: boolean;
   className?: string;
   children?: ReactNode;
@@ -19,6 +22,8 @@ export function Separator(props: SeparatorProps) {
     orientation = "horizontal",
     size = "md",
     align = "center",
+    variant = "solid",
+    plain = false,
     decorative = true,
     className,
     children,
@@ -33,6 +38,8 @@ export function Separator(props: SeparatorProps) {
         "willa-separator",
         `willa-separator--${orientation}`,
         `willa-separator--${size}`,
+        `willa-separator--${variant}`,
+        plain && "willa-separator--plain",
         hasLabel && `willa-separator--${align}`,
         hasLabel && "willa-separator--labeled",
         className,

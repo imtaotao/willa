@@ -88,27 +88,35 @@ not maintain their own `tsconfig.json`; they use the root `tsconfig.json`.
 `packages/willa` is the public aggregate package, published as `willa`. It
 exports aggregate components and does not export `@willa-ui/shared`. It usually
 does not own component implementations or theme variables; it combines selected
-content, form, AI, and widgets outputs. AI components are implemented in
-`@willa-ui/ai`, then exposed through `willa` for public use.
+layout, content, form, AI, and widgets outputs. AI components are implemented
+in `@willa-ui/ai`, then exposed through `willa` for public use.
 
 `packages/willa-content` is the base product and content component package,
 published as `@willa-ui/content`. It contains general product and content
-components such as `Button`, `Card`, `CodeBlock`, `Callout`, `Image`,
-`Tabs`, `Dialog`, and `Steps`. It also provides shared theme tokens.
+components such as `Button`, `CodeBlock`, `Callout`, `Image`, `Tabs`,
+`Dialog`, and `Steps`.
+
+`packages/willa-layout` is the layout component package, published as
+`@willa-ui/layout`. It contains layout primitives such as `Card`, `Group`,
+`Stack`, `Grid`, `Masonry`, `Container`, `Panel`, `Separator`, `SplitPane`,
+`ResizablePanel`, `PageHeader`, `SectionHeader`, `AppShell`, and
+`SidebarLayout`. Layout components own their component-specific layout
+variables and the Willa base visual tokens such as fonts, text colors, lines,
+surfaces, and focus rings.
 
 `packages/willa-form` is the form component package, published as
 `@willa-ui/form`. It contains form controls and form layout components such as
 `Input`, `TextArea`, `Select`, `Checkbox`, `Radio`, `Switch`, `DatePicker`,
-`Upload`, `Form`, `FormField`, and `FormActions`. It can compose content
-components and reuse content CSS through `styles.dependencies`, but content
-must not depend on form.
+`Upload`, `Form`, `FormField`, and `FormActions`. It can compose layout and
+content components and reuse their CSS through `styles.dependencies`, but
+layout and content must not depend on form.
 
 `packages/willa-ai` is the AI product component package, published as
 `@willa-ui/ai`. It contains AI-oriented scene components such as prompt inputs,
 chat messages, source citations, tool call displays, generation cards, context
-panels, and agent status views. It can compose content components and reuse
-content CSS through `styles.dependencies`, but it must not make content depend
-on AI.
+panels, and agent status views. It can compose layout and content components
+and reuse their CSS through `styles.dependencies`, but it must not make layout
+or content depend on AI.
 
 `packages/willa-widgets` is the scenario component package, published as
 `@willa-ui/widgets`. It contains platform integrations, MDX composition,
@@ -129,21 +137,24 @@ consumes package source through tsconfig aliases. The default port is `2333`.
 Dependencies must remain one-way:
 
 - shared does not depend on content, form, AI, or widgets.
-- content can depend on shared.
-- form can depend on shared and content.
-- ai can depend on shared and content.
-- widgets can depend on shared and content.
-- willa depends on content, form, AI, and widgets as the public aggregate
-  package.
+- content can depend on shared and layout.
+- layout can depend on shared.
+- form can depend on shared, layout, and content.
+- ai can depend on shared, layout, content, and form when it composes form
+  inputs.
+- widgets can depend on shared, layout, and content.
+- willa depends on layout, content, form, AI, and widgets as the public
+  aggregate package.
 - example can depend on all public packages and source aliases.
 
-Do not make content depend on form, AI, or widgets. Do not move form-specific,
-AI-specific, or widget-specific variables, styles, or components back into
-content.
+Do not make layout or content depend on form, AI, or widgets. Do not move
+layout-specific, form-specific, AI-specific, or widget-specific variables,
+styles, or components back into content.
 
 ```mermaid
 flowchart LR
   shared["@willa-ui/shared"]
+  layout["@willa-ui/layout"]
   content["@willa-ui/content"]
   form["@willa-ui/form"]
   ai["@willa-ui/ai"]
@@ -152,17 +163,25 @@ flowchart LR
   example["example"]
 
   content --> shared
+  content --> layout
+  layout --> shared
   form --> shared
+  form --> layout
   form --> content
   ai --> shared
+  ai --> layout
+  ai --> form
   ai --> content
   widgets --> shared
+  widgets --> layout
   widgets --> content
+  willa --> layout
   willa --> content
   willa --> form
   willa --> ai
   willa --> widgets
   example --> willa
+  example --> layout
   example --> content
   example --> form
   example --> ai
@@ -175,6 +194,7 @@ flowchart LR
 Prefer source aliases over deep relative paths:
 
 - `#content/*` points to `packages/willa-content/src/*`
+- `#layout/*` points to `packages/willa-layout/src/*`
 - `#form/*` points to `packages/willa-form/src/*`
 - `#ai/*` points to `packages/willa-ai/src/*`
 - `#widgets/*` points to `packages/willa-widgets/src/*`
@@ -221,12 +241,15 @@ flowchart TB
 ## CSS Composition Flow
 
 CSS composition is driven by `styles.dependencies` in `auklet.config.mjs`.
-Form, AI, and widgets depend on content component CSS and theme CSS. willa
-composes public package CSS.
+Content, form, AI, and widgets depend on layout CSS for base visual tokens and
+layout component styles. Form, AI, and widgets also depend on content CSS when
+they compose content components. willa composes public package CSS.
 
 ```mermaid
 flowchart LR
-  contentCss["content CSS and themes"]
+  layoutCss["layout CSS and themes"]
+  contentOwn["content own CSS and themes"]
+  contentCss["content output CSS"]
   formOwn["form own CSS and themes"]
   formCss["form output CSS"]
   aiOwn["AI own CSS and themes"]
@@ -235,21 +258,28 @@ flowchart LR
   widgetsCss["widgets output CSS"]
   willaCss["willa output CSS"]
 
+  layoutCss --> contentCss
+  contentOwn --> contentCss
+  layoutCss --> formCss
   contentCss --> formCss
   formOwn --> formCss
+  layoutCss --> aiCss
   contentCss --> aiCss
   aiOwn --> aiCss
+  layoutCss --> widgetsCss
   contentCss --> widgetsCss
   widgetsOwn --> widgetsCss
+  layoutCss --> willaCss
   contentCss --> willaCss
   formCss --> willaCss
   aiCss --> willaCss
   widgetsCss --> willaCss
 ```
 
-This means form, AI, and widgets can reference generic tokens from content, but
-must not copy content variable definitions. willa only composes CSS and does
-not own component theme variables.
+This means higher-level packages can reference base visual tokens from layout
+and component variables from their direct CSS dependencies. They must not copy
+layout or content variable definitions. willa only composes CSS and does not
+own component theme variables.
 
 ## Example Documentation Flow
 
@@ -276,12 +306,13 @@ flowchart LR
 
 ## Pitfalls
 
-- Do not make content depend on form, AI, or widgets. content is the base layer;
-  form is the form layer; AI and widgets are scenario layers. Reversing this
-  makes the base package heavier and breaks single-component CSS composition.
-- Do not copy content variables into form, AI, or widgets themes. They already
-  depend on content CSS and themes through `styles.dependencies`; duplicate
-  definitions make theme sources inconsistent.
+- Do not make layout or content depend on form, AI, or widgets. layout is the
+  base visual layer, content is the base product/content layer, form is the form
+  layer, and AI and widgets are scenario layers. Reversing this makes lower
+  packages heavier and breaks single-component CSS composition.
+- Do not copy layout or content variables into higher-level package themes.
+  They already depend on upstream CSS and themes through
+  `styles.dependencies`; duplicate definitions make theme sources inconsistent.
 - Do not add component theme variables to the willa aggregate package. willa
   only combines public package CSS; component variables should follow the
   package that owns the component source.

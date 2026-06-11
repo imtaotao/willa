@@ -4,23 +4,21 @@ import {
   ExternalLinkIcon,
 } from "@radix-ui/react-icons";
 import { Button } from "willa/Button";
+import { Group } from "willa/Group";
 import "willa/Button.css";
+import "willa/Group.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
-
-const buttonRowStyle = {
-  display: "flex",
-  flexWrap: "wrap",
-  gap: "0.75rem",
-  alignItems: "center",
-} as const;
 
 export default defineDoc({
   id: "button",
   name: "Button",
   packageName: "willa/Button",
   description: "用于文章、文档和 MDX 内容中的跳转、下载、复制和 CTA 操作。",
-  imports: [{ name: "Button", from: "willa/Button" }],
+  imports: [
+    { name: "Button", from: "willa/Button" },
+    { name: "Group", from: "willa/Group" },
+  ],
   css: "willa/Button.css",
   demo: {
     name: "Button",
@@ -49,16 +47,16 @@ export default defineDoc({
     {
       title: "视觉类型",
       code: `
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+        <Group gap="md">
           <Button>主要操作</Button>
           <Button variant="soft">柔和操作</Button>
           <Button variant="outline">次要操作</Button>
           <Button variant="ghost">轻量操作</Button>
           <Button variant="link">文本链接</Button>
-        </div>;
+        </Group>;
       `,
       content: (
-        <div style={buttonRowStyle}>
+        <Group gap="md">
           <Button>主要操作</Button>
           <Button variant="soft">柔和操作</Button>
           <Button variant="outline">次要操作</Button>
@@ -66,7 +64,7 @@ export default defineDoc({
           <Button variant="link" trailingIcon={<ExternalLinkIcon />}>
             文本链接
           </Button>
-        </div>
+        </Group>
       ),
     },
     {
@@ -74,7 +72,7 @@ export default defineDoc({
       code: `
         import { ArrowRightIcon, DownloadIcon } from "@radix-ui/react-icons";
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+        <Group gap="md">
           <Button size="sm" icon={<DownloadIcon />}>
             下载
           </Button>
@@ -82,10 +80,10 @@ export default defineDoc({
             查看详情
           </Button>
           <Button size="lg">开始阅读</Button>
-        </div>;
+        </Group>;
       `,
       content: (
-        <div style={buttonRowStyle}>
+        <Group gap="md">
           <Button size="sm" icon={<DownloadIcon />}>
             下载
           </Button>
@@ -93,40 +91,40 @@ export default defineDoc({
             查看详情
           </Button>
           <Button size="lg">开始阅读</Button>
-        </div>
+        </Group>
       ),
     },
     {
       title: "禁用状态",
       code: `
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+        <Group gap="md">
           <Button disabled>不可点击</Button>
           <Button href="https://github.com" disabled variant="outline">
             禁用链接
           </Button>
-        </div>;
+        </Group>;
       `,
       content: (
-        <div style={buttonRowStyle}>
+        <Group gap="md">
           <Button disabled>不可点击</Button>
           <Button href="https://github.com" disabled variant="outline">
             禁用链接
           </Button>
-        </div>
+        </Group>
       ),
     },
     {
       title: "加载状态",
       code: `
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+        <Group gap="md">
           <Button loading>保存中</Button>
           <Button loading loadingText="提交中" variant="outline">
             提交
           </Button>
-        </div>;
+        </Group>;
       `,
       content: (
-        <div style={buttonRowStyle}>
+        <Group gap="md">
           <Button loading>保存中</Button>
           <Button loading loadingText="提交中" variant="outline">
             提交
@@ -134,23 +132,23 @@ export default defineDoc({
           <Button href="https://github.com" loading variant="soft">
             跳转中
           </Button>
-        </div>
+        </Group>
       ),
     },
     {
       title: "点击复制",
       code: `
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+        <Group gap="md">
           <Button copyText variant="soft">
             pnpm add willa
           </Button>
           <Button copyText="import { Button } from 'willa/Button';">
             复制组件引入
           </Button>
-        </div>;
+        </Group>;
       `,
       content: (
-        <div style={buttonRowStyle}>
+        <Group gap="md">
           <Button copyText variant="soft">
             pnpm add willa
           </Button>
@@ -160,30 +158,30 @@ export default defineDoc({
           <Button copyText="pnpm add willa" variant="outline">
             复制安装命令
           </Button>
-        </div>
+        </Group>
       ),
     },
     {
       title: "自定义颜色",
       code: `
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
+        <Group gap="md">
           <Button backgroundColor="#f6e7c8" textColor="#3f2a12">
             暖色按钮
           </Button>
           <Button variant="outline" backgroundColor="rgba(96, 165, 250, 0.12)">
             自定义背景
           </Button>
-        </div>;
+        </Group>;
       `,
       content: (
-        <div style={buttonRowStyle}>
+        <Group gap="md">
           <Button backgroundColor="#f6e7c8" textColor="#3f2a12">
             暖色按钮
           </Button>
           <Button variant="outline" backgroundColor="rgba(96, 165, 250, 0.12)">
             自定义背景
           </Button>
-        </div>
+        </Group>
       ),
     },
   ],

@@ -1,0 +1,9 @@
+.willa-grid {
+  display: grid;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.willa-grid > * {
+  min-width: 0;
+}

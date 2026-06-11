@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { Stack } from "willa/Stack";
+import "willa/Stack.css";
 import { Upload, type UploadItem } from "willa/Upload";
 import "willa/Upload.css";
 
@@ -9,7 +11,7 @@ const UploadPreview = () => {
   const [summary, setSummary] = useState("暂无已选文件");
 
   return (
-    <div style={{ display: "grid", gap: "0.75rem", minWidth: 0 }}>
+    <Stack gap="md" style={{ minWidth: 0 }}>
       <Upload
         multiple
         maxFiles={6}
@@ -30,7 +32,7 @@ const UploadPreview = () => {
       <span style={{ color: "var(--willa-text-soft)", fontSize: "0.84rem" }}>
         {summary}
       </span>
-    </div>
+    </Stack>
   );
 };
 
@@ -49,7 +51,10 @@ export default defineDoc({
   packageName: "willa/Upload",
   description:
     "用于任意文件上传，支持点击选择和拖拽上传；图片、音频、视频可预览，其他文件通过下载入口查看。",
-  imports: [{ name: "Upload", from: "willa/Upload" }],
+  imports: [
+    { name: "Upload", from: "willa/Upload" },
+    { name: "Stack", from: "willa/Stack" },
+  ],
   css: "willa/Upload.css",
   demo: {
     name: "UploadPreview",

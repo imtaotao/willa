@@ -24,6 +24,7 @@ const mediaStyle = {
 export default defineDoc({
   id: "card",
   name: "Card",
+  category: "layout",
   packageName: "willa/Card",
   description: "用于资源入口、文章摘要、链接推荐和组合式内容块。",
   imports: [{ name: "Card", from: "willa/Card" }],

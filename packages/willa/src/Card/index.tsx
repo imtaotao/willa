@@ -3,4 +3,4 @@ export {
   type CardPadding,
   type CardProps,
   type CardVariant,
-} from "@willa-ui/content/components/Card";
+} from "@willa-ui/layout/components/Card";

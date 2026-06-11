@@ -1,0 +1,55 @@
+.willa-container {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+
+.willa-container--centered {
+  margin-inline: auto;
+}
+
+.willa-container--xs {
+  max-width: 32rem;
+}
+
+.willa-container--sm {
+  max-width: 42rem;
+}
+
+.willa-container--md {
+  max-width: 56rem;
+}
+
+.willa-container--lg {
+  max-width: 72rem;
+}
+
+.willa-container--xl {
+  max-width: 88rem;
+}
+
+.willa-container--full {
+  max-width: none;
+}
+
+.willa-container--padding-none {
+  padding-inline: 0;
+}
+
+.willa-container--padding-sm {
+  padding-inline: 0.75rem;
+}
+
+.willa-container--padding-md {
+  padding-inline: 1rem;
+}
+
+.willa-container--padding-lg {
+  padding-inline: 1.5rem;
+}
+
+@media (max-width: 767px) {
+  .willa-container--padding-lg {
+    padding-inline: 1rem;
+  }
+}

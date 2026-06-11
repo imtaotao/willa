@@ -35,12 +35,14 @@
       "@willa-ui/ai/*": ["./packages/willa-ai/src/*"],
       "@willa-ui/form/*": ["./packages/willa-form/src/*"],
       "@willa-ui/shared/*": ["./packages/willa-shared/src/*"],
+      "@willa-ui/layout/*": ["./packages/willa-layout/src/*"],
       "@willa-ui/content/*": ["./packages/willa-content/src/*"],
       "@willa-ui/widgets/*": ["./packages/willa-widgets/src/*"],
 
       "#ai/*": ["./packages/willa-ai/src/*"],
       "#form/*": ["./packages/willa-form/src/*"],
       "#shared/*": ["./packages/willa-shared/src/*"],
+      "#layout/*": ["./packages/willa-layout/src/*"],
       "#content/*": ["./packages/willa-content/src/*"],
       "#widgets/*": ["./packages/willa-widgets/src/*"]
     }

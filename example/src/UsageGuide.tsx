@@ -2,9 +2,13 @@ import { unindent } from "aidly";
 import { Card } from "willa/Card";
 import { CodeBlock } from "willa/CodeBlock";
 import { CodeTabs, type CodeTabsItem } from "willa/CodeTabs";
+import { Panel } from "willa/Panel";
+import { Stack } from "willa/Stack";
 import "willa/Card.css";
 import "willa/CodeBlock.css";
 import "willa/CodeTabs.css";
+import "willa/Panel.css";
+import "willa/Stack.css";
 
 const installItems: Array<CodeTabsItem> = [
   {
@@ -84,36 +88,47 @@ const usageItems = [
 export function UsageGuide() {
   return (
     <Card className="docs-usage" id="usage" padding="lg">
-      <div className="docs-usage-heading">
+      <Stack className="docs-usage-heading" gap="sm">
         <p className="docs-panel-title">安装使用</p>
         <h2>在项目中使用 Willa</h2>
         <p>
           根据项目构建方式选择全局引入或单组件引入。使用单组件入口时，仍需要额外引入主题
           CSS 和 external.css。
         </p>
-      </div>
+      </Stack>
 
-      <div className="docs-usage-grid">
-        <section className="docs-usage-section">
-          <div>
+      <Stack className="docs-usage-grid" gap="lg">
+        <Panel
+          as="section"
+          className="docs-usage-section"
+          variant="plain"
+          padding="none"
+        >
+          <Stack gap="xs">
             <h3>安装</h3>
             <p>Willa 对外提供统一包，内部按组件拆分产物。</p>
-          </div>
+          </Stack>
           <CodeTabs items={installItems} size="sm" />
-        </section>
+        </Panel>
 
         {usageItems.map((item) => (
-          <section className="docs-usage-section" key={item.title}>
-            <div>
+          <Panel
+            as="section"
+            className="docs-usage-section"
+            key={item.title}
+            variant="plain"
+            padding="none"
+          >
+            <Stack gap="xs">
               <h3>{item.title}</h3>
               <p>{item.description}</p>
-            </div>
+            </Stack>
             <CodeBlock>
               <code className={`${item.language}--meta-ln`}>{item.code}</code>
             </CodeBlock>
-          </section>
+          </Panel>
         ))}
-      </div>
+      </Stack>
     </Card>
   );
 }
