@@ -1,0 +1,32 @@
+.willa-search-input .willa-input-control::-webkit-search-cancel-button {
+  display: none;
+  appearance: none;
+}
+
+.willa-search-input-clear {
+  display: inline-flex;
+  width: 1.35rem;
+  height: 1.35rem;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0.42rem;
+  background: var(--willa-search-input-clear-bg);
+  color: var(--willa-search-input-clear-text);
+  cursor: pointer;
+  padding: 0;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.willa-search-input-clear:hover {
+  background: var(--willa-search-input-clear-bg-hover);
+  color: var(--willa-search-input-clear-text-hover);
+}
+
+.willa-search-input-clear svg {
+  width: 0.82rem;
+  height: 0.82rem;
+}

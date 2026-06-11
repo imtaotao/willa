@@ -41,6 +41,10 @@
   --willa-input-disabled-text: var(--willa-text-faint);
   --willa-input-invalid-border: rgba(220, 38, 38, 0.42);
   --willa-input-invalid-ring: rgba(220, 38, 38, 0.12);
+  --willa-search-input-clear-bg: rgba(15, 23, 42, 0.045);
+  --willa-search-input-clear-bg-hover: rgba(15, 23, 42, 0.08);
+  --willa-search-input-clear-text: var(--willa-text-soft);
+  --willa-search-input-clear-text-hover: var(--willa-text-strong);
   --willa-date-picker-panel-bg: #ffffff;
   --willa-date-picker-panel-border: rgba(15, 23, 42, 0.12);
   --willa-date-picker-panel-shadow:
@@ -84,6 +88,11 @@
   --willa-form-control-mark: var(--willa-text-faint);
   --willa-form-control-mark-checked: #1d4ed8;
   --willa-form-control-ring: rgba(37, 99, 235, 0.14);
+  --willa-filter-bar-bg: rgba(255, 255, 255, 0.96);
+  --willa-filter-bar-border: rgba(15, 23, 42, 0.1);
+  --willa-filter-bar-text: var(--willa-text);
+  --willa-filter-bar-label: var(--willa-text-soft);
+  --willa-filter-bar-summary: var(--willa-text-soft);
   --willa-form-switch-bg: rgba(15, 23, 42, 0.09);
   --willa-form-switch-thumb: #ffffff;
   --willa-form-switch-thumb-shadow: rgba(15, 23, 42, 0.22);

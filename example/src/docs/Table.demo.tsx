@@ -1,7 +1,14 @@
+import { useState } from "react";
 import { Badge } from "willa/Badge";
 import "willa/Badge.css";
 import { Button } from "willa/Button";
 import "willa/Button.css";
+import { FilterBar, type FilterBarItem } from "willa/FilterBar";
+import "willa/FilterBar.css";
+import { SearchInput } from "willa/SearchInput";
+import "willa/SearchInput.css";
+import { Select } from "willa/Select";
+import "willa/Select.css";
 import { Table, type TableItem } from "willa/Table";
 import "willa/Table.css";
 
@@ -22,6 +29,7 @@ const componentItems: Array<TableItem> = [
       {
         key: "status",
         label: "状态",
+        value: "stable",
         render: <Badge tone="success">稳定</Badge>,
       },
       {
@@ -52,6 +60,7 @@ const componentItems: Array<TableItem> = [
       {
         key: "status",
         label: "状态",
+        value: "wip",
         render: <Badge tone="warning">完善中</Badge>,
       },
       {
@@ -82,6 +91,7 @@ const componentItems: Array<TableItem> = [
       {
         key: "status",
         label: "状态",
+        value: "stable",
         render: <Badge tone="success">稳定</Badge>,
       },
       {
@@ -199,6 +209,133 @@ const customRenderItems: Array<TableItem> = [
   },
 ];
 
+const tablePreviewStyle = {
+  display: "grid",
+  gap: "0.85rem",
+  width: "min(100%, 72rem)",
+  marginInline: "auto",
+} as const;
+
+const ownerOptions = [
+  { value: "all", label: "全部归属" },
+  { value: "AI", label: "AI" },
+  { value: "Form", label: "Form" },
+  { value: "Content", label: "Content" },
+];
+
+const statusOptions = [
+  { value: "all", label: "全部状态" },
+  { value: "stable", label: "稳定" },
+  { value: "wip", label: "完善中" },
+];
+
+const FilterableTablePreview = () => {
+  const [keyword, setKeyword] = useState("");
+  const [owner, setOwner] = useState("all");
+  const [status, setStatus] = useState("all");
+  const filteredItems = filterTableItems(componentItems, {
+    keyword,
+    owner,
+    status,
+  });
+  const filterItems: Array<FilterBarItem> = [
+    {
+      id: "owner",
+      width: "10rem",
+      control: (
+        <Select
+          value={owner}
+          options={ownerOptions}
+          width="100%"
+          onValueChange={setOwner}
+        />
+      ),
+    },
+    {
+      id: "status",
+      width: "10rem",
+      control: (
+        <Select
+          value={status}
+          options={statusOptions}
+          width="100%"
+          onValueChange={setStatus}
+        />
+      ),
+    },
+  ];
+
+  return (
+    <div style={tablePreviewStyle}>
+      <Table
+        header={
+          <FilterBar
+            search={
+              <SearchInput
+                value={keyword}
+                onValueChange={setKeyword}
+                placeholder="搜索组件、归属或能力"
+                width="100%"
+              />
+            }
+            items={filterItems}
+            actions={
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => {
+                  setKeyword("");
+                  setOwner("all");
+                  setStatus("all");
+                }}
+              >
+                重置
+              </Button>
+            }
+            summary={`匹配 ${filteredItems.length} 个组件。`}
+          />
+        }
+        caption="组件筛选结果"
+        items={filteredItems}
+        empty="没有匹配的组件"
+        stickyActions
+        footer={`当前展示 ${filteredItems.length} / ${componentItems.length} 个组件。`}
+      />
+    </div>
+  );
+};
+
+const filterTableItems = (
+  items: Array<TableItem>,
+  filters: { keyword: string; owner: string; status: string },
+) => {
+  const keyword = filters.keyword.trim().toLowerCase();
+
+  return items.filter((item) => {
+    const cellText = item.cells.map(getTableCellText).join(" ").toLowerCase();
+    const owner = String(
+      item.cells.find((cell) => cell.key === "owner")?.value ?? "",
+    );
+    const status = String(
+      item.cells.find((cell) => cell.key === "status")?.value ?? "",
+    );
+
+    return (
+      (!keyword || cellText.includes(keyword)) &&
+      (filters.owner === "all" || owner === filters.owner) &&
+      (filters.status === "all" || status === filters.status)
+    );
+  });
+};
+
+const getTableCellText = (cell: TableItem["cells"][number]) => {
+  if (typeof cell.value === "string" || typeof cell.value === "number") {
+    return String(cell.value);
+  }
+
+  return "";
+};
+
 export default defineDoc({
   id: "table",
   name: "Table",
@@ -234,6 +371,94 @@ export default defineDoc({
     <Table caption="组件能力覆盖表" items={items} stickyActions />;
   `,
   sections: [
+    {
+      title: "搜索与筛选",
+      code: `
+        import { useState } from "react";
+        import { Button } from "willa/Button";
+        import { FilterBar, type FilterBarItem } from "willa/FilterBar";
+        import { SearchInput } from "willa/SearchInput";
+        import { Select } from "willa/Select";
+        import { Table, type TableItem } from "willa/Table";
+        import "willa/Button.css";
+        import "willa/FilterBar.css";
+        import "willa/SearchInput.css";
+        import "willa/Select.css";
+        import "willa/Table.css";
+
+        const Demo = () => {
+          const [keyword, setKeyword] = useState("");
+          const [owner, setOwner] = useState("all");
+          const filteredItems = items.filter((item) => {
+            const text = item.cells.map((cell) => cell.value ?? "").join(" ");
+            const itemOwner = item.cells.find((cell) => cell.key === "owner")?.value;
+
+            return (
+              text.toLowerCase().includes(keyword.toLowerCase()) &&
+              (owner === "all" || itemOwner === owner)
+            );
+          });
+          const filters: Array<FilterBarItem> = [
+            {
+              id: "owner",
+              width: "10rem",
+              control: (
+                <Select
+                  value={owner}
+                  options={[
+                    { value: "all", label: "全部归属" },
+                    { value: "AI", label: "AI" },
+                    { value: "Form", label: "Form" },
+                    { value: "Content", label: "Content" },
+                  ]}
+                  width="100%"
+                  onValueChange={setOwner}
+                />
+              ),
+            },
+          ];
+
+          return (
+            <div style={{ width: "min(100%, 72rem)", marginInline: "auto" }}>
+              <Table
+                header={
+                  <FilterBar
+                    search={
+                      <SearchInput
+                        value={keyword}
+                        onValueChange={setKeyword}
+                        placeholder="搜索组件、归属或能力"
+                        width="100%"
+                      />
+                    }
+                    items={filters}
+                    actions={
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => {
+                          setKeyword("");
+                          setOwner("all");
+                        }}
+                      >
+                        重置
+                      </Button>
+                    }
+                    summary={\`匹配 \${filteredItems.length} 个组件。\`}
+                  />
+                }
+                caption="组件筛选结果"
+                items={filteredItems}
+                empty="没有匹配的组件"
+                stickyActions
+                footer={\`当前展示 \${filteredItems.length} 个组件。\`}
+              />
+            </div>
+          );
+        };
+      `,
+      content: <FilterableTablePreview />,
+    },
     {
       title: "基础表格",
       code: `
@@ -448,6 +673,16 @@ export default defineDoc({
       name: "caption",
       type: "ReactNode",
       description: "表格说明，渲染为 caption。",
+    },
+    {
+      name: "header",
+      type: "ReactNode",
+      description: "表格头部自定义区域，适合放搜索、筛选、批量操作和工具栏。",
+    },
+    {
+      name: "footer",
+      type: "ReactNode",
+      description: "表格底部自定义区域，适合放统计说明、状态提示或补充操作。",
     },
     {
       name: "size",

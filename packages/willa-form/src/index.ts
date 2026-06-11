@@ -5,9 +5,11 @@ export { FormActions } from "#form/components/FormActions";
 export { FormField } from "#form/components/FormField";
 export { FormGroup } from "#form/components/FormGroup";
 export { FormMessage } from "#form/components/FormMessage";
+export { FilterBar } from "#form/components/FilterBar";
 export { Input } from "#form/components/Input";
 export { Radio } from "#form/components/Radio";
 export { RangeInput } from "#form/components/RangeInput";
+export { SearchInput } from "#form/components/SearchInput";
 export { Select } from "#form/components/Select";
 export { Switch } from "#form/components/Switch";
 export { TextArea } from "#form/components/TextArea";
@@ -47,12 +49,19 @@ export type {
   FormMessageTone,
 } from "#form/components/FormMessage";
 export type {
+  FilterBarAlign,
+  FilterBarDensity,
+  FilterBarItem,
+  FilterBarProps,
+} from "#form/components/FilterBar";
+export type {
   InputProps,
   InputSize,
   InputVariant,
 } from "#form/components/Input";
 export type { RadioProps, RadioSize } from "#form/components/Radio";
 export type { RangeInputProps } from "#form/components/RangeInput";
+export type { SearchInputProps } from "#form/components/SearchInput";
 export type {
   SelectOption,
   SelectProps,

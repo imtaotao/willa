@@ -1,0 +1,118 @@
+.willa-filter-bar {
+  display: grid;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  gap: 0.62rem;
+  border: 1px solid var(--willa-filter-bar-border);
+  border-radius: 0.82rem;
+  background: var(--willa-filter-bar-bg);
+  color: var(--willa-filter-bar-text);
+  font-family: var(--willa-body-font);
+}
+
+.willa-filter-bar--normal {
+  padding: 0.78rem;
+}
+
+.willa-filter-bar--compact {
+  padding: 0.55rem;
+}
+
+.willa-filter-bar-main {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.62rem;
+}
+
+.willa-filter-bar--stretch .willa-filter-bar-main {
+  align-items: stretch;
+}
+
+.willa-filter-bar--end .willa-filter-bar-main {
+  justify-content: flex-end;
+}
+
+.willa-filter-bar-search {
+  flex: 1 1 16rem;
+  min-width: min(100%, 14rem);
+}
+
+.willa-filter-bar-filters {
+  display: flex;
+  flex: 0 1 auto;
+  min-width: 0;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.willa-filter-bar-item {
+  display: grid;
+  width: var(--willa-filter-bar-item-width, auto);
+  min-width: 0;
+  flex: 0 1 auto;
+  gap: 0.28rem;
+}
+
+.willa-filter-bar-item--grow {
+  flex: 1 1 12rem;
+}
+
+.willa-filter-bar-label {
+  color: var(--willa-filter-bar-label);
+  font-size: 0.76rem;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.willa-filter-bar-control {
+  min-width: 0;
+}
+
+.willa-filter-bar-actions {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-inline-start: auto;
+}
+
+.willa-filter-bar-summary {
+  color: var(--willa-filter-bar-summary);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 767px) {
+  .willa-filter-bar {
+    border-radius: 0.72rem;
+  }
+
+  .willa-filter-bar-main {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .willa-filter-bar-search,
+  .willa-filter-bar-filters,
+  .willa-filter-bar-actions {
+    width: 100%;
+  }
+
+  .willa-filter-bar-filters {
+    align-items: stretch;
+  }
+
+  .willa-filter-bar-item {
+    width: 100%;
+  }
+
+  .willa-filter-bar-actions {
+    justify-content: flex-start;
+    margin-inline-start: 0;
+  }
+}

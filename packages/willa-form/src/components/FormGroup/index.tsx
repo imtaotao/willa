@@ -1,4 +1,4 @@
-import { type ComponentPropsWithoutRef, type ReactNode } from "react";
+import { useId, type ComponentPropsWithoutRef, type ReactNode } from "react";
 import classNames from "classnames";
 
 export type FormGroupGap = "sm" | "md" | "lg";
@@ -25,10 +25,16 @@ export function FormGroup(props: FormGroupProps) {
     className,
     ...groupProps
   } = props;
+  const titleId = useId();
+  const descriptionId = useId();
 
   return (
     <fieldset
       {...groupProps}
+      aria-labelledby={title ? titleId : groupProps["aria-labelledby"]}
+      aria-describedby={
+        description ? descriptionId : groupProps["aria-describedby"]
+      }
       className={classNames(
         "willa-form-group",
         `willa-form-group--gap-${gap}`,
@@ -37,14 +43,18 @@ export function FormGroup(props: FormGroupProps) {
       )}
     >
       {title || description ? (
-        <legend className="willa-form-group-header">
+        <div className="willa-form-group-header">
           {title ? (
-            <span className="willa-form-group-title">{title}</span>
+            <span className="willa-form-group-title" id={titleId}>
+              {title}
+            </span>
           ) : null}
           {description ? (
-            <span className="willa-form-group-description">{description}</span>
+            <span className="willa-form-group-description" id={descriptionId}>
+              {description}
+            </span>
           ) : null}
-        </legend>
+        </div>
       ) : null}
       <div className="willa-form-group-content">{children}</div>
     </fieldset>

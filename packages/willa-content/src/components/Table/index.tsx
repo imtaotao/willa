@@ -73,6 +73,8 @@ export type TableItem = {
 export type TableProps = {
   items: Array<TableItem>;
   caption?: ReactNode;
+  header?: ReactNode;
+  footer?: ReactNode;
   size?: TableSize;
   stickyHeader?: boolean;
   stickyActions?: boolean;
@@ -105,6 +107,8 @@ export function Table(props: TableProps) {
   const {
     items,
     caption,
+    header,
+    footer,
     size = "md",
     stickyHeader = false,
     stickyActions = false,
@@ -319,6 +323,7 @@ export function Table(props: TableProps) {
         className,
       )}
     >
+      {header ? <div className="willa-table-header-slot">{header}</div> : null}
       <div className="willa-table-scroll">
         <table className={classNames("willa-table-element", tableClassName)}>
           {caption ? (
@@ -527,6 +532,7 @@ export function Table(props: TableProps) {
           </tbody>
         </table>
       </div>
+      {footer ? <div className="willa-table-footer-slot">{footer}</div> : null}
       {paginationState ? (
         <div className="willa-table-pagination">
           <span className="willa-table-pagination-info">

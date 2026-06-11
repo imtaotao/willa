@@ -353,6 +353,7 @@ select {
   > :where(
     .willa-code-tabs,
     .willa-file-tree,
+    .willa-filter-bar,
     .willa-message-list,
     .willa-table,
     .willa-prose,
