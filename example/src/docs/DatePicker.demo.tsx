@@ -1,6 +1,10 @@
 import { useState, type CSSProperties } from "react";
 import { Button } from "willa/Button";
-import { DatePicker, type DatePickerValue } from "willa/DatePicker";
+import {
+  DatePicker,
+  type DatePickerMarker,
+  type DatePickerValue,
+} from "willa/DatePicker";
 import { Form } from "willa/Form";
 import { FormActions } from "willa/FormActions";
 import { FormField } from "willa/FormField";
@@ -27,6 +31,12 @@ const gridStyle: CSSProperties = {
   gap: "0.76rem",
   gridTemplateColumns: "repeat(auto-fit, minmax(13rem, 1fr))",
 };
+
+const dateMarkers: Array<DatePickerMarker> = [
+  { value: "2026-06-16", label: "发布", tone: "success" },
+  { value: "2026-06-19", label: "端午", tone: "warning" },
+  { value: "2026-06-24", label: "维护", tone: "info" },
+];
 
 const DatePickerPreview = () => {
   const [value, setValue] = useState<DatePickerValue>({
@@ -174,6 +184,51 @@ export default defineDoc({
             defaultValue={{ start: "2026-06-07", end: "2026-06-21" }}
             width="100%"
             aria-label="选择周范围"
+          />
+        </div>
+      ),
+    },
+    {
+      title: "日期标记",
+      code: `
+        const markers: Array<DatePickerMarker> = [
+          { value: "2026-06-16", label: "发布", tone: "success" },
+          { value: "2026-06-19", label: "端午", tone: "warning" },
+          { value: "2026-06-24", label: "维护", tone: "info" },
+        ];
+
+        <DatePicker
+          mode="day"
+          defaultValue="2026-06-19"
+          markers={markers}
+          getMarker={(value, context) => {
+            if (!context.date) return null;
+            if (context.date.getDay() === 1) {
+              return { value, label: "周会", tone: "neutral" };
+            }
+
+            return null;
+          }}
+          width="100%"
+          aria-label="选择带标记的日期"
+        />;
+      `,
+      content: (
+        <div style={stackStyle}>
+          <DatePicker
+            mode="day"
+            defaultValue="2026-06-19"
+            markers={dateMarkers}
+            getMarker={(value, context) => {
+              if (!context.date) return null;
+              if (context.date.getDay() === 1) {
+                return { value, label: "周会", tone: "neutral" };
+              }
+
+              return null;
+            }}
+            width="100%"
+            aria-label="选择带标记的日期"
           />
         </div>
       ),
@@ -393,6 +448,16 @@ export default defineDoc({
       name: "max",
       type: "string",
       description: "最大可选值，格式随 mode 变化。",
+    },
+    {
+      name: "markers",
+      type: "Array<DatePickerMarker>",
+      description: "静态日期标记，value 格式随 mode 变化。",
+    },
+    {
+      name: "getMarker",
+      type: "(value: string, context: DatePickerMarkerContext) => DatePickerMarker | null | undefined",
+      description: "动态返回日期标记，适合节假日、固定周期和公司日程规则。",
     },
     {
       name: "disabledDate",

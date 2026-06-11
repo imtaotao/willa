@@ -9,6 +9,7 @@ export type EmptyStateProps = {
   title: ReactNode;
   description?: ReactNode;
   icon?: ReactNode;
+  image?: ReactNode;
   actions?: ReactNode;
   footer?: ReactNode;
   variant?: EmptyStateVariant;
@@ -24,6 +25,7 @@ export function EmptyState(props: EmptyStateProps) {
     title,
     description,
     icon,
+    image,
     actions,
     footer,
     variant = "soft",
@@ -47,7 +49,11 @@ export function EmptyState(props: EmptyStateProps) {
         className,
       )}
     >
-      {icon ? (
+      {image ? (
+        <div className="willa-empty-state-image" aria-hidden="true">
+          {image}
+        </div>
+      ) : icon ? (
         <div className="willa-empty-state-icon" aria-hidden="true">
           {icon}
         </div>

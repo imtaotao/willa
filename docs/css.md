@@ -50,12 +50,16 @@ Likewise, a form or AI component that renders `Button`, `CodeBlock`, or
 
 AI package themes should keep large surfaces neutral. Layout shells, composer
 containers, prompt inputs, message lists, and process cards should use neutral
-surface tokens first. Role colors such as user, assistant, developer, tool,
-success, and warning should be weak accents on borders, marks, or selected
-states instead of dominant page backgrounds or broad gradients. In light
-theme, do not use pure white or translucent white as the default component
-surface when the page background is already white; prefer opaque off-white and
-light gray layers so component boundaries stay visible.
+surface tokens first. In light theme, pure white can be used for focused input
+areas, cards, and message bubbles when it matches the product surface language,
+but it must not be the only source of hierarchy. Use opaque surface layers,
+subtle borders, spacing, text weight, and state accents to keep component
+boundaries visible on white pages. Role colors such as user, assistant,
+developer, tool, success, and warning should remain accents on borders, marks,
+selected states, or compact status surfaces instead of dominant page
+backgrounds or broad gradients. Avoid translucent white for primary AI
+surfaces because it makes layering and contrast unpredictable across host
+pages.
 
 ## Component CSS
 

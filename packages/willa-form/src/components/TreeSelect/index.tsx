@@ -1,9 +1,6 @@
 import {
   forwardRef,
-  useEffect,
-  useId,
   useMemo,
-  useRef,
   useState,
   type ButtonHTMLAttributes,
   type CSSProperties,
@@ -11,14 +8,20 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from "react";
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  Cross2Icon,
-} from "@radix-ui/react-icons";
-import { createPortal } from "react-dom";
+import { CheckIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
+
+import { handleSelectablePanelKeyDown } from "#form/internal/selectablePanelKeyboard";
+import {
+  SelectablePanelClearButton,
+  SelectablePanelHiddenInput,
+  SelectablePanelList,
+  SelectablePanelPortal,
+  SelectablePanelSearch,
+  SelectablePanelShell,
+  SelectablePanelTrigger,
+} from "#form/internal/selectablePanelParts";
+import { useSelectablePanel } from "#form/internal/useSelectablePanel";
 
 export type TreeSelectSize = "sm" | "md" | "lg";
 export type TreeSelectVariant = "outline" | "soft";
@@ -30,12 +33,6 @@ export type TreeSelectItem = {
   description?: ReactNode;
   disabled?: boolean;
   children?: Array<TreeSelectItem>;
-};
-
-type TreeSelectPanelPosition = {
-  left: number;
-  top: number;
-  width: number;
 };
 
 type FlatTreeSelectItem = {
@@ -71,6 +68,8 @@ export type TreeSelectProps = Omit<
   onExpandedChange?: (values: Array<string>) => void;
 };
 
+const treeSelectNodeSelector = ".willa-tree-select-node";
+
 export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
   (props, ref) => {
     const {
@@ -101,19 +100,6 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
       onKeyDown,
       ...buttonProps
     } = props;
-    const generatedId = useId();
-    const buttonId = id ?? generatedId;
-    const panelId = `${buttonId}-panel`;
-    const rootRef = useRef<HTMLSpanElement>(null);
-    const buttonRef = useRef<HTMLButtonElement | null>(null);
-    const panelRef = useRef<HTMLDivElement | null>(null);
-    const listRef = useRef<HTMLDivElement | null>(null);
-    const searchRef = useRef<HTMLInputElement | null>(null);
-    const [open, setOpen] = useState(false);
-    const [query, setQuery] = useState("");
-    const [scrollable, setScrollable] = useState(false);
-    const [panelPosition, setPanelPosition] =
-      useState<TreeSelectPanelPosition | null>(null);
     const [expandedValues, setExpandedValues] = useState<Array<string>>(
       defaultExpandedValues,
     );
@@ -126,6 +112,33 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
     const selectedItems = allItems.filter((item) =>
       selectedValues.includes(item.value),
     );
+    const panelContentVersion = useMemo(
+      () => ({ expandedValues, items }),
+      [expandedValues, items],
+    );
+    const {
+      buttonId,
+      closePanel,
+      listRef,
+      open,
+      panelId,
+      panelRef,
+      position,
+      query,
+      rootRef,
+      scrollable,
+      searchRef,
+      setOpen,
+      setQuery,
+      triggerRef,
+      handleTriggerKeyDown,
+    } = useSelectablePanel({
+      contentVersion: panelContentVersion,
+      fallbackHeight: 340,
+      id,
+      minWidth: 300,
+      searchable,
+    });
     const visibleItems = useMemo(
       () => flattenVisibleTreeItems(items, expandedValues, query),
       [items, expandedValues, query],
@@ -136,89 +149,16 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
       buttonProps["aria-invalid"] === true ||
       buttonProps["aria-invalid"] === "true";
     const hasValue = selectedItems.length > 0;
+    const hasClear = clearable && hasValue && !disabled;
     const displayValue = hasValue
       ? (renderValue?.(selectedItems) ??
         selectedItems.map((item) => item.label).join("、"))
       : placeholder;
 
     const setButtonRef = (node: HTMLButtonElement | null) => {
-      buttonRef.current = node;
+      triggerRef.current = node;
       assignForwardedRef(ref, node);
     };
-
-    const updatePanelPosition = () => {
-      if (!buttonRef.current) return;
-
-      const rect = buttonRef.current.getBoundingClientRect();
-      const viewportPadding = 8;
-      const gap = 6;
-      const panelHeight = panelRef.current?.offsetHeight ?? 340;
-      const maxWidth = window.innerWidth - viewportPadding * 2;
-      const nextWidth = Math.min(Math.max(rect.width, 300), maxWidth);
-      const left = clamp(
-        rect.left,
-        viewportPadding,
-        window.innerWidth - viewportPadding - nextWidth,
-      );
-      const belowTop = rect.bottom + gap;
-      const aboveTop = rect.top - gap - panelHeight;
-      const hasBottomSpace =
-        window.innerHeight - rect.bottom - viewportPadding >= panelHeight;
-      const top = hasBottomSpace
-        ? belowTop
-        : Math.max(viewportPadding, aboveTop);
-
-      setPanelPosition({ left, top, width: nextWidth });
-    };
-
-    useEffect(() => {
-      if (!open) return;
-
-      const handlePointerDown = (event: PointerEvent) => {
-        const target = event.target as Node;
-
-        if (
-          !rootRef.current?.contains(target) &&
-          !panelRef.current?.contains(target)
-        ) {
-          setOpen(false);
-        }
-      };
-      const handleViewportChange = () => {
-        updatePanelPosition();
-      };
-
-      updatePanelPosition();
-      window.addEventListener("pointerdown", handlePointerDown);
-      window.addEventListener("resize", handleViewportChange);
-      window.addEventListener("scroll", handleViewportChange, true);
-
-      return () => {
-        window.removeEventListener("pointerdown", handlePointerDown);
-        window.removeEventListener("resize", handleViewportChange);
-        window.removeEventListener("scroll", handleViewportChange, true);
-      };
-    }, [open]);
-
-    useEffect(() => {
-      if (open) {
-        updatePanelPosition();
-        updateListScrollableState(listRef.current, setScrollable);
-        if (searchable) {
-          window.setTimeout(() => searchRef.current?.focus(), 0);
-        }
-      } else {
-        setPanelPosition(null);
-        setQuery("");
-        setScrollable(false);
-      }
-    }, [open, searchable, items]);
-
-    useEffect(() => {
-      if (!open) return;
-
-      updateListScrollableState(listRef.current, setScrollable);
-    }, [open, query, visibleItems]);
 
     const setExpandedValuesState = (nextValues: Array<string>) => {
       setExpandedValues(nextValues);
@@ -267,133 +207,147 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
       onValueChange?.(nextValue, []);
     };
 
-    const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
-      onKeyDown?.(event);
-      if (event.defaultPrevented) return;
+    const handleTreePanelKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+      const node =
+        event.target instanceof HTMLElement
+          ? event.target.closest<HTMLButtonElement>(treeSelectNodeSelector)
+          : null;
 
-      if (event.key === "Escape") {
-        setOpen(false);
-        return;
+      if (
+        node &&
+        query.trim() === "" &&
+        (event.key === "ArrowRight" || event.key === "ArrowLeft")
+      ) {
+        const value = node.dataset.value;
+        const entry = visibleItems.find(({ item }) => item.value === value);
+
+        if (entry?.hasChildren) {
+          const expanded = expandedValues.includes(entry.item.value);
+
+          if (event.key === "ArrowRight" && !expanded) {
+            event.preventDefault();
+            setExpandedValuesState([...expandedValues, entry.item.value]);
+            return;
+          }
+
+          if (event.key === "ArrowLeft" && expanded) {
+            event.preventDefault();
+            setExpandedValuesState(
+              expandedValues.filter((item) => item !== entry.item.value),
+            );
+            return;
+          }
+        }
       }
 
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        setOpen((currentOpen) => !currentOpen);
-      }
+      handleSelectablePanelKeyDown(event, {
+        panel: panelRef.current,
+        selector: treeSelectNodeSelector,
+        onClose: closePanel,
+        trigger: triggerRef.current,
+      });
     };
 
-    const panel =
-      open && typeof document !== "undefined"
-        ? createPortal(
-            <div
-              ref={panelRef}
-              id={panelId}
-              className="willa-tree-select-panel"
-              role="tree"
-              aria-multiselectable={mode === "multiple" ? true : undefined}
-              aria-labelledby={buttonId}
-              style={
-                panelPosition
-                  ? {
-                      left: panelPosition.left,
-                      top: panelPosition.top,
-                      width: panelPosition.width,
-                    }
-                  : { left: 0, top: 0, visibility: "hidden" }
-              }
-            >
-              {searchable ? (
-                <div className="willa-tree-select-search">
-                  <input
-                    ref={searchRef}
-                    value={query}
-                    placeholder={searchPlaceholder}
-                    onChange={(event) => setQuery(event.currentTarget.value)}
-                  />
-                </div>
-              ) : null}
-              <div
-                ref={listRef}
-                className={classNames(
-                  "willa-tree-select-list",
-                  scrollable && "willa-tree-select-list--scrollable",
-                )}
-              >
-                {visibleItems.length > 0 ? (
-                  visibleItems.map(({ item, level, hasChildren }) => {
-                    const selected = selectedValues.includes(item.value);
-                    const expanded =
-                      query.trim() !== "" ||
-                      expandedValues.includes(item.value);
+    const panel = (
+      <SelectablePanelPortal open={open}>
+        <SelectablePanelShell
+          panelRef={panelRef}
+          id={panelId}
+          className="willa-tree-select-panel"
+          role="tree"
+          multiselectable={mode === "multiple"}
+          labelledBy={buttonId}
+          position={position}
+          onKeyDown={handleTreePanelKeyDown}
+        >
+          {searchable ? (
+            <SelectablePanelSearch
+              className="willa-tree-select-search"
+              inputRef={searchRef}
+              value={query}
+              placeholder={searchPlaceholder}
+              onChange={(event) => setQuery(event.currentTarget.value)}
+            />
+          ) : null}
+          <SelectablePanelList
+            listRef={listRef}
+            className="willa-tree-select-list"
+            scrollableClassName="willa-tree-select-list--scrollable"
+            scrollable={scrollable}
+          >
+            {visibleItems.length > 0 ? (
+              visibleItems.map(({ item, level, hasChildren }) => {
+                const selected = selectedValues.includes(item.value);
+                const expanded =
+                  query.trim() !== "" || expandedValues.includes(item.value);
 
-                    return (
-                      <div
-                        key={item.value}
-                        className="willa-tree-select-row"
-                        style={
-                          {
-                            "--willa-tree-select-level": level,
-                          } as CSSProperties
-                        }
-                      >
-                        <button
-                          type="button"
-                          className="willa-tree-select-expand"
-                          aria-label={expanded ? "收起节点" : "展开节点"}
-                          aria-hidden={!hasChildren}
-                          tabIndex={hasChildren ? 0 : -1}
-                          onClick={() => toggleExpanded(item)}
-                        >
-                          {hasChildren ? (
-                            <ChevronRightIcon
-                              className={classNames(
-                                expanded &&
-                                  "willa-tree-select-expand-icon--open",
-                              )}
-                            />
-                          ) : null}
-                        </button>
-                        <button
-                          type="button"
+                return (
+                  <div
+                    key={item.value}
+                    className="willa-tree-select-row"
+                    style={
+                      {
+                        "--willa-tree-select-level": level,
+                      } as CSSProperties
+                    }
+                  >
+                    <button
+                      type="button"
+                      className="willa-tree-select-expand"
+                      aria-label={expanded ? "收起节点" : "展开节点"}
+                      aria-hidden={!hasChildren}
+                      tabIndex={hasChildren ? 0 : -1}
+                      onClick={() => toggleExpanded(item)}
+                    >
+                      {hasChildren ? (
+                        <ChevronRightIcon
                           className={classNames(
-                            "willa-tree-select-node",
-                            selected && "willa-tree-select-node--selected",
+                            expanded && "willa-tree-select-expand-icon--open",
                           )}
-                          role="treeitem"
-                          aria-selected={selected}
-                          aria-level={level + 1}
-                          aria-expanded={hasChildren ? expanded : undefined}
-                          disabled={item.disabled}
-                          onClick={() => commitValue(item)}
-                        >
-                          <span className="willa-tree-select-node-main">
-                            <span className="willa-tree-select-node-label">
-                              {item.label}
-                            </span>
-                            {item.description ? (
-                              <span className="willa-tree-select-node-description">
-                                {item.description}
-                              </span>
-                            ) : null}
+                        />
+                      ) : null}
+                    </button>
+                    <button
+                      type="button"
+                      className={classNames(
+                        "willa-tree-select-node",
+                        selected && "willa-tree-select-node--selected",
+                      )}
+                      role="treeitem"
+                      data-value={item.value}
+                      aria-selected={selected}
+                      aria-level={level + 1}
+                      aria-expanded={hasChildren ? expanded : undefined}
+                      disabled={item.disabled}
+                      onClick={() => commitValue(item)}
+                    >
+                      <span className="willa-tree-select-node-main">
+                        <span className="willa-tree-select-node-label">
+                          {item.label}
+                        </span>
+                        {item.description ? (
+                          <span className="willa-tree-select-node-description">
+                            {item.description}
                           </span>
-                          <span
-                            className="willa-tree-select-node-check"
-                            aria-hidden="true"
-                          >
-                            {selected ? <CheckIcon /> : null}
-                          </span>
-                        </button>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <div className="willa-tree-select-empty">{emptyText}</div>
-                )}
-              </div>
-            </div>,
-            document.body,
-          )
-        : null;
+                        ) : null}
+                      </span>
+                      <span
+                        className="willa-tree-select-node-check"
+                        aria-hidden="true"
+                      >
+                        {selected ? <CheckIcon /> : null}
+                      </span>
+                    </button>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="willa-tree-select-empty">{emptyText}</div>
+            )}
+          </SelectablePanelList>
+        </SelectablePanelShell>
+      </SelectablePanelPortal>
+    );
 
     return (
       <span
@@ -404,64 +358,51 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
           `willa-tree-select--${variant}`,
           open && "willa-tree-select--open",
           isInvalid && "willa-tree-select--invalid",
+          hasClear && "willa-tree-select--has-clear",
           disabled && "willa-tree-select--disabled",
           className,
         )}
         style={treeSelectStyle}
       >
-        <button
+        <SelectablePanelTrigger
           {...buttonProps}
-          ref={setButtonRef}
+          buttonRef={setButtonRef}
           id={buttonId}
-          type="button"
-          className="willa-tree-select-trigger"
+          triggerClassName="willa-tree-select-trigger"
+          valueClassName="willa-tree-select-value"
+          placeholderClassName="willa-tree-select-value--placeholder"
+          iconClassName="willa-tree-select-icon"
           disabled={disabled}
-          aria-haspopup="tree"
-          aria-expanded={open}
-          aria-controls={open ? panelId : undefined}
-          aria-invalid={isInvalid || undefined}
+          popupRole="tree"
+          expanded={open}
+          controls={open ? panelId : undefined}
+          invalid={isInvalid}
+          hasValue={hasValue}
+          displayValue={displayValue}
           onBlur={onBlur}
           onClick={(event) => {
             onClick?.(event);
             if (!event.defaultPrevented) setOpen((currentOpen) => !currentOpen);
           }}
-          onKeyDown={handleKeyDown}
-        >
-          <span
-            className={classNames(
-              "willa-tree-select-value",
-              !hasValue && "willa-tree-select-value--placeholder",
-            )}
-          >
-            {displayValue}
-          </span>
-          {clearable && hasValue && !disabled ? (
-            <span
-              className="willa-tree-select-clear"
-              role="button"
-              tabIndex={-1}
-              aria-label="清空选择"
-              onClick={(event) => {
-                event.stopPropagation();
-                clearValue();
-              }}
-            >
-              <Cross2Icon />
-            </span>
-          ) : null}
-          <ChevronDownIcon
-            className="willa-tree-select-icon"
-            aria-hidden="true"
-          />
-        </button>
-        {name ? (
-          <input
-            type="hidden"
-            name={name}
-            value={selectedValues.join(",")}
-            readOnly
+          onKeyDown={(event) =>
+            handleTriggerKeyDown(event, {
+              selector: treeSelectNodeSelector,
+              onKeyDown,
+            })
+          }
+        />
+        {hasClear ? (
+          <SelectablePanelClearButton
+            className="willa-tree-select-clear"
+            ariaLabel="清空选择"
+            onClear={clearValue}
+            triggerRef={triggerRef}
           />
         ) : null}
+        <SelectablePanelHiddenInput
+          name={name}
+          value={selectedValues.join(",")}
+        />
         {panel}
       </span>
     );
@@ -597,22 +538,4 @@ const assignForwardedRef = (
   if (ref) {
     ref.current = value;
   }
-};
-
-const clamp = (value: number, min: number, max: number) => {
-  return Math.min(Math.max(value, min), max);
-};
-
-const updateListScrollableState = (
-  list: HTMLDivElement | null,
-  setScrollable: (scrollable: boolean) => void,
-) => {
-  if (!list) {
-    setScrollable(false);
-    return;
-  }
-
-  window.requestAnimationFrame(() => {
-    setScrollable(list.scrollHeight > list.clientHeight + 1);
-  });
 };

@@ -1,19 +1,26 @@
 import {
   forwardRef,
-  useEffect,
-  useId,
   useMemo,
-  useRef,
   useState,
   type ButtonHTMLAttributes,
   type CSSProperties,
   type ForwardedRef,
-  type KeyboardEvent,
   type ReactNode,
 } from "react";
-import { CheckIcon, ChevronDownIcon, Cross2Icon } from "@radix-ui/react-icons";
-import { createPortal } from "react-dom";
+import { CheckIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
+
+import { handleSelectablePanelKeyDown } from "#form/internal/selectablePanelKeyboard";
+import {
+  SelectablePanelClearButton,
+  SelectablePanelHiddenInput,
+  SelectablePanelList,
+  SelectablePanelPortal,
+  SelectablePanelSearch,
+  SelectablePanelShell,
+  SelectablePanelTrigger,
+} from "#form/internal/selectablePanelParts";
+import { useSelectablePanel } from "#form/internal/useSelectablePanel";
 
 export type PickerSize = "sm" | "md" | "lg";
 export type PickerVariant = "outline" | "soft";
@@ -25,12 +32,6 @@ export type PickerItem = {
   description?: ReactNode;
   group?: ReactNode;
   disabled?: boolean;
-};
-
-type PickerPanelPosition = {
-  left: number;
-  top: number;
-  width: number;
 };
 
 export type PickerProps = Omit<
@@ -57,6 +58,8 @@ export type PickerProps = Omit<
     items: Array<PickerItem>,
   ) => void;
 };
+
+const pickerOptionSelector = ".willa-picker-option";
 
 export const Picker = forwardRef<HTMLButtonElement, PickerProps>(
   (props, ref) => {
@@ -86,19 +89,6 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(
       onKeyDown,
       ...buttonProps
     } = props;
-    const generatedId = useId();
-    const buttonId = id ?? generatedId;
-    const panelId = `${buttonId}-panel`;
-    const rootRef = useRef<HTMLSpanElement>(null);
-    const buttonRef = useRef<HTMLButtonElement | null>(null);
-    const panelRef = useRef<HTMLDivElement | null>(null);
-    const listRef = useRef<HTMLDivElement | null>(null);
-    const searchRef = useRef<HTMLInputElement | null>(null);
-    const [open, setOpen] = useState(false);
-    const [query, setQuery] = useState("");
-    const [scrollable, setScrollable] = useState(false);
-    const [panelPosition, setPanelPosition] =
-      useState<PickerPanelPosition | null>(null);
     const [innerValue, setInnerValue] = useState<string | Array<string>>(
       defaultValue ?? (mode === "multiple" ? [] : ""),
     );
@@ -108,6 +98,29 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(
       selectedValues.includes(item.value),
     );
     const pickerStyle = getPickerStyle({ width, style });
+    const {
+      buttonId,
+      closePanel,
+      listRef,
+      open,
+      panelId,
+      panelRef,
+      position,
+      query,
+      rootRef,
+      scrollable,
+      searchRef,
+      setOpen,
+      setQuery,
+      triggerRef,
+      handleTriggerKeyDown,
+    } = useSelectablePanel({
+      contentVersion: items,
+      fallbackHeight: 320,
+      id,
+      minWidth: 280,
+      searchable,
+    });
     const filteredItems = useMemo(
       () => filterPickerItems(items, query),
       [items, query],
@@ -121,89 +134,16 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(
       buttonProps["aria-invalid"] === true ||
       buttonProps["aria-invalid"] === "true";
     const hasValue = selectedItems.length > 0;
+    const hasClear = clearable && hasValue && !disabled;
     const displayValue = hasValue
       ? (renderValue?.(selectedItems) ??
         selectedItems.map((item) => item.label).join("、"))
       : placeholder;
 
     const setButtonRef = (node: HTMLButtonElement | null) => {
-      buttonRef.current = node;
+      triggerRef.current = node;
       assignForwardedRef(ref, node);
     };
-
-    const updatePanelPosition = () => {
-      if (!buttonRef.current) return;
-
-      const rect = buttonRef.current.getBoundingClientRect();
-      const viewportPadding = 8;
-      const gap = 6;
-      const panelHeight = panelRef.current?.offsetHeight ?? 320;
-      const maxWidth = window.innerWidth - viewportPadding * 2;
-      const nextWidth = Math.min(Math.max(rect.width, 280), maxWidth);
-      const left = clamp(
-        rect.left,
-        viewportPadding,
-        window.innerWidth - viewportPadding - nextWidth,
-      );
-      const belowTop = rect.bottom + gap;
-      const aboveTop = rect.top - gap - panelHeight;
-      const hasBottomSpace =
-        window.innerHeight - rect.bottom - viewportPadding >= panelHeight;
-      const top = hasBottomSpace
-        ? belowTop
-        : Math.max(viewportPadding, aboveTop);
-
-      setPanelPosition({ left, top, width: nextWidth });
-    };
-
-    useEffect(() => {
-      if (!open) return;
-
-      const handlePointerDown = (event: PointerEvent) => {
-        const target = event.target as Node;
-
-        if (
-          !rootRef.current?.contains(target) &&
-          !panelRef.current?.contains(target)
-        ) {
-          setOpen(false);
-        }
-      };
-      const handleViewportChange = () => {
-        updatePanelPosition();
-      };
-
-      updatePanelPosition();
-      window.addEventListener("pointerdown", handlePointerDown);
-      window.addEventListener("resize", handleViewportChange);
-      window.addEventListener("scroll", handleViewportChange, true);
-
-      return () => {
-        window.removeEventListener("pointerdown", handlePointerDown);
-        window.removeEventListener("resize", handleViewportChange);
-        window.removeEventListener("scroll", handleViewportChange, true);
-      };
-    }, [open]);
-
-    useEffect(() => {
-      if (open) {
-        updatePanelPosition();
-        updateListScrollableState(listRef.current, setScrollable);
-        if (searchable) {
-          window.setTimeout(() => searchRef.current?.focus(), 0);
-        }
-      } else {
-        setPanelPosition(null);
-        setQuery("");
-        setScrollable(false);
-      }
-    }, [open, searchable, items]);
-
-    useEffect(() => {
-      if (!open) return;
-
-      updateListScrollableState(listRef.current, setScrollable);
-    }, [open, query, groupedItems]);
 
     const commitValue = (item: PickerItem) => {
       if (item.disabled) return;
@@ -239,111 +179,92 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(
       onValueChange?.(nextValue, []);
     };
 
-    const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
-      onKeyDown?.(event);
-      if (event.defaultPrevented) return;
-
-      if (event.key === "Escape") {
-        setOpen(false);
-        return;
-      }
-
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        setOpen((currentOpen) => !currentOpen);
-      }
-    };
-
-    const panel =
-      open && typeof document !== "undefined"
-        ? createPortal(
-            <div
-              ref={panelRef}
-              id={panelId}
-              className="willa-picker-panel"
-              role="listbox"
-              aria-multiselectable={mode === "multiple" ? true : undefined}
-              aria-labelledby={buttonId}
-              style={
-                panelPosition
-                  ? {
-                      left: panelPosition.left,
-                      top: panelPosition.top,
-                      width: panelPosition.width,
-                    }
-                  : { left: 0, top: 0, visibility: "hidden" }
-              }
-            >
-              {searchable ? (
-                <div className="willa-picker-search">
-                  <input
-                    ref={searchRef}
-                    value={query}
-                    placeholder={searchPlaceholder}
-                    onChange={(event) => setQuery(event.currentTarget.value)}
-                  />
-                </div>
-              ) : null}
-              <div
-                ref={listRef}
-                className={classNames(
-                  "willa-picker-list",
-                  scrollable && "willa-picker-list--scrollable",
-                )}
-              >
-                {groupedItems.length > 0 ? (
-                  groupedItems.map((group) => (
-                    <div className="willa-picker-group" key={group.key}>
-                      {group.label ? (
-                        <div className="willa-picker-group-label">
-                          {group.label}
-                        </div>
-                      ) : null}
-                      {group.items.map((item) => {
-                        const selected = selectedValues.includes(item.value);
-
-                        return (
-                          <button
-                            key={item.value}
-                            type="button"
-                            className={classNames(
-                              "willa-picker-option",
-                              selected && "willa-picker-option--selected",
-                            )}
-                            role="option"
-                            aria-selected={selected}
-                            disabled={item.disabled}
-                            onClick={() => commitValue(item)}
-                          >
-                            <span className="willa-picker-option-main">
-                              <span className="willa-picker-option-label">
-                                {item.label}
-                              </span>
-                              {item.description ? (
-                                <span className="willa-picker-option-description">
-                                  {item.description}
-                                </span>
-                              ) : null}
-                            </span>
-                            <span
-                              className="willa-picker-option-check"
-                              aria-hidden="true"
-                            >
-                              {selected ? <CheckIcon /> : null}
-                            </span>
-                          </button>
-                        );
-                      })}
+    const panel = (
+      <SelectablePanelPortal open={open}>
+        <SelectablePanelShell
+          panelRef={panelRef}
+          id={panelId}
+          className="willa-picker-panel"
+          role="listbox"
+          multiselectable={mode === "multiple"}
+          labelledBy={buttonId}
+          position={position}
+          onKeyDown={(event) =>
+            handleSelectablePanelKeyDown(event, {
+              panel: panelRef.current,
+              selector: pickerOptionSelector,
+              onClose: closePanel,
+              trigger: triggerRef.current,
+            })
+          }
+        >
+          {searchable ? (
+            <SelectablePanelSearch
+              className="willa-picker-search"
+              inputRef={searchRef}
+              value={query}
+              placeholder={searchPlaceholder}
+              onChange={(event) => setQuery(event.currentTarget.value)}
+            />
+          ) : null}
+          <SelectablePanelList
+            listRef={listRef}
+            className="willa-picker-list"
+            scrollableClassName="willa-picker-list--scrollable"
+            scrollable={scrollable}
+          >
+            {groupedItems.length > 0 ? (
+              groupedItems.map((group) => (
+                <div className="willa-picker-group" key={group.key}>
+                  {group.label ? (
+                    <div className="willa-picker-group-label">
+                      {group.label}
                     </div>
-                  ))
-                ) : (
-                  <div className="willa-picker-empty">{emptyText}</div>
-                )}
-              </div>
-            </div>,
-            document.body,
-          )
-        : null;
+                  ) : null}
+                  {group.items.map((item) => {
+                    const selected = selectedValues.includes(item.value);
+
+                    return (
+                      <button
+                        key={item.value}
+                        type="button"
+                        className={classNames(
+                          "willa-picker-option",
+                          selected && "willa-picker-option--selected",
+                        )}
+                        role="option"
+                        aria-selected={selected}
+                        disabled={item.disabled}
+                        onClick={() => commitValue(item)}
+                      >
+                        <span className="willa-picker-option-main">
+                          <span className="willa-picker-option-label">
+                            {item.label}
+                          </span>
+                          {item.description ? (
+                            <span className="willa-picker-option-description">
+                              {item.description}
+                            </span>
+                          ) : null}
+                        </span>
+                        <span
+                          className="willa-picker-option-check"
+                          aria-hidden="true"
+                        >
+                          {selected ? <CheckIcon /> : null}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              ))
+            ) : (
+              <div className="willa-picker-empty">{emptyText}</div>
+            )}
+          </SelectablePanelList>
+        </SelectablePanelShell>
+      </SelectablePanelPortal>
+    );
 
     return (
       <span
@@ -354,61 +275,51 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(
           `willa-picker--${variant}`,
           open && "willa-picker--open",
           isInvalid && "willa-picker--invalid",
+          hasClear && "willa-picker--has-clear",
           disabled && "willa-picker--disabled",
           className,
         )}
         style={pickerStyle}
       >
-        <button
+        <SelectablePanelTrigger
           {...buttonProps}
-          ref={setButtonRef}
+          buttonRef={setButtonRef}
           id={buttonId}
-          type="button"
-          className="willa-picker-trigger"
+          triggerClassName="willa-picker-trigger"
+          valueClassName="willa-picker-value"
+          placeholderClassName="willa-picker-value--placeholder"
+          iconClassName="willa-picker-icon"
           disabled={disabled}
-          aria-haspopup="listbox"
-          aria-expanded={open}
-          aria-controls={open ? panelId : undefined}
-          aria-invalid={isInvalid || undefined}
+          popupRole="listbox"
+          expanded={open}
+          controls={open ? panelId : undefined}
+          invalid={isInvalid}
+          hasValue={hasValue}
+          displayValue={displayValue}
           onBlur={onBlur}
           onClick={(event) => {
             onClick?.(event);
             if (!event.defaultPrevented) setOpen((currentOpen) => !currentOpen);
           }}
-          onKeyDown={handleKeyDown}
-        >
-          <span
-            className={classNames(
-              "willa-picker-value",
-              !hasValue && "willa-picker-value--placeholder",
-            )}
-          >
-            {displayValue}
-          </span>
-          {clearable && hasValue && !disabled ? (
-            <span
-              className="willa-picker-clear"
-              role="button"
-              tabIndex={-1}
-              aria-label="清空选择"
-              onClick={(event) => {
-                event.stopPropagation();
-                clearValue();
-              }}
-            >
-              <Cross2Icon />
-            </span>
-          ) : null}
-          <ChevronDownIcon className="willa-picker-icon" aria-hidden="true" />
-        </button>
-        {name ? (
-          <input
-            type="hidden"
-            name={name}
-            value={selectedValues.join(",")}
-            readOnly
+          onKeyDown={(event) =>
+            handleTriggerKeyDown(event, {
+              selector: pickerOptionSelector,
+              onKeyDown,
+            })
+          }
+        />
+        {hasClear ? (
+          <SelectablePanelClearButton
+            className="willa-picker-clear"
+            ariaLabel="清空选择"
+            onClear={clearValue}
+            triggerRef={triggerRef}
           />
         ) : null}
+        <SelectablePanelHiddenInput
+          name={name}
+          value={selectedValues.join(",")}
+        />
         {panel}
       </span>
     );
@@ -518,22 +429,4 @@ const assignForwardedRef = (
   if (ref) {
     ref.current = value;
   }
-};
-
-const clamp = (value: number, min: number, max: number) => {
-  return Math.min(Math.max(value, min), max);
-};
-
-const updateListScrollableState = (
-  list: HTMLDivElement | null,
-  setScrollable: (scrollable: boolean) => void,
-) => {
-  if (!list) {
-    setScrollable(false);
-    return;
-  }
-
-  window.requestAnimationFrame(() => {
-    setScrollable(list.scrollHeight > list.clientHeight + 1);
-  });
 };

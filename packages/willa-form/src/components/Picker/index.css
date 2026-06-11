@@ -1,4 +1,5 @@
 .willa-picker {
+  position: relative;
   display: inline-flex;
   width: fit-content;
   max-width: 100%;
@@ -87,6 +88,10 @@
   white-space: nowrap;
 }
 
+.willa-picker--has-clear .willa-picker-value {
+  padding-right: 1.35rem;
+}
+
 .willa-picker-value--placeholder {
   color: var(--willa-picker-placeholder);
   font-weight: 450;
@@ -99,17 +104,32 @@
 }
 
 .willa-picker-clear {
+  position: absolute;
+  top: 50%;
+  right: 1.85rem;
+  z-index: 1;
   display: inline-grid;
   width: 1.15rem;
   height: 1.15rem;
   place-items: center;
+  padding: 0;
+  border: 0;
   border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  transform: translateY(-50%);
   cursor: pointer;
 }
 
-.willa-picker-clear:hover {
+.willa-picker-clear:hover,
+.willa-picker-clear:focus-visible {
   background: var(--willa-picker-clear-bg-hover);
   color: var(--willa-picker-text);
+}
+
+.willa-picker-clear:focus-visible {
+  outline: 2px solid var(--willa-picker-border-focus);
+  outline-offset: 2px;
 }
 
 .willa-picker-icon {

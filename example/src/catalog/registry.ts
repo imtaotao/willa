@@ -37,6 +37,7 @@ const docSpecGroups = {
     "XPostEmbed",
   ],
   form: [
+    "Calendar",
     "Checkbox",
     "DatePicker",
     "Form",

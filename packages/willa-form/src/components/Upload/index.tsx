@@ -10,6 +10,7 @@ import {
 } from "react";
 import classNames from "classnames";
 import { Cross2Icon, FileTextIcon, UploadIcon } from "@radix-ui/react-icons";
+import { isPromiseLike } from "aidly";
 
 import { Download } from "#content/components/Download";
 
@@ -303,7 +304,7 @@ type UploadProgressProps = {
   progress?: number;
 };
 
-function UploadProgress({ progress }: UploadProgressProps) {
+const UploadProgress = ({ progress }: UploadProgressProps) => {
   const hasProgress = typeof progress === "number";
 
   return (
@@ -322,16 +323,7 @@ function UploadProgress({ progress }: UploadProgressProps) {
       />
     </span>
   );
-}
-
-function isPromiseLike(value: void | Promise<void>): value is Promise<void> {
-  return Boolean(
-    value &&
-    typeof value === "object" &&
-    "then" in value &&
-    typeof value.then === "function",
-  );
-}
+};
 
 type UploadPreviewProps = {
   item: UploadItem;
@@ -339,7 +331,7 @@ type UploadPreviewProps = {
   onRemove: (item: UploadItem) => void;
 };
 
-function UploadPreview({ item, disabled, onRemove }: UploadPreviewProps) {
+const UploadPreview = ({ item, disabled, onRemove }: UploadPreviewProps) => {
   const fileName = item.file.name;
   const meta = `${formatFileSize(item.file.size)} · ${resolveKindLabel(item.kind)}`;
 
@@ -403,9 +395,9 @@ function UploadPreview({ item, disabled, onRemove }: UploadPreviewProps) {
       </button>
     </article>
   );
-}
+};
 
-function createUploadItem(file: File): UploadItem {
+const createUploadItem = (file: File) => {
   return {
     id: `${file.name}-${file.size}-${file.lastModified}-${Math.random()
       .toString(36)
@@ -414,9 +406,9 @@ function createUploadItem(file: File): UploadItem {
     url: URL.createObjectURL(file),
     kind: resolveFileKind(file),
   };
-}
+};
 
-function resolveFileKind(file: File): UploadFileKind {
+const resolveFileKind = (file: File): UploadFileKind => {
   if (file.type.startsWith("image/")) {
     return "image";
   }
@@ -430,9 +422,9 @@ function resolveFileKind(file: File): UploadFileKind {
   }
 
   return "file";
-}
+};
 
-function resolveKindLabel(kind: UploadFileKind) {
+const resolveKindLabel = (kind: UploadFileKind) => {
   if (kind === "image") {
     return "图片";
   }
@@ -446,9 +438,9 @@ function resolveKindLabel(kind: UploadFileKind) {
   }
 
   return "文件";
-}
+};
 
-function formatFileSize(size: number) {
+const formatFileSize = (size: number) => {
   if (size <= 0) {
     return "0 B";
   }
@@ -462,12 +454,12 @@ function formatFileSize(size: number) {
   const fractionDigits = value >= 10 || unitIndex === 0 ? 0 : 1;
 
   return `${value.toFixed(fractionDigits)} ${units[unitIndex]}`;
-}
+};
 
-function normalizeProgress(progress: number | undefined) {
+const normalizeProgress = (progress: number | undefined) => {
   if (typeof progress !== "number" || Number.isNaN(progress)) {
     return undefined;
   }
 
   return Math.min(100, Math.max(0, progress));
-}
+};

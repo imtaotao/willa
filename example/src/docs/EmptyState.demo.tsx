@@ -153,6 +153,37 @@ export default defineDoc({
       ),
     },
     {
+      title: "自定义图片",
+      code: `
+        <EmptyState
+          image={
+            <img
+              src="https://images.unsplash.com/photo-1496483648148-47c686dc86a8?auto=format&fit=crop&w=1200&q=80"
+              alt=""
+            />
+          }
+          title="这里还没有内容"
+          description="你可以先添加资料，也可以从模板开始创建。"
+          variant="plain"
+          size="lg"
+        />;
+      `,
+      content: (
+        <EmptyState
+          image={
+            <img
+              src="https://images.unsplash.com/photo-1496483648148-47c686dc86a8?auto=format&fit=crop&w=1200&q=80"
+              alt=""
+            />
+          }
+          title="这里还没有内容"
+          description="你可以先添加资料，也可以从模板开始创建。"
+          variant="plain"
+          size="lg"
+        />
+      ),
+    },
+    {
       title: "尺寸和样式",
       code: `
         <div style={rowStyle}>
@@ -208,6 +239,11 @@ export default defineDoc({
       name: "icon",
       type: "ReactNode",
       description: "展示在标题上方的图标。",
+    },
+    {
+      name: "image",
+      type: "ReactNode",
+      description: "展示在标题上方的大图或插画；传入后优先展示 image。",
     },
     {
       name: "actions",

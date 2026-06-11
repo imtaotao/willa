@@ -115,6 +115,56 @@ export default defineDoc({
       ),
     },
     {
+      title: "自定义图片",
+      code: `
+        <NotFound
+          image={
+            <div
+              style={{
+                width: "min(100%, 48rem)",
+                minHeight: "16rem",
+                borderRadius: "1.2rem",
+                background:
+                  "linear-gradient(180deg, #f8fbff 0%, #eff6f2 100%)",
+                display: "grid",
+                placeItems: "center",
+                color: "var(--willa-muted)",
+                fontWeight: 700,
+              }}
+            >
+              404 illustration
+            </div>
+          }
+          title="页面迷路了"
+          description="你访问的页面可能已经失效，或当前链接不完整。"
+          variant="plain"
+        />;
+      `,
+      content: (
+        <NotFound
+          image={
+            <div
+              style={{
+                width: "min(100%, 48rem)",
+                minHeight: "16rem",
+                borderRadius: "1.2rem",
+                background: "linear-gradient(180deg, #f8fbff 0%, #eff6f2 100%)",
+                display: "grid",
+                placeItems: "center",
+                color: "var(--willa-muted)",
+                fontWeight: 700,
+              }}
+            >
+              404 illustration
+            </div>
+          }
+          title="页面迷路了"
+          description="你访问的页面可能已经失效，或当前链接不完整。"
+          variant="plain"
+        />
+      ),
+    },
+    {
       title: "左对齐布局",
       code: `
         <div style={stackStyle}>
@@ -169,6 +219,11 @@ export default defineDoc({
       name: "icon",
       type: "ReactNode",
       description: "自定义图标，不传时展示默认 404 图标。",
+    },
+    {
+      name: "image",
+      type: "ReactNode",
+      description: "自定义大图或插画；传入后优先展示 image，不再展示 icon。",
     },
     {
       name: "actions",

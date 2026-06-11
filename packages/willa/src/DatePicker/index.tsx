@@ -1,6 +1,9 @@
 export {
   DatePicker,
   type DatePickerMode,
+  type DatePickerMarker,
+  type DatePickerMarkerContext,
+  type DatePickerMarkerTone,
   type DatePickerPicker,
   type DatePickerProps,
   type DatePickerRangeValue,

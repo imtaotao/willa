@@ -15,6 +15,7 @@ import {
 import { createPortal } from "react-dom";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import classNames from "classnames";
+import { isPromiseLike } from "aidly";
 
 import { Button } from "#content/components/Button";
 
@@ -62,15 +63,6 @@ const focusableSelector = [
 
 const getFocusableElements = (container: HTMLElement) => {
   return Array.from(container.querySelectorAll<HTMLElement>(focusableSelector));
-};
-
-const isPromiseLike = (value: unknown): value is PromiseLike<void> => {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    "then" in value &&
-    typeof value.then === "function"
-  );
 };
 
 export function Dialog(props: DialogProps) {

@@ -68,6 +68,21 @@
   height: 1em;
 }
 
+.willa-empty-state-image {
+  display: grid;
+  width: min(100%, 46rem);
+  min-width: 0;
+  justify-items: center;
+}
+
+.willa-empty-state-image > img,
+.willa-empty-state-image > picture,
+.willa-empty-state-image > svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
 .willa-empty-state--sm .willa-empty-state-icon {
   width: 2.1rem;
   height: 2.1rem;

@@ -13,6 +13,7 @@ export type NotFoundProps = {
   title?: ReactNode;
   description?: ReactNode;
   icon?: ReactNode;
+  image?: ReactNode;
   actions?: ReactNode;
   footer?: ReactNode;
   variant?: EmptyStateVariant;
@@ -27,6 +28,7 @@ export function NotFound(props: NotFoundProps) {
     title = "404 页面不存在",
     description = "你访问的内容可能已被移动、删除，或暂时不可用。",
     icon = <NotFoundIllustration />,
+    image,
     actions,
     footer,
     variant = "soft",
@@ -39,7 +41,8 @@ export function NotFound(props: NotFoundProps) {
   return (
     <EmptyState
       className={classNames("willa-not-found", className)}
-      icon={icon}
+      icon={image ? undefined : icon}
+      image={image}
       title={title}
       description={description}
       actions={actions}

@@ -122,6 +122,9 @@
   z-index: 80;
   display: grid;
   box-sizing: border-box;
+  width: max-content;
+  max-width: calc(100vw - 1rem);
+  justify-items: center;
   gap: 0.48rem;
   border: 1px solid var(--willa-date-picker-panel-border);
   border-radius: 0.72rem;
@@ -133,145 +136,45 @@
 }
 
 .willa-date-picker-panel--wheel {
+  width: auto;
   padding: 0.42rem;
 }
 
-.willa-date-picker-header {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
+.willa-date-picker-calendar {
+  width: max-content;
+  max-width: 100%;
+  gap: 0.82rem;
+}
+
+.willa-date-picker-calendar .willa-calendar-weekdays,
+.willa-date-picker-calendar .willa-calendar-grid {
   gap: 0.32rem;
 }
 
-.willa-date-picker-title {
-  min-width: 0;
-  color: var(--willa-date-picker-title);
-  font-size: 0.86rem;
-  font-weight: 650;
-  line-height: 1.35;
-  text-align: center;
+.willa-date-picker-calendar .willa-calendar-title {
+  font-size: 0.98rem;
 }
 
-.willa-date-picker-nav {
-  display: inline-flex;
-  width: 1.62rem;
-  height: 1.62rem;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid transparent;
+.willa-date-picker-calendar .willa-calendar-day {
+  min-height: 3.2rem;
   border-radius: 0.42rem;
-  background: transparent;
-  color: var(--willa-date-picker-muted);
-  cursor: pointer;
-  padding: 0;
-  transition:
-    background-color 160ms ease,
-    border-color 160ms ease,
-    color 160ms ease;
+  font-size: 0.9rem;
+  padding: 0.52rem 0.24rem 1.44rem;
 }
 
-.willa-date-picker-nav:hover {
-  border-color: var(--willa-date-picker-control-border-hover);
-  background: var(--willa-date-picker-control-bg-hover);
-  color: var(--willa-date-picker-title);
+.willa-date-picker-calendar .willa-calendar-week-number {
+  min-height: 3.2rem;
 }
 
-.willa-date-picker-nav:focus-visible,
-.willa-date-picker-day:focus-visible {
-  outline: 2px solid var(--willa-focus-ring);
-  outline-offset: 2px;
+.willa-date-picker-calendar .willa-calendar-day--year,
+.willa-date-picker-calendar .willa-calendar-day--month,
+.willa-date-picker-calendar .willa-calendar-day--week {
+  min-height: 2.7rem;
+  font-size: 0.86rem;
 }
 
-.willa-date-picker-nav svg {
-  width: 0.92rem;
-  height: 0.92rem;
-}
-
-.willa-date-picker-weekdays,
-.willa-date-picker-grid {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 0.12rem;
-}
-
-.willa-date-picker-grid--year,
-.willa-date-picker-grid--month {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.16rem;
-}
-
-.willa-date-picker-grid--week {
-  grid-template-columns: 1fr;
-  gap: 0.2rem;
-}
-
-.willa-date-picker-weekdays {
-  color: var(--willa-date-picker-muted);
-  font-size: 0.7rem;
-  font-weight: 600;
-  line-height: 1.4;
-  text-align: center;
-}
-
-.willa-date-picker-weekdays span {
-  border-radius: 0.32rem;
-  padding: 0.12rem 0;
-}
-
-.willa-date-picker-weekday--weekend {
-  background: var(--willa-date-picker-weekend-header-bg);
-  color: var(--willa-date-picker-title);
-}
-
-.willa-date-picker-day {
-  display: inline-flex;
-  box-sizing: border-box;
-  min-width: 0;
-  aspect-ratio: 1;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid transparent;
-  border-radius: 0.38rem;
-  background: transparent;
-  color: var(--willa-date-picker-text);
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.78rem;
-  line-height: 1;
-  padding: 0;
-  transition:
-    background-color 150ms ease,
-    border-color 150ms ease,
-    color 150ms ease;
-}
-
-.willa-date-picker-day--year,
-.willa-date-picker-day--month,
-.willa-date-picker-day--week {
-  aspect-ratio: auto;
-  min-height: 2rem;
-  font-size: 0.8rem;
-  font-weight: 560;
-}
-
-.willa-date-picker-day--week {
-  justify-content: stretch;
-  padding: 0 0.5rem;
-}
-
-.willa-date-picker-week-range {
-  display: grid;
-  width: 100%;
-  min-width: 0;
-  grid-template-columns: max-content minmax(1.4rem, 1fr) max-content;
-  align-items: center;
-  gap: 0.42rem;
-  font-variant-numeric: tabular-nums;
-}
-
-.willa-date-picker-week-line {
-  height: 1px;
-  background: var(--willa-date-picker-week-line);
+.willa-date-picker-calendar .willa-calendar-marker {
+  font-size: 0.66rem;
 }
 
 .willa-date-picker-wheel {
@@ -359,42 +262,6 @@
   outline-offset: 2px;
 }
 
-.willa-date-picker-day:hover:not(:disabled) {
-  border-color: var(--willa-date-picker-control-border-hover);
-  background: var(--willa-date-picker-day-bg-hover);
-  color: var(--willa-date-picker-title);
-}
-
-.willa-date-picker-day--muted {
-  color: var(--willa-date-picker-muted);
-}
-
-.willa-date-picker-day--today {
-  border-color: var(--willa-date-picker-today-border);
-}
-
-.willa-date-picker-day--in-range {
-  border-color: transparent;
-  background: var(--willa-date-picker-range-bg);
-  color: var(--willa-date-picker-title);
-}
-
-.willa-date-picker-day--range-edge {
-  border-color: var(--willa-date-picker-selected-border);
-}
-
-.willa-date-picker-day--selected,
-.willa-date-picker-day--selected:hover:not(:disabled) {
-  border-color: var(--willa-date-picker-selected-border);
-  background: var(--willa-date-picker-selected-bg);
-  color: var(--willa-date-picker-selected-text);
-}
-
-.willa-date-picker-day:disabled {
-  cursor: not-allowed;
-  opacity: 0.36;
-}
-
 @media (max-width: 767px) {
   .willa-date-picker--sm .willa-date-picker-control {
     min-height: 2.25rem;
@@ -411,22 +278,6 @@
   .willa-date-picker-panel {
     gap: 0.54rem;
     padding: 0.58rem;
-  }
-
-  .willa-date-picker-nav {
-    width: 2rem;
-    height: 2rem;
-  }
-
-  .willa-date-picker-day {
-    min-height: 2.2rem;
-    font-size: 0.86rem;
-  }
-
-  .willa-date-picker-day--year,
-  .willa-date-picker-day--month,
-  .willa-date-picker-day--week {
-    min-height: 2.35rem;
   }
 
   .willa-date-picker-wheel {

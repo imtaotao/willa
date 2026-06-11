@@ -1,5 +1,6 @@
 import {
   forwardRef,
+  useCallback,
   useEffect,
   useId,
   useMemo,
@@ -10,17 +11,24 @@ import {
   type ForwardedRef,
   type KeyboardEvent,
 } from "react";
-import {
-  CalendarIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "@radix-ui/react-icons";
+import { CalendarIcon } from "@radix-ui/react-icons";
 import { createPortal } from "react-dom";
 import classNames from "classnames";
 
+import {
+  Calendar,
+  type CalendarMarker,
+  type CalendarMarkerContext,
+  type CalendarMarkerTone,
+  type CalendarMode,
+  type CalendarRangeValue,
+  type CalendarValue,
+} from "#form/components/Calendar";
+import { useFloatingPanel } from "#form/internal/useFloatingPanel";
+
 export type DatePickerSize = "sm" | "md" | "lg";
 export type DatePickerVariant = "outline" | "soft";
-export type DatePickerMode = "year" | "month" | "week" | "day";
+export type DatePickerMode = CalendarMode;
 export type DatePickerPicker = "calendar" | "wheel";
 export type DatePickerWheelColumn =
   | "year"
@@ -35,26 +43,11 @@ export type DatePickerWheelColumns =
   | "datetime"
   | Array<DatePickerWheelColumn>;
 
-export type DatePickerRangeValue = {
-  start: string;
-  end?: string;
-};
-
-export type DatePickerValue = string | DatePickerRangeValue;
-
-type DatePickerPanelPosition = {
-  left: number;
-  top: number;
-  width: number;
-};
-
-type CalendarDay = {
-  date: Date;
-  value: string;
-  currentMonth: boolean;
-  weekend: boolean;
-  today: boolean;
-};
+export type DatePickerRangeValue = CalendarRangeValue;
+export type DatePickerValue = CalendarValue;
+export type DatePickerMarkerTone = CalendarMarkerTone;
+export type DatePickerMarker = CalendarMarker;
+export type DatePickerMarkerContext = CalendarMarkerContext;
 
 export type DatePickerProps = Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
@@ -74,6 +67,11 @@ export type DatePickerProps = Omit<
   defaultValue?: DatePickerValue;
   min?: string;
   max?: string;
+  markers?: Array<DatePickerMarker>;
+  getMarker?: (
+    value: string,
+    context: DatePickerMarkerContext,
+  ) => DatePickerMarker | null | undefined;
   disabledDate?: (value: string) => boolean;
   onValueChange?: (value: DatePickerValue) => void;
 };
@@ -95,6 +93,8 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
       defaultValue = "",
       min,
       max,
+      markers = [],
+      getMarker,
       disabledDate,
       onValueChange,
       className,
@@ -119,24 +119,26 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
       () => normalizeWheelColumns(wheelColumns),
       [wheelColumns],
     );
-    const [visibleMonth, setVisibleMonth] = useState(() =>
-      getMonthStart(getInitialDate(currentValue, mode)),
-    );
-    const [panelPosition, setPanelPosition] =
-      useState<DatePickerPanelPosition | null>(null);
+    const closePanel = useCallback(() => setOpen(false), []);
+    const { position, updatePosition } = useFloatingPanel({
+      open,
+      rootRef,
+      triggerRef: buttonRef,
+      panelRef,
+      minWidth:
+        picker === "wheel"
+          ? getWheelPanelMinWidth(normalizedWheelColumns.length)
+          : undefined,
+      matchTriggerWidth: picker === "wheel",
+      fullWidthBelow: 520,
+      fallbackHeight: 290,
+      onClose: closePanel,
+    });
     const isInvalid =
       invalid ||
       buttonProps["aria-invalid"] === true ||
       buttonProps["aria-invalid"] === "true";
     const datePickerStyle = getDatePickerStyle({ width, style });
-    const calendarDays = useMemo(
-      () => createCalendarDays(visibleMonth),
-      [visibleMonth],
-    );
-    const optionGrid = useMemo(
-      () => createOptionGrid(mode, visibleMonth, calendarDays),
-      [calendarDays, mode, visibleMonth],
-    );
     const label =
       formatDisplayValue(currentValue, {
         mode,
@@ -152,81 +154,11 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
       assignForwardedRef(ref, node);
     };
 
-    const updatePanelPosition = () => {
-      if (!buttonRef.current) return;
-
-      const rect = buttonRef.current.getBoundingClientRect();
-      const viewportPadding = 8;
-      const gap = 6;
-      const panelHeight = panelRef.current?.offsetHeight ?? 290;
-      const viewportWidth = window.innerWidth;
-      const maxWidth = viewportWidth - viewportPadding * 2;
-      const minPanelWidth =
-        picker === "wheel"
-          ? getWheelPanelMinWidth(normalizedWheelColumns.length)
-          : mode === "day"
-            ? 264
-            : 244;
-      const nextWidth =
-        viewportWidth <= 520
-          ? maxWidth
-          : Math.min(Math.max(rect.width, minPanelWidth), maxWidth);
-      const left = clamp(
-        rect.left,
-        viewportPadding,
-        window.innerWidth - viewportPadding - nextWidth,
-      );
-      const belowTop = rect.bottom + gap;
-      const aboveTop = rect.top - gap - panelHeight;
-      const hasBottomSpace =
-        window.innerHeight - rect.bottom - viewportPadding >= panelHeight;
-      const top = hasBottomSpace
-        ? belowTop
-        : Math.max(viewportPadding, aboveTop);
-
-      setPanelPosition({ left, top, width: nextWidth });
-    };
-
-    useEffect(() => {
-      setVisibleMonth(getMonthStart(getInitialDate(currentValue, mode)));
-    }, [currentValue, mode]);
-
-    useEffect(() => {
-      if (!open) return;
-
-      const handlePointerDown = (event: PointerEvent) => {
-        const target = event.target as Node;
-
-        if (
-          !rootRef.current?.contains(target) &&
-          !panelRef.current?.contains(target)
-        ) {
-          setOpen(false);
-        }
-      };
-      const handleViewportChange = () => {
-        updatePanelPosition();
-      };
-
-      updatePanelPosition();
-      window.addEventListener("pointerdown", handlePointerDown);
-      window.addEventListener("resize", handleViewportChange);
-      window.addEventListener("scroll", handleViewportChange, true);
-
-      return () => {
-        window.removeEventListener("pointerdown", handlePointerDown);
-        window.removeEventListener("resize", handleViewportChange);
-        window.removeEventListener("scroll", handleViewportChange, true);
-      };
-    }, [open]);
-
     useEffect(() => {
       if (open) {
-        updatePanelPosition();
-      } else {
-        setPanelPosition(null);
+        updatePosition();
       }
-    }, [open, mode, picker, normalizedWheelColumns.length, visibleMonth]);
+    }, [open, mode, picker, normalizedWheelColumns.length, updatePosition]);
 
     useEffect(() => {
       if (!open || picker !== "wheel") return;
@@ -250,20 +182,10 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
       }
     };
 
-    const handleSelect = (nextValue: string) => {
-      if (!range) {
-        commitValue(nextValue, true);
-        return;
-      }
+    const handleCalendarValueChange = (nextValue: CalendarValue) => {
+      const shouldClose = !range || Boolean(getRangeValue(nextValue)?.end);
 
-      const currentRange = getRangeValue(currentValue);
-
-      if (!currentRange?.start || currentRange.end) {
-        commitValue({ start: nextValue }, false);
-        return;
-      }
-
-      commitValue(sortRange(currentRange.start, nextValue), true);
+      commitValue(nextValue, shouldClose);
     };
 
     const handleWheelChange = (
@@ -306,11 +228,11 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
                 picker === "wheel" && "willa-date-picker-panel--wheel",
               )}
               style={
-                panelPosition
+                position
                   ? {
-                      left: panelPosition.left,
-                      top: panelPosition.top,
-                      width: panelPosition.width,
+                      left: position.left,
+                      top: position.top,
+                      width: position.width,
                     }
                   : { left: 0, top: 0, visibility: "hidden" }
               }
@@ -356,112 +278,18 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
                   })}
                 </div>
               ) : (
-                <>
-                  <div className="willa-date-picker-header">
-                    <button
-                      className="willa-date-picker-nav"
-                      type="button"
-                      aria-label="上一页"
-                      onClick={() =>
-                        setVisibleMonth((current) =>
-                          moveVisibleMonth(current, mode, -1),
-                        )
-                      }
-                    >
-                      <ChevronLeftIcon />
-                    </button>
-                    <div className="willa-date-picker-title">
-                      {formatPanelTitle(visibleMonth, mode)}
-                    </div>
-                    <button
-                      className="willa-date-picker-nav"
-                      type="button"
-                      aria-label="下一页"
-                      onClick={() =>
-                        setVisibleMonth((current) =>
-                          moveVisibleMonth(current, mode, 1),
-                        )
-                      }
-                    >
-                      <ChevronRightIcon />
-                    </button>
-                  </div>
-                  {mode === "day" ? (
-                    <div
-                      className="willa-date-picker-weekdays"
-                      aria-hidden="true"
-                    >
-                      {weekdayLabels.map((weekday, index) => (
-                        <span
-                          key={weekday}
-                          className={classNames(
-                            isWeekendIndex(index) &&
-                              "willa-date-picker-weekday--weekend",
-                          )}
-                        >
-                          {weekday}
-                        </span>
-                      ))}
-                    </div>
-                  ) : null}
-                  <div
-                    className={classNames(
-                      "willa-date-picker-grid",
-                      `willa-date-picker-grid--${mode}`,
-                    )}
-                    role="grid"
-                  >
-                    {optionGrid.map((option) => {
-                      const selectedState = getSelectedState({
-                        mode,
-                        range,
-                        optionValue: option.value,
-                        value: currentValue,
-                      });
-                      const unavailable = isValueUnavailable(option.value, {
-                        min,
-                        max,
-                        disabledDate,
-                      });
-
-                      return (
-                        <button
-                          key={option.value}
-                          className={classNames(
-                            "willa-date-picker-day",
-                            `willa-date-picker-day--${mode}`,
-                            option.muted && "willa-date-picker-day--muted",
-                            option.today && "willa-date-picker-day--today",
-                            selectedState.inRange &&
-                              "willa-date-picker-day--in-range",
-                            selectedState.edge &&
-                              "willa-date-picker-day--range-edge",
-                            selectedState.selected &&
-                              "willa-date-picker-day--selected",
-                          )}
-                          type="button"
-                          role="gridcell"
-                          aria-selected={selectedState.selected}
-                          disabled={unavailable}
-                          onClick={() => handleSelect(option.value)}
-                        >
-                          {mode === "week" ? (
-                            <span className="willa-date-picker-week-range">
-                              <span>{option.startLabel}</span>
-                              <span
-                                className="willa-date-picker-week-line"
-                                aria-hidden="true"
-                              />
-                              <span>{option.endLabel}</span>
-                            </span>
-                          ) : (
-                            option.label
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </>
+                <Calendar
+                  className="willa-date-picker-calendar"
+                  mode={mode}
+                  range={range}
+                  value={currentValue}
+                  min={min}
+                  max={max}
+                  markers={markers}
+                  getMarker={getMarker}
+                  disabledDate={disabledDate}
+                  onValueChange={handleCalendarValueChange}
+                />
               )}
             </div>,
             document.body,
@@ -534,8 +362,6 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
 
 DatePicker.displayName = "DatePicker";
 
-const weekdayLabels = ["日", "一", "二", "三", "四", "五", "六"];
-
 const wheelColumnLabels: Record<DatePickerWheelColumn, string> = {
   year: "年",
   month: "月",
@@ -590,30 +416,6 @@ const getDefaultPlaceholder = (options: {
   return range ? `选择${unitMap[mode]}范围` : `选择${unitMap[mode]}`;
 };
 
-const getInitialDate = (value: DatePickerValue, mode: DatePickerMode) => {
-  const rawValue = typeof value === "string" ? value : value.start || value.end;
-  const date = rawValue ? parseValue(rawValue, mode) : null;
-
-  return date ?? new Date();
-};
-
-const parseValue = (value: string, mode: DatePickerMode) => {
-  if (mode === "year" && /^\d{4}$/.test(value)) {
-    return new Date(Number(value), 0, 1);
-  }
-
-  if (mode === "month" && /^\d{4}-\d{2}$/.test(value)) {
-    const [year, month] = value.split("-").map(Number);
-    const date = new Date(year, month - 1, 1);
-
-    return date.getFullYear() === year && date.getMonth() === month - 1
-      ? date
-      : null;
-  }
-
-  return parseDateValue(value);
-};
-
 const parseDateValue = (value: string) => {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
 
@@ -639,29 +441,6 @@ const formatDateValue = (date: Date) => {
   return `${year}-${month}-${day}`;
 };
 
-const formatMonthValue = (date: Date) => {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-
-  return `${year}-${month}`;
-};
-
-const formatValue = (date: Date, mode: DatePickerMode) => {
-  if (mode === "year") return String(date.getFullYear());
-  if (mode === "month") return formatMonthValue(date);
-
-  return formatDateValue(mode === "week" ? getWeekStart(date) : date);
-};
-
-const getMonthStart = (date: Date) =>
-  new Date(date.getFullYear(), date.getMonth(), 1);
-
-const addMonths = (date: Date, offset: number) =>
-  new Date(date.getFullYear(), date.getMonth() + offset, 1);
-
-const addYears = (date: Date, offset: number) =>
-  new Date(date.getFullYear() + offset, date.getMonth(), 1);
-
 const getWeekStart = (date: Date) => {
   const nextDate = new Date(date);
 
@@ -680,128 +459,6 @@ const getWeekEnd = (date: Date) => {
 
 const getDateOnly = (date: Date) =>
   new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
-const isWeekend = (date: Date) => date.getDay() === 0 || date.getDay() === 6;
-
-const isWeekendIndex = (index: number) => index === 0 || index === 6;
-
-const createCalendarDays = (month: Date) => {
-  const start = getMonthStart(month);
-  const firstDay = start.getDay();
-  const cursor = new Date(start);
-  const days: Array<CalendarDay> = [];
-  const todayValue = formatDateValue(new Date());
-
-  cursor.setDate(start.getDate() - firstDay);
-
-  for (let index = 0; index < 42; index += 1) {
-    const date = new Date(cursor);
-
-    days.push({
-      date,
-      value: formatDateValue(date),
-      currentMonth: date.getMonth() === month.getMonth(),
-      weekend: isWeekend(date),
-      today: formatDateValue(date) === todayValue,
-    });
-    cursor.setDate(cursor.getDate() + 1);
-  }
-
-  return days;
-};
-
-const createOptionGrid = (
-  mode: DatePickerMode,
-  visibleMonth: Date,
-  calendarDays: Array<CalendarDay>,
-) => {
-  if (mode === "year") {
-    const startYear = getYearPageStart(visibleMonth.getFullYear());
-
-    return Array.from({ length: 12 }, (_, index) => {
-      const year = startYear + index;
-
-      return {
-        value: String(year),
-        label: String(year),
-        startLabel: "",
-        endLabel: "",
-        weekend: false,
-        muted: false,
-        today: year === new Date().getFullYear(),
-      };
-    });
-  }
-
-  if (mode === "month") {
-    return Array.from({ length: 12 }, (_, index) => {
-      const date = new Date(visibleMonth.getFullYear(), index, 1);
-
-      return {
-        value: formatMonthValue(date),
-        label: `${index + 1} 月`,
-        startLabel: "",
-        endLabel: "",
-        weekend: false,
-        muted: false,
-        today: formatMonthValue(date) === formatMonthValue(new Date()),
-      };
-    });
-  }
-
-  if (mode === "week") {
-    return Array.from({ length: 6 }, (_, index) => {
-      const start = calendarDays[index * 7].date;
-      const end = getWeekEnd(start);
-      const today = getDateOnly(new Date());
-
-      return {
-        value: formatDateValue(getWeekStart(start)),
-        label: `${formatDateValue(start)} - ${formatDateValue(end)}`,
-        startLabel: formatDateValue(start),
-        endLabel: formatDateValue(end),
-        weekend: isWeekend(start) || isWeekend(end),
-        muted: start.getMonth() !== visibleMonth.getMonth(),
-        today: today >= getWeekStart(start) && today <= end,
-      };
-    });
-  }
-
-  return calendarDays.map((day) => ({
-    value: formatValue(day.date, mode),
-    label: String(day.date.getDate()),
-    startLabel: "",
-    endLabel: "",
-    weekend: day.weekend,
-    muted: !day.currentMonth,
-    today: day.today,
-  }));
-};
-
-const getYearPageStart = (year: number) => Math.floor(year / 12) * 12;
-
-const formatPanelTitle = (date: Date, mode: DatePickerMode) => {
-  if (mode === "year") {
-    const startYear = getYearPageStart(date.getFullYear());
-
-    return `${startYear} - ${startYear + 11}`;
-  }
-
-  if (mode === "month") return `${date.getFullYear()} 年`;
-
-  return `${date.getFullYear()} 年 ${date.getMonth() + 1} 月`;
-};
-
-const moveVisibleMonth = (
-  date: Date,
-  mode: DatePickerMode,
-  direction: number,
-) => {
-  if (mode === "year") return addYears(date, direction * 12);
-  if (mode === "month") return addYears(date, direction);
-
-  return addMonths(date, direction);
-};
 
 const formatDisplayValue = (
   value: DatePickerValue,
@@ -1050,56 +707,6 @@ const serializeValue = (value: DatePickerValue) => {
 
 const getRangeValue = (value: DatePickerValue) =>
   typeof value === "string" ? null : value;
-
-const sortRange = (start: string, end: string) =>
-  start <= end ? { start, end } : { start: end, end: start };
-
-const getSelectedState = (options: {
-  mode: DatePickerMode;
-  range: boolean;
-  optionValue: string;
-  value: DatePickerValue;
-}) => {
-  const { range, optionValue, value } = options;
-
-  if (!range) {
-    return {
-      selected: typeof value === "string" && value === optionValue,
-      inRange: false,
-      edge: false,
-    };
-  }
-
-  const rangeValue = getRangeValue(value);
-  const start = rangeValue?.start;
-  const end = rangeValue?.end;
-  const selected = optionValue === start || optionValue === end;
-  const inRange = Boolean(
-    start && end && optionValue > start && optionValue < end,
-  );
-
-  return {
-    selected,
-    inRange,
-    edge: selected && Boolean(start && end),
-  };
-};
-
-const isValueUnavailable = (
-  value: string,
-  options: {
-    min?: string;
-    max?: string;
-    disabledDate?: (value: string) => boolean;
-  },
-) => {
-  const { min, max, disabledDate } = options;
-
-  if (min && value < min) return true;
-  if (max && value > max) return true;
-
-  return disabledDate?.(value) ?? false;
-};
 
 const clamp = (value: number, min: number, max: number) =>
   Math.min(Math.max(value, min), max);

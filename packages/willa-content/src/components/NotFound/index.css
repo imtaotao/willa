@@ -14,6 +14,10 @@
   color: inherit;
 }
 
+.willa-not-found .willa-empty-state-image {
+  width: min(100%, 64rem);
+}
+
 .willa-not-found-badge {
   display: inline-flex;
   align-items: center;

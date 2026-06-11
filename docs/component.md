@@ -161,6 +161,12 @@ Demos should cover:
 - Mobile rendering and interaction states for components with dense controls,
   long text, horizontal navigation, floating panels, portals, or media layouts.
 
+Dense table-like components, such as schedule calendars, may keep horizontal
+scrolling inside the component on mobile when compressing columns would make
+content unreadable or hard to tap. The scroll must stay inside the component
+container, must not create page-level horizontal overflow, and the demo should
+state this behavior when it is part of the intended design.
+
 Prefer a single data definition and let `defineDoc` generate both preview and
 React example code. Complex scenarios can pass explicit `code` and use
 `unindent` from `aidly` to keep indentation readable.

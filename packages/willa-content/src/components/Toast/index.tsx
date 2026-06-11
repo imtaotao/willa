@@ -169,14 +169,14 @@ export function createToast(config?: ToastConfig): ToastApi {
 
 export const toast = createToast();
 
-function resolveToastConfig(config?: ToastConfig): Required<ToastConfig> {
+const resolveToastConfig = (config?: ToastConfig) => {
   return {
     placement: config?.placement ?? defaultToastConfig.placement,
     duration: config?.duration ?? defaultToastConfig.duration,
     maxToasts: config?.maxToasts ?? defaultToastConfig.maxToasts,
     className: config?.className ?? defaultToastConfig.className,
   };
-}
+};
 
 const ToastViewport = (props: {
   subscribe: (listener: () => void) => () => void;
