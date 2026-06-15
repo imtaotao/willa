@@ -5,6 +5,7 @@
 :root[data-wk-theme="dark"] .willa-menu-content,
 :root[data-wk-theme="dark"] .willa-popover-content,
 :root[data-wk-theme="dark"] .willa-tooltip-content,
+:root[data-wk-theme="dark"] .willa-tour,
 :root[data-wk-theme="dark"] .willa-toast-viewport {
   --willa-anchor-active-bg: rgba(130, 163, 236, 0.15);
   --willa-anchor-active-text: var(--willa-text-strong);
@@ -515,6 +516,27 @@
   --willa-tooltip-border: rgba(255, 255, 255, 0.12);
   --willa-tooltip-shadow: none;
   --willa-tooltip-text: #111827;
+  --willa-tour-bg: #181b20;
+  --willa-tour-border: rgba(255, 255, 255, 0.11);
+  --willa-tour-description: var(--willa-text);
+  --willa-tour-dot: rgba(255, 255, 255, 0.2);
+  --willa-tour-dot-active: #a7bef6;
+  --willa-tour-highlight-bg: rgba(130, 163, 236, 0.08);
+  --willa-tour-highlight-border: rgba(167, 190, 246, 0.72);
+  --willa-tour-highlight-shadow: 0 0 0 3px rgba(167, 190, 246, 0.18);
+  --willa-tour-mask-bg: rgba(0, 0, 0, 0.54);
+  --willa-tour-muted: var(--willa-text-soft);
+  --willa-tour-primary-bg: rgba(130, 163, 236, 0.18);
+  --willa-tour-primary-border: rgba(167, 190, 246, 0.32);
+  --willa-tour-primary-description: var(--willa-text);
+  --willa-tour-primary-dot: rgba(255, 255, 255, 0.24);
+  --willa-tour-primary-dot-active: #d8e2ff;
+  --willa-tour-primary-muted: var(--willa-text-soft);
+  --willa-tour-primary-text: var(--willa-text);
+  --willa-tour-primary-title: var(--willa-text-strong);
+  --willa-tour-shadow: 0 18px 48px rgba(0, 0, 0, 0.42);
+  --willa-tour-text: var(--willa-text);
+  --willa-tour-title: var(--willa-text-strong);
   --willa-code-block-bg: #151d29;
   --willa-code-block-border: rgba(255, 255, 255, 0.06);
   --willa-code-tabs-border: rgba(255, 255, 255, 0.08);

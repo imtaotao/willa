@@ -45,6 +45,7 @@ export { Step, Steps } from "#content/components/Steps";
 export { Table } from "#content/components/Table";
 export { Tabs } from "#content/components/Tabs";
 export { Timeline } from "#content/components/Timeline";
+export { Tour } from "#content/components/Tour";
 export { Tree } from "#content/components/Tree";
 export { createToast, toast } from "#content/components/Toast";
 export { Tooltip } from "#content/components/Tooltip";
@@ -263,6 +264,15 @@ export type {
   TimelineTone,
   TimelineVariant,
 } from "#content/components/Timeline";
+export type {
+  TourActionRenderInfo,
+  TourGap,
+  TourPlacement,
+  TourProps,
+  TourStep,
+  TourTarget,
+  TourType,
+} from "#content/components/Tour";
 export type {
   TreeChangeInfo,
   TreeCheckStrategy,

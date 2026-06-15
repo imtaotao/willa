@@ -136,6 +136,7 @@ const docChineseNames: Record<string, string> = {
   Toast: "轻提示",
   ToolCallCard: "工具调用卡片",
   Tooltip: "文字提示",
+  Tour: "漫游引导",
   Tree: "树",
   TreeSelect: "树选择",
   Upload: "上传",
