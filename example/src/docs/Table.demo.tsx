@@ -11,6 +11,7 @@ import { SearchInput } from "willa/SearchInput";
 import "willa/SearchInput.css";
 import { Select } from "willa/Select";
 import "willa/Select.css";
+import "willa/SelectionBar.css";
 import { Stack } from "willa/Stack";
 import "willa/Stack.css";
 import { Table, type TableItem } from "willa/Table";
@@ -525,6 +526,13 @@ export default defineDoc({
           caption="横向滚动时保留操作入口"
           items={items}
           selectionMode="multiple"
+          selectionBar
+          selectionBarDescription="可以对当前筛选结果执行批量操作。"
+          selectionBarActions={
+            <Button size="sm" variant="soft">
+              批量导出
+            </Button>
+          }
           stickyActions
           actionsWidth="5.6rem"
         />;
@@ -534,6 +542,13 @@ export default defineDoc({
           caption="横向滚动时保留操作入口"
           items={componentItems}
           selectionMode="multiple"
+          selectionBar
+          selectionBarDescription="可以对当前筛选结果执行批量操作。"
+          selectionBarActions={
+            <Button size="sm" variant="soft">
+              批量导出
+            </Button>
+          }
           stickyActions
           actionsWidth="5.6rem"
         />
@@ -753,6 +768,27 @@ export default defineDoc({
       name: "onSelectionChange",
       type: "(keys: Array<string | number>) => void",
       description: "行选择变化回调。",
+    },
+    {
+      name: "selectionBar",
+      type: "boolean | ReactNode | ((context: TableSelectionBarContext) => ReactNode)",
+      description:
+        "多选后展示的选择操作条。传 true 时使用内置 SelectionBar，也可以传入自定义节点或渲染函数。",
+    },
+    {
+      name: "selectionBarActions",
+      type: "ReactNode | ((context: TableSelectionBarContext) => ReactNode)",
+      description: "传给内置 SelectionBar 的批量操作区。",
+    },
+    {
+      name: "selectionBarDescription",
+      type: "ReactNode | ((context: TableSelectionBarContext) => ReactNode)",
+      description: "传给内置 SelectionBar 的辅助说明。",
+    },
+    {
+      name: "selectionBarSticky",
+      type: "boolean",
+      description: "是否让内置 SelectionBar 使用粘性定位。",
     },
     {
       name: "expandedKeys",

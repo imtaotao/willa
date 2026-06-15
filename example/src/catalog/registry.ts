@@ -103,6 +103,7 @@ const docSpecGroups = {
     "Pagination",
     "Popover",
     "Progress",
+    "SelectionBar",
     "Skeleton",
     "SourceCard",
     "Spinner",

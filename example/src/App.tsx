@@ -108,6 +108,7 @@ const docChineseNames: Record<string, string> = {
   SearchInput: "搜索框",
   SectionHeader: "区块标题",
   Select: "选择框",
+  SelectionBar: "选择操作条",
   Separator: "分隔线",
   SidebarLayout: "侧边布局",
   Skeleton: "骨架屏",

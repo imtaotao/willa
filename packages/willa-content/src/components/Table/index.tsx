@@ -10,6 +10,7 @@ import {
 import classNames from "classnames";
 
 import { EmptyState } from "#content/components/EmptyState";
+import { SelectionBar } from "#content/components/SelectionBar";
 import { Spinner } from "#content/components/Spinner";
 
 export type TableSize = "sm" | "md" | "lg";
@@ -70,6 +71,17 @@ export type TableItem = {
   className?: string;
 };
 
+export type TableSelectionBarContext = {
+  selectedKeys: Array<string | number>;
+  selectedCount: number;
+  totalCount: number;
+  visibleCount: number;
+  visibleSelectedCount: number;
+  allVisibleSelected: boolean;
+  onClear: () => void;
+  onSelectVisible: () => void;
+};
+
 export type TableProps = {
   items: Array<TableItem>;
   caption?: ReactNode;
@@ -90,6 +102,17 @@ export type TableProps = {
   selectedKeys?: Array<string | number>;
   defaultSelectedKeys?: Array<string | number>;
   onSelectionChange?: (keys: Array<string | number>) => void;
+  selectionBar?:
+    | boolean
+    | ReactNode
+    | ((context: TableSelectionBarContext) => ReactNode);
+  selectionBarActions?:
+    | ReactNode
+    | ((context: TableSelectionBarContext) => ReactNode);
+  selectionBarDescription?:
+    | ReactNode
+    | ((context: TableSelectionBarContext) => ReactNode);
+  selectionBarSticky?: boolean;
   expandedKeys?: Array<string | number>;
   defaultExpandedKeys?: Array<string | number>;
   onExpandedChange?: (keys: Array<string | number>) => void;
@@ -124,6 +147,10 @@ export function Table(props: TableProps) {
     selectedKeys,
     defaultSelectedKeys,
     onSelectionChange,
+    selectionBar,
+    selectionBarActions,
+    selectionBarDescription,
+    selectionBarSticky = false,
     expandedKeys,
     defaultExpandedKeys,
     onExpandedChange,
@@ -174,10 +201,14 @@ export function Table(props: TableProps) {
   const visibleItems = paginationState
     ? sortedItems.slice(paginationState.startIndex, paginationState.endIndex)
     : sortedItems;
+  const allSelectableItems = sortedItems.filter((item) => !item.disabled);
   const selectableItems = visibleItems.filter((item) => !item.disabled);
   const allVisibleSelected =
     selectableItems.length > 0 &&
     selectableItems.every((item) => selectedKeySet.has(item.key));
+  const visibleSelectedCount = selectableItems.filter((item) =>
+    selectedKeySet.has(item.key),
+  ).length;
   const someVisibleSelected =
     selectableItems.some((item) => selectedKeySet.has(item.key)) &&
     !allVisibleSelected;
@@ -254,6 +285,8 @@ export function Table(props: TableProps) {
     );
   };
 
+  const clearSelection = () => setSelectedKeysState([]);
+
   const toggleExpanded = (item: TableItem) => {
     if (!item.expanded) return;
 
@@ -312,6 +345,24 @@ export function Table(props: TableProps) {
     );
   };
 
+  const selectionBarContext: TableSelectionBarContext = {
+    selectedKeys: currentSelectedKeys,
+    selectedCount: currentSelectedKeys.length,
+    totalCount: allSelectableItems.length,
+    visibleCount: selectableItems.length,
+    visibleSelectedCount,
+    allVisibleSelected,
+    onClear: clearSelection,
+    onSelectVisible: toggleVisibleSelection,
+  };
+  const renderedSelectionBar = renderTableSelectionBar({
+    selectionBar,
+    selectionBarActions,
+    selectionBarDescription,
+    selectionBarSticky,
+    context: selectionBarContext,
+  });
+
   return (
     <div
       {...rootProps}
@@ -324,6 +375,11 @@ export function Table(props: TableProps) {
       )}
     >
       {header ? <div className="willa-table-header-slot">{header}</div> : null}
+      {renderedSelectionBar ? (
+        <div className="willa-table-selection-bar-slot">
+          {renderedSelectionBar}
+        </div>
+      ) : null}
       <div className="willa-table-scroll">
         <table className={classNames("willa-table-element", tableClassName)}>
           {caption ? (
@@ -610,6 +666,57 @@ const getActionsStyle = (width?: number | string) => {
   if (!width) return undefined;
 
   return { width };
+};
+
+const renderTableSelectionBar = (options: {
+  selectionBar: TableProps["selectionBar"];
+  selectionBarActions: TableProps["selectionBarActions"];
+  selectionBarDescription: TableProps["selectionBarDescription"];
+  selectionBarSticky: boolean;
+  context: TableSelectionBarContext;
+}) => {
+  const {
+    selectionBar,
+    selectionBarActions,
+    selectionBarDescription,
+    selectionBarSticky,
+    context,
+  } = options;
+
+  if (!selectionBar || context.selectedCount === 0) return null;
+
+  if (typeof selectionBar === "function") {
+    return selectionBar(context);
+  }
+
+  if (selectionBar !== true) {
+    return selectionBar;
+  }
+
+  const actions =
+    typeof selectionBarActions === "function"
+      ? selectionBarActions(context)
+      : selectionBarActions;
+  const description =
+    typeof selectionBarDescription === "function"
+      ? selectionBarDescription(context)
+      : selectionBarDescription;
+
+  return (
+    <SelectionBar
+      selectedCount={context.selectedCount}
+      totalCount={context.totalCount}
+      description={description}
+      actions={actions}
+      sticky={selectionBarSticky}
+      onSelectAll={
+        context.visibleCount > 0 && !context.allVisibleSelected
+          ? context.onSelectVisible
+          : undefined
+      }
+      onClear={context.onClear}
+    />
+  );
 };
 
 const sortItems = (

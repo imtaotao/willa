@@ -6,6 +6,7 @@ export {
   type TablePagination,
   type TableProps,
   type TableRowTone,
+  type TableSelectionBarContext,
   type TableSelectionMode,
   type TableSize,
   type TableSortDirection,

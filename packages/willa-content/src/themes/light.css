@@ -63,6 +63,13 @@
   --willa-button-copied-bg: #dff7ea;
   --willa-button-copied-border: rgba(47, 148, 97, 0.24);
   --willa-button-copied-text: var(--willa-text-strong);
+  --willa-selection-bar-bg: #f8fbff;
+  --willa-selection-bar-border: rgba(37, 99, 235, 0.18);
+  --willa-selection-bar-text: var(--willa-text-strong);
+  --willa-selection-bar-description: var(--willa-text-soft);
+  --willa-selection-bar-count-bg: #dbeafe;
+  --willa-selection-bar-count-text: var(--willa-text-strong);
+  --willa-selection-bar-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
   --willa-table-bg: rgba(255, 255, 255, 0.94);
   --willa-table-border: rgba(15, 23, 42, 0.11);
   --willa-table-divider: rgba(15, 23, 42, 0.08);

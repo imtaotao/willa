@@ -63,6 +63,14 @@ it with `Mdx`. Do not name components after HTML wrapper tags, such as renaming
 General implementation style is defined in [Willa Style Guide](./style.md).
 This section only covers component-specific structure.
 
+Components should be designed toward their stable product shape from the first
+implementation. Do not stop at a demo-only or minimum viable version when the
+component's common production requirements are already clear. Cover the main
+states, interaction model, composition slots, responsive behavior, theme
+variables, accessibility semantics, and documentation examples together. Keep
+the public API focused, but prefer a complete, coherent abstraction over a
+temporary narrow wrapper that must be redesigned immediately after adoption.
+
 If a component needs an internal protocol marker, such as Lightbox identifying
 `Image` and `ImageGallery` children, attach the marker to the component object
 and add a comment explaining why it exists. Internal markers are not public API.

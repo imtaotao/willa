@@ -101,6 +101,7 @@ const willaDemoImportNames = new Set([
   "ReasoningSteps",
   "SearchInput",
   "Select",
+  "SelectionBar",
   "Separator",
   "SectionHeader",
   "SidebarLayout",

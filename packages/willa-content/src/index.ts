@@ -30,6 +30,7 @@ export { NotFound } from "#content/components/NotFound";
 export { Pagination } from "#content/components/Pagination";
 export { Popover } from "#content/components/Popover";
 export { Progress } from "#content/components/Progress";
+export { SelectionBar } from "#content/components/SelectionBar";
 export { Skeleton } from "#content/components/Skeleton";
 export { SourceCard } from "#content/components/SourceCard";
 export { Spinner } from "#content/components/Spinner";
@@ -176,6 +177,10 @@ export type {
   ProgressSize,
   ProgressTone,
 } from "#content/components/Progress";
+export type {
+  SelectionBarAlign,
+  SelectionBarProps,
+} from "#content/components/SelectionBar";
 export type { SkeletonProps } from "#content/components/Skeleton";
 export type {
   SourceCardProps,
@@ -197,6 +202,7 @@ export type {
   TableProps,
   TableRowTone,
   TableSelectionMode,
+  TableSelectionBarContext,
   TableSize,
   TableSortDirection,
   TableSortState,
