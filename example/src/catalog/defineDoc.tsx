@@ -59,6 +59,7 @@ const willaDemoImportNames = new Set([
   "DetailsBlock",
   "DescriptionList",
   "Dialog",
+  "DiffViewer",
   "Download",
   "EmptyState",
   "EnglishCards",

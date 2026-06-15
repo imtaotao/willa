@@ -13,6 +13,7 @@ export { CommentList } from "#content/components/CommentList";
 export { CodeTabs } from "#content/components/CodeTabs";
 export { DetailsBlock } from "#content/components/DetailsBlock";
 export { DescriptionList } from "#content/components/DescriptionList";
+export { DiffViewer } from "#content/components/DiffViewer";
 export { Dialog } from "#content/components/Dialog";
 export { Download } from "#content/components/Download";
 export { EmptyState } from "#content/components/EmptyState";
@@ -98,6 +99,10 @@ export type {
   DescriptionListSize,
   DescriptionListVariant,
 } from "#content/components/DescriptionList";
+export type {
+  DiffViewerProps,
+  DiffViewerVariant,
+} from "#content/components/DiffViewer";
 export type {
   DialogProps,
   DialogSize,
