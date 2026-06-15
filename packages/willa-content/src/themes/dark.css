@@ -1,10 +1,17 @@
 :root[data-wk-theme="dark"] .willa-shell,
 :root[data-wk-theme="dark"] .willa-lightbox,
 :root[data-wk-theme="dark"] .willa-dialog,
+:root[data-wk-theme="dark"] .willa-drawer,
 :root[data-wk-theme="dark"] .willa-menu-content,
 :root[data-wk-theme="dark"] .willa-popover-content,
 :root[data-wk-theme="dark"] .willa-tooltip-content,
 :root[data-wk-theme="dark"] .willa-toast-viewport {
+  --willa-anchor-active-bg: rgba(130, 163, 236, 0.15);
+  --willa-anchor-active-text: var(--willa-text-strong);
+  --willa-anchor-bg-hover: rgba(255, 255, 255, 0.075);
+  --willa-anchor-marker: #a7bef6;
+  --willa-anchor-text: var(--willa-text);
+  --willa-anchor-text-hover: var(--willa-text-strong);
   --willa-avatar-bg: rgba(255, 255, 255, 0.1);
   --willa-avatar-border: rgba(255, 255, 255, 0.14);
   --willa-avatar-border-hover: rgba(134, 239, 172, 0.28);
@@ -63,6 +70,41 @@
   --willa-button-copied-bg: rgba(255, 255, 255, 0.08);
   --willa-button-copied-border: rgba(134, 239, 172, 0.2);
   --willa-button-copied-text: var(--willa-text-strong);
+  --willa-drawer-bg: #181b20;
+  --willa-drawer-border: rgba(255, 255, 255, 0.11);
+  --willa-drawer-muted: var(--willa-text-soft);
+  --willa-drawer-overlay-bg: rgba(0, 0, 0, 0.46);
+  --willa-drawer-shadow: 0 18px 48px rgba(0, 0, 0, 0.42);
+  --willa-drawer-text: var(--willa-text);
+  --willa-drawer-title: var(--willa-text-strong);
+  --willa-file-preview-bg: rgba(255, 255, 255, 0.055);
+  --willa-file-preview-body-bg: rgba(255, 255, 255, 0.04);
+  --willa-file-preview-border: rgba(255, 255, 255, 0.11);
+  --willa-file-preview-icon: #a7bef6;
+  --willa-file-preview-icon-bg: rgba(130, 163, 236, 0.16);
+  --willa-file-preview-muted: var(--willa-text-soft);
+  --willa-file-preview-text: var(--willa-text);
+  --willa-file-preview-title: var(--willa-text-strong);
+  --willa-result-bg: rgba(255, 255, 255, 0.055);
+  --willa-result-border: rgba(255, 255, 255, 0.11);
+  --willa-result-danger-icon: #fecaca;
+  --willa-result-danger-icon-bg: rgba(248, 113, 113, 0.12);
+  --willa-result-danger-icon-border: rgba(248, 113, 113, 0.26);
+  --willa-result-icon: #d8e2ff;
+  --willa-result-icon-bg: rgba(130, 163, 236, 0.14);
+  --willa-result-icon-border: rgba(130, 163, 236, 0.3);
+  --willa-result-info-icon: #d8e2ff;
+  --willa-result-info-icon-bg: rgba(130, 163, 236, 0.14);
+  --willa-result-info-icon-border: rgba(130, 163, 236, 0.3);
+  --willa-result-muted: var(--willa-text-soft);
+  --willa-result-success-icon: #bbf7d0;
+  --willa-result-success-icon-bg: rgba(134, 239, 172, 0.12);
+  --willa-result-success-icon-border: rgba(134, 239, 172, 0.24);
+  --willa-result-text: var(--willa-text);
+  --willa-result-title: var(--willa-text-strong);
+  --willa-result-warning-icon: #fde68a;
+  --willa-result-warning-icon-bg: rgba(251, 191, 36, 0.13);
+  --willa-result-warning-icon-border: rgba(251, 191, 36, 0.28);
   --willa-selection-bar-bg: rgba(255, 255, 255, 0.07);
   --willa-selection-bar-border: rgba(125, 211, 252, 0.2);
   --willa-selection-bar-text: var(--willa-text-strong);
@@ -70,6 +112,21 @@
   --willa-selection-bar-count-bg: rgba(125, 211, 252, 0.16);
   --willa-selection-bar-count-text: var(--willa-text-strong);
   --willa-selection-bar-shadow: none;
+  --willa-statistic-accent: #a7bef6;
+  --willa-statistic-accent-bg: rgba(130, 163, 236, 0.14);
+  --willa-statistic-bg: rgba(255, 255, 255, 0.055);
+  --willa-statistic-border: rgba(255, 255, 255, 0.11);
+  --willa-statistic-danger: #fecaca;
+  --willa-statistic-danger-bg: rgba(248, 113, 113, 0.12);
+  --willa-statistic-info: #d8e2ff;
+  --willa-statistic-info-bg: rgba(130, 163, 236, 0.14);
+  --willa-statistic-muted: var(--willa-text-soft);
+  --willa-statistic-success: #bbf7d0;
+  --willa-statistic-success-bg: rgba(134, 239, 172, 0.12);
+  --willa-statistic-text: var(--willa-text);
+  --willa-statistic-title: var(--willa-text-strong);
+  --willa-statistic-warning: #fde68a;
+  --willa-statistic-warning-bg: rgba(251, 191, 36, 0.13);
   --willa-list-bg: rgba(255, 255, 255, 0.055);
   --willa-list-border: rgba(255, 255, 255, 0.11);
   --willa-list-divider: rgba(255, 255, 255, 0.08);

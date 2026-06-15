@@ -27,28 +27,32 @@ export type GridProps = {
 
 export function Grid(props: GridProps) {
   const {
-    as: Component = "div",
-    columns,
-    minColumnWidth = "14rem",
-    gap = "md",
+    style,
     rowGap,
+    columns,
     columnGap,
-    align = "stretch",
-    justify = "stretch",
-    width,
     className,
     children,
-    style,
+    gap = "md",
+    width = "100%",
+    align = "stretch",
+    justify = "stretch",
+    as: Component = "div",
+    minColumnWidth = "14rem",
     ...gridProps
   } = props;
+
   const gridStyle = {
-    gridTemplateColumns: resolveGridColumns(columns, minColumnWidth),
-    gap: resolveGridGap(gap),
-    rowGap: rowGap ? resolveGridGap(rowGap) : undefined,
-    columnGap: columnGap ? resolveGridGap(columnGap) : undefined,
+    width,
     alignItems: align,
     justifyItems: justify,
-    width,
+    gridTemplateColumns: resolveGridColumns(columns, minColumnWidth),
+    rowGap: rowGap ? resolveGridGap(rowGap) : resolveGridGap(gap),
+    columnGap: columnGap ? resolveGridGap(columnGap) : resolveGridGap(gap),
+    gap:
+      rowGap === undefined && columnGap === undefined
+        ? resolveGridGap(gap)
+        : undefined,
     ...style,
   } satisfies CSSProperties;
 
@@ -87,10 +91,8 @@ const resolveGridColumns = (
   if (typeof columns === "number") {
     return `repeat(${columns}, minmax(0, 1fr))`;
   }
-
   if (typeof columns === "string") {
     return columns;
   }
-
   return `repeat(auto-fit, minmax(min(100%, ${minColumnWidth}), 1fr))`;
 };

@@ -27,7 +27,7 @@ export default defineDoc({
   demo: {
     name: "Grid",
     component: Grid,
-    props: { minColumnWidth: "10rem", gap: "sm" },
+    props: { minColumnWidth: "10rem", gap: "lg", justify: "center" },
     children: [
       {
         name: "Badge",
@@ -55,7 +55,7 @@ export default defineDoc({
     import "willa/Badge.css";
     import "willa/Grid.css";
 
-    <Grid minColumnWidth="10rem" gap="sm">
+    <Grid minColumnWidth="10rem" gap="lg" justify="start">
       <Badge tone="info">响应式</Badge>
       <Badge tone="success">自适应</Badge>
       <Badge tone="warning">可配置</Badge>
@@ -177,12 +177,14 @@ export default defineDoc({
     {
       name: "rowGap",
       type: '"none" | "xs" | "sm" | "md" | "lg" | "xl" | string',
-      description: "行间距。",
+      defaultValue: "gap",
+      description: "行间距。未传时继承 gap。",
     },
     {
       name: "columnGap",
       type: '"none" | "xs" | "sm" | "md" | "lg" | "xl" | string',
-      description: "列间距。",
+      defaultValue: "gap",
+      description: "列间距。未传时继承 gap。",
     },
     {
       name: "align",
@@ -195,6 +197,12 @@ export default defineDoc({
       type: '"start" | "center" | "end" | "stretch"',
       defaultValue: '"stretch"',
       description: "单元格主轴对齐方式。",
+    },
+    {
+      name: "width",
+      type: "string",
+      defaultValue: '"100%"',
+      description: "网格容器宽度。需要内容收缩时可以传具体宽度或 fit-content。",
     },
   ],
 });

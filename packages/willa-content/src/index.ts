@@ -1,4 +1,5 @@
 export { Avatar } from "#content/components/Avatar";
+export { Anchor } from "#content/components/Anchor";
 export { Badge } from "#content/components/Badge";
 export { Breadcrumb } from "#content/components/Breadcrumb";
 export { Button } from "#content/components/Button";
@@ -15,10 +16,12 @@ export { DetailsBlock } from "#content/components/DetailsBlock";
 export { DescriptionList } from "#content/components/DescriptionList";
 export { DiffViewer } from "#content/components/DiffViewer";
 export { Dialog } from "#content/components/Dialog";
+export { Drawer } from "#content/components/Drawer";
 export { Download } from "#content/components/Download";
 export { EmptyState } from "#content/components/EmptyState";
 export { flattenText, createHeadingIdFactory } from "@willa-ui/shared";
 export { FileCard } from "#content/components/FileCard";
+export { FilePreview } from "#content/components/FilePreview";
 export { FileTree } from "#content/components/FileTree";
 export { Image } from "#content/components/Image";
 export { ImageGallery } from "#content/components/ImageGallery";
@@ -32,10 +35,12 @@ export { NotFound } from "#content/components/NotFound";
 export { Pagination } from "#content/components/Pagination";
 export { Popover } from "#content/components/Popover";
 export { Progress } from "#content/components/Progress";
+export { Result } from "#content/components/Result";
 export { SelectionBar } from "#content/components/SelectionBar";
 export { Skeleton } from "#content/components/Skeleton";
 export { SourceCard } from "#content/components/SourceCard";
 export { Spinner } from "#content/components/Spinner";
+export { Statistic } from "#content/components/Statistic";
 export { Step, Steps } from "#content/components/Steps";
 export { Table } from "#content/components/Table";
 export { Tabs } from "#content/components/Tabs";
@@ -45,6 +50,11 @@ export { createToast, toast } from "#content/components/Toast";
 export { Tooltip } from "#content/components/Tooltip";
 
 export type { ChatThreadProps } from "#content/components/ChatThread";
+export type {
+  AnchorItem,
+  AnchorProps,
+  AnchorSize,
+} from "#content/components/Anchor";
 export type {
   AvatarProps,
   AvatarShape,
@@ -109,6 +119,11 @@ export type {
   DialogTone,
 } from "#content/components/Dialog";
 export type {
+  DrawerPlacement,
+  DrawerProps,
+  DrawerSize,
+} from "#content/components/Drawer";
+export type {
   DownloadProps,
   DownloadSize,
   DownloadVariant,
@@ -120,6 +135,11 @@ export type {
   EmptyStateVariant,
 } from "#content/components/EmptyState";
 export type { FileCardProps, FileCardTone } from "#content/components/FileCard";
+export type {
+  FilePreviewProps,
+  FilePreviewSize,
+  FilePreviewType,
+} from "#content/components/FilePreview";
 export type {
   FileTreeFileItem,
   FileTreeFolderItem,
@@ -194,6 +214,12 @@ export type {
   ProgressTone,
 } from "#content/components/Progress";
 export type {
+  ResultAlign,
+  ResultProps,
+  ResultSize,
+  ResultTone,
+} from "#content/components/Result";
+export type {
   SelectionBarAlign,
   SelectionBarProps,
 } from "#content/components/SelectionBar";
@@ -209,6 +235,12 @@ export type {
   SpinnerSize,
   SpinnerTone,
 } from "#content/components/Spinner";
+export type {
+  StatisticProps,
+  StatisticSize,
+  StatisticTone,
+  StatisticTrend,
+} from "#content/components/Statistic";
 export type { StepProps, StepsProps } from "#content/components/Steps";
 export type {
   TableAlign,
