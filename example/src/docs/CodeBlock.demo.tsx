@@ -47,11 +47,13 @@ export default defineDoc({
     {
       name: "language",
       type: "string",
+      defaultValue: '"text"',
       description: "代码语言，用于语法高亮和右上角语言标记。",
     },
     {
       name: "showLineNumbers",
       type: "boolean",
+      defaultValue: "false",
       description: "是否展示行号。",
     },
     {
@@ -62,11 +64,13 @@ export default defineDoc({
     {
       name: "copiedDuration",
       type: "number",
+      defaultValue: "300",
       description: "复制成功反馈持续时间，单位为毫秒，默认 300。",
     },
     {
       name: "children",
       type: "ReactNode",
+      defaultValue: '""',
       description:
         "MDX 兼容入口；传入 code 子元素时仍会解析 language-* className。",
     },

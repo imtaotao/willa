@@ -177,6 +177,7 @@ export default defineDoc({
     {
       name: "defaultValue",
       type: "string",
+      defaultValue: '""',
       description: "非受控默认输入值。",
     },
     {
@@ -187,36 +188,43 @@ export default defineDoc({
     {
       name: "submitOnEnter",
       type: "boolean",
+      defaultValue: "true",
       description: "是否使用 Enter 提交；默认开启，Shift + Enter 仍然换行。",
     },
     {
       name: "allowEmptySubmit",
       type: "boolean",
+      defaultValue: "false",
       description: "是否允许提交空内容，默认不允许。",
     },
     {
       name: "loading",
       type: "boolean",
+      defaultValue: "false",
       description: "展示提交中的 loading 状态，并禁用提交按钮。",
     },
     {
       name: "disabled",
       type: "boolean",
+      defaultValue: "false",
       description: "禁用输入和提交。",
     },
     {
       name: "autoResize",
       type: "boolean",
+      defaultValue: "true",
       description: "是否按内容自动调整高度，默认开启。",
     },
     {
       name: "minRows",
       type: "number",
+      defaultValue: "3",
       description: "最小行数，默认 3。",
     },
     {
       name: "maxRows",
       type: "number",
+      defaultValue: "8",
       description: "最大行数，默认 8。",
     },
     {
@@ -232,16 +240,19 @@ export default defineDoc({
     {
       name: "submitLabel",
       type: "ReactNode",
+      defaultValue: '"发送"',
       description: "提交按钮文案，默认“发送”。",
     },
     {
       name: "submitIcon",
       type: "ReactNode",
+      defaultValue: "<PaperPlaneIcon />",
       description: "提交按钮图标。",
     },
     {
       name: "size",
       type: '"md" | "lg"',
+      defaultValue: '"md"',
       description: "输入区域尺寸。",
     },
   ],

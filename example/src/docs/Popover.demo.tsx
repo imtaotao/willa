@@ -286,6 +286,7 @@ export default defineDoc({
     {
       name: "defaultOpen",
       type: "boolean",
+      defaultValue: "false",
       description: "非受控默认打开状态。",
     },
     {
@@ -296,46 +297,55 @@ export default defineDoc({
     {
       name: "side",
       type: '"top" | "right" | "bottom" | "left"',
+      defaultValue: '"bottom"',
       description: "Popover 相对触发元素的展示方向。",
     },
     {
       name: "align",
       type: '"start" | "center" | "end"',
+      defaultValue: '"start"',
       description: "Popover 与触发元素的对齐方式。",
     },
     {
       name: "offset",
       type: "number",
+      defaultValue: "10",
       description: "Popover 与触发元素之间的距离。",
     },
     {
       name: "size",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "浮层尺寸。",
     },
     {
       name: "autoFocus",
       type: "boolean",
+      defaultValue: "true",
       description: "打开后是否自动聚焦浮层内第一个可聚焦元素。",
     },
     {
       name: "closeOnOutsidePointerDown",
       type: "boolean",
+      defaultValue: "true",
       description: "点击外部区域时是否关闭。",
     },
     {
       name: "closeOnEscape",
       type: "boolean",
+      defaultValue: "true",
       description: "按 Escape 时是否关闭。",
     },
     {
       name: "showArrow",
       type: "boolean",
+      defaultValue: "true",
       description: "是否显示指向触发元素的箭头。",
     },
     {
       name: "ariaLabel",
       type: "string",
+      defaultValue: '"Popover"',
       description: "没有 title 时的无障碍名称。",
     },
     {

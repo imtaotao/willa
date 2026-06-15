@@ -212,21 +212,25 @@ export default defineDoc({
     {
       name: "items",
       type: "Array<MessageActionItem>",
+      defaultValue: "[]",
       description: "动作项列表。",
     },
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"sm"',
       description: "动作按钮尺寸，默认 sm。",
     },
     {
       name: "variant",
       type: '"ghost" | "soft"',
+      defaultValue: '"ghost"',
       description: "动作按钮样式，默认 ghost。",
     },
     {
       name: "showLabels",
       type: "boolean",
+      defaultValue: "false",
       description: "是否展示文字标签；默认只展示 icon，文字用于无障碍名称。",
     },
     {
@@ -263,6 +267,7 @@ export default defineDoc({
       name: "tone",
       type: '"neutral" | "positive" | "negative" | "danger"',
       group: "MessageActionItem",
+      defaultValue: '"neutral"',
       description: "动作语义色，默认 neutral。",
     },
     {

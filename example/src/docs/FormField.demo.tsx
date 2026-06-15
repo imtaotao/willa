@@ -159,6 +159,7 @@ export default defineDoc({
     {
       name: "required",
       type: "boolean",
+      defaultValue: "false",
       description: "展示必填标记。",
     },
     {
@@ -169,11 +170,13 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "字段文字尺寸。",
     },
     {
       name: "orientation",
       type: '"vertical" | "horizontal"',
+      defaultValue: '"vertical"',
       description: "字段标签和控件的排列方式。",
     },
   ],

@@ -100,6 +100,7 @@ export default defineDoc({
     {
       name: "lines",
       type: "number | Array<number | string | { width?: number | string; height?: number | string }>",
+      defaultValue: "3",
       description: "骨架文本行配置，传数字时生成对应数量的默认行。",
     },
     {
@@ -126,6 +127,7 @@ export default defineDoc({
     {
       name: "label",
       type: "string",
+      defaultValue: '"Loading"',
       description: "loading 状态下的无障碍标签。",
     },
     {

@@ -282,16 +282,19 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "评论尺寸，默认 md。",
     },
     {
       name: "variant",
       type: '"card" | "feed"',
+      defaultValue: '"card"',
       description: "评论展示形态，默认 card；评论详情页或长评论流可使用 feed。",
     },
     {
       name: "highlighted",
       type: "boolean",
+      defaultValue: "false",
       description: "是否展示为重点评论或审核意见。",
     },
   ],

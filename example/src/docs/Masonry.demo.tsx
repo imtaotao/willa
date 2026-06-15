@@ -147,6 +147,7 @@ export default defineDoc({
     {
       name: "gap",
       type: '"none" | "xs" | "sm" | "md" | "lg" | "xl" | string',
+      defaultValue: '"md"',
       description: "列间距和项间距。",
     },
     {
@@ -157,6 +158,7 @@ export default defineDoc({
     {
       name: "as",
       type: "ElementType",
+      defaultValue: '"div"',
       description: "自定义渲染标签或组件。",
     },
   ],

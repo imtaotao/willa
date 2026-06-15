@@ -133,6 +133,7 @@ export default defineDoc({
     {
       name: "defaultMode",
       type: '"study" | "practice"',
+      defaultValue: '"study"',
       description: "初始展示模式。",
     },
     {

@@ -163,16 +163,19 @@ export default defineDoc({
     {
       name: "sidebarWidth",
       type: "string",
+      defaultValue: '"16rem"',
       description: "侧栏宽度。",
     },
     {
       name: "asideWidth",
       type: "string",
+      defaultValue: '"18rem"',
       description: "辅助栏宽度。",
     },
     {
       name: "stickyHeader",
       type: "boolean",
+      defaultValue: "false",
       description: "顶部区域是否吸顶。",
     },
   ],

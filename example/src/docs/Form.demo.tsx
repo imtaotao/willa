@@ -259,16 +259,19 @@ export default defineDoc({
     {
       name: "gap",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "表单字段间距。",
     },
     {
       name: "disabled",
       type: "boolean",
+      defaultValue: "false",
       description: "禁用表单主体。",
     },
     {
       name: "loading",
       type: "boolean",
+      defaultValue: "false",
       description: "标记提交中，并禁用表单主体。",
     },
   ],

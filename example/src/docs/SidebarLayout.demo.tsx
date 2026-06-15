@@ -147,26 +147,31 @@ export default defineDoc({
     {
       name: "side",
       type: '"left" | "right"',
+      defaultValue: '"left"',
       description: "侧栏位置。",
     },
     {
       name: "sidebarWidth",
       type: "string",
+      defaultValue: '"16rem"',
       description: "侧栏宽度。",
     },
     {
       name: "gap",
       type: '"none" | "sm" | "md" | "lg" | string',
+      defaultValue: '"md"',
       description: "侧栏和主内容之间的间距。",
     },
     {
       name: "minContentWidth",
       type: "string",
+      defaultValue: '"0"',
       description: "主内容最小宽度。",
     },
     {
       name: "collapseBelow",
       type: '"none" | "tablet"',
+      defaultValue: '"tablet"',
       description: "移动端是否折叠为上下布局。",
     },
   ],

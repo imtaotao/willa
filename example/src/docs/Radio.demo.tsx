@@ -102,11 +102,13 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "单选框尺寸。",
     },
     {
       name: "invalid",
       type: "boolean",
+      defaultValue: "false",
       description: "展示错误状态。",
     },
     {

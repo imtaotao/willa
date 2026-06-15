@@ -94,21 +94,25 @@ export default defineDoc({
     {
       name: "gap",
       type: '"none" | "xs" | "sm" | "md" | "lg" | "xl" | string',
+      defaultValue: '"md"',
       description: "子元素之间的间距。",
     },
     {
       name: "align",
       type: '"start" | "center" | "end" | "stretch" | "baseline"',
+      defaultValue: '"stretch"',
       description: "交叉轴对齐方式。",
     },
     {
       name: "justify",
       type: '"start" | "center" | "end" | "between" | "around" | "evenly"',
+      defaultValue: '"start"',
       description: "主轴对齐方式。",
     },
     {
       name: "inline",
       type: "boolean",
+      defaultValue: "false",
       description: "是否使用 inline-flex。",
     },
     {
@@ -119,6 +123,7 @@ export default defineDoc({
     {
       name: "as",
       type: "ElementType",
+      defaultValue: '"div"',
       description: "自定义渲染标签或组件。",
     },
   ],

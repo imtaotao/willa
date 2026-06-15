@@ -676,24 +676,28 @@ export default defineDoc({
     {
       name: "mode",
       type: '"year" | "month" | "week" | "day"',
+      defaultValue: '"day"',
       group: "Calendar",
       description: "日期网格的选择粒度；默认按日期选择。",
     },
     {
       name: "range",
       type: "boolean",
+      defaultValue: "false",
       group: "Calendar",
       description: "开启范围选择。",
     },
     {
       name: "showWeekNumber",
       type: "boolean",
+      defaultValue: "false",
       group: "Calendar",
       description: "在日期网格左侧展示周序号。",
     },
     {
       name: "firstDayOfWeek",
       type: "0 | 1",
+      defaultValue: "0",
       group: "Calendar",
       description: "设置一周起始日；0 表示周日，1 表示周一。",
     },
@@ -706,6 +710,7 @@ export default defineDoc({
     {
       name: "defaultValue",
       type: "CalendarValue",
+      defaultValue: '""',
       group: "Calendar",
       description: "非受控默认值。",
     },
@@ -719,6 +724,7 @@ export default defineDoc({
       name: "defaultVisibleDate",
       type: "Date",
       group: "Calendar",
+      defaultValue: "当前值或今天",
       description: "非受控初始面板日期。",
     },
     {
@@ -748,6 +754,7 @@ export default defineDoc({
     {
       name: "markers",
       type: "Array<CalendarMarker>",
+      defaultValue: "[]",
       group: "Calendar",
       description:
         "静态日期标记，value 格式随 mode 变化；传入 endValue 时展示为连续日程条。",
@@ -800,6 +807,7 @@ export default defineDoc({
       name: "defaultView",
       type: '"week" | "month"',
       group: "ScheduleCalendar",
+      defaultValue: '"week"',
       description: "非受控默认日程视图，默认 week。",
     },
     {
@@ -812,6 +820,7 @@ export default defineDoc({
       name: "defaultVisibleDate",
       type: "Date",
       group: "ScheduleCalendar",
+      defaultValue: "今天所在周",
       description: "非受控初始展示日期。",
     },
     {

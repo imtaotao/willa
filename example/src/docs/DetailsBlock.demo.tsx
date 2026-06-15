@@ -34,11 +34,13 @@ export default defineDoc({
     {
       name: "defaultOpen",
       type: "boolean",
+      defaultValue: "false",
       description: "初始展开状态。",
     },
     {
       name: "hint",
       type: "string",
+      defaultValue: '"展开 / 收起"',
       description: "摘要右侧的操作提示文本。",
     },
     {

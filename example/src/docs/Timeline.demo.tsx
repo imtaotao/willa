@@ -235,11 +235,13 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "节点和内容密度，默认 md。",
     },
     {
       name: "variant",
       type: '"default" | "compact"',
+      defaultValue: '"default"',
       description: "默认卡片式时间线或轻量紧凑时间线。",
     },
     {
@@ -290,6 +292,7 @@ export default defineDoc({
     {
       name: "TimelineItem.tone",
       type: '"default" | "info" | "success" | "warning" | "danger"',
+      defaultValue: '"default"',
       description: "节点状态色。",
     },
   ],

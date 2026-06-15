@@ -216,6 +216,7 @@ export default defineDoc({
     {
       name: "defaultOpen",
       type: "boolean",
+      defaultValue: "false",
       description: "非受控默认打开状态。",
     },
     {
@@ -226,31 +227,37 @@ export default defineDoc({
     {
       name: "side",
       type: '"top" | "right" | "bottom" | "left"',
+      defaultValue: '"top"',
       description: "Tooltip 相对触发元素的展示方向。",
     },
     {
       name: "align",
       type: '"start" | "center" | "end"',
+      defaultValue: '"center"',
       description: "Tooltip 和触发元素的对齐方式。",
     },
     {
       name: "offset",
       type: "number",
+      defaultValue: "8",
       description: "Tooltip 与触发元素之间的距离。",
     },
     {
       name: "delay",
       type: "number",
+      defaultValue: "450",
       description: "延迟展示时间，单位为毫秒，默认为 450。",
     },
     {
       name: "disabled",
       type: "boolean",
+      defaultValue: "false",
       description: "禁用 Tooltip。",
     },
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "Tooltip 尺寸。",
     },
     {

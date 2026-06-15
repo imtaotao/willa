@@ -175,6 +175,7 @@ export default defineDoc({
     {
       name: "defaultPage",
       type: "number",
+      defaultValue: "1",
       description: "非受控模式下的默认页码。",
     },
     {
@@ -185,26 +186,31 @@ export default defineDoc({
     {
       name: "siblingCount",
       type: "number",
+      defaultValue: "1",
       description: "当前页左右各展示多少个邻近页码。",
     },
     {
       name: "boundaryCount",
       type: "number",
+      defaultValue: "1",
       description: "首尾各展示多少个固定页码。",
     },
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "分页按钮尺寸。",
     },
     {
       name: "showFirstLast",
       type: "boolean",
+      defaultValue: "true",
       description: "是否展示第一页和最后一页按钮，默认展示。",
     },
     {
       name: "showPrevNext",
       type: "boolean",
+      defaultValue: "true",
       description: "是否展示上一页和下一页按钮，默认展示。",
     },
     {
@@ -221,21 +227,25 @@ export default defineDoc({
     {
       name: "previousLabel",
       type: "ReactNode",
+      defaultValue: '"上一页"',
       description: "上一页按钮文案。",
     },
     {
       name: "nextLabel",
       type: "ReactNode",
+      defaultValue: '"下一页"',
       description: "下一页按钮文案。",
     },
     {
       name: "ariaLabel",
       type: "string",
+      defaultValue: '"分页导航"',
       description: "分页导航的无障碍名称。",
     },
     {
       name: "disabled",
       type: "boolean",
+      defaultValue: "false",
       description: "禁用整组分页。",
     },
     {

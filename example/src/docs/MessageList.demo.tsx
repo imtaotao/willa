@@ -356,16 +356,19 @@ export default defineDoc({
     {
       name: "loading",
       type: "boolean",
+      defaultValue: "false",
       description: "是否展示加载提示，适合加载历史消息。",
     },
     {
       name: "loadingLabel",
       type: "ReactNode",
+      defaultValue: '"正在加载消息..."',
       description: "加载提示内容，默认“正在加载消息...”。",
     },
     {
       name: "autoScroll",
       type: "boolean",
+      defaultValue: "true",
       description: "children 或 loading 变化后是否滚动到底部，默认开启。",
     },
     {

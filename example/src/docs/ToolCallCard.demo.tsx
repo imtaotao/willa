@@ -220,6 +220,7 @@ export default defineDoc({
     {
       name: "status",
       type: '"pending" | "running" | "success" | "error"',
+      defaultValue: '"pending"',
       description: "工具调用状态，默认 pending。",
     },
     {
@@ -240,6 +241,7 @@ export default defineDoc({
     {
       name: "icon",
       type: "ReactNode",
+      defaultValue: "由 status 决定",
       description: "状态图标。未传时根据 status 渲染默认标记。",
     },
     {
@@ -250,6 +252,7 @@ export default defineDoc({
     {
       name: "collapsible",
       type: "boolean",
+      defaultValue: "false",
       description: "是否允许折叠参数和结果明细，默认 false。",
     },
     {
@@ -260,11 +263,13 @@ export default defineDoc({
     {
       name: "defaultCollapsed",
       type: "boolean",
+      defaultValue: "false",
       description: "非受控模式下的默认折叠状态。",
     },
     {
       name: "summary",
       type: "ReactNode",
+      defaultValue: '"查看工具输入和执行结果"',
       description: "折叠开关文案。",
     },
     {

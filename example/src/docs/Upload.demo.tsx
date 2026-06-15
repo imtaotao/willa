@@ -184,6 +184,7 @@ export default defineDoc({
     {
       name: "multiple",
       type: "boolean",
+      defaultValue: "false",
       description: "是否允许多文件选择和拖拽，默认 false。",
     },
     {
@@ -194,6 +195,7 @@ export default defineDoc({
     {
       name: "disabled",
       type: "boolean",
+      defaultValue: "false",
       description: "禁用选择、拖拽和移除操作。",
     },
     {
@@ -210,31 +212,37 @@ export default defineDoc({
     {
       name: "label",
       type: "ReactNode",
+      defaultValue: '"上传文件"',
       description: "上传区域主文案。",
     },
     {
       name: "description",
       type: "ReactNode",
+      defaultValue: '"点击选择文件，或拖拽文件到这里。"',
       description: "上传区域辅助说明。",
     },
     {
       name: "actionLabel",
       type: "ReactNode",
+      defaultValue: '"选择文件"',
       description: "选择文件按钮文案。",
     },
     {
       name: "loadingLabel",
       type: "ReactNode",
+      defaultValue: '"上传中"',
       description: "上传中按钮文案。",
     },
     {
       name: "emptyLabel",
       type: "ReactNode",
+      defaultValue: '"暂无文件"',
       description: "没有文件时的提示文案。",
     },
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "上传区域尺寸，默认 md。",
     },
     {

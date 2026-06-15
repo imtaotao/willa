@@ -196,11 +196,13 @@ export default defineDoc({
     {
       name: "variant",
       type: '"surface" | "soft" | "outline"',
+      defaultValue: '"surface"',
       description: "卡片的视觉类型。",
     },
     {
       name: "padding",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "卡片内边距。",
     },
     {

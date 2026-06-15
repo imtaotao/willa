@@ -162,11 +162,13 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "输入框尺寸。",
     },
     {
       name: "variant",
       type: '"outline" | "soft"',
+      defaultValue: '"outline"',
       description: "输入框视觉类型。",
     },
     {
@@ -177,6 +179,7 @@ export default defineDoc({
     {
       name: "invalid",
       type: "boolean",
+      defaultValue: "false",
       description: "展示错误状态。",
     },
     {

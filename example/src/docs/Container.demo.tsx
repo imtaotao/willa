@@ -95,21 +95,25 @@ export default defineDoc({
     {
       name: "size",
       type: '"xs" | "sm" | "md" | "lg" | "xl" | "full"',
+      defaultValue: '"lg"',
       description: "最大内容宽度。",
     },
     {
       name: "padding",
       type: '"none" | "sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "左右内边距。",
     },
     {
       name: "centered",
       type: "boolean",
+      defaultValue: "true",
       description: "是否居中容器，默认开启。",
     },
     {
       name: "as",
       type: "ElementType",
+      defaultValue: '"div"',
       description: "自定义渲染标签或组件。",
     },
   ],

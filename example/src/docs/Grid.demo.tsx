@@ -165,11 +165,13 @@ export default defineDoc({
     {
       name: "minColumnWidth",
       type: "string",
+      defaultValue: '"14rem"',
       description: "自适应列的最小宽度。",
     },
     {
       name: "gap",
       type: '"none" | "xs" | "sm" | "md" | "lg" | "xl" | string',
+      defaultValue: '"md"',
       description: "整体间距。",
     },
     {
@@ -185,11 +187,13 @@ export default defineDoc({
     {
       name: "align",
       type: '"start" | "center" | "end" | "stretch"',
+      defaultValue: '"stretch"',
       description: "单元格交叉轴对齐方式。",
     },
     {
       name: "justify",
       type: '"start" | "center" | "end" | "stretch"',
+      defaultValue: '"stretch"',
       description: "单元格主轴对齐方式。",
     },
   ],

@@ -196,11 +196,13 @@ export default defineDoc({
     {
       name: "icon",
       type: "ReactNode",
+      defaultValue: 'index ?? "S"',
       description: "来源图标。未传时会使用 index，二者都没有时展示默认标记。",
     },
     {
       name: "index",
       type: "ReactNode",
+      defaultValue: '"S"',
       description: "来源序号或短标记。",
     },
     {
@@ -216,16 +218,19 @@ export default defineDoc({
     {
       name: "selected",
       type: "boolean",
+      defaultValue: "false",
       description: "是否为当前选中来源。",
     },
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "尺寸，默认 md。",
     },
     {
       name: "variant",
       type: '"default" | "solid"',
+      defaultValue: '"default"',
       description: "样式形态，默认 default。",
     },
     {

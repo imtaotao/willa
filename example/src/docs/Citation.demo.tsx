@@ -240,6 +240,7 @@ export default defineDoc({
     {
       name: "index",
       type: "ReactNode",
+      defaultValue: '"C"',
       description: "引用序号或短标记。未传 icon 时展示。",
     },
     {
@@ -260,22 +261,26 @@ export default defineDoc({
     {
       name: "tone",
       type: '"neutral" | "info" | "success" | "warning"',
+      defaultValue: '"neutral"',
       description: "引用语义色，默认 neutral。",
     },
     {
       name: "size",
       type: '"xs" | "sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description:
         "尺寸，默认 md。xs 适合正文内引用，sm/md 适合来源标签，lg 适合重点证据入口。",
     },
     {
       name: "selected",
       type: "boolean",
+      defaultValue: "false",
       description: "是否为当前选中的引用。",
     },
     {
       name: "icon",
       type: "ReactNode",
+      defaultValue: 'index ?? "C"',
       description: "引用图标。优先级高于 index。",
     },
     {

@@ -205,6 +205,7 @@ export default defineDoc({
     {
       name: "defaultValue",
       type: "string",
+      defaultValue: "第一个可用项",
       description: "非受控模式下的默认选中值。",
     },
     {
@@ -215,11 +216,13 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "标签按钮尺寸。",
     },
     {
       name: "ariaLabel",
       type: "string",
+      defaultValue: '"Tabs"',
       description: "标签列表的无障碍名称。",
     },
     {

@@ -433,6 +433,7 @@ export default defineDoc({
     {
       name: "orientation",
       type: '"horizontal" | "vertical"',
+      defaultValue: '"horizontal"',
       description: "分割方向。",
     },
     {
@@ -453,16 +454,19 @@ export default defineDoc({
     {
       name: "resizeStep",
       type: "number",
+      defaultValue: "1",
       description: "拖拽调整步进，单位是百分比。",
     },
     {
       name: "keyboardStep",
       type: "number",
+      defaultValue: "5",
       description: "键盘方向键调整步进，单位是百分比。",
     },
     {
       name: "disabled",
       type: "boolean",
+      defaultValue: "false",
       description: "是否禁用拖拽和键盘调整。",
     },
     {
@@ -490,12 +494,14 @@ export default defineDoc({
       name: "minSize",
       type: "number",
       group: "ResizablePanel",
+      defaultValue: "8",
       description: "单个面板最小尺寸。",
     },
     {
       name: "maxSize",
       type: "number",
       group: "ResizablePanel",
+      defaultValue: "92",
       description: "单个面板最大尺寸。",
     },
     {
@@ -508,6 +514,7 @@ export default defineDoc({
       name: "collapsedSize",
       type: "number",
       group: "ResizablePanel",
+      defaultValue: "0",
       description: "折叠后的尺寸。",
     },
   ],

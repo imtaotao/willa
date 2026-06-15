@@ -139,16 +139,19 @@ export default defineDoc({
     {
       name: "tone",
       type: '"info" | "success" | "warning" | "error"',
+      defaultValue: '"info"',
       description: "消息语义类型。",
     },
     {
       name: "icon",
       type: "ReactNode",
+      defaultValue: "由 tone 决定",
       description: "消息前置图标。",
     },
     {
       name: "role",
       type: "AriaRole",
+      defaultValue: 'tone === "error" ? "alert" : "status"',
       description: "自定义可访问性角色；错误态默认 alert，其余默认 status。",
     },
   ],

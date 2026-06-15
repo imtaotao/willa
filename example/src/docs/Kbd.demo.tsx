@@ -124,11 +124,13 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "按键尺寸。",
     },
     {
       name: "variant",
       type: '"surface" | "outline"',
+      defaultValue: '"surface"',
       description: "按键视觉类型。",
     },
     {
@@ -151,6 +153,7 @@ export default defineDoc({
     {
       name: "separator",
       type: '"plus" | "none"',
+      defaultValue: '"plus"',
       description: "KbdShortcut 组件的按键分隔方式。",
     },
   ],

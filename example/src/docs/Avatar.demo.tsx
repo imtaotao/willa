@@ -255,6 +255,7 @@ export default defineDoc({
     {
       name: "previewable",
       type: "boolean",
+      defaultValue: "false",
       description: "启用点击放大预览。",
     },
     {
@@ -281,16 +282,19 @@ export default defineDoc({
     {
       name: "hoverable",
       type: "boolean",
+      defaultValue: "false",
       description: "仅启用 hover 交互状态，不改变点击行为。",
     },
     {
       name: "size",
       type: '"sm" | "md" | "lg" | "xl"',
+      defaultValue: '"md"',
       description: "头像尺寸。",
     },
     {
       name: "shape",
       type: '"circle" | "rounded" | "square"',
+      defaultValue: '"circle"',
       description: "头像外形。",
     },
     {

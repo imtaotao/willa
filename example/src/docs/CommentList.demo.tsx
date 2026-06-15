@@ -234,11 +234,13 @@ export default defineDoc({
     {
       name: "loading",
       type: "boolean",
+      defaultValue: "false",
       description: "是否展示加载状态。",
     },
     {
       name: "loadingLabel",
       type: "ReactNode",
+      defaultValue: '"正在加载评论"',
       description: "加载状态文案。",
     },
     {

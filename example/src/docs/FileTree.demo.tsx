@@ -345,27 +345,32 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "列表密度。",
     },
     {
       name: "width",
       type: "CSSProperties['width']",
+      defaultValue: "240",
       description:
         "文件树根节点宽度，支持百分比、min()、clamp() 等响应式 CSS 宽度值。",
     },
     {
       name: "resizable",
       type: "boolean",
+      defaultValue: "false",
       description: "是否允许拖拽右侧边缘调整文件树宽度。",
     },
     {
       name: "collapsible",
       type: "boolean",
+      defaultValue: "false",
       description: "是否允许点击目录展开或收起。",
     },
     {
       name: "defaultExpandedIds",
       type: "Array<string>",
+      defaultValue: "所有可展开节点",
       description: "非受控模式下默认展开的节点 id。",
     },
     {

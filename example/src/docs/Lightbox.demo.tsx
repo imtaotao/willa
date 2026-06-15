@@ -172,6 +172,7 @@ export default defineDoc({
     {
       name: "transitionDirection",
       type: "-1 | 0 | 1",
+      defaultValue: "0",
       description: "受控模式下的图片切换动画方向。",
     },
   ],

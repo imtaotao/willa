@@ -235,16 +235,19 @@ export default defineDoc({
     {
       name: "role",
       type: "'assistant' | 'user' | 'system' | 'developer' | 'tool'",
+      defaultValue: '"assistant"',
       description: "消息角色，默认 assistant，并会影响默认对齐和视觉样式。",
     },
     {
       name: "align",
       type: "'left' | 'right' | 'center'",
+      defaultValue: "由 role 决定",
       description: "覆盖角色默认对齐方式。",
     },
     {
       name: "name",
       type: "string",
+      defaultValue: "由 role 决定",
       description:
         "消息发送者名称，assistant、developer 和 tool 未传时使用默认名称。",
     },
@@ -287,6 +290,7 @@ export default defineDoc({
     {
       name: "compact",
       type: "boolean",
+      defaultValue: "false",
       description: "使用更紧凑的消息间距和内容尺寸。",
     },
     {

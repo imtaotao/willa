@@ -200,16 +200,19 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "标签按钮尺寸。",
     },
     {
       name: "showLineNumbers",
       type: "boolean",
+      defaultValue: "false",
       description: "是否展示行号；单个 item 可通过 showLineNumbers 覆盖。",
     },
     {
       name: "copiedDuration",
       type: "number",
+      defaultValue: "300",
       description: "复制成功反馈持续时间，单位为毫秒，默认 300。",
     },
     {
@@ -253,6 +256,7 @@ export default defineDoc({
       name: "CodeTabsItem.showLineNumbers",
       type: "boolean",
       group: "CodeTabsItem",
+      defaultValue: "继承 showLineNumbers",
       description: "覆盖当前代码项是否展示行号。",
     },
   ],

@@ -272,11 +272,13 @@ export default defineDoc({
     {
       name: "density",
       type: '"compact" | "normal"',
+      defaultValue: '"normal"',
       description: "筛选条密度。",
     },
     {
       name: "align",
       type: '"start" | "end" | "stretch"',
+      defaultValue: '"start"',
       description: "主区域垂直对齐方式。",
     },
     {

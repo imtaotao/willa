@@ -142,16 +142,19 @@ export default defineDoc({
     {
       name: "defaultValue",
       type: "string",
+      defaultValue: '""',
       description: "非受控搜索默认内容。",
     },
     {
       name: "clearable",
       type: "boolean",
+      defaultValue: "true",
       description: "是否在有内容时展示清除按钮，默认开启。",
     },
     {
       name: "clearLabel",
       type: "string",
+      defaultValue: '"清空搜索"',
       description: "清除按钮的无障碍文案。",
     },
     {
@@ -172,6 +175,7 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "继承 Input 的尺寸。",
     },
     {

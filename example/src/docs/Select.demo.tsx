@@ -114,16 +114,19 @@ export default defineDoc({
     {
       name: "placeholder",
       type: "string",
+      defaultValue: '"请选择"',
       description: "未选择时展示的占位选项。",
     },
     {
       name: "size",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "选择框尺寸。",
     },
     {
       name: "variant",
       type: '"outline" | "soft"',
+      defaultValue: '"outline"',
       description: "选择框视觉类型。",
     },
     {
@@ -134,6 +137,7 @@ export default defineDoc({
     {
       name: "invalid",
       type: "boolean",
+      defaultValue: "false",
       description: "展示错误状态。",
     },
     {

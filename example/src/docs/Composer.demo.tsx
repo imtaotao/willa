@@ -252,6 +252,7 @@ export default defineDoc({
     {
       name: "defaultValue",
       type: "string",
+      defaultValue: '""',
       description: "非受控默认输入值。",
     },
     {

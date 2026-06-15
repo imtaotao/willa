@@ -226,6 +226,7 @@ export default defineDoc({
     {
       name: "defaultValue",
       type: "Array<string>",
+      defaultValue: "[]",
       description: "默认标签值。",
     },
     {
@@ -236,6 +237,7 @@ export default defineDoc({
     {
       name: "defaultInputValue",
       type: "string",
+      defaultValue: '""',
       description: "默认输入框内容。",
     },
     {
@@ -246,11 +248,13 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "组件尺寸。",
     },
     {
       name: "variant",
       type: '"outline" | "soft"',
+      defaultValue: '"outline"',
       description: "视觉类型。",
     },
     {
@@ -261,26 +265,31 @@ export default defineDoc({
     {
       name: "placeholder",
       type: "string",
+      defaultValue: '"输入后按 Enter 添加"',
       description: "空标签时的占位提示。",
     },
     {
       name: "disabled",
       type: "boolean",
+      defaultValue: "false",
       description: "禁用组件。",
     },
     {
       name: "readOnly",
       type: "boolean",
+      defaultValue: "false",
       description: "只读展示标签，不允许新增或删除。",
     },
     {
       name: "invalid",
       type: "boolean",
+      defaultValue: "false",
       description: "错误状态。",
     },
     {
       name: "clearable",
       type: "boolean",
+      defaultValue: "true",
       description: "是否展示清空按钮。",
     },
     {
@@ -291,26 +300,31 @@ export default defineDoc({
     {
       name: "allowDuplicates",
       type: "boolean",
+      defaultValue: "false",
       description: "是否允许重复标签。",
     },
     {
       name: "commitOnBlur",
       type: "boolean",
+      defaultValue: "true",
       description: "失焦时是否提交当前输入内容。",
     },
     {
       name: "separators",
       type: "Array<string>",
+      defaultValue: "defaultSeparators",
       description: "提交标签的按键或字符，默认 Enter 和英文逗号。",
     },
     {
       name: "suggestions",
       type: "Array<string>",
+      defaultValue: "[]",
       description: "建议标签列表。",
     },
     {
       name: "maxSuggestions",
       type: "number",
+      defaultValue: "8",
       description: "最多展示的建议项数量。",
     },
     {
@@ -326,6 +340,7 @@ export default defineDoc({
     {
       name: "normalizeTag",
       type: "(tag: string) => string",
+      defaultValue: "defaultNormalizeTag",
       description: "提交前规范化标签内容。",
     },
     {

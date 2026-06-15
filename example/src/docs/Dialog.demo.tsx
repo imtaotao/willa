@@ -342,6 +342,7 @@ export default defineDoc({
     {
       name: "defaultOpen",
       type: "boolean",
+      defaultValue: "false",
       description: "非受控默认打开状态。",
     },
     {
@@ -377,21 +378,25 @@ export default defineDoc({
     {
       name: "confirmText",
       type: "ReactNode",
+      defaultValue: '"确认"',
       description: "默认确认按钮文案；传入后会渲染默认底部。",
     },
     {
       name: "confirmDisabled",
       type: "boolean",
+      defaultValue: "false",
       description: "默认确认按钮是否禁用。",
     },
     {
       name: "confirmLoading",
       type: "boolean",
+      defaultValue: "false",
       description: "默认确认按钮是否展示加载状态。",
     },
     {
       name: "closeText",
       type: "ReactNode",
+      defaultValue: '"取消"',
       description: "默认取消按钮文案。",
     },
     {
@@ -403,31 +408,37 @@ export default defineDoc({
     {
       name: "tone",
       type: '"default" | "danger"',
+      defaultValue: '"default"',
       description: "默认确认按钮的语义色，危险操作使用 danger。",
     },
     {
       name: "size",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "弹层宽度尺寸。",
     },
     {
       name: "closeOnOverlayClick",
       type: "boolean",
+      defaultValue: "true",
       description: "点击遮罩时是否关闭，默认开启。",
     },
     {
       name: "closeOnEscape",
       type: "boolean",
+      defaultValue: "true",
       description: "按 Escape 时是否关闭，默认开启。",
     },
     {
       name: "showCloseButton",
       type: "boolean",
+      defaultValue: "true",
       description: "是否展示右上角关闭按钮，默认展示。",
     },
     {
       name: "ariaLabel",
       type: "string",
+      defaultValue: '"Dialog"',
       description: "无标题弹层的可访问名称。",
     },
     {

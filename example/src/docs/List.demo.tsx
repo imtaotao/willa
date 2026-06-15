@@ -632,21 +632,25 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "列表尺寸。",
     },
     {
       name: "variant",
       type: '"panel" | "plain"',
+      defaultValue: '"panel"',
       description: "列表视觉类型。",
     },
     {
       name: "itemLayout",
       type: '"horizontal" | "vertical"',
+      defaultValue: '"horizontal"',
       description: "条目布局方向，竖排适合文章和资源类列表。",
     },
     {
       name: "split",
       type: "boolean",
+      defaultValue: "true",
       description: "是否展示分割线。",
     },
     {
@@ -667,11 +671,13 @@ export default defineDoc({
     {
       name: "loading",
       type: "boolean",
+      defaultValue: "false",
       description: "加载状态。",
     },
     {
       name: "loadingLabel",
       type: "ReactNode",
+      defaultValue: '"正在加载"',
       description: "加载状态文案。",
     },
     {
@@ -682,6 +688,7 @@ export default defineDoc({
     {
       name: "empty",
       type: "ReactNode",
+      defaultValue: '"暂无内容"',
       description: "空列表内容。",
     },
     {
@@ -692,21 +699,25 @@ export default defineDoc({
     {
       name: "draggable",
       type: "boolean",
+      defaultValue: "false",
       description: "是否开启拖拽排序。",
     },
     {
       name: "infiniteScroll",
       type: "boolean",
+      defaultValue: "false",
       description: "是否开启滚动到底部自动加载。",
     },
     {
       name: "hasMore",
       type: "boolean",
+      defaultValue: "false",
       description: "无限滚动是否还有更多数据。",
     },
     {
       name: "scrollThreshold",
       type: "number",
+      defaultValue: "56",
       description: "距离底部多少像素时触发 onLoadMore。",
     },
     {
@@ -774,6 +785,7 @@ export default defineDoc({
     {
       name: "ListItem.tone",
       type: '"neutral" | "info" | "success" | "warning" | "danger"',
+      defaultValue: '"neutral"',
       description: "条目类型色。",
     },
     {

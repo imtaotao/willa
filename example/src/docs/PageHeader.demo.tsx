@@ -185,11 +185,13 @@ export default defineDoc({
     {
       name: "align",
       type: '"start" | "center"',
+      defaultValue: '"start"',
       description: "对齐方式，默认 start。",
     },
     {
       name: "divided",
       type: "boolean",
+      defaultValue: "true",
       description: "是否展示底部分隔线，默认 true。",
     },
   ],

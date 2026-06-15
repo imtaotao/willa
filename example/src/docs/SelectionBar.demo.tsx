@@ -246,6 +246,7 @@ export default defineDoc({
     {
       name: "label",
       type: "ReactNode",
+      defaultValue: "根据 selectedCount 和 totalCount 生成",
       description:
         "自定义摘要文案。未传时根据 selectedCount 和 totalCount 生成。",
     },
@@ -277,31 +278,37 @@ export default defineDoc({
     {
       name: "selectAllLabel",
       type: "ReactNode",
+      defaultValue: '"选择全部"',
       description: "自定义全选按钮文案。",
     },
     {
       name: "clearLabel",
       type: "ReactNode",
+      defaultValue: '"取消选择"',
       description: "自定义清空按钮文案。",
     },
     {
       name: "sticky",
       type: "boolean",
+      defaultValue: "false",
       description: "是否启用粘性定位，适合长列表顶部的批量操作区。",
     },
     {
       name: "compact",
       type: "boolean",
+      defaultValue: "false",
       description: "是否使用紧凑尺寸。",
     },
     {
       name: "align",
       type: '"start" | "between" | "end"',
+      defaultValue: '"between"',
       description: "摘要和操作区的横向分布方式，默认 between。",
     },
     {
       name: "loading",
       type: "boolean",
+      defaultValue: "false",
       description: "批量操作执行中时禁用内置全选和清空按钮。",
     },
   ],

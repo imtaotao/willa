@@ -208,16 +208,19 @@ export default defineDoc({
     {
       name: "title",
       type: "ReactNode",
+      defaultValue: '"404 页面不存在"',
       description: "404 标题，默认是“404 页面不存在”。",
     },
     {
       name: "description",
       type: "ReactNode",
+      defaultValue: '"你访问的内容可能已被移动、删除，或暂时不可用。"',
       description: "404 说明文案。",
     },
     {
       name: "icon",
       type: "ReactNode",
+      defaultValue: "<NotFoundIllustration />",
       description: "自定义图标，不传时展示默认 404 图标。",
     },
     {
@@ -238,16 +241,19 @@ export default defineDoc({
     {
       name: "variant",
       type: '"plain" | "soft" | "outline"',
+      defaultValue: '"soft"',
       description: "展示样式，继承 EmptyState。",
     },
     {
       name: "size",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"lg"',
       description: "组件尺寸，继承 EmptyState。",
     },
     {
       name: "align",
       type: '"start" | "center"',
+      defaultValue: '"center"',
       description: "内容对齐方式，继承 EmptyState。",
     },
     {

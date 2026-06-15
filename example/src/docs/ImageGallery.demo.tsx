@@ -64,6 +64,7 @@ export default defineDoc({
     {
       name: "columns",
       type: "2 | 3 | 4",
+      defaultValue: "2",
       description: "桌面端优先使用的列数。",
     },
     {

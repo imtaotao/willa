@@ -172,11 +172,13 @@ export default defineDoc({
     {
       name: "value",
       type: "number",
+      defaultValue: "0",
       description: "当前进度值，默认 0。",
     },
     {
       name: "max",
       type: "number",
+      defaultValue: "100",
       description: "最大进度值，默认 100。",
     },
     {
@@ -197,6 +199,7 @@ export default defineDoc({
     {
       name: "valueLabel",
       type: "ReactNode",
+      defaultValue: "当前百分比",
       description: "自定义右侧进度文案。",
     },
     {
@@ -212,6 +215,7 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "进度条尺寸。",
     },
     {
@@ -227,6 +231,7 @@ export default defineDoc({
     {
       name: "tone",
       type: '"default" | "neutral" | "success" | "warning" | "danger"',
+      defaultValue: '"default"',
       description: "进度条语义色。",
     },
     {

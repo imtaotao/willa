@@ -290,16 +290,16 @@ select {
 .docs-nav-link {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: flex-start;
-  column-gap: 10px;
+  grid-template-columns: 3px minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 9px;
   width: 100%;
   min-height: 34px;
   border-radius: 8px;
   border: 0;
   background: transparent;
   color: rgba(17, 24, 39, 0.72);
-  padding: 7px 10px 7px 16px;
+  padding: 7px 10px;
   font-size: 14px;
   line-height: 1.2;
   text-align: left;
@@ -308,11 +308,9 @@ select {
 }
 
 .docs-nav-link::before {
-  position: absolute;
-  top: 10px;
-  bottom: 10px;
-  left: 5px;
+  display: block;
   width: 3px;
+  height: 16px;
   border-radius: 999px;
   background: transparent;
   content: "";

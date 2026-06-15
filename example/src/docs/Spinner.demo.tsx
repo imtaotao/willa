@@ -136,21 +136,25 @@ export default defineDoc({
     {
       name: "label",
       type: "ReactNode",
+      defaultValue: '"加载中"',
       description: "加载状态文案，传空字符串时只展示图形并保留无障碍文本。",
     },
     {
       name: "size",
       type: '"xs" | "sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "Spinner 尺寸。",
     },
     {
       name: "tone",
       type: '"default" | "neutral" | "success" | "warning" | "danger"',
+      defaultValue: '"default"',
       description: "Spinner 色调。",
     },
     {
       name: "labelPosition",
       type: '"inline" | "block"',
+      defaultValue: '"inline"',
       description: "文案和图形的排列方式。",
     },
     {

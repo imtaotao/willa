@@ -71,6 +71,7 @@ export default defineDoc({
     {
       name: "direction",
       type: '"vertical" | "horizontal"',
+      defaultValue: '"vertical"',
       description: "步骤排列方向。",
     },
     {

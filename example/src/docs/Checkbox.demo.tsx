@@ -88,16 +88,19 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "复选框尺寸。",
     },
     {
       name: "invalid",
       type: "boolean",
+      defaultValue: "false",
       description: "展示错误状态。",
     },
     {
       name: "indeterminate",
       type: "boolean",
+      defaultValue: "false",
       description: "展示部分选中状态。",
     },
     {

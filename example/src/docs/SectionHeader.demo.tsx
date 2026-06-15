@@ -167,16 +167,19 @@ export default defineDoc({
     {
       name: "align",
       type: '"start" | "center"',
+      defaultValue: '"start"',
       description: "对齐方式，默认 start。",
     },
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "尺寸，默认 md。",
     },
     {
       name: "divided",
       type: "boolean",
+      defaultValue: "false",
       description: "是否展示底部分隔线，默认 false。",
     },
   ],

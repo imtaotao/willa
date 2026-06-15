@@ -258,21 +258,25 @@ export default defineDoc({
     {
       name: "variant",
       type: '"plain" | "soft" | "outline"',
+      defaultValue: '"soft"',
       description: "空状态样式。",
     },
     {
       name: "size",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "空状态尺寸。",
     },
     {
       name: "align",
       type: '"start" | "center"',
+      defaultValue: '"center"',
       description: "内容对齐方式。",
     },
     {
       name: "compact",
       type: "boolean",
+      defaultValue: "false",
       description: "是否使用更轻量的内嵌状态布局，适合表格或列表内部。",
     },
     {

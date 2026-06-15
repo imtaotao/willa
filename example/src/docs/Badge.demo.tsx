@@ -157,16 +157,19 @@ export default defineDoc({
     {
       name: "variant",
       type: '"soft" | "outline" | "solid"',
+      defaultValue: '"soft"',
       description: "徽标的视觉类型。",
     },
     {
       name: "tone",
       type: '"neutral" | "info" | "success" | "warning" | "danger"',
+      defaultValue: '"neutral"',
       description: "徽标的语义颜色。",
     },
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "徽标尺寸。",
     },
     {

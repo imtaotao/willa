@@ -242,21 +242,25 @@ export default defineDoc({
     {
       name: "type",
       type: '"svg" | "canvas"',
+      defaultValue: '"svg"',
       description: "渲染类型，默认 svg。",
     },
     {
       name: "size",
       type: "number",
+      defaultValue: "168",
       description: "二维码尺寸，默认 168。",
     },
     {
       name: "color",
       type: "string",
+      defaultValue: '"#111827"',
       description: "二维码前景色，默认深色。",
     },
     {
       name: "bgColor",
       type: "string",
+      defaultValue: '"#ffffff"',
       description: "二维码背景色，默认白色。",
     },
     {
@@ -277,11 +281,13 @@ export default defineDoc({
     {
       name: "errorLevel",
       type: '"L" | "M" | "Q" | "H"',
+      defaultValue: '"M"',
       description: "纠错等级，默认 M；带 icon 时建议使用 H。",
     },
     {
       name: "marginSize",
       type: "number",
+      defaultValue: "2",
       description: "二维码内部留白模块数，默认 2。",
     },
     {
@@ -297,6 +303,7 @@ export default defineDoc({
     {
       name: "status",
       type: '"active" | "expired" | "loading" | "scanned"',
+      defaultValue: '"active"',
       description: "二维码状态，默认 active。",
     },
     {
@@ -317,11 +324,13 @@ export default defineDoc({
     {
       name: "bordered",
       type: "boolean",
+      defaultValue: "true",
       description: "是否展示外层边框，默认 true。",
     },
     {
       name: "downloadable",
       type: "boolean",
+      defaultValue: "false",
       description: "是否展示下载入口。",
     },
     {
@@ -333,6 +342,7 @@ export default defineDoc({
     {
       name: "downloadLabel",
       type: "string",
+      defaultValue: '"下载二维码"',
       description: "下载按钮文案。",
     },
     {

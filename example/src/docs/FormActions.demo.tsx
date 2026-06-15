@@ -173,21 +173,25 @@ export default defineDoc({
     {
       name: "align",
       type: '"start" | "end" | "between"',
+      defaultValue: '"end"',
       description: "横向对齐方式。",
     },
     {
       name: "direction",
       type: '"row" | "column"',
+      defaultValue: '"row"',
       description: "排列方向。",
     },
     {
       name: "gap",
       type: '"xs" | "sm" | "md"',
+      defaultValue: '"sm"',
       description: "操作项之间的间距。",
     },
     {
       name: "sticky",
       type: "boolean",
+      defaultValue: "false",
       description: "吸附在滚动容器底部。",
     },
   ],

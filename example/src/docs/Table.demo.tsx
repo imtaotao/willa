@@ -697,16 +697,19 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "表格密度。",
     },
     {
       name: "stickyHeader",
       type: "boolean",
+      defaultValue: "false",
       description: "表头是否在滚动容器内吸顶。",
     },
     {
       name: "stickyActions",
       type: "boolean",
+      defaultValue: "false",
       description: "操作列是否固定在表格最右侧。",
     },
     {
@@ -717,21 +720,25 @@ export default defineDoc({
     {
       name: "loading",
       type: "boolean",
+      defaultValue: "false",
       description: "是否展示加载态。",
     },
     {
       name: "loadingText",
       type: "ReactNode",
+      defaultValue: '"加载中"',
       description: "加载态内容。",
     },
     {
       name: "empty",
       type: "ReactNode",
+      defaultValue: '"暂无数据"',
       description: "空态内容。",
     },
     {
       name: "actionsLabel",
       type: "ReactNode",
+      defaultValue: '"操作"',
       description: "操作列表头内容。",
     },
     {
@@ -752,6 +759,7 @@ export default defineDoc({
     {
       name: "selectionMode",
       type: '"none" | "single" | "multiple"',
+      defaultValue: '"none"',
       description: "行选择模式。",
     },
     {
@@ -762,6 +770,7 @@ export default defineDoc({
     {
       name: "defaultSelectedKeys",
       type: "Array<string | number>",
+      defaultValue: "[]",
       description: "默认选中行 key。",
     },
     {
@@ -772,6 +781,7 @@ export default defineDoc({
     {
       name: "selectionBar",
       type: "boolean | ReactNode | ((context: TableSelectionBarContext) => ReactNode)",
+      defaultValue: "false",
       description:
         "多选后展示的选择操作条。传 true 时使用内置 SelectionBar，也可以传入自定义节点或渲染函数。",
     },
@@ -788,6 +798,7 @@ export default defineDoc({
     {
       name: "selectionBarSticky",
       type: "boolean",
+      defaultValue: "false",
       description: "是否让内置 SelectionBar 使用粘性定位。",
     },
     {
@@ -798,6 +809,7 @@ export default defineDoc({
     {
       name: "defaultExpandedKeys",
       type: "Array<string | number>",
+      defaultValue: "[]",
       description: "默认展开行 key。",
     },
     {

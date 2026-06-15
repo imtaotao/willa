@@ -266,6 +266,7 @@ export default defineDoc({
     {
       name: "defaultOpen",
       type: "boolean",
+      defaultValue: "false",
       description: "非受控默认打开状态。",
     },
     {
@@ -281,31 +282,37 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "菜单尺寸。",
     },
     {
       name: "side",
       type: '"top" | "bottom"',
+      defaultValue: '"bottom"',
       description: "菜单相对触发元素的展开方向。",
     },
     {
       name: "align",
       type: '"start" | "center" | "end"',
+      defaultValue: '"start"',
       description: "菜单和触发元素的对齐方式。",
     },
     {
       name: "offset",
       type: "number",
+      defaultValue: "8",
       description: "菜单与触发元素之间的距离。",
     },
     {
       name: "closeOnSelect",
       type: "boolean",
+      defaultValue: "true",
       description: "选择菜单项后是否关闭菜单，默认为 true。",
     },
     {
       name: "ariaLabel",
       type: "string",
+      defaultValue: '"Menu"',
       description: "菜单的可访问性名称。",
     },
     {

@@ -85,6 +85,15 @@ const toastIcons: Record<ToastTone, ReactNode> = {
   error: <CrossCircledIcon />,
 };
 
+const resolveToastConfig = (config?: ToastConfig) => {
+  return {
+    placement: config?.placement ?? defaultToastConfig.placement,
+    duration: config?.duration ?? defaultToastConfig.duration,
+    maxToasts: config?.maxToasts ?? defaultToastConfig.maxToasts,
+    className: config?.className ?? defaultToastConfig.className,
+  };
+};
+
 export function createToast(config?: ToastConfig): ToastApi {
   let toastState: ToastState = {
     toasts: [],
@@ -168,15 +177,6 @@ export function createToast(config?: ToastConfig): ToastApi {
 }
 
 export const toast = createToast();
-
-const resolveToastConfig = (config?: ToastConfig) => {
-  return {
-    placement: config?.placement ?? defaultToastConfig.placement,
-    duration: config?.duration ?? defaultToastConfig.duration,
-    maxToasts: config?.maxToasts ?? defaultToastConfig.maxToasts,
-    className: config?.className ?? defaultToastConfig.className,
-  };
-};
 
 const ToastViewport = (props: {
   subscribe: (listener: () => void) => () => void;

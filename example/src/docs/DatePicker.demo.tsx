@@ -402,21 +402,25 @@ export default defineDoc({
     {
       name: "picker",
       type: '"calendar" | "wheel"',
+      defaultValue: '"calendar"',
       description: "选择面板类型；默认是日历面板。",
     },
     {
       name: "mode",
       type: '"year" | "month" | "week" | "day"',
+      defaultValue: '"month"',
       description: "日历面板的选择粒度；默认按年月选择。",
     },
     {
       name: "wheelColumns",
       type: '"date" | "time" | "datetime" | Array<DatePickerWheelColumn>',
+      defaultValue: '"date"',
       description: "滚动选择器展示的列。",
     },
     {
       name: "range",
       type: "boolean",
+      defaultValue: "false",
       description: "开启范围选择。",
     },
     {
@@ -427,6 +431,7 @@ export default defineDoc({
     {
       name: "defaultValue",
       type: "DatePickerValue",
+      defaultValue: '""',
       description: "非受控默认值。",
     },
     {
@@ -452,6 +457,7 @@ export default defineDoc({
     {
       name: "markers",
       type: "Array<DatePickerMarker>",
+      defaultValue: "[]",
       description: "静态日期标记，value 格式随 mode 变化。",
     },
     {
@@ -467,16 +473,19 @@ export default defineDoc({
     {
       name: "placeholder",
       type: "string",
+      defaultValue: "由 mode 和 range 决定",
       description: "未选择时展示的占位文本。",
     },
     {
       name: "size",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "日期选择器尺寸。",
     },
     {
       name: "variant",
       type: '"outline" | "soft"',
+      defaultValue: '"outline"',
       description: "日期选择器视觉类型。",
     },
     {
@@ -487,6 +496,7 @@ export default defineDoc({
     {
       name: "invalid",
       type: "boolean",
+      defaultValue: "false",
       description: "展示错误状态。",
     },
   ],

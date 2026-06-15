@@ -62,6 +62,7 @@ export default defineDoc({
     {
       name: "articleSourcePath",
       type: "string",
+      defaultValue: '""',
       description: "当前文章路径，用于解析相对音频资源。",
     },
     {

@@ -175,11 +175,13 @@ export default defineDoc({
     {
       name: "gap",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "字段间距。",
     },
     {
       name: "columns",
       type: "1 | 2",
+      defaultValue: "1",
       description: "字段列数；移动端自动回到单列。",
     },
   ],

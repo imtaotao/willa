@@ -177,16 +177,19 @@ export default defineDoc({
     {
       name: "mode",
       type: '"single" | "multiple"',
+      defaultValue: '"single"',
       description: "选择模式，默认单选。",
     },
     {
       name: "searchable",
       type: "boolean",
+      defaultValue: "false",
       description: "是否展示搜索输入框。",
     },
     {
       name: "clearable",
       type: "boolean",
+      defaultValue: "false",
       description: "是否允许清空当前选择。",
     },
     {
@@ -197,6 +200,7 @@ export default defineDoc({
     {
       name: "defaultValue",
       type: "string | Array<string>",
+      defaultValue: 'mode === "multiple" ? [] : ""',
       description: "默认选中值。",
     },
     {

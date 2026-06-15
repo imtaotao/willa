@@ -162,6 +162,7 @@ export default defineDoc({
     {
       name: "status",
       type: '"thinking" | "searching" | "reading" | "generating" | "working"',
+      defaultValue: '"thinking"',
       description: "状态类型，默认 thinking。",
     },
     {
@@ -177,6 +178,7 @@ export default defineDoc({
     {
       name: "icon",
       type: "ReactNode",
+      defaultValue: "<ThinkingDots />",
       description: "自定义状态图标；未传时使用动态点状指示。",
     },
     {
@@ -187,31 +189,37 @@ export default defineDoc({
     {
       name: "activeStep",
       type: "number",
+      defaultValue: "0",
       description: "当前步骤下标，默认 0。",
     },
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "尺寸，默认 md。",
     },
     {
       name: "tone",
       type: '"neutral" | "accent" | "success" | "warning"',
+      defaultValue: '"accent"',
       description: "状态色，默认 accent。",
     },
     {
       name: "animated",
       type: "boolean",
+      defaultValue: "true",
       description: "是否启用点状动画，默认 true。",
     },
     {
       name: "compact",
       type: "boolean",
+      defaultValue: "false",
       description: "是否使用无边框的轻量形态。",
     },
     {
       name: "collapsible",
       type: "boolean",
+      defaultValue: "false",
       description: "是否允许折叠状态详情，默认 false。",
     },
     {
@@ -222,11 +230,13 @@ export default defineDoc({
     {
       name: "defaultCollapsed",
       type: "boolean",
+      defaultValue: "false",
       description: "非受控模式下的默认折叠状态。",
     },
     {
       name: "summary",
       type: "ReactNode",
+      defaultValue: "description ?? label",
       description: "折叠态摘要；未传时使用 description 或 label。",
     },
     {

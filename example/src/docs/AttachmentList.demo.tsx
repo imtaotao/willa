@@ -264,11 +264,13 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"sm"',
       description: "尺寸，默认 sm。",
     },
     {
       name: "layout",
       type: '"inline" | "stack"',
+      defaultValue: '"inline"',
       description: "布局方式，默认 inline。",
     },
     {
@@ -285,6 +287,27 @@ export default defineDoc({
       name: "onRemove",
       type: "(item: AttachmentListItem) => void",
       description: "点击移除按钮时触发。传入后每个附件展示移除按钮。",
+    },
+    {
+      name: "AttachmentListItem.status",
+      type: '"ready" | "uploading" | "error"',
+      group: "AttachmentListItem",
+      defaultValue: '"ready"',
+      description: "附件状态。",
+    },
+    {
+      name: "AttachmentListItem.icon",
+      type: "ReactNode",
+      group: "AttachmentListItem",
+      defaultValue: "<FileTextIcon />",
+      description: "附件图标。",
+    },
+    {
+      name: "AttachmentListItem.downloadName",
+      type: "string",
+      group: "AttachmentListItem",
+      defaultValue: "true",
+      description: "下载保存时使用的文件名；默认开启原生 download。",
     },
   ],
 });

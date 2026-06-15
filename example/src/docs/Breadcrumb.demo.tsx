@@ -132,11 +132,13 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "尺寸，默认 md。",
     },
     {
       name: "separator",
       type: "ReactNode",
+      defaultValue: "<ChevronRightIcon />",
       description: "分隔符，默认使用箭头图标。",
     },
     {

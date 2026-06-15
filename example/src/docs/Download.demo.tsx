@@ -141,31 +141,37 @@ export default defineDoc({
     {
       name: "downloadName",
       type: "string",
+      defaultValue: "true",
       description: "下载保存时使用的文件名；默认开启原生 download。",
     },
     {
       name: "variant",
       type: '"chip" | "button" | "plain"',
+      defaultValue: '"chip"',
       description: "下载入口形态，默认 chip。",
     },
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"sm"',
       description: "尺寸，默认 sm。",
     },
     {
       name: "icon",
       type: "ReactNode",
+      defaultValue: "<FileTextIcon />",
       description: "左侧图标。",
     },
     {
       name: "trailingIcon",
       type: "ReactNode",
+      defaultValue: "<DownloadIcon />",
       description: "右侧图标，默认下载图标。",
     },
     {
       name: "disabled",
       type: "boolean",
+      defaultValue: "false",
       description: "禁用下载入口。",
     },
   ],

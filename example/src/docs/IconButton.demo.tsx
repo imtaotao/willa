@@ -236,16 +236,19 @@ export default defineDoc({
     {
       name: "variant",
       type: '"solid" | "soft" | "outline" | "ghost"',
+      defaultValue: '"soft"',
       description: "按钮的视觉类型。",
     },
     {
       name: "size",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "按钮尺寸。",
     },
     {
       name: "shape",
       type: '"square" | "circle"',
+      defaultValue: '"square"',
       description: "按钮外形。",
     },
     {
@@ -256,11 +259,13 @@ export default defineDoc({
     {
       name: "disabled",
       type: "boolean",
+      defaultValue: "false",
       description: "禁用按钮或链接按钮。",
     },
     {
       name: "loading",
       type: "boolean",
+      defaultValue: "false",
       description: "展示加载状态，并阻止点击、复制和链接跳转。",
     },
     {
@@ -287,6 +292,7 @@ export default defineDoc({
     {
       name: "copiedDuration",
       type: "number",
+      defaultValue: "300",
       description: "复制成功反馈持续时间，默认 300ms。",
     },
     {

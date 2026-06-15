@@ -374,21 +374,25 @@ export default defineDoc({
     {
       name: "activeStep",
       type: "number",
+      defaultValue: "0",
       description: "当前步骤下标。未显式传 status 的节点会自动推导状态。",
     },
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "尺寸，默认 md。",
     },
     {
       name: "compact",
       type: "boolean",
+      defaultValue: "false",
       description: "是否使用紧凑样式。",
     },
     {
       name: "collapsible",
       type: "boolean",
+      defaultValue: "false",
       description: "是否允许折叠步骤列表，默认 false。",
     },
     {
@@ -399,11 +403,13 @@ export default defineDoc({
     {
       name: "defaultCollapsed",
       type: "boolean",
+      defaultValue: "false",
       description: "非受控模式下的默认折叠状态。",
     },
     {
       name: "summary",
       type: "ReactNode",
+      defaultValue: "当前步骤标题",
       description: "折叠栏摘要；未传时使用当前步骤标题。",
     },
     {

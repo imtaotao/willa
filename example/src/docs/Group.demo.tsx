@@ -245,41 +245,49 @@ export default defineDoc({
     {
       name: "gap",
       type: '"none" | "xs" | "sm" | "md" | "lg" | "xl" | string',
+      defaultValue: '"sm"',
       description: "子元素之间的间距，支持预设值或任意 CSS 间距值。",
     },
     {
       name: "align",
       type: '"start" | "center" | "end" | "stretch" | "baseline"',
+      defaultValue: '"center"',
       description: "交叉轴对齐方式。",
     },
     {
       name: "justify",
       type: '"start" | "center" | "end" | "between" | "around" | "evenly"',
+      defaultValue: '"start"',
       description: "主轴对齐方式。",
     },
     {
       name: "direction",
       type: '"row" | "column"',
+      defaultValue: '"row"',
       description: "排列方向，默认是横向排列。",
     },
     {
       name: "wrap",
       type: "boolean",
+      defaultValue: "true",
       description: "是否允许换行，默认开启。",
     },
     {
       name: "inline",
       type: "boolean",
+      defaultValue: "false",
       description: "是否使用 inline-flex。",
     },
     {
       name: "grow",
       type: "boolean",
+      defaultValue: "false",
       description: "是否让子元素等宽填充可用空间。",
     },
     {
       name: "reverse",
       type: "boolean",
+      defaultValue: "false",
       description: "是否反向排列子元素。",
     },
     {
@@ -295,6 +303,7 @@ export default defineDoc({
     {
       name: "as",
       type: "ElementType",
+      defaultValue: '"div"',
       description: "自定义渲染标签或组件。",
     },
     {

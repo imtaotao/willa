@@ -139,6 +139,7 @@ export default defineDoc({
     {
       name: "extension",
       type: "string",
+      defaultValue: "从 name 推导",
       description: "手动指定扩展名，适合文件名不包含后缀的场景。",
     },
     {
@@ -149,6 +150,7 @@ export default defineDoc({
     {
       name: "icon",
       type: "ReactNode",
+      defaultValue: "由文件类型决定",
       description: "自定义文件图标内容。",
     },
     {

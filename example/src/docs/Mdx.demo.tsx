@@ -40,6 +40,17 @@ const DemoMdxContent = (props: Record<string, unknown>) => {
   const Code = components.code ?? "code";
   const Img = components.img ?? "img";
   const Callout = components.Callout ?? "div";
+  const Badge = components.Badge ?? "span";
+  const Card = components.Card ?? "div";
+  const DescriptionList = components.DescriptionList ?? "dl";
+  const DiffViewer = components.DiffViewer ?? "div";
+  const Download = components.Download ?? "a";
+  const FileCard = components.FileCard ?? "div";
+  const KbdShortcut = components.KbdShortcut ?? "span";
+  const List = components.List ?? "div";
+  const SourceCard = components.SourceCard ?? "div";
+  const Table = components.Table ?? "table";
+  const Timeline = components.Timeline ?? "div";
   const GitHubRepo = components.GitHubRepo ?? "div";
   const EnglishCards = components.EnglishCards ?? "div";
   const ImageGallery = components.ImageGallery ?? "div";
@@ -55,6 +66,12 @@ const DemoMdxContent = (props: Record<string, unknown>) => {
         MDX 中的标题、链接、代码块、图片和自定义组件会统一使用 Willa
         的展示样式。
       </Callout>
+      <Card title="内容组件" description="MDX 可以直接使用常见内容型组件。">
+        <Badge tone="success">已内置</Badge>
+        <p>
+          快捷键也可以直接写成 <KbdShortcut keys={["⌘", "K"]} />。
+        </p>
+      </Card>
       <GitHubRepo
         repo="imtaotao/willa"
         description="Willa 组件库的公开仓库。"
@@ -78,10 +95,76 @@ const DemoMdxContent = (props: Record<string, unknown>) => {
         </Code>
       </Pre>
       <H2>图片组件</H2>
-      <P>
-        <Img {...lakeImage} />
-      </P>
+      <Img {...lakeImage} />
       <ImageGallery images={galleryImages} columns={2} />
+      <H2>文档增强组件</H2>
+      <DescriptionList
+        items={[
+          { label: "包", value: "willa/Mdx" },
+          { label: "资源解析", value: "支持相对路径转换" },
+        ]}
+      />
+      <Table
+        items={[
+          {
+            key: "content",
+            cells: [
+              { label: "类型", value: "内容组件" },
+              { label: "示例", value: "Badge、Card、Table" },
+            ],
+          },
+          {
+            key: "asset",
+            cells: [
+              { label: "类型", value: "资源组件" },
+              { label: "示例", value: "Download、FileCard" },
+            ],
+          },
+        ]}
+      />
+      <FileCard name="component-roadmap.md" meta="组件规划" />
+      <Download href="/willa/" name="下载示例资源" meta="willa 文档入口" />
+      <SourceCard
+        title="组件文档"
+        source="component.md"
+        description="组件创建、迁移和验收规则。"
+        index="1"
+      />
+      <List
+        items={[
+          {
+            id: "diff",
+            title: "查看改动",
+            description: "使用 DiffViewer 展示文本差异。",
+          },
+          {
+            id: "timeline",
+            title: "记录过程",
+            description: "使用 Timeline 展示发布或执行阶段。",
+          },
+        ]}
+      />
+      <Timeline
+        items={[
+          {
+            id: "draft",
+            title: "整理内容",
+            time: "09:30",
+            tone: "success",
+          },
+          {
+            id: "review",
+            title: "校对示例",
+            time: "10:00",
+            tone: "info",
+          },
+        ]}
+      />
+      <DiffViewer
+        before={"export const status = 'draft';"}
+        after={"export const status = 'ready';"}
+        language="ts"
+      />
       <H2>场景组件</H2>
       <EnglishCards
         title="MDX 内嵌词卡"
@@ -152,6 +235,7 @@ export default defineDoc({
           <Callout tone="tip" title="组件映射">
             自定义组件也会进入 Willa 的展示体系。
           </Callout>
+          <Badge tone="success">已内置</Badge>
           <GitHubRepo repo="imtaotao/willa" />
         </>
       );

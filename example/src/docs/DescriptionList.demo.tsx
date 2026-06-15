@@ -208,16 +208,19 @@ export default defineDoc({
     {
       name: "columns",
       type: "1 | 2 | 3",
+      defaultValue: "1",
       description: "桌面端列数，移动端会自动收敛为单列。",
     },
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "列表密度。",
     },
     {
       name: "variant",
       type: '"default" | "plain"',
+      defaultValue: '"default"',
       description: "展示形态，plain 适合嵌入已有卡片或面板。",
     },
     {

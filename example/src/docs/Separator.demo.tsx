@@ -132,31 +132,37 @@ export default defineDoc({
     {
       name: "orientation",
       type: '"horizontal" | "vertical"',
+      defaultValue: '"horizontal"',
       description: "分隔方向。",
     },
     {
       name: "size",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "分隔组件的外部间距。",
     },
     {
       name: "align",
       type: '"start" | "center" | "end"',
+      defaultValue: '"center"',
       description: "横向带文案时的文案位置。",
     },
     {
       name: "variant",
       type: '"solid" | "dashed" | "dotted"',
+      defaultValue: '"solid"',
       description: "线条样式。",
     },
     {
       name: "plain",
       type: "boolean",
+      defaultValue: "false",
       description: "是否弱化文案字重。",
     },
     {
       name: "decorative",
       type: "boolean",
+      defaultValue: "true",
       description: "是否作为纯视觉分隔，默认不暴露给辅助技术。",
     },
     {

@@ -179,11 +179,13 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md"',
+      defaultValue: '"md"',
       description: "尺寸，默认 md。",
     },
     {
       name: "variant",
       type: '"soft" | "outline"',
+      defaultValue: '"soft"',
       description: "样式形态，默认 soft。",
     },
     {
@@ -194,16 +196,19 @@ export default defineDoc({
     {
       name: "defaultSelectedIds",
       type: "Array<string>",
+      defaultValue: "[]",
       description: "非受控默认选中项 id。",
     },
     {
       name: "multiple",
       type: "boolean",
+      defaultValue: "false",
       description: "是否允许多选，默认 false。",
     },
     {
       name: "disabled",
       type: "boolean",
+      defaultValue: "false",
       description: "是否禁用整组建议。",
     },
     {
@@ -245,6 +250,7 @@ export default defineDoc({
     {
       name: "disabled",
       type: "boolean",
+      defaultValue: "false",
       group: "SuggestionChipItem",
       description: "是否禁用单个建议。",
     },

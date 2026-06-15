@@ -76,16 +76,19 @@ export default defineDoc({
     {
       name: "tone",
       type: '"note" | "tip" | "warning" | "success" | "error"',
+      defaultValue: '"note"',
       description: "信息块的视觉语义。",
     },
     {
       name: "title",
       type: "ReactNode",
+      defaultValue: "由 tone 决定",
       description: "展示在正文上方的可选标题。",
     },
     {
       name: "icon",
       type: "ReactNode",
+      defaultValue: "由 tone 决定",
       description: "自定义左侧图标，未传时按 tone 使用默认图标。",
     },
     {

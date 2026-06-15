@@ -192,6 +192,7 @@ export default defineDoc({
     {
       name: "defaultValue",
       type: "string",
+      defaultValue: '""',
       description: "非受控默认值。",
     },
     {
@@ -207,26 +208,31 @@ export default defineDoc({
     {
       name: "placeholder",
       type: "string",
+      defaultValue: '"写下你的评论..."',
       description: "占位文案。",
     },
     {
       name: "submitLabel",
       type: "ReactNode",
+      defaultValue: '"发布"',
       description: "提交按钮文案。",
     },
     {
       name: "disabled",
       type: "boolean",
+      defaultValue: "false",
       description: "是否禁用。",
     },
     {
       name: "loading",
       type: "boolean",
+      defaultValue: "false",
       description: "是否处于提交中。",
     },
     {
       name: "minRows",
       type: "number",
+      defaultValue: "3",
       description: "输入框最小行数，默认 3。",
     },
     {
@@ -237,6 +243,7 @@ export default defineDoc({
     {
       name: "autoFocus",
       type: "boolean",
+      defaultValue: "false",
       description: "是否自动聚焦。",
     },
     {
@@ -247,6 +254,7 @@ export default defineDoc({
     {
       name: "avatarName",
       type: "string",
+      defaultValue: '"Comment Author"',
       description: "输入者头像名称。",
     },
     {
@@ -257,6 +265,7 @@ export default defineDoc({
     {
       name: "mentionLabel",
       type: "ReactNode",
+      defaultValue: '"@"',
       description: "@ 提及入口的展示内容，默认 @。",
     },
     {

@@ -187,21 +187,25 @@ export default defineDoc({
     {
       name: "mode",
       type: '"single" | "multiple"',
+      defaultValue: '"single"',
       description: "选择模式，默认单选。",
     },
     {
       name: "searchable",
       type: "boolean",
+      defaultValue: "true",
       description: "是否展示搜索输入框，默认开启。",
     },
     {
       name: "clearable",
       type: "boolean",
+      defaultValue: "false",
       description: "是否允许清空当前选择。",
     },
     {
       name: "defaultExpandedValues",
       type: "Array<string>",
+      defaultValue: "[]",
       description: "默认展开的节点 value。",
     },
     {
@@ -212,6 +216,7 @@ export default defineDoc({
     {
       name: "defaultValue",
       type: "string | Array<string>",
+      defaultValue: 'mode === "multiple" ? [] : ""',
       description: "默认选中值。",
     },
     {

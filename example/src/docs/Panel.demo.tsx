@@ -161,11 +161,13 @@ export default defineDoc({
     {
       name: "variant",
       type: '"surface" | "soft" | "outline" | "plain"',
+      defaultValue: '"surface"',
       description: "区域视觉变体。",
     },
     {
       name: "padding",
       type: '"none" | "sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "主体内边距。",
     },
   ],

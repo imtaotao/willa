@@ -55,6 +55,7 @@ export default defineDoc({
     {
       name: "title",
       type: "string",
+      defaultValue: '"对话记录"',
       description: "聊天记录标题，折叠模式下会作为摘要标题。",
     },
     {
@@ -71,6 +72,7 @@ export default defineDoc({
     {
       name: "defaultOpen",
       type: "boolean",
+      defaultValue: "false",
       description: "折叠模式下的初始展开状态。",
     },
     {

@@ -305,6 +305,7 @@ export default defineDoc({
     {
       name: "status",
       type: '"pending" | "generating" | "completed" | "failed"',
+      defaultValue: '"pending"',
       description: "生成状态，默认 pending。",
     },
     {
@@ -320,6 +321,7 @@ export default defineDoc({
     {
       name: "icon",
       type: "ReactNode",
+      defaultValue: "由 status 决定",
       description: "状态图标。未传时根据 status 渲染默认图标。",
     },
     {
@@ -335,6 +337,7 @@ export default defineDoc({
     {
       name: "collapsible",
       type: "boolean",
+      defaultValue: "false",
       description: "是否允许折叠生成结果预览，默认 false。",
     },
     {
@@ -345,11 +348,13 @@ export default defineDoc({
     {
       name: "defaultCollapsed",
       type: "boolean",
+      defaultValue: "false",
       description: "非受控模式下的默认折叠状态。",
     },
     {
       name: "summary",
       type: "ReactNode",
+      defaultValue: '"查看生成结果"',
       description: "折叠开关文案。",
     },
     {

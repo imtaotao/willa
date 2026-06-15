@@ -145,21 +145,25 @@ export default defineDoc({
     {
       name: "size",
       type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
       description: "文本框尺寸。",
     },
     {
       name: "variant",
       type: '"outline" | "soft"',
+      defaultValue: '"outline"',
       description: "文本框视觉类型。",
     },
     {
       name: "resize",
       type: '"none" | "vertical" | "horizontal" | "both"',
+      defaultValue: '"vertical"',
       description: "拖拽调整尺寸的方向。",
     },
     {
       name: "invalid",
       type: "boolean",
+      defaultValue: "false",
       description: "展示错误状态。",
     },
     {

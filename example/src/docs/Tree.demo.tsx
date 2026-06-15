@@ -316,6 +316,7 @@ export default defineDoc({
     {
       name: "defaultExpandedKeys",
       type: "Array<TreeKey>",
+      defaultValue: "[]",
       description: "默认展开节点。",
     },
     {
@@ -326,6 +327,7 @@ export default defineDoc({
     {
       name: "defaultSelectedKeys",
       type: "Array<TreeKey>",
+      defaultValue: "[]",
       description: "默认选中节点。",
     },
     {
@@ -336,6 +338,7 @@ export default defineDoc({
     {
       name: "defaultCheckedKeys",
       type: "Array<TreeKey>",
+      defaultValue: "[]",
       description: "默认勾选节点。",
     },
     {
