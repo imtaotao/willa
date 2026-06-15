@@ -77,6 +77,15 @@ tags, badges, selected filters, and clear grouped choices; pure icon actions
 should usually use a small square or soft rounded hit area with minimal fill so
 the interface does not become visually noisy.
 
+Prefer extracting a public base component when several components share the
+same interaction model and DOM semantics. For example, `List` is the standard
+content list primitive for item rows with title, description, meta, media,
+actions, selected, disabled, unread, link, and click states. Notification
+centers, system messages, task reminders, and activity feeds should use `List`
+directly unless they add substantial domain behavior. Components with stronger
+semantics, such as comments, chat logs, attachments, trees, or timelines, should
+keep their own structure instead of forcing reuse through `List`.
+
 If a component needs an internal protocol marker, such as Lightbox identifying
 `Image` and `ImageGallery` children, attach the marker to the component object
 and add a comment explaining why it exists. Internal markers are not public API.

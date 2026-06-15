@@ -25,6 +25,7 @@ export { IconButton } from "#content/components/IconButton";
 export { InputPanel } from "#content/components/InputPanel";
 export { Kbd, KbdShortcut } from "#content/components/Kbd";
 export { Lightbox, normalizeLightboxImage } from "#content/components/Lightbox";
+export { List } from "#content/components/List";
 export { Menu } from "#content/components/Menu";
 export { NotFound } from "#content/components/NotFound";
 export { Pagination } from "#content/components/Pagination";
@@ -151,6 +152,15 @@ export type {
   LightboxImage,
   LightboxState,
 } from "#content/components/Lightbox";
+export type {
+  ListGrid,
+  ListItem,
+  ListItemLayout,
+  ListProps,
+  ListSize,
+  ListTone,
+  ListVariant,
+} from "#content/components/List";
 export type {
   MenuActionItem,
   MenuAlign,

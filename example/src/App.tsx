@@ -88,6 +88,7 @@ const docChineseNames: Record<string, string> = {
   InputPanel: "输入面板",
   Kbd: "快捷键",
   Lightbox: "图片预览",
+  List: "列表",
   Masonry: "瀑布流",
   Mdx: "MDX 渲染",
   Menu: "菜单",

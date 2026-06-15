@@ -99,6 +99,7 @@ const docSpecGroups = {
     "InputPanel",
     "Kbd",
     "Lightbox",
+    "List",
     "Menu",
     "NotFound",
     "Pagination",

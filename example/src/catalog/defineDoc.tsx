@@ -83,6 +83,7 @@ const willaDemoImportNames = new Set([
   "Kbd",
   "KbdShortcut",
   "Lightbox",
+  "List",
   "Mdx",
   "Menu",
   "MessageActions",
