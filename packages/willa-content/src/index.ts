@@ -39,6 +39,7 @@ export { Step, Steps } from "#content/components/Steps";
 export { Table } from "#content/components/Table";
 export { Tabs } from "#content/components/Tabs";
 export { Timeline } from "#content/components/Timeline";
+export { Tree } from "#content/components/Tree";
 export { createToast, toast } from "#content/components/Toast";
 export { Tooltip } from "#content/components/Tooltip";
 
@@ -225,6 +226,16 @@ export type {
   TimelineTone,
   TimelineVariant,
 } from "#content/components/Timeline";
+export type {
+  TreeChangeInfo,
+  TreeCheckStrategy,
+  TreeItem,
+  TreeItemRenderInfo,
+  TreeKey,
+  TreeProps,
+  TreeSelectionMode,
+  TreeSize,
+} from "#content/components/Tree";
 export type {
   ToastAction,
   ToastApi,

@@ -125,6 +125,7 @@ const willaDemoImportNames = new Set([
   "Toast",
   "ToolCallCard",
   "Tooltip",
+  "Tree",
   "Upload",
   "VideoEmbed",
   "VideoLink",

@@ -230,7 +230,7 @@ select {
 
 .docs-nav-group {
   display: grid;
-  gap: 8px;
+  gap: 12px;
 }
 
 .docs-nav-title-row {
@@ -253,7 +253,7 @@ select {
 }
 
 .docs-nav-description {
-  margin: 3px 0 0;
+  margin: 4px 0 1px;
   color: #94a3b8;
   font-size: 11px;
   line-height: 1.25;
@@ -778,6 +778,29 @@ select {
 
 .docs-prop-name-cell .docs-prop-token {
   flex: 0 1 auto;
+}
+
+.docs-prop-default {
+  display: inline-block;
+  max-width: 100%;
+  border-radius: 4px;
+  background: var(--willa-inline-code-bg);
+  padding: 0.12em 0.36em;
+  color: #475569;
+  font-family: var(--willa-code-font);
+  font-size: 0.88em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.docs-prop-empty {
+  color: #94a3b8;
+}
+
+:root[data-wk-theme="dark"] .docs-prop-default {
+  color: #cbd5e1;
 }
 
 @media (max-width: 1040px) {

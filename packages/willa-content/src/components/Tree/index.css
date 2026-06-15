@@ -1,0 +1,250 @@
+.willa-tree {
+  --willa-tree-indent: 1.22rem;
+
+  display: grid;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  gap: 0.18rem;
+  color: var(--willa-tree-text);
+  font-family: var(--willa-body-font);
+}
+
+.willa-tree-node {
+  display: grid;
+  grid-template-columns: auto auto auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 2.28rem;
+  padding: 0.34rem 0.58rem;
+  padding-left: calc(
+    0.58rem + var(--willa-tree-depth) * var(--willa-tree-indent)
+  );
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--willa-tree-text);
+  column-gap: 0.45rem;
+  cursor: pointer;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    color 140ms ease;
+}
+
+.willa-tree-node:hover {
+  border-color: var(--willa-tree-border-hover);
+  background: var(--willa-tree-bg-hover);
+}
+
+.willa-tree-node:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-tree-node--selected {
+  border-color: var(--willa-tree-selected-border);
+  background: var(--willa-tree-selected-bg);
+}
+
+.willa-tree-node--disabled {
+  color: var(--willa-tree-disabled-text);
+  cursor: not-allowed;
+}
+
+.willa-tree-node--disabled:hover {
+  border-color: transparent;
+  background: transparent;
+}
+
+.willa-tree-node--muted {
+  color: var(--willa-tree-muted-text);
+}
+
+.willa-tree--line .willa-tree-node {
+  position: relative;
+}
+
+.willa-tree--line .willa-tree-node::before {
+  position: absolute;
+  top: -0.18rem;
+  bottom: -0.18rem;
+  left: calc(0.52rem + var(--willa-tree-depth) * var(--willa-tree-indent));
+  width: 1px;
+  background: var(--willa-tree-line);
+  content: "";
+  opacity: calc(min(var(--willa-tree-depth), 1));
+}
+
+.willa-tree-expander,
+.willa-tree-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 1.22rem;
+  height: 1.22rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--willa-tree-icon);
+  font: inherit;
+}
+
+.willa-tree-expander {
+  cursor: pointer;
+}
+
+.willa-tree-expander[aria-hidden="true"] {
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.willa-tree-expander-icon {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 140ms ease;
+}
+
+.willa-tree-expander-icon--open {
+  transform: rotate(90deg);
+}
+
+.willa-tree-check {
+  border: 1px solid var(--willa-tree-check-border);
+  border-radius: 5px;
+  background: var(--willa-tree-check-bg);
+  color: var(--willa-tree-check-text);
+  cursor: pointer;
+}
+
+.willa-tree-check svg {
+  width: 0.86rem;
+  height: 0.86rem;
+}
+
+.willa-tree-check--checked,
+.willa-tree-check--indeterminate {
+  border-color: var(--willa-tree-check-active-border);
+  background: var(--willa-tree-check-active-bg);
+  color: var(--willa-tree-check-active-text);
+}
+
+.willa-tree-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--willa-tree-icon);
+}
+
+.willa-tree-icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.willa-tree-content {
+  display: grid;
+  min-width: 0;
+  gap: 0.12rem;
+}
+
+.willa-tree-title,
+.willa-tree-description,
+.willa-tree-meta,
+.willa-tree-extra {
+  min-width: 0;
+}
+
+.willa-tree-title,
+.willa-tree-description,
+.willa-tree-meta {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.willa-tree-title {
+  color: var(--willa-tree-title);
+  font-size: 0.92rem;
+  font-weight: 620;
+  line-height: 1.36;
+}
+
+.willa-tree-description,
+.willa-tree-meta {
+  color: var(--willa-tree-muted-text);
+  font-size: 0.82rem;
+  line-height: 1.34;
+}
+
+.willa-tree-meta {
+  justify-self: end;
+  max-width: 12rem;
+}
+
+.willa-tree-extra {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.willa-tree-empty {
+  box-sizing: border-box;
+  min-height: 2.8rem;
+  padding: 0.8rem;
+  border: 1px dashed var(--willa-tree-border);
+  border-radius: 8px;
+  color: var(--willa-tree-muted-text);
+  font-size: 0.9rem;
+}
+
+.willa-tree--sm {
+  --willa-tree-indent: 1.08rem;
+}
+
+.willa-tree--sm .willa-tree-node {
+  min-height: 2rem;
+  padding-top: 0.24rem;
+  padding-right: 0.48rem;
+  padding-bottom: 0.24rem;
+  padding-left: calc(
+    0.48rem + var(--willa-tree-depth) * var(--willa-tree-indent)
+  );
+  column-gap: 0.36rem;
+}
+
+.willa-tree--sm .willa-tree-title {
+  font-size: 0.84rem;
+}
+
+.willa-tree--lg .willa-tree-node {
+  min-height: 2.7rem;
+  padding-top: 0.44rem;
+  padding-right: 0.68rem;
+  padding-bottom: 0.44rem;
+  padding-left: calc(
+    0.68rem + var(--willa-tree-depth) * var(--willa-tree-indent)
+  );
+}
+
+.willa-tree--lg .willa-tree-title {
+  font-size: 0.98rem;
+}
+
+@media (max-width: 767px) {
+  .willa-tree {
+    --willa-tree-indent: 1rem;
+  }
+
+  .willa-tree-node {
+    grid-template-columns: auto auto auto minmax(8rem, 1fr);
+  }
+
+  .willa-tree-meta,
+  .willa-tree-extra {
+    grid-column: 4;
+    justify-self: start;
+    max-width: 100%;
+  }
+}

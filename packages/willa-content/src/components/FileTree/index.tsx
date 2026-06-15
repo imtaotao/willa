@@ -10,13 +10,9 @@ import {
   type ReactNode,
 } from "react";
 import classNames from "classnames";
-import {
-  ArchiveIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  FileIcon,
-  FileTextIcon,
-} from "@radix-ui/react-icons";
+import { ArchiveIcon, FileIcon, FileTextIcon } from "@radix-ui/react-icons";
+
+import { Tree, type TreeItem, type TreeKey } from "#content/components/Tree";
 
 export type FileTreeItemType = "file" | "folder";
 export type FileTreeSize = "sm" | "md";
@@ -84,12 +80,20 @@ export function FileTree(props: FileTreeProps) {
   const resolvedExpandedIds = expandedIds
     ? new Set(expandedIds)
     : uncontrolledExpandedIds;
+  const treeItems = useMemo(() => {
+    return toTreeItems(items, onFileClick);
+  }, [items, onFileClick]);
+  const itemByKey = useMemo(() => createFileTreeItemMap(items), [items]);
+  const selectedKeys = useMemo(() => collectSelectedKeys(items), [items]);
   const updateExpandedIds = (nextExpandedIds: Set<string>) => {
     if (!expandedIds) {
       setUncontrolledExpandedIds(nextExpandedIds);
     }
 
     onExpandedChange?.([...nextExpandedIds]);
+  };
+  const handleExpandedChange = (nextKeys: Array<TreeKey>) => {
+    updateExpandedIds(new Set(nextKeys.map(String)));
   };
   const updateResizedWidth = (nextWidth: number) => {
     const rootElement = rootRef.current;
@@ -156,20 +160,26 @@ export function FileTree(props: FileTreeProps) {
         className,
       )}
     >
-      <div className="willa-file-tree-list" role="tree">
-        {items.map((item, index) =>
-          renderFileTreeItem({
-            collapsible,
-            expandedIds: resolvedExpandedIds,
-            item,
-            onExpandedChange: updateExpandedIds,
-            onFileClick,
-            depth: 0,
-            keyPath: String(item.id ?? index),
-            expandedId: getFileTreeItemExpandedId(item, String(index)),
-          }),
-        )}
-      </div>
+      <Tree
+        className="willa-file-tree-list"
+        items={treeItems}
+        size={size}
+        showLine
+        selectable={false}
+        expandOnClick={collapsible}
+        defaultExpandAll={!collapsible}
+        expandedKeys={collapsible ? [...resolvedExpandedIds] : undefined}
+        selectedKeys={selectedKeys}
+        onExpandedChange={collapsible ? handleExpandedChange : undefined}
+        onItemClick={(info) => {
+          const item = itemByKey.get(String(info.key));
+          const type =
+            item?.type ?? (item?.children?.length ? "folder" : "file");
+          if (item && type === "file") {
+            onFileClick?.(item);
+          }
+        }}
+      />
       {resizable ? (
         <div
           aria-label="调整文件树宽度"
@@ -184,210 +194,6 @@ export function FileTree(props: FileTreeProps) {
     </div>
   );
 }
-
-const renderFileTreeItem = (options: {
-  collapsible: boolean;
-  expandedIds: Set<string>;
-  item: FileTreeItem;
-  onExpandedChange: (expandedIds: Set<string>) => void;
-  onFileClick?: (item: FileTreeItem) => void;
-  depth: number;
-  keyPath: string;
-  expandedId: string;
-}) => {
-  const {
-    collapsible,
-    expandedIds,
-    item,
-    onExpandedChange,
-    onFileClick,
-    depth,
-    keyPath,
-    expandedId,
-  } = options;
-  const hasChildren = Boolean(item.children?.length);
-  const type = item.type ?? (hasChildren ? "folder" : "file");
-  const isFile = type === "file";
-  const isClickableFile = isFile && Boolean(onFileClick);
-  const isExpanded =
-    !collapsible || !hasChildren || expandedIds.has(expandedId);
-  const nameTitle = getFileTreeItemTextTitle(item.name);
-  const metaTitle = getFileTreeItemTextTitle(item.meta);
-  const toggleExpanded = () => {
-    if (!collapsible || !hasChildren) return;
-
-    const nextExpandedIds = new Set(expandedIds);
-    if (nextExpandedIds.has(expandedId)) {
-      nextExpandedIds.delete(expandedId);
-    } else {
-      nextExpandedIds.add(expandedId);
-    }
-
-    onExpandedChange(nextExpandedIds);
-  };
-  const handleFileClick = () => {
-    if (!isClickableFile) return;
-    onFileClick?.(item);
-  };
-  const handleRowKeyDown = (event: KeyboardEvent<HTMLElement>) => {
-    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-      event.preventDefault();
-      focusAdjacentTreeItem(event.currentTarget, event.key === "ArrowDown");
-      return;
-    }
-
-    if (event.key === "ArrowRight") {
-      if (collapsible && hasChildren && !isExpanded) {
-        event.preventDefault();
-        toggleExpanded();
-      }
-      return;
-    }
-
-    if (event.key === "ArrowLeft") {
-      if (collapsible && hasChildren && isExpanded) {
-        event.preventDefault();
-        toggleExpanded();
-      }
-      return;
-    }
-
-    if (event.key !== "Enter" && event.key !== " ") return;
-
-    event.preventDefault();
-    if (collapsible && hasChildren && !item.href) {
-      toggleExpanded();
-      return;
-    }
-
-    if (isClickableFile) {
-      handleFileClick();
-      return;
-    }
-
-    if (event.currentTarget instanceof HTMLAnchorElement) {
-      event.currentTarget.click();
-    }
-  };
-  const content = (
-    <>
-      <span className="willa-file-tree-indent" aria-hidden="true">
-        {Array.from({ length: depth }).map((_, index) => (
-          <span key={index} className="willa-file-tree-guide" />
-        ))}
-      </span>
-      <span className="willa-file-tree-toggle" aria-hidden="true">
-        {hasChildren ? (
-          isExpanded ? (
-            <ChevronDownIcon />
-          ) : (
-            <ChevronRightIcon />
-          )
-        ) : null}
-      </span>
-      <span className="willa-file-tree-icon" aria-hidden="true">
-        {item.icon ?? getDefaultIcon(type, item.name)}
-      </span>
-      <span className="willa-file-tree-content">
-        <span className="willa-file-tree-name" title={nameTitle}>
-          {item.name}
-        </span>
-        {item.description ? (
-          <span className="willa-file-tree-description">
-            {item.description}
-          </span>
-        ) : null}
-      </span>
-      {item.meta ? (
-        <span className="willa-file-tree-meta" title={metaTitle}>
-          {item.meta}
-        </span>
-      ) : null}
-    </>
-  );
-  const className = classNames(
-    "willa-file-tree-row",
-    `willa-file-tree-row--${type}`,
-    item.selected && "willa-file-tree-row--selected",
-    item.muted && "willa-file-tree-row--muted",
-    collapsible && hasChildren && "willa-file-tree-row--collapsible",
-    isClickableFile && "willa-file-tree-row--clickable",
-  );
-  const rowProps = {
-    onClick:
-      collapsible && hasChildren
-        ? toggleExpanded
-        : isClickableFile
-          ? handleFileClick
-          : undefined,
-  };
-
-  const treeItemProps = {
-    "aria-expanded": collapsible && hasChildren ? isExpanded : undefined,
-    "aria-level": depth + 1,
-    role: "treeitem",
-    tabIndex: 0,
-  } as const;
-
-  return (
-    <div key={keyPath} className="willa-file-tree-item">
-      {item.href ? (
-        <a
-          {...treeItemProps}
-          className={className}
-          href={item.href}
-          {...getLinkProps(item.href)}
-          onKeyDown={handleRowKeyDown}
-          onClick={isClickableFile ? handleFileClick : undefined}
-        >
-          {content}
-        </a>
-      ) : (
-        <div
-          {...treeItemProps}
-          className={className}
-          onKeyDown={handleRowKeyDown}
-          {...rowProps}
-        >
-          {content}
-        </div>
-      )}
-      {hasChildren && isExpanded ? (
-        <div className="willa-file-tree-children" role="group">
-          {item.children!.map((child, index) =>
-            renderFileTreeItem({
-              collapsible,
-              expandedIds,
-              item: child,
-              onExpandedChange,
-              onFileClick,
-              depth: depth + 1,
-              keyPath: `${keyPath}-${child.id ?? index}`,
-              expandedId: getFileTreeItemExpandedId(
-                child,
-                `${keyPath}-${index}`,
-              ),
-            }),
-          )}
-        </div>
-      ) : null}
-    </div>
-  );
-};
-
-const focusAdjacentTreeItem = (currentItem: HTMLElement, forward: boolean) => {
-  const tree = currentItem.closest('[role="tree"]');
-  if (!tree) return;
-
-  const items = Array.from(
-    tree.querySelectorAll<HTMLElement>('[role="treeitem"]'),
-  );
-  const currentIndex = items.indexOf(currentItem);
-  if (currentIndex < 0) return;
-
-  const nextIndex = forward ? currentIndex + 1 : currentIndex - 1;
-  items[nextIndex]?.focus();
-};
 
 const collectExpandableIds = (
   items: Array<FileTreeItem>,
@@ -412,6 +218,98 @@ const getFileTreeItemExpandedId = (
   fallbackKeyPath: string,
 ) => {
   return item.id ?? fallbackKeyPath;
+};
+
+const toTreeItems = (
+  items: Array<FileTreeItem>,
+  onFileClick?: (item: FileTreeItem) => void,
+  parentKeyPath = "",
+): Array<TreeItem> => {
+  return items.map((item, index) => {
+    const keyPath = parentKeyPath
+      ? `${parentKeyPath}-${item.id ?? index}`
+      : String(item.id ?? index);
+    const hasChildren = Boolean(item.children?.length);
+    const type = item.type ?? (hasChildren ? "folder" : "file");
+    const nameTitle = getFileTreeItemTextTitle(item.name);
+    const metaTitle = getFileTreeItemTextTitle(item.meta);
+    const title = item.href ? (
+      <a
+        className="willa-file-tree-link"
+        href={item.href}
+        title={nameTitle}
+        {...getLinkProps(item.href)}
+        onClick={(event) => {
+          event.stopPropagation();
+          onFileClick?.(item);
+        }}
+      >
+        {item.name}
+      </a>
+    ) : (
+      <span title={nameTitle}>{item.name}</span>
+    );
+
+    return {
+      key: getFileTreeItemExpandedId(item, keyPath),
+      title,
+      description: item.description,
+      meta: item.meta ? <span title={metaTitle}>{item.meta}</span> : undefined,
+      icon: item.icon ?? getDefaultIcon(type, item.name),
+      selected: item.selected,
+      muted: item.muted,
+      selectable: false,
+      className: classNames(
+        "willa-file-tree-node",
+        `willa-file-tree-node--${type}`,
+        type === "file" && onFileClick && "willa-file-tree-node--clickable",
+      ),
+      children: item.children?.length
+        ? toTreeItems(item.children, onFileClick, keyPath)
+        : undefined,
+    };
+  });
+};
+
+const createFileTreeItemMap = (
+  items: Array<FileTreeItem>,
+  parentKeyPath = "",
+) => {
+  const result = new Map<string, FileTreeItem>();
+
+  items.forEach((item, index) => {
+    const keyPath = parentKeyPath
+      ? `${parentKeyPath}-${item.id ?? index}`
+      : String(item.id ?? index);
+    const key = getFileTreeItemExpandedId(item, keyPath);
+
+    result.set(key, item);
+
+    if (item.children?.length) {
+      createFileTreeItemMap(item.children, keyPath).forEach((child, childKey) =>
+        result.set(childKey, child),
+      );
+    }
+  });
+
+  return result;
+};
+
+const collectSelectedKeys = (
+  items: Array<FileTreeItem>,
+  parentKeyPath = "",
+): Array<string> => {
+  return items.flatMap((item, index) => {
+    const keyPath = parentKeyPath
+      ? `${parentKeyPath}-${item.id ?? index}`
+      : String(item.id ?? index);
+    const currentKey = getFileTreeItemExpandedId(item, keyPath);
+    const childKeys = item.children?.length
+      ? collectSelectedKeys(item.children, keyPath)
+      : [];
+
+    return item.selected ? [currentKey, ...childKeys] : childKeys;
+  });
 };
 
 const getFileTreeItemTextTitle = (value: ReactNode) => {

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 export type PropRow = {
   name: string;
   type: string;
+  defaultValue?: string;
   required?: boolean;
   group?: string;
   description: string;

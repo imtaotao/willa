@@ -49,7 +49,7 @@ const createPropTableItems = (props: Array<PropRow>) => {
       {
         key: "name",
         label: "名称",
-        width: "26%",
+        width: "24%",
         ellipsis: false,
         render: (
           <div className="docs-prop-name-cell">
@@ -65,9 +65,20 @@ const createPropTableItems = (props: Array<PropRow>) => {
       {
         key: "type",
         label: "类型",
-        width: "34%",
+        width: "30%",
         value: prop.type,
         render: <PropToken value={prop.type} kind="类型" />,
+      },
+      {
+        key: "defaultValue",
+        label: "默认值",
+        width: "16%",
+        value: prop.defaultValue ?? "-",
+        render: prop.defaultValue ? (
+          <code className="docs-prop-default">{prop.defaultValue}</code>
+        ) : (
+          <span className="docs-prop-empty">-</span>
+        ),
       },
       {
         key: "description",
