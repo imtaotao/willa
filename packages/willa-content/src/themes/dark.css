@@ -282,6 +282,8 @@
   --willa-timeline-title: var(--willa-text-strong);
   --willa-timeline-text: var(--willa-text);
   --willa-timeline-muted: var(--willa-text-soft);
+  --willa-timeline-time-bg: rgba(255, 255, 255, 0.075);
+  --willa-timeline-time-text: var(--willa-text-strong);
   --willa-timeline-info-bg: rgba(125, 211, 252, 0.11);
   --willa-timeline-info-border: rgba(125, 211, 252, 0.2);
   --willa-timeline-info-text: #7dd3fc;

@@ -69,6 +69,7 @@
     "@willa-ui/shared": "workspace:*",
     "@radix-ui/react-icons": "catalog:",
     "@mdx-js/react": "catalog:",
+    "qrcode.react": "catalog:",
     "aidly": "catalog:",
     "classnames": "catalog:",
     "react-twitter-widgets": "catalog:"

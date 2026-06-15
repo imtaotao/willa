@@ -103,6 +103,7 @@ const docChineseNames: Record<string, string> = {
   Popover: "浮层",
   Progress: "进度条",
   PromptInput: "提示词输入",
+  QRCode: "二维码",
   Radio: "单选框",
   RangeInput: "范围输入",
   ReasoningSteps: "推理步骤",

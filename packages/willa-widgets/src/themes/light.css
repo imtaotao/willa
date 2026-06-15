@@ -71,6 +71,15 @@
   --willa-github-hover-card-arrow-shadow: -4px -4px 12px rgba(15, 23, 42, 0.03);
   --willa-github-hover-card-meta-bg: rgba(15, 23, 42, 0.06);
   --willa-github-hover-card-error: #b42318;
+  --willa-qr-code-surface: #ffffff;
+  --willa-qr-code-bg: #ffffff;
+  --willa-qr-code-border: rgba(15, 23, 42, 0.1);
+  --willa-qr-code-cover-bg: rgba(248, 250, 252, 0.82);
+  --willa-qr-code-status-bg: #ffffff;
+  --willa-qr-code-status-border: rgba(15, 23, 42, 0.12);
+  --willa-qr-code-action-bg: rgba(15, 23, 42, 0.055);
+  --willa-qr-code-action-hover-bg: rgba(15, 23, 42, 0.085);
+  --willa-qr-code-accent: #315f9d;
   --willa-web-embed-border: rgba(14, 165, 233, 0.18);
   --willa-web-embed-bg:
     linear-gradient(135deg, rgba(14, 165, 233, 0.08), transparent 58%),

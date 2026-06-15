@@ -52,6 +52,7 @@ export function Timeline(props: TimelineProps) {
     className,
     ...timelineProps
   } = props;
+  const hasTime = items.some((item) => Boolean(item.time));
 
   return (
     <section
@@ -60,6 +61,7 @@ export function Timeline(props: TimelineProps) {
         "willa-timeline",
         `willa-timeline--${size}`,
         `willa-timeline--${variant}`,
+        hasTime && "willa-timeline--has-time",
         className,
       )}
     >
@@ -86,6 +88,7 @@ export function Timeline(props: TimelineProps) {
 const TimelineEntry = ({ item }: { item: TimelineItem }) => {
   const tone = item.tone ?? "default";
   const isInteractive = Boolean(item.onClick);
+  const hasIcon = Boolean(item.icon);
 
   return (
     <li
@@ -106,20 +109,26 @@ const TimelineEntry = ({ item }: { item: TimelineItem }) => {
         item.onClick(event);
       }}
     >
-      <span className="willa-timeline-rail" aria-hidden="true">
-        <span className="willa-timeline-marker">
-          {item.icon ? (
+      {item.time ? (
+        <time className="willa-timeline-time">{item.time}</time>
+      ) : null}
+      <span
+        className={classNames(
+          "willa-timeline-rail",
+          hasIcon && "willa-timeline-rail--with-marker",
+        )}
+        aria-hidden="true"
+      >
+        {hasIcon ? (
+          <span className="willa-timeline-marker">
             <span className="willa-timeline-icon">{item.icon}</span>
-          ) : null}
-        </span>
+          </span>
+        ) : null}
       </span>
       <article className="willa-timeline-card">
         <div className="willa-timeline-main">
           <div className="willa-timeline-heading">
             <h4 className="willa-timeline-item-title">{item.title}</h4>
-            {item.time ? (
-              <time className="willa-timeline-time">{item.time}</time>
-            ) : null}
           </div>
           {item.description ? (
             <p className="willa-timeline-item-description">

@@ -5,6 +5,7 @@ export { GitHubMention } from "#widgets/components/GitHubMention";
 export { GitHubRepo } from "#widgets/components/GitHubRepo";
 export { Mdx, extractHeadings } from "#widgets/components/Mdx";
 export { Poem } from "#widgets/components/Poem";
+export { QRCode } from "#widgets/components/QRCode";
 export { VideoEmbed } from "#widgets/components/VideoEmbed";
 export { VideoLink } from "#widgets/components/VideoLink";
 export { WebEmbed } from "#widgets/components/WebEmbed";
@@ -24,6 +25,14 @@ export type { GitHubMentionProps } from "#widgets/components/GitHubMention";
 export type { GitHubRepoProps } from "#widgets/components/GitHubRepo";
 export type { Heading, MdxProps } from "#widgets/components/Mdx";
 export type { PoemProps } from "#widgets/components/Poem";
+export type {
+  QRCodeErrorLevel,
+  QRCodeIconSize,
+  QRCodeProps,
+  QRCodeStatus,
+  QRCodeStatusRenderInfo,
+  QRCodeType,
+} from "#widgets/components/QRCode";
 export type { VideoEmbedProps } from "#widgets/components/VideoEmbed";
 export type { VideoLinkProps } from "#widgets/components/VideoLink";
 export type { WebEmbedProps } from "#widgets/components/WebEmbed";

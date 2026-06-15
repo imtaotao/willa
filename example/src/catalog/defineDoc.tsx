@@ -97,6 +97,7 @@ const willaDemoImportNames = new Set([
   "Popover",
   "Progress",
   "PromptInput",
+  "QRCode",
   "Radio",
   "RangeInput",
   "ReasoningSteps",

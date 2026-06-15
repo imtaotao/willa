@@ -31,6 +31,7 @@ const docSpecGroups = {
     "GitHubRepo",
     "Mdx",
     "Poem",
+    "QRCode",
     "VideoEmbed",
     "VideoLink",
     "WebEmbed",
