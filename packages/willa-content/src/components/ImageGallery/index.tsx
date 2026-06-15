@@ -1,5 +1,6 @@
 import { type CSSProperties, useRef } from "react";
 import { type LightboxImage, type OpenLightbox } from "@willa-ui/shared";
+import classNames from "classnames";
 
 import { type MediaContextProps, resolveMediaAsset } from "#content/media";
 import { normalizeLightboxImage } from "#content/components/Lightbox";
@@ -16,6 +17,8 @@ export type ImageGalleryProps = MediaContextProps & {
   images: Array<ImageGalleryItem>;
   columns?: 2 | 3 | 4;
   openLightbox?: OpenLightbox;
+  hoverZoom?: boolean;
+  backgroundColor?: CSSProperties["backgroundColor"];
 };
 
 const GalleryImageButton = ({
@@ -93,6 +96,8 @@ export function ImageGallery({
   images,
   columns = 2,
   openLightbox,
+  hoverZoom = false,
+  backgroundColor,
   ...mediaContext
 }: ImageGalleryProps) {
   const normalizedImages = images
@@ -117,10 +122,16 @@ export function ImageGallery({
 
   return (
     <div
-      className="willa-prose-gallery"
+      className={classNames(
+        "willa-prose-gallery",
+        hoverZoom && "willa-prose-gallery--hover-zoom",
+      )}
       style={
         {
           ["--willa-gallery-columns" as string]: String(columns),
+          ...(backgroundColor
+            ? { "--willa-image-custom-bg": backgroundColor }
+            : undefined),
         } as CSSProperties
       }
     >

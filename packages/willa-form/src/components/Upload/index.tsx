@@ -12,10 +12,12 @@ import classNames from "classnames";
 import { Cross2Icon, FileTextIcon, UploadIcon } from "@radix-ui/react-icons";
 import { isPromiseLike } from "aidly";
 
-import { Download } from "#content/components/Download";
+import { Download } from "@willa-ui/content/components/Download";
+import { FilePreviewDialog } from "@willa-ui/content/components/FilePreview";
 
 export type UploadFileKind = "image" | "audio" | "video" | "file";
 export type UploadSize = "sm" | "md";
+export type UploadPreviewMode = "dialog" | "link" | "download" | "none";
 
 export type UploadItem = {
   id: string;
@@ -59,7 +61,9 @@ type UploadBaseProps = {
   onUploadComplete?: UploadStatusHandler;
   onUploadError?: UploadErrorHandler;
   onFilesChange?: (files: Array<UploadItem>) => void;
+  onPreview?: (file: UploadItem) => void;
   onFileRemove?: (file: UploadItem) => void;
+  previewMode?: UploadPreviewMode;
   className?: string;
 };
 
@@ -84,7 +88,9 @@ export function Upload({
   onUploadComplete,
   onUploadError,
   onFilesChange,
+  onPreview,
   onFileRemove,
+  previewMode = "dialog",
   className,
   ...props
 }: UploadProps) {
@@ -289,6 +295,8 @@ export function Upload({
               key={item.id}
               item={item}
               disabled={isDisabled}
+              previewMode={previewMode}
+              onPreview={onPreview}
               onRemove={removeItem}
             />
           ))}
@@ -328,12 +336,23 @@ const UploadProgress = ({ progress }: UploadProgressProps) => {
 type UploadPreviewProps = {
   item: UploadItem;
   disabled: boolean;
+  previewMode: UploadPreviewMode;
+  onPreview?: (item: UploadItem) => void;
   onRemove: (item: UploadItem) => void;
 };
 
-const UploadPreview = ({ item, disabled, onRemove }: UploadPreviewProps) => {
+const UploadPreview = ({
+  item,
+  disabled,
+  previewMode,
+  onPreview,
+  onRemove,
+}: UploadPreviewProps) => {
   const fileName = item.file.name;
   const meta = `${formatFileSize(item.file.size)} · ${resolveKindLabel(item.kind)}`;
+  const handlePreview = () => {
+    onPreview?.(item);
+  };
 
   return (
     <article
@@ -344,15 +363,15 @@ const UploadPreview = ({ item, disabled, onRemove }: UploadPreviewProps) => {
     >
       <div className="willa-upload-preview">
         {item.kind === "image" ? (
-          <a
-            className="willa-upload-media-link"
-            href={item.url}
-            target="_blank"
-            rel="noreferrer"
-            title={fileName}
+          <UploadPreviewTrigger
+            item={item}
+            meta={meta}
+            disabled={disabled}
+            previewMode={previewMode}
+            onPreview={handlePreview}
           >
             <img src={item.url} alt={fileName} />
-          </a>
+          </UploadPreviewTrigger>
         ) : null}
         {item.kind === "audio" ? (
           <audio className="willa-upload-media" src={item.url} controls />
@@ -361,13 +380,12 @@ const UploadPreview = ({ item, disabled, onRemove }: UploadPreviewProps) => {
           <video className="willa-upload-media" src={item.url} controls />
         ) : null}
         {item.kind === "file" ? (
-          <Download
-            href={item.url}
-            name={fileName}
+          <UploadFileTrigger
+            item={item}
             meta={meta}
-            downloadName={fileName}
-            variant="button"
-            size="md"
+            disabled={disabled}
+            previewMode={previewMode}
+            onPreview={handlePreview}
           />
         ) : null}
       </div>
@@ -394,6 +412,158 @@ const UploadPreview = ({ item, disabled, onRemove }: UploadPreviewProps) => {
         <Cross2Icon />
       </button>
     </article>
+  );
+};
+
+type UploadPreviewTriggerProps = {
+  item: UploadItem;
+  meta: ReactNode;
+  disabled: boolean;
+  previewMode: UploadPreviewMode;
+  children: ReactNode;
+  onPreview: () => void;
+};
+
+const UploadPreviewTrigger = ({
+  item,
+  meta,
+  disabled,
+  previewMode,
+  children,
+  onPreview,
+}: UploadPreviewTriggerProps) => {
+  const fileName = item.file.name;
+
+  if (previewMode === "none") {
+    return <div className="willa-upload-media-link">{children}</div>;
+  }
+
+  if (previewMode === "link") {
+    return (
+      <a
+        className="willa-upload-media-link"
+        href={item.url}
+        target="_blank"
+        rel="noreferrer"
+        title={fileName}
+        onClick={onPreview}
+      >
+        {children}
+      </a>
+    );
+  }
+
+  if (previewMode === "download") {
+    return (
+      <a
+        className="willa-upload-media-link"
+        href={item.url}
+        download={fileName}
+        title={fileName}
+        onClick={onPreview}
+      >
+        {children}
+      </a>
+    );
+  }
+
+  return (
+    <FilePreviewDialog
+      src={item.url}
+      name={fileName}
+      mimeType={item.file.type}
+      meta={meta}
+      alt={fileName}
+      downloadName={fileName}
+      trigger={
+        <button
+          className="willa-upload-media-link"
+          type="button"
+          disabled={disabled}
+          title={fileName}
+          onClick={onPreview}
+        >
+          {children}
+        </button>
+      }
+    />
+  );
+};
+
+type UploadFileTriggerProps = {
+  item: UploadItem;
+  meta: ReactNode;
+  disabled: boolean;
+  previewMode: UploadPreviewMode;
+  onPreview: () => void;
+};
+
+const UploadFileTrigger = ({
+  item,
+  meta,
+  disabled,
+  previewMode,
+  onPreview,
+}: UploadFileTriggerProps) => {
+  const fileName = item.file.name;
+
+  if (previewMode === "dialog") {
+    return (
+      <FilePreviewDialog
+        src={item.url}
+        name={fileName}
+        mimeType={item.file.type}
+        meta={meta}
+        downloadName={fileName}
+        trigger={
+          <button
+            className="willa-upload-file-trigger"
+            type="button"
+            disabled={disabled}
+            onClick={onPreview}
+          >
+            <span className="willa-upload-item-icon" aria-hidden="true">
+              <FileTextIcon />
+            </span>
+            <span className="willa-upload-item-text">
+              <span className="willa-upload-item-name" title={fileName}>
+                {fileName}
+              </span>
+              <span className="willa-upload-item-meta">{meta}</span>
+            </span>
+          </button>
+        }
+      />
+    );
+  }
+
+  if (previewMode === "none") {
+    return (
+      <div className="willa-upload-file-trigger" aria-disabled={disabled}>
+        <span className="willa-upload-item-icon" aria-hidden="true">
+          <FileTextIcon />
+        </span>
+        <span className="willa-upload-item-text">
+          <span className="willa-upload-item-name" title={fileName}>
+            {fileName}
+          </span>
+          <span className="willa-upload-item-meta">{meta}</span>
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <Download
+      href={item.url}
+      name={fileName}
+      meta={meta}
+      downloadName={previewMode === "download" ? fileName : undefined}
+      target={previewMode === "link" ? "_blank" : undefined}
+      variant="button"
+      size="md"
+      onClick={onPreview}
+    />
   );
 };
 

@@ -7,6 +7,21 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const imageSrc =
   "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80";
 
+const audioSrc = "http://music.163.com/song/media/outer/url?id=3370714076.mp3";
+
+const videoSrc =
+  "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
+
+const pdfSrc =
+  "https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf";
+
+const csvText = unindent(`
+  id,feedback,owner,status
+  1,export is slow,Grace,pending
+  2,theme preview missing,Lin,resolved
+  3,mobile layout wraps too early,Chen,reviewing
+`);
+
 export default defineDoc({
   id: "file-preview",
   name: "FilePreview",
@@ -52,7 +67,7 @@ export default defineDoc({
     },
     {
       name: "type",
-      type: '"auto" | "image" | "video" | "audio" | "pdf" | "code" | "text" | "download"',
+      type: '"auto" | "image" | "video" | "audio" | "pdf" | "csv" | "code" | "text" | "download"',
       defaultValue: '"auto"',
       description: "预览类型。auto 会根据 mimeType 或扩展名推断。",
     },
@@ -83,8 +98,77 @@ export default defineDoc({
     { name: "alt", type: "string", description: "图片替代文本。" },
     { name: "downloadName", type: "string", description: "下载文件名。" },
     { name: "actions", type: "ReactNode", description: "头部额外操作。" },
+    {
+      name: "expandable",
+      type: "boolean",
+      defaultValue: "true",
+      description: "是否展示放大预览按钮。download 类型不会展示放大入口。",
+    },
+    {
+      name: "openInNewWindow",
+      type: "boolean",
+      defaultValue: "true",
+      description: "是否展示新窗口打开按钮。",
+    },
   ],
   sections: [
+    {
+      title: "视频预览",
+      code: `
+        <FilePreview
+          type="video"
+          name="flower.mp4"
+          src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+          meta="MP4 · 示例视频"
+        />
+      `,
+      content: (
+        <FilePreview
+          type="video"
+          name="flower.mp4"
+          src={videoSrc}
+          meta="MP4 · 示例视频"
+        />
+      ),
+    },
+    {
+      title: "音频预览",
+      code: `
+        <FilePreview
+          type="audio"
+          name="netease-music-preview.mp3"
+          src="http://music.163.com/song/media/outer/url?id=3370714076.mp3"
+          meta="网易云音乐 · 音乐片段"
+        />
+      `,
+      content: (
+        <FilePreview
+          type="audio"
+          name="netease-music-preview.mp3"
+          src={audioSrc}
+          meta="网易云音乐 · 音乐片段"
+        />
+      ),
+    },
+    {
+      title: "PDF 预览",
+      code: `
+        <FilePreview
+          type="pdf"
+          name="research-paper.pdf"
+          src="https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf"
+          meta="PDF · 示例文档"
+        />
+      `,
+      content: (
+        <FilePreview
+          type="pdf"
+          name="research-paper.pdf"
+          src={pdfSrc}
+          meta="PDF · 示例文档"
+        />
+      ),
+    },
     {
       title: "代码预览",
       code: `
@@ -108,6 +192,25 @@ export default defineDoc({
               "components": ["FilePreview", "Upload", "Download"]
             }
           `)}
+        />
+      ),
+    },
+    {
+      title: "CSV 预览",
+      code: `
+        <FilePreview
+          name="feedback.csv"
+          src="/feedback.csv"
+          meta="CSV · 12 KB"
+          text={"id,feedback,owner,status\\n1,export is slow,Grace,pending"}
+        />
+      `,
+      content: (
+        <FilePreview
+          name="feedback.csv"
+          src="/willa/"
+          meta="CSV · 12 KB"
+          text={csvText}
         />
       ),
     },

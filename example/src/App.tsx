@@ -1,16 +1,14 @@
-import {
-  Cross2Icon,
-  GitHubLogoIcon,
-  MagnifyingGlassIcon,
-  MoonIcon,
-  SunIcon,
-} from "@radix-ui/react-icons";
-import { useEffect, useState } from "react";
+import { GitHubLogoIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
+import { useEffect, useState, type MouseEvent } from "react";
+import { Anchor, type AnchorItem } from "willa/Anchor";
 import { Callout } from "willa/Callout";
 import { IconButton } from "willa/IconButton";
+import { SearchInput } from "willa/SearchInput";
 import { Skeleton } from "willa/Skeleton";
+import "willa/Anchor.css";
 import "willa/Callout.css";
 import "willa/IconButton.css";
+import "willa/SearchInput.css";
 import "willa/Skeleton.css";
 
 import {
@@ -49,6 +47,7 @@ const docChineseNames: Record<string, string> = {
   Button: "按钮",
   Calendar: "日历",
   Callout: "提示块",
+  Carousel: "轮播",
   Card: "卡片",
   ChatMessage: "聊天消息",
   ChatThread: "对话流",
@@ -149,6 +148,13 @@ const docChineseNames: Record<string, string> = {
 const getDocChineseName = (doc: ComponentDocEntry) =>
   docChineseNames[doc.name] ?? doc.name;
 
+const toDocAnchorItem = (doc: ComponentDocEntry): AnchorItem => ({
+  id: doc.id,
+  title: doc.name,
+  meta: getDocChineseName(doc),
+  href: `#/${doc.id}`,
+});
+
 const normalizeSearchText = (value: string) => value.trim().toLowerCase();
 
 const getDocIdFromHash = () => {
@@ -168,6 +174,12 @@ const updateDocHash = (id: string) => {
   const nextHash = `#/${encodeURIComponent(id)}`;
   if (window.location.hash === nextHash) return;
   window.history.pushState(null, "", nextHash);
+};
+
+const scrollDocumentToTop = () => {
+  window.requestAnimationFrame(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 };
 
 export function App() {
@@ -199,6 +211,29 @@ export function App() {
     (count, group) => count + group.docs.length,
     0,
   );
+  const usageAnchorItems: Array<AnchorItem> = [
+    {
+      id: usagePageId,
+      title: "安装使用",
+      href: `#/${usagePageId}`,
+    },
+  ];
+
+  const navAnchorClassNames = {
+    link: "docs-nav-anchor-link",
+    title: "docs-nav-anchor-title",
+    meta: "docs-nav-anchor-meta",
+  };
+
+  const handleDocAnchorClick = (
+    item: AnchorItem,
+    event: MouseEvent<HTMLAnchorElement>,
+  ) => {
+    event.preventDefault();
+    setActiveId(item.id);
+    updateDocHash(item.id);
+    scrollDocumentToTop();
+  };
 
   useEffect(() => {
     document.documentElement.dataset.wkTheme =
@@ -206,15 +241,24 @@ export function App() {
   }, [theme]);
 
   useEffect(() => {
+    document.title =
+      activeId === usagePageId
+        ? "安装使用 - Willa"
+        : `${activeEntry?.name ?? "组件"} - Willa`;
+  }, [activeEntry?.name, activeId]);
+
+  useEffect(() => {
     const syncActiveDocFromUrl = () => {
       const hashId = getDocIdFromHash();
       if (hashId === usagePageId) {
         setActiveId(usagePageId);
+        scrollDocumentToTop();
         return;
       }
 
       const hashDoc = componentDocRegistry.find((doc) => doc.id === hashId);
       setActiveId(hashDoc?.id ?? usagePageId);
+      scrollDocumentToTop();
     };
 
     window.addEventListener("hashchange", syncActiveDocFromUrl);
@@ -260,7 +304,7 @@ export function App() {
 
   return (
     <main className="docs-app">
-      <aside className="docs-sidebar">
+      <aside className="docs-sidebar willa-shell">
         <a className="docs-brand" href={`#/${usagePageId}`}>
           <span className="docs-brand-mark">W</span>
           <span className="docs-brand-copy">
@@ -269,41 +313,27 @@ export function App() {
           </span>
         </a>
 
-        <label className="docs-sidebar-search">
-          <MagnifyingGlassIcon aria-hidden="true" />
-          <input
-            type="search"
-            value={sidebarQuery}
-            placeholder="搜索组件"
-            aria-label="搜索组件"
-            onChange={(event) => setSidebarQuery(event.target.value)}
-          />
-          {sidebarQuery ? (
-            <button
-              type="button"
-              aria-label="清空搜索"
-              onClick={() => setSidebarQuery("")}
-            >
-              <Cross2Icon aria-hidden="true" />
-            </button>
-          ) : null}
-        </label>
+        <SearchInput
+          className="docs-sidebar-search"
+          value={sidebarQuery}
+          placeholder="搜索组件"
+          aria-label="搜索组件"
+          width="calc(100% - 12px)"
+          onValueChange={setSidebarQuery}
+        />
 
         <nav className="docs-nav" aria-label="组件列表">
           <div className="docs-nav-section">
             <div className="docs-nav-section-title">开始</div>
-            <button
-              type="button"
-              className={`docs-nav-link${
-                activeId === usagePageId ? " is-active" : ""
-              }`}
-              onClick={() => {
-                setActiveId(usagePageId);
-                updateDocHash(usagePageId);
-              }}
-            >
-              <span>安装使用</span>
-            </button>
+            <Anchor
+              className="docs-nav-anchor"
+              classNames={navAnchorClassNames}
+              items={usageAnchorItems}
+              activeId={activeId}
+              size="md"
+              variant="navigation"
+              onItemClick={handleDocAnchorClick}
+            />
           </div>
 
           <div className="docs-nav-components-head">
@@ -320,26 +350,15 @@ export function App() {
                 </div>
                 <span className="docs-nav-count">{group.docs.length}</span>
               </div>
-              <div className="docs-nav-list">
-                {group.docs.map((doc) => (
-                  <button
-                    key={doc.id}
-                    type="button"
-                    className={`docs-nav-link${
-                      doc.id === activeId ? " is-active" : ""
-                    }`}
-                    onClick={() => {
-                      setActiveId(doc.id);
-                      updateDocHash(doc.id);
-                    }}
-                  >
-                    <span className="docs-nav-link-name">{doc.name}</span>
-                    <span className="docs-nav-link-label">
-                      {getDocChineseName(doc)}
-                    </span>
-                  </button>
-                ))}
-              </div>
+              <Anchor
+                className="docs-nav-anchor"
+                classNames={navAnchorClassNames}
+                items={group.docs.map(toDocAnchorItem)}
+                activeId={activeId}
+                size="md"
+                variant="navigation"
+                onItemClick={handleDocAnchorClick}
+              />
             </section>
           ))}
 

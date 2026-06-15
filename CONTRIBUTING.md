@@ -42,9 +42,13 @@ Common commands:
 ```bash
 pnpm run format
 pnpm run typecheck
-pnpm run build:packages
 pnpm run build
 ```
+
+Run `pnpm run build:packages` when adding a first-time public component,
+changing package entries, migrating components between packages, or changing
+build configuration. For example-only changes and narrow component fixes, use
+the smaller check that covers the touched behavior.
 
 For example-only changes:
 
@@ -127,5 +131,8 @@ fix: preserve theme variables in widgets
 - Keep styles composable. Component CSS should not carry theme values directly.
 - Keep example coverage for all public components, especially widgets and
   combined scenarios such as Mdx.
+- Keep broad component reviews focused on composition quality, API minimalism,
+  theme consistency, mobile behavior, documentation/demo alignment, and
+  self-hosting reuse.
 - Avoid unrelated renames and package configuration churn unless they are part
   of the current task.

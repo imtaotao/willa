@@ -89,6 +89,27 @@
   gap: 0.35rem;
 }
 
+.willa-comment-quote {
+  display: grid;
+  min-width: 0;
+  gap: 0.22rem;
+  padding: 0.08rem 0 0.08rem 0.72rem;
+  border-left: 2px solid var(--willa-comment-quote-border);
+  color: var(--willa-comment-quote-text);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.willa-comment-quote-author {
+  color: var(--willa-comment-quote-author);
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.willa-comment-quote-content {
+  min-width: 0;
+}
+
 .willa-comment-body {
   min-width: 0;
   color: var(--willa-comment-body);
@@ -127,6 +148,13 @@
 .willa-comment--feed .willa-comment-body {
   font-size: 0.95rem;
   line-height: 1.52;
+}
+
+.willa-comment--feed .willa-comment-quote {
+  margin: 0.08rem 0 0.12rem;
+  padding-left: 0.8rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
 }
 
 .willa-comment--feed .willa-comment-body > p {

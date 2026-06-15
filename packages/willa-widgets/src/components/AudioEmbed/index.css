@@ -378,6 +378,11 @@
   .willa-prose-audio-embed-toggle:hover {
     transform: none;
   }
+
+  .willa-prose-audio-embed:hover {
+    border-color: var(--willa-audio-border);
+    background: var(--willa-audio-bg);
+  }
 }
 
 @media (max-width: 767px) {

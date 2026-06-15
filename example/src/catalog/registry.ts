@@ -81,6 +81,7 @@ const docSpecGroups = {
     "Breadcrumb",
     "Button",
     "Callout",
+    "Carousel",
     "ChatThread",
     "Citation",
     "CodeBlock",

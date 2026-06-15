@@ -172,6 +172,11 @@ export default defineDoc({
                 </Button>
               </Group>
             }
+            quote={{
+              author: "内容作者",
+              content:
+                "这段说明可以再补充一个实际产品里的信息结构示例。",
+            }}
           >
             <p>
               这次组件调整后，评论区的信息密度比之前更合适，列表阅读起来也更轻。
@@ -212,6 +217,10 @@ export default defineDoc({
                 </Button>
               </Group>
             }
+            quote={{
+              author: "内容作者",
+              content: "这段说明可以再补充一个实际产品里的信息结构示例。",
+            }}
           >
             <p>
               这次组件调整后，评论区的信息密度比之前更合适，列表阅读起来也更轻。
@@ -270,6 +279,11 @@ export default defineDoc({
       description: "时间、状态或来源信息。",
     },
     {
+      name: "quote",
+      type: "CommentQuote",
+      description: "被回复或引用的评论内容，包含作者和正文。",
+    },
+    {
       name: "actions",
       type: "ReactNode",
       description: "评论操作区。",
@@ -296,6 +310,19 @@ export default defineDoc({
       type: "boolean",
       defaultValue: "false",
       description: "是否展示为重点评论或审核意见。",
+    },
+    {
+      name: "author",
+      type: "ReactNode",
+      group: "CommentQuote",
+      description: "被引用内容的作者。",
+    },
+    {
+      name: "content",
+      type: "ReactNode",
+      required: true,
+      group: "CommentQuote",
+      description: "被引用的正文。",
     },
   ],
 });

@@ -43,6 +43,7 @@ const willaDemoImportNames = new Set([
   "Button",
   "Calendar",
   "Callout",
+  "Carousel",
   "Card",
   "ChatMessage",
   "ChatThread",

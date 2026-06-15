@@ -25,6 +25,8 @@ The repository is a pnpm workspace monorepo. Packages are built with `auklet`.
   style dependencies, and CSS pitfalls.
 - [docs/style.md](./docs/style.md): TypeScript, React, naming, comments, and demo
   code style.
+- [docs/component-roadmap.md](./docs/component-roadmap.md): future component
+  planning and deferred product directions.
 
 ## Task Routing
 
@@ -50,9 +52,9 @@ crosses boundaries.
 
 ## Working Rules
 
-- Keep package responsibilities clear. Do not make content depend on widgets or
-  AI.
-- Do not copy content theme variables into widgets or AI.
+- Keep package responsibilities clear. Do not make layout or content depend on
+  form, widgets, or AI.
+- Do not copy layout or content theme variables into form, widgets, or AI.
 - Do not add component theme variables to the `willa` aggregate package.
 - Do not add per-package `tsconfig.json` files; use the root `tsconfig.json`.
 - Use `auklet.config.mjs` with `defineConfig`; do not use
@@ -110,9 +112,13 @@ Common commands:
 ```bash
 pnpm run format
 pnpm run typecheck
-pnpm run build:packages
 pnpm run build
 ```
+
+Run `pnpm run build:packages` for first-time public component additions,
+package entry changes, package migration, or build config changes. For
+example-only changes and narrow component fixes, use the smaller check that
+covers the touched behavior.
 
 For example-only changes:
 

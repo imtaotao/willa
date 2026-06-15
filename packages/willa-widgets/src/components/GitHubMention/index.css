@@ -39,7 +39,7 @@
   flex: none;
   border-radius: 999px;
   object-fit: cover;
-  background: var(--willa-cover-bg);
+  background: var(--willa-github-avatar-bg);
   transform: none;
 }
 
@@ -117,7 +117,7 @@
   flex: none;
   border-radius: 999px;
   object-fit: cover;
-  background: var(--willa-cover-bg);
+  background: var(--willa-github-avatar-bg);
 }
 
 .willa-prose-github-hover-card-avatar--fallback {

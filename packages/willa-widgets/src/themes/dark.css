@@ -73,6 +73,7 @@
   --willa-github-hover-card-arrow-shadow: -4px -4px 14px rgba(0, 0, 0, 0.12);
   --willa-github-hover-card-meta-bg: rgba(255, 255, 255, 0.08);
   --willa-github-hover-card-error: #fda29b;
+  --willa-github-avatar-bg: #111317;
   --willa-qr-code-surface: #171d26;
   --willa-qr-code-bg: #ffffff;
   --willa-qr-code-border: rgba(255, 255, 255, 0.12);
@@ -93,12 +94,13 @@
     linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 100%),
     var(--willa-panel-bg);
   --willa-web-embed-iframe-bg: #ffffff;
-  --willa-audio-border: rgba(134, 239, 172, 0.18);
+  --willa-audio-border: rgba(134, 239, 172, 0.16);
   --willa-audio-border-hover: rgba(134, 239, 172, 0.22);
   --willa-audio-bg:
-    linear-gradient(135deg, rgba(134, 239, 172, 0.09), transparent 62%),
+    linear-gradient(135deg, rgba(134, 239, 172, 0.055), transparent 64%),
     var(--willa-surface-tint);
-  --willa-audio-bg-hover: var(--willa-audio-bg);
+  --willa-audio-bg-hover:
+    linear-gradient(135deg, rgba(134, 239, 172, 0.09), transparent 66%), #1a2622;
   --willa-audio-inline-bg:
     linear-gradient(135deg, rgba(134, 239, 172, 0.11), transparent 58%),
     rgba(134, 239, 172, 0.06);
@@ -123,8 +125,13 @@
   --willa-audio-error-border: rgba(248, 113, 113, 0.28);
   --willa-audio-error-status-bg: rgba(248, 113, 113, 0.14);
   --willa-audio-error-status-color: #fca5a5;
-  --willa-video-border: rgba(125, 211, 252, 0.2);
-  --willa-video-border-hover: rgba(125, 211, 252, 0.24);
+  --willa-video-border: rgba(125, 211, 252, 0.16);
+  --willa-video-border-hover: rgba(125, 211, 252, 0.22);
+  --willa-video-bg:
+    linear-gradient(135deg, rgba(125, 211, 252, 0.055), transparent 64%),
+    var(--willa-surface-tint);
+  --willa-video-bg-hover:
+    linear-gradient(135deg, rgba(125, 211, 252, 0.09), transparent 66%), #1a2430;
   --willa-video-inline-bg:
     linear-gradient(135deg, rgba(135, 188, 221, 0.11), transparent 58%),
     rgba(135, 188, 221, 0.06);

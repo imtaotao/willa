@@ -54,6 +54,110 @@ export default defineDoc({
       ]}
     />;
   `,
+  sections: [
+    {
+      title: "Hover 放大",
+      code: `
+        <ImageGallery
+          hoverZoom
+          columns={3}
+          images={[
+            {
+              src: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=800&q=80",
+              alt: "窗边人像",
+              caption: "人像",
+            },
+            {
+              src: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80",
+              alt: "自然光人像",
+              caption: "自然光",
+            },
+            {
+              src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80",
+              alt: "户外人像",
+              caption: "户外",
+            },
+          ]}
+        />;
+      `,
+      content: (
+        <div style={{ width: "min(100%, 44rem)", margin: "0 auto" }}>
+          <ImageGallery
+            hoverZoom
+            columns={3}
+            images={[
+              {
+                src: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=800&q=80",
+                alt: "窗边人像",
+                caption: "人像",
+              },
+              {
+                src: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80",
+                alt: "自然光人像",
+                caption: "自然光",
+              },
+              {
+                src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80",
+                alt: "户外人像",
+                caption: "户外",
+              },
+            ]}
+          />
+        </div>
+      ),
+    },
+    {
+      title: "自定义背景",
+      code: `
+        <ImageGallery
+          columns={3}
+          backgroundColor="#f2f6ee"
+          images={[
+            {
+              src: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80",
+              alt: "浅绿色背景的人像",
+              caption: "柔和背景",
+            },
+            {
+              src: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80",
+              alt: "暖色人像",
+              caption: "暖色",
+            },
+            {
+              src: "https://images.unsplash.com/photo-1521119989659-a83eee488004?auto=format&fit=crop&w=800&q=80",
+              alt: "侧脸人像",
+              caption: "侧脸",
+            },
+          ]}
+        />;
+      `,
+      content: (
+        <div style={{ width: "min(100%, 44rem)", margin: "0 auto" }}>
+          <ImageGallery
+            columns={3}
+            backgroundColor="#f2f6ee"
+            images={[
+              {
+                src: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80",
+                alt: "浅绿色背景的人像",
+                caption: "柔和背景",
+              },
+              {
+                src: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80",
+                alt: "暖色人像",
+                caption: "暖色",
+              },
+              {
+                src: "https://images.unsplash.com/photo-1521119989659-a83eee488004?auto=format&fit=crop&w=800&q=80",
+                alt: "侧脸人像",
+                caption: "侧脸",
+              },
+            ]}
+          />
+        </div>
+      ),
+    },
+  ],
   props: [
     {
       name: "images",
@@ -66,6 +170,17 @@ export default defineDoc({
       type: "2 | 3 | 4",
       defaultValue: "2",
       description: "桌面端优先使用的列数。",
+    },
+    {
+      name: "hoverZoom",
+      type: "boolean",
+      defaultValue: "false",
+      description: "是否在鼠标悬浮图片时轻微放大，默认关闭。",
+    },
+    {
+      name: "backgroundColor",
+      type: "CSSProperties['backgroundColor']",
+      description: "自定义图片容器和透明区域的背景色，可传 transparent。",
     },
     {
       name: "openLightbox",

@@ -149,7 +149,9 @@ Cross-package CSS dependencies are declared through `auklet.config.mjs`.
 
 `@willa-ui/content`, `@willa-ui/form`, `@willa-ui/ai`, and
 `@willa-ui/widgets` depend on layout. Packages that compose content components
-also depend on content:
+also depend on content. AI and widgets should also declare the form CSS
+dependency when they compose form components. A typical higher-level dependency
+block looks like this:
 
 ```js
 styles: {
@@ -180,10 +182,11 @@ owned by their own package.
 
 If content, form, AI, or widgets directly imports a layout component, it should
 declare the layout CSS dependency. If form, AI, or widgets directly imports a
-content component, it should also declare the content CSS dependency instead of
-copying content styles or theme variables. This keeps CSS sources consistent
-when building that package alone, building the willa aggregate package, and
-using single-component entries.
+content component, it should also declare the content CSS dependency. If AI or
+widgets directly imports a form component, it should declare the form CSS
+dependency. Do this instead of copying upstream styles or theme variables. This
+keeps CSS sources consistent when building that package alone, building the
+willa aggregate package, and using single-component entries.
 
 The `willa` aggregate package composes public package CSS into entries such as:
 
@@ -212,8 +215,8 @@ Generic tokens can use short names:
 - `--willa-focus-ring`
 - `--willa-panel-bg`
 
-Generic tokens are provided by the content theme. AI and widgets can reference
-them but must not redefine them.
+Generic tokens are provided by the layout theme. Content, form, AI, and widgets
+can reference them but must not redefine them.
 
 ## CSS Imports
 
@@ -355,4 +358,6 @@ Before adding or changing CSS, confirm:
 - Portal component variable scope covers the actual DOM location.
 - The `willa` aggregate package composes CSS through `styles.dependencies`
   instead of hand-writing duplicate variables.
-- `pnpm typecheck`, `pnpm build:packages`, and `pnpm build` pass.
+- `pnpm run typecheck` and the relevant build command pass. Run
+  `pnpm run build:packages` for first-time public component additions, package
+  entry changes, package migration, or build config changes.

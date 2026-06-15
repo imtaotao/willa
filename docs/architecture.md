@@ -49,6 +49,11 @@ The repository is a pnpm workspace monorepo. Packages are built with `auklet`.
         components/
         themes/
       auklet.config.mjs
+    willa-layout/
+      src/
+        components/
+        themes/
+      auklet.config.mjs
     willa-form/
       src/
         components/
@@ -122,7 +127,8 @@ or content depend on AI.
 `@willa-ui/widgets`. It contains platform integrations, MDX composition,
 external embeds, media-rich content blocks, and more domain-specific components
 such as `Mdx`, `GitHubRepo`, `XPostEmbed`, `WebEmbed`, `AudioEmbed`,
-`VideoEmbed`, `Poem`, and `EnglishCards`.
+`VideoEmbed`, `Poem`, and `EnglishCards`. It can compose layout, content, and
+form components, but layout, content, and form must not depend on widgets.
 
 `packages/willa-shared` is the shared utility package, published as
 `@willa-ui/shared`. It contains cross-package types, text utilities, node
@@ -142,7 +148,7 @@ Dependencies must remain one-way:
 - form can depend on shared, layout, and content.
 - ai can depend on shared, layout, content, and form when it composes form
   inputs.
-- widgets can depend on shared, layout, and content.
+- widgets can depend on shared, layout, content, and form.
 - willa depends on layout, content, form, AI, and widgets as the public
   aggregate package.
 - example can depend on all public packages and source aliases.
@@ -175,6 +181,7 @@ flowchart LR
   widgets --> shared
   widgets --> layout
   widgets --> content
+  widgets --> form
   willa --> layout
   willa --> content
   willa --> form
@@ -243,7 +250,8 @@ flowchart TB
 CSS composition is driven by `styles.dependencies` in `auklet.config.mjs`.
 Content, form, AI, and widgets depend on layout CSS for base visual tokens and
 layout component styles. Form, AI, and widgets also depend on content CSS when
-they compose content components. willa composes public package CSS.
+they compose content components. AI and widgets can also depend on form CSS
+when they compose form components. willa composes public package CSS.
 
 ```mermaid
 flowchart LR
@@ -268,6 +276,7 @@ flowchart LR
   aiOwn --> aiCss
   layoutCss --> widgetsCss
   contentCss --> widgetsCss
+  formCss --> widgetsCss
   widgetsOwn --> widgetsCss
   layoutCss --> willaCss
   contentCss --> willaCss
@@ -306,10 +315,11 @@ flowchart LR
 
 ## Pitfalls
 
-- Do not make layout or content depend on form, AI, or widgets. layout is the
-  base visual layer, content is the base product/content layer, form is the form
-  layer, and AI and widgets are scenario layers. Reversing this makes lower
-  packages heavier and breaks single-component CSS composition.
+- Do not make layout or content depend on form, AI, or widgets. Do not make form
+  depend on AI or widgets. layout is the base visual layer, content is the base
+  product/content layer, form is the form layer, and AI and widgets are scenario
+  layers. Reversing this makes lower packages heavier and breaks
+  single-component CSS composition.
 - Do not copy layout or content variables into higher-level package themes.
   They already depend on upstream CSS and themes through
   `styles.dependencies`; duplicate definitions make theme sources inconsistent.

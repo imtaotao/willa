@@ -41,6 +41,13 @@
   --willa-dialog-width: 42rem;
 }
 
+.willa-dialog-panel--xl {
+  --willa-dialog-width: min(86rem, calc(100vw - 2rem));
+
+  height: min(52rem, calc(100dvh - 2rem));
+  max-height: min(52rem, calc(100dvh - 2rem));
+}
+
 .willa-dialog-panel:focus {
   outline: none;
 }
@@ -168,6 +175,10 @@
     width: 100%;
     max-height: calc(100dvh - 1.5rem);
     border-radius: 0.8rem;
+  }
+
+  .willa-dialog-panel--xl {
+    height: calc(100dvh - 1.5rem);
   }
 
   .willa-dialog-header {

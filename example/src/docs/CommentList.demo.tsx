@@ -24,6 +24,10 @@ const comments: Array<CommentListItem> = [
     avatarName: "Willa AI",
     meta: "1 分钟前",
     highlighted: true,
+    quote: {
+      author: "Tao Tao",
+      content: "这组组件可以先覆盖评论、批注和审核记录三个场景。",
+    },
     children: <p>已整理出评论组件的基础职责，嵌套线程可以后置。</p>,
   },
 ];
@@ -97,6 +101,10 @@ export default defineDoc({
         avatarName: "Willa AI",
         meta: "1 分钟前",
         highlighted: true,
+        quote: {
+          author: "Tao Tao",
+          content: "这组组件可以先覆盖评论、批注和审核记录三个场景。",
+        },
         children: <p>已整理出评论组件的基础职责，嵌套线程可以后置。</p>,
       },
     ];

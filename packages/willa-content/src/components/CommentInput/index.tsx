@@ -146,24 +146,12 @@ export function CommentInput(props: CommentInputProps) {
           ) : null}
           {quote ? (
             <div className="willa-comment-input-quote">
-              <div className="willa-comment-input-quote-content">
-                <span
-                  className="willa-comment-input-quote-mark"
-                  aria-hidden="true"
-                >
-                  “
-                </span>
-                <span className="willa-comment-input-quote-author">
-                  @{quote.author}
-                </span>
+              <span className="willa-comment-input-quote-author">
+                @{quote.author}
+              </span>
+              <span className="willa-comment-input-quote-content">
                 {quote.content}
-                <span
-                  className="willa-comment-input-quote-mark"
-                  aria-hidden="true"
-                >
-                  ”
-                </span>
-              </div>
+              </span>
             </div>
           ) : null}
         </>

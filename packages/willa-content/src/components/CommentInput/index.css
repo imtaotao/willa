@@ -25,20 +25,14 @@
 }
 
 .willa-comment-input-quote {
-  display: block;
+  display: grid;
   min-width: 0;
-  padding: 0.04rem 0;
+  gap: 0.16rem;
+  padding: 0.04rem 0 0.04rem 0.7rem;
+  border-left: 2px solid var(--willa-comment-input-quote-border);
   color: var(--willa-comment-input-muted);
   font-size: 0.78rem;
   line-height: 1.42;
-}
-
-.willa-comment-input-quote-mark {
-  color: var(--willa-comment-input-quote-mark);
-  font-family: var(--willa-title-font);
-  font-size: 0.82rem;
-  font-weight: 700;
-  line-height: 1;
 }
 
 .willa-comment-input-quote-content {
@@ -46,9 +40,9 @@
 }
 
 .willa-comment-input-quote-author {
-  margin-right: 0.26rem;
   color: var(--willa-comment-input-quote-author);
   font-weight: 650;
+  line-height: 1.25;
 }
 
 .willa-comment-input-actions {

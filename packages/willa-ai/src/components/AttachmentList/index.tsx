@@ -2,9 +2,15 @@ import type { ComponentPropsWithoutRef, MouseEvent, ReactNode } from "react";
 import { Cross2Icon, DownloadIcon, FileTextIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
 
+import {
+  FilePreviewDialog,
+  type FilePreviewType,
+} from "@willa-ui/content/components/FilePreview";
+
 export type AttachmentListItemStatus = "ready" | "uploading" | "error";
 export type AttachmentListSize = "sm" | "md";
 export type AttachmentListLayout = "inline" | "stack";
+export type AttachmentListPreviewMode = "dialog" | "link" | "download" | "none";
 
 export type AttachmentListItem = {
   id: string;
@@ -13,6 +19,13 @@ export type AttachmentListItem = {
   href?: string;
   downloadName?: string;
   icon?: ReactNode;
+  previewMode?: AttachmentListPreviewMode;
+  previewType?: FilePreviewType;
+  mimeType?: string;
+  text?: string;
+  language?: string;
+  poster?: string;
+  alt?: string;
   status?: AttachmentListItemStatus;
   progress?: number;
   actions?: ReactNode;
@@ -28,6 +41,7 @@ export type AttachmentListProps = {
   items: Array<AttachmentListItem>;
   size?: AttachmentListSize;
   layout?: AttachmentListLayout;
+  previewMode?: AttachmentListPreviewMode;
   empty?: ReactNode;
   onOpen?: (event: AttachmentListItemEvent) => void;
   onRemove?: (item: AttachmentListItem) => void;
@@ -37,6 +51,7 @@ export function AttachmentList({
   items,
   size = "sm",
   layout = "inline",
+  previewMode = "dialog",
   empty,
   onOpen,
   onRemove,
@@ -74,6 +89,7 @@ export function AttachmentList({
         <AttachmentListItemView
           key={item.id}
           item={item}
+          previewMode={previewMode}
           onOpen={onOpen}
           onRemove={onRemove}
         />
@@ -84,14 +100,22 @@ export function AttachmentList({
 
 const AttachmentListItemView = ({
   item,
+  previewMode,
   onOpen,
   onRemove,
 }: {
   item: AttachmentListItem;
+  previewMode: AttachmentListPreviewMode;
   onOpen?: (event: AttachmentListItemEvent) => void;
   onRemove?: (item: AttachmentListItem) => void;
 }) => {
   const status = item.status ?? "ready";
+  const resolvedPreviewMode = item.previewMode ?? previewMode;
+  const canPreviewInDialog =
+    resolvedPreviewMode === "dialog" &&
+    Boolean(item.href) &&
+    status === "ready" &&
+    !item.disabled;
   const entryClassName = classNames(
     "willa-attachment-list-entry",
     `willa-attachment-list-entry--${status}`,
@@ -132,11 +156,39 @@ const AttachmentListItemView = ({
 
   return (
     <span className={entryClassName}>
-      {item.href ? (
+      {canPreviewInDialog ? (
+        <FilePreviewDialog
+          src={item.href ?? ""}
+          name={item.name}
+          type={item.previewType}
+          mimeType={item.mimeType}
+          meta={item.meta}
+          text={item.text}
+          language={item.language}
+          poster={item.poster}
+          alt={item.alt}
+          downloadName={item.downloadName ?? item.name}
+          trigger={
+            <button
+              className={itemClassName}
+              type="button"
+              onClick={(event) => onOpen?.({ item, event })}
+            >
+              {content}
+            </button>
+          }
+        />
+      ) : item.href && resolvedPreviewMode !== "none" ? (
         <a
           className={itemClassName}
           href={item.disabled ? undefined : item.href}
-          download={item.disabled ? undefined : (item.downloadName ?? true)}
+          download={
+            item.disabled || resolvedPreviewMode === "link"
+              ? undefined
+              : (item.downloadName ?? true)
+          }
+          target={resolvedPreviewMode === "link" ? "_blank" : undefined}
+          rel={resolvedPreviewMode === "link" ? "noreferrer" : undefined}
           aria-disabled={item.disabled || undefined}
           tabIndex={item.disabled ? -1 : undefined}
           onClick={(event) => {

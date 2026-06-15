@@ -1,6 +1,7 @@
 import {
   useId,
   useRef,
+  type CSSProperties,
   type ComponentProps,
   type PointerEvent as ReactPointerEvent,
 } from "react";
@@ -14,6 +15,8 @@ import type { MediaContextProps } from "#content/media";
 export type ImageProps = ComponentProps<"img"> &
   MediaContextProps & {
     openLightbox?: OpenLightbox;
+    hoverZoom?: boolean;
+    backgroundColor?: CSSProperties["backgroundColor"];
   };
 
 export function Image(p: ImageProps) {
@@ -21,6 +24,8 @@ export function Image(p: ImageProps) {
     articleSourcePath,
     resolveAssetUrl,
     openLightbox,
+    hoverZoom = false,
+    backgroundColor,
     src,
     alt,
     title,
@@ -74,7 +79,13 @@ export function Image(p: ImageProps) {
   };
 
   return (
-    <figure className="willa-prose-image">
+    <figure
+      className={classNames(
+        "willa-prose-image",
+        hoverZoom && "willa-prose-image--hover-zoom",
+      )}
+      style={getImageStyle(backgroundColor)}
+    >
       <button
         type="button"
         className="willa-prose-image-button"
@@ -110,6 +121,14 @@ export function Image(p: ImageProps) {
     </figure>
   );
 }
+
+const getImageStyle = (backgroundColor?: CSSProperties["backgroundColor"]) => {
+  return backgroundColor
+    ? ({
+        "--willa-image-custom-bg": backgroundColor,
+      } as CSSProperties)
+    : undefined;
+};
 
 // Used by isMediaOnlyParagraph to avoid wrapping standalone images in <p>.
 Image.__willaMediaElement = true;

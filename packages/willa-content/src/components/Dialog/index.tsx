@@ -19,7 +19,7 @@ import { isPromiseLike } from "aidly";
 
 import { Button } from "#content/components/Button";
 
-export type DialogSize = "sm" | "md" | "lg";
+export type DialogSize = "sm" | "md" | "lg" | "xl";
 export type DialogTone = "default" | "danger";
 
 export type DialogProps = {

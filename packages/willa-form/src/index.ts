@@ -125,6 +125,7 @@ export type {
   UploadFileKind,
   UploadHandler,
   UploadItem,
+  UploadPreviewMode,
   UploadProps,
   UploadSize,
   UploadStatusHandler,

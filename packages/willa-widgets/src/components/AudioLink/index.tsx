@@ -100,7 +100,10 @@ export function AudioLink(props: AudioLinkProps) {
           if (!audio || loadError) return;
 
           if (audio.paused) {
-            setIsLoading(true);
+            if (!isReady) {
+              setIsLoading(true);
+            }
+
             try {
               await audio.play();
             } catch {

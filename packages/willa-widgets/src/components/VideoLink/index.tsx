@@ -29,6 +29,7 @@ export function VideoLink({
   articleSourcePath,
   resolveAssetUrl,
 }: VideoLinkProps) {
+  const wrapRef = useRef<HTMLSpanElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const normalizedHref = href?.trim() ?? "";
   const normalizedSrc = src?.trim() ?? "";
@@ -43,6 +44,54 @@ export function VideoLink({
     normalizedHref,
   );
   const [isOpen, setIsOpen] = useState(false);
+
+  const closePlayer = () => {
+    videoRef.current?.pause();
+    setIsOpen(false);
+  };
+
+  const togglePlayer = () => {
+    setIsOpen((open) => {
+      if (open) {
+        videoRef.current?.pause();
+      }
+
+      return !open;
+    });
+  };
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    const handlePointerDown = (event: globalThis.PointerEvent) => {
+      const target = event.target;
+      if (!(target instanceof Node)) {
+        return;
+      }
+
+      if (wrapRef.current?.contains(target)) {
+        return;
+      }
+
+      closePlayer();
+    };
+
+    const handleKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closePlayer();
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
 
   useEffect(() => {
     const resolvedVolume = resolveMediaVolume(volume);
@@ -69,7 +118,7 @@ export function VideoLink({
   }
 
   return (
-    <span className="willa-prose-video-link-wrap">
+    <span ref={wrapRef} className="willa-prose-video-link-wrap">
       <button
         type="button"
         className={classNames(
@@ -77,7 +126,7 @@ export function VideoLink({
           "willa-prose-video-link--player",
           isOpen && "willa-prose-video-link--open",
         )}
-        onClick={() => setIsOpen((open) => !open)}
+        onClick={togglePlayer}
         aria-expanded={isOpen}
         aria-label={isOpen ? "Hide video player" : "Show video player"}
       >

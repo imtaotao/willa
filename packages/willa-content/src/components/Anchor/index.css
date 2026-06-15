@@ -32,12 +32,29 @@
   color: var(--willa-anchor-text);
   font-weight: 600;
   text-decoration: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   border-radius: 0.45rem;
   transition:
     color 160ms ease,
     background 160ms ease;
+}
+
+.willa-anchor__title,
+.willa-anchor__meta,
+.willa-anchor__description {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.willa-anchor__title {
+  display: block;
+}
+
+.willa-anchor__meta,
+.willa-anchor__description {
+  color: var(--willa-anchor-meta-text);
+  font-weight: 560;
 }
 
 .willa-anchor--sm .willa-anchor__link {
@@ -50,19 +67,59 @@
   font-size: 0.86rem;
 }
 
+.willa-anchor--navigation .willa-anchor__list {
+  gap: 0.12rem;
+}
+
+.willa-anchor--navigation .willa-anchor__link {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 0.65rem;
+  align-items: center;
+  min-height: 2.15rem;
+  padding-inline: 0.65rem;
+}
+
+.willa-anchor--navigation .willa-anchor__description {
+  grid-column: 1 / -1;
+  margin-top: 0.12rem;
+  font-size: 0.75rem;
+  line-height: 1.25;
+}
+
+.willa-anchor--navigation .willa-anchor__meta {
+  justify-self: end;
+  font-size: 0.76rem;
+  line-height: 1.2;
+}
+
+.willa-anchor--navigation.willa-anchor--sm .willa-anchor__link {
+  min-height: 1.95rem;
+  padding-block: 0.32rem;
+}
+
+.willa-anchor--navigation.willa-anchor--md .willa-anchor__link {
+  padding-block: 0.42rem;
+}
+
 .willa-anchor__link:hover {
   color: var(--willa-anchor-text-hover);
   background: var(--willa-anchor-bg-hover);
 }
 
-.willa-anchor__item--active > .willa-anchor__link {
+.willa-anchor__link--active {
   color: var(--willa-anchor-active-text);
   background: var(--willa-anchor-active-bg);
 }
 
-.willa-anchor--marker
-  .willa-anchor__item--active
-  > .willa-anchor__link::before {
+.willa-anchor__link:hover .willa-anchor__meta,
+.willa-anchor__link--active .willa-anchor__meta,
+.willa-anchor__link:hover .willa-anchor__description,
+.willa-anchor__link--active .willa-anchor__description {
+  color: var(--willa-anchor-active-meta-text);
+}
+
+.willa-anchor--marker .willa-anchor__link--active::before {
   position: absolute;
   top: 0.45rem;
   bottom: 0.45rem;

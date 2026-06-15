@@ -8,9 +8,11 @@
 :root[data-wk-theme="dark"] .willa-tour,
 :root[data-wk-theme="dark"] .willa-toast-viewport {
   --willa-anchor-active-bg: rgba(130, 163, 236, 0.15);
+  --willa-anchor-active-meta-text: #a7bef6;
   --willa-anchor-active-text: var(--willa-text-strong);
   --willa-anchor-bg-hover: rgba(255, 255, 255, 0.075);
   --willa-anchor-marker: #a7bef6;
+  --willa-anchor-meta-text: var(--willa-text-soft);
   --willa-anchor-text: var(--willa-text);
   --willa-anchor-text-hover: var(--willa-text-strong);
   --willa-avatar-bg: rgba(255, 255, 255, 0.1);
@@ -71,6 +73,18 @@
   --willa-button-copied-bg: rgba(255, 255, 255, 0.08);
   --willa-button-copied-border: rgba(134, 239, 172, 0.2);
   --willa-button-copied-text: var(--willa-text-strong);
+  --willa-carousel-arrow-shadow: none;
+  --willa-carousel-bg: rgba(255, 255, 255, 0.055);
+  --willa-carousel-border: rgba(255, 255, 255, 0.11);
+  --willa-carousel-dots-bg: rgba(24, 27, 32, 0.88);
+  --willa-carousel-dots-border: rgba(255, 255, 255, 0.1);
+  --willa-carousel-dots-shadow: none;
+  --willa-carousel-dot-active-bg: #a7bef6;
+  --willa-carousel-dot-bg: rgba(255, 255, 255, 0.26);
+  --willa-carousel-dot-text: var(--willa-text);
+  --willa-carousel-focus: rgba(167, 190, 246, 0.24);
+  --willa-carousel-shadow: none;
+  --willa-carousel-text: var(--willa-text);
   --willa-drawer-bg: #181b20;
   --willa-drawer-border: rgba(255, 255, 255, 0.11);
   --willa-drawer-muted: var(--willa-text-soft);
@@ -258,7 +272,6 @@
   --willa-file-card-neutral-bg: rgba(255, 255, 255, 0.14);
   --willa-file-card-neutral-text: var(--willa-text-strong);
   --willa-file-tree-bg: rgba(255, 255, 255, 0.045);
-  --willa-file-tree-bg-hover: rgba(255, 255, 255, 0.08);
   --willa-file-tree-border: rgba(255, 255, 255, 0.11);
   --willa-file-tree-border-hover: rgba(125, 211, 252, 0.2);
   --willa-file-tree-text: var(--willa-text);
@@ -403,7 +416,6 @@
   --willa-source-card-mark-bg: rgba(96, 165, 250, 0.12);
   --willa-source-card-mark-border: rgba(96, 165, 250, 0.22);
   --willa-source-card-mark-text: #bfdbfe;
-  --willa-cover-bg: #111317;
   --willa-image-bg: #151d29;
   --willa-floating-bg: rgba(29, 32, 37, 0.96);
   --willa-lightbox-bg: rgba(17, 19, 23, 0.68);
@@ -448,6 +460,9 @@
   --willa-comment-meta: rgba(255, 255, 255, 0.5);
   --willa-comment-footer: rgba(255, 255, 255, 0.58);
   --willa-comment-muted: rgba(255, 255, 255, 0.5);
+  --willa-comment-quote-border: rgba(159, 181, 255, 0.34);
+  --willa-comment-quote-author: #9fb5ff;
+  --willa-comment-quote-text: rgba(255, 255, 255, 0.58);
   --willa-comment-list-text: var(--willa-text);
   --willa-comment-list-title: var(--willa-text-strong);
   --willa-comment-list-muted: var(--willa-text-soft);
@@ -465,8 +480,8 @@
   --willa-comment-input-text: var(--willa-text-strong);
   --willa-comment-input-muted: var(--willa-text-soft);
   --willa-comment-input-placeholder: var(--willa-text-faint);
+  --willa-comment-input-quote-border: rgba(159, 181, 255, 0.34);
   --willa-comment-input-quote-author: var(--willa-text);
-  --willa-comment-input-quote-mark: var(--willa-text-faint);
   --willa-comment-input-tool-bg: rgba(30, 41, 59, 0.42);
   --willa-comment-input-tool-bg-hover: rgba(30, 41, 59, 0.68);
   --willa-comment-input-tool-border: rgba(148, 163, 184, 0.14);

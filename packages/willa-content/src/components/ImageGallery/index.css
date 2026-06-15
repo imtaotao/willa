@@ -23,7 +23,7 @@
   padding: 0;
   border: 0;
   border-radius: 10px;
-  background: var(--willa-image-bg);
+  background: var(--willa-image-custom-bg, var(--willa-image-bg));
   cursor: zoom-in;
   overflow: hidden;
   touch-action: pan-y;
@@ -38,7 +38,7 @@
   display: block;
   width: 100%;
   aspect-ratio: 1 / 1;
-  background: var(--willa-image-bg);
+  background: var(--willa-image-custom-bg, var(--willa-image-bg));
   object-fit: contain;
   transition:
     transform 180ms ease,
@@ -49,11 +49,29 @@
   opacity: 0.96;
 }
 
+.willa-prose-gallery--hover-zoom
+  .willa-prose-gallery-button:hover
+  .willa-prose-gallery-asset {
+  transform: scale(1.035);
+}
+
 .willa-prose-gallery-caption {
   color: var(--willa-text-faint);
   font-size: 0.82rem;
   font-weight: 500;
   line-height: 1.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .willa-prose-gallery-asset {
+    transition: none;
+  }
+
+  .willa-prose-gallery--hover-zoom
+    .willa-prose-gallery-button:hover
+    .willa-prose-gallery-asset {
+    transform: none;
+  }
 }
 
 @media (max-width: 767px) {

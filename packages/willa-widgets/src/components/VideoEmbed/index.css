@@ -9,7 +9,7 @@
   overflow: hidden;
   border: 1px solid var(--willa-video-border);
   border-radius: 10px;
-  background: var(--willa-surface-tint);
+  background: var(--willa-video-bg);
   color: inherit;
   text-decoration: none;
   text-shadow: none;
@@ -21,7 +21,7 @@
 
 .willa-prose-video-embed:hover {
   border-color: var(--willa-video-border-hover);
-  background: var(--willa-surface-soft);
+  background: var(--willa-video-bg-hover);
   transform: translateY(-1px);
 }
 
@@ -198,6 +198,8 @@
 
 @media (hover: none) {
   .willa-prose-video-embed:hover {
+    border-color: var(--willa-video-border);
+    background: var(--willa-video-bg);
     transform: none;
   }
 

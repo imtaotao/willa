@@ -189,6 +189,10 @@
 
 .willa-upload-media-link {
   overflow: hidden;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
 }
 
 .willa-upload-media-link img {
@@ -200,6 +204,40 @@
 
 .willa-upload-media {
   max-height: 18rem;
+}
+
+.willa-upload-file-trigger {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.46rem;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 0.68rem;
+  border: 1px solid var(--willa-upload-preview-border);
+  border-radius: 8px;
+  background: var(--willa-upload-media-bg);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+button.willa-upload-file-trigger {
+  cursor: pointer;
+}
+
+.willa-upload-file-trigger:focus-visible,
+.willa-upload-media-link:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-upload-file-trigger[disabled],
+.willa-upload-file-trigger[aria-disabled="true"],
+.willa-upload-media-link[disabled] {
+  cursor: not-allowed;
+  opacity: 0.62;
 }
 
 .willa-upload-item-info {

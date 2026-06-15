@@ -16,7 +16,7 @@ const UploadPreview = () => {
         multiple
         maxFiles={6}
         label="上传上下文文件"
-        description="支持点击选择，也可以把文件拖拽进来。图片、音频和视频会直接预览。"
+        description="支持点击选择，也可以把文件拖拽进来。文件默认在当前页面弹窗预览。"
         onFilesChange={(files) => setSummary(resolveSummary(files))}
         onUploadStart={(files) => setSummary(`开始上传 ${files.length} 个文件`)}
         onUpload={async (_files, _allFiles, reportProgress) => {
@@ -50,7 +50,7 @@ export default defineDoc({
   category: "form",
   packageName: "willa/Upload",
   description:
-    "用于任意文件上传，支持点击选择和拖拽上传；图片、音频、视频可预览，其他文件通过下载入口查看。",
+    "用于任意文件上传，支持点击选择和拖拽上传；图片、音频、视频和普通文件默认在当前页面弹窗预览。",
   imports: [
     { name: "Upload", from: "willa/Upload" },
     { name: "Stack", from: "willa/Stack" },
@@ -69,6 +69,7 @@ export default defineDoc({
       maxFiles={6}
       label="上传上下文文件"
       description="支持点击选择，也可以把文件拖拽进来。"
+      previewMode="dialog"
       onUpload={async (files, _allFiles, reportProgress) => {
         reportProgress(20);
         await uploadFiles(files);
@@ -86,7 +87,7 @@ export default defineDoc({
           multiple
           maxFiles={4}
           label="上传资料"
-          description="选择图片、音频、视频或文档。非媒体文件会以下载入口展示。"
+          description="选择图片、音频、视频或文档。点击文件会在当前页面弹窗预览。"
         />;
       `,
       content: (
@@ -94,7 +95,7 @@ export default defineDoc({
           multiple
           maxFiles={4}
           label="上传资料"
-          description="选择图片、音频、视频或文档。非媒体文件会以下载入口展示。"
+          description="选择图片、音频、视频或文档。点击文件会在当前页面弹窗预览。"
         />
       ),
     },
@@ -246,9 +247,21 @@ export default defineDoc({
       description: "上传区域尺寸，默认 md。",
     },
     {
+      name: "previewMode",
+      type: '"dialog" | "link" | "download" | "none"',
+      defaultValue: '"dialog"',
+      description:
+        "文件预览方式。dialog 在当前页面弹窗预览，link 新窗口打开，download 直接下载，none 只展示文件信息。",
+    },
+    {
       name: "onFilesChange",
       type: "(files: Array<UploadItem>) => void",
       description: "文件列表变化回调。",
+    },
+    {
+      name: "onPreview",
+      type: "(file: UploadItem) => void",
+      description: "点击文件预览入口时触发。",
     },
     {
       name: "onUpload",

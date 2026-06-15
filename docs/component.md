@@ -133,6 +133,14 @@ export type { AudioLinkProps } from "@willa-ui/widgets/components/AudioLink";
 Shared types can live in `@willa-ui/shared`, but component entries should still
 provide convenient type exports.
 
+Composite components can expose child component entries when the child is part
+of the public authoring model. For example, `Step` is authored inside `Steps`
+and `ResizablePanel` is authored inside `SplitPane`. These child entries should
+keep their single-component imports and type exports, but they do not need
+separate registry pages when they are not meaningful on their own. Document the
+child props on the parent component page with a prop group named after the
+child component.
+
 ## CSS Integration
 
 Every public component needs its own CSS file. Component CSS contains
@@ -242,7 +250,10 @@ After adding a public component, confirm:
 - Mobile layouts avoid horizontal page overflow, keep interactive targets usable,
   and handle hover-dependent behavior on touch devices.
 - `pnpm run typecheck` passes.
-- Relevant package builds pass; at minimum run `pnpm run build:packages`.
+- Relevant builds pass for the change scope. Run `pnpm run build:packages` for
+  first-time public component additions or package entry/config changes; for
+  example-only or narrow component fixes, use the smaller check that covers the
+  touched behavior.
 
 When migrating a component, also confirm:
 
@@ -252,3 +263,17 @@ When migrating a component, also confirm:
 - The willa aggregate package only updates exports and dependency config; it
   does not copy theme variables.
 - Documentation and example `packageName`, imports, and CSS entries are updated.
+
+## Quality Review Checklist
+
+Use this checklist for broad component reviews and for batches that add or
+change multiple components.
+
+| Area                    | Review focus                                                                                                                                                               |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Composition quality     | Prefer composing higher-level components from existing primitives. Keep custom structure only when the semantics, ARIA model, or interaction model is different.           |
+| API minimalism          | Props should cover real high-frequency use cases. Remove aliases, indirect controls, and options that only serve demos.                                                    |
+| Theme consistency       | Structural CSS should not define colors. Theme values belong only in the owning package. Dark themes should not rely on simply inverting light-theme variables.            |
+| Mobile support          | Touch targets stay usable, text does not overflow, floating layers stay within the viewport, and horizontal scrolling is contained inside the component.                   |
+| Documentation and demos | Demo previews and source snippets match one-to-one. Props document required fields and default values. Roadmap docs do not keep components that are already public.        |
+| Self-hosting reuse      | Example pages and documentation site display layouts should prefer layout components. Component internals should not sacrifice semantics just to reuse a layout primitive. |

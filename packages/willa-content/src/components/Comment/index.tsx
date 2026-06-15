@@ -6,6 +6,11 @@ import { Avatar } from "#content/components/Avatar";
 export type CommentSize = "sm" | "md";
 export type CommentVariant = "card" | "feed";
 
+export type CommentQuote = {
+  author?: ReactNode;
+  content: ReactNode;
+};
+
 export type CommentProps = {
   author: ReactNode;
   children: ReactNode;
@@ -13,6 +18,7 @@ export type CommentProps = {
   avatarName?: string;
   avatar?: ReactNode;
   meta?: ReactNode;
+  quote?: CommentQuote;
   actions?: ReactNode;
   footer?: ReactNode;
   size?: CommentSize;
@@ -29,6 +35,7 @@ export function Comment(props: CommentProps) {
     avatarName,
     avatar,
     meta,
+    quote,
     actions,
     footer,
     size = "md",
@@ -69,6 +76,16 @@ export function Comment(props: CommentProps) {
             <div className="willa-comment-actions">{actions}</div>
           ) : null}
         </header>
+        {quote ? (
+          <div className="willa-comment-quote">
+            {quote.author ? (
+              <span className="willa-comment-quote-author">
+                @{quote.author}
+              </span>
+            ) : null}
+            <span className="willa-comment-quote-content">{quote.content}</span>
+          </div>
+        ) : null}
         <div className="willa-comment-body">{children}</div>
         {footer ? (
           <footer className="willa-comment-footer">{footer}</footer>

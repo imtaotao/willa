@@ -44,10 +44,6 @@
   background: var(--willa-audio-status-bg);
 }
 
-.willa-prose-audio-link--loading {
-  background: var(--willa-audio-status-bg);
-}
-
 .willa-prose-audio-link--error {
   border-color: var(--willa-audio-error-border);
   background: var(--willa-audio-error-bg);

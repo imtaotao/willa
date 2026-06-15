@@ -307,6 +307,22 @@ export default defineDoc({
               大尺寸会提供更宽的内容区域，但仍然会限制最大高度并允许内容滚动。
             </p>
           </Dialog>
+          <Dialog
+            trigger={<Button variant="outline">超大尺寸</Button>}
+            title="超大尺寸弹层"
+            description="适合文件预览、复杂配置和详情页。"
+            size="xl"
+            confirmText="关闭"
+          >
+            <div style={contentStyle}>
+              <p style={paragraphStyle}>
+                超大尺寸会尽量使用可视区域宽度和高度，适合需要清晰阅读的内容。
+              </p>
+              <p style={noteStyle}>
+                移动端仍会收敛为接近全屏的底部弹层，避免内容溢出视口。
+              </p>
+            </div>
+          </Dialog>
         </div>;
       `,
       content: (
@@ -328,6 +344,22 @@ export default defineDoc({
             <p style={paragraphStyle}>
               大尺寸会提供更宽的内容区域，但仍然会限制最大高度并允许内容滚动。
             </p>
+          </Dialog>
+          <Dialog
+            trigger={<Button variant="outline">超大尺寸</Button>}
+            title="超大尺寸弹层"
+            description="适合文件预览、复杂配置和详情页。"
+            size="xl"
+            confirmText="关闭"
+          >
+            <div style={contentStyle}>
+              <p style={paragraphStyle}>
+                超大尺寸会尽量使用可视区域宽度和高度，适合需要清晰阅读的内容。
+              </p>
+              <p style={noteStyle}>
+                移动端仍会收敛为接近全屏的底部弹层，避免内容溢出视口。
+              </p>
+            </div>
           </Dialog>
         </div>
       ),
@@ -413,7 +445,7 @@ export default defineDoc({
     },
     {
       name: "size",
-      type: '"sm" | "md" | "lg"',
+      type: '"sm" | "md" | "lg" | "xl"',
       defaultValue: '"md"',
       description: "弹层宽度尺寸。",
     },

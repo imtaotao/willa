@@ -3,6 +3,7 @@ import {
   useMemo,
   useState,
   type ComponentPropsWithoutRef,
+  type CSSProperties,
   type MouseEvent,
   type ReactNode,
 } from "react";
@@ -11,11 +12,21 @@ import classNames from "classnames";
 export type AnchorItem = {
   id: string;
   title: ReactNode;
+  description?: ReactNode;
+  meta?: ReactNode;
   href?: string;
   children?: Array<AnchorItem>;
 };
 
 export type AnchorSize = "sm" | "md";
+export type AnchorVariant = "toc" | "navigation";
+export type AnchorSlot =
+  | "list"
+  | "item"
+  | "link"
+  | "title"
+  | "meta"
+  | "description";
 
 export type AnchorProps = {
   items: Array<AnchorItem>;
@@ -23,8 +34,11 @@ export type AnchorProps = {
   defaultActiveId?: string;
   offsetTop?: number;
   size?: AnchorSize;
+  variant?: AnchorVariant;
   sticky?: boolean;
   showMarker?: boolean;
+  classNames?: Partial<Record<AnchorSlot, string>>;
+  styles?: Partial<Record<AnchorSlot, CSSProperties>>;
   onActiveChange?: (id: string) => void;
   onItemClick?: (
     item: AnchorItem,
@@ -39,8 +53,11 @@ export function Anchor(props: AnchorProps) {
     defaultActiveId,
     offsetTop = 0,
     size = "md",
+    variant = "toc",
     sticky = false,
     showMarker = true,
+    classNames: slotClassNames,
+    styles,
     onActiveChange,
     onItemClick,
     className,
@@ -112,17 +129,23 @@ export function Anchor(props: AnchorProps) {
       className={classNames(
         "willa-anchor",
         `willa-anchor--${size}`,
+        `willa-anchor--${variant}`,
         sticky && "willa-anchor--sticky",
         showMarker && "willa-anchor--marker",
         className,
       )}
     >
-      <ol className="willa-anchor__list">
+      <ol
+        className={classNames("willa-anchor__list", slotClassNames?.list)}
+        style={styles?.list}
+      >
         {items.map((item) => (
           <AnchorNode
             key={item.id}
             item={item}
             activeId={resolvedActiveId}
+            classNames={slotClassNames}
+            styles={styles}
             onItemClick={setActiveItem}
           />
         ))}
@@ -134,33 +157,77 @@ export function Anchor(props: AnchorProps) {
 const AnchorNode = (props: {
   item: AnchorItem;
   activeId?: string;
+  classNames?: Partial<Record<AnchorSlot, string>>;
+  styles?: Partial<Record<AnchorSlot, CSSProperties>>;
   onItemClick: (item: AnchorItem, event: MouseEvent<HTMLAnchorElement>) => void;
 }) => {
-  const { item, activeId, onItemClick } = props;
+  const {
+    item,
+    activeId,
+    classNames: slotClassNames,
+    styles,
+    onItemClick,
+  } = props;
   const isActive = activeId === item.id;
 
   return (
     <li
-      className={classNames(
-        "willa-anchor__item",
-        isActive && "willa-anchor__item--active",
-      )}
+      className={classNames("willa-anchor__item", slotClassNames?.item)}
+      style={styles?.item}
     >
       <a
-        className="willa-anchor__link"
+        className={classNames(
+          "willa-anchor__link",
+          isActive && "willa-anchor__link--active",
+          slotClassNames?.link,
+        )}
+        style={styles?.link}
         href={item.href ?? `#${item.id}`}
         aria-current={isActive ? "location" : undefined}
         onClick={(event) => onItemClick(item, event)}
       >
-        {item.title}
+        <span
+          className={classNames("willa-anchor__title", slotClassNames?.title)}
+          style={styles?.title}
+        >
+          {item.title}
+        </span>
+        {item.meta === undefined ? null : (
+          <span
+            className={classNames("willa-anchor__meta", slotClassNames?.meta)}
+            style={styles?.meta}
+          >
+            {item.meta}
+          </span>
+        )}
+        {item.description === undefined ? null : (
+          <span
+            className={classNames(
+              "willa-anchor__description",
+              slotClassNames?.description,
+            )}
+            style={styles?.description}
+          >
+            {item.description}
+          </span>
+        )}
       </a>
       {item.children?.length ? (
-        <ol className="willa-anchor__list willa-anchor__list--nested">
+        <ol
+          className={classNames(
+            "willa-anchor__list",
+            "willa-anchor__list--nested",
+            slotClassNames?.list,
+          )}
+          style={styles?.list}
+        >
           {item.children.map((child) => (
             <AnchorNode
               key={child.id}
               item={child}
               activeId={activeId}
+              classNames={slotClassNames}
+              styles={styles}
               onItemClick={onItemClick}
             />
           ))}

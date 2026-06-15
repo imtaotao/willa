@@ -4,6 +4,7 @@ export { Badge } from "#content/components/Badge";
 export { Breadcrumb } from "#content/components/Breadcrumb";
 export { Button } from "#content/components/Button";
 export { Callout } from "#content/components/Callout";
+export { Carousel } from "#content/components/Carousel";
 export { ChatThread } from "#content/components/ChatThread";
 export { Citation } from "#content/components/Citation";
 export { CodeBlock } from "#content/components/CodeBlock";
@@ -55,6 +56,8 @@ export type {
   AnchorItem,
   AnchorProps,
   AnchorSize,
+  AnchorSlot,
+  AnchorVariant,
 } from "#content/components/Anchor";
 export type {
   AvatarProps,
@@ -78,6 +81,13 @@ export type {
   ButtonVariant,
 } from "#content/components/Button";
 export type { CalloutProps, CalloutTone } from "#content/components/Callout";
+export type {
+  CarouselDotsPosition,
+  CarouselEffect,
+  CarouselItem,
+  CarouselProps,
+  CarouselRef,
+} from "#content/components/Carousel";
 export type {
   CitationProps,
   CitationSize,

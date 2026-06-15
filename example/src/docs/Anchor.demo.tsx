@@ -54,6 +54,37 @@ const AnchorPreview = () => (
   </div>
 );
 
+const navigationItems = [
+  {
+    id: "anchor-nav-ai",
+    title: "PromptInput",
+    meta: "提示词输入",
+    description: "AI 输入、提交和上下文提示。",
+  },
+  {
+    id: "anchor-nav-form",
+    title: "DatePicker",
+    meta: "日期选择器",
+    description: "日期、范围和滚动选择。",
+  },
+  {
+    id: "anchor-nav-layout",
+    title: "Grid",
+    meta: "网格布局",
+    description: "响应式列和间距控制。",
+  },
+];
+
+const NavigationAnchorPreview = () => (
+  <div style={{ width: "min(100%, 22rem)" }}>
+    <Anchor
+      items={navigationItems}
+      defaultActiveId="anchor-nav-ai"
+      variant="navigation"
+    />
+  </div>
+);
+
 export default defineDoc({
   id: "anchor",
   name: "Anchor",
@@ -81,6 +112,37 @@ export default defineDoc({
 
     <Anchor items={items} defaultActiveId="overview" />
   `),
+  sections: [
+    {
+      title: "导航形态",
+      code: unindent(`
+        import { Anchor } from "willa/Anchor";
+        import "willa/Anchor.css";
+
+        const items = [
+          {
+            id: "prompt-input",
+            title: "PromptInput",
+            meta: "提示词输入",
+            description: "AI 输入、提交和上下文提示。",
+          },
+          {
+            id: "date-picker",
+            title: "DatePicker",
+            meta: "日期选择器",
+            description: "日期、范围和滚动选择。",
+          },
+        ];
+
+        <Anchor
+          items={items}
+          defaultActiveId="prompt-input"
+          variant="navigation"
+        />;
+      `),
+      content: <NavigationAnchorPreview />,
+    },
+  ],
   props: [
     {
       name: "items",
@@ -103,6 +165,12 @@ export default defineDoc({
       description: "尺寸。",
     },
     {
+      name: "variant",
+      type: '"toc" | "navigation"',
+      defaultValue: '"toc"',
+      description: "展示形态。toc 用于正文目录，navigation 用于侧边导航列表。",
+    },
+    {
       name: "sticky",
       type: "boolean",
       defaultValue: "false",
@@ -115,6 +183,16 @@ export default defineDoc({
       description: "是否显示激活标记。",
     },
     {
+      name: "classNames",
+      type: "Partial<Record<AnchorSlot, string>>",
+      description: "按语义槽位追加 className，用于定制局部样式。",
+    },
+    {
+      name: "styles",
+      type: "Partial<Record<AnchorSlot, CSSProperties>>",
+      description: "按语义槽位追加内联样式，用于轻量定制。",
+    },
+    {
       name: "onActiveChange",
       type: "(id: string) => void",
       description: "激活项变化回调。",
@@ -123,6 +201,50 @@ export default defineDoc({
       name: "onItemClick",
       type: "(item: AnchorItem, event: MouseEvent<HTMLAnchorElement>) => void",
       description: "目录项点击回调。",
+    },
+    {
+      name: "AnchorItem.id",
+      type: "string",
+      required: true,
+      group: "AnchorItem",
+      description: "锚点项唯一标识，也作为默认 href 的目标 id。",
+    },
+    {
+      name: "AnchorItem.title",
+      type: "ReactNode",
+      required: true,
+      group: "AnchorItem",
+      description: "锚点主标题。",
+    },
+    {
+      name: "AnchorItem.description",
+      type: "ReactNode",
+      group: "AnchorItem",
+      description: "导航形态下的补充说明。",
+    },
+    {
+      name: "AnchorItem.meta",
+      type: "ReactNode",
+      group: "AnchorItem",
+      description: "导航形态下显示在右侧的辅助信息。",
+    },
+    {
+      name: "AnchorItem.href",
+      type: "string",
+      group: "AnchorItem",
+      description: "自定义链接。不传时使用 #id。",
+    },
+    {
+      name: "AnchorItem.children",
+      type: "Array<AnchorItem>",
+      group: "AnchorItem",
+      description: "子级锚点项。",
+    },
+    {
+      name: "AnchorSlot",
+      type: '"list" | "item" | "link" | "title" | "meta" | "description"',
+      group: "AnchorSlot",
+      description: "Anchor 支持定制的语义槽位。",
     },
   ],
 });

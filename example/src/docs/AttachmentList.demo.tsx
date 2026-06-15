@@ -17,6 +17,8 @@ const initialItems: Array<AttachmentListItem> = [
     meta: "12 KB",
     href: "data:text/csv;charset=utf-8,id,feedback%0A1,export%20is%20slow",
     downloadName: "feedback.csv",
+    previewType: "csv",
+    text: "id,feedback\n1,export is slow",
   },
   {
     id: "roadmap",
@@ -24,12 +26,23 @@ const initialItems: Array<AttachmentListItem> = [
     meta: "8 KB",
     href: "data:text/markdown;charset=utf-8,%23%20Roadmap",
     downloadName: "roadmap.md",
+    previewType: "code",
+    language: "markdown",
+    text: "# Roadmap\n\n- 优化文件预览\n- 补充上下文附件",
   },
   {
     id: "screenshot",
     name: "screen-capture.png",
-    meta: "上传中",
+    meta: "428 KB",
+    href: "https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg",
     icon: <ImageIcon />,
+    previewType: "image",
+    alt: "屏幕截图预览",
+  },
+  {
+    id: "brief",
+    name: "research-brief.pdf",
+    meta: "上传中",
     status: "uploading",
     progress: 64,
   },
@@ -94,7 +107,8 @@ export default defineDoc({
   name: "AttachmentList",
   category: "ai",
   packageName: "willa/AttachmentList",
-  description: "用于展示 AI 输入、消息和上下文面板里的附件列表。",
+  description:
+    "用于展示 AI 输入、消息和上下文面板里的附件列表。带 href 的附件默认在当前页面弹窗预览。",
   imports: [{ name: "AttachmentList", from: "willa/AttachmentList" }],
   css: "willa/AttachmentList.css",
   demo: {
@@ -116,10 +130,18 @@ export default defineDoc({
           name: "feedback.csv",
           meta: "12 KB",
           href: "/feedback.csv",
+          previewMode: "dialog",
         },
         {
           id: "screenshot",
           name: "screen-capture.png",
+          meta: "428 KB",
+          href: "https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg",
+          previewType: "image",
+        },
+        {
+          id: "brief",
+          name: "research-brief.pdf",
           status: "uploading",
           progress: 64,
         },
@@ -274,6 +296,13 @@ export default defineDoc({
       description: "布局方式，默认 inline。",
     },
     {
+      name: "previewMode",
+      type: '"dialog" | "link" | "download" | "none"',
+      defaultValue: '"dialog"',
+      description:
+        "附件预览方式。dialog 在当前页面弹窗预览，link 新窗口打开，download 直接下载，none 只展示附件信息。",
+    },
+    {
       name: "empty",
       type: "ReactNode",
       description: "空列表时展示的内容。",
@@ -303,11 +332,30 @@ export default defineDoc({
       description: "附件图标。",
     },
     {
+      name: "AttachmentListItem.previewMode",
+      type: '"dialog" | "link" | "download" | "none"',
+      group: "AttachmentListItem",
+      description: "覆盖单个附件的预览方式。",
+    },
+    {
+      name: "AttachmentListItem.previewType",
+      type: '"auto" | "image" | "video" | "audio" | "pdf" | "csv" | "code" | "text" | "download"',
+      group: "AttachmentListItem",
+      defaultValue: '"auto"',
+      description: "覆盖单个附件的 FilePreview 类型。",
+    },
+    {
+      name: "AttachmentListItem.text",
+      type: "string",
+      group: "AttachmentListItem",
+      description: "文本或代码附件的预览内容。",
+    },
+    {
       name: "AttachmentListItem.downloadName",
       type: "string",
       group: "AttachmentListItem",
       defaultValue: "true",
-      description: "下载保存时使用的文件名；默认开启原生 download。",
+      description: "下载保存时使用的文件名。",
     },
   ],
 });

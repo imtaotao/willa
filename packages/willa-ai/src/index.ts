@@ -2,6 +2,7 @@ export { AttachmentList } from "#ai/components/AttachmentList";
 export type {
   AttachmentListItem,
   AttachmentListItemEvent,
+  AttachmentListPreviewMode,
   AttachmentListItemStatus,
   AttachmentListLayout,
   AttachmentListProps,

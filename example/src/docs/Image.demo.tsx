@@ -29,6 +29,50 @@ export default defineDoc({
       title="风景预览"
     />;
   `,
+  sections: [
+    {
+      title: "Hover 放大",
+      code: `
+        <Image
+          hoverZoom
+          src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=900&q=80"
+          alt="看向窗边的人像"
+          title="适合人物和封面图片的轻微 hover 放大"
+        />;
+      `,
+      content: (
+        <div style={{ width: "min(100%, 34rem)", margin: "0 auto" }}>
+          <Image
+            hoverZoom
+            src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=900&q=80"
+            alt="看向窗边的人像"
+            title="适合人物和封面图片的轻微 hover 放大"
+          />
+        </div>
+      ),
+    },
+    {
+      title: "自定义背景",
+      code: `
+        <Image
+          backgroundColor="transparent"
+          src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=900&q=80"
+          alt="浅色背景中的人像"
+          title="背景可以自定义，也可以设为透明"
+        />;
+      `,
+      content: (
+        <div style={{ width: "min(100%, 34rem)", margin: "0 auto" }}>
+          <Image
+            backgroundColor="transparent"
+            src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=900&q=80"
+            alt="浅色背景中的人像"
+            title="背景可以自定义，也可以设为透明"
+          />
+        </div>
+      ),
+    },
+  ],
   props: [
     {
       name: "src",
@@ -45,6 +89,17 @@ export default defineDoc({
       name: "title",
       type: "string",
       description: "展示在图片下方的可选说明。",
+    },
+    {
+      name: "hoverZoom",
+      type: "boolean",
+      defaultValue: "false",
+      description: "是否在鼠标悬浮时轻微放大图片，默认关闭。",
+    },
+    {
+      name: "backgroundColor",
+      type: "CSSProperties['backgroundColor']",
+      description: "自定义图片容器和透明区域的背景色，可传 transparent。",
     },
     {
       name: "openLightbox",
