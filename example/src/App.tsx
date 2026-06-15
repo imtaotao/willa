@@ -119,6 +119,7 @@ const docChineseNames: Record<string, string> = {
   Steps: "步骤条",
   SuggestionChips: "建议标签",
   Switch: "开关",
+  TagInput: "标签输入",
   Table: "表格",
   Tabs: "标签页",
   TextArea: "文本域",

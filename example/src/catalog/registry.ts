@@ -53,6 +53,7 @@ const docSpecGroups = {
     "SearchInput",
     "Select",
     "Switch",
+    "TagInput",
     "TextArea",
     "TreeSelect",
     "Upload",

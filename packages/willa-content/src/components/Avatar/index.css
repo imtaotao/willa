@@ -178,7 +178,7 @@
   height: 2.25rem;
   padding: 0;
   border: 1px solid var(--willa-avatar-preview-close-border);
-  border-radius: 999px;
+  border-radius: 0.56rem;
   background: var(--willa-avatar-preview-close-bg);
   color: var(--willa-avatar-preview-close-text);
   cursor: pointer;

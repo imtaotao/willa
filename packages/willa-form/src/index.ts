@@ -14,6 +14,7 @@ export { RangeInput } from "#form/components/RangeInput";
 export { SearchInput } from "#form/components/SearchInput";
 export { Select } from "#form/components/Select";
 export { Switch } from "#form/components/Switch";
+export { TagInput } from "#form/components/TagInput";
 export { TextArea } from "#form/components/TextArea";
 export { TreeSelect } from "#form/components/TreeSelect";
 export { Upload } from "#form/components/Upload";
@@ -99,6 +100,13 @@ export type {
   SelectVariant,
 } from "#form/components/Select";
 export type { SwitchProps, SwitchSize } from "#form/components/Switch";
+export type {
+  TagInputProps,
+  TagInputRejectReason,
+  TagInputRenderContext,
+  TagInputSize,
+  TagInputVariant,
+} from "#form/components/TagInput";
 export type {
   TextAreaProps,
   TextAreaResize,

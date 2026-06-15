@@ -24,7 +24,7 @@
   gap: 0.58rem;
   padding: 0.48rem 0.62rem;
   border: 1px solid var(--willa-empty-state-icon-border);
-  border-radius: 999px;
+  border-radius: 0.72rem;
   background: var(--willa-empty-state-icon-bg);
   color: var(--willa-empty-state-icon-text);
 }
@@ -35,7 +35,7 @@
   justify-content: center;
   width: 1.45rem;
   height: 1.45rem;
-  border-radius: 999px;
+  border-radius: 0.42rem;
   background: var(--willa-panel-bg);
 }
 

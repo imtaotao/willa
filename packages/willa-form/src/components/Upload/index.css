@@ -115,7 +115,7 @@
   align-items: center;
   justify-content: center;
   border: 1px solid var(--willa-upload-action-border);
-  border-radius: 999px;
+  border-radius: 0.45rem;
   background: var(--willa-upload-action-bg);
   color: var(--willa-upload-action-text);
   font-size: 0.82rem;
@@ -252,7 +252,7 @@
   align-items: center;
   justify-content: center;
   border: 1px solid var(--willa-upload-remove-border);
-  border-radius: 999px;
+  border-radius: 0.45rem;
   background: var(--willa-upload-remove-bg);
   color: var(--willa-upload-remove-text);
   cursor: pointer;

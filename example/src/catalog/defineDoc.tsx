@@ -114,6 +114,7 @@ const willaDemoImportNames = new Set([
   "Steps",
   "SuggestionChips",
   "Switch",
+  "TagInput",
   "Table",
   "Tabs",
   "TextArea",

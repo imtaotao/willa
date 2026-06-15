@@ -58,7 +58,7 @@
   align-items: center;
   justify-content: center;
   border: 1px solid var(--willa-empty-state-icon-border);
-  border-radius: 999px;
+  border-radius: 0.78rem;
   background: var(--willa-empty-state-icon-bg);
   color: var(--willa-empty-state-icon-text);
 }

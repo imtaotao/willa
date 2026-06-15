@@ -71,6 +71,12 @@ variables, accessibility semantics, and documentation examples together. Keep
 the public API focused, but prefer a complete, coherent abstraction over a
 temporary narrow wrapper that must be redesigned immediately after adoption.
 
+Visual design should stay flat and restrained. Avoid turning every compact icon
+control, status mark, or helper action into a pill. Pills are appropriate for
+tags, badges, selected filters, and clear grouped choices; pure icon actions
+should usually use a small square or soft rounded hit area with minimal fill so
+the interface does not become visually noisy.
+
 If a component needs an internal protocol marker, such as Lightbox identifying
 `Image` and `ImageGallery` children, attach the marker to the component object
 and add a comment explaining why it exists. Internal markers are not public API.

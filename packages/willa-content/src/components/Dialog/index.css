@@ -57,7 +57,7 @@
   height: 2rem;
   padding: 0;
   border: 1px solid var(--willa-dialog-close-border);
-  border-radius: 999px;
+  border-radius: 0.48rem;
   background: var(--willa-dialog-close-bg);
   color: var(--willa-dialog-close-text);
   cursor: pointer;

@@ -1,0 +1,233 @@
+.willa-tag-input {
+  position: relative;
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: 100%;
+  color: var(--willa-tag-input-text);
+  font-family: var(--willa-body-font);
+}
+
+.willa-tag-input__control {
+  display: flex;
+  align-items: center;
+  gap: 0.38rem;
+  width: 100%;
+  min-width: min(100%, 16rem);
+  max-width: 100%;
+  border: 1px solid var(--willa-tag-input-border);
+  border-radius: 0.6rem;
+  background: var(--willa-tag-input-bg);
+  cursor: text;
+  flex-wrap: wrap;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease;
+}
+
+.willa-tag-input--soft .willa-tag-input__control {
+  background: var(--willa-tag-input-soft-bg);
+}
+
+.willa-tag-input:hover:not(.willa-tag-input--disabled)
+  .willa-tag-input__control {
+  border-color: var(--willa-tag-input-border-hover);
+  background: var(--willa-tag-input-bg-hover);
+}
+
+.willa-tag-input:focus-within .willa-tag-input__control {
+  border-color: var(--willa-tag-input-border-focus);
+  background: var(--willa-tag-input-bg-focus);
+  box-shadow: 0 0 0 3px var(--willa-tag-input-ring);
+}
+
+.willa-tag-input--invalid .willa-tag-input__control {
+  border-color: var(--willa-tag-input-invalid-border);
+}
+
+.willa-tag-input--invalid:focus-within .willa-tag-input__control {
+  border-color: var(--willa-tag-input-invalid-border);
+  box-shadow: 0 0 0 3px var(--willa-tag-input-invalid-ring);
+}
+
+.willa-tag-input--disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.willa-tag-input--disabled .willa-tag-input__control {
+  background: var(--willa-tag-input-disabled-bg);
+  color: var(--willa-tag-input-disabled-text);
+  cursor: not-allowed;
+}
+
+.willa-tag-input--readonly .willa-tag-input__control {
+  cursor: default;
+}
+
+.willa-tag-input--sm .willa-tag-input__control {
+  min-height: 2rem;
+  padding: 0.24rem 0.38rem;
+  font-size: 0.82rem;
+}
+
+.willa-tag-input--md .willa-tag-input__control {
+  min-height: 2.44rem;
+  padding: 0.34rem 0.46rem;
+  font-size: 0.94rem;
+}
+
+.willa-tag-input--lg .willa-tag-input__control {
+  min-height: 2.88rem;
+  padding: 0.44rem 0.56rem;
+  font-size: 1.04rem;
+}
+
+.willa-tag-input__tag {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  min-width: 0;
+  gap: 0.24rem;
+  border: 1px solid var(--willa-tag-input-tag-border);
+  border-radius: 999px;
+  background: var(--willa-tag-input-tag-bg);
+  color: var(--willa-tag-input-tag-text);
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.willa-tag-input--sm .willa-tag-input__tag {
+  padding: 0.18rem 0.34rem;
+}
+
+.willa-tag-input--md .willa-tag-input__tag {
+  padding: 0.22rem 0.4rem;
+}
+
+.willa-tag-input--lg .willa-tag-input__tag {
+  padding: 0.26rem 0.48rem;
+}
+
+.willa-tag-input__tag-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.willa-tag-input__tag--custom {
+  gap: 0;
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.willa-tag-input__remove,
+.willa-tag-input__clear {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 0.36rem;
+  background: transparent;
+  color: var(--willa-tag-input-action-text);
+  cursor: pointer;
+  padding: 0;
+}
+
+.willa-tag-input__remove {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.willa-tag-input__clear {
+  width: 1.38rem;
+  height: 1.38rem;
+  margin-left: auto;
+}
+
+.willa-tag-input__remove:hover,
+.willa-tag-input__clear:hover {
+  background: var(--willa-tag-input-action-bg-hover);
+  color: var(--willa-tag-input-action-text-hover);
+}
+
+.willa-tag-input__remove svg,
+.willa-tag-input__clear svg {
+  width: 0.82rem;
+  height: 0.82rem;
+}
+
+.willa-tag-input__input {
+  flex: 1 1 8rem;
+  min-width: 6rem;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: 0;
+  padding: 0.18rem 0.16rem;
+}
+
+.willa-tag-input__input::placeholder {
+  color: var(--willa-tag-input-placeholder);
+  font-weight: 450;
+  opacity: 1;
+}
+
+.willa-tag-input__input:disabled,
+.willa-tag-input__input:read-only {
+  cursor: inherit;
+}
+
+.willa-tag-input__suggestions {
+  position: absolute;
+  z-index: 80;
+  top: calc(100% + 0.36rem);
+  left: 0;
+  display: grid;
+  width: min(100%, 24rem);
+  min-width: min(100%, 16rem);
+  max-height: min(18rem, calc(100vh - 2rem));
+  border: 1px solid var(--willa-tag-input-panel-border);
+  border-radius: 0.72rem;
+  background: var(--willa-tag-input-panel-bg);
+  box-shadow: var(--willa-tag-input-panel-shadow);
+  overflow: auto;
+  padding: 0.32rem;
+}
+
+.willa-tag-input__suggestion {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 0.48rem;
+  background: transparent;
+  color: var(--willa-tag-input-text);
+  cursor: pointer;
+  font: inherit;
+  padding: 0.5rem 0.58rem;
+  text-align: left;
+}
+
+.willa-tag-input__suggestion:hover,
+.willa-tag-input__suggestion--active {
+  background: var(--willa-tag-input-option-bg-hover);
+}
+
+@media (max-width: 767px) {
+  .willa-tag-input--sm .willa-tag-input__control {
+    min-height: 2.25rem;
+  }
+
+  .willa-tag-input--md .willa-tag-input__control {
+    min-height: 2.62rem;
+  }
+
+  .willa-tag-input--lg .willa-tag-input__control {
+    min-height: 3rem;
+  }
+}

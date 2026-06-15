@@ -27,7 +27,7 @@
   height: 44px;
   margin-top: -22px;
   border: 0;
-  border-radius: 999px;
+  border-radius: 0.68rem;
   background: var(--willa-floating-bg);
   color: var(--willa-text-strong);
   cursor: pointer;
