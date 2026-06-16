@@ -1,0 +1,101 @@
+.willa-profile-card {
+  display: grid;
+  min-width: 0;
+  border: 1px solid var(--willa-profile-card-border);
+  border-radius: 0.9rem;
+  background: var(--willa-profile-card-bg);
+  color: var(--willa-profile-card-text);
+  overflow: hidden;
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.willa-profile-card--link:hover {
+  border-color: var(--willa-profile-card-border-hover);
+  background: var(--willa-profile-card-bg-hover);
+  transform: translateY(-1px);
+}
+
+.willa-profile-card-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--willa-profile-card-media-bg);
+  object-fit: cover;
+}
+
+.willa-profile-card-main {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.willa-profile-card-avatar {
+  border: 3px solid var(--willa-profile-card-bg);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.willa-profile-card--with-image .willa-profile-card-avatar {
+  margin-top: -2.2rem;
+}
+
+.willa-profile-card-copy {
+  display: grid;
+  gap: 0.28rem;
+}
+
+.willa-profile-card-name,
+.willa-profile-card-role,
+.willa-profile-card-bio,
+.willa-profile-card-meta {
+  margin: 0;
+}
+
+.willa-profile-card-name {
+  color: var(--willa-profile-card-title);
+  font-family: var(--willa-title-font);
+  font-size: 1.08rem;
+  font-weight: 760;
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+
+.willa-profile-card-role {
+  color: var(--willa-profile-card-role);
+  font-size: 0.86rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.willa-profile-card-bio {
+  color: var(--willa-profile-card-muted);
+  font-size: 0.88rem;
+  line-height: 1.58;
+}
+
+.willa-profile-card-meta {
+  color: var(--willa-profile-card-faint);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.willa-profile-card-links,
+.willa-profile-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.willa-profile-card-links a {
+  color: var(--willa-profile-card-link);
+  font-size: 0.82rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.willa-profile-card-links a:hover {
+  color: var(--willa-profile-card-link-hover);
+}
