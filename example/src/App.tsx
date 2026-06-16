@@ -73,6 +73,7 @@ const docChineseNames: Record<string, string> = {
   FileCard: "文件卡片",
   FilePreview: "文件预览",
   FileTree: "文件树",
+  FloatButton: "悬浮按钮",
   FilterBar: "筛选栏",
   Form: "表单",
   FormActions: "表单操作",

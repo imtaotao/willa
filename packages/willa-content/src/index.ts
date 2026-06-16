@@ -24,6 +24,7 @@ export { flattenText, createHeadingIdFactory } from "@willa-ui/shared";
 export { FileCard } from "#content/components/FileCard";
 export { FilePreview } from "#content/components/FilePreview";
 export { FileTree } from "#content/components/FileTree";
+export { FloatButton, FloatButtonGroup } from "#content/components/FloatButton";
 export { Image } from "#content/components/Image";
 export { ImageGallery } from "#content/components/ImageGallery";
 export { IconButton } from "#content/components/IconButton";
@@ -161,6 +162,16 @@ export type {
   FileTreeProps,
   FileTreeSize,
 } from "#content/components/FileTree";
+export type {
+  FloatButtonGroupDirection,
+  FloatButtonGroupProps,
+  FloatButtonPlacement,
+  FloatButtonProps,
+  FloatButtonScrollTarget,
+  FloatButtonShape,
+  FloatButtonSize,
+  FloatButtonVariant,
+} from "#content/components/FloatButton";
 export type { ImageProps } from "#content/components/Image";
 export type {
   ImageGalleryItem,

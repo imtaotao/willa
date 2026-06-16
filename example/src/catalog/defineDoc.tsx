@@ -66,6 +66,8 @@ const willaDemoImportNames = new Set([
   "EnglishCards",
   "FileCard",
   "FileTree",
+  "FloatButton",
+  "FloatButtonGroup",
   "Form",
   "FormActions",
   "FormField",

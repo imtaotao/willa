@@ -103,6 +103,7 @@ const docSpecGroups = {
     "FileCard",
     "FilePreview",
     "FileTree",
+    "FloatButton",
     "Image",
     "ImageGallery",
     "IconButton",

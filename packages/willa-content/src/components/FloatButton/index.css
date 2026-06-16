@@ -1,0 +1,254 @@
+.willa-float-button,
+.willa-float-button-group {
+  --willa-float-button-offset-x: 1.5rem;
+  --willa-float-button-offset-y: 1.5rem;
+}
+
+.willa-float-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  color: var(--willa-float-button-text);
+  background: var(--willa-float-button-bg);
+  border: 1px solid var(--willa-float-button-border);
+  border-radius: 1rem;
+  box-shadow: var(--willa-float-button-shadow);
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  transition:
+    transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+}
+
+.willa-float-button--fixed {
+  position: fixed;
+  z-index: var(--willa-float-button-z-index, 1080);
+}
+
+.willa-float-button:hover {
+  background: var(--willa-float-button-bg-hover);
+  border-color: var(--willa-float-button-border-hover);
+  box-shadow: var(--willa-float-button-shadow-hover);
+  transform: translateY(-1px);
+}
+
+.willa-float-button:focus-visible {
+  box-shadow:
+    0 0 0 3px var(--willa-focus-ring),
+    var(--willa-float-button-shadow-hover);
+}
+
+.willa-float-button:active {
+  transform: translateY(0);
+}
+
+.willa-float-button--hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(0.5rem);
+}
+
+.willa-float-button--primary {
+  color: var(--willa-float-button-primary-text);
+  background: var(--willa-float-button-primary-bg);
+  border-color: var(--willa-float-button-primary-border);
+  box-shadow: var(--willa-float-button-primary-shadow);
+}
+
+.willa-float-button--primary:hover {
+  background: var(--willa-float-button-primary-bg-hover);
+  border-color: var(--willa-float-button-primary-border-hover);
+  box-shadow: var(--willa-float-button-primary-shadow-hover);
+}
+
+.willa-float-button--circle {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 999px;
+}
+
+.willa-float-button--square {
+  min-width: 3.5rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: 1rem;
+}
+
+.willa-float-button--md.willa-float-button--square {
+  min-height: 3.5rem;
+}
+
+.willa-float-button--lg.willa-float-button--circle {
+  width: 3.8rem;
+  height: 3.8rem;
+}
+
+.willa-float-button--lg.willa-float-button--square {
+  min-width: 4rem;
+  min-height: 4rem;
+  padding: 1rem 1.05rem;
+}
+
+.willa-float-button__content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+.willa-float-button--square .willa-float-button__content {
+  justify-content: flex-start;
+}
+
+.willa-float-button__icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.willa-float-button__icon :where(svg) {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.willa-float-button__copy {
+  display: inline-grid;
+  gap: 0.12rem;
+  min-width: 0;
+  text-align: left;
+}
+
+.willa-float-button__label {
+  overflow: hidden;
+  color: inherit;
+  font-size: 0.94rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.willa-float-button__description {
+  overflow: hidden;
+  color: var(--willa-float-button-muted);
+  font-size: 0.76rem;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.willa-float-button--primary .willa-float-button__description {
+  color: var(--willa-float-button-primary-muted);
+}
+
+.willa-float-button__badge {
+  position: absolute;
+  top: 0.32rem;
+  right: 0.32rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.05rem;
+  height: 1.05rem;
+  padding: 0 0.28rem;
+  color: var(--willa-float-button-badge-text);
+  background: var(--willa-float-button-badge-bg);
+  border: 1px solid var(--willa-float-button-badge-border);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.willa-float-button-group {
+  position: relative;
+  display: inline-grid;
+  gap: 0.65rem;
+}
+
+.willa-float-button-group--fixed {
+  position: fixed;
+  z-index: var(--willa-float-button-z-index, 1080);
+}
+
+.willa-float-button-group__items {
+  display: grid;
+  gap: 0.65rem;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 160ms ease,
+    transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.willa-float-button-group--up .willa-float-button-group__items,
+.willa-float-button-group--down .willa-float-button-group__items {
+  justify-items: end;
+}
+
+.willa-float-button-group--left .willa-float-button-group__items,
+.willa-float-button-group--right .willa-float-button-group__items {
+  grid-auto-flow: column;
+  align-items: center;
+}
+
+.willa-float-button-group--up .willa-float-button-group__items {
+  order: -1;
+  transform: translateY(0.5rem);
+}
+
+.willa-float-button-group--down .willa-float-button-group__items {
+  transform: translateY(-0.5rem);
+}
+
+.willa-float-button-group--left .willa-float-button-group__items {
+  order: -1;
+  transform: translateX(0.5rem);
+}
+
+.willa-float-button-group--right .willa-float-button-group__items {
+  transform: translateX(-0.5rem);
+}
+
+.willa-float-button-group--open .willa-float-button-group__items {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(0, 0);
+}
+
+.willa-float-button-group__trigger {
+  justify-self: end;
+}
+
+@media (max-width: 640px) {
+  .willa-float-button--fixed {
+    transform: none;
+  }
+
+  .willa-float-button:hover {
+    transform: none;
+  }
+
+  .willa-float-button--lg.willa-float-button--circle {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .willa-float-button--square {
+    min-width: 3.25rem;
+    padding: 0.8rem 0.9rem;
+  }
+
+  .willa-float-button__description {
+    white-space: normal;
+  }
+}
