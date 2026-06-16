@@ -145,6 +145,7 @@ const docChineseNames: Record<string, string> = {
   Upload: "上传",
   VideoEmbed: "视频嵌入",
   VideoLink: "视频链接",
+  Watermark: "水印",
   WebEmbed: "网页嵌入",
   XPostEmbed: "X 内容嵌入",
 };

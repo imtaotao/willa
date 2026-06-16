@@ -1,0 +1,29 @@
+.willa-watermark {
+  position: relative;
+  isolation: isolate;
+}
+
+.willa-watermark--fixed {
+  pointer-events: none;
+}
+
+.willa-watermark__content {
+  position: relative;
+  z-index: 0;
+}
+
+.willa-watermark__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: var(--willa-watermark-z-index);
+  pointer-events: none;
+  opacity: var(--willa-watermark-opacity);
+  background-image: var(--willa-watermark-image);
+  background-position: var(--willa-watermark-position);
+  background-repeat: repeat;
+  background-size: var(--willa-watermark-size);
+}
+
+.willa-watermark--fixed .willa-watermark__overlay {
+  position: fixed;
+}

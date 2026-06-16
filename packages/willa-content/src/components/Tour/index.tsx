@@ -225,7 +225,6 @@ export function Tour(props: TourProps) {
 
   const updateLayout = useCallback(() => {
     if (!isOpen || !activeStep || typeof window === "undefined") return;
-
     const targetElement = resolveTarget(activeTarget);
 
     if (targetElement && scrollIntoView) {
@@ -236,10 +235,10 @@ export function Tour(props: TourProps) {
       );
     }
 
+    const panelElement = panelRef.current;
     const nextTargetRect = targetElement
       ? createHighlightRect(targetElement.getBoundingClientRect(), gap)
       : null;
-    const panelElement = panelRef.current;
 
     setTargetRect((previousRect) =>
       areTourRectsEqual(previousRect, nextTargetRect)
@@ -294,12 +293,10 @@ export function Tour(props: TourProps) {
         closeTour();
         return;
       }
-
       if (event.key === "ArrowRight") {
         showNextStep();
         return;
       }
-
       if (event.key === "ArrowLeft") {
         showPreviousStep();
       }
@@ -309,20 +306,35 @@ export function Tour(props: TourProps) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [closeTour, isOpen, keyboard, showNextStep, showPreviousStep]);
 
+  useEffect(() => {
+    if (!isOpen || typeof document === "undefined") return;
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen]);
+
   const titleId = activeStep?.title ? `${id}-title` : undefined;
+
   const descriptionId = activeStep?.description
     ? `${id}-description`
     : undefined;
+
   const zIndexStyle =
     zIndex === undefined
       ? {}
       : ({ "--willa-tour-z-index": zIndex } as CSSProperties);
+
   const panelStyle = {
     ...zIndexStyle,
     top: panelPosition?.top,
     left: panelPosition?.left,
     visibility: panelPosition ? "visible" : "hidden",
   } as CSSProperties;
+
   const rootStyle = zIndexStyle;
   const indicators = useMemo(() => {
     if (indicatorsRender) return indicatorsRender(activeIndex, total);
@@ -368,6 +380,7 @@ export function Tour(props: TourProps) {
       </Button>
     </>
   );
+
   const actions = actionsRender
     ? actionsRender(defaultActions, {
         current: activeIndex,
@@ -478,25 +491,33 @@ const TourMask = (props: {
   const rect = props.rect;
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
+  const overlap = 1;
+  const leftEdge = Math.max(0, rect.left - overlap);
+  const rightEdge = Math.min(viewportWidth, rect.left + rect.width + overlap);
   const pieces = [
-    { top: 0, left: 0, width: viewportWidth, height: rect.top },
+    {
+      top: 0,
+      left: 0,
+      width: viewportWidth,
+      height: rect.top,
+    },
     {
       top: rect.top,
       left: 0,
-      width: rect.left,
+      width: leftEdge + overlap,
       height: rect.height,
     },
     {
       top: rect.top,
-      left: rect.left + rect.width,
-      width: viewportWidth - rect.left - rect.width,
+      left: rightEdge - overlap,
+      width: Math.max(0, viewportWidth - rightEdge + overlap),
       height: rect.height,
     },
     {
       top: rect.top + rect.height,
       left: 0,
       width: viewportWidth,
-      height: viewportHeight - rect.top - rect.height,
+      height: Math.max(0, viewportHeight - rect.top - rect.height),
     },
   ];
 

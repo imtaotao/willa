@@ -50,6 +50,7 @@ export { Tour } from "#content/components/Tour";
 export { Tree } from "#content/components/Tree";
 export { createToast, toast } from "#content/components/Toast";
 export { Tooltip } from "#content/components/Tooltip";
+export { Watermark } from "#content/components/Watermark";
 
 export type { ChatThreadProps } from "#content/components/ChatThread";
 export type {
@@ -307,6 +308,10 @@ export type {
   TooltipSide,
   TooltipSize,
 } from "#content/components/Tooltip";
+export type {
+  WatermarkFont,
+  WatermarkProps,
+} from "#content/components/Watermark";
 export type {
   CodeBlockHighlightLine,
   CodeBlockProps,

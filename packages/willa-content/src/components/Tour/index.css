@@ -15,11 +15,6 @@
   cursor: default;
   background: var(--willa-tour-mask-bg);
   border: 0;
-  transition:
-    top 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    left 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    width 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    height 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .willa-tour__highlight {

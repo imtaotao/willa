@@ -136,6 +136,7 @@ const willaDemoImportNames = new Set([
   "Upload",
   "VideoEmbed",
   "VideoLink",
+  "Watermark",
   "WebEmbed",
   "XPostEmbed",
 ]);
@@ -168,6 +169,9 @@ const renderDemoElement = (element: DemoElement) => {
       )
     : element.children;
 
+  if (typeof children === "undefined") {
+    return createElement(element.component, element.props);
+  }
   return createElement(element.component, element.props, children);
 };
 

@@ -129,6 +129,7 @@ const docSpecGroups = {
     "Tree",
     "Toast",
     "Tooltip",
+    "Watermark",
   ],
 } satisfies DocSpecGroups;
 
