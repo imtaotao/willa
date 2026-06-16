@@ -13,10 +13,7 @@ import {
 } from "@radix-ui/react-icons";
 import classNames from "classnames";
 
-import {
-  resolveMediaVolume,
-  type MediaContextProps,
-} from "@willa-ui/content/media";
+import { resolveMediaVolume, type MediaContextProps } from "@willa-ui/shared";
 
 export type AudioEmbedProps = MediaContextProps & {
   href?: string;

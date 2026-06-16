@@ -13,6 +13,7 @@ import {
 import { createPortal } from "react-dom";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import classNames from "classnames";
+import { clampNumber } from "@willa-ui/shared";
 
 import { Button } from "#content/components/Button";
 import { IconButton } from "#content/components/IconButton";
@@ -153,7 +154,7 @@ export function Tour(props: TourProps) {
   const [uncontrolledCurrent, setUncontrolledCurrent] =
     useState(defaultCurrent);
   const isOpen = open ?? uncontrolledOpen;
-  const activeIndex = clamp(
+  const activeIndex = clampNumber(
     current ?? uncontrolledCurrent,
     0,
     steps.length - 1,
@@ -186,7 +187,7 @@ export function Tour(props: TourProps) {
 
   const setTourCurrent = useCallback(
     (nextCurrent: number) => {
-      const normalizedCurrent = clamp(nextCurrent, 0, steps.length - 1);
+      const normalizedCurrent = clampNumber(nextCurrent, 0, steps.length - 1);
 
       if (!isCurrentControlled) {
         setUncontrolledCurrent(normalizedCurrent);
@@ -534,8 +535,8 @@ const createHighlightRect = (rect: DOMRect, gap: TourGap): TourRect => {
   const topOffset = normalizedGap.offsetY;
 
   return {
-    top: clamp(rect.top - topOffset, 0, window.innerHeight),
-    left: clamp(rect.left - leftOffset, 0, window.innerWidth),
+    top: clampNumber(rect.top - topOffset, 0, window.innerHeight),
+    left: clampNumber(rect.left - leftOffset, 0, window.innerWidth),
     width: Math.min(rect.width + leftOffset * 2, window.innerWidth),
     height: Math.min(rect.height + topOffset * 2, window.innerHeight),
     radius: normalizedGap.radius,
@@ -613,12 +614,12 @@ const getPanelPosition = (options: {
 
   if (!targetRect || placement === "center") {
     return {
-      top: clamp(
+      top: clampNumber(
         (window.innerHeight - panelRect.height) / 2,
         viewportPadding,
         window.innerHeight - panelRect.height - viewportPadding,
       ),
-      left: clamp(
+      left: clampNumber(
         (window.innerWidth - panelRect.width) / 2,
         viewportPadding,
         window.innerWidth - panelRect.width - viewportPadding,
@@ -641,12 +642,12 @@ const getPanelPosition = (options: {
   });
 
   return {
-    top: clamp(
+    top: clampNumber(
       position.top,
       viewportPadding,
       window.innerHeight - panelRect.height - viewportPadding,
     ),
-    left: clamp(
+    left: clampNumber(
       position.left,
       viewportPadding,
       window.innerWidth - panelRect.width - viewportPadding,
@@ -693,9 +694,4 @@ const getSidePosition = (options: {
         : targetCenterY - panelRect.height / 2;
 
   return { top, left };
-};
-
-const clamp = (value: number, min: number, max: number) => {
-  if (max < min) return min;
-  return Math.min(Math.max(value, min), max);
 };

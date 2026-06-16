@@ -8,10 +8,10 @@ import {
   useState,
   type ButtonHTMLAttributes,
   type CSSProperties,
-  type ForwardedRef,
   type KeyboardEvent,
 } from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
+import { assignRef, clampNumber } from "@willa-ui/shared";
 import { createPortal } from "react-dom";
 import classNames from "classnames";
 
@@ -151,7 +151,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
 
     const setButtonRef = (node: HTMLButtonElement | null) => {
       buttonRef.current = node;
-      assignForwardedRef(ref, node);
+      assignRef(ref, node);
     };
 
     useEffect(() => {
@@ -612,17 +612,17 @@ const normalizeWheelParts = (parts: {
   minute: number;
   second: number;
 }) => {
-  const year = clamp(Math.trunc(parts.year), 1900, 2100);
-  const month = clamp(Math.trunc(parts.month), 1, 12);
+  const year = clampNumber(Math.trunc(parts.year), 1900, 2100);
+  const month = clampNumber(Math.trunc(parts.month), 1, 12);
   const maxDay = getDaysInMonth(year, month);
 
   return {
     year,
     month,
-    day: clamp(Math.trunc(parts.day), 1, maxDay),
-    hour: clamp(Math.trunc(parts.hour), 0, 23),
-    minute: clamp(Math.trunc(parts.minute), 0, 59),
-    second: clamp(Math.trunc(parts.second), 0, 59),
+    day: clampNumber(Math.trunc(parts.day), 1, maxDay),
+    hour: clampNumber(Math.trunc(parts.hour), 0, 23),
+    minute: clampNumber(Math.trunc(parts.minute), 0, 59),
+    second: clampNumber(Math.trunc(parts.second), 0, 59),
   };
 };
 
@@ -707,20 +707,3 @@ const serializeValue = (value: DatePickerValue) => {
 
 const getRangeValue = (value: DatePickerValue) =>
   typeof value === "string" ? null : value;
-
-const clamp = (value: number, min: number, max: number) =>
-  Math.min(Math.max(value, min), max);
-
-const assignForwardedRef = (
-  ref: ForwardedRef<HTMLButtonElement>,
-  node: HTMLButtonElement | null,
-) => {
-  if (typeof ref === "function") {
-    ref(node);
-    return;
-  }
-
-  if (ref) {
-    ref.current = node;
-  }
-};

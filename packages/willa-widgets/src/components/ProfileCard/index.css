@@ -22,7 +22,7 @@
 .willa-profile-card-image {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: clamp(10rem, 24vw, 16rem);
   background: var(--willa-profile-card-media-bg);
   object-fit: cover;
 }
@@ -98,4 +98,10 @@
 
 .willa-profile-card-links a:hover {
   color: var(--willa-profile-card-link-hover);
+}
+
+@media (max-width: 640px) {
+  .willa-profile-card-image {
+    height: 11rem;
+  }
 }

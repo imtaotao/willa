@@ -15,6 +15,7 @@ import {
 } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
+import { clampNumber } from "@willa-ui/shared";
 
 import { IconButton } from "#content/components/IconButton";
 
@@ -431,7 +432,7 @@ const clampIndex = (index: number, length: number) => {
     return 0;
   }
 
-  return Math.min(Math.max(index, 0), length - 1);
+  return clampNumber(index, 0, length - 1);
 };
 
 const normalizeIndex = (index: number, length: number, loop: boolean) => {
@@ -470,7 +471,7 @@ const resolveStackOffset = (
   return clampStackOffset(shortestOffset);
 };
 
-const clampStackOffset = (offset: number) => Math.max(-2, Math.min(2, offset));
+const clampStackOffset = (offset: number) => clampNumber(offset, -2, 2);
 
 const resolveStackStyle = (offset: number) => {
   const distance = Math.abs(offset);

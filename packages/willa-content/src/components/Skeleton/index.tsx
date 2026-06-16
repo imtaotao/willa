@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import classNames from "classnames";
+import { formatCssSize } from "@willa-ui/shared";
 
 type SkeletonLineSpec =
   | number
@@ -24,12 +25,6 @@ export type SkeletonProps = {
   color?: string;
 };
 
-const formatSize = (value: number | string | undefined) => {
-  if (typeof value === "number" && Number.isFinite(value)) return `${value}px`;
-  if (typeof value === "string") return value.trim();
-  return undefined;
-};
-
 const resolveLines = (lines: SkeletonProps["lines"]) => {
   if (Array.isArray(lines)) return lines;
   return Array.from({ length: lines ?? 3 }, (_, index) =>
@@ -39,12 +34,14 @@ const resolveLines = (lines: SkeletonProps["lines"]) => {
 
 const createLineStyle = (line: SkeletonLineSpec) => {
   if (typeof line === "number" || typeof line === "string") {
-    return { "--willa-skeleton-line-width": formatSize(line) } as CSSProperties;
+    return {
+      "--willa-skeleton-line-width": formatCssSize(line),
+    } as CSSProperties;
   }
 
   return {
-    "--willa-skeleton-line-width": formatSize(line.width),
-    "--willa-skeleton-line-height": formatSize(line.height),
+    "--willa-skeleton-line-width": formatCssSize(line.width),
+    "--willa-skeleton-line-height": formatCssSize(line.height),
   } as CSSProperties;
 };
 
@@ -87,7 +84,7 @@ export function Skeleton({
     skeletonClassName,
   );
   const skeletonStyle = {
-    "--willa-skeleton-block-height": formatSize(blockHeight),
+    "--willa-skeleton-block-height": formatCssSize(blockHeight),
     "--willa-skeleton-bg": createSkeletonBackground(color),
   } as CSSProperties;
 

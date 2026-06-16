@@ -14,6 +14,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { Cross2Icon } from "@radix-ui/react-icons";
+import { getFocusableElements } from "@willa-ui/shared";
 import classNames from "classnames";
 import { isPromiseLike } from "aidly";
 
@@ -50,19 +51,6 @@ export type DialogProps = {
 type DialogTriggerProps = {
   onClick?: MouseEventHandler<HTMLElement>;
   [key: string]: unknown;
-};
-
-const focusableSelector = [
-  "a[href]",
-  "button:not([disabled])",
-  "textarea:not([disabled])",
-  "input:not([disabled])",
-  "select:not([disabled])",
-  "[tabindex]:not([tabindex='-1'])",
-].join(",");
-
-const getFocusableElements = (container: HTMLElement) => {
-  return Array.from(container.querySelectorAll<HTMLElement>(focusableSelector));
 };
 
 export function Dialog(props: DialogProps) {

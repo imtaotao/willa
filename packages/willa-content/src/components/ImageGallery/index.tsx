@@ -1,8 +1,12 @@
 import { type CSSProperties, useRef } from "react";
-import { type LightboxImage, type OpenLightbox } from "@willa-ui/shared";
+import {
+  resolveMediaAsset,
+  type LightboxImage,
+  type MediaContextProps,
+  type OpenLightbox,
+} from "@willa-ui/shared";
 import classNames from "classnames";
 
-import { type MediaContextProps, resolveMediaAsset } from "#content/media";
 import { normalizeLightboxImage } from "#content/components/Lightbox";
 
 export type ImageGalleryItem =

@@ -4,11 +4,10 @@ import {
   useRef,
   type ChangeEvent,
   type ComponentPropsWithoutRef,
-  type MutableRefObject,
   type ReactNode,
-  type Ref,
 } from "react";
 import { CheckIcon, MinusIcon } from "@radix-ui/react-icons";
+import { composeRefs } from "@willa-ui/shared";
 import classNames from "classnames";
 
 export type CheckboxSize = "sm" | "md";
@@ -72,7 +71,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         <span className="willa-checkbox-control">
           <input
             {...inputProps}
-            ref={mergeInputRefs(inputRef, ref)}
+            ref={composeRefs(inputRef, ref)}
             className={classNames("willa-checkbox-input", inputClassName)}
             disabled={disabled}
             type="checkbox"
@@ -103,21 +102,3 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 );
 
 Checkbox.displayName = "Checkbox";
-
-const mergeInputRefs =
-  (
-    innerRef: MutableRefObject<HTMLInputElement | null>,
-    forwardedRef: Ref<HTMLInputElement>,
-  ) =>
-  (element: HTMLInputElement | null) => {
-    innerRef.current = element;
-
-    if (typeof forwardedRef === "function") {
-      forwardedRef(element);
-      return;
-    }
-
-    if (forwardedRef) {
-      forwardedRef.current = element;
-    }
-  };

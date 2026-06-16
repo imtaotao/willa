@@ -15,6 +15,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { Cross2Icon } from "@radix-ui/react-icons";
+import { formatCssSize, getFocusableElements } from "@willa-ui/shared";
 import { isPromiseLike } from "aidly";
 import classNames from "classnames";
 
@@ -56,15 +57,6 @@ type DrawerTriggerProps = {
   onClick?: MouseEventHandler<HTMLElement>;
   [key: string]: unknown;
 };
-
-const focusableSelector = [
-  "a[href]",
-  "button:not([disabled])",
-  "textarea:not([disabled])",
-  "input:not([disabled])",
-  "select:not([disabled])",
-  "[tabindex]:not([tabindex='-1'])",
-].join(",");
 
 export function Drawer(props: DrawerProps) {
   const {
@@ -259,7 +251,7 @@ export function Drawer(props: DrawerProps) {
     customDrawerSize === undefined
       ? undefined
       : ({
-          "--willa-drawer-size": normalizeCssSize(customDrawerSize),
+          "--willa-drawer-size": formatCssSize(customDrawerSize),
         } as CSSProperties);
 
   const drawerContent =
@@ -334,11 +326,3 @@ export function Drawer(props: DrawerProps) {
     </>
   );
 }
-
-const getFocusableElements = (container: HTMLElement) => {
-  return Array.from(container.querySelectorAll<HTMLElement>(focusableSelector));
-};
-
-const normalizeCssSize = (value: number | string) => {
-  return typeof value === "number" ? `${value}px` : value;
-};

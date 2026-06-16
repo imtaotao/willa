@@ -14,6 +14,7 @@ import {
   type ReactNode,
 } from "react";
 import classNames from "classnames";
+import { clampNumber } from "@willa-ui/shared";
 
 export type SplitPaneOrientation = "horizontal" | "vertical";
 
@@ -403,7 +404,7 @@ const clampSize = (
 ) => {
   if (!limit) return size;
 
-  return Math.min(Math.max(size, limit.minSize), limit.maxSize);
+  return clampNumber(size, limit.minSize, limit.maxSize);
 };
 
 const readStoredSizes = (storageKey: string | undefined) => {

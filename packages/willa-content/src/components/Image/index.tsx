@@ -6,11 +6,13 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import classNames from "classnames";
+import {
+  resolveMediaAsset,
+  type MediaContextProps,
+  type OpenLightbox,
+} from "@willa-ui/shared";
 
 import { normalizeLightboxImage } from "#content/components/Lightbox";
-import { resolveMediaAsset } from "#content/media";
-import type { OpenLightbox } from "@willa-ui/shared";
-import type { MediaContextProps } from "#content/media";
 
 export type ImageProps = ComponentProps<"img"> &
   MediaContextProps & {

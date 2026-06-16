@@ -11,6 +11,7 @@ import {
 } from "react";
 import classNames from "classnames";
 import { ArchiveIcon, FileIcon, FileTextIcon } from "@radix-ui/react-icons";
+import { clampNumber } from "@willa-ui/shared";
 
 import { Tree, type TreeItem, type TreeKey } from "#content/components/Tree";
 
@@ -317,7 +318,7 @@ const getFileTreeItemTextTitle = (value: ReactNode) => {
 };
 
 const clampWidth = (value: number, min: number, max: number) => {
-  return Math.min(Math.max(value, min), Math.max(min, max));
+  return clampNumber(value, min, max);
 };
 
 const getDefaultIcon = (type: FileTreeItemType, name: ReactNode) => {

@@ -6,6 +6,7 @@ import {
   DoubleArrowRightIcon,
 } from "@radix-ui/react-icons";
 import classNames from "classnames";
+import { clampNumber, createNumberRange } from "@willa-ui/shared";
 
 export type PaginationSize = "sm" | "md";
 
@@ -310,8 +311,11 @@ const createPaginationItems = (options: {
     options.pageCount - boundaryCount,
   );
   const items: Array<PaginationItem> = [];
-  const startPages = range(1, Math.min(boundaryCount, options.pageCount));
-  const endPages = range(
+  const startPages = createNumberRange(
+    1,
+    Math.min(boundaryCount, options.pageCount),
+  );
+  const endPages = createNumberRange(
     Math.max(options.pageCount - boundaryCount + 1, boundaryCount + 1),
     options.pageCount,
   );
@@ -330,7 +334,7 @@ const createPaginationItems = (options: {
     items.push(boundaryCount + 1);
   }
 
-  items.push(...range(visibleSiblingStart, visibleSiblingEnd));
+  items.push(...createNumberRange(visibleSiblingStart, visibleSiblingEnd));
 
   if (visibleSiblingEnd < options.pageCount - boundaryCount - 1) {
     items.push({
@@ -359,12 +363,7 @@ const dedupePaginationItems = (items: Array<PaginationItem>) => {
   });
 };
 
-const range = (start: number, end: number) => {
-  if (end < start) return [];
-  return Array.from({ length: end - start + 1 }, (_, index) => start + index);
-};
-
 const clampPage = (page: number, pageCount: number) => {
   if (pageCount <= 0) return 1;
-  return Math.min(Math.max(1, Math.floor(page)), pageCount);
+  return clampNumber(Math.floor(page), 1, pageCount);
 };

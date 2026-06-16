@@ -4,11 +4,13 @@ import classNames from "classnames";
 
 import {
   MediaLinkExternalAction,
+  renderMediaLinkContent,
+} from "@willa-ui/content/media";
+import {
   resolveMediaAsset,
   resolveMediaVolume,
-  renderMediaLinkContent,
   type MediaContextProps,
-} from "@willa-ui/content/media";
+} from "@willa-ui/shared";
 
 export type VideoLinkProps = MediaContextProps & {
   href?: string;

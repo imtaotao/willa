@@ -1,29 +1,11 @@
 import { createElement, type ReactNode } from "react";
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
 
-import type { ResolveAssetUrl } from "@willa-ui/shared";
-
-export type MediaContextProps = {
-  articleSourcePath?: string;
-  resolveAssetUrl?: ResolveAssetUrl;
-};
-
-export function resolveMediaAsset(
-  props: MediaContextProps,
-  assetPath: string | undefined,
-) {
-  if (!assetPath) return undefined;
-  return props.resolveAssetUrl
-    ? props.resolveAssetUrl(props.articleSourcePath ?? "", assetPath)
-    : assetPath;
-}
-
-export function resolveMediaVolume(volume: number | undefined) {
-  if (volume === undefined) return undefined;
-  if (!Number.isFinite(volume)) return undefined;
-
-  return Math.min(1, Math.max(0, volume));
-}
+export {
+  resolveMediaAsset,
+  resolveMediaVolume,
+  type MediaContextProps,
+} from "@willa-ui/shared";
 
 export function renderMediaLinkContent(
   children: ReactNode,

@@ -13,14 +13,13 @@ import {
   type KeyboardEventHandler,
   type MouseEvent,
   type MouseEventHandler,
-  type MutableRefObject,
   type ReactElement,
   type ReactNode,
   type Ref,
-  type RefCallback,
 } from "react";
 import { createPortal } from "react-dom";
 import classNames from "classnames";
+import { clampNumber, composeRefs } from "@willa-ui/shared";
 
 export type TooltipSide = "top" | "right" | "bottom" | "left";
 export type TooltipAlign = "start" | "center" | "end";
@@ -137,15 +136,15 @@ export function Tooltip(props: TooltipProps) {
     });
 
     setPosition({
-      top: clamp(
+      top: clampNumber(
         nextPosition.top,
         8,
-        window.innerHeight - tooltipRect.height - 8,
+        Math.max(8, window.innerHeight - tooltipRect.height - 8),
       ),
-      left: clamp(
+      left: clampNumber(
         nextPosition.left,
         8,
-        window.innerWidth - tooltipRect.width - 8,
+        Math.max(8, window.innerWidth - tooltipRect.width - 8),
       ),
     });
   }, [align, offset, side]);
@@ -344,10 +343,6 @@ const getTooltipContentStyle = (position: TooltipPosition | undefined) => {
   } as CSSProperties;
 };
 
-const clamp = (value: number, min: number, max: number) => {
-  return Math.min(Math.max(value, min), Math.max(min, max));
-};
-
 const isCoarsePointer = () => {
   if (
     typeof window === "undefined" ||
@@ -357,19 +352,4 @@ const isCoarsePointer = () => {
   }
 
   return window.matchMedia("(pointer: coarse)").matches;
-};
-
-const composeRefs = <T,>(
-  ...refs: Array<Ref<T> | undefined>
-): RefCallback<T> => {
-  return (value) => {
-    refs.forEach((ref) => {
-      if (!ref) return;
-      if (typeof ref === "function") {
-        ref(value);
-        return;
-      }
-      (ref as MutableRefObject<T | null>).current = value;
-    });
-  };
 };

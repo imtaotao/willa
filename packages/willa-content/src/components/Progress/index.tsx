@@ -1,5 +1,6 @@
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import classNames from "classnames";
+import { clampNumber, formatCssSize } from "@willa-ui/shared";
 
 export type ProgressSize = "sm" | "md" | "lg";
 export type ProgressTone =
@@ -51,8 +52,8 @@ export function Progress({
     valueLabel ?? `${Math.round((normalizedValue / resolvedMax) * 100)}%`;
   const hasHeader = label || description || showValue || valueLabel;
   const progressStyle = {
-    width: formatProgressSize(width),
-    "--willa-progress-height-custom": formatProgressSize(height),
+    width: formatCssSize(width),
+    "--willa-progress-height-custom": formatCssSize(height),
     "--willa-progress-value": `${(normalizedValue / resolvedMax) * 100}%`,
     "--willa-progress-buffer-value":
       normalizedBufferValue === undefined
@@ -110,11 +111,5 @@ export function Progress({
 
 const normalizeProgressValue = (value: number, max: number) => {
   if (!Number.isFinite(value)) return 0;
-  return Math.min(Math.max(value, 0), max);
-};
-
-const formatProgressSize = (value: number | string | undefined) => {
-  if (typeof value === "number" && Number.isFinite(value)) return `${value}px`;
-  if (typeof value === "string") return value.trim();
-  return undefined;
+  return clampNumber(value, 0, max);
 };

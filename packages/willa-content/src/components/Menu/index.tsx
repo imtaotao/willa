@@ -9,16 +9,14 @@ import {
   useState,
   type CSSProperties,
   type KeyboardEvent,
-  type MutableRefObject,
   type MouseEvent,
   type MouseEventHandler,
-  type Ref,
-  type RefCallback,
   type ReactElement,
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
 import classNames from "classnames";
+import { clampNumber, composeRefs } from "@willa-ui/shared";
 
 export type MenuSize = "sm" | "md";
 export type MenuSide = "top" | "bottom";
@@ -128,8 +126,16 @@ export function Menu(props: MenuProps) {
     const left = getMenuLeft(rect, contentWidth, align);
 
     setPosition({
-      top: clamp(top, 8, window.innerHeight - contentHeight - 8),
-      left: clamp(left, 8, window.innerWidth - contentWidth - 8),
+      top: clampNumber(
+        top,
+        8,
+        Math.max(8, window.innerHeight - contentHeight - 8),
+      ),
+      left: clampNumber(
+        left,
+        8,
+        Math.max(8, window.innerWidth - contentWidth - 8),
+      ),
       minWidth: Math.min(rect.width, window.innerWidth - 16),
     });
   }, [align, offset, side]);
@@ -380,23 +386,4 @@ const getMenuContentStyle = (position: MenuPosition | undefined) => {
     minWidth: position ? `${position.minWidth}px` : undefined,
     visibility: position ? undefined : "hidden",
   } as CSSProperties;
-};
-
-const clamp = (value: number, min: number, max: number) => {
-  return Math.min(Math.max(value, min), Math.max(min, max));
-};
-
-const composeRefs = <T,>(
-  ...refs: Array<Ref<T> | undefined>
-): RefCallback<T> => {
-  return (value) => {
-    refs.forEach((ref) => {
-      if (!ref) return;
-      if (typeof ref === "function") {
-        ref(value);
-        return;
-      }
-      (ref as MutableRefObject<T | null>).current = value;
-    });
-  };
 };

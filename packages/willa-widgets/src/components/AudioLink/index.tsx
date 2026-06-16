@@ -9,10 +9,9 @@ import classNames from "classnames";
 
 import {
   MediaLinkExternalAction,
-  resolveMediaVolume,
   renderMediaLinkContent,
-  type MediaContextProps,
 } from "@willa-ui/content/media";
+import { resolveMediaVolume, type MediaContextProps } from "@willa-ui/shared";
 
 export type AudioLinkProps = MediaContextProps & {
   href?: string;

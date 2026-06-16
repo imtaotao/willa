@@ -10,14 +10,17 @@ import {
   type KeyboardEvent,
   type MouseEvent,
   type MouseEventHandler,
-  type MutableRefObject,
   type ReactElement,
   type ReactNode,
   type Ref,
-  type RefCallback,
 } from "react";
 import { createPortal } from "react-dom";
 import classNames from "classnames";
+import {
+  clampNumber,
+  composeRefs,
+  getFocusableElements,
+} from "@willa-ui/shared";
 
 export type PopoverSide = "top" | "right" | "bottom" | "left";
 export type PopoverAlign = "start" | "center" | "end";
@@ -55,19 +58,6 @@ type PopoverPosition = {
   top: number;
   left: number;
   minWidth: number;
-};
-
-const focusableSelector = [
-  "a[href]",
-  "button:not([disabled])",
-  "textarea:not([disabled])",
-  "input:not([disabled])",
-  "select:not([disabled])",
-  "[tabindex]:not([tabindex='-1'])",
-].join(",");
-
-const getFocusableElements = (container: HTMLElement) => {
-  return Array.from(container.querySelectorAll<HTMLElement>(focusableSelector));
 };
 
 export function Popover(props: PopoverProps) {
@@ -136,15 +126,15 @@ export function Popover(props: PopoverProps) {
     });
 
     setPosition({
-      top: clamp(
+      top: clampNumber(
         nextPosition.top,
         8,
-        window.innerHeight - popoverRect.height - 8,
+        Math.max(8, window.innerHeight - popoverRect.height - 8),
       ),
-      left: clamp(
+      left: clampNumber(
         nextPosition.left,
         8,
-        window.innerWidth - popoverRect.width - 8,
+        Math.max(8, window.innerWidth - popoverRect.width - 8),
       ),
       minWidth: Math.min(triggerRect.width, window.innerWidth - 16),
     });
@@ -317,6 +307,7 @@ const getPopoverPosition = (options: {
       side === "top"
         ? triggerRect.top - popoverRect.height - offset
         : triggerRect.bottom + offset;
+
     const left = getAlignedPosition(
       triggerRect.left,
       triggerRect.right,
@@ -362,23 +353,4 @@ const getPopoverContentStyle = (position: PopoverPosition | undefined) => {
     minWidth: position ? `${position.minWidth}px` : undefined,
     visibility: position ? undefined : "hidden",
   } as CSSProperties;
-};
-
-const clamp = (value: number, min: number, max: number) => {
-  return Math.min(Math.max(value, min), Math.max(min, max));
-};
-
-const composeRefs = <T,>(
-  ...refs: Array<Ref<T> | undefined>
-): RefCallback<T> => {
-  return (value) => {
-    refs.forEach((ref) => {
-      if (!ref) return;
-      if (typeof ref === "function") {
-        ref(value);
-        return;
-      }
-      (ref as MutableRefObject<T | null>).current = value;
-    });
-  };
 };

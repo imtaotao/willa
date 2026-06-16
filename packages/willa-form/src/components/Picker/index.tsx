@@ -4,10 +4,10 @@ import {
   useState,
   type ButtonHTMLAttributes,
   type CSSProperties,
-  type ForwardedRef,
   type ReactNode,
 } from "react";
 import { CheckIcon } from "@radix-ui/react-icons";
+import { assignRef } from "@willa-ui/shared";
 import classNames from "classnames";
 
 import { handleSelectablePanelKeyDown } from "#form/internal/selectablePanelKeyboard";
@@ -142,7 +142,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(
 
     const setButtonRef = (node: HTMLButtonElement | null) => {
       triggerRef.current = node;
-      assignForwardedRef(ref, node);
+      assignRef(ref, node);
     };
 
     const commitValue = (item: PickerItem) => {
@@ -415,18 +415,4 @@ const getPickerStyle = ({
     ...style,
     width,
   };
-};
-
-const assignForwardedRef = (
-  ref: ForwardedRef<HTMLButtonElement>,
-  value: HTMLButtonElement | null,
-) => {
-  if (typeof ref === "function") {
-    ref(value);
-    return;
-  }
-
-  if (ref) {
-    ref.current = value;
-  }
 };

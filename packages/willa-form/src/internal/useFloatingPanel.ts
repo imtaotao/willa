@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState, type RefObject } from "react";
+import { clampNumber } from "@willa-ui/shared";
 
 export type FloatingPanelPosition = {
   left: number;
@@ -56,7 +57,7 @@ export const useFloatingPanel = ({
               Math.max(panelWidth ?? rect.width, baseMinWidth),
               maxWidth,
             );
-    const left = clamp(
+    const left = clampNumber(
       rect.left,
       viewportPadding,
       viewportWidth - viewportPadding - nextWidth,
@@ -136,8 +137,4 @@ export const useFloatingPanel = ({
     updatePosition,
     updateScrollable,
   };
-};
-
-const clamp = (value: number, min: number, max: number) => {
-  return Math.min(Math.max(value, min), max);
 };
