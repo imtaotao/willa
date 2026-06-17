@@ -72,41 +72,43 @@ export function Watermark(props: WatermarkProps) {
     image,
   );
   const lines = normalizeWatermarkContent(content);
-  const watermarkDataUrl = useMemo(
+  const watermarkFont = {
+    color: font?.color ?? themeColor,
+    fontFamily: font?.fontFamily,
+    fontSize: font?.fontSize,
+    fontStyle: font?.fontStyle,
+    fontWeight: font?.fontWeight,
+    letterSpacing: font?.letterSpacing,
+    lineHeight: font?.lineHeight,
+  };
+  const imageWatermarkDataUrl = useMemo(
     () =>
-      createWatermarkDataUrl({
-        lines,
-        image: resolvedImage,
-        width,
-        height,
-        gap,
-        rotate,
-        font: {
-          color: font?.color ?? themeColor,
-          fontFamily: font?.fontFamily,
-          fontSize: font?.fontSize,
-          fontStyle: font?.fontStyle,
-          fontWeight: font?.fontWeight,
-          letterSpacing: font?.letterSpacing,
-          lineHeight: font?.lineHeight,
-        },
-      }),
-    [
-      lines,
-      resolvedImage,
-      width,
-      height,
-      gap,
-      rotate,
-      font?.color,
-      font?.fontFamily,
-      font?.fontSize,
-      font?.fontStyle,
-      font?.fontWeight,
-      font?.letterSpacing,
-      font?.lineHeight,
-      themeColor,
-    ],
+      resolvedImage
+        ? createWatermarkDataUrl({
+            lines: [],
+            image: resolvedImage,
+            width,
+            height,
+            gap,
+            rotate,
+            font: watermarkFont,
+          })
+        : "",
+    [resolvedImage, width, height, gap, rotate, watermarkFont],
+  );
+  const textWatermarkDataUrl = useMemo(
+    () =>
+      lines.length
+        ? createWatermarkDataUrl({
+            lines,
+            width,
+            height,
+            gap,
+            rotate,
+            font: watermarkFont,
+          })
+        : "",
+    [lines, width, height, gap, rotate, watermarkFont],
   );
 
   useEffect(() => {
@@ -142,9 +144,6 @@ export function Watermark(props: WatermarkProps) {
 
   const mergedStyle = {
     ...style,
-    "--willa-watermark-image": watermarkDataUrl
-      ? `url("${watermarkDataUrl}")`
-      : "none",
     "--willa-watermark-size": `${width + gap[0]}px ${height + gap[1]}px`,
     "--willa-watermark-position": `${offset[0]}px ${offset[1]}px`,
     "--willa-watermark-opacity": `${opacity}`,
@@ -162,7 +161,28 @@ export function Watermark(props: WatermarkProps) {
       )}
       style={mergedStyle}
     >
-      <div className="willa-watermark__overlay" aria-hidden="true" />
+      <div
+        className="willa-watermark__layer willa-watermark__layer--image"
+        aria-hidden="true"
+        style={
+          {
+            backgroundImage: imageWatermarkDataUrl
+              ? `url("${imageWatermarkDataUrl}")`
+              : "none",
+          } as CSSProperties
+        }
+      />
+      <div
+        className="willa-watermark__layer willa-watermark__layer--text"
+        aria-hidden="true"
+        style={
+          {
+            backgroundImage: textWatermarkDataUrl
+              ? `url("${textWatermarkDataUrl}")`
+              : "none",
+          } as CSSProperties
+        }
+      />
       {children ? (
         <div className="willa-watermark__content">{children}</div>
       ) : null}

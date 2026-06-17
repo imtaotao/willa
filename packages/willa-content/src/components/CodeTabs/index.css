@@ -104,7 +104,6 @@
 }
 
 .willa-code-tabs .willa-prose-pre {
-  margin: 0;
   border-radius: 0;
   background: var(--willa-code-block-bg);
 }

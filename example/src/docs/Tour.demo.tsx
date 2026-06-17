@@ -132,6 +132,7 @@ const TourPreview = () => {
 
 const CenterTourPreview = () => {
   const [open, setOpen] = useState(false);
+  const [current, setCurrent] = useState(0);
   const steps: Array<TourStep> = [
     {
       title: "欢迎使用 Willa",
@@ -148,11 +149,28 @@ const CenterTourPreview = () => {
   return (
     <DemoFrame>
       <Group justify="center">
-        <Button icon={<MagicWandIcon />} onClick={() => setOpen(true)}>
+        <Button
+          icon={<MagicWandIcon />}
+          onClick={() => {
+            setCurrent(0);
+            setOpen(true);
+          }}
+        >
           打开居中引导
         </Button>
       </Group>
-      <Tour open={open} steps={steps} onOpenChange={setOpen} />
+      <Tour
+        open={open}
+        current={current}
+        steps={steps}
+        onChange={setCurrent}
+        onOpenChange={(nextOpen) => {
+          setOpen(nextOpen);
+          if (!nextOpen) {
+            setCurrent(0);
+          }
+        }}
+      />
     </DemoFrame>
   );
 };

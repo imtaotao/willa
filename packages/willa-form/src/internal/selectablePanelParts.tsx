@@ -10,7 +10,7 @@ import { ChevronDownIcon, Cross2Icon } from "@radix-ui/react-icons";
 import classNames from "classnames";
 import { createPortal } from "react-dom";
 
-import type { FloatingPanelPosition } from "./useFloatingPanel";
+import type { FloatingPanelPosition } from "#form/internal/useFloatingPanel";
 
 export type SelectablePanelPortalProps = {
   children: ReactNode;

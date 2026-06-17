@@ -18,6 +18,10 @@ export type ComponentDoc = {
   preview: ReactNode;
   code: string;
   props: Array<PropRow>;
+  propGroups?: Array<{
+    title: string;
+    description: string;
+  }>;
   sections?: Array<{
     title: string;
     code: string;

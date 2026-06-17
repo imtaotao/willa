@@ -1,0 +1,575 @@
+.willa-typography {
+  display: block;
+  width: 100%;
+  color: var(--willa-typography-text);
+  font-family: var(--willa-body-font);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.willa-typography-node {
+  min-width: 0;
+  margin: 0;
+  color: var(--willa-typography-text);
+  font-family: var(--willa-body-font);
+  font-size: 16px;
+  line-height: 1.8;
+  letter-spacing: 0;
+  font-weight: 500;
+}
+
+.willa-typography > .willa-typography-node + .willa-typography-node {
+  margin-top: 0.72rem;
+}
+
+.willa-typography-node--paragraph {
+  display: block;
+  width: 100%;
+}
+
+.willa-typography-node--text,
+.willa-typography-node--link {
+  display: inline;
+}
+
+.willa-typography-node--link {
+  color: var(--willa-typography-link);
+  font-weight: 600;
+  text-decoration: none;
+  text-underline-offset: 0.18em;
+  transition: color 160ms ease;
+}
+
+.willa-typography-node--link:hover {
+  color: var(--willa-typography-link-hover);
+}
+
+.willa-typography-node--link.willa-typography-node--disabled {
+  pointer-events: none;
+}
+
+.willa-typography-node--title {
+  color: var(--willa-typography-title);
+  font-family: var(--willa-title-font);
+  font-weight: 680;
+  line-height: 1.22;
+}
+
+.willa-typography-title--1 {
+  margin-top: 1.6em;
+  margin-bottom: 0.6em;
+  font-size: 2.12rem;
+}
+
+.willa-typography-title--2 {
+  margin-top: 1.45em;
+  margin-bottom: 0.56em;
+  font-size: 1.68rem;
+}
+
+.willa-typography-title--3 {
+  margin-top: 1.28em;
+  margin-bottom: 0.48em;
+  font-size: 1.32rem;
+}
+
+.willa-typography-title--4 {
+  margin-top: 1.12em;
+  margin-bottom: 0.42em;
+  font-size: 1.12rem;
+}
+
+.willa-typography-title--5 {
+  margin-top: 1em;
+  margin-bottom: 0.36em;
+  font-size: 1rem;
+}
+
+.willa-typography > .willa-typography-node--title:first-child {
+  margin-top: 0;
+}
+
+.willa-typography-node--secondary {
+  color: var(--willa-typography-secondary);
+}
+
+.willa-typography-node--success {
+  color: var(--willa-typography-success);
+}
+
+.willa-typography-node--warning {
+  color: var(--willa-typography-warning);
+}
+
+.willa-typography-node--danger {
+  color: var(--willa-typography-danger);
+}
+
+.willa-typography-node--strong {
+  color: var(--willa-typography-title);
+  font-weight: 600;
+}
+
+.willa-typography-node--italic {
+  font-style: italic;
+}
+
+.willa-typography-node--underline {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.willa-typography-node--delete {
+  text-decoration: line-through;
+}
+
+.willa-typography-node--underline.willa-typography-node--delete {
+  text-decoration: underline line-through;
+}
+
+.willa-typography-node--code {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--willa-typography-code-border);
+  border-radius: 0.35rem;
+  background: var(--willa-typography-code-bg);
+  color: var(--willa-typography-code-text);
+  font-family: var(--willa-code-font);
+  font-size: 0.86em;
+  font-weight: 500;
+  line-height: 1.35;
+  padding: 0.08em 0.36em;
+  vertical-align: baseline;
+}
+
+.willa-typography-code-surface {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--willa-typography-code-border);
+  border-radius: 0.35rem;
+  background: var(--willa-typography-code-bg);
+  color: var(--willa-typography-code-text);
+  font-family: var(--willa-code-font);
+  font-size: 0.86em;
+  font-weight: 500;
+  line-height: 1.35;
+  padding: 0.08em 0.36em;
+  vertical-align: baseline;
+}
+
+.willa-typography-kbd.willa-kbd {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.35rem;
+  min-width: 1.65em;
+  justify-content: center;
+  border: 1px solid var(--willa-typography-code-border);
+  border-radius: 6px;
+  background: var(--willa-typography-code-bg);
+  box-shadow: inset 0 -1px 0 var(--willa-typography-keyboard-shadow);
+  color: var(--willa-typography-code-text);
+  font-family: var(--willa-code-font);
+  font-size: 0.86em;
+  font-weight: 650;
+  line-height: 1;
+  padding: 0.18rem 0.38rem;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.willa-typography-node--mark {
+  border-radius: 0.26em;
+  background: var(--willa-typography-mark-bg);
+  color: var(--willa-typography-mark-text);
+  padding: 0.03em 0.2em;
+}
+
+.willa-typography-node--disabled {
+  color: var(--willa-typography-disabled);
+  cursor: not-allowed;
+  opacity: 0.78;
+}
+
+.willa-typography-node--ellipsis {
+  display: inline;
+  max-width: 100%;
+  vertical-align: bottom;
+}
+
+.willa-typography-node--has-actions {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  gap: 0.32rem;
+}
+
+.willa-typography-node--paragraph.willa-typography-node--ellipsis,
+.willa-typography-node--title.willa-typography-node--ellipsis {
+  display: block;
+}
+
+.willa-typography-node--paragraph.willa-typography-node--has-actions:not(
+    .willa-typography-node--ellipsis
+  ),
+.willa-typography-node--title.willa-typography-node--has-actions:not(
+    .willa-typography-node--ellipsis
+  ) {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.42rem;
+}
+
+.willa-typography-node--paragraph.willa-typography-node--ellipsis.willa-typography-node--has-actions,
+.willa-typography-node--title.willa-typography-node--ellipsis.willa-typography-node--has-actions {
+  display: grid;
+  align-items: start;
+  gap: 0.26rem;
+}
+
+.willa-typography-node--has-actions > .willa-tooltip {
+  min-width: 0;
+  width: 100%;
+  flex: 1 1 auto;
+}
+
+.willa-typography-content {
+  min-width: 0;
+}
+
+.willa-typography-content--editable {
+  border-radius: 0.3rem;
+  cursor: text;
+}
+
+.willa-typography-content--editable:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-typography-node--ellipsis .willa-typography-content {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--willa-typography-ellipsis-rows);
+}
+
+.willa-typography-suffix {
+  display: inline;
+  color: var(--willa-typography-secondary);
+}
+
+.willa-typography-actions {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.22rem;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.willa-typography-actions:empty {
+  display: none;
+}
+
+.willa-typography-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--willa-typography-action);
+  cursor: pointer;
+  font: inherit;
+  font-family: var(--willa-body-font);
+  font-size: 0.82rem;
+  line-height: 1;
+  margin-left: 0;
+  padding: 0;
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.willa-typography-action:hover {
+  color: var(--willa-typography-action-hover);
+}
+
+.willa-typography-action.willa-icon-button {
+  width: 1.4rem;
+  height: 1.4rem;
+  min-height: 0;
+  border: 0;
+  border-radius: 0.38rem;
+  background: transparent;
+  color: var(--willa-typography-action);
+  line-height: 1;
+  padding: 0;
+  vertical-align: -0.18em;
+  box-shadow: none;
+  transform: none;
+}
+
+.willa-typography-action.willa-icon-button:hover {
+  background: var(--willa-typography-action-bg-hover);
+  color: var(--willa-typography-action-hover);
+  transform: none;
+}
+
+.willa-typography-action--expand {
+  width: auto;
+  height: auto;
+  min-height: 0;
+  border-radius: 0.38rem;
+  color: var(--willa-typography-link);
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-left: 0;
+  padding: 0.12rem 0.28rem;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.willa-typography-action--expand:hover {
+  background: var(--willa-typography-action-bg-hover);
+}
+
+.willa-typography-action--expand .willa-button-label,
+.willa-typography-action--copy .willa-button-label {
+  min-width: 0;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+
+.willa-typography-action--copied {
+  color: var(--willa-typography-success);
+}
+
+.willa-typography-action.willa-icon-button.willa-typography-action--copied {
+  color: var(--willa-typography-success);
+}
+
+.willa-typography-action .willa-icon-button-icon {
+  display: inline-flex;
+  width: 0.92rem;
+  height: 0.92rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.willa-typography-action .willa-icon-button-icon svg {
+  width: 0.92rem;
+  height: 0.92rem;
+}
+
+.willa-typography-edit {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: stretch;
+  gap: 0.42rem;
+}
+
+.willa-typography-edit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.willa-typography-edit-status {
+  display: inline-flex;
+  align-items: center;
+  height: 1.46rem;
+  border-radius: 999px;
+  background: var(--willa-primary-soft);
+  color: var(--willa-primary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0 0.58rem;
+}
+
+.willa-typography-edit-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--willa-typography-code-border);
+  border-radius: 0.5rem;
+  background: var(--willa-surface);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.willa-typography-edit-field:focus-within {
+  border-color: var(--willa-typography-link);
+  box-shadow:
+    0 0 0 3px var(--willa-focus-ring),
+    0 2px 4px rgba(37, 99, 235, 0.08);
+}
+
+.willa-typography-edit-textarea {
+  box-sizing: border-box;
+  min-height: 5rem;
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--willa-typography-text);
+  font: inherit;
+  line-height: 1.68;
+  padding: 0.82rem 0.9rem;
+  resize: vertical;
+}
+
+.willa-typography-edit-textarea:focus {
+  outline: 0;
+}
+
+.willa-typography-edit-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  background: transparent;
+  padding: 0.44rem 0.1rem 0 0.1rem;
+}
+
+.willa-typography-edit-meta {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--willa-typography-secondary);
+  font-size: 0.78rem;
+  line-height: 1.2;
+}
+
+.willa-typography-edit-count {
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.willa-typography-edit-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+}
+
+.willa-typography-edit-button.willa-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.28rem;
+  min-height: 1.7rem;
+  border: 0;
+  border-radius: 0.38rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0 0.52rem;
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.willa-typography-edit-button .willa-button-icon {
+  display: inline-flex;
+  width: 0.86rem;
+  height: 0.86rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.willa-typography-edit-button .willa-button-icon svg {
+  width: 0.86rem;
+  height: 0.86rem;
+}
+
+.willa-typography-edit-button .willa-button-label {
+  white-space: nowrap;
+}
+
+.willa-typography-edit-button.willa-button--ghost {
+  background: transparent;
+  color: var(--willa-typography-secondary);
+}
+
+.willa-typography-edit-button.willa-button--ghost:hover {
+  background: var(--willa-typography-action-bg-hover);
+  color: var(--willa-typography-action-hover);
+}
+
+.willa-typography-edit-button.willa-button--soft {
+  background: var(--willa-typography-action-bg-hover);
+  color: var(--willa-typography-link);
+}
+
+.willa-typography-edit-button.willa-button--soft:hover {
+  background: var(--willa-button-soft-bg-hover);
+}
+
+.willa-typography-action--edit-close.willa-icon-button {
+  margin-top: 0;
+}
+
+.willa-typography-tooltip-content {
+  position: fixed;
+  z-index: 70;
+  max-width: min(28rem, calc(100vw - 2rem));
+  border: 1px solid rgba(15, 23, 42, 0.16);
+  border-radius: 0.45rem;
+  background: #111827;
+  color: #ffffff;
+  font-family: var(--willa-body-font);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  padding: 0.38rem 0.55rem;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+}
+
+@media (max-width: 767px) {
+  .willa-typography-edit {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .willa-typography-action--edit-close.willa-icon-button {
+    display: none;
+  }
+
+  .willa-typography-edit-header {
+    display: none;
+  }
+
+  .willa-typography-edit-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .willa-typography-edit-actions {
+    justify-content: flex-end;
+  }
+
+  .willa-typography-title--1 {
+    font-size: 1.78rem;
+  }
+
+  .willa-typography-title--2 {
+    font-size: 1.42rem;
+  }
+
+  .willa-typography-title--3 {
+    font-size: 1.22rem;
+  }
+}

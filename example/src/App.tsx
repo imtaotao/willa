@@ -3,6 +3,7 @@ import { useEffect, useState, type MouseEvent } from "react";
 import { Anchor, type AnchorItem } from "willa/Anchor";
 import { Callout } from "willa/Callout";
 import { IconButton } from "willa/IconButton";
+import { Typography } from "willa/Typography";
 import { SearchInput } from "willa/SearchInput";
 import { Skeleton } from "willa/Skeleton";
 import "willa/Anchor.css";
@@ -10,6 +11,7 @@ import "willa/Callout.css";
 import "willa/IconButton.css";
 import "willa/SearchInput.css";
 import "willa/Skeleton.css";
+import "willa/Typography.css";
 
 import {
   componentDocRegistry,
@@ -143,6 +145,7 @@ const docChineseNames: Record<string, string> = {
   Tour: "漫游引导",
   Tree: "树",
   TreeSelect: "树选择",
+  Typography: "排版",
   Upload: "上传",
   VideoEmbed: "视频嵌入",
   VideoLink: "视频链接",
@@ -352,7 +355,9 @@ export function App() {
               <div className="docs-nav-title-row">
                 <div>
                   <div className="docs-nav-title">{group.label}</div>
-                  <p className="docs-nav-description">{group.description}</p>
+                  <Typography.Paragraph className="docs-nav-description">
+                    {group.description}
+                  </Typography.Paragraph>
                 </div>
                 <span className="docs-nav-count">{group.docs.length}</span>
               </div>
@@ -369,7 +374,9 @@ export function App() {
           ))}
 
           {normalizedSidebarQuery && visibleDocCount === 0 ? (
-            <p className="docs-nav-empty">没有匹配的组件</p>
+            <Typography.Paragraph className="docs-nav-empty">
+              没有匹配的组件
+            </Typography.Paragraph>
           ) : null}
         </nav>
       </aside>
@@ -377,8 +384,15 @@ export function App() {
       <div className="docs-main">
         <header className="docs-header">
           <div className="docs-header-title">
-            <p className="docs-kicker">Willa Components</p>
-            <p className="docs-header-subtitle">AI、场景与基础组件示例</p>
+            <Typography.Text
+              className="docs-kicker"
+              style={{ display: "block" }}
+            >
+              Willa Components
+            </Typography.Text>
+            <Typography.Paragraph className="docs-header-subtitle">
+              AI、场景与基础组件示例
+            </Typography.Paragraph>
           </div>
           <nav className="docs-actions" aria-label="示例控制">
             <IconButton

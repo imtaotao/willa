@@ -5,6 +5,7 @@ import { CodeBlock } from "willa/CodeBlock";
 import { Separator } from "willa/Separator";
 import { Table, type TableItem } from "willa/Table";
 import { Tooltip } from "willa/Tooltip";
+import { Typography } from "willa/Typography";
 import "willa/Badge.css";
 import "willa/CodeBlock.css";
 import "willa/Separator.css";
@@ -84,6 +85,11 @@ const createPropTableItems = (props: Array<PropRow>) => {
         key: "description",
         label: "说明",
         value: prop.description,
+        render: (
+          <Typography.Paragraph className="docs-prop-description">
+            {prop.description}
+          </Typography.Paragraph>
+        ),
       },
     ],
   })) satisfies Array<TableItem>;
@@ -101,7 +107,9 @@ const DemoBlock = (props: DemoBlockProps) => {
       )}
     >
       <div className="docs-demo-block-header">
-        <div className="docs-panel-title">{props.title}</div>
+        <Typography.Title level={4} className="docs-demo-title">
+          {props.title}
+        </Typography.Title>
         {canShowSource ? (
           <div
             className="docs-demo-switch"
@@ -170,8 +178,10 @@ export function DocView({ doc }: DocViewProps) {
           return a.index - b.index;
         })
         .map((item) => item.prop),
+      description: doc.propGroups?.find((item) => item.title === group.title)
+        ?.description,
     }));
-  }, [doc.props]);
+  }, [doc.propGroups, doc.props]);
 
   return (
     <section
@@ -179,8 +189,10 @@ export function DocView({ doc }: DocViewProps) {
       id={doc.id}
     >
       <div className="docs-intro">
-        <h2>{doc.name}</h2>
-        <p className="docs-description">{doc.description}</p>
+        <Typography.Title level={2}>{doc.name}</Typography.Title>
+        <Typography.Paragraph className="docs-description">
+          {doc.description}
+        </Typography.Paragraph>
       </div>
 
       <div className="docs-demos">
@@ -206,7 +218,16 @@ export function DocView({ doc }: DocViewProps) {
               <Separator className="docs-props-separator" size="sm" />
             ) : null}
             <div className="docs-props-group">
-              <div className="docs-panel-title">{group.title}</div>
+              <div className="docs-props-group-heading">
+                <Typography.Title level={4} className="docs-panel-title">
+                  {group.title}
+                </Typography.Title>
+                {group.description ? (
+                  <Typography.Paragraph className="docs-props-group-description">
+                    {group.description}
+                  </Typography.Paragraph>
+                ) : null}
+              </div>
               <Table
                 className="docs-props-table"
                 items={createPropTableItems(group.props)}

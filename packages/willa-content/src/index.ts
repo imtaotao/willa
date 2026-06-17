@@ -51,6 +51,13 @@ export { Tour } from "#content/components/Tour";
 export { Tree } from "#content/components/Tree";
 export { createToast, toast } from "#content/components/Toast";
 export { Tooltip } from "#content/components/Tooltip";
+export {
+  Typography,
+  TypographyLink,
+  TypographyParagraph,
+  TypographyText,
+  TypographyTitle,
+} from "#content/components/Typography";
 export { Watermark } from "#content/components/Watermark";
 
 export type { ChatThreadProps } from "#content/components/ChatThread";
@@ -319,6 +326,19 @@ export type {
   TooltipSide,
   TooltipSize,
 } from "#content/components/Tooltip";
+export type {
+  TypographyActions,
+  TypographyCopyable,
+  TypographyEditable,
+  TypographyEllipsis,
+  TypographyLinkProps,
+  TypographyParagraphProps,
+  TypographyProps,
+  TypographyTextProps,
+  TypographyTitleLevel,
+  TypographyTitleProps,
+  TypographyType,
+} from "#content/components/Typography";
 export type {
   WatermarkFont,
   WatermarkProps,

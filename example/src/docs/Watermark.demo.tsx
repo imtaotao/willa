@@ -46,7 +46,7 @@ export default defineDoc({
       gap: [88, 72],
       offset: [16, 20],
       children: (
-        <Card style={previewCardStyle}>
+        <Card variant="outline" style={previewCardStyle}>
           <Stack gap="sm">
             <Group justify="between" align="center">
               <Stack gap="xs">
@@ -118,7 +118,7 @@ export default defineDoc({
             letterSpacing: 1,
           }}
         >
-          <Card style={{ width: "min(100%, 44rem)", minHeight: "14rem" }}>
+          <Card variant="outline" style={{ width: "min(100%, 44rem)", minHeight: "14rem" }}>
             <Stack gap="xs">
               <strong>更高密度的审批面板</strong>
               <span style={{ color: "var(--willa-text-soft)", fontSize: "0.9rem" }}>
@@ -142,13 +142,66 @@ export default defineDoc({
             letterSpacing: 1,
           }}
         >
-          <Card style={denseCardStyle}>
+          <Card variant="outline" style={denseCardStyle}>
             <Stack gap="xs">
               <strong>更高密度的审批面板</strong>
               <span
                 style={{ color: "var(--willa-text-soft)", fontSize: "0.9rem" }}
               >
                 适合评审区、导出预览区和二次确认面板。
+              </span>
+            </Stack>
+          </Card>
+        </Watermark>
+      ),
+    },
+    {
+      title: "自定义字体颜色",
+      code: `
+        <Watermark
+          content={["Internal", "Only"]}
+          width={168}
+          height={92}
+          gap={[72, 60]}
+          rotate={-18}
+          font={{
+            color: "rgba(34, 197, 94, 0.18)",
+            fontSize: 16,
+            fontWeight: 620,
+            letterSpacing: 0.8,
+          }}
+        >
+          <Card style={{ width: "min(100%, 44rem)", minHeight: "14rem" }}>
+            <Stack gap="xs">
+              <strong>可调色的文字水印</strong>
+              <span style={{ color: "var(--willa-text-soft)", fontSize: "0.9rem" }}>
+                适合内部预览、评审稿和半透明提示层。
+              </span>
+            </Stack>
+          </Card>
+        </Watermark>;
+      `,
+      content: (
+        <Watermark
+          content={["Internal", "Only"]}
+          width={168}
+          height={92}
+          gap={[72, 60]}
+          rotate={-18}
+          font={{
+            color: "rgba(34, 197, 94, 0.18)",
+            fontSize: 16,
+            fontWeight: 620,
+            letterSpacing: 0.8,
+          }}
+        >
+          <Card variant="outline" style={denseCardStyle}>
+            <Stack gap="xs">
+              <strong>可调色的文字水印</strong>
+              <span
+                style={{ color: "var(--willa-text-soft)", fontSize: "0.9rem" }}
+              >
+                适合内部预览、评审稿和半透明提示层。
               </span>
             </Stack>
           </Card>
@@ -192,7 +245,7 @@ export default defineDoc({
             fontWeight: 620,
           }}
         >
-          <Card style={fullAreaStyle}>
+          <Card variant="outline" style={fullAreaStyle}>
             <Stack gap="sm">
               <strong>图片或品牌型水印</strong>
               <span

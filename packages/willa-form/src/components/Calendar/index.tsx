@@ -17,7 +17,7 @@ import {
   getWeekStart,
   isWeekend,
   parseDateValue,
-} from "./utils";
+} from "#form/components/Calendar/utils";
 
 export type CalendarMode = "year" | "month" | "week" | "day";
 export type CalendarRangeValue = {
@@ -378,14 +378,14 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
 
 Calendar.displayName = "Calendar";
 
-export { ScheduleCalendar } from "./ScheduleCalendar";
+export { ScheduleCalendar } from "#form/components/Calendar/ScheduleCalendar";
 export type {
   ScheduleCalendarEvent,
   ScheduleCalendarEventContext,
   ScheduleCalendarProps,
   ScheduleCalendarTone,
   ScheduleCalendarView,
-} from "./ScheduleCalendar";
+} from "#form/components/Calendar/ScheduleCalendar";
 
 const weekdayLabels = ["日", "一", "二", "三", "四", "五", "六"];
 

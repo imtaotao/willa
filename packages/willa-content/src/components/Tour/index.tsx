@@ -173,6 +173,10 @@ export function Tour(props: TourProps) {
   const [panelPosition, setPanelPosition] = useState<TourPanelPosition | null>(
     null,
   );
+  const [animateMotion, setAnimateMotion] = useState(false);
+  const [stepTransitioning, setStepTransitioning] = useState(false);
+  const motionFrameRef = useRef<number | null>(null);
+  const activeIndexRef = useRef(activeIndex);
 
   const setTourOpen = useCallback(
     (nextOpen: boolean) => {
@@ -248,10 +252,23 @@ export function Tour(props: TourProps) {
 
     if (!panelElement) return;
 
+    if (!targetElement || resolvedPlacement === "center") {
+      setPanelPosition((previousPosition) =>
+        previousPosition?.placement === "center"
+          ? previousPosition
+          : {
+              top: viewportPadding,
+              left: viewportPadding,
+              placement: "center",
+            },
+      );
+      return;
+    }
+
     const panelRect = panelElement.getBoundingClientRect();
     const nextPanelPosition = getPanelPosition({
       panelRect,
-      placement: targetElement ? resolvedPlacement : "center",
+      placement: resolvedPlacement,
       targetRect: nextTargetRect,
     });
 
@@ -317,6 +334,60 @@ export function Tour(props: TourProps) {
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    if (isOpen) return;
+
+    if (motionFrameRef.current !== null) {
+      window.cancelAnimationFrame(motionFrameRef.current);
+      motionFrameRef.current = null;
+    }
+
+    setAnimateMotion(false);
+    setStepTransitioning(false);
+    setTargetRect(null);
+    setPanelPosition(null);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen || typeof window === "undefined") return;
+
+    if (motionFrameRef.current !== null) {
+      window.cancelAnimationFrame(motionFrameRef.current);
+      motionFrameRef.current = null;
+    }
+
+    setAnimateMotion(false);
+    motionFrameRef.current = window.requestAnimationFrame(() => {
+      setAnimateMotion(true);
+      motionFrameRef.current = null;
+    });
+
+    return () => {
+      if (motionFrameRef.current !== null) {
+        window.cancelAnimationFrame(motionFrameRef.current);
+        motionFrameRef.current = null;
+      }
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen || typeof window === "undefined") {
+      activeIndexRef.current = activeIndex;
+      setStepTransitioning(false);
+      return;
+    }
+
+    if (activeIndexRef.current === activeIndex) return;
+    activeIndexRef.current = activeIndex;
+
+    setStepTransitioning(true);
+    const timer = window.setTimeout(() => {
+      setStepTransitioning(false);
+    }, 300);
+
+    return () => window.clearTimeout(timer);
+  }, [activeIndex, isOpen]);
+
   const titleId = activeStep?.title ? `${id}-title` : undefined;
 
   const descriptionId = activeStep?.description
@@ -330,8 +401,15 @@ export function Tour(props: TourProps) {
 
   const panelStyle = {
     ...zIndexStyle,
-    top: panelPosition?.top,
-    left: panelPosition?.left,
+    top: panelPosition?.placement === "center" ? "50%" : 0,
+    left: panelPosition?.placement === "center" ? "50%" : 0,
+    transform:
+      panelPosition?.placement === "center"
+        ? "translate3d(-50%, -50%, 0)"
+        : panelPosition
+          ? `translate3d(${panelPosition.left}px, ${panelPosition.top}px, 0)`
+          : undefined,
+    opacity: panelPosition ? 1 : 0,
     visibility: panelPosition ? "visible" : "hidden",
   } as CSSProperties;
 
@@ -395,6 +473,8 @@ export function Tour(props: TourProps) {
       className={classNames(
         "willa-tour",
         `willa-tour--${resolvedType}`,
+        animateMotion && "willa-tour--animate",
+        stepTransitioning && "willa-tour--step-transitioning",
         className,
       )}
       style={rootStyle}
@@ -483,6 +563,12 @@ const TourMask = (props: {
         type="button"
         className={classNames("willa-tour__mask", props.className)}
         aria-label="关闭引导"
+        style={{
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+        }}
         onClick={props.onClick}
       />
     );
@@ -588,11 +674,9 @@ const normalizeGap = (gap: TourGap) => {
 
 const getHighlightStyle = (rect: TourRect) => {
   return {
-    top: rect.top,
-    left: rect.left,
-    width: rect.width,
-    height: rect.height,
-    borderRadius: rect.radius,
+    clipPath: `inset(${rect.top}px ${window.innerWidth - rect.left - rect.width}px ${
+      window.innerHeight - rect.top - rect.height
+    }px ${rect.left}px round ${rect.radius}px)`,
   } satisfies CSSProperties;
 };
 
@@ -635,16 +719,8 @@ const getPanelPosition = (options: {
 
   if (!targetRect || placement === "center") {
     return {
-      top: clampNumber(
-        (window.innerHeight - panelRect.height) / 2,
-        viewportPadding,
-        window.innerHeight - panelRect.height - viewportPadding,
-      ),
-      left: clampNumber(
-        (window.innerWidth - panelRect.width) / 2,
-        viewportPadding,
-        window.innerWidth - panelRect.width - viewportPadding,
-      ),
+      top: viewportPadding,
+      left: viewportPadding,
       placement: "center",
     };
   }

@@ -10,8 +10,8 @@ import {
 import {
   focusSelectablePanelItem,
   type SelectablePanelFocusTarget,
-} from "./selectablePanelKeyboard";
-import { useFloatingPanel } from "./useFloatingPanel";
+} from "#form/internal/selectablePanelKeyboard";
+import { useFloatingPanel } from "#form/internal/useFloatingPanel";
 
 export type UseSelectablePanelOptions = {
   contentVersion: unknown;

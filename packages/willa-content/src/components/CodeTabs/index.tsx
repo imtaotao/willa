@@ -21,6 +21,7 @@ export type CodeTabsProps = {
   showLineNumbers?: boolean;
   copiedDuration?: number;
   className?: string;
+  codeBlockClassName?: string;
 };
 
 export function CodeTabs(props: CodeTabsProps) {
@@ -30,6 +31,7 @@ export function CodeTabs(props: CodeTabsProps) {
     showLineNumbers = false,
     copiedDuration = 300,
     className,
+    codeBlockClassName,
   } = props;
 
   const tabItems: Array<TabsItem> = items.map((item, index) => ({
@@ -41,6 +43,7 @@ export function CodeTabs(props: CodeTabsProps) {
         item={item}
         showLineNumbers={showLineNumbers}
         copiedDuration={copiedDuration}
+        codeBlockClassName={codeBlockClassName}
       />
     ),
   }));
@@ -63,13 +66,15 @@ const CodeTabsPanel = (props: {
   item: CodeTabsItem;
   showLineNumbers: boolean;
   copiedDuration: number;
+  codeBlockClassName?: string;
 }) => {
-  const { item, showLineNumbers, copiedDuration } = props;
+  const { item, showLineNumbers, copiedDuration, codeBlockClassName } = props;
   const shouldShowLineNumbers = item.showLineNumbers ?? showLineNumbers;
 
   return (
     <div className="willa-code-tabs-panel">
       <CodeBlock
+        className={codeBlockClassName}
         code={item.code}
         copiedDuration={copiedDuration}
         highlightLines={item.highlightLines}

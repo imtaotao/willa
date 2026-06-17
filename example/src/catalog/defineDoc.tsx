@@ -23,6 +23,7 @@ type ComponentDocInput = {
   demo: DemoElement;
   code: string;
   props: Array<PropRow>;
+  propGroups?: ComponentDoc["propGroups"];
   sections?: Array<ComponentDocSectionInput>;
 };
 
@@ -153,6 +154,7 @@ export function defineDoc(input: ComponentDocInput) {
     preview: renderDemoElement(input.demo),
     code: completeDemoCode(input, unindent(input.code)),
     props: input.props,
+    propGroups: input.propGroups,
     sections: input.sections?.map((section) => ({
       ...section,
       code: createSectionCode(input, section),

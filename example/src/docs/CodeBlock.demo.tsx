@@ -8,6 +8,12 @@ const code = `export function greet(name: string) {
   return \`Hello, \${name}\`;
 }`;
 
+const highlightRangeCode = unindent(`
+  const items = ["Button", "Input", "CodeBlock"];
+
+  export const names = items.map((item) => item.toLowerCase());
+`);
+
 export default defineDoc({
   id: "code-block",
   name: "CodeBlock",
@@ -142,17 +148,23 @@ export default defineDoc({
     },
     {
       title: "高亮区间",
-      code: `
+      code: unindent(`
+        const highlightRangeCode = \`
+          const items = ["Button", "Input", "CodeBlock"];
+
+          export const names = items.map((item) => item.toLowerCase());
+        \`;
+
         <CodeBlock
-          code={\`const items = ["Button", "Input", "CodeBlock"];\n\nexport const names = items.map((item) => item.toLowerCase());\`}
+          code={highlightRangeCode}
           language="ts"
           showLineNumbers
           highlightLines={[[1, 3]]}
         />
-      `,
+      `),
       content: (
         <CodeBlock
-          code={`const items = ["Button", "Input", "CodeBlock"];\n\nexport const names = items.map((item) => item.toLowerCase());`}
+          code={highlightRangeCode}
           language="ts"
           showLineNumbers
           highlightLines={[[1, 3]]}

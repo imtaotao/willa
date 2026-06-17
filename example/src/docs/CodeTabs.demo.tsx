@@ -156,15 +156,32 @@ export default defineDoc({
     {
       title: "尺寸",
       code: `
-        <CodeTabs items={installItems} size="sm" />;
-      `,
+      <CodeTabs items={installItems} size="sm" />;
+    `,
       content: <CodeTabs items={installItems} size="sm" />,
+    },
+    {
+      title: "内层定制",
+      code: `
+      <CodeTabs
+        items={installItems}
+        className="docs-code-tabs-custom"
+        codeBlockClassName="docs-code-tabs-code"
+      />;
+    `,
+      content: (
+        <CodeTabs
+          items={installItems}
+          className="docs-code-tabs-custom"
+          codeBlockClassName="docs-code-tabs-code"
+        />
+      ),
     },
     {
       title: "禁用标签",
       code: `
-        <CodeTabs
-          items={[
+      <CodeTabs
+        items={[
             ...installItems,
             {
               label: "bun",
@@ -219,6 +236,11 @@ export default defineDoc({
       name: "className",
       type: "string",
       description: "可选的外层 className。",
+    },
+    {
+      name: "codeBlockClassName",
+      type: "string",
+      description: "可选的内层 CodeBlock className。",
     },
     {
       name: "CodeTabsItem.label",
