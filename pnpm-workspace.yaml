@@ -14,7 +14,7 @@ catalog:
   "vite": "5.4.21"
   "aidly": "1.37.0"
   "husky": "9.0.11"
-  "auklet": "0.1.8"
+  "auklet": "0.2.1"
   "vitest": "1.6.0"
   "react": "19.2.6"
   "classnames": "2.5.1"

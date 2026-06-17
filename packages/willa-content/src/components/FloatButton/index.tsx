@@ -37,6 +37,8 @@ type FloatButtonBaseProps = {
   description?: ReactNode;
   tooltip?: ReactNode;
   badge?: ReactNode;
+  backgroundColor?: string;
+  textColor?: string;
   variant?: FloatButtonVariant;
   shape?: FloatButtonShape;
   size?: FloatButtonSize;
@@ -97,6 +99,8 @@ export function FloatButton(props: FloatButtonProps) {
     description,
     tooltip,
     badge,
+    backgroundColor,
+    textColor,
     variant = "default",
     shape,
     size = "md",
@@ -123,8 +127,10 @@ export function FloatButton(props: FloatButtonProps) {
         placement,
         offset,
         zIndex,
+        backgroundColor,
+        textColor,
       }),
-    [fixed, offset, placement, zIndex],
+    [backgroundColor, fixed, offset, placement, textColor, zIndex],
   );
 
   useEffect(() => {
@@ -193,7 +199,6 @@ export function FloatButton(props: FloatButtonProps) {
   );
 
   if (!tooltip) return buttonNode;
-
   return <Tooltip content={tooltip}>{buttonNode as ReactElement<any>}</Tooltip>;
 }
 
@@ -224,7 +229,6 @@ export function FloatButtonGroup(props: FloatButtonGroupProps) {
       if (!isControlled) {
         setUncontrolledOpen(nextOpen);
       }
-
       onOpenChange?.(nextOpen);
     },
     [isControlled, onOpenChange],
@@ -237,7 +241,6 @@ export function FloatButtonGroup(props: FloatButtonGroupProps) {
       const target = event.target;
       if (!(target instanceof Node)) return;
       if (groupRef.current?.contains(target)) return;
-
       setGroupOpen(false);
     };
 
@@ -256,6 +259,7 @@ export function FloatButtonGroup(props: FloatButtonGroupProps) {
         `willa-float-button-group--${placement}`,
         `willa-float-button-group--${direction}`,
         fixed && "willa-float-button-group--fixed",
+        !fixed && "willa-float-button-group--anchored",
         isOpen && "willa-float-button-group--open",
         className,
       )}
@@ -458,6 +462,7 @@ const getFloatButtonClassName = (options: {
     `willa-float-button--${options.shape}`,
     `willa-float-button--${options.size}`,
     options.fixed && "willa-float-button--fixed",
+    !options.fixed && "willa-float-button--anchored",
     !options.visible && "willa-float-button--hidden",
     options.className,
   );
@@ -468,22 +473,38 @@ const getFloatButtonStyle = (options: {
   placement: FloatButtonPlacement;
   offset: readonly [number | string, number | string];
   zIndex?: number;
+  backgroundColor?: string;
+  textColor?: string;
 }) => {
   const [offsetX, offsetY] = options.offset;
   const style: CSSProperties & {
     "--willa-float-button-offset-x"?: string;
     "--willa-float-button-offset-y"?: string;
     "--willa-float-button-z-index"?: string;
+    "--willa-float-button-custom-bg"?: string;
+    "--willa-float-button-custom-bg-hover"?: string;
+    "--willa-float-button-custom-text"?: string;
+    "--willa-float-button-custom-muted"?: string;
+    "--willa-float-button-description-opacity"?: string;
   } = {
     "--willa-float-button-offset-x": formatCssSize(offsetX),
     "--willa-float-button-offset-y": formatCssSize(offsetY),
   };
 
+  if (options.backgroundColor) {
+    style["--willa-float-button-custom-bg"] = options.backgroundColor;
+    style["--willa-float-button-custom-bg-hover"] = options.backgroundColor;
+  }
+
+  if (options.textColor) {
+    style["--willa-float-button-custom-text"] = options.textColor;
+    style["--willa-float-button-custom-muted"] = options.textColor;
+    style["--willa-float-button-description-opacity"] = "0.74";
+  }
+
   if (options.zIndex !== undefined) {
     style["--willa-float-button-z-index"] = String(options.zIndex);
   }
-
-  if (!options.fixed) return style;
 
   if (options.placement.includes("bottom")) {
     style.bottom = "var(--willa-float-button-offset-y)";
@@ -496,7 +517,6 @@ const getFloatButtonStyle = (options: {
   } else {
     style.left = "var(--willa-float-button-offset-x)";
   }
-
   return style;
 };
 
@@ -515,7 +535,6 @@ const resolveScrollTarget = (target?: FloatButtonScrollTarget) => {
   if (typeof target === "function") {
     return target() ?? window;
   }
-
   return target ?? window;
 };
 
@@ -524,7 +543,6 @@ const getScrollTop = (target: Window | HTMLElement | null) => {
   if ("scrollY" in target) {
     return window.scrollY || document.documentElement.scrollTop || 0;
   }
-
   return target.scrollTop;
 };
 
@@ -537,6 +555,5 @@ const scrollToTop = (
     window.scrollTo({ top: 0, behavior });
     return;
   }
-
   target.scrollTo({ top: 0, behavior });
 };

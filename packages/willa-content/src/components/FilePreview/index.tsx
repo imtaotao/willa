@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import {
+  CrossCircledIcon,
   DownloadIcon,
   EnterFullScreenIcon,
   ExternalLinkIcon,
@@ -27,6 +28,7 @@ import {
   type DialogProps,
   type DialogSize,
 } from "#content/components/Dialog";
+import { Spinner } from "#content/components/Spinner";
 import { Table, type TableItem } from "#content/components/Table";
 
 export type FilePreviewType =
@@ -53,6 +55,10 @@ export type FilePreviewProps = {
   showLineNumbers?: boolean;
   poster?: string;
   alt?: string;
+  loading?: boolean;
+  loadingText?: ReactNode;
+  error?: ReactNode;
+  errorText?: ReactNode;
   downloadName?: string;
   actions?: ReactNode;
   expandable?: boolean;
@@ -82,6 +88,10 @@ export function FilePreview(props: FilePreviewProps) {
     showLineNumbers,
     poster,
     alt,
+    loading,
+    loadingText,
+    error,
+    errorText,
     downloadName,
     actions,
     expandable = true,
@@ -161,6 +171,10 @@ export function FilePreview(props: FilePreviewProps) {
             showLineNumbers,
             src,
             text,
+            loading,
+            loadingText,
+            error,
+            errorText,
           })}
         </div>
       </section>
@@ -180,6 +194,10 @@ export function FilePreview(props: FilePreviewProps) {
           src={src}
           text={text}
           type={resolvedType}
+          loading={loading}
+          loadingText={loadingText}
+          error={error}
+          errorText={errorText}
           onOpenChange={setPreviewOpen}
         />
       ) : null}
@@ -242,25 +260,86 @@ const renderPreviewBody = (options: {
   showLineNumbers?: boolean;
   poster?: string;
   alt?: string;
+  loading?: boolean;
+  loadingText?: ReactNode;
+  error?: ReactNode;
+  errorText?: ReactNode;
 }) => {
+  const hasForcedError = isErrorVisible(options.error);
+
+  if (hasForcedError) {
+    return (
+      <FilePreviewStateSurface
+        tone="error"
+        message={normalizeErrorMessage(options.error, options.errorText)}
+      />
+    );
+  }
+
+  if (options.loading) {
+    return (
+      <FilePreviewStateSurface tone="loading" message={options.loadingText} />
+    );
+  }
+
   if (options.resolvedType === "image") {
     return (
-      <img
-        className="willa-file-preview__image"
+      <LoadablePreviewSurface
         src={options.src}
-        alt={options.alt ?? options.name}
-      />
+        loadingText={options.loadingText}
+        errorText={options.errorText}
+      >
+        {({ onLoad, onError }) => (
+          <img
+            className="willa-file-preview__image"
+            src={options.src}
+            alt={options.alt ?? options.name}
+            onLoad={onLoad}
+            onError={onError}
+          />
+        )}
+      </LoadablePreviewSurface>
     );
   }
 
   if (options.resolvedType === "video") {
     return (
-      <video
-        className="willa-file-preview__media"
+      <LoadablePreviewSurface
         src={options.src}
-        poster={options.poster}
-        controls
-      />
+        loadingText={options.loadingText}
+        errorText={options.errorText}
+      >
+        {({ onLoad, onError }) => (
+          <video
+            className="willa-file-preview__media"
+            src={options.src}
+            poster={options.poster}
+            controls
+            onLoadedData={onLoad}
+            onCanPlay={onLoad}
+            onError={onError}
+          />
+        )}
+      </LoadablePreviewSurface>
+    );
+  }
+
+  if (options.resolvedType === "pdf") {
+    return (
+      <LoadablePreviewSurface
+        src={options.src}
+        loadingText={options.loadingText}
+        errorText={options.errorText}
+      >
+        {({ onLoad }) => (
+          <iframe
+            className="willa-file-preview__frame"
+            src={getPdfPreviewSrc(options.src)}
+            title={options.name}
+            onLoad={onLoad}
+          />
+        )}
+      </LoadablePreviewSurface>
     );
   }
 
@@ -270,16 +349,8 @@ const renderPreviewBody = (options: {
         name={options.name}
         src={options.src}
         label={options.alt}
-      />
-    );
-  }
-
-  if (options.resolvedType === "pdf") {
-    return (
-      <iframe
-        className="willa-file-preview__frame"
-        src={getPdfPreviewSrc(options.src)}
-        title={options.name}
+        loadingText={options.loadingText}
+        errorText={options.errorText}
       />
     );
   }
@@ -319,10 +390,105 @@ const renderPreviewBody = (options: {
   );
 };
 
+const LoadablePreviewSurface = (props: {
+  src: string;
+  loadingText?: ReactNode;
+  errorText?: ReactNode;
+  children: (handlers: {
+    onLoad: () => void;
+    onError: () => void;
+  }) => ReactNode;
+}) => {
+  const [status, setStatus] = useState<"loading" | "ready" | "error">(
+    "loading",
+  );
+
+  useEffect(() => {
+    setStatus("loading");
+  }, [props.src]);
+
+  return (
+    <div
+      className={classNames(
+        "willa-file-preview__surface",
+        status !== "ready" && "willa-file-preview__surface--pending",
+      )}
+    >
+      {props.children({
+        onLoad: () => setStatus("ready"),
+        onError: () => setStatus("error"),
+      })}
+      {status === "loading" ? (
+        <FilePreviewState tone="loading" message={props.loadingText} />
+      ) : null}
+      {status === "error" ? (
+        <FilePreviewState tone="error" message={props.errorText} />
+      ) : null}
+    </div>
+  );
+};
+
+const FilePreviewStateSurface = (props: {
+  tone: "loading" | "error";
+  message?: ReactNode;
+}) => {
+  return (
+    <div className="willa-file-preview__surface willa-file-preview__surface--state">
+      <FilePreviewState tone={props.tone} message={props.message} />
+    </div>
+  );
+};
+
+const FilePreviewState = (props: {
+  tone: "loading" | "error";
+  message?: ReactNode;
+}) => {
+  const message =
+    props.message ??
+    (props.tone === "loading" ? "文件加载中" : "文件加载失败，请重试。");
+
+  if (props.tone === "loading") {
+    return (
+      <div className="willa-file-preview__state">
+        <Spinner size="md" label={message} labelPosition="block" />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={classNames(
+        "willa-file-preview__state",
+        `willa-file-preview__state--${props.tone}`,
+      )}
+      role="alert"
+    >
+      <span className="willa-file-preview__state-icon" aria-hidden="true">
+        <CrossCircledIcon />
+      </span>
+      <span>{message}</span>
+    </div>
+  );
+};
+
+const normalizeErrorMessage = (
+  error: ReactNode | undefined,
+  errorText: ReactNode | undefined,
+) => {
+  if (!isErrorVisible(error)) return undefined;
+  return error === true ? errorText : error;
+};
+
+const isErrorVisible = (error: ReactNode | undefined) => {
+  return error !== undefined && error !== null && error !== false;
+};
+
 const AudioPreviewPlayer = (props: {
   src: string;
   name: string;
   label?: string;
+  loadingText?: ReactNode;
+  errorText?: ReactNode;
 }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -428,9 +594,13 @@ const AudioPreviewPlayer = (props: {
           </div>
         </div>
         {hasError ? (
-          <span className="willa-file-preview-audio__status">音频加载失败</span>
+          <span className="willa-file-preview-audio__status">
+            {props.errorText ?? "音频加载失败，请重试。"}
+          </span>
         ) : isLoading ? (
-          <span className="willa-file-preview-audio__status">正在加载音频</span>
+          <span className="willa-file-preview-audio__status">
+            {props.loadingText ?? "正在加载音频"}
+          </span>
         ) : null}
       </div>
       <audio

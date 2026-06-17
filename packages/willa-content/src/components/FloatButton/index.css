@@ -10,10 +10,10 @@
   align-items: center;
   justify-content: center;
   min-width: 0;
-  color: var(--willa-float-button-text);
-  background: var(--willa-float-button-bg);
+  color: var(--willa-float-button-custom-text, var(--willa-float-button-text));
+  background: var(--willa-float-button-custom-bg, var(--willa-float-button-bg));
   border: 1px solid var(--willa-float-button-border);
-  border-radius: 1rem;
+  border-radius: 1.15rem;
   box-shadow: var(--willa-float-button-shadow);
   cursor: pointer;
   outline: none;
@@ -31,11 +31,19 @@
   z-index: var(--willa-float-button-z-index, 1080);
 }
 
+.willa-float-button--anchored {
+  position: absolute;
+  z-index: var(--willa-float-button-z-index, 1);
+}
+
 .willa-float-button:hover {
-  background: var(--willa-float-button-bg-hover);
+  background: var(
+    --willa-float-button-custom-bg-hover,
+    var(--willa-float-button-bg-hover)
+  );
   border-color: var(--willa-float-button-border-hover);
   box-shadow: var(--willa-float-button-shadow-hover);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .willa-float-button:focus-visible {
@@ -68,37 +76,40 @@
 }
 
 .willa-float-button--circle {
-  width: 3.25rem;
-  height: 3.25rem;
+  width: 3.5rem;
+  height: 3.5rem;
   border-radius: 999px;
+  box-shadow:
+    var(--willa-float-button-shadow),
+    0 2px 6px rgba(15, 23, 42, 0.05);
 }
 
 .willa-float-button--square {
-  min-width: 3.5rem;
-  padding: 0.85rem 0.95rem;
-  border-radius: 1rem;
+  min-width: 3.75rem;
+  padding: 0.95rem 1rem;
+  border-radius: 1.25rem;
 }
 
 .willa-float-button--md.willa-float-button--square {
-  min-height: 3.5rem;
+  min-height: 3.75rem;
 }
 
 .willa-float-button--lg.willa-float-button--circle {
-  width: 3.8rem;
-  height: 3.8rem;
+  width: 3.9rem;
+  height: 3.9rem;
 }
 
 .willa-float-button--lg.willa-float-button--square {
-  min-width: 4rem;
-  min-height: 4rem;
-  padding: 1rem 1.05rem;
+  min-width: 4.25rem;
+  min-height: 4.25rem;
+  padding: 1.05rem 1.1rem;
 }
 
 .willa-float-button__content {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.7rem;
+  gap: 0.8rem;
   min-width: 0;
 }
 
@@ -111,18 +122,18 @@
   flex: none;
   align-items: center;
   justify-content: center;
-  width: 1.35rem;
-  height: 1.35rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .willa-float-button__icon :where(svg) {
-  width: 1.1rem;
-  height: 1.1rem;
+  width: 1.22rem;
+  height: 1.22rem;
 }
 
 .willa-float-button__copy {
   display: inline-grid;
-  gap: 0.12rem;
+  gap: 0.16rem;
   min-width: 0;
   text-align: left;
 }
@@ -130,18 +141,23 @@
 .willa-float-button__label {
   overflow: hidden;
   color: inherit;
-  font-size: 0.94rem;
+  font-size: 1rem;
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.2;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .willa-float-button__description {
   overflow: hidden;
-  color: var(--willa-float-button-muted);
-  font-size: 0.76rem;
-  line-height: 1.35;
+  color: var(
+    --willa-float-button-custom-muted,
+    var(--willa-float-button-muted)
+  );
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.3;
+  opacity: var(--willa-float-button-description-opacity, 1);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -152,27 +168,30 @@
 
 .willa-float-button__badge {
   position: absolute;
-  top: 0.32rem;
-  right: 0.32rem;
+  top: 0.42rem;
+  right: 0.42rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 1.05rem;
-  height: 1.05rem;
-  padding: 0 0.28rem;
+  min-width: 1.2rem;
+  height: 1.2rem;
+  padding: 0 0.34rem;
   color: var(--willa-float-button-badge-text);
   background: var(--willa-float-button-badge-bg);
   border: 1px solid var(--willa-float-button-badge-border);
   border-radius: 999px;
-  font-size: 0.68rem;
+  font-size: 0.74rem;
   font-weight: 700;
   line-height: 1;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
 }
 
 .willa-float-button-group {
   position: relative;
-  display: inline-grid;
-  gap: 0.65rem;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.8rem;
 }
 
 .willa-float-button-group--fixed {
@@ -180,14 +199,19 @@
   z-index: var(--willa-float-button-z-index, 1080);
 }
 
+.willa-float-button-group--anchored {
+  position: absolute;
+  z-index: var(--willa-float-button-z-index, 1);
+}
+
 .willa-float-button-group__items {
   display: grid;
-  gap: 0.65rem;
+  gap: 0.7rem;
   opacity: 0;
   pointer-events: none;
   transition:
-    opacity 160ms ease,
-    transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    opacity 180ms ease,
+    transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .willa-float-button-group--up .willa-float-button-group__items,
@@ -203,20 +227,20 @@
 
 .willa-float-button-group--up .willa-float-button-group__items {
   order: -1;
-  transform: translateY(0.5rem);
+  transform: translateY(0.65rem);
 }
 
 .willa-float-button-group--down .willa-float-button-group__items {
-  transform: translateY(-0.5rem);
+  transform: translateY(-0.65rem);
 }
 
 .willa-float-button-group--left .willa-float-button-group__items {
   order: -1;
-  transform: translateX(0.5rem);
+  transform: translateX(0.65rem);
 }
 
 .willa-float-button-group--right .willa-float-button-group__items {
-  transform: translateX(-0.5rem);
+  transform: translateX(-0.65rem);
 }
 
 .willa-float-button-group--open .willa-float-button-group__items {

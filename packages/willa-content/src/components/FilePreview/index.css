@@ -89,6 +89,72 @@
   max-height: 32rem;
 }
 
+.willa-file-preview__surface {
+  position: relative;
+  display: grid;
+  height: 100%;
+  width: 100%;
+  min-height: inherit;
+  place-items: center;
+}
+
+.willa-file-preview__surface--pending > :first-child {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.willa-file-preview__surface--state {
+  min-height: 12rem;
+}
+
+.willa-file-preview__state {
+  display: inline-grid;
+  max-width: min(100% - 2rem, 24rem);
+  justify-items: center;
+  gap: 0.55rem;
+  padding: 1rem;
+  color: var(--willa-file-preview-muted);
+  font-size: 0.86rem;
+  font-weight: 650;
+  text-align: center;
+}
+
+.willa-file-preview__surface .willa-file-preview__state {
+  position: absolute;
+  inset: 0;
+  max-width: none;
+  place-items: center;
+  align-content: center;
+  background: var(--willa-file-preview-body-bg);
+  z-index: 1;
+}
+
+.willa-file-preview__state-icon {
+  display: inline-grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  border: 1px solid var(--willa-file-preview-border);
+  border-radius: 999px;
+  color: var(--willa-file-preview-icon);
+  background: var(--willa-file-preview-icon-bg);
+}
+
+.willa-file-preview__state-icon svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.willa-file-preview__state--error {
+  color: var(--willa-file-preview-error);
+}
+
+.willa-file-preview__state--error .willa-file-preview__state-icon {
+  color: var(--willa-file-preview-error);
+  background: var(--willa-file-preview-error-bg);
+  border-color: var(--willa-file-preview-error-border);
+}
+
 .willa-file-preview__frame {
   width: 100%;
   height: 28rem;

@@ -96,6 +96,28 @@ export default defineDoc({
     },
     { name: "poster", type: "string", description: "视频封面。" },
     { name: "alt", type: "string", description: "图片替代文本。" },
+    {
+      name: "loading",
+      type: "boolean",
+      description: "是否展示文件加载中状态。",
+    },
+    {
+      name: "loadingText",
+      type: "ReactNode",
+      defaultValue: '"文件加载中"',
+      description: "加载中提示文案。",
+    },
+    {
+      name: "error",
+      type: "ReactNode",
+      description: "文件加载错误状态；传 true 时展示 errorText。",
+    },
+    {
+      name: "errorText",
+      type: "ReactNode",
+      defaultValue: '"文件加载失败，请重试。"',
+      description: "文件加载失败提示文案。",
+    },
     { name: "downloadName", type: "string", description: "下载文件名。" },
     { name: "actions", type: "ReactNode", description: "头部额外操作。" },
     {
@@ -112,6 +134,49 @@ export default defineDoc({
     },
   ],
   sections: [
+    {
+      title: "加载与错误状态",
+      code: `
+        <>
+          <FilePreview
+            type="image"
+            name="loading-preview.jpg"
+            src="/loading-preview.jpg"
+            meta="图片 · 加载中"
+            loading
+            loadingText="正在加载文件内容"
+          />
+          <FilePreview
+            type="pdf"
+            name="missing-report.pdf"
+            src="/missing-report.pdf"
+            meta="PDF · 加载失败"
+            error
+            errorText="文件加载失败，请检查文件地址或稍后重试。"
+          />
+        </>
+      `,
+      content: (
+        <>
+          <FilePreview
+            type="image"
+            name="loading-preview.jpg"
+            src="/loading-preview.jpg"
+            meta="图片 · 加载中"
+            loading
+            loadingText="正在加载文件内容"
+          />
+          <FilePreview
+            type="pdf"
+            name="missing-report.pdf"
+            src="/missing-report.pdf"
+            meta="PDF · 加载失败"
+            error
+            errorText="文件加载失败，请检查文件地址或稍后重试。"
+          />
+        </>
+      ),
+    },
     {
       title: "视频预览",
       code: `

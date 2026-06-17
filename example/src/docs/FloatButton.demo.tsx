@@ -21,18 +21,18 @@ import { defineDoc } from "#example/catalog/defineDoc";
 
 const previewFrameStyle = {
   position: "relative",
-  width: "min(100%, 50rem)",
-  minHeight: "19rem",
-  padding: "1.25rem",
+  width: "min(100%, 56rem)",
+  minHeight: "21rem",
+  padding: "1.5rem 1.5rem 6rem",
   overflow: "hidden",
   background: "var(--willa-panel-surface-bg)",
   border: "1px solid var(--willa-panel-border)",
-  borderRadius: "1rem",
+  borderRadius: "1.25rem",
 } as const;
 
 const contentCardStyle = {
-  width: "min(100%, 26rem)",
-  padding: "1rem",
+  width: "min(100%, 30rem)",
+  padding: "1rem 1.05rem",
 } as const;
 
 const BackToTopPreview = () => {
@@ -41,13 +41,13 @@ const BackToTopPreview = () => {
       data-float-button-scroll
       style={{
         position: "relative",
-        width: "min(100%, 50rem)",
+        width: "min(100%, 56rem)",
         height: "22rem",
         overflow: "auto",
-        padding: "1.25rem",
+        padding: "1.5rem 1.5rem 6rem",
         background: "var(--willa-panel-surface-bg)",
         border: "1px solid var(--willa-panel-border)",
-        borderRadius: "1rem",
+        borderRadius: "1.25rem",
       }}
     >
       <Stack gap="md">
@@ -78,22 +78,38 @@ const BasicPreview = () => {
           <Stack gap="xs">
             <strong>产品反馈工作台</strong>
             <p style={{ margin: 0, color: "var(--willa-text-soft)" }}>
-              快速进入编辑、消息和回到顶部等高频操作。
+              用于承接编辑、评论回复和回到顶部等高频页面动作。
             </p>
           </Stack>
           <Badge tone="info">内部预览</Badge>
         </Group>
-        <Card style={contentCardStyle}>
-          <Stack gap="xs">
-            <strong>当前工作项</strong>
-            <p style={{ margin: 0, color: "var(--willa-text-soft)" }}>
-              本周需要同步评论体验、文件预览和 Tour 动画修复。
-            </p>
-          </Stack>
-        </Card>
+        <Group gap="md" wrap align="stretch">
+          <Card style={contentCardStyle}>
+            <Stack gap="xs">
+              <strong>当前工作项</strong>
+              <p style={{ margin: 0, color: "var(--willa-text-soft)" }}>
+                本周需要同步评论体验、文件预览和 Tour 动画修复。
+              </p>
+            </Stack>
+          </Card>
+          <Card
+            style={{
+              width: "min(100%, 18rem)",
+              padding: "1rem 1.05rem",
+            }}
+          >
+            <Stack gap="xs">
+              <strong>待处理反馈</strong>
+              <p style={{ margin: 0, color: "var(--willa-text-soft)" }}>
+                新增 12 条，建议优先处理移动端和导出问题。
+              </p>
+            </Stack>
+          </Card>
+        </Group>
       </Stack>
       <FloatButton
         fixed={false}
+        placement="bottom-right"
         icon={<Pencil2Icon />}
         tooltip="创建反馈"
         ariaLabel="创建反馈"
@@ -105,16 +121,24 @@ const BasicPreview = () => {
 const LabeledPreview = () => {
   return (
     <div style={previewFrameStyle}>
-      <Card style={{ width: "min(100%, 30rem)", padding: "1rem" }}>
-        <Stack gap="xs">
-          <strong>内容评审面板</strong>
-          <p style={{ margin: 0, color: "var(--willa-text-soft)" }}>
-            展示带文案的悬浮入口，适合需要明确语义的操作。
-          </p>
-        </Stack>
-      </Card>
+      <Group gap="md" wrap align="stretch">
+        <Card
+          style={{
+            width: "min(100%, 32rem)",
+            padding: "1rem 1.05rem",
+          }}
+        >
+          <Stack gap="xs">
+            <strong>内容评审面板</strong>
+            <p style={{ margin: 0, color: "var(--willa-text-soft)" }}>
+              展示带文案的悬浮入口，适合需要明确语义的操作。
+            </p>
+          </Stack>
+        </Card>
+      </Group>
       <FloatButton
         fixed={false}
+        placement="bottom-left"
         shape="square"
         icon={<RocketIcon />}
         label="发布检查"
@@ -131,7 +155,7 @@ const GroupPreview = () => {
   return (
     <div style={previewFrameStyle}>
       <Stack gap="md">
-        <Card style={{ width: "min(100%, 30rem)", padding: "1rem" }}>
+        <Card style={{ width: "min(100%, 32rem)", padding: "1rem 1.05rem" }}>
           <Stack gap="xs">
             <strong>组合操作</strong>
             <p style={{ margin: 0, color: "var(--willa-text-soft)" }}>
@@ -140,7 +164,11 @@ const GroupPreview = () => {
           </Stack>
         </Card>
       </Stack>
-      <FloatButtonGroup fixed={false} defaultOpen triggerTooltip="更多快捷操作">
+      <FloatButtonGroup
+        fixed={false}
+        placement="bottom-left"
+        triggerTooltip="更多快捷操作"
+      >
         <FloatButton
           icon={<ChatBubbleIcon />}
           tooltip="查看评论"
@@ -158,6 +186,37 @@ const GroupPreview = () => {
           ariaLabel="收藏当前页"
         />
       </FloatButtonGroup>
+    </div>
+  );
+};
+
+const CustomColorPreview = () => {
+  return (
+    <div style={previewFrameStyle}>
+      <Card
+        style={{
+          width: "min(100%, 32rem)",
+          padding: "1rem 1.05rem",
+        }}
+      >
+        <Stack gap="xs">
+          <strong>品牌快捷入口</strong>
+          <p style={{ margin: 0, color: "var(--willa-text-soft)" }}>
+            可单独覆盖背景色和文字色，用于贴合品牌或模块语义。
+          </p>
+        </Stack>
+      </Card>
+      <FloatButton
+        fixed={false}
+        placement="bottom-left"
+        shape="square"
+        icon={<RocketIcon />}
+        label="上线中心"
+        description="查看待发布项"
+        backgroundColor="#1f2937"
+        textColor="#f8fafc"
+        badge="2"
+      />
     </div>
   );
 };
@@ -192,13 +251,13 @@ export default defineDoc({
     <div
       style={{
         position: "relative",
-        width: "min(100%, 50rem)",
-        minHeight: "19rem",
-        padding: "1.25rem",
+        width: "min(100%, 56rem)",
+        minHeight: "21rem",
+        padding: "1.5rem 1.5rem 6rem",
         overflow: "hidden",
         background: "var(--willa-panel-surface-bg)",
         border: "1px solid var(--willa-panel-border)",
-        borderRadius: "1rem",
+        borderRadius: "1.25rem",
       }}
     >
       <Stack gap="lg">
@@ -206,22 +265,38 @@ export default defineDoc({
           <Stack gap="xs">
             <strong>产品反馈工作台</strong>
             <p style={{ margin: 0, color: "var(--willa-text-soft)" }}>
-              快速进入编辑、消息和回到顶部等高频操作。
+              用于承接编辑、评论回复和回到顶部等高频页面动作。
             </p>
           </Stack>
           <Badge tone="info">内部预览</Badge>
         </Group>
-        <Card style={{ width: "min(100%, 26rem)", padding: "1rem" }}>
-          <Stack gap="xs">
-            <strong>当前工作项</strong>
-            <p style={{ margin: 0, color: "var(--willa-text-soft)" }}>
-              本周需要同步评论体验、文件预览和 Tour 动画修复。
-            </p>
-          </Stack>
-        </Card>
+        <Group gap="md" wrap align="stretch">
+          <Card style={{ width: "min(100%, 30rem)", padding: "1rem 1.05rem" }}>
+            <Stack gap="xs">
+              <strong>当前工作项</strong>
+              <p style={{ margin: 0, color: "var(--willa-text-soft)" }}>
+                本周需要同步评论体验、文件预览和 Tour 动画修复。
+              </p>
+            </Stack>
+          </Card>
+          <Card
+            style={{
+              width: "min(100%, 18rem)",
+              padding: "1rem 1.05rem",
+            }}
+          >
+            <Stack gap="xs">
+              <strong>待处理反馈</strong>
+              <p style={{ margin: 0, color: "var(--willa-text-soft)" }}>
+                新增 12 条，建议优先处理移动端和导出问题。
+              </p>
+            </Stack>
+          </Card>
+        </Group>
       </Stack>
       <FloatButton
         fixed={false}
+        placement="bottom-right"
         icon={<Pencil2Icon />}
         tooltip="创建反馈"
         ariaLabel="创建反馈"
@@ -243,16 +318,16 @@ export default defineDoc({
         <div
           style={{
             position: "relative",
-            width: "min(100%, 50rem)",
-            minHeight: "19rem",
-            padding: "1.25rem",
+            width: "min(100%, 56rem)",
+            minHeight: "21rem",
+            padding: "1.5rem 1.5rem 6rem",
             overflow: "hidden",
             background: "var(--willa-panel-surface-bg)",
             border: "1px solid var(--willa-panel-border)",
-            borderRadius: "1rem",
+            borderRadius: "1.25rem",
           }}
         >
-          <Card style={{ width: "min(100%, 30rem)", padding: "1rem" }}>
+          <Card style={{ width: "min(100%, 32rem)", padding: "1rem 1.05rem" }}>
             <Stack gap="xs">
               <strong>内容评审面板</strong>
               <p style={{ margin: 0, color: "var(--willa-text-soft)" }}>
@@ -262,6 +337,7 @@ export default defineDoc({
           </Card>
           <FloatButton
             fixed={false}
+            placement="bottom-left"
             shape="square"
             icon={<RocketIcon />}
             label="发布检查"
@@ -292,17 +368,17 @@ export default defineDoc({
         <div
           style={{
             position: "relative",
-            width: "min(100%, 50rem)",
-            minHeight: "19rem",
-            padding: "1.25rem",
+            width: "min(100%, 56rem)",
+            minHeight: "21rem",
+            padding: "1.5rem 1.5rem 6rem",
             overflow: "hidden",
             background: "var(--willa-panel-surface-bg)",
             border: "1px solid var(--willa-panel-border)",
-            borderRadius: "1rem",
+            borderRadius: "1.25rem",
           }}
         >
           <Stack gap="md">
-            <Card style={{ width: "min(100%, 30rem)", padding: "1rem" }}>
+            <Card style={{ width: "min(100%, 32rem)", padding: "1rem 1.05rem" }}>
               <Stack gap="xs">
                 <strong>组合操作</strong>
                 <p style={{ margin: 0, color: "var(--willa-text-soft)" }}>
@@ -313,7 +389,7 @@ export default defineDoc({
           </Stack>
           <FloatButtonGroup
             fixed={false}
-            defaultOpen
+            placement="bottom-left"
             triggerTooltip="更多快捷操作"
           >
             <FloatButton
@@ -338,6 +414,52 @@ export default defineDoc({
       content: <GroupPreview />,
     },
     {
+      title: "自定义颜色",
+      code: unindent(`
+        import { RocketIcon } from "@radix-ui/react-icons";
+        import { Card } from "willa/Card";
+        import { FloatButton } from "willa/FloatButton";
+        import { Stack } from "willa/Stack";
+        import "willa/Card.css";
+        import "willa/FloatButton.css";
+        import "willa/Stack.css";
+
+        <div
+          style={{
+            position: "relative",
+            width: "min(100%, 56rem)",
+            minHeight: "21rem",
+            padding: "1.5rem 1.5rem 6rem",
+            overflow: "hidden",
+            background: "var(--willa-panel-surface-bg)",
+            border: "1px solid var(--willa-panel-border)",
+            borderRadius: "1.25rem",
+          }}
+        >
+          <Card style={{ width: "min(100%, 32rem)", padding: "1rem 1.05rem" }}>
+            <Stack gap="xs">
+              <strong>品牌快捷入口</strong>
+              <p style={{ margin: 0, color: "var(--willa-text-soft)" }}>
+                可单独覆盖背景色和文字色，用于贴合品牌或模块语义。
+              </p>
+            </Stack>
+          </Card>
+          <FloatButton
+            fixed={false}
+            placement="bottom-left"
+            shape="square"
+            icon={<RocketIcon />}
+            label="上线中心"
+            description="查看待发布项"
+            backgroundColor="#1f2937"
+            textColor="#f8fafc"
+            badge="2"
+          />
+        </div>;
+      `),
+      content: <CustomColorPreview />,
+    },
+    {
       title: "回到顶部",
       code: unindent(`
         import { ArrowUpIcon } from "@radix-ui/react-icons";
@@ -352,13 +474,13 @@ export default defineDoc({
           data-float-button-scroll
           style={{
             position: "relative",
-            width: "min(100%, 50rem)",
+            width: "min(100%, 56rem)",
             height: "22rem",
             overflow: "auto",
-            padding: "1.25rem",
+            padding: "1.5rem 1.5rem 6rem",
             background: "var(--willa-panel-surface-bg)",
             border: "1px solid var(--willa-panel-border)",
-            borderRadius: "1rem",
+            borderRadius: "1.25rem",
           }}
         >
           <Stack gap="md">
@@ -408,6 +530,16 @@ export default defineDoc({
       name: "badge",
       type: "ReactNode",
       description: "右上角徽标内容。",
+    },
+    {
+      name: "backgroundColor",
+      type: "string",
+      description: "自定义按钮背景色。",
+    },
+    {
+      name: "textColor",
+      type: "string",
+      description: "自定义按钮文字和图标颜色。",
     },
     {
       name: "variant",
