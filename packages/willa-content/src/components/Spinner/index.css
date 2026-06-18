@@ -42,7 +42,7 @@
   flex: none;
   border: var(--willa-spinner-stroke-width) solid currentColor;
   border-right-color: transparent;
-  border-radius: 999px;
+  border-radius: 50%;
   opacity: 0.9;
   animation: willa-spinner-rotate 720ms linear infinite;
 }

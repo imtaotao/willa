@@ -162,7 +162,7 @@
   flex: none;
   border: 2px solid currentColor;
   border-right-color: transparent;
-  border-radius: 999px;
+  border-radius: 50%;
   opacity: 0.78;
   animation: willa-button-spin 720ms linear infinite;
 }

@@ -12,6 +12,7 @@ import classNames from "classnames";
 import { isPromiseLike } from "aidly";
 
 import { Spinner } from "#content/components/Spinner";
+import { useVirtualScrollWindow } from "@willa-ui/shared";
 
 export type ListTone = "neutral" | "info" | "success" | "warning" | "danger";
 export type ListSize = "sm" | "md" | "lg";
@@ -55,6 +56,8 @@ export type ListProps = {
   grid?: ListGrid;
   empty?: ReactNode;
   maxHeight?: CSSProperties["maxHeight"];
+  virtualScroll?: boolean;
+  virtualScrollOverscan?: number;
   draggable?: boolean;
   infiniteScroll?: boolean;
   hasMore?: boolean;
@@ -83,6 +86,8 @@ export function List(props: ListProps) {
     grid,
     empty = "暂无内容",
     maxHeight,
+    virtualScroll = false,
+    virtualScrollOverscan = 4,
     draggable = false,
     infiniteScroll = false,
     hasMore = false,
@@ -97,7 +102,21 @@ export function List(props: ListProps) {
     ...rootProps
   } = props;
   const [draggingId, setDraggingId] = useState<string>();
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(
+    null,
+  );
   const infiniteLoadPendingRef = useRef(false);
+  const infiniteLoadArmedRef = useRef(true);
+  const virtualWindow = useVirtualScrollWindow({
+    enabled: virtualScroll,
+    itemCount: items.length,
+    itemHeight: getEstimatedListItemHeight(size, itemLayout),
+    overscan: virtualScrollOverscan,
+    container: scrollContainer,
+  });
+  const visibleItems = virtualScroll
+    ? items.slice(virtualWindow.startIndex, virtualWindow.endIndex)
+    : items;
   const rootStyle: CSSProperties & Record<string, string | number> = {
     ...style,
     ...(maxHeight === undefined ? undefined : { maxHeight }),
@@ -129,10 +148,19 @@ export function List(props: ListProps) {
     const remaining =
       target.scrollHeight - target.scrollTop - target.clientHeight;
 
+    if (remaining > scrollThreshold * 1.5) {
+      infiniteLoadArmedRef.current = true;
+    }
+
+    if (!infiniteLoadArmedRef.current) {
+      return;
+    }
+
     if (remaining > scrollThreshold) {
       return;
     }
 
+    infiniteLoadArmedRef.current = false;
     const loadResult = onLoadMore();
     if (isPromiseLike(loadResult)) {
       infiniteLoadPendingRef.current = true;
@@ -164,17 +192,26 @@ export function List(props: ListProps) {
         `willa-list--${itemLayout}`,
         split && "willa-list--split",
         grid && "willa-list--grid",
+        virtualScroll && "willa-list--virtual",
         draggable && "willa-list--draggable",
         loading && "willa-list--loading",
         className,
       )}
       style={rootStyle}
+      ref={setScrollContainer}
       onScroll={handleScroll}
     >
       {header ? <div className="willa-list__slot">{header}</div> : null}
       {items.length > 0 ? (
         <ul className="willa-list__items">
-          {items.map((item) => (
+          {virtualScroll ? (
+            <li
+              aria-hidden="true"
+              className="willa-list__spacer"
+              style={{ height: virtualWindow.paddingTop }}
+            />
+          ) : null}
+          {visibleItems.map((item) => (
             <li
               className={classNames(
                 "willa-list__item",
@@ -213,6 +250,13 @@ export function List(props: ListProps) {
               )}
             </li>
           ))}
+          {virtualScroll ? (
+            <li
+              aria-hidden="true"
+              className="willa-list__spacer"
+              style={{ height: virtualWindow.paddingBottom }}
+            />
+          ) : null}
         </ul>
       ) : (
         <div className="willa-list__empty">{empty}</div>
@@ -322,6 +366,17 @@ const renderMain = (options: {
   }
 
   return <div className="willa-list__main">{mainContent}</div>;
+};
+
+const getEstimatedListItemHeight = (
+  size: ListSize,
+  itemLayout: ListItemLayout,
+) => {
+  if (itemLayout === "vertical") {
+    return size === "lg" ? 168 : size === "sm" ? 144 : 156;
+  }
+
+  return size === "lg" ? 104 : size === "sm" ? 84 : 94;
 };
 
 const reorderItems = (

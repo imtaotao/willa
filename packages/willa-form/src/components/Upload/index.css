@@ -83,7 +83,7 @@
   height: 1.05rem;
   border: 2px solid currentColor;
   border-block-start-color: transparent;
-  border-radius: 999px;
+  border-radius: 50%;
   animation: willa-upload-spin 720ms linear infinite;
 }
 

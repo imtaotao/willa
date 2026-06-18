@@ -557,30 +557,58 @@ const TourMask = (props: {
   className?: string;
   onClick: () => void;
 }) => {
-  if (!props.rect || typeof window === "undefined") {
+  if (typeof window === "undefined") return null;
+
+  if (!props.rect) {
     return (
       <button
         type="button"
         className={classNames("willa-tour__mask", props.className)}
         aria-label="关闭引导"
-        style={{
-          top: 0,
-          left: 0,
-          width: "100vw",
-          height: "100vh",
-        }}
         onClick={props.onClick}
       />
     );
   }
 
-  const rect = props.rect;
+  const hitAreaStyles = getMaskHitAreaStyles(props.rect);
+
+  return (
+    <>
+      <div
+        className={classNames(
+          "willa-tour__mask",
+          "willa-tour__mask--cutout",
+          props.className,
+        )}
+        aria-hidden="true"
+      >
+        <span
+          className="willa-tour__mask-cutout"
+          style={getMaskCutoutStyle(props.rect)}
+        />
+      </div>
+      {hitAreaStyles.map((style, index) => (
+        <button
+          key={index}
+          type="button"
+          className="willa-tour__mask-hit-area"
+          aria-label="关闭引导"
+          style={style}
+          onClick={props.onClick}
+        />
+      ))}
+    </>
+  );
+};
+
+const getMaskHitAreaStyles = (rect: TourRect) => {
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
   const overlap = 1;
   const leftEdge = Math.max(0, rect.left - overlap);
   const rightEdge = Math.min(viewportWidth, rect.left + rect.width + overlap);
-  const pieces = [
+
+  return [
     {
       top: 0,
       left: 0,
@@ -605,22 +633,19 @@ const TourMask = (props: {
       width: viewportWidth,
       height: Math.max(0, viewportHeight - rect.top - rect.height),
     },
-  ];
+  ].filter(
+    (style) => style.width > 0 && style.height > 0,
+  ) satisfies Array<CSSProperties>;
+};
 
-  return (
-    <>
-      {pieces.map((piece, index) => (
-        <button
-          key={index}
-          type="button"
-          className={classNames("willa-tour__mask", props.className)}
-          aria-label="关闭引导"
-          style={piece}
-          onClick={props.onClick}
-        />
-      ))}
-    </>
-  );
+const getMaskCutoutStyle = (rect: TourRect) => {
+  return {
+    top: rect.top,
+    left: rect.left,
+    width: rect.width,
+    height: rect.height,
+    borderRadius: rect.radius,
+  } satisfies CSSProperties;
 };
 
 const handlePanelKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {

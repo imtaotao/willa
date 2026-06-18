@@ -176,6 +176,19 @@ const dragItems: Array<ListItem> = [
   },
 ];
 
+const virtualItems: Array<ListItem> = Array.from(
+  { length: 120 },
+  (_, index) => ({
+    id: `virtual-${index + 1}`,
+    title: `虚拟条目 ${index + 1}`,
+    description:
+      "开启 virtualScroll 后，列表只渲染当前可视区附近的条目，长列表滚动时更稳定。",
+    meta: index % 2 === 0 ? "任务" : "内容",
+    time: `09:${String(index % 60).padStart(2, "0")}`,
+    tone: index % 3 === 0 ? "info" : index % 3 === 1 ? "success" : "warning",
+  }),
+);
+
 const InfiniteListDemo = () => {
   const [items, setItems] = useState(taskItems);
   const [loading, setLoading] = useState(false);
@@ -213,6 +226,85 @@ const InfiniteListDemo = () => {
       loadingLabel="加载更多内容"
       onLoadMore={loadMore}
       style={{ width: "min(100%, 42rem)" }}
+    />
+  );
+};
+
+const VirtualListDemo = () => {
+  return (
+    <List
+      items={virtualItems}
+      maxHeight="18rem"
+      virtualScroll
+      style={{ width: "min(100%, 44rem)" }}
+    />
+  );
+};
+
+const VirtualInfiniteListDemo = () => {
+  const [items, setItems] = useState<Array<ListItem>>(
+    Array.from({ length: 80 }, (_, index) => ({
+      id: `stream-${index + 1}`,
+      title: `流式条目 ${index + 1}`,
+      description:
+        "接近底部时会自动加载下一批数据，配合 virtualScroll 保持滚动稳定。",
+      meta: index % 2 === 0 ? "实时" : "批次",
+      time: `10:${String(index % 60).padStart(2, "0")}`,
+      tone: index % 3 === 0 ? "info" : index % 3 === 1 ? "success" : "warning",
+    })),
+  );
+  const [loading, setLoading] = useState(false);
+  const hasMore = true;
+
+  const loadMore = () => {
+    if (loading || !hasMore) {
+      return;
+    }
+
+    setLoading(true);
+
+    return new Promise<void>((resolve) => {
+      window.setTimeout(() => {
+        setItems((currentItems) => {
+          const start = currentItems.length + 1;
+          const batchSize = 40;
+          const nextItems = Array.from({ length: batchSize }, (_, offset) => {
+            const index = start + offset;
+            return {
+              id: `stream-${index}`,
+              title: `流式条目 ${index}`,
+              description: "接近底部时会自动加载下一批数据。",
+              meta: index % 2 === 0 ? "实时" : "批次",
+              time: `10:${String(index % 60).padStart(2, "0")}`,
+              tone:
+                index % 3 === 0
+                  ? "info"
+                  : index % 3 === 1
+                    ? "success"
+                    : "warning",
+            } satisfies ListItem;
+          });
+
+          return [...currentItems, ...nextItems];
+        });
+        setLoading(false);
+        resolve();
+      }, 450);
+    });
+  };
+
+  return (
+    <List
+      items={items}
+      maxHeight="18rem"
+      virtualScroll
+      infiniteScroll
+      loading={loading}
+      loadingLabel="正在加载更多"
+      hasMore={hasMore}
+      scrollThreshold={120}
+      onLoadMore={loadMore}
+      style={{ width: "min(100%, 44rem)" }}
     />
   );
 };
@@ -492,6 +584,89 @@ export default defineDoc({
       ),
     },
     {
+      title: "虚拟滚动",
+      code: `
+        import { List, type ListItem } from "willa/List";
+        import "willa/List.css";
+
+        const items: Array<ListItem> = Array.from({ length: 120 }, (_, index) => ({
+          id: \`virtual-\${index + 1}\`,
+          title: \`虚拟条目 \${index + 1}\`,
+          description: "开启 virtualScroll 后，长列表只渲染可视区附近的条目。",
+          meta: index % 2 === 0 ? "任务" : "内容",
+          time: \`09:\${String(index % 60).padStart(2, "0")}\`,
+        }));
+
+        <List
+          items={items}
+          maxHeight="18rem"
+          virtualScroll
+          style={{ width: "min(100%, 44rem)" }}
+        />;
+      `,
+      content: <VirtualListDemo />,
+    },
+    {
+      title: "虚拟滚动 + 无限加载",
+      code: `
+        import { useState } from "react";
+        import { List, type ListItem } from "willa/List";
+        import "willa/List.css";
+
+        const Demo = () => {
+          const [items, setItems] = useState<Array<ListItem>>(
+            Array.from({ length: 80 }, (_, index) => ({
+              id: \`stream-\${index + 1}\`,
+              title: \`流式条目 \${index + 1}\`,
+              description: "接近底部时会自动加载下一批数据。",
+            })),
+          );
+
+          const [loading, setLoading] = useState(false);
+          const [hasMore] = useState(true);
+
+          const loadMore = () => {
+            if (loading || !hasMore) {
+              return;
+            }
+
+            setLoading(true);
+
+            return new Promise<void>((resolve) => {
+              window.setTimeout(() => {
+                setItems((currentItems) => [
+                  ...currentItems,
+                  ...Array.from({ length: 40 }, (_, offset) => ({
+                    id: \`stream-\${currentItems.length + offset + 1}\`,
+                    title: \`流式条目 \${currentItems.length + offset + 1}\`,
+                    description: "接近底部时会自动加载下一批数据。",
+                  })),
+                ]);
+                setLoading(false);
+                resolve();
+              }, 450);
+            });
+          };
+
+          return (
+            <List
+              items={items}
+              maxHeight="18rem"
+              virtualScroll
+              infiniteScroll
+              loading={loading}
+              loadingLabel="正在加载更多"
+              hasMore={hasMore}
+              scrollThreshold={120}
+              onLoadMore={loadMore}
+              style={{ width: "min(100%, 44rem)" }}
+            />
+          );
+        };
+      `,
+      content: <VirtualInfiniteListDemo />,
+    },
+    {
       title: "滚动加载",
       code: `
         import { useState } from "react";
@@ -695,6 +870,18 @@ export default defineDoc({
       name: "maxHeight",
       type: "CSSProperties['maxHeight']",
       description: "列表最大高度，超出后内部滚动。",
+    },
+    {
+      name: "virtualScroll",
+      type: "boolean",
+      defaultValue: "false",
+      description: "是否开启虚拟滚动，只渲染当前可视区附近的条目。",
+    },
+    {
+      name: "virtualScrollOverscan",
+      type: "number",
+      defaultValue: "4",
+      description: "虚拟滚动预渲染的额外条目数量。",
     },
     {
       name: "draggable",

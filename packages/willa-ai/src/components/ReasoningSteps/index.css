@@ -137,7 +137,7 @@
 .willa-reasoning-step-dot {
   width: 0.42rem;
   height: 0.42rem;
-  border-radius: 999px;
+  border-radius: 50%;
   background: currentColor;
 }
 

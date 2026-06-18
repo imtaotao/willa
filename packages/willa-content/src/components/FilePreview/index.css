@@ -135,7 +135,7 @@
   height: 2.25rem;
   place-items: center;
   border: 1px solid var(--willa-file-preview-border);
-  border-radius: 999px;
+  border-radius: 50%;
   color: var(--willa-file-preview-icon);
   background: var(--willa-file-preview-icon-bg);
 }
@@ -312,7 +312,7 @@
   height: 2.45rem;
   place-items: center;
   border: 1px solid var(--willa-file-preview-border);
-  border-radius: 999px;
+  border-radius: 50%;
   color: var(--willa-file-preview-icon);
   background: var(--willa-file-preview-icon-bg);
   cursor: pointer;
@@ -390,7 +390,7 @@
   width: 0.82rem;
   height: 0.82rem;
   border: 2px solid var(--willa-file-preview-bg);
-  border-radius: 999px;
+  border-radius: 50%;
   appearance: none;
   background: var(--willa-file-preview-icon);
 }
@@ -405,7 +405,7 @@
   width: 0.82rem;
   height: 0.82rem;
   border: 2px solid var(--willa-file-preview-bg);
-  border-radius: 999px;
+  border-radius: 50%;
   background: var(--willa-file-preview-icon);
 }
 

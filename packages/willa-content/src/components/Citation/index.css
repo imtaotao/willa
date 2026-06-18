@@ -90,7 +90,7 @@
   flex: none;
   place-items: center;
   border: 1px solid var(--willa-citation-mark-border);
-  border-radius: 999px;
+  border-radius: 50%;
   background: var(--willa-citation-mark-bg);
   color: var(--willa-citation-mark-text);
   font-size: 0.7em;

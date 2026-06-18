@@ -7,14 +7,41 @@
 
 .willa-tour__mask {
   position: fixed;
+  inset: 0;
+  z-index: var(--willa-tour-z-index, 1060);
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  appearance: none;
+  background: var(--willa-tour-mask-bg);
+  border: 0;
+  pointer-events: auto;
+  cursor: default;
+}
+
+.willa-tour__mask-hit-area {
+  position: fixed;
   z-index: var(--willa-tour-z-index, 1060);
   display: block;
   margin: 0;
   padding: 0;
+  appearance: none;
+  background: transparent;
+  border: 0;
   pointer-events: auto;
   cursor: default;
-  background: var(--willa-tour-mask-bg);
-  border: 0;
+}
+
+.willa-tour__mask-cutout {
+  position: fixed;
+  display: block;
+  background: transparent;
+  box-shadow: 0 0 0 9999px var(--willa-tour-mask-bg);
+  pointer-events: none;
+  will-change: top, left, width, height, border-radius;
 }
 
 .willa-tour__highlight {
@@ -197,12 +224,13 @@
   width: 0.35rem;
   height: 0.35rem;
   background: var(--willa-tour-dot);
-  border-radius: 999px;
+  border-radius: 50%;
 }
 
 .willa-tour__dot--active {
   width: 1rem;
   background: var(--willa-tour-dot-active);
+  border-radius: 999px;
 }
 
 .willa-tour--primary .willa-tour__dot {
@@ -220,12 +248,18 @@
   justify-content: flex-end;
 }
 
-.willa-tour--animate .willa-tour__mask {
+.willa-tour__mask--cutout {
+  background: transparent;
+  pointer-events: none;
+}
+
+.willa-tour--animate .willa-tour__mask-cutout {
   transition:
     top 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
     left 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
     width 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    height 300ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    height 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-radius 300ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .willa-tour--animate .willa-tour__highlight {

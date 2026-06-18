@@ -173,7 +173,7 @@
 .willa-thinking-indicator-dots span {
   width: 0.24rem;
   height: 0.24rem;
-  border-radius: 999px;
+  border-radius: 50%;
   background: currentColor;
   opacity: 0.44;
 }

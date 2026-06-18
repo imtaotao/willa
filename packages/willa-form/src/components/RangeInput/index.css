@@ -59,7 +59,7 @@
   );
   border: 2px solid
     var(--willa-range-input-custom-color, var(--willa-range-input-thumb-border));
-  border-radius: 999px;
+  border-radius: 50%;
   appearance: none;
   -webkit-appearance: none;
   background: var(
@@ -88,7 +88,7 @@
   height: calc(var(--willa-range-input-resolved-thumb-size) - 0.2rem);
   border: 2px solid
     var(--willa-range-input-custom-color, var(--willa-range-input-thumb-border));
-  border-radius: 999px;
+  border-radius: 50%;
   background: var(
     --willa-range-input-custom-thumb,
     var(--willa-range-input-thumb)

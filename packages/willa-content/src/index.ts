@@ -275,9 +275,11 @@ export type { StepProps, StepsProps } from "#content/components/Steps";
 export type {
   TableAlign,
   TableCell,
+  TableColumnFixed,
   TableItem,
   TablePagination,
   TableProps,
+  TableRef,
   TableRowTone,
   TableSelectionMode,
   TableSelectionBarContext,

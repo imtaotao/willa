@@ -26,6 +26,17 @@
   list-style: none;
 }
 
+.willa-list--virtual .willa-list__items {
+  align-content: start;
+}
+
+.willa-list__spacer {
+  grid-column: 1 / -1;
+  background: transparent;
+  border: 0;
+  pointer-events: none;
+}
+
 .willa-list__slot,
 .willa-list__load-more,
 .willa-list__loading {

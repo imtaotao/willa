@@ -85,7 +85,7 @@
   height: 2.7rem;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
+  border-radius: 50%;
   background: var(--willa-video-play-bg);
   color: var(--willa-video-play-color);
   box-shadow: var(--willa-video-play-shadow);

@@ -40,7 +40,7 @@
   justify-content: center;
   width: 1.85rem;
   height: 1.85rem;
-  border-radius: 999px;
+  border-radius: 50%;
   background: var(--willa-step-marker-bg);
   color: var(--willa-step-marker-color);
   font-family: var(--willa-code-font);

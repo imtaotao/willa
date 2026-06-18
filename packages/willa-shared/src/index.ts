@@ -18,6 +18,10 @@ export {
   extractHeadings,
   createHeadingIdFactory,
 } from "#shared/heading";
+export {
+  getVirtualScrollWindow,
+  useVirtualScrollWindow,
+} from "#shared/virtualScroll";
 export type {
   Heading,
   LightboxImage,
@@ -25,3 +29,7 @@ export type {
   OpenLightbox,
   ResolveAssetUrl,
 } from "#shared/types";
+export type {
+  VirtualScrollOptions,
+  VirtualScrollWindow,
+} from "#shared/virtualScroll";

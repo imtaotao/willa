@@ -179,7 +179,7 @@
 .willa-tool-call-card-status-dot {
   width: 0.48rem;
   height: 0.48rem;
-  border-radius: 999px;
+  border-radius: 50%;
   background: currentColor;
 }
 

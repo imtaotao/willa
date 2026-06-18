@@ -1,4 +1,6 @@
 .willa-table {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--willa-table-border);
@@ -9,8 +11,10 @@
 }
 
 .willa-table-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
   width: 100%;
-  overflow-x: auto;
+  overflow: auto;
   overscroll-behavior-inline: contain;
 }
 
@@ -30,6 +34,12 @@
   border-bottom: 1px solid var(--willa-table-divider);
 }
 
+.willa-table-header-scroll {
+  flex: 0 0 auto;
+  width: 100%;
+  overflow: hidden;
+}
+
 .willa-table-footer-slot {
   border-top: 1px solid var(--willa-table-divider);
   color: var(--willa-table-muted);
@@ -38,13 +48,18 @@
 }
 
 .willa-table-element {
-  width: 100%;
-  min-width: 34rem;
+  width: max-content;
+  min-width: max(34rem, 100%);
   border-collapse: separate;
   border-spacing: 0;
   font-size: var(--willa-table-font-size);
   line-height: 1.5;
   text-align: left;
+}
+
+.willa-table--fixed-columns .willa-table-element,
+.willa-table--resizable .willa-table-element {
+  table-layout: fixed;
 }
 
 .willa-table--sm {
@@ -88,12 +103,59 @@
   white-space: nowrap;
 }
 
+.willa-table th[data-resizable="true"] {
+  position: relative;
+  padding-right: calc(var(--willa-table-cell-padding-x) + 0.75rem);
+}
+
 .willa-table td {
   color: var(--willa-table-text);
 }
 
 .willa-table-cell--ellipsis {
   max-width: 14rem;
+}
+
+.willa-table-cell--draggable {
+  cursor: grab;
+}
+
+.willa-table-cell--dragging {
+  opacity: 0.72;
+}
+
+.willa-table-tree-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  min-width: 0;
+  vertical-align: middle;
+}
+
+.willa-table-tree-toggle {
+  display: inline-grid;
+  width: 1.35rem;
+  height: 1.35rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid var(--willa-table-control-border);
+  border-radius: 6px;
+  background: var(--willa-table-control-bg);
+  color: var(--willa-table-control-text);
+  font-size: 0.76rem;
+  font-weight: 650;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.willa-table-tree-toggle > span {
+  display: block;
+}
+
+.willa-table-tree-toggle--spacer {
+  border-color: transparent;
+  background: transparent;
+  cursor: default;
 }
 
 .willa-table-cell-content {
@@ -147,6 +209,57 @@
   background: var(--willa-table-row-bg-hover);
 }
 
+.willa-table-group-row,
+.willa-table-group-row:hover {
+  background: var(--willa-table-header-bg);
+}
+
+.willa-table-group-cell {
+  padding-top: 0.78rem;
+  padding-bottom: 0.78rem;
+}
+
+.willa-table-group-content {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.8rem;
+  min-width: 0;
+}
+
+.willa-table-group-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.54rem;
+  min-width: 0;
+}
+
+.willa-table-group-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 650;
+}
+
+.willa-table-group-count {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.3rem;
+  padding: 0 0.48rem;
+  border-radius: 999px;
+  background: var(--willa-table-control-bg);
+  color: var(--willa-table-muted);
+  font-size: 0.76rem;
+  font-weight: 650;
+}
+
+.willa-table-group-summary {
+  flex: none;
+  color: var(--willa-table-muted);
+  font-size: 0.82rem;
+}
+
 .willa-table-row--selected {
   background: var(--willa-table-row-selected-bg);
 }
@@ -196,15 +309,37 @@
   text-align: center;
 }
 
+.willa-table-state--loading-more {
+  height: auto;
+  padding: 0.82rem 1rem;
+  text-align: center;
+}
+
 .willa-table-state > * {
   margin-inline: auto;
+}
+
+.willa-table-state--loading-more > * {
+  margin-inline: auto;
+}
+
+.willa-table-virtual-spacer-row,
+.willa-table-virtual-spacer-row:hover {
+  background: transparent !important;
+}
+
+.willa-table-virtual-spacer-row td {
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 
 .willa-table-selection-header,
 .willa-table-selection-cell,
 .willa-table-expand-header,
 .willa-table-expand-cell {
-  width: 1%;
+  width: 48px;
+  min-width: 48px;
   white-space: nowrap;
 }
 
@@ -254,6 +389,37 @@
   font-weight: inherit;
 }
 
+.willa-table-resize-handle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0.75rem;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: col-resize;
+}
+
+.willa-table-resize-handle::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.15rem;
+  height: 1.25rem;
+  background: var(--willa-table-divider);
+  border-radius: 999px;
+  content: "";
+  opacity: 0.8;
+  transform: translate(-50%, -50%);
+}
+
+.willa-table-resize-handle:hover::before,
+.willa-table-resize-handle:focus-visible::before {
+  background: var(--willa-table-accent);
+  opacity: 1;
+}
+
 .willa-table-sort-button:hover {
   color: var(--willa-table-header-text-hover);
 }
@@ -279,6 +445,7 @@
 .willa-table-actions-cell {
   width: 1%;
   white-space: nowrap;
+  text-align: center;
 }
 
 .willa-table--sticky-actions .willa-table-actions-header,
@@ -287,11 +454,74 @@
   z-index: 2;
   right: 0;
   background: var(--willa-table-actions-bg);
-  box-shadow: -1px 0 0 var(--willa-table-divider);
+  border-left: 1px solid var(--willa-table-divider);
 }
 
 .willa-table--sticky-actions .willa-table-actions-header {
   z-index: 3;
+  background: var(--willa-table-fixed-header-bg);
+}
+
+.willa-table--resizing {
+  cursor: col-resize;
+}
+
+.willa-table--resizing .willa-table-element {
+  min-width: max-content;
+}
+
+.willa-table--resizing .willa-table-element,
+.willa-table--resizing .willa-table-element * {
+  user-select: none;
+}
+
+.willa-table-cell--fixed {
+  background-color: var(--willa-table-fixed-bg);
+  transition: background-color 160ms ease;
+}
+
+.willa-table-cell--fixed-left {
+  border-right: 1px solid var(--willa-table-divider);
+}
+
+.willa-table-cell--fixed-right {
+  border-left: 1px solid var(--willa-table-divider);
+}
+
+.willa-table--sticky-actions .willa-table-cell--fixed-right {
+  border-right: 0;
+}
+
+.willa-table thead .willa-table-cell--fixed {
+  background-color: var(--willa-table-fixed-header-bg);
+}
+
+.willa-table tbody tr:hover .willa-table-cell--fixed {
+  background-color: var(--willa-table-fixed-bg-hover);
+}
+
+.willa-table-row--selected .willa-table-cell--fixed {
+  background-color: var(--willa-table-fixed-selected-bg);
+}
+
+.willa-table-row--selected:hover .willa-table-cell--fixed {
+  background-color: var(--willa-table-fixed-selected-bg-hover);
+}
+
+.willa-table-row--info .willa-table-cell--fixed {
+  background-color: var(--willa-table-fixed-info-bg);
+}
+
+.willa-table-row--success .willa-table-cell--fixed {
+  background-color: var(--willa-table-fixed-success-bg);
+}
+
+.willa-table-row--warning .willa-table-cell--fixed {
+  background-color: var(--willa-table-fixed-warning-bg);
+}
+
+.willa-table-row--danger .willa-table-cell--fixed {
+  background-color: var(--willa-table-fixed-danger-bg);
 }
 
 .willa-table-actions-cell:empty::before {
@@ -301,7 +531,7 @@
 
 .willa-table--sticky-header th {
   position: sticky;
-  z-index: 1;
+  z-index: 2;
   top: 0;
 }
 
@@ -311,6 +541,11 @@
 
 .willa-table [data-align="end"] {
   text-align: right;
+}
+
+.willa-table .willa-table-actions-header[data-align="end"],
+.willa-table .willa-table-actions-cell[data-align="end"] {
+  text-align: center;
 }
 
 .willa-table-pagination {
@@ -362,7 +597,7 @@
   }
 
   .willa-table-element {
-    min-width: 32rem;
+    min-width: max(32rem, 100%);
   }
 
   .willa-table--lg {

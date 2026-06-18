@@ -57,7 +57,7 @@
   justify-content: center;
   width: 1.6rem;
   height: 1.6rem;
-  border-radius: 999px;
+  border-radius: 50%;
   color: var(--willa-text-strong);
   font-size: 0.9rem;
   line-height: 1;

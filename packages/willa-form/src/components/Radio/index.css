@@ -60,7 +60,7 @@
   height: 100%;
   place-items: center;
   border: 1px solid var(--willa-form-control-border);
-  border-radius: 999px;
+  border-radius: 50%;
   background: var(--willa-form-control-bg);
   transition:
     background-color 150ms ease,
@@ -71,7 +71,7 @@
 .willa-radio-dot::after {
   width: 0.42em;
   height: 0.42em;
-  border-radius: 999px;
+  border-radius: 50%;
   background: var(--willa-form-control-mark-checked);
   content: "";
   opacity: 0;
