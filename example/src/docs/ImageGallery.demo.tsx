@@ -188,6 +188,11 @@ export default defineDoc({
       description: "可选的灯箱状态回调。",
     },
     {
+      name: "className",
+      type: "string",
+      description: "传给图片画廊根节点的 className。",
+    },
+    {
       name: "articleSourcePath",
       type: "string",
       description: "当前文章路径，用于解析相对图片资源。",

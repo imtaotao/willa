@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { Skeleton } from "@willa-ui/content/components/Skeleton";
+import { useGitHubHoverCardResource } from "#widgets/internal/useGitHubHoverCardResource";
+import classNames from "classnames";
 
 export type GitHubMentionProps = {
   username: string;
@@ -10,6 +11,7 @@ export type GitHubMentionProps = {
   bio?: string;
   followers?: string | number;
   repositories?: string | number;
+  className?: string;
 };
 
 type GitHubUserResponse = {
@@ -24,6 +26,12 @@ type GitHubUserResponse = {
 
 const githubUserCache = new Map<string, GitHubUserResponse>();
 
+const createGitHubUserUrl = (username: string) =>
+  `https://api.github.com/users/${username}`;
+
+const createGitHubUserError = (status: number) =>
+  new Error(`GitHub user ${status}`);
+
 export function GitHubMention({
   username,
   name,
@@ -32,88 +40,25 @@ export function GitHubMention({
   bio,
   followers,
   repositories,
+  className,
 }: GitHubMentionProps) {
   const normalizedUsername = username.trim().replace(/^@+/, "");
+  const {
+    isOpen,
+    isLoading,
+    loadError,
+    remoteData,
+    openCard,
+    closeCard,
+    scheduleClose,
+  } = useGitHubHoverCardResource({
+    resourceKey: normalizedUsername,
+    cache: githubUserCache,
+    createUrl: createGitHubUserUrl,
+    createError: createGitHubUserError,
+  });
 
   if (!normalizedUsername) return null;
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadError, setLoadError] = useState(false);
-  const [remoteData, setRemoteData] = useState<GitHubUserResponse | null>(null);
-  const closeTimerRef = useRef<number | null>(null);
-
-  const clearCloseTimer = () => {
-    if (closeTimerRef.current == null) return;
-    window.clearTimeout(closeTimerRef.current);
-    closeTimerRef.current = null;
-  };
-
-  const openCard = () => {
-    clearCloseTimer();
-    setIsOpen(true);
-  };
-
-  const closeCard = () => {
-    clearCloseTimer();
-    setIsOpen(false);
-  };
-
-  const scheduleClose = () => {
-    clearCloseTimer();
-    closeTimerRef.current = window.setTimeout(() => {
-      setIsOpen(false);
-      closeTimerRef.current = null;
-    }, 300);
-  };
-
-  useEffect(() => {
-    if (!isOpen || remoteData || loadError) return;
-
-    const cached = githubUserCache.get(normalizedUsername);
-    if (cached) {
-      setRemoteData(cached);
-      return;
-    }
-
-    const controller = new AbortController();
-    setIsLoading(true);
-    setLoadError(false);
-
-    fetch(`https://api.github.com/users/${normalizedUsername}`, {
-      signal: controller.signal,
-    })
-      .then(async (response) => {
-        if (!response.ok) throw new Error(`GitHub user ${response.status}`);
-        const data = (await response.json()) as GitHubUserResponse;
-        githubUserCache.set(normalizedUsername, data);
-        setRemoteData(data);
-        setLoadError(false);
-      })
-      .catch((error: unknown) => {
-        if (
-          error &&
-          typeof error === "object" &&
-          "name" in error &&
-          error.name === "AbortError"
-        ) {
-          return;
-        }
-
-        setLoadError(true);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-
-    return () => controller.abort();
-  }, [isOpen, loadError, normalizedUsername, remoteData]);
-
-  useEffect(() => {
-    return () => {
-      clearCloseTimer();
-    };
-  }, []);
 
   const profileUrl =
     href?.trim() ||
@@ -136,7 +81,7 @@ export function GitHubMention({
 
   return (
     <span
-      className="willa-prose-github-mention-wrap"
+      className={classNames("willa-prose-github-mention-wrap", className)}
       data-open={isOpen ? "true" : "false"}
       onFocus={openCard}
       onBlur={scheduleClose}

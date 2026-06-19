@@ -48,5 +48,10 @@ export default defineDoc({
       type: "string",
       description: "嵌入帖子的无障碍标签。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "传给 X 内容嵌入根节点的 className。",
+    },
   ],
 });

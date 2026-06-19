@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { ExternalLinkIcon, PlayIcon, VideoIcon } from "@radix-ui/react-icons";
+import classNames from "classnames";
 
 import {
   resolveMediaAsset,
@@ -16,6 +17,7 @@ export type VideoEmbedProps = MediaContextProps & {
   duration?: string;
   poster?: string;
   provider?: string;
+  className?: string;
 };
 
 export function VideoEmbed({
@@ -27,6 +29,7 @@ export function VideoEmbed({
   volume,
   provider,
   poster,
+  className,
   articleSourcePath,
   resolveAssetUrl,
 }: VideoEmbedProps) {
@@ -72,7 +75,7 @@ export function VideoEmbed({
   if (!hasInlinePlayer) {
     return (
       <a
-        className="willa-prose-video-embed"
+        className={classNames("willa-prose-video-embed", className)}
         href={normalizedHref}
         target="_blank"
         rel="noreferrer"
@@ -102,7 +105,13 @@ export function VideoEmbed({
   }
 
   return (
-    <article className="willa-prose-video-embed willa-prose-video-embed--inline">
+    <article
+      className={classNames(
+        "willa-prose-video-embed",
+        "willa-prose-video-embed--inline",
+        className,
+      )}
+    >
       {content}
       {hasExternalLink ? (
         <a

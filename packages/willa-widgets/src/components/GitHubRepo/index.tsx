@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
 import { ExclamationTriangleIcon, GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Skeleton } from "@willa-ui/content/components/Skeleton";
+import { useGitHubHoverCardResource } from "#widgets/internal/useGitHubHoverCardResource";
+import classNames from "classnames";
 
 export type GitHubRepoProps = {
   repo: string;
@@ -11,6 +12,7 @@ export type GitHubRepoProps = {
   stars?: string | number;
   owner?: string;
   ownerAvatarUrl?: string;
+  className?: string;
 };
 
 type GitHubRepoResponse = {
@@ -27,6 +29,12 @@ type GitHubRepoResponse = {
 
 const githubRepoCache = new Map<string, GitHubRepoResponse>();
 
+const createGitHubRepoUrl = (repo: string) =>
+  `https://api.github.com/repos/${repo}`;
+
+const createGitHubRepoError = (status: number) =>
+  new Error(`GitHub repo ${status}`);
+
 export function GitHubRepo({
   repo,
   label,
@@ -36,88 +44,25 @@ export function GitHubRepo({
   stars,
   owner,
   ownerAvatarUrl,
+  className,
 }: GitHubRepoProps) {
   const normalizedRepo = repo.trim().replace(/^\/+|\/+$/g, "");
+  const {
+    isOpen,
+    isLoading,
+    loadError,
+    remoteData,
+    openCard,
+    closeCard,
+    scheduleClose,
+  } = useGitHubHoverCardResource({
+    resourceKey: normalizedRepo,
+    cache: githubRepoCache,
+    createUrl: createGitHubRepoUrl,
+    createError: createGitHubRepoError,
+  });
 
   if (!normalizedRepo) return null;
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadError, setLoadError] = useState(false);
-  const [remoteData, setRemoteData] = useState<GitHubRepoResponse | null>(null);
-  const closeTimerRef = useRef<number | null>(null);
-
-  const clearCloseTimer = () => {
-    if (closeTimerRef.current == null) return;
-    window.clearTimeout(closeTimerRef.current);
-    closeTimerRef.current = null;
-  };
-
-  const openCard = () => {
-    clearCloseTimer();
-    setIsOpen(true);
-  };
-
-  const closeCard = () => {
-    clearCloseTimer();
-    setIsOpen(false);
-  };
-
-  const scheduleClose = () => {
-    clearCloseTimer();
-    closeTimerRef.current = window.setTimeout(() => {
-      setIsOpen(false);
-      closeTimerRef.current = null;
-    }, 300);
-  };
-
-  useEffect(() => {
-    if (!isOpen || remoteData || loadError) return;
-
-    const cached = githubRepoCache.get(normalizedRepo);
-    if (cached) {
-      setRemoteData(cached);
-      return;
-    }
-
-    const controller = new AbortController();
-    setIsLoading(true);
-    setLoadError(false);
-
-    fetch(`https://api.github.com/repos/${normalizedRepo}`, {
-      signal: controller.signal,
-    })
-      .then(async (response) => {
-        if (!response.ok) throw new Error(`GitHub repo ${response.status}`);
-        const data = (await response.json()) as GitHubRepoResponse;
-        githubRepoCache.set(normalizedRepo, data);
-        setRemoteData(data);
-        setLoadError(false);
-      })
-      .catch((error: unknown) => {
-        if (
-          error &&
-          typeof error === "object" &&
-          "name" in error &&
-          error.name === "AbortError"
-        ) {
-          return;
-        }
-
-        setLoadError(true);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-
-    return () => controller.abort();
-  }, [isOpen, loadError, normalizedRepo, remoteData]);
-
-  useEffect(() => {
-    return () => {
-      clearCloseTimer();
-    };
-  }, []);
 
   const repositoryUrl =
     href?.trim() ||
@@ -143,7 +88,7 @@ export function GitHubRepo({
 
   return (
     <span
-      className="willa-prose-github-repo-wrap"
+      className={classNames("willa-prose-github-repo-wrap", className)}
       data-open={isOpen ? "true" : "false"}
       onFocus={openCard}
       onBlur={scheduleClose}

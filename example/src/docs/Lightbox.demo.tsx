@@ -170,6 +170,11 @@ export default defineDoc({
       description: "弹层背景模式，默认半透明，可切换为纯色背景。",
     },
     {
+      name: "className",
+      type: "string",
+      description: "受控弹层模式下传给弹层根节点的 className。",
+    },
+    {
       name: "transitionDirection",
       type: "-1 | 0 | 1",
       defaultValue: "0",

@@ -1,6 +1,4 @@
 import {
-  useCallback,
-  useEffect,
   useId,
   useImperativeHandle,
   useMemo,
@@ -14,7 +12,6 @@ import {
 
 import type {
   TableCell,
-  TableColumnState,
   TableGroupContext,
   TableItem,
   TablePagination,
@@ -23,11 +20,6 @@ import type {
   TableSortState,
 } from "#content/components/Table/types";
 import {
-  readColumnState,
-  writeColumnState,
-} from "#content/components/Table/columnState";
-import {
-  escapeCssAttribute,
   getCellKey,
   getCellTooltipText,
   getCellWidth,
@@ -37,8 +29,10 @@ import {
 } from "#content/components/Table/utils";
 import { flattenTreeItems } from "#content/components/Table/tree";
 import { getOrderedCells } from "#content/components/Table/columns";
-
-const resizeMinWidth = 80;
+import { useTableColumnResize } from "#content/components/Table/useTableColumnResize";
+import { useTableColumnState } from "#content/components/Table/useTableColumnState";
+import { useTableExpansion } from "#content/components/Table/useTableExpansion";
+import { useTableSelection } from "#content/components/Table/useTableSelection";
 
 type TableCellTooltip = {
   text: string;
@@ -61,11 +55,9 @@ type UseTableStateOptions = {
   actionsLabel?: ReactNode;
   sort?: TableSortState;
   defaultSort?: TableSortState;
-  onSortChange?: (sort: TableSortState) => void;
   selectionMode?: "none" | "single" | "multiple";
   selectedKeys?: Array<string | number>;
   defaultSelectedKeys?: Array<string | number>;
-  onSelectionChange?: (keys: Array<string | number>) => void;
   selectionBar?:
     | boolean
     | ReactNode
@@ -79,7 +71,6 @@ type UseTableStateOptions = {
   selectionBarSticky?: boolean;
   expandedKeys?: Array<string | number>;
   defaultExpandedKeys?: Array<string | number>;
-  onExpandedChange?: (keys: Array<string | number>) => void;
   pagination?: TablePagination;
   resizableColumns?: boolean;
   columnDraggable?: boolean;
@@ -89,24 +80,27 @@ type UseTableStateOptions = {
   defaultHiddenColumns?: Array<string>;
   columnWidths?: Record<string, number>;
   defaultColumnWidths?: Record<string, number>;
-  onColumnOrderChange?: (order: Array<string>) => void;
-  onColumnWidthsChange?: (widths: Record<string, number>) => void;
-  onHiddenColumnsChange?: (hiddenColumns: Array<string>) => void;
   columnStateKey?: string;
   treeMode?: boolean;
   groupBy?: string | ((item: TableItem) => string | number | undefined);
   groupLabel?: ReactNode | ((context: TableGroupContext) => ReactNode);
-  groupSummary?: (context: TableGroupContext) => ReactNode;
   virtualScroll?: boolean;
   virtualScrollOverscan?: number;
   infiniteScroll?: boolean;
   hasMore?: boolean;
   scrollThreshold?: number;
-  onLoadMore?: () => void | Promise<void>;
   forwardedRef: Ref<TableRef>;
   className?: string;
   tableClassName?: string;
   rootProps: Omit<HTMLAttributes<HTMLDivElement>, "children" | "className">;
+  onSortChange?: (sort: TableSortState) => void;
+  onSelectionChange?: (keys: Array<string | number>) => void;
+  onExpandedChange?: (keys: Array<string | number>) => void;
+  onColumnOrderChange?: (order: Array<string>) => void;
+  onColumnWidthsChange?: (widths: Record<string, number>) => void;
+  onHiddenColumnsChange?: (hiddenColumns: Array<string>) => void;
+  onLoadMore?: () => void | Promise<void>;
+  groupSummary?: (context: TableGroupContext) => ReactNode;
 };
 
 export function useTableState(options: UseTableStateOptions) {
@@ -170,53 +164,11 @@ export function useTableState(options: UseTableStateOptions) {
     defaultSort,
   );
 
-  const [internalSelectedKeys, setInternalSelectedKeys] = useState<
-    Array<string | number>
-  >(defaultSelectedKeys ?? []);
-
-  const [internalExpandedKeys, setInternalExpandedKeys] = useState<
-    Array<string | number>
-  >(defaultExpandedKeys ?? []);
-
-  const [internalTreeExpandedKeys, setInternalTreeExpandedKeys] = useState<
-    Array<string | number>
-  >(defaultExpandedKeys ?? []);
-
   const [internalPage, setInternalPage] = useState(
     pagination?.defaultPage ?? 1,
   );
   const [cellTooltip, setCellTooltip] = useState<TableCellTooltip | null>(null);
 
-  const persistedColumnState = useMemo<TableColumnState | null>(() => {
-    if (!columnStateKey) return null;
-
-    const state = readColumnState(columnStateKey);
-    if (!state) return null;
-
-    return {
-      order: state.order ?? defaultColumnOrder,
-      hidden: state.hidden ?? defaultHiddenColumns,
-      widths: state.widths ?? defaultColumnWidths,
-    };
-  }, [
-    columnStateKey,
-    defaultColumnOrder,
-    defaultHiddenColumns,
-    defaultColumnWidths,
-  ]);
-
-  const [internalColumnWidths, setInternalColumnWidths] = useState<
-    Record<string, number>
-  >(persistedColumnState?.widths ?? defaultColumnWidths);
-
-  const [internalColumnOrder, setInternalColumnOrder] = useState<Array<string>>(
-    persistedColumnState?.order ?? defaultColumnOrder,
-  );
-
-  const [internalHiddenColumns, setInternalHiddenColumns] = useState<
-    Array<string>
-  >(persistedColumnState?.hidden ?? defaultHiddenColumns);
-  const [isResizing, setIsResizing] = useState(false);
   const [isColumnDragging, setIsColumnDragging] = useState(false);
   const selectionName = useId();
   const tableScrollRef = useRef<HTMLDivElement>(null);
@@ -230,44 +182,48 @@ export function useTableState(options: UseTableStateOptions) {
     key: string;
   } | null>(null);
 
-  const resizeStateRef = useRef<{
-    key: string;
-    startX: number;
-    startWidth: number;
-    widths: Record<string, number>;
-  } | null>(null);
-
   const currentSort = sort ?? internalSort;
-  const currentSelectedKeys = selectedKeys ?? internalSelectedKeys;
-  const currentExpandedKeys = expandedKeys ?? internalExpandedKeys;
+  const {
+    expandedKeySet,
+    toggleExpanded,
+    toggleTreeExpanded,
+    treeExpandedKeySet,
+  } = useTableExpansion({
+    expandedKeys,
+    defaultExpandedKeys,
+    onExpandedChange,
+  });
 
-  const selectedKeySet = useMemo(
-    () => new Set(currentSelectedKeys),
-    [currentSelectedKeys],
-  );
-
-  const expandedKeySet = useMemo(
-    () => new Set(currentExpandedKeys),
-    [currentExpandedKeys],
-  );
-
-  const treeExpandedKeySet = useMemo(() => {
-    const resolvedKeys =
-      expandedKeys ?? internalTreeExpandedKeys ?? internalExpandedKeys;
-    return new Set(resolvedKeys);
-  }, [expandedKeys, internalExpandedKeys, internalTreeExpandedKeys]);
+  const {
+    columnWidths,
+    currentColumnOrder,
+    resolvedHiddenColumns,
+    setColumnOrderState,
+    setColumnWidths,
+    setHiddenColumnsState,
+  } = useTableColumnState({
+    columnOrder,
+    defaultColumnOrder,
+    hiddenColumns,
+    defaultHiddenColumns,
+    columnWidths: controlledColumnWidths,
+    defaultColumnWidths,
+    onColumnOrderChange,
+    onColumnWidthsChange,
+    onHiddenColumnsChange,
+    columnStateKey,
+  });
 
   const headers = getVisibleCells(items[0]?.cells ?? []);
-  const resolvedHiddenColumns = hiddenColumns ?? internalHiddenColumns;
 
   const orderedHeaders = useMemo(
     () =>
       getOrderedCells({
         cells: headers,
-        order: columnOrder ?? internalColumnOrder,
+        order: currentColumnOrder,
         hidden: resolvedHiddenColumns,
       }),
-    [columnOrder, headers, internalColumnOrder, resolvedHiddenColumns],
+    [currentColumnOrder, headers, resolvedHiddenColumns],
   );
 
   const allHeaderKeys = useMemo(
@@ -307,20 +263,25 @@ export function useTableState(options: UseTableStateOptions) {
     [treeExpandedKeySet, treeMode, visibleItems],
   );
 
-  const allSelectableItems = sortedItems.filter((item) => !item.disabled);
-  const selectableItems = visibleItems.filter((item) => !item.disabled);
-
-  const allVisibleSelected =
-    selectableItems.length > 0 &&
-    selectableItems.every((item) => selectedKeySet.has(item.key));
-
-  const visibleSelectedCount = selectableItems.filter((item) =>
-    selectedKeySet.has(item.key),
-  ).length;
-
-  const someVisibleSelected =
-    selectableItems.some((item) => selectedKeySet.has(item.key)) &&
-    !allVisibleSelected;
+  const {
+    allSelectableItems,
+    allVisibleSelected,
+    clearSelection,
+    currentSelectedKeys,
+    selectableItems,
+    selectedKeySet,
+    someVisibleSelected,
+    toggleItemSelection,
+    toggleVisibleSelection,
+    visibleSelectedCount,
+  } = useTableSelection({
+    sortedItems,
+    visibleItems,
+    selectionMode,
+    selectedKeys,
+    defaultSelectedKeys,
+    onSelectionChange,
+  });
 
   const columnCount = Math.max(
     orderedHeaders.length +
@@ -330,43 +291,15 @@ export function useTableState(options: UseTableStateOptions) {
     1,
   );
   const actionsColumnWidth = getCellWidth(actionsWidth);
-  const columnWidths = controlledColumnWidths ?? internalColumnWidths;
 
-  useEffect(() => {
-    if (!columnStateKey) return;
-
-    const nextState: TableColumnState = {
-      order: columnOrder ?? internalColumnOrder,
-      hidden: resolvedHiddenColumns,
-      widths: columnWidths,
-    };
-    writeColumnState(columnStateKey, nextState);
-  }, [
-    columnOrder,
-    columnStateKey,
-    columnWidths,
-    internalColumnOrder,
-    resolvedHiddenColumns,
-  ]);
-
-  const setColumnWidths = useCallback(
-    (
-      nextWidths:
-        | Record<string, number>
-        | ((currentWidths: Record<string, number>) => Record<string, number>),
-    ) => {
-      const resolvedWidths =
-        typeof nextWidths === "function"
-          ? nextWidths(controlledColumnWidths ?? internalColumnWidths)
-          : nextWidths;
-
-      if (controlledColumnWidths === undefined) {
-        setInternalColumnWidths(resolvedWidths);
-      }
-      onColumnWidthsChange?.(resolvedWidths);
-    },
-    [controlledColumnWidths, internalColumnWidths, onColumnWidthsChange],
-  );
+  const { isResizing, startColumnResize, autoSizeColumn } =
+    useTableColumnResize({
+      resizableColumns,
+      orderedHeaders,
+      tableRef,
+      headerCellRefs,
+      setColumnWidths,
+    });
 
   useImperativeHandle(
     forwardedRef,
@@ -390,143 +323,9 @@ export function useTableState(options: UseTableStateOptions) {
     [],
   );
 
-  const handleColumnResizeMove = useCallback((event: globalThis.MouseEvent) => {
-    const resizeState = resizeStateRef.current;
-    if (!resizeState) return;
-
-    const nextWidth = Math.max(
-      resizeState.startWidth + (event.clientX - resizeState.startX),
-      resizeMinWidth,
-    );
-
-    setColumnWidths((currentWidths) =>
-      currentWidths[resizeState.key] === nextWidth
-        ? currentWidths
-        : {
-            ...currentWidths,
-            ...resizeState.widths,
-            [resizeState.key]: nextWidth,
-          },
-    );
-  }, []);
-
-  const handleColumnResizeEnd = useCallback(() => {
-    resizeStateRef.current = null;
-    setIsResizing(false);
-    window.removeEventListener("mousemove", handleColumnResizeMove);
-    window.removeEventListener("mouseup", handleColumnResizeEnd);
-    document.body.style.cursor = "";
-    document.body.style.userSelect = "";
-  }, [handleColumnResizeMove]);
-
-  const startColumnResize = useCallback(
-    (event: MouseEvent<HTMLButtonElement>, cell: TableCell, index: number) => {
-      if (!resizableColumns || typeof window === "undefined") return;
-
-      event.preventDefault();
-      event.stopPropagation();
-
-      const columnKey = getCellKey(cell, index);
-      const headerCell = headerCellRefs.current[columnKey];
-      if (!headerCell) return;
-
-      const measuredWidths = orderedHeaders.reduce<Record<string, number>>(
-        (widths, headerCellItem, headerIndex) => {
-          const key = getCellKey(headerCellItem, headerIndex);
-          const element = headerCellRefs.current[key];
-          if (!element) return widths;
-
-          return {
-            ...widths,
-            [key]: Math.ceil(element.getBoundingClientRect().width),
-          };
-        },
-        {},
-      );
-
-      resizeStateRef.current = {
-        key: columnKey,
-        startX: event.clientX,
-        startWidth:
-          measuredWidths[columnKey] ?? headerCell.getBoundingClientRect().width,
-        widths: measuredWidths,
-      };
-      setColumnWidths((currentWidths) => ({
-        ...currentWidths,
-        ...measuredWidths,
-      }));
-      setIsResizing(true);
-      document.body.style.cursor = "col-resize";
-      document.body.style.userSelect = "none";
-      window.addEventListener("mousemove", handleColumnResizeMove);
-      window.addEventListener("mouseup", handleColumnResizeEnd);
-    },
-    [
-      handleColumnResizeEnd,
-      handleColumnResizeMove,
-      orderedHeaders,
-      resizableColumns,
-      setColumnWidths,
-    ],
-  );
-
-  const autoSizeColumn = useCallback(
-    (cell: TableCell, index: number) => {
-      if (!resizableColumns || typeof window === "undefined") return;
-
-      const columnKey = getCellKey(cell, index);
-      const tableElement = tableRef.current;
-      if (!tableElement) return;
-
-      const selector = `[data-column-key="${escapeCssAttribute(columnKey)}"]`;
-      const candidates = tableElement.querySelectorAll<HTMLElement>(selector);
-      let nextWidth = 0;
-
-      candidates.forEach((element) => {
-        nextWidth = Math.max(nextWidth, element.scrollWidth);
-      });
-
-      if (nextWidth <= 0) return;
-
-      setColumnWidths((currentWidths) => ({
-        ...currentWidths,
-        [columnKey]: Math.ceil(nextWidth + 18),
-      }));
-    },
-    [resizableColumns, setColumnWidths],
-  );
-
-  useEffect(() => {
-    return () => {
-      handleColumnResizeEnd();
-    };
-  }, [handleColumnResizeEnd]);
-
   const setSortState = (nextSort: TableSortState) => {
     if (!sort) setInternalSort(nextSort);
     onSortChange?.(nextSort);
-  };
-
-  const setSelectedKeysState = (nextKeys: Array<string | number>) => {
-    if (!selectedKeys) setInternalSelectedKeys(nextKeys);
-    onSelectionChange?.(nextKeys);
-  };
-
-  const setHiddenColumnsState = (nextHiddenColumns: Array<string>) => {
-    if (hiddenColumns === undefined) {
-      setInternalHiddenColumns(nextHiddenColumns);
-    }
-    onHiddenColumnsChange?.(nextHiddenColumns);
-  };
-
-  const setExpandedKeysState = (nextKeys: Array<string | number>) => {
-    if (!expandedKeys) setInternalExpandedKeys(nextKeys);
-    onExpandedChange?.(nextKeys);
-  };
-
-  const setTreeExpandedKeysState = (nextKeys: Array<string | number>) => {
-    if (!expandedKeys) setInternalTreeExpandedKeys(nextKeys);
-    onExpandedChange?.(nextKeys);
   };
 
   const setPageState = (nextPage: number) => {
@@ -544,51 +343,6 @@ export function useTableState(options: UseTableStateOptions) {
         : "asc";
 
     setSortState({ key: sortKey, direction });
-  };
-
-  const toggleItemSelection = (item: TableItem) => {
-    if (item.disabled) return;
-
-    if (selectionMode === "single") {
-      setSelectedKeysState(selectedKeySet.has(item.key) ? [] : [item.key]);
-      return;
-    }
-
-    if (selectionMode === "multiple") {
-      setSelectedKeysState(
-        selectedKeySet.has(item.key)
-          ? currentSelectedKeys.filter((key) => key !== item.key)
-          : [...currentSelectedKeys, item.key],
-      );
-    }
-  };
-
-  const toggleVisibleSelection = () => {
-    if (selectionMode !== "multiple") return;
-
-    const visibleKeys = selectableItems.map((item) => item.key);
-    if (allVisibleSelected) {
-      setSelectedKeysState(
-        currentSelectedKeys.filter((key) => !visibleKeys.includes(key)),
-      );
-      return;
-    }
-
-    setSelectedKeysState(
-      Array.from(new Set([...currentSelectedKeys, ...visibleKeys])),
-    );
-  };
-
-  const clearSelection = () => setSelectedKeysState([]);
-
-  const toggleExpanded = (item: TableItem) => {
-    if (!item.expanded) return;
-
-    setExpandedKeysState(
-      expandedKeySet.has(item.key)
-        ? currentExpandedKeys.filter((key) => key !== item.key)
-        : [...currentExpandedKeys, item.key],
-    );
   };
 
   const showCellTooltip = (
@@ -661,7 +415,7 @@ export function useTableState(options: UseTableStateOptions) {
     hasMore,
     scrollThreshold,
     columnWidths,
-    columnOrder: columnOrder ?? internalColumnOrder,
+    columnOrder: currentColumnOrder,
     treeMode,
     groupBy,
     groupLabel,
@@ -682,20 +436,9 @@ export function useTableState(options: UseTableStateOptions) {
     onAutoSizeColumn: autoSizeColumn,
     onCellTooltipShow: showCellTooltip,
     onCellTooltipHide: hideCellTooltip,
-    onColumnOrderChange: (nextOrder: Array<string>) => {
-      if (columnOrder === undefined) {
-        setInternalColumnOrder(nextOrder);
-      }
-      onColumnOrderChange?.(nextOrder);
-    },
+    onColumnOrderChange: setColumnOrderState,
     onHiddenColumnsChange: setHiddenColumnsState,
-    onToggleTreeExpanded: (item: TableItem) => {
-      const nextKeys = treeExpandedKeySet.has(item.key)
-        ? Array.from(treeExpandedKeySet).filter((key) => key !== item.key)
-        : [...treeExpandedKeySet, item.key];
-
-      setTreeExpandedKeysState(nextKeys);
-    },
+    onToggleTreeExpanded: toggleTreeExpanded,
     columnDragStateRef,
     setIsColumnDragging,
     allHeaderKeys,

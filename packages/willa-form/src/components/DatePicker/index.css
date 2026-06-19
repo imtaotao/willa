@@ -135,6 +135,15 @@
   padding: 0.5rem;
 }
 
+.willa-date-picker-panel-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
 .willa-date-picker-panel--wheel {
   width: auto;
   padding: 0.42rem;

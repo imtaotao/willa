@@ -20,6 +20,7 @@ export type AudioLinkProps = MediaContextProps & {
   children?: ReactNode;
   label?: string;
   provider?: string;
+  className?: string;
 };
 
 const resolveAudioSource = (props: AudioLinkProps) => {
@@ -29,7 +30,7 @@ const resolveAudioSource = (props: AudioLinkProps) => {
 };
 
 export function AudioLink(props: AudioLinkProps) {
-  const { href, children, label, provider, volume } = props;
+  const { href, children, label, provider, volume, className } = props;
   const normalizedHref = href?.trim() ?? "";
   const resolvedSrc = resolveAudioSource(props);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -64,7 +65,7 @@ export function AudioLink(props: AudioLinkProps) {
   if (!resolvedSrc) {
     return (
       <a
-        className="willa-prose-audio-link"
+        className={classNames("willa-prose-audio-link", className)}
         href={normalizedHref}
         target="_blank"
         rel="noreferrer"
@@ -84,7 +85,7 @@ export function AudioLink(props: AudioLinkProps) {
         : null;
 
   return (
-    <span className="willa-prose-audio-link-wrap">
+    <span className={classNames("willa-prose-audio-link-wrap", className)}>
       <button
         type="button"
         className={classNames(

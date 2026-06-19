@@ -11,7 +11,12 @@ import { Tabs } from "willa/Tabs";
 import "willa/Tabs.css";
 import { Switch } from "willa/Switch";
 import "willa/Switch.css";
-import { Table, type TableItem, type TableRef } from "willa/Table";
+import {
+  Table,
+  useTableColumnState,
+  type TableItem,
+  type TableRef,
+} from "willa/Table";
 import "willa/Table.css";
 import { FilterBar, type FilterBarItem } from "willa/FilterBar";
 import "willa/FilterBar.css";
@@ -21,6 +26,8 @@ import { Select } from "willa/Select";
 import "willa/Select.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
+
+const tablePersonalizationColumnStateKey = "table-capability-personalization";
 
 const componentItems: Array<TableItem> = [
   {
@@ -880,9 +887,17 @@ const mergeTableItems: Array<TableItem> = [
 ];
 
 const TableCapabilityPreview = () => {
-  const [columnOrder, setColumnOrder] = useState<Array<string>>([]);
-  const [hiddenColumns, setHiddenColumns] = useState<Array<string>>([]);
-  const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
+  const {
+    columnOrder,
+    columnWidths,
+    hiddenColumns,
+    resetColumnState,
+    setColumnOrder,
+    setColumnWidths,
+    setHiddenColumns,
+  } = useTableColumnState({
+    columnStateKey: tablePersonalizationColumnStateKey,
+  });
 
   const columnHiddenState = useMemo(
     () => ({
@@ -908,10 +923,10 @@ const TableCapabilityPreview = () => {
                   label="显示归属"
                   onChange={(event) => {
                     const checked = event.currentTarget.checked;
-                    setHiddenColumns((current) =>
+                    setHiddenColumns(
                       checked
-                        ? current.filter((key) => key !== "owner")
-                        : Array.from(new Set([...current, "owner"])),
+                        ? hiddenColumns.filter((key) => key !== "owner")
+                        : Array.from(new Set([...hiddenColumns, "owner"])),
                     );
                   }}
                 />
@@ -920,22 +935,14 @@ const TableCapabilityPreview = () => {
                   label="显示状态"
                   onChange={(event) => {
                     const checked = event.currentTarget.checked;
-                    setHiddenColumns((current) =>
+                    setHiddenColumns(
                       checked
-                        ? current.filter((key) => key !== "status")
-                        : Array.from(new Set([...current, "status"])),
+                        ? hiddenColumns.filter((key) => key !== "status")
+                        : Array.from(new Set([...hiddenColumns, "status"])),
                     );
                   }}
                 />
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => {
-                    setColumnOrder([]);
-                    setHiddenColumns([]);
-                    setColumnWidths({});
-                  }}
-                >
+                <Button size="sm" variant="ghost" onClick={resetColumnState}>
                   重置配置
                 </Button>
               </Group>
@@ -946,12 +953,12 @@ const TableCapabilityPreview = () => {
                 resizableColumns
                 stickyHeader
                 stickyActions
-                columnStateKey="table-capability-personalization"
                 columnOrder={columnOrder}
                 hiddenColumns={hiddenColumns}
                 columnWidths={columnWidths}
                 onColumnOrderChange={setColumnOrder}
                 onColumnWidthsChange={setColumnWidths}
+                onHiddenColumnsChange={setHiddenColumns}
                 actionsWidth="5.6rem"
                 style={{ maxHeight: "18rem" }}
               />
@@ -1304,6 +1311,7 @@ export default defineDoc({
     "通过 items 渲染表格和产品数据列表，支持自定义单元格、排序、选择、分页、展开行、右侧操作区、列宽调整和滚动控制。",
   imports: [
     { name: "Table", from: "willa/Table" },
+    { name: "useTableColumnState", from: "willa/Table" },
     { name: "Stack", from: "willa/Stack" },
     { name: "Group", from: "willa/Group" },
   ],
@@ -1338,12 +1346,30 @@ export default defineDoc({
     {
       title: "能力总览",
       code: `
+        const columnState = useTableColumnState({
+          columnStateKey: "table-capability-personalization",
+        });
+
         <Tabs
           items={[
             { value: "filter", label: "搜索与筛选", children: <Table ... /> },
             { value: "virtual", label: "虚拟滚动", children: <Table ... virtualScroll /> },
             { value: "virtual-tree", label: "树形 + 虚拟", children: <Table ... treeMode virtualScroll /> },
-            { value: "personalization", label: "拖拽与个性化", children: <Table ... /> },
+            {
+              value: "personalization",
+              label: "拖拽与个性化",
+              children: (
+                <Table
+                  ...
+                  columnOrder={columnState.columnOrder}
+                  hiddenColumns={columnState.hiddenColumns}
+                  columnWidths={columnState.columnWidths}
+                  onColumnOrderChange={columnState.setColumnOrder}
+                  onHiddenColumnsChange={columnState.setHiddenColumns}
+                  onColumnWidthsChange={columnState.setColumnWidths}
+                />
+              ),
+            },
           ]}
         />
       `,
@@ -1576,6 +1602,16 @@ export default defineDoc({
       description: "受控列宽记忆状态。",
     },
     {
+      name: "onColumnOrderChange",
+      type: "(order: Array<string>) => void",
+      description: "列顺序变化回调。",
+    },
+    {
+      name: "onColumnWidthsChange",
+      type: "(widths: Record<string, number>) => void",
+      description: "列宽变化回调。",
+    },
+    {
       name: "onHiddenColumnsChange",
       type: "(hiddenColumns: Array<string>) => void",
       description: "隐藏列变化回调。",
@@ -1589,7 +1625,46 @@ export default defineDoc({
     {
       name: "columnStateKey",
       type: "string",
-      description: "列顺序、隐藏和列宽的本地记忆 key。",
+      description:
+        "列顺序、隐藏和列宽的本地记忆 key。非受控列状态可直接由 Table 读写；受控列状态建议配合 useTableColumnState 使用。",
+    },
+    {
+      name: "useTableColumnState",
+      type: "(options: UseTableColumnStateOptions) => ReturnType<typeof useTableColumnState>",
+      group: "Hook",
+      description:
+        "管理列顺序、隐藏列和列宽，并按 columnStateKey 读写本地记忆，适合外部控件和 Table 共用同一份列配置。",
+    },
+    {
+      name: "columnState.columnOrder",
+      type: "Array<string>",
+      group: "Hook",
+      description: "当前列顺序，可传给 Table.columnOrder。",
+    },
+    {
+      name: "columnState.hiddenColumns",
+      type: "Array<string>",
+      group: "Hook",
+      description: "当前隐藏列 key，可传给 Table.hiddenColumns。",
+    },
+    {
+      name: "columnState.columnWidths",
+      type: "Record<string, number>",
+      group: "Hook",
+      description: "当前列宽状态，可传给 Table.columnWidths。",
+    },
+    {
+      name: "columnState.setColumnOrder / setHiddenColumns / setColumnWidths",
+      type: "function",
+      group: "Hook",
+      description:
+        "列状态更新函数，可分别传给 Table 的列顺序、隐藏列和列宽变化回调。",
+    },
+    {
+      name: "columnState.resetColumnState",
+      type: "() => void",
+      group: "Hook",
+      description: "重置列顺序、隐藏列和列宽到默认状态。",
     },
     {
       name: "groupBy",

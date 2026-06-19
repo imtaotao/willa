@@ -12,7 +12,6 @@ import {
 } from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { assignRef, clampNumber } from "@willa-ui/shared";
-import { createPortal } from "react-dom";
 import classNames from "classnames";
 
 import {
@@ -24,6 +23,10 @@ import {
   type CalendarRangeValue,
   type CalendarValue,
 } from "#form/components/Calendar";
+import {
+  FloatingPanelPortal,
+  FloatingPanelShell,
+} from "#form/internal/floatingPanelParts";
 import { useFloatingPanel } from "#form/internal/useFloatingPanel";
 
 export type DatePickerSize = "sm" | "md" | "lg";
@@ -109,6 +112,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
     const generatedId = useId();
     const buttonId = id ?? generatedId;
     const panelId = `${buttonId}-panel`;
+    const panelLabelId = `${panelId}-label`;
     const rootRef = useRef<HTMLSpanElement>(null);
     const buttonRef = useRef<HTMLButtonElement | null>(null);
     const panelRef = useRef<HTMLDivElement | null>(null);
@@ -148,6 +152,12 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
       }) ??
       placeholder ??
       getDefaultPlaceholder({ mode, picker, range, wheelColumns });
+    const panelLabel = `${getDefaultPlaceholder({
+      mode,
+      picker,
+      range,
+      wheelColumns: normalizedWheelColumns,
+    })}面板`;
 
     const setButtonRef = (node: HTMLButtonElement | null) => {
       buttonRef.current = node;
@@ -216,85 +226,86 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
       }
     };
 
-    const panel =
-      open && typeof document !== "undefined"
-        ? createPortal(
-            <div
-              ref={panelRef}
-              id={panelId}
-              className={classNames(
-                "willa-date-picker-panel",
-                `willa-date-picker-panel--${mode}`,
-                picker === "wheel" && "willa-date-picker-panel--wheel",
-              )}
-              style={
-                position
-                  ? {
-                      left: position.left,
-                      top: position.top,
-                      width: position.width,
-                    }
-                  : { left: 0, top: 0, visibility: "hidden" }
-              }
-            >
-              {picker === "wheel" ? (
-                <div
-                  className="willa-date-picker-wheel"
-                  style={{
-                    gridTemplateColumns: `repeat(${normalizedWheelColumns.length}, minmax(3.75rem, 1fr))`,
-                  }}
-                >
-                  {normalizedWheelColumns.map((column) => {
-                    const parts = getWheelParts(currentValue);
+    const handlePanelKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+      if (event.key !== "Escape") return;
 
-                    return (
-                      <div
-                        key={column}
-                        className="willa-date-picker-wheel-column"
-                      >
-                        <div className="willa-date-picker-wheel-label">
-                          {wheelColumnLabels[column]}
-                        </div>
-                        <div className="willa-date-picker-wheel-options">
-                          {createWheelOptions(column, parts).map((option) => (
-                            <button
-                              key={option.value}
-                              className={classNames(
-                                "willa-date-picker-wheel-option",
-                                option.value === parts[column] &&
-                                  "willa-date-picker-wheel-option--selected",
-                              )}
-                              type="button"
-                              onClick={() =>
-                                handleWheelChange(column, option.value)
-                              }
-                            >
-                              {option.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <Calendar
-                  className="willa-date-picker-calendar"
-                  mode={mode}
-                  range={range}
-                  value={currentValue}
-                  min={min}
-                  max={max}
-                  markers={markers}
-                  getMarker={getMarker}
-                  disabledDate={disabledDate}
-                  onValueChange={handleCalendarValueChange}
-                />
-              )}
-            </div>,
-            document.body,
-          )
-        : null;
+      event.stopPropagation();
+      setOpen(false);
+      buttonRef.current?.focus();
+    };
+
+    const panel = open ? (
+      <FloatingPanelPortal open={open}>
+        <FloatingPanelShell
+          panelRef={panelRef}
+          id={panelId}
+          className={classNames(
+            "willa-date-picker-panel",
+            `willa-date-picker-panel--${mode}`,
+            picker === "wheel" && "willa-date-picker-panel--wheel",
+          )}
+          position={position}
+          role="dialog"
+          ariaLabelledBy={panelLabelId}
+          onKeyDown={handlePanelKeyDown}
+        >
+          <span id={panelLabelId} className="willa-date-picker-panel-label">
+            {panelLabel}
+          </span>
+          {picker === "wheel" ? (
+            <div
+              className="willa-date-picker-wheel"
+              style={{
+                gridTemplateColumns: `repeat(${normalizedWheelColumns.length}, minmax(3.75rem, 1fr))`,
+              }}
+            >
+              {normalizedWheelColumns.map((column) => {
+                const parts = getWheelParts(currentValue);
+
+                return (
+                  <div key={column} className="willa-date-picker-wheel-column">
+                    <div className="willa-date-picker-wheel-label">
+                      {wheelColumnLabels[column]}
+                    </div>
+                    <div className="willa-date-picker-wheel-options">
+                      {createWheelOptions(column, parts).map((option) => (
+                        <button
+                          key={option.value}
+                          className={classNames(
+                            "willa-date-picker-wheel-option",
+                            option.value === parts[column] &&
+                              "willa-date-picker-wheel-option--selected",
+                          )}
+                          type="button"
+                          onClick={() =>
+                            handleWheelChange(column, option.value)
+                          }
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <Calendar
+              className="willa-date-picker-calendar"
+              mode={mode}
+              range={range}
+              value={currentValue}
+              min={min}
+              max={max}
+              markers={markers}
+              getMarker={getMarker}
+              disabledDate={disabledDate}
+              onValueChange={handleCalendarValueChange}
+            />
+          )}
+        </FloatingPanelShell>
+      </FloatingPanelPortal>
+    ) : null;
 
     return (
       <span

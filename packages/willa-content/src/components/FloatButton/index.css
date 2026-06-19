@@ -79,9 +79,7 @@
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 50%;
-  box-shadow:
-    var(--willa-float-button-shadow),
-    0 2px 6px rgba(15, 23, 42, 0.05);
+  box-shadow: var(--willa-float-button-circle-shadow);
 }
 
 .willa-float-button--square {
@@ -183,7 +181,7 @@
   font-size: 0.74rem;
   font-weight: 700;
   line-height: 1;
-  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+  box-shadow: var(--willa-float-button-badge-shadow);
 }
 
 .willa-float-button-group {

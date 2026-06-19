@@ -19,6 +19,7 @@ export type VideoLinkProps = MediaContextProps & {
   children?: ReactNode;
   label?: string;
   provider?: string;
+  className?: string;
 };
 
 export function VideoLink({
@@ -28,6 +29,7 @@ export function VideoLink({
   label,
   volume,
   provider,
+  className,
   articleSourcePath,
   resolveAssetUrl,
 }: VideoLinkProps) {
@@ -107,7 +109,7 @@ export function VideoLink({
   if (!resolvedSrc) {
     return (
       <a
-        className="willa-prose-video-link"
+        className={classNames("willa-prose-video-link", className)}
         href={normalizedHref}
         target="_blank"
         rel="noreferrer"
@@ -120,7 +122,10 @@ export function VideoLink({
   }
 
   return (
-    <span ref={wrapRef} className="willa-prose-video-link-wrap">
+    <span
+      ref={wrapRef}
+      className={classNames("willa-prose-video-link-wrap", className)}
+    >
       <button
         type="button"
         className={classNames(

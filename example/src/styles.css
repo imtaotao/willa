@@ -36,12 +36,14 @@ select {
 }
 
 .docs-app {
-  display: grid;
-  grid-template-columns: 324px minmax(0, 1fr);
   min-height: 100vh;
 }
 
-.docs-sidebar {
+.docs-app .willa-app-shell-layout {
+  min-height: 100vh;
+}
+
+.docs-app .willa-app-shell-sidebar {
   position: sticky;
   top: 0;
   height: 100vh;
@@ -51,9 +53,20 @@ select {
   overflow-y: auto;
 }
 
-:root[data-wk-theme="dark"] .docs-sidebar {
+.docs-app .willa-app-shell-main {
+  min-width: 0;
+  padding: 0;
+  background: transparent;
+}
+
+:root[data-wk-theme="dark"] .docs-app .willa-app-shell-sidebar {
   border-right-color: rgba(255, 255, 255, 0.1);
   background: #111827;
+}
+
+.docs-sidebar {
+  display: grid;
+  align-content: start;
 }
 
 .docs-brand {
@@ -685,15 +698,15 @@ select {
 }
 
 @media (max-width: 1040px) {
-  .docs-app {
+  .docs-app.willa-app-shell--with-sidebar .willa-app-shell-layout {
     grid-template-columns: 1fr;
   }
 
-  .docs-main {
+  .docs-app .willa-app-shell-main {
     order: 1;
   }
 
-  .docs-sidebar {
+  .docs-app .willa-app-shell-sidebar {
     order: 2;
     position: static;
     height: auto;
@@ -702,7 +715,7 @@ select {
     padding: 18px;
   }
 
-  :root[data-wk-theme="dark"] .docs-sidebar {
+  :root[data-wk-theme="dark"] .docs-app .willa-app-shell-sidebar {
     border-bottom-color: rgba(255, 255, 255, 0.1);
   }
 

@@ -60,6 +60,11 @@ export default defineDoc({
       description: "标题上方展示的来源标签。",
     },
     {
+      name: "className",
+      type: "string",
+      description: "传给音频链接根节点的 className。",
+    },
+    {
       name: "articleSourcePath",
       type: "string",
       defaultValue: '""',

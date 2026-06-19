@@ -1,3 +1,5 @@
+import { requestJson } from "@willa-ui/shared";
+
 import type {
   EnglishCardItem,
   EnglishCardsOpenApiConfig,
@@ -59,10 +61,12 @@ const fetchDictionaryJson = async (
   word: string,
   requestInit: Pick<RequestInit, "signal">,
 ) => {
-  const response = await fetch(createDictionaryUrl(word), requestInit);
-  if (!response.ok) throw new Error(await readDictionaryError(response));
-
-  return response.json() as Promise<unknown>;
+  return requestJson(createDictionaryUrl(word), {
+    ...requestInit,
+    dedupeKey: `english-card:dictionary:${normalizeWordKey(word)}`,
+    createError: async (response) =>
+      new Error(await readDictionaryError(response)),
+  });
 };
 
 const createDictionaryUrl = (word: string) => {

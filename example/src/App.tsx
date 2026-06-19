@@ -1,11 +1,13 @@
 import { GitHubLogoIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useEffect, useState, type MouseEvent } from "react";
+import { AppShell } from "willa/AppShell";
 import { Anchor, type AnchorItem } from "willa/Anchor";
 import { Callout } from "willa/Callout";
 import { IconButton } from "willa/IconButton";
 import { Typography } from "willa/Typography";
 import { SearchInput } from "willa/SearchInput";
 import { Skeleton } from "willa/Skeleton";
+import "willa/AppShell.css";
 import "willa/Anchor.css";
 import "willa/Callout.css";
 import "willa/IconButton.css";
@@ -61,7 +63,6 @@ const docChineseNames: Record<string, string> = {
   CommentInput: "评论输入",
   CommentList: "评论列表",
   Composer: "组合输入器",
-  ConfirmDialog: "确认弹窗",
   Container: "容器",
   DatePicker: "日期选择器",
   DescriptionList: "描述列表",
@@ -113,6 +114,7 @@ const docChineseNames: Record<string, string> = {
   PromptInput: "提示词输入",
   QRCode: "二维码",
   Radio: "单选框",
+  Rate: "评分",
   RangeInput: "范围输入",
   ReasoningSteps: "推理步骤",
   Result: "结果",
@@ -244,6 +246,76 @@ export function App() {
     scrollDocumentToTop();
   };
 
+  const sidebar = (
+    <div className="docs-sidebar willa-shell">
+      <a className="docs-brand" href={`#/${usagePageId}`}>
+        <span className="docs-brand-mark">W</span>
+        <span className="docs-brand-copy">
+          <span className="docs-brand-title">Willa</span>
+          <span className="docs-brand-subtitle">Components</span>
+        </span>
+      </a>
+
+      <SearchInput
+        className="docs-sidebar-search"
+        value={sidebarQuery}
+        placeholder="搜索组件"
+        aria-label="搜索组件"
+        width="calc(100% - 12px)"
+        onValueChange={setSidebarQuery}
+      />
+
+      <nav className="docs-nav" aria-label="组件列表">
+        <div className="docs-nav-section">
+          <div className="docs-nav-section-title">开始</div>
+          <Anchor
+            className="docs-nav-anchor"
+            classNames={navAnchorClassNames}
+            items={usageAnchorItems}
+            activeId={activeId}
+            size="md"
+            variant="navigation"
+            onItemClick={handleDocAnchorClick}
+          />
+        </div>
+
+        <div className="docs-nav-components-head">
+          <span>组件</span>
+          <span>{componentDocRegistry.length}</span>
+        </div>
+
+        {visibleDocGroups.map((group) => (
+          <section className="docs-nav-group" key={group.id}>
+            <div className="docs-nav-title-row">
+              <div>
+                <div className="docs-nav-title">{group.label}</div>
+                <Typography.Paragraph className="docs-nav-description">
+                  {group.description}
+                </Typography.Paragraph>
+              </div>
+              <span className="docs-nav-count">{group.docs.length}</span>
+            </div>
+            <Anchor
+              className="docs-nav-anchor"
+              classNames={navAnchorClassNames}
+              items={group.docs.map(toDocAnchorItem)}
+              activeId={activeId}
+              size="md"
+              variant="navigation"
+              onItemClick={handleDocAnchorClick}
+            />
+          </section>
+        ))}
+
+        {normalizedSidebarQuery && visibleDocCount === 0 ? (
+          <Typography.Paragraph className="docs-nav-empty">
+            没有匹配的组件
+          </Typography.Paragraph>
+        ) : null}
+      </nav>
+    </div>
+  );
+
   useEffect(() => {
     document.documentElement.dataset.wkTheme =
       theme === "dark" ? "dark" : "light";
@@ -312,75 +384,7 @@ export function App() {
   }, [activeEntry]);
 
   return (
-    <main className="docs-app">
-      <aside className="docs-sidebar willa-shell">
-        <a className="docs-brand" href={`#/${usagePageId}`}>
-          <span className="docs-brand-mark">W</span>
-          <span className="docs-brand-copy">
-            <span className="docs-brand-title">Willa</span>
-            <span className="docs-brand-subtitle">Components</span>
-          </span>
-        </a>
-
-        <SearchInput
-          className="docs-sidebar-search"
-          value={sidebarQuery}
-          placeholder="搜索组件"
-          aria-label="搜索组件"
-          width="calc(100% - 12px)"
-          onValueChange={setSidebarQuery}
-        />
-
-        <nav className="docs-nav" aria-label="组件列表">
-          <div className="docs-nav-section">
-            <div className="docs-nav-section-title">开始</div>
-            <Anchor
-              className="docs-nav-anchor"
-              classNames={navAnchorClassNames}
-              items={usageAnchorItems}
-              activeId={activeId}
-              size="md"
-              variant="navigation"
-              onItemClick={handleDocAnchorClick}
-            />
-          </div>
-
-          <div className="docs-nav-components-head">
-            <span>组件</span>
-            <span>{componentDocRegistry.length}</span>
-          </div>
-
-          {visibleDocGroups.map((group) => (
-            <section className="docs-nav-group" key={group.id}>
-              <div className="docs-nav-title-row">
-                <div>
-                  <div className="docs-nav-title">{group.label}</div>
-                  <Typography.Paragraph className="docs-nav-description">
-                    {group.description}
-                  </Typography.Paragraph>
-                </div>
-                <span className="docs-nav-count">{group.docs.length}</span>
-              </div>
-              <Anchor
-                className="docs-nav-anchor"
-                classNames={navAnchorClassNames}
-                items={group.docs.map(toDocAnchorItem)}
-                activeId={activeId}
-                size="md"
-                variant="navigation"
-                onItemClick={handleDocAnchorClick}
-              />
-            </section>
-          ))}
-
-          {normalizedSidebarQuery && visibleDocCount === 0 ? (
-            <Typography.Paragraph className="docs-nav-empty">
-              没有匹配的组件
-            </Typography.Paragraph>
-          ) : null}
-        </nav>
-      </aside>
-
+    <AppShell className="docs-app" sidebar={sidebar} sidebarWidth="324px">
       <div className="docs-main">
         <header className="docs-header">
           <div className="docs-header-title">
@@ -441,6 +445,6 @@ export function App() {
           )}
         </div>
       </div>
-    </main>
+    </AppShell>
   );
 }

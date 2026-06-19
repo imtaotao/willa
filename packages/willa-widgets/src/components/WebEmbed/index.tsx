@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { ExternalLinkIcon, GlobeIcon } from "@radix-ui/react-icons";
+import classNames from "classnames";
 
 export type WebEmbedProps = {
   src: string;
@@ -10,6 +11,7 @@ export type WebEmbedProps = {
   height?: number | string;
   allow?: string;
   allowFullScreen?: boolean;
+  className?: string;
 };
 
 const normalizeHeight = (height?: number | string) => {
@@ -28,6 +30,7 @@ export function WebEmbed({
   height,
   allow,
   allowFullScreen,
+  className,
 }: WebEmbedProps) {
   const normalizedSrc = src.trim();
   const normalizedHref = href?.trim() || normalizedSrc;
@@ -38,7 +41,7 @@ export function WebEmbed({
   const frameHeight = normalizeHeight(height);
 
   return (
-    <article className="willa-prose-web-embed">
+    <article className={classNames("willa-prose-web-embed", className)}>
       <div className="willa-prose-web-embed-header">
         <div className="willa-prose-web-embed-copy">
           <div className="willa-prose-web-embed-kicker">

@@ -28,6 +28,7 @@ export type LightboxDialogProps = {
   onNext?: () => void;
   transitionDirection?: -1 | 0 | 1;
   backdrop?: "translucent" | "solid";
+  className?: string;
 };
 
 export type LightboxRootProps = {
@@ -196,6 +197,7 @@ const LightboxDialog = (props: LightboxDialogProps) => {
       className={classNames(
         "willa-lightbox",
         props.backdrop === "solid" && "willa-lightbox--solid",
+        props.className,
       )}
       role="dialog"
       aria-modal="true"

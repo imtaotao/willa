@@ -1,8 +1,10 @@
 export {
   Table,
+  useTableColumnState,
   type TableAlign,
   type TableCell,
   type TableColumnFixed,
+  type TableColumnState,
   type TableItem,
   type TablePagination,
   type TableProps,
@@ -13,4 +15,5 @@ export {
   type TableSize,
   type TableSortDirection,
   type TableSortState,
+  type UseTableColumnStateOptions,
 } from "@willa-ui/content/components/Table";

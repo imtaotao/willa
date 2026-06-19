@@ -35,7 +35,7 @@
 
 .willa-profile-card-avatar {
   border: 3px solid var(--willa-profile-card-bg);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+  box-shadow: var(--willa-profile-card-avatar-shadow);
 }
 
 .willa-profile-card--with-image .willa-profile-card-avatar {

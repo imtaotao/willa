@@ -81,6 +81,7 @@
   --willa-float-button-muted: var(--willa-text-soft);
   --willa-float-button-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
   --willa-float-button-shadow-hover: 0 24px 44px rgba(0, 0, 0, 0.3);
+  --willa-float-button-circle-shadow: var(--willa-float-button-shadow);
   --willa-float-button-primary-bg: rgba(130, 163, 236, 0.24);
   --willa-float-button-primary-bg-hover: rgba(130, 163, 236, 0.3);
   --willa-float-button-primary-border: rgba(130, 163, 236, 0.3);
@@ -91,6 +92,7 @@
   --willa-float-button-primary-shadow-hover: 0 24px 46px rgba(0, 0, 0, 0.36);
   --willa-float-button-badge-bg: rgba(24, 27, 32, 0.96);
   --willa-float-button-badge-border: rgba(130, 163, 236, 0.24);
+  --willa-float-button-badge-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);
   --willa-float-button-badge-text: #dbeafe;
   --willa-carousel-arrow-shadow: none;
   --willa-carousel-bg: rgba(255, 255, 255, 0.055);
@@ -358,6 +360,10 @@
   --willa-typography-success: #86efac;
   --willa-typography-text: var(--willa-text);
   --willa-typography-title: var(--willa-text-strong);
+  --willa-typography-tooltip-bg: #2b3038;
+  --willa-typography-tooltip-border: rgba(255, 255, 255, 0.12);
+  --willa-typography-tooltip-shadow: 0 16px 34px rgba(0, 0, 0, 0.32);
+  --willa-typography-tooltip-text: var(--willa-text-strong);
   --willa-typography-warning: #fbbf24;
   --willa-menu-bg: rgba(41, 45, 53, 0.98);
   --willa-menu-border: rgba(255, 255, 255, 0.14);

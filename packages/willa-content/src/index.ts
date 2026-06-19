@@ -44,7 +44,7 @@ export { SourceCard } from "#content/components/SourceCard";
 export { Spinner } from "#content/components/Spinner";
 export { Statistic } from "#content/components/Statistic";
 export { Step, Steps } from "#content/components/Steps";
-export { Table } from "#content/components/Table";
+export { Table, useTableColumnState } from "#content/components/Table";
 export { Tabs } from "#content/components/Tabs";
 export { Timeline } from "#content/components/Timeline";
 export { Tour } from "#content/components/Tour";
@@ -276,6 +276,7 @@ export type {
   TableAlign,
   TableCell,
   TableColumnFixed,
+  TableColumnState,
   TableItem,
   TablePagination,
   TableProps,
@@ -286,6 +287,7 @@ export type {
   TableSize,
   TableSortDirection,
   TableSortState,
+  UseTableColumnStateOptions,
 } from "#content/components/Table";
 export type { TabsItem, TabsProps, TabsSize } from "#content/components/Tabs";
 export type {

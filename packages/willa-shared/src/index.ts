@@ -1,27 +1,37 @@
-export { copyToClipboard } from "#shared/clipboard";
 export { formatCssSize } from "#shared/css";
+export { copyToClipboard } from "#shared/clipboard";
 export {
-  createCodeHighlightLines,
+  parseCodeMeta,
   highlightCodeToHtml,
   normalizeHljsLanguage,
-  parseCodeMeta,
+  createCodeHighlightLines,
 } from "#shared/codeHighlight";
-export type { CodeHighlightMeta, HighlightedCode } from "#shared/codeHighlight";
 export { getFocusableElements } from "#shared/dom";
 export { isMediaOnlyParagraph } from "#shared/nodes";
-export { resolveMediaAsset, resolveMediaVolume } from "#shared/media";
-export type { MediaContextProps } from "#shared/media";
-export { clampNumber, createNumberRange } from "#shared/number";
 export { assignRef, composeRefs } from "#shared/refs";
+export { clampNumber, createNumberRange } from "#shared/number";
+export {
+  type MediaContextProps,
+  resolveMediaAsset,
+  resolveMediaVolume,
+} from "#shared/media";
+export {
+  type RequestJsonOptions,
+  isAbortError,
+  requestJson,
+} from "#shared/request";
 export {
   flattenText,
   extractHeadings,
   createHeadingIdFactory,
 } from "#shared/heading";
 export {
+  type VirtualScrollOptions,
+  type VirtualScrollWindow,
   getVirtualScrollWindow,
   useVirtualScrollWindow,
 } from "#shared/virtualScroll";
+export type { CodeHighlightMeta, HighlightedCode } from "#shared/codeHighlight";
 export type {
   Heading,
   LightboxImage,
@@ -29,7 +39,3 @@ export type {
   OpenLightbox,
   ResolveAssetUrl,
 } from "#shared/types";
-export type {
-  VirtualScrollOptions,
-  VirtualScrollWindow,
-} from "#shared/virtualScroll";

@@ -1,15 +1,17 @@
 import {
   type ButtonHTMLAttributes,
   type ChangeEventHandler,
-  type CSSProperties,
   type KeyboardEventHandler,
   type ReactNode,
   type Ref,
 } from "react";
 import { ChevronDownIcon, Cross2Icon } from "@radix-ui/react-icons";
 import classNames from "classnames";
-import { createPortal } from "react-dom";
 
+import {
+  FloatingPanelPortal,
+  FloatingPanelShell,
+} from "#form/internal/floatingPanelParts";
 import type { FloatingPanelPosition } from "#form/internal/useFloatingPanel";
 
 export type SelectablePanelPortalProps = {
@@ -18,9 +20,11 @@ export type SelectablePanelPortalProps = {
 };
 
 export function SelectablePanelPortal(props: SelectablePanelPortalProps) {
-  if (!props.open || typeof document === "undefined") return null;
-
-  return createPortal(props.children, document.body);
+  return (
+    <FloatingPanelPortal open={props.open}>
+      {props.children}
+    </FloatingPanelPortal>
+  );
 }
 
 export type SelectablePanelTriggerProps = Omit<
@@ -147,18 +151,18 @@ export function SelectablePanelShell(props: SelectablePanelShellProps) {
   } = props;
 
   return (
-    <div
-      ref={panelRef}
+    <FloatingPanelShell
+      panelRef={panelRef}
       id={id}
       className={className}
       role={role}
-      aria-multiselectable={multiselectable ? true : undefined}
-      aria-labelledby={labelledBy}
+      ariaMultiselectable={multiselectable}
+      ariaLabelledBy={labelledBy}
       onKeyDown={onKeyDown}
-      style={getSelectablePanelStyle(position)}
+      position={position}
     >
       {children}
-    </div>
+    </FloatingPanelShell>
   );
 }
 
@@ -206,17 +210,3 @@ export function SelectablePanelList(props: SelectablePanelListProps) {
     </div>
   );
 }
-
-const getSelectablePanelStyle = (
-  position: FloatingPanelPosition | null,
-): CSSProperties => {
-  if (!position) {
-    return { left: 0, top: 0, visibility: "hidden" };
-  }
-
-  return {
-    left: position.left,
-    top: position.top,
-    width: position.width,
-  };
-};

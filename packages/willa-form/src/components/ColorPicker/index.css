@@ -185,6 +185,8 @@
 
 .willa-color-picker-panel-content {
   display: grid;
+  max-height: calc(100vh - 1rem);
+  overflow: auto;
   gap: 0.85rem;
   padding: 0.85rem;
   border: 1px solid var(--willa-color-picker-panel-border);
@@ -209,11 +211,9 @@
   position: absolute;
   width: 0.86rem;
   height: 0.86rem;
-  border: 2px solid #ffffff;
+  border: 2px solid var(--willa-color-picker-thumb-border);
   border-radius: 50%;
-  box-shadow:
-    0 0 0 1px rgba(15, 23, 42, 0.3),
-    0 3px 10px rgba(15, 23, 42, 0.24);
+  box-shadow: var(--willa-color-picker-thumb-shadow);
   transform: translate(-50%, -50%);
 }
 
@@ -261,9 +261,7 @@
   border-radius: 50%;
   appearance: none;
   background: var(--willa-color-picker-current);
-  box-shadow:
-    0 0 0 1px rgba(15, 23, 42, 0.22),
-    0 2px 6px rgba(15, 23, 42, 0.2);
+  box-shadow: var(--willa-color-picker-thumb-shadow);
 }
 
 .willa-color-picker-slider::-moz-range-thumb {
@@ -272,9 +270,7 @@
   border: 2px solid var(--willa-color-picker-thumb-border);
   border-radius: 50%;
   background: var(--willa-color-picker-current);
-  box-shadow:
-    0 0 0 1px rgba(15, 23, 42, 0.22),
-    0 2px 6px rgba(15, 23, 42, 0.2);
+  box-shadow: var(--willa-color-picker-thumb-shadow);
 }
 
 .willa-color-picker-slider--hue::-webkit-slider-runnable-track {
@@ -587,7 +583,16 @@
     min-width: 0;
   }
 
+  .willa-color-picker-panel-content {
+    gap: 0.72rem;
+    padding: 0.72rem;
+  }
+
   .willa-color-picker-saturation {
     height: 9rem;
+  }
+
+  .willa-color-picker-fields {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

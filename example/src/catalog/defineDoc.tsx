@@ -15,6 +15,7 @@ export type DemoElement = {
 type ComponentDocInput = {
   id: string;
   name: string;
+  displayName?: string;
   category?: ComponentDoc["category"];
   packageName: string;
   description: string;
@@ -106,6 +107,7 @@ const willaDemoImportNames = new Set([
   "ProfileCard",
   "QRCode",
   "Radio",
+  "Rate",
   "RangeInput",
   "ReasoningSteps",
   "SearchInput",
@@ -148,6 +150,7 @@ export function defineDoc(input: ComponentDocInput) {
   return {
     id: input.id,
     name: input.name,
+    displayName: input.displayName,
     category: input.category ?? "content",
     packageName: input.packageName,
     description: input.description,

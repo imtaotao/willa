@@ -55,6 +55,7 @@ const docSpecGroups = {
     "Input",
     "Picker",
     "Radio",
+    "Rate",
     "RangeInput",
     "SearchInput",
     "Select",

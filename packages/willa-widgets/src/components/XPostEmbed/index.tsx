@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Tweet } from "react-twitter-widgets";
 import { Skeleton } from "@willa-ui/content/components/Skeleton";
+import classNames from "classnames";
 
 export type XPostEmbedProps = {
   url?: string;
   id?: string;
   title?: string;
+  className?: string;
 };
 
 const XPostEmbedErrorFallback = (props: { onVisible: () => void }) => {
@@ -29,7 +31,7 @@ const extractTweetId = (urlOrId: string) => {
   return match?.[1] || "";
 };
 
-export function XPostEmbed({ url, id, title }: XPostEmbedProps) {
+export function XPostEmbed({ url, id, title, className }: XPostEmbedProps) {
   const source = url?.trim() || id?.trim() || "";
   const tweetId = extractTweetId(source);
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -50,7 +52,7 @@ export function XPostEmbed({ url, id, title }: XPostEmbedProps) {
   if (!tweetId) return null;
 
   return (
-    <article className="willa-prose-x-post-embed">
+    <article className={classNames("willa-prose-x-post-embed", className)}>
       <div className="willa-prose-x-post-embed-frame-shell">
         <div className="willa-prose-x-post-embed-widget" aria-label={ariaLabel}>
           <Skeleton

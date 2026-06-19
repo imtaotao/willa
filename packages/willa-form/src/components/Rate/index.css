@@ -1,0 +1,97 @@
+.willa-rate {
+  display: inline-flex;
+  box-sizing: border-box;
+  max-width: 100%;
+  color: var(--willa-rate-color);
+  font-family: var(--willa-body-font);
+  line-height: 1;
+  outline: 0;
+  vertical-align: middle;
+}
+
+.willa-rate-items {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--willa-rate-gap);
+  min-width: 0;
+}
+
+.willa-rate-item {
+  position: relative;
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  color: var(--willa-rate-color-empty);
+  cursor: pointer;
+  transition:
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.willa-rate-item:hover {
+  transform: translateY(-0.08rem) scale(1.04);
+}
+
+.willa-rate-character {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--willa-rate-size);
+  height: var(--willa-rate-size);
+  font-size: var(--willa-rate-size);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.willa-rate-character--active {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: var(--willa-rate-color-active);
+  clip-path: inset(0 calc(100% - var(--willa-rate-active-width)) 0 0);
+}
+
+.willa-rate-star {
+  display: block;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-linejoin: round;
+  stroke-width: 0.8;
+}
+
+.willa-rate--sm {
+  --willa-rate-size: 1rem;
+  --willa-rate-gap: 0.18rem;
+}
+
+.willa-rate--md {
+  --willa-rate-size: 1.3rem;
+  --willa-rate-gap: 0.26rem;
+}
+
+.willa-rate--lg {
+  --willa-rate-size: 1.68rem;
+  --willa-rate-gap: 0.32rem;
+}
+
+.willa-rate--focused {
+  filter: saturate(1.08);
+}
+
+.willa-rate--focused .willa-rate-item--active .willa-rate-character--active {
+  filter: drop-shadow(0 0 0.2rem var(--willa-rate-ring));
+}
+
+.willa-rate--disabled {
+  opacity: 0.58;
+}
+
+.willa-rate--disabled .willa-rate-item {
+  cursor: not-allowed;
+}
+
+.willa-rate--disabled .willa-rate-item:hover {
+  transform: none;
+}

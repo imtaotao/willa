@@ -3,6 +3,7 @@ import { forwardRef, type HTMLAttributes } from "react";
 import type { TableProps, TableRef } from "#content/components/Table/types";
 import { TableView } from "#content/components/Table/TableView";
 import { useTableState } from "#content/components/Table/useTableState";
+export { useTableColumnState } from "#content/components/Table/useTableColumnState";
 
 export type {
   TableAlign,
@@ -22,6 +23,7 @@ export type {
   TableSortDirection,
   TableSortState,
 } from "#content/components/Table/types";
+export type { UseTableColumnStateOptions } from "#content/components/Table/useTableColumnState";
 
 const tablePropKeys = new Set([
   "items",

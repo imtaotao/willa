@@ -90,6 +90,11 @@ export default defineDoc({
       description: "展示在卡片顶部的来源标签。",
     },
     {
+      name: "className",
+      type: "string",
+      description: "传给视频嵌入根节点的 className。",
+    },
+    {
       name: "articleSourcePath",
       type: "string",
       description: "当前文章路径，用于解析相对视频或封面资源。",

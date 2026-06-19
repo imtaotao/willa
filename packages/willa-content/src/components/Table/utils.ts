@@ -26,24 +26,20 @@ export const getCellKey = (cell: TableCell, index: number) => {
 
 export const getCellTooltipText = (cell: TableCell) => {
   if (cell.title) return cell.title;
-
   if (typeof cell.value === "string" || typeof cell.value === "number") {
     return String(cell.value);
   }
-
   return undefined;
 };
 
 export const getAriaSort = (direction: TableSortDirection | undefined) => {
   if (direction === "asc") return "ascending";
   if (direction === "desc") return "descending";
-
   return undefined;
 };
 
 export const getCellStyle = (cell: TableCell) => {
   if (!cell.width) return undefined;
-
   return {
     width: getCellWidth(cell.width),
     minWidth: getCellWidth(cell.width),
@@ -52,7 +48,6 @@ export const getCellStyle = (cell: TableCell) => {
 
 export const getCellWidth = (width: number | string | undefined) => {
   if (width === undefined) return undefined;
-
   return typeof width === "number" ? `${width}px` : width;
 };
 
@@ -143,7 +138,6 @@ export const getResolvedWidthValue = (
   if (width === undefined) {
     return useFallback ? defaultFixedColumnWidth : undefined;
   }
-
   return width;
 };
 
@@ -151,13 +145,11 @@ export const addCssLength = (base: string, next?: number | string) => {
   const nextValue = getCellWidth(next);
   if (!nextValue) return base;
   if (!base || base === "0px") return nextValue;
-
   return `calc(${base} + ${nextValue})`;
 };
 
 export const getActionsStyle = (width?: number | string) => {
   if (!width) return undefined;
-
   return { width };
 };
 
@@ -201,11 +193,11 @@ export const renderTableSelectionBar = (options: {
     description,
     actions,
     sticky: selectionBarSticky,
+    onClear: context.onClear,
     onSelectAll:
       context.visibleCount > 0 && !context.allVisibleSelected
         ? context.onSelectVisible
         : undefined,
-    onClear: context.onClear,
   });
 };
 
@@ -239,7 +231,6 @@ export const compareValues = (a: ReactNode, b: ReactNode) => {
   if (typeof a === "number" && typeof b === "number") {
     return a - b;
   }
-
   return String(a ?? "").localeCompare(String(b ?? ""), "zh-Hans-CN", {
     numeric: true,
   });

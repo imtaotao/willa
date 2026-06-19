@@ -23,6 +23,7 @@ export type ImageGalleryProps = MediaContextProps & {
   openLightbox?: OpenLightbox;
   hoverZoom?: boolean;
   backgroundColor?: CSSProperties["backgroundColor"];
+  className?: string;
 };
 
 const GalleryImageButton = ({
@@ -102,6 +103,7 @@ export function ImageGallery({
   openLightbox,
   hoverZoom = false,
   backgroundColor,
+  className,
   ...mediaContext
 }: ImageGalleryProps) {
   const normalizedImages = images
@@ -129,6 +131,7 @@ export function ImageGallery({
       className={classNames(
         "willa-prose-gallery",
         hoverZoom && "willa-prose-gallery--hover-zoom",
+        className,
       )}
       style={
         {

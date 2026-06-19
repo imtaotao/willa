@@ -79,5 +79,10 @@ export default defineDoc({
       type: "string",
       description: "自定义仓库所有者头像。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "传给 GitHub 仓库根节点的 className。",
+    },
   ],
 });

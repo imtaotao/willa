@@ -86,8 +86,14 @@
   --willa-color-picker-ring: rgba(37, 99, 235, 0.14);
   --willa-color-picker-swatch-border: rgba(15, 23, 42, 0.16);
   --willa-color-picker-thumb-border: #ffffff;
+  --willa-color-picker-thumb-shadow:
+    0 0 0 1px rgba(15, 23, 42, 0.24), 0 2px 8px rgba(15, 23, 42, 0.2);
   --willa-color-picker-checker: rgba(100, 116, 139, 0.16);
   --willa-color-picker-checker-bg: #ffffff;
+  --willa-rate-color: var(--willa-text-strong);
+  --willa-rate-color-empty: rgba(148, 163, 184, 0.36);
+  --willa-rate-color-active: #f5a524;
+  --willa-rate-ring: rgba(245, 158, 11, 0.18);
   --willa-date-picker-panel-bg: #ffffff;
   --willa-date-picker-panel-border: rgba(15, 23, 42, 0.12);
   --willa-date-picker-panel-shadow:

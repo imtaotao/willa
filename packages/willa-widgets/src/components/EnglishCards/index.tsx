@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Pencil2Icon, ReaderIcon } from "@radix-ui/react-icons";
+import { isAbortError } from "@willa-ui/shared";
 import classNames from "classnames";
 
 import { EnglishCard } from "#widgets/components/EnglishCards/Card";
@@ -65,10 +66,6 @@ const getErrorMessage = (error: unknown) => {
   if (isAbortError(error)) return "Dictionary request was cancelled.";
 
   return error instanceof Error ? error.message : "Dictionary request failed.";
-};
-
-const isAbortError = (error: unknown) => {
-  return error instanceof DOMException && error.name === "AbortError";
 };
 
 export function EnglishCards(props: EnglishCardsProps) {

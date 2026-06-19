@@ -11,6 +11,7 @@ export { FilterBar } from "#form/components/FilterBar";
 export { Input } from "#form/components/Input";
 export { Picker } from "#form/components/Picker";
 export { Radio } from "#form/components/Radio";
+export { Rate } from "#form/components/Rate";
 export { RangeInput } from "#form/components/RangeInput";
 export { SearchInput } from "#form/components/SearchInput";
 export { Select } from "#form/components/Select";
@@ -103,6 +104,12 @@ export type {
   PickerVariant,
 } from "#form/components/Picker";
 export type { RadioProps, RadioSize } from "#form/components/Radio";
+export type {
+  RateCharacterRenderContext,
+  RateProps,
+  RateRef,
+  RateSize,
+} from "#form/components/Rate";
 export type { RangeInputProps } from "#form/components/RangeInput";
 export type { SearchInputProps } from "#form/components/SearchInput";
 export type {

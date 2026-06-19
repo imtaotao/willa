@@ -189,7 +189,9 @@ export function DocView({ doc }: DocViewProps) {
       id={doc.id}
     >
       <div className="docs-intro">
-        <Typography.Title level={2}>{doc.name}</Typography.Title>
+        <Typography.Title level={2}>
+          {doc.displayName ?? doc.name}
+        </Typography.Title>
         <Typography.Paragraph className="docs-description">
           {doc.description}
         </Typography.Paragraph>

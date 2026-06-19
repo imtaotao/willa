@@ -23,6 +23,7 @@ export type AudioEmbedProps = MediaContextProps & {
   description?: string;
   duration?: string;
   provider?: string;
+  className?: string;
 };
 
 const formatTime = (seconds: number) => {
@@ -42,7 +43,8 @@ const resolveAudioSource = (props: AudioEmbedProps) => {
 };
 
 export function AudioEmbed(props: AudioEmbedProps) {
-  const { href, title, description, duration, provider, volume } = props;
+  const { href, title, description, duration, provider, volume, className } =
+    props;
   const normalizedHref = href?.trim() ?? "";
   const normalizedTitle = title.trim();
   const resolvedSrc = resolveAudioSource(props);
@@ -108,7 +110,7 @@ export function AudioEmbed(props: AudioEmbedProps) {
   if (!hasInlinePlayer) {
     return (
       <a
-        className="willa-prose-audio-embed"
+        className={classNames("willa-prose-audio-embed", className)}
         href={normalizedHref}
         target="_blank"
         rel="noreferrer"
@@ -132,7 +134,13 @@ export function AudioEmbed(props: AudioEmbedProps) {
   }
 
   return (
-    <article className="willa-prose-audio-embed willa-prose-audio-embed--inline">
+    <article
+      className={classNames(
+        "willa-prose-audio-embed",
+        "willa-prose-audio-embed--inline",
+        className,
+      )}
+    >
       {content}
       {hasExternalLink ? (
         <a

@@ -190,6 +190,7 @@
   --willa-profile-card-role: #315f9d;
   --willa-profile-card-muted: var(--willa-text-soft);
   --willa-profile-card-faint: var(--willa-text-faint);
+  --willa-profile-card-avatar-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
   --willa-profile-card-link: #315f9d;
   --willa-profile-card-link-hover: #1f4f89;
   --willa-site-nav-bg: rgba(255, 255, 255, 0.88);

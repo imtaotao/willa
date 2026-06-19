@@ -74,5 +74,10 @@ export default defineDoc({
       type: "string | number",
       description: "悬浮卡片中的仓库数量。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "传给 GitHub 提及根节点的 className。",
+    },
   ],
 });

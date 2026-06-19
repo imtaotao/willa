@@ -87,5 +87,10 @@ export default defineDoc({
       type: "boolean",
       description: "是否允许 iframe 全屏。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "传给网页嵌入根节点的 className。",
+    },
   ],
 });
