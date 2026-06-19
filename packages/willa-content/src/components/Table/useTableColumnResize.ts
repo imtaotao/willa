@@ -14,6 +14,8 @@ import {
 } from "#content/components/Table/utils";
 
 const resizeMinWidth = 80;
+const keyboardResizeStep = 16;
+const keyboardResizeLargeStep = 48;
 
 type SetColumnWidths = (
   nextWidths:
@@ -80,6 +82,22 @@ export function useTableColumnResize(options: UseTableColumnResizeOptions) {
     document.body.style.userSelect = "";
   }, [handleColumnResizeMove]);
 
+  const measureHeaderWidths = useCallback(() => {
+    return orderedHeaders.reduce<Record<string, number>>(
+      (widths, headerCellItem, headerIndex) => {
+        const key = getCellKey(headerCellItem, headerIndex);
+        const element = headerCellRefs.current[key];
+        if (!element) return widths;
+
+        return {
+          ...widths,
+          [key]: Math.ceil(element.getBoundingClientRect().width),
+        };
+      },
+      {},
+    );
+  }, [headerCellRefs, orderedHeaders]);
+
   const startColumnResize = useCallback(
     (event: MouseEvent<HTMLButtonElement>, cell: TableCell, index: number) => {
       if (!resizableColumns || typeof window === "undefined") return;
@@ -91,19 +109,7 @@ export function useTableColumnResize(options: UseTableColumnResizeOptions) {
       const headerCell = headerCellRefs.current[columnKey];
       if (!headerCell) return;
 
-      const measuredWidths = orderedHeaders.reduce<Record<string, number>>(
-        (widths, headerCellItem, headerIndex) => {
-          const key = getCellKey(headerCellItem, headerIndex);
-          const element = headerCellRefs.current[key];
-          if (!element) return widths;
-
-          return {
-            ...widths,
-            [key]: Math.ceil(element.getBoundingClientRect().width),
-          };
-        },
-        {},
-      );
+      const measuredWidths = measureHeaderWidths();
 
       resizeStateRef.current = {
         key: columnKey,
@@ -126,10 +132,35 @@ export function useTableColumnResize(options: UseTableColumnResizeOptions) {
       handleColumnResizeEnd,
       handleColumnResizeMove,
       headerCellRefs,
-      orderedHeaders,
+      measureHeaderWidths,
       resizableColumns,
       setColumnWidths,
     ],
+  );
+
+  const resizeColumnBy = useCallback(
+    (cell: TableCell, index: number, delta: number) => {
+      if (!resizableColumns || typeof window === "undefined") return;
+
+      const columnKey = getCellKey(cell, index);
+      const headerCell = headerCellRefs.current[columnKey];
+      if (!headerCell) return;
+
+      const measuredWidths = measureHeaderWidths();
+      const currentWidth =
+        measuredWidths[columnKey] ?? headerCell.getBoundingClientRect().width;
+      const nextWidth = Math.max(
+        Math.ceil(currentWidth + delta),
+        resizeMinWidth,
+      );
+
+      setColumnWidths((currentWidths) => ({
+        ...currentWidths,
+        ...measuredWidths,
+        [columnKey]: nextWidth,
+      }));
+    },
+    [headerCellRefs, measureHeaderWidths, resizableColumns, setColumnWidths],
   );
 
   const autoSizeColumn = useCallback(
@@ -167,6 +198,9 @@ export function useTableColumnResize(options: UseTableColumnResizeOptions) {
   return {
     isResizing,
     startColumnResize,
+    resizeColumnBy,
     autoSizeColumn,
+    keyboardResizeLargeStep,
+    keyboardResizeStep,
   };
 }

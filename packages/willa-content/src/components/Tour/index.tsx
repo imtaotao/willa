@@ -45,24 +45,58 @@ export type TourGap =
       radius?: number;
     };
 
-export type TourStep = {
-  target?: TourTarget;
-  title?: ReactNode;
-  description?: ReactNode;
-  cover?: ReactNode;
-  placement?: TourPlacement;
-  type?: TourType;
-  arrow?: boolean;
-  mask?: boolean;
-  nextText?: ReactNode;
-  prevText?: ReactNode;
-};
-
 export type TourActionRenderInfo = {
   current: number;
   total: number;
   isFirst: boolean;
   isLast: boolean;
+};
+
+export type TourLabels = {
+  next?: ReactNode;
+  prev?: ReactNode;
+  finish?: ReactNode;
+  closeAriaLabel?: string;
+};
+
+export type TourBehavior = {
+  keyboard?: boolean;
+  disabledInteraction?: boolean;
+  mask?: boolean;
+  scrollIntoView?: boolean | ScrollIntoViewOptions;
+};
+
+export type TourPositioning = {
+  placement?: TourPlacement;
+  arrow?: boolean;
+  gap?: TourGap;
+  zIndex?: number;
+};
+
+export type TourRenderers = {
+  indicators?: (current: number, total: number) => ReactNode;
+  actions?: (originNode: ReactNode, info: TourActionRenderInfo) => ReactNode;
+};
+
+export type TourClasses = {
+  root?: string;
+  panel?: string;
+  mask?: string;
+};
+
+export type TourStepLabels = Pick<TourLabels, "next" | "prev">;
+export type TourStepBehavior = Pick<TourBehavior, "mask">;
+export type TourStepPositioning = Pick<TourPositioning, "arrow" | "placement">;
+
+export type TourStep = {
+  target?: TourTarget;
+  title?: ReactNode;
+  description?: ReactNode;
+  cover?: ReactNode;
+  type?: TourType;
+  labels?: TourStepLabels;
+  behavior?: TourStepBehavior;
+  positioning?: TourStepPositioning;
 };
 
 export type TourProps = {
@@ -71,27 +105,12 @@ export type TourProps = {
   current?: number;
   defaultCurrent?: number;
   steps: Array<TourStep>;
-  placement?: TourPlacement;
   type?: TourType;
-  mask?: boolean;
-  arrow?: boolean;
-  gap?: TourGap;
-  keyboard?: boolean;
-  disabledInteraction?: boolean;
-  scrollIntoView?: boolean | ScrollIntoViewOptions;
-  nextText?: ReactNode;
-  prevText?: ReactNode;
-  finishText?: ReactNode;
-  closeAriaLabel?: string;
-  zIndex?: number;
-  className?: string;
-  panelClassName?: string;
-  maskClassName?: string;
-  indicatorsRender?: (current: number, total: number) => ReactNode;
-  actionsRender?: (
-    originNode: ReactNode,
-    info: TourActionRenderInfo,
-  ) => ReactNode;
+  labels?: TourLabels;
+  behavior?: TourBehavior;
+  positioning?: TourPositioning;
+  render?: TourRenderers;
+  classes?: TourClasses;
   onChange?: (current: number) => void;
   onClose?: () => void;
   onFinish?: () => void;
@@ -124,29 +143,35 @@ export function Tour(props: TourProps) {
     current,
     defaultCurrent = 0,
     steps,
-    placement = "bottom",
     type = "default",
-    mask = true,
-    arrow = true,
-    gap = defaultGap,
-    keyboard = true,
-    disabledInteraction = false,
-    scrollIntoView = true,
-    nextText = "下一步",
-    prevText = "上一步",
-    finishText = "完成",
-    closeAriaLabel = "关闭引导",
-    zIndex,
-    className,
-    panelClassName,
-    maskClassName,
-    indicatorsRender,
-    actionsRender,
+    labels,
+    behavior,
+    positioning,
+    render,
+    classes,
     onChange,
     onClose,
     onFinish,
     onOpenChange,
   } = props;
+  const {
+    closeAriaLabel = "关闭引导",
+    finish = "完成",
+    next = "下一步",
+    prev = "上一步",
+  } = labels ?? {};
+  const {
+    disabledInteraction = false,
+    keyboard = true,
+    mask = true,
+    scrollIntoView = true,
+  } = behavior ?? {};
+  const {
+    arrow = true,
+    gap = defaultGap,
+    placement = "bottom",
+    zIndex,
+  } = positioning ?? {};
   const id = useId();
   const isOpenControlled = open !== undefined;
   const isCurrentControlled = current !== undefined;
@@ -164,9 +189,9 @@ export function Tour(props: TourProps) {
   const isFirst = activeIndex === 0;
   const isLast = activeIndex === total - 1;
   const resolvedType = activeStep?.type ?? type;
-  const resolvedMask = activeStep?.mask ?? mask;
-  const resolvedArrow = activeStep?.arrow ?? arrow;
-  const resolvedPlacement = activeStep?.placement ?? placement;
+  const resolvedMask = activeStep?.behavior?.mask ?? mask;
+  const resolvedArrow = activeStep?.positioning?.arrow ?? arrow;
+  const resolvedPlacement = activeStep?.positioning?.placement ?? placement;
   const activeTarget = activeStep?.target;
   const panelRef = useRef<HTMLDivElement>(null);
   const [targetRect, setTargetRect] = useState<TourRect | null>(null);
@@ -415,7 +440,7 @@ export function Tour(props: TourProps) {
 
   const rootStyle = zIndexStyle;
   const indicators = useMemo(() => {
-    if (indicatorsRender) return indicatorsRender(activeIndex, total);
+    if (render?.indicators) return render.indicators(activeIndex, total);
 
     return (
       <span className="willa-tour__dots" aria-hidden="true">
@@ -430,7 +455,7 @@ export function Tour(props: TourProps) {
         ))}
       </span>
     );
-  }, [activeIndex, indicatorsRender, steps, total]);
+  }, [activeIndex, render, steps, total]);
 
   if (
     !isOpen ||
@@ -450,17 +475,17 @@ export function Tour(props: TourProps) {
           size="sm"
           onClick={showPreviousStep}
         >
-          {activeStep.prevText ?? prevText}
+          {activeStep.labels?.prev ?? prev}
         </Button>
       ) : null}
       <Button type="button" variant="solid" size="sm" onClick={showNextStep}>
-        {isLast ? finishText : (activeStep.nextText ?? nextText)}
+        {isLast ? finish : (activeStep.labels?.next ?? next)}
       </Button>
     </>
   );
 
-  const actions = actionsRender
-    ? actionsRender(defaultActions, {
+  const actions = render?.actions
+    ? render.actions(defaultActions, {
         current: activeIndex,
         total,
         isFirst,
@@ -475,13 +500,14 @@ export function Tour(props: TourProps) {
         `willa-tour--${resolvedType}`,
         animateMotion && "willa-tour--animate",
         stepTransitioning && "willa-tour--step-transitioning",
-        className,
+        classes?.root,
       )}
       style={rootStyle}
     >
       {resolvedMask ? (
         <TourMask
-          className={maskClassName}
+          ariaLabel={closeAriaLabel}
+          className={classes?.mask}
           rect={targetRect}
           onClick={closeTour}
         />
@@ -501,7 +527,7 @@ export function Tour(props: TourProps) {
         className={classNames(
           "willa-tour__panel",
           `willa-tour__panel--${panelPosition?.placement ?? resolvedPlacement}`,
-          panelClassName,
+          classes?.panel,
         )}
         style={panelStyle}
         role="dialog"
@@ -553,6 +579,7 @@ export function Tour(props: TourProps) {
 }
 
 const TourMask = (props: {
+  ariaLabel: string;
   rect: TourRect | null;
   className?: string;
   onClick: () => void;
@@ -564,7 +591,7 @@ const TourMask = (props: {
       <button
         type="button"
         className={classNames("willa-tour__mask", props.className)}
-        aria-label="关闭引导"
+        aria-label={props.ariaLabel}
         onClick={props.onClick}
       />
     );
@@ -592,7 +619,7 @@ const TourMask = (props: {
           key={index}
           type="button"
           className="willa-tour__mask-hit-area"
-          aria-label="关闭引导"
+          aria-label={props.ariaLabel}
           style={style}
           onClick={props.onClick}
         />

@@ -103,7 +103,10 @@ type TableViewProps = {
     cell: TableCell,
     index: number,
   ) => void;
+  onResizeColumnBy: (cell: TableCell, index: number, delta: number) => void;
   onAutoSizeColumn: (cell: TableCell, index: number) => void;
+  keyboardResizeLargeStep: number;
+  keyboardResizeStep: number;
   onCellTooltipShow: (
     event: MouseEvent<HTMLSpanElement>,
     cell: TableCell,
@@ -174,7 +177,10 @@ export function TableView(props: TableViewProps) {
     onToggleExpanded,
     onToggleSort,
     onStartColumnResize,
+    onResizeColumnBy,
     onAutoSizeColumn,
+    keyboardResizeLargeStep,
+    keyboardResizeStep,
     onCellTooltipShow,
     onCellTooltipHide,
     onPageChange,
@@ -276,7 +282,7 @@ export function TableView(props: TableViewProps) {
         </div>
       ) : null}
       {stickyHeader ? (
-        <div className="willa-table-header-scroll" aria-hidden="true">
+        <div className="willa-table-header-scroll">
           <table
             ref={headerTableRef}
             className={classNames("willa-table-element", tableClassName)}
@@ -307,7 +313,10 @@ export function TableView(props: TableViewProps) {
               onToggleVisibleSelection={onToggleVisibleSelection}
               onToggleSort={onToggleSort}
               onStartColumnResize={onStartColumnResize}
+              onResizeColumnBy={onResizeColumnBy}
               onAutoSizeColumn={onAutoSizeColumn}
+              keyboardResizeLargeStep={keyboardResizeLargeStep}
+              keyboardResizeStep={keyboardResizeStep}
               onColumnDragStart={handleColumnDragStart}
               onColumnDrop={handleColumnDrop}
               onColumnDragEnd={handleColumnDragEnd}
@@ -347,7 +356,10 @@ export function TableView(props: TableViewProps) {
               onToggleVisibleSelection={onToggleVisibleSelection}
               onToggleSort={onToggleSort}
               onStartColumnResize={onStartColumnResize}
+              onResizeColumnBy={onResizeColumnBy}
               onAutoSizeColumn={onAutoSizeColumn}
+              keyboardResizeLargeStep={keyboardResizeLargeStep}
+              keyboardResizeStep={keyboardResizeStep}
               onColumnDragStart={handleColumnDragStart}
               onColumnDrop={handleColumnDrop}
               onColumnDragEnd={handleColumnDragEnd}

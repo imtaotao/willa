@@ -97,7 +97,16 @@ export default defineDoc({
       title: "扩展区域",
       code: `
         <InputPanel
-          beforeInput={<Badge tone="info">引用：@产品设计</Badge>}
+          beforeInput={
+            <div className="willa-input-panel-reference">
+              <span className="willa-input-panel-reference-author">
+                @产品设计
+              </span>
+              <span className="willa-input-panel-reference-content">
+                这段说明可以再补充一个实际产品里的信息结构示例。
+              </span>
+            </div>
+          }
           placeholder="回复这条讨论..."
           actions={
             <Group gap="xs">
@@ -115,7 +124,16 @@ export default defineDoc({
       content: (
         <div style={panelFrameStyle}>
           <InputPanel
-            beforeInput={<Badge tone="info">引用：@产品设计</Badge>}
+            beforeInput={
+              <div className="willa-input-panel-reference">
+                <span className="willa-input-panel-reference-author">
+                  @产品设计
+                </span>
+                <span className="willa-input-panel-reference-content">
+                  这段说明可以再补充一个实际产品里的信息结构示例。
+                </span>
+              </div>
+            }
             placeholder="回复这条讨论..."
             actions={
               <Group gap="xs">

@@ -1,6 +1,4 @@
 import {
-  useEffect,
-  useState,
   type ComponentPropsWithoutRef,
   type CSSProperties,
   type ReactNode,
@@ -10,10 +8,10 @@ import { isArray } from "aidly";
 import classNames from "classnames";
 
 import {
-  copyToClipboard,
   createCodeHighlightLines,
   highlightCodeToHtml,
   parseCodeMeta,
+  useCopyToClipboard,
 } from "@willa-ui/shared";
 
 export type CodeBlockHighlightLine =
@@ -44,18 +42,9 @@ export function CodeBlock(props: CodeBlockProps) {
     node: _node,
     ...rootProps
   } = props as CodeBlockProps & { node?: unknown };
-  const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "failed">(
-    "idle",
-  );
-
-  useEffect(() => {
-    if (copyStatus === "idle") return;
-    const timer = window.setTimeout(
-      () => setCopyStatus("idle"),
-      copiedDuration,
-    );
-    return () => window.clearTimeout(timer);
-  }, [copiedDuration, copyStatus]);
+  const { status: copyStatus, copy } = useCopyToClipboard({
+    resetDuration: copiedDuration,
+  });
 
   const codeInput = resolveCodeBlockInput({
     children,
@@ -101,11 +90,7 @@ export function CodeBlock(props: CodeBlockProps) {
                 if (event.detail > 0) {
                   event.currentTarget.blur();
                 }
-                void (async () => {
-                  setCopyStatus("idle");
-                  const ok = await copyToClipboard(codeInput.code);
-                  setCopyStatus(ok ? "copied" : "failed");
-                })();
+                void copy(codeInput.code);
               }}
             >
               {copyStatus === "copied" ? <CheckIcon /> : <ClipboardIcon />}

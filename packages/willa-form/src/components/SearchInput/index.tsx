@@ -1,10 +1,6 @@
-import {
-  forwardRef,
-  useState,
-  type ChangeEvent,
-  type KeyboardEvent,
-} from "react";
+import { forwardRef, type ChangeEvent, type KeyboardEvent } from "react";
 import { Cross2Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { useControllableState } from "@willa-ui/shared";
 import classNames from "classnames";
 
 import { Input, type InputProps } from "#form/components/Input";
@@ -44,17 +40,15 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       onClear,
       ...inputProps
     } = props;
-    const isControlled = value !== undefined;
-    const [innerValue, setInnerValue] = useState(defaultValue);
-    const currentValue = isControlled ? value : innerValue;
+    const [currentValue, setCurrentValue] = useControllableState({
+      value,
+      defaultValue,
+      onChange: onValueChange,
+    });
     const showClear = clearable && Boolean(currentValue) && !disabled;
 
     const updateValue = (nextValue: string) => {
-      if (!isControlled) {
-        setInnerValue(nextValue);
-      }
-
-      onValueChange?.(nextValue);
+      setCurrentValue(nextValue);
     };
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

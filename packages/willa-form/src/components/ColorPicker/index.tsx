@@ -22,7 +22,7 @@ import {
   TransparencyGridIcon,
 } from "@radix-ui/react-icons";
 import { hexToRgb, rgbToHex } from "aidly";
-import { assignRef, clampNumber } from "@willa-ui/shared";
+import { assignRef, clampNumber, useCopyToClipboard } from "@willa-ui/shared";
 import classNames from "classnames";
 
 import { RangeInput } from "#form/components/RangeInput";
@@ -140,7 +140,7 @@ export const ColorPicker = forwardRef<HTMLButtonElement, ColorPickerProps>(
     const [innerOpen, setInnerOpen] = useState(defaultOpen);
     const isOpen = open ?? innerOpen;
     const isPanelOpen = isOpen && !disabled;
-    const [copied, setCopied] = useState(false);
+    const { copied, copy } = useCopyToClipboard({ resetDuration: 1200 });
     const [fieldInvalid, setFieldInvalid] = useState(false);
     const [fieldValue, setFieldValue] = useState("");
     const [innerHsb, setInnerHsb] = useState(() =>
@@ -219,14 +219,6 @@ export const ColorPicker = forwardRef<HTMLButtonElement, ColorPickerProps>(
     }, []);
 
     useEffect(() => {
-      if (!copied) return;
-
-      const timer = window.setTimeout(() => setCopied(false), 1200);
-
-      return () => window.clearTimeout(timer);
-    }, [copied]);
-
-    useEffect(() => {
       setFieldValue(currentValue);
       setFieldInvalid(false);
     }, [currentValue]);
@@ -257,11 +249,9 @@ export const ColorPicker = forwardRef<HTMLButtonElement, ColorPickerProps>(
       onChangeComplete?.("", createColor(normalizeColor()));
     };
 
-    const copyValue = async () => {
-      if (!hasValue || typeof navigator === "undefined") return;
-
-      await navigator.clipboard?.writeText(currentValue);
-      setCopied(true);
+    const copyValue = () => {
+      if (!hasValue) return;
+      void copy(currentValue);
     };
 
     const handleFieldChange = (nextValue: string) => {

@@ -1,7 +1,4 @@
 import {
-  useEffect,
-  useRef,
-  useState,
   type AnchorHTMLAttributes,
   type ButtonHTMLAttributes,
   type CSSProperties,
@@ -9,7 +6,7 @@ import {
   type ReactNode,
 } from "react";
 import classNames from "classnames";
-import { copyToClipboard, flattenText } from "@willa-ui/shared";
+import { flattenText, useCopyToClipboard } from "@willa-ui/shared";
 
 export type ButtonVariant = "solid" | "soft" | "outline" | "ghost" | "link";
 export type ButtonSize = "sm" | "md" | "lg";
@@ -49,29 +46,7 @@ type ButtonNativeProps = ButtonBaseProps & {
 export type ButtonProps = ButtonAnchorProps | ButtonNativeProps;
 
 export function Button(props: ButtonProps) {
-  const [copied, setCopied] = useState(false);
-  const resetCopiedTimer = useRef<number | undefined>(undefined);
-
-  useEffect(() => {
-    return () => {
-      if (resetCopiedTimer.current !== undefined) {
-        window.clearTimeout(resetCopiedTimer.current);
-      }
-    };
-  }, []);
-
-  const startCopiedFeedback = (duration: number) => {
-    setCopied(true);
-
-    if (resetCopiedTimer.current !== undefined) {
-      window.clearTimeout(resetCopiedTimer.current);
-    }
-
-    resetCopiedTimer.current = window.setTimeout(() => {
-      setCopied(false);
-      resetCopiedTimer.current = undefined;
-    }, duration);
-  };
+  const { copied, copy } = useCopyToClipboard();
 
   if (isButtonAnchorProps(props)) {
     const {
@@ -131,7 +106,7 @@ export function Button(props: ButtonProps) {
             onClick,
             onCopyText,
             preventDefaultForCopy: true,
-            startCopiedFeedback,
+            copy,
           });
         }}
       >
@@ -192,7 +167,7 @@ export function Button(props: ButtonProps) {
           onClick,
           onCopyText,
           preventDefaultForCopy: false,
-          startCopiedFeedback,
+          copy,
         });
       }}
     >
@@ -273,7 +248,10 @@ const handleButtonClick = async <Element extends HTMLElement>(
     onClick?: (event: MouseEvent<Element>) => void;
     onCopyText?: (text: string) => void;
     preventDefaultForCopy: boolean;
-    startCopiedFeedback: (duration: number) => void;
+    copy: (
+      text: string,
+      options?: { resetDuration?: number; onCopy?: (text: string) => void },
+    ) => Promise<boolean>;
   },
 ) => {
   if (options.disabled) {
@@ -291,11 +269,10 @@ const handleButtonClick = async <Element extends HTMLElement>(
     event.preventDefault();
   }
 
-  const ok = await copyToClipboard(options.copyText);
-  if (ok) {
-    options.onCopyText?.(options.copyText);
-    options.startCopiedFeedback(options.copiedDuration);
-  }
+  await options.copy(options.copyText, {
+    resetDuration: options.copiedDuration,
+    onCopy: options.onCopyText,
+  });
 };
 
 const renderButtonContent = (options: {

@@ -18,6 +18,26 @@ Willa 面向 AI 产品、博客、文档站、内容平台、MDX 页面和富交
 | 可组合     | 高阶组件优先组合现有基础组件，避免把输入、布局、状态和业务流程塞进一个过重组件。                                                                                               |
 | 不重复     | 已有基础组件能表达的能力不再新建同义组件；确实需要组合封装时，先明确差异。                                                                                                     |
 
+## 当前结论
+
+现有组件复用方向基本成立：PromptInput 复用 InputPanel，ReasoningSteps 复用
+Timeline，Upload 复用 FilePreview 和 Download，说明跨包组合链路可继续沿用。
+GenerationCard 和 ToolCallCard 暂不抽公共 API；折叠、状态标记和卡片 chrome
+只作为 AI 包内部私有 primitive 的观察方向。
+
+表单选择类已经通过 `useSelectablePanel` 和 `selectablePanelParts` 共享浮层与
+面板基础。继续新增 Combobox、AutoComplete 等选择组件前，应优先收敛内部
+selection model，覆盖选中值归一化、多选切换、清空和 `renderValue`，避免复制
+Picker / TreeSelect 的选择状态逻辑。
+
+CSS 主题归属当前基本合理。ColorPicker 色谱和 Separator 虚线渐变属于结构或功能色，
+可以留在组件 CSS；新增主题变量仍必须放在组件所属包的 theme 文件中，不进入 `willa`
+聚合包。
+
+已有大 API 组件需要控制继续膨胀。`Tour` 已按文案、交互行为、定位、渲染和样式类名
+收敛为分组 API；后续同类组件新增能力时，优先使用稳定配置对象或组合区域，避免继续
+平铺根级 props。
+
 ## AI 产品组件
 
 后续 AI 相关产品建设围绕“会话、上下文、反馈、模型配置、复杂结果展示”推进。
@@ -97,11 +117,13 @@ Willa 面向 AI 产品、博客、文档站、内容平台、MDX 页面和富交
 
 ### 基础设施
 
-| 能力     | 待补模块                            | 包归属                                   | 说明                                                               |
-| -------- | ----------------------------------- | ---------------------------------------- | ------------------------------------------------------------------ |
-| 浮层基础 | `useFloatingPanel`                  | `@willa-ui/shared`                       | 统一触发器定位、窗口边界、关闭行为和 portal 交互，不承载组件样式。 |
-| 受控状态 | `useControllableState`              | `@willa-ui/shared`                       | 统一 `value` / `defaultValue` / `onChange` 模式，减少重复实现。    |
-| 复制能力 | `useCopyToClipboard` / `CopyButton` | `@willa-ui/shared` / `@willa-ui/content` | 统一复制状态、成功反馈和图标按钮表现。                             |
+| 能力     | 当前状态                                                                                                 | 待补模块              | 包归属              | 下一步                                                                         |
+| -------- | -------------------------------------------------------------------------------------------------------- | --------------------- | ------------------- | ------------------------------------------------------------------------------ |
+| 浮层基础 | `@willa-ui/form` 已有内部 `useFloatingPanel`，服务 DatePicker、Select 等                                 | `useFloatingPanel`    | `@willa-ui/shared`  | 提取前确认触发器定位、窗口边界、关闭行为、portal 交互和表单组件兼容性。        |
+| 选择模型 | Picker / TreeSelect 已共享浮层基础和面板部件，选中值归一化、多选切换、清空和 `renderValue` 逻辑仍相似    | 内部 selection model  | `@willa-ui/form`    | 增加 Combobox / AutoComplete 前优先收敛内部选择状态模型，暂不暴露公共 API。    |
+| AI 卡片  | GenerationCard 和 ToolCallCard 都有折叠、状态标记和卡片 chrome，但语义和信息结构仍不同                   | AI 内部私有 primitive | `@willa-ui/ai`      | 先观察重复是否继续扩大；只有在语义稳定后才抽私有基础部件，不提前抽成公共组件。 |
+| 受控状态 | `@willa-ui/shared` 已有 `useControllableState`                                                           | 组件迁移              | 各组件包            | 先覆盖 `value` / `defaultValue` / `onChange` 重复实现，再逐步迁移组件。        |
+| 复制能力 | `@willa-ui/shared` 已有 `copyToClipboard` 和 `useCopyToClipboard`，`@willa-ui/content` 已有 `CopyButton` | 更多存量迁移          | `@willa-ui/content` | 保留现有工具、hook 和按钮语义，继续迁移剩余复制入口。                          |
 
 ## 内容与渲染增强
 

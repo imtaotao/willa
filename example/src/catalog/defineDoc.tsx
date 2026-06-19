@@ -56,6 +56,7 @@ const willaDemoImportNames = new Set([
   "Comment",
   "CommentInput",
   "CommentList",
+  "CopyButton",
   "Composer",
   "Container",
   "DatePicker",

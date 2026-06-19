@@ -397,7 +397,7 @@
   overflow: hidden;
   padding: 0 0.62rem 0.48rem;
   color: var(--willa-color-picker-text);
-  font-family: var(--willa-mono-font);
+  font-family: var(--willa-code-font);
   font-size: 0.9rem;
   font-weight: 620;
   line-height: 1.3;

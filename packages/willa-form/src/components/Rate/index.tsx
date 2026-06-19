@@ -13,6 +13,7 @@ import {
   type ReactNode,
 } from "react";
 import classNames from "classnames";
+import { useControllableState } from "@willa-ui/shared";
 import { Tooltip } from "@willa-ui/content/components/Tooltip";
 
 export type RateSize = "sm" | "md" | "lg";
@@ -82,15 +83,17 @@ export const Rate = forwardRef<RateRef, RateProps>((props, ref) => {
     ...rootProps
   } = props;
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const isControlled = value !== undefined;
   const normalizedCount = Math.max(1, Math.floor(count));
-  const [innerValue, setInnerValue] = useState(() =>
-    normalizeRateValue(defaultValue, normalizedCount, allowHalf),
-  );
+  const [rateValue, setRateValueState] = useControllableState({
+    value,
+    defaultValue: () =>
+      normalizeRateValue(defaultValue, normalizedCount, allowHalf),
+    onChange,
+  });
   const [hoverValue, setHoverValue] = useState<number | null>(null);
   const [focused, setFocused] = useState(false);
   const currentValue = normalizeRateValue(
-    isControlled ? value : innerValue,
+    rateValue,
     normalizedCount,
     allowHalf,
   );
@@ -130,10 +133,7 @@ export const Rate = forwardRef<RateRef, RateProps>((props, ref) => {
         ? 0
         : normalizedValue;
 
-    if (!isControlled) {
-      setInnerValue(resolvedValue);
-    }
-    onChange?.(resolvedValue);
+    setRateValueState(resolvedValue);
   };
 
   const updateHoverValue = (nextValue: number | null) => {

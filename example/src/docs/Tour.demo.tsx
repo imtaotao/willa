@@ -67,19 +67,19 @@ const TourPreview = () => {
       target: () => titleRef.current,
       title: "确认任务上下文",
       description: "先让用户知道当前页面正在处理什么任务，避免引导脱离场景。",
-      placement: "bottom-start",
+      positioning: { placement: "bottom-start" },
     },
     {
       target: () => insightRef.current,
       title: "解释核心区域",
       description: "高亮用户需要优先关注的数据卡片、表格或操作区域。",
-      placement: "right",
+      positioning: { placement: "right" },
     },
     {
       target: () => actionRef.current,
       title: "落到下一步操作",
       description: "最后把用户带到可以继续推进流程的按钮上。",
-      placement: "top-end",
+      positioning: { placement: "top-end" },
     },
   ];
 
@@ -183,8 +183,8 @@ const CustomActionsPreview = () => {
       target: () => targetRef.current,
       title: "可定制底部操作",
       description:
-        "actionsRender 可以替换默认按钮，适合接入跳过、查看帮助等业务动作。",
-      placement: "bottom",
+        "render.actions 可以替换默认按钮，适合接入跳过、查看帮助等业务动作。",
+      positioning: { placement: "bottom" },
     },
   ];
 
@@ -205,14 +205,16 @@ const CustomActionsPreview = () => {
         open={open}
         steps={steps}
         onOpenChange={setOpen}
-        actionsRender={(originNode) => (
-          <Group gap="xs">
-            <Button size="sm" variant="ghost" onClick={() => setOpen(false)}>
-              跳过
-            </Button>
-            {originNode}
-          </Group>
-        )}
+        render={{
+          actions: (originNode) => (
+            <Group gap="xs">
+              <Button size="sm" variant="ghost" onClick={() => setOpen(false)}>
+                跳过
+              </Button>
+              {originNode}
+            </Group>
+          ),
+        }}
       />
     </DemoFrame>
   );
@@ -250,13 +252,13 @@ export default defineDoc({
           target: () => titleRef.current,
           title: "确认任务上下文",
           description: "先让用户知道当前页面正在处理什么任务。",
-          placement: "bottom-start",
+          positioning: { placement: "bottom-start" },
         },
         {
           target: () => actionRef.current,
           title: "落到下一步操作",
           description: "最后把用户带到可以继续推进流程的按钮上。",
-          placement: "top-end",
+          positioning: { placement: "top-end" },
         },
       ];
 
@@ -316,14 +318,16 @@ export default defineDoc({
           open={open}
           steps={steps}
           onOpenChange={setOpen}
-          actionsRender={(originNode) => (
-            <>
-              <Button size="sm" variant="ghost" onClick={() => setOpen(false)}>
-                跳过
-              </Button>
-              {originNode}
-            </>
-          )}
+          render={{
+            actions: (originNode) => (
+              <>
+                <Button size="sm" variant="ghost" onClick={() => setOpen(false)}>
+                  跳过
+                </Button>
+                {originNode}
+              </>
+            ),
+          }}
         />;
       `),
       content: <CustomActionsPreview />,
@@ -359,10 +363,11 @@ export default defineDoc({
       description: "非受控默认步骤下标。",
     },
     {
-      name: "placement",
-      type: 'TourPlacement | "center"',
-      defaultValue: '"bottom"',
-      description: "默认浮层位置，步骤内 placement 优先级更高。",
+      name: "positioning",
+      type: "{ placement?: TourPlacement; arrow?: boolean; gap?: TourGap; zIndex?: number }",
+      defaultValue:
+        '{ placement: "bottom", arrow: true, gap: { offset: 8, radius: 10 } }',
+      description: "定位、高亮间距、箭头和层级配置。",
     },
     {
       name: "type",
@@ -371,50 +376,28 @@ export default defineDoc({
       description: "默认引导面板风格，步骤内 type 优先级更高。",
     },
     {
-      name: "mask",
-      type: "boolean",
-      defaultValue: "true",
-      description: "是否显示遮罩，步骤内 mask 优先级更高。",
+      name: "behavior",
+      type: "{ keyboard?: boolean; disabledInteraction?: boolean; mask?: boolean; scrollIntoView?: boolean | ScrollIntoViewOptions }",
+      defaultValue:
+        "{ keyboard: true, disabledInteraction: false, mask: true, scrollIntoView: true }",
+      description: "键盘、遮罩、目标交互和自动滚动行为配置。",
     },
     {
-      name: "arrow",
-      type: "boolean",
-      defaultValue: "true",
-      description: "是否显示指向箭头，步骤内 arrow 优先级更高。",
+      name: "labels",
+      type: "{ next?: ReactNode; prev?: ReactNode; finish?: ReactNode; closeAriaLabel?: string }",
+      defaultValue:
+        '{ next: "下一步", prev: "上一步", finish: "完成", closeAriaLabel: "关闭引导" }',
+      description: "按钮文案和关闭按钮可访问性文案。",
     },
     {
-      name: "gap",
-      type: "number | { offset?: number | [number, number]; radius?: number }",
-      defaultValue: "{ offset: 8, radius: 10 }",
-      description: "高亮区域和目标元素之间的间距及圆角。",
+      name: "render",
+      type: "{ indicators?: (current: number, total: number) => ReactNode; actions?: (originNode: ReactNode, info: TourActionRenderInfo) => ReactNode }",
+      description: "自定义步骤指示器和底部操作区。",
     },
     {
-      name: "keyboard",
-      type: "boolean",
-      defaultValue: "true",
-      description: "是否启用 Escape、方向键等键盘操作。",
-    },
-    {
-      name: "disabledInteraction",
-      type: "boolean",
-      defaultValue: "false",
-      description: "是否禁止用户直接操作被高亮的目标元素。",
-    },
-    {
-      name: "scrollIntoView",
-      type: "boolean | ScrollIntoViewOptions",
-      defaultValue: "true",
-      description: "切换步骤时是否自动滚动目标元素到视口内。",
-    },
-    {
-      name: "indicatorsRender",
-      type: "(current: number, total: number) => ReactNode",
-      description: "自定义步骤指示器。",
-    },
-    {
-      name: "actionsRender",
-      type: "(originNode: ReactNode, info: TourActionRenderInfo) => ReactNode",
-      description: "自定义底部操作区。",
+      name: "classes",
+      type: "{ root?: string; panel?: string; mask?: string }",
+      description: "根节点、面板和遮罩的类名配置。",
     },
     {
       name: "onChange",

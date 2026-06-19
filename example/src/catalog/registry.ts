@@ -95,6 +95,7 @@ const docSpecGroups = {
     "Comment",
     "CommentInput",
     "CommentList",
+    "CopyButton",
     "DetailsBlock",
     "DescriptionList",
     "DiffViewer",

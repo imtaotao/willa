@@ -1,6 +1,16 @@
 export { formatCssSize } from "#shared/css";
 export { copyToClipboard } from "#shared/clipboard";
 export {
+  useControllableState,
+  type ControllableStateOptions,
+} from "#shared/controllableState";
+export {
+  useCopyToClipboard,
+  type CopyStatus,
+  type CopyToClipboardActionOptions,
+  type CopyToClipboardOptions,
+} from "#shared/copy";
+export {
   parseCodeMeta,
   highlightCodeToHtml,
   normalizeHljsLanguage,

@@ -27,12 +27,12 @@
 .willa-comment-input-quote {
   display: grid;
   min-width: 0;
-  gap: 0.16rem;
-  padding: 0.04rem 0 0.04rem 0.7rem;
-  border-left: 2px solid var(--willa-comment-input-quote-border);
-  color: var(--willa-comment-input-muted);
-  font-size: 0.78rem;
-  line-height: 1.42;
+  gap: 0.22rem;
+  padding: 0.08rem 0 0.08rem 0.72rem;
+  border-left: 2px solid var(--willa-comment-quote-border);
+  color: var(--willa-comment-quote-text);
+  font-size: 0.82rem;
+  line-height: 1.5;
 }
 
 .willa-comment-input-quote-content {
@@ -40,9 +40,9 @@
 }
 
 .willa-comment-input-quote-author {
-  color: var(--willa-comment-input-quote-author);
+  color: var(--willa-comment-quote-author);
   font-weight: 650;
-  line-height: 1.25;
+  line-height: 1.35;
 }
 
 .willa-comment-input-actions {

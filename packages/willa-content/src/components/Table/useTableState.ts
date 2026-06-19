@@ -292,14 +292,20 @@ export function useTableState(options: UseTableStateOptions) {
   );
   const actionsColumnWidth = getCellWidth(actionsWidth);
 
-  const { isResizing, startColumnResize, autoSizeColumn } =
-    useTableColumnResize({
-      resizableColumns,
-      orderedHeaders,
-      tableRef,
-      headerCellRefs,
-      setColumnWidths,
-    });
+  const {
+    isResizing,
+    startColumnResize,
+    resizeColumnBy,
+    autoSizeColumn,
+    keyboardResizeLargeStep,
+    keyboardResizeStep,
+  } = useTableColumnResize({
+    resizableColumns,
+    orderedHeaders,
+    tableRef,
+    headerCellRefs,
+    setColumnWidths,
+  });
 
   useImperativeHandle(
     forwardedRef,
@@ -433,7 +439,10 @@ export function useTableState(options: UseTableStateOptions) {
     onToggleExpanded: toggleExpanded,
     onToggleSort: toggleSort,
     onStartColumnResize: startColumnResize,
+    onResizeColumnBy: resizeColumnBy,
     onAutoSizeColumn: autoSizeColumn,
+    keyboardResizeLargeStep,
+    keyboardResizeStep,
     onCellTooltipShow: showCellTooltip,
     onCellTooltipHide: hideCellTooltip,
     onColumnOrderChange: setColumnOrderState,

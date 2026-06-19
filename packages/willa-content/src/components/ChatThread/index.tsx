@@ -1,11 +1,13 @@
 import classNames from "classnames";
 
+import { Avatar } from "#content/components/Avatar";
 import { DetailsBlock } from "#content/components/DetailsBlock";
 
 type ChatMessage = {
   align?: "left" | "right";
-  avatar?: string;
+  avatarSrc?: string;
   name?: string;
+  time?: string;
   content: string | Array<string>;
 };
 
@@ -25,26 +27,6 @@ export function ChatThread(props: ChatThreadProps) {
     collapsible,
     defaultOpen = false,
   } = props;
-  const getAvatar = (avatar: string) => {
-    switch (avatar) {
-      case "user":
-        return "🙂";
-      case "assistant":
-        return "🤖";
-      case "sparkles":
-        return "✨";
-      case "cat":
-        return "🐱";
-      case "idea":
-        return "🧑‍💻";
-      case "book":
-        return "📘";
-      case "moon":
-        return "🧑";
-      default:
-        return avatar;
-    }
-  };
 
   return (
     <section className={classNames("willa-chat", className)}>
@@ -54,7 +36,7 @@ export function ChatThread(props: ChatThreadProps) {
           defaultOpen={defaultOpen}
           className="willa-chat-details"
         >
-          <ChatMessages messages={messages} getAvatar={getAvatar} />
+          <ChatMessages messages={messages} />
         </DetailsBlock>
       ) : (
         <>
@@ -63,7 +45,7 @@ export function ChatThread(props: ChatThreadProps) {
               <h3 className="willa-chat-title">{title}</h3>
             </header>
           ) : null}
-          <ChatMessages messages={messages} getAvatar={getAvatar} />
+          <ChatMessages messages={messages} />
         </>
       )}
     </section>
@@ -72,11 +54,10 @@ export function ChatThread(props: ChatThreadProps) {
 
 type ChatMessagesProps = {
   messages: Array<ChatMessage>;
-  getAvatar: (avatar: string) => string;
 };
 
 const ChatMessages = (props: ChatMessagesProps) => {
-  const { messages, getAvatar } = props;
+  const { messages } = props;
 
   return (
     <div className="willa-chat-list">
@@ -85,42 +66,48 @@ const ChatMessages = (props: ChatMessagesProps) => {
           ? message.content
           : [message.content];
         const align = message.align ?? "left";
-        const avatar =
-          message.avatar ?? (align === "right" ? "user" : "assistant");
-        const avatarClass = /^[a-z0-9-]+$/i.test(avatar)
-          ? `willa-chat-item--avatar-${avatar}`
-          : "";
+        const avatarName =
+          message.name?.trim() || (align === "right" ? "User" : "Assistant");
 
         return (
-          <article
-            key={`${align}-${avatar}-${index}`}
-            className={classNames(
-              "willa-chat-item",
-              `willa-chat-item--${align}`,
-              avatarClass,
-            )}
+          <div
+            className="willa-chat-message-group"
+            key={`${align}-${avatarName}-${index}`}
           >
-            <div className="willa-chat-meta">
-              <span className="willa-chat-avatar" aria-hidden="true">
-                {getAvatar(avatar)}
-              </span>
-              {message.name ? (
-                <p className="willa-chat-name">{message.name}</p>
-              ) : null}
-            </div>
-            <div className="willa-chat-bubble-wrap">
-              <div className="willa-chat-bubble">
-                {lines.map((line, lineIndex) => (
-                  <p
-                    key={`${align}-${avatar}-${index}-${lineIndex}`}
-                    className="willa-chat-line"
-                  >
-                    {line}
-                  </p>
-                ))}
+            {message.time ? (
+              <time className="willa-chat-time">{message.time}</time>
+            ) : null}
+            <article
+              className={classNames(
+                "willa-chat-item",
+                `willa-chat-item--${align}`,
+              )}
+            >
+              <Avatar
+                className="willa-chat-avatar"
+                src={message.avatarSrc}
+                name={avatarName}
+                alt={avatarName}
+                size="md"
+                shape="rounded"
+              />
+              <div className="willa-chat-body">
+                {message.name ? (
+                  <p className="willa-chat-name">{message.name}</p>
+                ) : null}
+                <div className="willa-chat-bubble">
+                  {lines.map((line, lineIndex) => (
+                    <p
+                      key={`${align}-${message.name ?? "message"}-${index}-${lineIndex}`}
+                      className="willa-chat-line"
+                    >
+                      {line}
+                    </p>
+                  ))}
+                </div>
               </div>
-            </div>
-          </article>
+            </article>
+          </div>
         );
       })}
     </div>

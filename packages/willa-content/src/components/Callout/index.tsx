@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
 import classNames from "classnames";
 import {
-  CheckCircledIcon,
-  CrossCircledIcon,
+  CheckIcon,
+  Cross2Icon,
   ExclamationTriangleIcon,
-  InfoCircledIcon,
-  LightningBoltIcon,
+  MagicWandIcon,
+  ReaderIcon,
 } from "@radix-ui/react-icons";
 
 export type CalloutTone = "note" | "tip" | "warning" | "success" | "error";
@@ -27,11 +27,11 @@ const toneTitleMap: Record<CalloutTone, string> = {
 };
 
 const toneIconMap: Record<CalloutTone, ReactNode> = {
-  note: <InfoCircledIcon />,
-  tip: <LightningBoltIcon />,
+  note: <ReaderIcon />,
+  tip: <MagicWandIcon />,
   warning: <ExclamationTriangleIcon />,
-  success: <CheckCircledIcon />,
-  error: <CrossCircledIcon />,
+  success: <CheckIcon />,
+  error: <Cross2Icon />,
 };
 
 export function Callout(props: CalloutProps) {

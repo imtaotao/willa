@@ -39,7 +39,17 @@
 
 .willa-file-tree .willa-tree-title {
   font-family: var(--willa-code-font);
+  font-size: 0.84rem;
+  font-weight: 450;
+}
+
+.willa-file-tree-node--folder .willa-tree-title {
+  color: var(--willa-file-tree-folder-title);
   font-weight: 560;
+}
+
+.willa-file-tree-node--file .willa-tree-title {
+  color: var(--willa-file-tree-file-title);
 }
 
 .willa-file-tree .willa-tree-meta {
@@ -95,6 +105,10 @@
 
 .willa-file-tree--sm {
   padding: 0.75rem;
+}
+
+.willa-file-tree--sm .willa-tree-title {
+  font-size: 0.8rem;
 }
 
 @media (max-width: 767px) {

@@ -1,5 +1,5 @@
 import { GitHubLogoIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useLayoutEffect, useState, type MouseEvent } from "react";
 import { AppShell } from "willa/AppShell";
 import { Anchor, type AnchorItem } from "willa/Anchor";
 import { Callout } from "willa/Callout";
@@ -26,6 +26,7 @@ import type { ComponentDoc, ComponentDocEntry } from "#example/catalog/types";
 type Theme = "light" | "dark";
 
 const usagePageId = "usage";
+const themeStorageKey = "willa-docs-theme";
 
 const docGroups: Array<{
   id: ComponentDocEntry["category"];
@@ -56,12 +57,14 @@ const docChineseNames: Record<string, string> = {
   ChatMessage: "聊天消息",
   ChatThread: "对话流",
   Checkbox: "复选框",
+  ColorPicker: "颜色选择器",
   Citation: "引用标记",
   CodeBlock: "代码块",
   CodeTabs: "代码标签页",
   Comment: "评论",
   CommentInput: "评论输入",
   CommentList: "评论列表",
+  CopyButton: "复制按钮",
   Composer: "组合输入器",
   Container: "容器",
   DatePicker: "日期选择器",
@@ -168,6 +171,26 @@ const toDocAnchorItem = (doc: ComponentDocEntry): AnchorItem => ({
 
 const normalizeSearchText = (value: string) => value.trim().toLowerCase();
 
+const isTheme = (value: string | null): value is Theme =>
+  value === "light" || value === "dark";
+
+const getInitialTheme = () => {
+  try {
+    const storedTheme = window.localStorage.getItem(themeStorageKey);
+    return isTheme(storedTheme) ? storedTheme : "light";
+  } catch {
+    return "light";
+  }
+};
+
+const persistTheme = (theme: Theme) => {
+  try {
+    window.localStorage.setItem(themeStorageKey, theme);
+  } catch {
+    // Ignore storage failures so theme switching still works in memory.
+  }
+};
+
 const getDocIdFromHash = () => {
   const hash = window.location.hash.replace(/^#\/?/, "");
   return hash ? decodeURIComponent(hash) : "";
@@ -194,7 +217,7 @@ const scrollDocumentToTop = () => {
 };
 
 export function App() {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
   const [activeId, setActiveId] = useState(getInitialActiveId);
   const [loadedDoc, setLoadedDoc] = useState<ComponentDoc | null>(null);
   const [isDocLoading, setIsDocLoading] = useState(false);
@@ -316,9 +339,10 @@ export function App() {
     </div>
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.documentElement.dataset.wkTheme =
       theme === "dark" ? "dark" : "light";
+    persistTheme(theme);
   }, [theme]);
 
   useEffect(() => {

@@ -118,10 +118,11 @@ layout and content must not depend on form.
 
 `packages/willa-ai` is the AI product component package, published as
 `@willa-ui/ai`. It contains AI-oriented scene components such as prompt inputs,
-chat messages, source citations, tool call displays, generation cards, context
-panels, and agent status views. It can compose layout and content components
-and reuse their CSS through `styles.dependencies`, but it must not make layout
-or content depend on AI.
+chat messages, attachments, tool call displays, reasoning steps, generation
+cards, and related interaction patterns. Context panels and agent status views
+are roadmap directions rather than current public components. It can compose
+layout and content components and reuse their CSS through `styles.dependencies`,
+but it must not make layout or content depend on AI.
 
 `packages/willa-widgets` is the scenario component package, published as
 `@willa-ui/widgets`. It contains platform integrations, MDX composition,

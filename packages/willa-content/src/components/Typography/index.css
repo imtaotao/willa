@@ -386,8 +386,8 @@
   align-items: center;
   height: 1.46rem;
   border-radius: 999px;
-  background: var(--willa-primary-soft);
-  color: var(--willa-primary);
+  background: var(--willa-typography-edit-status-bg);
+  color: var(--willa-typography-edit-status-text);
   font-size: 0.78rem;
   font-weight: 700;
   line-height: 1;

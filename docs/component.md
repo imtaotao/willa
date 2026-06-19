@@ -22,8 +22,9 @@ Before adding a component, choose its package based on the architecture guide:
   select, checkbox, radio, switch, date picker, upload, form field, and form
   actions.
 - `@willa-ui/ai`: AI product scenes and AI-specific composition, such as prompt
-  inputs, chat messages, source citations, tool call displays, context panels,
-  generation cards, and agent status views.
+  inputs, chat messages, attachments, tool call displays, reasoning steps,
+  generation cards, and related interaction patterns. Context panels and agent
+  status views are roadmap directions rather than current public components.
 - `@willa-ui/widgets`: platform integrations, MDX composition, and more
   scenario-specific components, such as GitHub, X, web embeds, audio/video
   embeds, poems, and EnglishCards.
@@ -70,6 +71,12 @@ states, interaction model, composition slots, responsive behavior, theme
 variables, accessibility semantics, and documentation examples together. Keep
 the public API focused, but prefer a complete, coherent abstraction over a
 temporary narrow wrapper that must be redesigned immediately after adoption.
+When an existing component already has a broad prop surface, keep new features
+from widening the root props by default. Prefer grouped option objects such as
+`actions`, `labels`, `behavior`, or `positioning`, or expose composition slots
+when the extension belongs to a stable sub-area. Components such as `Tour`
+should keep action text, behavior, positioning, render hooks, and class names in
+purpose-based objects instead of adding more root-level props.
 
 Visual design should stay flat and restrained. Avoid turning every compact icon
 control, status mark, or helper action into a pill. Pills are appropriate for
@@ -269,11 +276,11 @@ When migrating a component, also confirm:
 Use this checklist for broad component reviews and for batches that add or
 change multiple components.
 
-| Area                    | Review focus                                                                                                                                                               |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Composition quality     | Prefer composing higher-level components from existing primitives. Keep custom structure only when the semantics, ARIA model, or interaction model is different.           |
-| API minimalism          | Props should cover real high-frequency use cases. Remove aliases, indirect controls, and options that only serve demos.                                                    |
-| Theme consistency       | Structural CSS should not define colors. Theme values belong only in the owning package. Dark themes should not rely on simply inverting light-theme variables.            |
-| Mobile support          | Touch targets stay usable, text does not overflow, floating layers stay within the viewport, and horizontal scrolling is contained inside the component.                   |
-| Documentation and demos | Demo previews and source snippets match one-to-one. Props document required fields and default values. Roadmap docs do not keep components that are already public.        |
-| Self-hosting reuse      | Example pages and documentation site display layouts should prefer layout components. Component internals should not sacrifice semantics just to reuse a layout primitive. |
+| Area                    | Review focus                                                                                                                                                                                                         |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Composition quality     | Prefer composing higher-level components from existing primitives. Keep custom structure only when the semantics, ARIA model, or interaction model is different.                                                     |
+| API minimalism          | Props should cover real high-frequency use cases. Remove aliases, indirect controls, and options that only serve demos. For already broad APIs, group future additions by purpose instead of adding more flat props. |
+| Theme consistency       | Structural CSS should not define colors. Theme values belong only in the owning package. Dark themes should not rely on simply inverting light-theme variables.                                                      |
+| Mobile support          | Touch targets stay usable, text does not overflow, floating layers stay within the viewport, and horizontal scrolling is contained inside the component.                                                             |
+| Documentation and demos | Demo previews and source snippets match one-to-one. Props document required fields and default values. Roadmap docs do not keep components that are already public.                                                  |
+| Self-hosting reuse      | Example pages and documentation site display layouts should prefer layout components. Component internals should not sacrifice semantics just to reuse a layout primitive.                                           |

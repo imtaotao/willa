@@ -339,7 +339,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.12rem;
-  border: 1px solid var(--willa-border);
+  border: 1px solid var(--willa-line);
   border-radius: 0.48rem;
   background: var(--willa-panel-bg);
   padding: 0.12rem;
@@ -372,9 +372,9 @@
   min-width: 0;
   overflow: auto;
   grid-template-columns: 4.4rem repeat(7, minmax(6.8rem, 1fr));
-  border: 1px solid var(--willa-border);
+  border: 1px solid var(--willa-line);
   border-radius: 0.72rem;
-  background: var(--willa-surface);
+  background: var(--willa-panel-bg);
 }
 
 .willa-schedule-calendar-axis,
@@ -383,8 +383,8 @@
 .willa-schedule-calendar-slot {
   box-sizing: border-box;
   min-width: 0;
-  border-right: 1px solid var(--willa-border);
-  border-bottom: 1px solid var(--willa-border);
+  border-right: 1px solid var(--willa-line);
+  border-bottom: 1px solid var(--willa-line);
 }
 
 .willa-schedule-calendar-axis {
@@ -435,8 +435,8 @@
 .willa-schedule-calendar-all-day-cell {
   box-sizing: border-box;
   min-width: 0;
-  border-right: 1px solid var(--willa-border);
-  border-bottom: 1px solid var(--willa-border);
+  border-right: 1px solid var(--willa-line);
+  border-bottom: 1px solid var(--willa-line);
 }
 
 .willa-schedule-calendar-all-day-label {
@@ -456,14 +456,14 @@
   min-height: 3rem;
   align-content: start;
   gap: 0.28rem;
-  background: var(--willa-surface);
+  background: var(--willa-panel-bg);
   padding: 0.38rem;
 }
 
 .willa-schedule-calendar-slot {
   min-height: 4.8rem;
   position: relative;
-  background: var(--willa-surface);
+  background: var(--willa-panel-bg);
   cursor: pointer;
   outline: none;
   transition:
@@ -552,17 +552,17 @@
   min-width: 0;
   overflow: auto;
   grid-template-columns: repeat(7, minmax(7.4rem, 1fr));
-  border: 1px solid var(--willa-border);
+  border: 1px solid var(--willa-line);
   border-radius: 0.72rem;
-  background: var(--willa-surface);
+  background: var(--willa-panel-bg);
 }
 
 .willa-schedule-calendar-month-heading,
 .willa-schedule-calendar-month-cell {
   box-sizing: border-box;
   min-width: 0;
-  border-right: 1px solid var(--willa-border);
-  border-bottom: 1px solid var(--willa-border);
+  border-right: 1px solid var(--willa-line);
+  border-bottom: 1px solid var(--willa-line);
 }
 
 .willa-schedule-calendar-month-heading {
@@ -585,7 +585,7 @@
   min-height: 7.6rem;
   align-content: start;
   gap: 0.42rem;
-  background: var(--willa-surface);
+  background: var(--willa-panel-bg);
   cursor: pointer;
   outline: none;
   padding: 0.54rem;

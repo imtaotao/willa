@@ -28,6 +28,7 @@ type DemoBlockProps = {
 const PropToken = (props: { value: string; kind: "名称" | "类型" }) => (
   <Tooltip
     content={`${props.kind}: ${props.value}`}
+    contentClassName="docs-prop-tooltip-content"
     side="bottom"
     align="start"
   >
@@ -40,6 +41,39 @@ const PropToken = (props: { value: string; kind: "名称" | "类型" }) => (
     >
       <code>{props.value}</code>
     </span>
+  </Tooltip>
+);
+
+const PropDefaultValue = (props: { value?: string }) => {
+  if (!props.value) return <span className="docs-prop-empty">-</span>;
+
+  return (
+    <Tooltip
+      content={`默认值: ${props.value}`}
+      side="bottom"
+      align="start"
+      contentClassName="docs-prop-tooltip-content"
+    >
+      <code className="docs-prop-default" tabIndex={0}>
+        {props.value}
+      </code>
+    </Tooltip>
+  );
+};
+
+const PropDescription = (props: { value: string }) => (
+  <Tooltip
+    className="docs-prop-description-tooltip"
+    content={props.value}
+    side="bottom"
+    align="start"
+    contentClassName="docs-prop-tooltip-content"
+  >
+    <div className="docs-prop-description-trigger" tabIndex={0}>
+      <Typography.Paragraph className="docs-prop-description">
+        {props.value}
+      </Typography.Paragraph>
+    </div>
   </Tooltip>
 );
 
@@ -75,21 +109,13 @@ const createPropTableItems = (props: Array<PropRow>) => {
         label: "默认值",
         width: "16%",
         value: prop.defaultValue ?? "-",
-        render: prop.defaultValue ? (
-          <code className="docs-prop-default">{prop.defaultValue}</code>
-        ) : (
-          <span className="docs-prop-empty">-</span>
-        ),
+        render: <PropDefaultValue value={prop.defaultValue} />,
       },
       {
         key: "description",
         label: "说明",
         value: prop.description,
-        render: (
-          <Typography.Paragraph className="docs-prop-description">
-            {prop.description}
-          </Typography.Paragraph>
-        ),
+        render: <PropDescription value={prop.description} />,
       },
     ],
   })) satisfies Array<TableItem>;

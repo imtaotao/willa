@@ -84,6 +84,27 @@
   cursor: not-allowed;
 }
 
+.willa-input-panel-reference {
+  display: grid;
+  min-width: 0;
+  gap: 0.22rem;
+  padding: 0.08rem 0 0.08rem 0.72rem;
+  border-left: 2px solid var(--willa-input-panel-reference-border);
+  color: var(--willa-input-panel-reference-text);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.willa-input-panel-reference-author {
+  color: var(--willa-input-panel-reference-author);
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.willa-input-panel-reference-content {
+  min-width: 0;
+}
+
 .willa-input-panel-footer {
   display: flex;
   min-width: 0;

@@ -97,9 +97,6 @@
   --willa-date-picker-panel-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
   --willa-date-picker-text: var(--willa-text);
   --willa-date-picker-title: var(--willa-text-strong);
-  --willa-date-picker-muted: var(--willa-text-faint);
-  --willa-date-picker-control-bg: rgba(255, 255, 255, 0.055);
-  --willa-date-picker-control-bg-hover: rgba(255, 255, 255, 0.08);
   --willa-date-picker-control-border: rgba(255, 255, 255, 0.1);
   --willa-date-picker-control-border-hover: rgba(125, 211, 252, 0.24);
   --willa-date-picker-day-bg-hover: rgba(125, 211, 252, 0.1);

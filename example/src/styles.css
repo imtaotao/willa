@@ -455,6 +455,7 @@ select {
 .docs-demo-block-preview
   > :where(
     .willa-card,
+    .willa-chat,
     .willa-chat-message,
     .willa-composer,
     .willa-empty-state,
@@ -580,6 +581,22 @@ select {
   line-height: 1.55;
 }
 
+.docs-prop-description-tooltip {
+  display: flex;
+  width: 100%;
+}
+
+.docs-prop-description-trigger {
+  display: block;
+  min-width: 0;
+  outline: 0;
+}
+
+.docs-prop-tooltip-content {
+  max-width: min(34rem, calc(100vw - 1rem));
+  white-space: normal;
+}
+
 .docs-props-separator,
 .docs-demo-separator {
   margin: 0;
@@ -670,6 +687,13 @@ select {
   white-space: nowrap;
 }
 
+.docs-prop-token:focus-visible code,
+.docs-prop-default:focus-visible,
+.docs-prop-description-trigger:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--willa-accent), transparent 35%);
+  outline-offset: 2px;
+}
+
 .docs-prop-name-cell .docs-prop-token {
   flex: 0 1 auto;
 }
@@ -683,6 +707,7 @@ select {
   color: #475569;
   font-family: var(--willa-code-font);
   font-size: 0.88em;
+  outline: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   vertical-align: top;

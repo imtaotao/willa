@@ -8,7 +8,7 @@ import {
   type KeyboardEvent,
   type MouseEvent,
 } from "react";
-import { copyToClipboard, flattenText } from "@willa-ui/shared";
+import { flattenText, useCopyToClipboard } from "@willa-ui/shared";
 import classNames from "classnames";
 
 import { Kbd } from "#content/components/Kbd";
@@ -18,10 +18,7 @@ import {
   resizeEditTextArea,
   TypographyEdit,
 } from "#content/components/Typography/TypographyEdit";
-import type {
-  CopyStatus,
-  RenderTypographyContentOptions,
-} from "#content/components/Typography/types";
+import type { RenderTypographyContentOptions } from "#content/components/Typography/types";
 import {
   getDefaultExpanded,
   getTypographyContentStyle,
@@ -61,7 +58,7 @@ export function TypographyContent(options: RenderTypographyContentOptions) {
     ellipsis,
     actions,
   } = options;
-  const [copied, setCopied] = useState<CopyStatus>("idle");
+  const { status: copied, copy } = useCopyToClipboard();
   const [uncontrolledExpanded, setUncontrolledExpanded] = useState(
     getDefaultExpanded(ellipsis),
   );
@@ -75,7 +72,6 @@ export function TypographyContent(options: RenderTypographyContentOptions) {
   const [editedText, setEditedText] = useState(initialText);
   const [displayText, setDisplayText] = useState(initialText);
   const [ellipsized, setEllipsized] = useState(false);
-  const timerRef = useRef<number | undefined>(undefined);
   const ellipsisConfig = normalizeEllipsis(ellipsis);
   const expanded = ellipsisConfig?.expanded ?? uncontrolledExpanded;
   const Tag =
@@ -104,14 +100,6 @@ export function TypographyContent(options: RenderTypographyContentOptions) {
   ) : (
     displayChildren
   );
-
-  useEffect(() => {
-    return () => {
-      if (timerRef.current !== undefined) {
-        window.clearTimeout(timerRef.current);
-      }
-    };
-  }, []);
 
   useEffect(() => {
     if (!editing) return;
@@ -156,19 +144,6 @@ export function TypographyContent(options: RenderTypographyContentOptions) {
     };
   }, [displayText, ellipsisConfig, expanded]);
 
-  const startCopiedFeedback = (nextStatus: CopyStatus, duration: number) => {
-    setCopied(nextStatus);
-
-    if (timerRef.current !== undefined) {
-      window.clearTimeout(timerRef.current);
-    }
-
-    timerRef.current = window.setTimeout(() => {
-      setCopied("idle");
-      timerRef.current = undefined;
-    }, duration);
-  };
-
   const handleCopy = () => {
     if (!copyText) return;
 
@@ -176,14 +151,12 @@ export function TypographyContent(options: RenderTypographyContentOptions) {
       const text = await copyText();
       if (!text) return;
 
-      const ok = await copyToClipboard(text);
       const copiedDuration =
         typeof copyable === "object" ? copyable.copiedDuration : undefined;
-      startCopiedFeedback(ok ? "copied" : "failed", copiedDuration ?? 1200);
-
-      if (ok && typeof copyable === "object") {
-        copyable.onCopy?.(text);
-      }
+      await copy(text, {
+        resetDuration: copiedDuration ?? 1200,
+        onCopy: typeof copyable === "object" ? copyable.onCopy : undefined,
+      });
     })();
   };
 

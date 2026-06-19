@@ -1,15 +1,9 @@
-import {
-  useEffect,
-  useMemo,
-  useState,
-  type ComponentPropsWithoutRef,
-  type ReactNode,
-} from "react";
+import { useMemo, type ComponentPropsWithoutRef, type ReactNode } from "react";
 import { CheckIcon, ClipboardIcon } from "@radix-ui/react-icons";
 import { diffLines as createDiffLineChanges } from "diff";
 import classNames from "classnames";
 
-import { copyToClipboard, highlightCodeToHtml } from "@willa-ui/shared";
+import { highlightCodeToHtml, useCopyToClipboard } from "@willa-ui/shared";
 
 export type DiffViewerVariant = "unified" | "split";
 
@@ -81,9 +75,9 @@ export function DiffViewer(props: DiffViewerProps) {
     style,
     ...rootProps
   } = props;
-  const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "failed">(
-    "idle",
-  );
+  const { status: copyStatus, copy } = useCopyToClipboard({
+    resetDuration: copiedDuration,
+  });
   const lineDiff = useMemo(
     () => createLineDiff(before, after),
     [after, before],
@@ -97,15 +91,6 @@ export function DiffViewer(props: DiffViewerProps) {
     () => createSplitRows(lineDiff, contextLines),
     [contextLines, lineDiff],
   );
-
-  useEffect(() => {
-    if (copyStatus === "idle") return;
-    const timer = window.setTimeout(
-      () => setCopyStatus("idle"),
-      copiedDuration,
-    );
-    return () => window.clearTimeout(timer);
-  }, [copiedDuration, copyStatus]);
 
   return (
     <div
@@ -146,11 +131,7 @@ export function DiffViewer(props: DiffViewerProps) {
               if (event.detail > 0) {
                 event.currentTarget.blur();
               }
-              void (async () => {
-                setCopyStatus("idle");
-                const ok = await copyToClipboard(after);
-                setCopyStatus(ok ? "copied" : "failed");
-              })();
+              void copy(after);
             }}
           >
             {copyStatus === "copied" ? <CheckIcon /> : <ClipboardIcon />}

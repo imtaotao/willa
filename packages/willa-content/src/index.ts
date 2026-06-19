@@ -11,6 +11,7 @@ export { CodeBlock } from "#content/components/CodeBlock";
 export { Comment } from "#content/components/Comment";
 export { CommentInput } from "#content/components/CommentInput";
 export { CommentList } from "#content/components/CommentList";
+export { CopyButton } from "#content/components/CopyButton";
 
 export { CodeTabs } from "#content/components/CodeTabs";
 export { DetailsBlock } from "#content/components/DetailsBlock";
@@ -121,6 +122,11 @@ export type {
   CommentListItem,
   CommentListProps,
 } from "#content/components/CommentList";
+export type {
+  CopyButtonProps,
+  CopyButtonSize,
+  CopyButtonVariant,
+} from "#content/components/CopyButton";
 export type { DetailsBlockProps } from "#content/components/DetailsBlock";
 export type {
   DescriptionListColumns,

@@ -245,7 +245,7 @@
   background: var(--willa-diff-viewer-omitted-bg);
   color: var(--willa-diff-viewer-muted);
   padding: 0.34rem 0.82rem;
-  font-family: var(--willa-font);
+  font-family: var(--willa-body-font);
   font-size: 0.78rem;
 }
 

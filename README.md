@@ -25,8 +25,9 @@ utilities for building composable product and content experiences.
   selectors, date pickers, uploads, search/filter controls, calendars, and form
   actions.
 - `@willa-ui/ai`: AI product components such as prompt inputs, chat messages,
-  attachments, tool calls, reasoning steps, generation cards, and agent status
-  views.
+  attachments, tool calls, reasoning steps, generation cards, and related
+  interaction patterns. Context panels and agent status views remain roadmap
+  directions.
 - `@willa-ui/widgets`: integration-style components for GitHub, X/Twitter, web
   embeds, and other special content.
 - `@willa-ui/shared`: shared utilities used by the package internals.

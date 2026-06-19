@@ -341,7 +341,10 @@ Can component CSS contain a special color such as `rgba(...)`?
 
 If the value is part of the visual theme, no. Extract it into a theme variable.
 Only keep it in component CSS when it is a technical value for animation,
-masking, transparency, or structure that is not theme-specific.
+masking, transparency, or structure that is not theme-specific. Functional
+colors such as the ColorPicker spectrum or Separator dashed gradient can stay
+in component CSS when they represent the rendered control itself rather than a
+theme surface, border, text, or status color.
 
 Should a variable live in theme files even if only one component uses it?
 

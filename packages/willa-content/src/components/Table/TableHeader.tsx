@@ -1,5 +1,6 @@
 import {
   type DragEvent,
+  type KeyboardEvent,
   type MouseEvent,
   type ReactNode,
   type RefObject,
@@ -44,7 +45,10 @@ type TableHeaderProps = {
     cell: TableCell,
     index: number,
   ) => void;
+  onResizeColumnBy: (cell: TableCell, index: number, delta: number) => void;
   onAutoSizeColumn: (cell: TableCell, index: number) => void;
+  keyboardResizeLargeStep: number;
+  keyboardResizeStep: number;
   onColumnDragStart: (
     event: DragEvent<HTMLTableCellElement>,
     cell: TableCell,
@@ -82,13 +86,44 @@ export function TableHeader(props: TableHeaderProps) {
     onToggleVisibleSelection,
     onToggleSort,
     onStartColumnResize,
+    onResizeColumnBy,
     onAutoSizeColumn,
+    keyboardResizeLargeStep,
+    keyboardResizeStep,
     onColumnDragStart,
     onColumnDrop,
     onColumnDragEnd,
   } = props;
 
   if (headers.length === 0) return null;
+
+  const handleResizeHandleKeyDown = (
+    event: KeyboardEvent<HTMLButtonElement>,
+    cell: TableCell,
+    index: number,
+  ) => {
+    const step = event.shiftKey ? keyboardResizeLargeStep : keyboardResizeStep;
+
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      event.stopPropagation();
+      onResizeColumnBy(cell, index, -step);
+      return;
+    }
+
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      event.stopPropagation();
+      onResizeColumnBy(cell, index, step);
+      return;
+    }
+
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      event.stopPropagation();
+      onAutoSizeColumn(cell, index);
+    }
+  };
 
   return (
     <thead>
@@ -180,8 +215,10 @@ export function TableHeader(props: TableHeaderProps) {
                 <button
                   className="willa-table-resize-handle"
                   type="button"
-                  aria-label="调整列宽"
-                  tabIndex={-1}
+                  aria-label="调整列宽，使用左右方向键调整"
+                  onKeyDown={(event) =>
+                    handleResizeHandleKeyDown(event, cell, index)
+                  }
                   onDoubleClick={(event) => {
                     event.preventDefault();
                     event.stopPropagation();

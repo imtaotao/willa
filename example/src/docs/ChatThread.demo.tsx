@@ -5,15 +5,27 @@ import { defineDoc } from "#example/catalog/defineDoc";
 
 const messages = [
   {
-    name: "作者",
-    avatar: "idea",
-    content: "公共包会导出所有组件。",
+    name: "林夏",
+    avatarSrc: "https://github.com/imtaotao.png",
+    content: [
+      "我把组件文档里的安装示例补齐了。",
+      "主题容器的最小结构也放进去了。",
+    ],
   },
   {
     align: "right" as const,
-    name: "审阅者",
-    avatar: "user",
-    content: "单组件引入可以让示例更轻量。",
+    name: "周舟",
+    avatarSrc: "https://github.com/rauchg.png",
+    time: "10:32",
+    content: "收到，我再看一下单组件引入的示例。",
+  },
+  {
+    name: "陈然",
+    avatarSrc: "https://github.com/gaearon.png",
+    content: [
+      "顺便把 API 边界写清楚吧。",
+      "这个组件只处理复制动作，不需要承载链接按钮。",
+    ],
   },
 ];
 
@@ -28,25 +40,36 @@ export default defineDoc({
   demo: {
     name: "ChatThread",
     component: ChatThread,
-    props: { title: "组件备注", messages },
+    props: { messages },
   },
   code: `
     import { ChatThread } from "willa/ChatThread";
     import "willa/ChatThread.css";
 
     <ChatThread
-      title="组件备注"
       messages={[
         {
-          name: "作者",
-          avatar: "idea",
-          content: "公共包会导出所有组件。",
+          name: "林夏",
+          avatarSrc: "https://github.com/imtaotao.png",
+          content: [
+            "我把组件文档里的安装示例补齐了。",
+            "主题容器的最小结构也放进去了。",
+          ],
         },
         {
           align: "right",
-          name: "审阅者",
-          avatar: "user",
-          content: "单组件引入可以让示例更轻量。",
+          name: "周舟",
+          avatarSrc: "https://github.com/rauchg.png",
+          time: "10:32",
+          content: "收到，我再看一下单组件引入的示例。",
+        },
+        {
+          name: "陈然",
+          avatarSrc: "https://github.com/gaearon.png",
+          content: [
+            "顺便把 API 边界写清楚吧。",
+            "这个组件只处理复制动作，不需要承载链接按钮。",
+          ],
         },
       ]}
     />;
@@ -60,7 +83,7 @@ export default defineDoc({
     },
     {
       name: "messages",
-      type: "Array<{ align?: 'left' | 'right'; avatar?: string; name?: string; content: string | Array<string> }>",
+      type: "Array<{ align?: 'left' | 'right'; avatarSrc?: string; name?: string; time?: string; content: string | Array<string> }>",
       required: true,
       description: "需要渲染的消息列表。",
     },
