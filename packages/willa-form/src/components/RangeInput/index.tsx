@@ -12,7 +12,10 @@ export type RangeInputProps = Omit<
   width?: CSSProperties["width"];
   height?: CSSProperties["height"];
   color?: string;
+  minWidth?: CSSProperties["minWidth"];
   thumbColor?: string;
+  thumbBorderColor?: string;
+  thumbSize?: CSSProperties["width"];
   trackColor?: string;
 };
 
@@ -22,7 +25,10 @@ export const RangeInput = forwardRef<HTMLInputElement, RangeInputProps>(
       width,
       height,
       color,
+      minWidth,
+      thumbBorderColor,
       thumbColor,
+      thumbSize,
       trackColor,
       className,
       style,
@@ -31,7 +37,10 @@ export const RangeInput = forwardRef<HTMLInputElement, RangeInputProps>(
     const rangeStyle = getRangeInputStyle({
       color,
       height,
+      minWidth,
+      thumbBorderColor,
       thumbColor,
+      thumbSize,
       trackColor,
       width,
       style,
@@ -54,20 +63,42 @@ RangeInput.displayName = "RangeInput";
 const getRangeInputStyle = (options: {
   color?: string;
   height?: CSSProperties["height"];
+  minWidth?: CSSProperties["minWidth"];
+  thumbBorderColor?: string;
   thumbColor?: string;
+  thumbSize?: CSSProperties["width"];
   trackColor?: string;
   width?: CSSProperties["width"];
   style?: CSSProperties;
 }) => {
-  const { color, height, thumbColor, trackColor, width, style } = options;
+  const {
+    color,
+    height,
+    minWidth,
+    thumbBorderColor,
+    thumbColor,
+    thumbSize,
+    trackColor,
+    width,
+    style,
+  } = options;
 
   return {
     ...style,
     ...(width === undefined ? undefined : { width }),
+    ...(minWidth === undefined
+      ? undefined
+      : { "--willa-range-input-custom-min-width": minWidth }),
     ...(color ? { "--willa-range-input-custom-color": color } : undefined),
     ...(height ? { "--willa-range-input-custom-height": height } : undefined),
+    ...(thumbBorderColor
+      ? { "--willa-range-input-custom-thumb-border": thumbBorderColor }
+      : undefined),
     ...(thumbColor
       ? { "--willa-range-input-custom-thumb": thumbColor }
+      : undefined),
+    ...(thumbSize
+      ? { "--willa-range-input-custom-thumb-size": thumbSize }
       : undefined),
     ...(trackColor
       ? { "--willa-range-input-custom-track": trackColor }

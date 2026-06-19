@@ -5,14 +5,17 @@
   );
   --willa-range-input-resolved-thumb-size: max(
     1rem,
-    calc(var(--willa-range-input-resolved-height) * 2.6)
+    var(
+      --willa-range-input-custom-thumb-size,
+      calc(var(--willa-range-input-resolved-height) * 2.6)
+    )
   );
   display: block;
   box-sizing: border-box;
   width: 100%;
   max-width: 100%;
   height: var(--willa-range-input-resolved-thumb-size);
-  min-width: 10rem;
+  min-width: var(--willa-range-input-custom-min-width, 10rem);
   padding: 0;
   border: 0;
   appearance: none;
@@ -58,7 +61,13 @@
       2
   );
   border: 2px solid
-    var(--willa-range-input-custom-color, var(--willa-range-input-thumb-border));
+    var(
+      --willa-range-input-custom-thumb-border,
+      var(
+        --willa-range-input-custom-color,
+        var(--willa-range-input-thumb-border)
+      )
+    );
   border-radius: 50%;
   appearance: none;
   -webkit-appearance: none;
@@ -87,7 +96,13 @@
   width: calc(var(--willa-range-input-resolved-thumb-size) - 0.2rem);
   height: calc(var(--willa-range-input-resolved-thumb-size) - 0.2rem);
   border: 2px solid
-    var(--willa-range-input-custom-color, var(--willa-range-input-thumb-border));
+    var(
+      --willa-range-input-custom-thumb-border,
+      var(
+        --willa-range-input-custom-color,
+        var(--willa-range-input-thumb-border)
+      )
+    );
   border-radius: 50%;
   background: var(
     --willa-range-input-custom-thumb,

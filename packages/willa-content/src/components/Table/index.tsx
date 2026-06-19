@@ -91,3 +91,5 @@ export const Table = forwardRef<TableRef, TableProps>((props, forwardedRef) => {
 
   return <TableView {...tableState} />;
 });
+
+Table.displayName = "Table";

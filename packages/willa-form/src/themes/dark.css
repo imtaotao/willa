@@ -1,4 +1,5 @@
 :root[data-wk-theme="dark"] .willa-shell,
+:root[data-wk-theme="dark"] .willa-color-picker-panel,
 :root[data-wk-theme="dark"] .willa-date-picker-panel,
 :root[data-wk-theme="dark"] .willa-picker-panel,
 :root[data-wk-theme="dark"] .willa-tree-select-panel {
@@ -70,6 +71,21 @@
   --willa-search-input-clear-bg-hover: rgba(255, 255, 255, 0.11);
   --willa-search-input-clear-text: var(--willa-text-soft);
   --willa-search-input-clear-text-hover: var(--willa-text-strong);
+  --willa-color-picker-panel-bg: #20242b;
+  --willa-color-picker-panel-border: rgba(255, 255, 255, 0.14);
+  --willa-color-picker-panel-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
+  --willa-color-picker-text: var(--willa-text-strong);
+  --willa-color-picker-muted: var(--willa-text-soft);
+  --willa-color-picker-divider: rgba(255, 255, 255, 0.1);
+  --willa-color-picker-control-bg: rgba(255, 255, 255, 0.055);
+  --willa-color-picker-control-bg-hover: rgba(255, 255, 255, 0.08);
+  --willa-color-picker-control-border: rgba(255, 255, 255, 0.12);
+  --willa-color-picker-control-border-hover: rgba(125, 211, 252, 0.28);
+  --willa-color-picker-ring: rgba(125, 211, 252, 0.14);
+  --willa-color-picker-swatch-border: rgba(255, 255, 255, 0.18);
+  --willa-color-picker-thumb-border: #ffffff;
+  --willa-color-picker-checker: rgba(148, 163, 184, 0.24);
+  --willa-color-picker-checker-bg: rgba(255, 255, 255, 0.08);
   --willa-date-picker-panel-bg: #20242b;
   --willa-date-picker-panel-border: rgba(255, 255, 255, 0.14);
   --willa-date-picker-panel-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);

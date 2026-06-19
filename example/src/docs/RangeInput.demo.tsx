@@ -10,6 +10,12 @@ const stackStyle = {
   width: "min(100%, 28rem)",
 } as const;
 
+const compactRowStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: "0.72rem",
+} as const;
+
 const RangeInputPreview = () => {
   const [strength, setStrength] = useState(60);
 
@@ -33,7 +39,9 @@ const RangeInputPreview = () => {
         step={0.1}
         defaultValue={0.7}
         color="#14b8a6"
+        thumbBorderColor="#0f766e"
         thumbColor="#ecfeff"
+        thumbSize="1.2rem"
         trackColor="rgba(20, 184, 166, 0.18)"
         aria-label="温度"
       />
@@ -81,10 +89,33 @@ export default defineDoc({
             defaultValue={72}
             height="0.5rem"
             color="#0f766e"
+            thumbBorderColor="#0f766e"
             thumbColor="#ecfeff"
+            thumbSize="1.2rem"
             trackColor="rgba(15, 118, 110, 0.16)"
             aria-label="自定义滑块"
           />
+          <RangeInput
+            defaultValue={58}
+            height="0.46rem"
+            color="#ffffff"
+            thumbBorderColor="#64748b"
+            thumbColor="#ffffff"
+            thumbSize="1.15rem"
+            trackColor="linear-gradient(90deg, #ef4444, #f97316, #eab308, #22c55e, #06b6d4, #2563eb, #7c3aed)"
+            aria-label="渐变轨道"
+          />
+          <div style={compactRowStyle}>
+            <span>紧凑宽度</span>
+            <RangeInput
+              defaultValue={44}
+              width="7rem"
+              minWidth={0}
+              height="0.42rem"
+              color="#7c3aed"
+              aria-label="紧凑滑块"
+            />
+          </div>
         </div>;
       `,
       content: (
@@ -100,10 +131,33 @@ export default defineDoc({
             defaultValue={72}
             height="0.5rem"
             color="#0f766e"
+            thumbBorderColor="#0f766e"
             thumbColor="#ecfeff"
+            thumbSize="1.2rem"
             trackColor="rgba(15, 118, 110, 0.16)"
             aria-label="自定义滑块"
           />
+          <RangeInput
+            defaultValue={58}
+            height="0.46rem"
+            color="#ffffff"
+            thumbBorderColor="#64748b"
+            thumbColor="#ffffff"
+            thumbSize="1.15rem"
+            trackColor="linear-gradient(90deg, #ef4444, #f97316, #eab308, #22c55e, #06b6d4, #2563eb, #7c3aed)"
+            aria-label="渐变轨道"
+          />
+          <div style={compactRowStyle}>
+            <span>紧凑宽度</span>
+            <RangeInput
+              defaultValue={44}
+              width="7rem"
+              minWidth={0}
+              height="0.42rem"
+              color="#7c3aed"
+              aria-label="紧凑滑块"
+            />
+          </div>
         </div>
       ),
     },
@@ -160,6 +214,11 @@ export default defineDoc({
       description: "轨道高度，滑块尺寸会随高度自动调整。",
     },
     {
+      name: "minWidth",
+      type: "CSSProperties['minWidth']",
+      description: "滑块最小宽度，适合嵌入紧凑容器时覆盖默认宽度。",
+    },
+    {
       name: "color",
       type: "string",
       description: "主色，影响滑块边框和浏览器强调色。",
@@ -170,9 +229,19 @@ export default defineDoc({
       description: "滑块圆点背景色。",
     },
     {
+      name: "thumbBorderColor",
+      type: "string",
+      description: "滑块圆点边框色。",
+    },
+    {
+      name: "thumbSize",
+      type: "CSSProperties['width']",
+      description: "滑块圆点尺寸。",
+    },
+    {
       name: "trackColor",
       type: "string",
-      description: "轨道背景色。",
+      description: "轨道背景色，支持渐变背景值。",
     },
     {
       name: "onChange",

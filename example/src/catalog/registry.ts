@@ -44,6 +44,7 @@ const docSpecGroups = {
   form: [
     "Calendar",
     "Checkbox",
+    "ColorPicker",
     "DatePicker",
     "Form",
     "FormActions",

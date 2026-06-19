@@ -1,5 +1,6 @@
 export { Calendar, ScheduleCalendar } from "#form/components/Calendar";
 export { Checkbox } from "#form/components/Checkbox";
+export { ColorPicker } from "#form/components/ColorPicker";
 export { DatePicker } from "#form/components/DatePicker";
 export { Form } from "#form/components/Form";
 export { FormActions } from "#form/components/FormActions";
@@ -37,6 +38,17 @@ export type {
   ScheduleCalendarView,
 } from "#form/components/Calendar";
 export type { CheckboxProps, CheckboxSize } from "#form/components/Checkbox";
+export type {
+  ColorPickerColor,
+  ColorPickerFormat,
+  ColorPickerHsb,
+  ColorPickerPanelRenderInfo,
+  ColorPickerPreset,
+  ColorPickerProps,
+  ColorPickerRgb,
+  ColorPickerSize,
+  ColorPickerTrigger,
+} from "#form/components/ColorPicker";
 export type {
   DatePickerMode,
   DatePickerMarker,
