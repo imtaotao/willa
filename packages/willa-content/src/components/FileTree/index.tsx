@@ -340,3 +340,5 @@ const getLinkProps = (
     rel: "noreferrer",
   };
 };
+
+FileTree.displayName = "FileTree";

@@ -87,3 +87,5 @@ const normalizePracticeText = (value: string) => {
     .replace(/[，,、；;。.\s]/g, "")
     .trim();
 };
+
+EnglishCardPractice.displayName = "EnglishCardPractice";

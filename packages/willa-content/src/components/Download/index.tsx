@@ -85,3 +85,5 @@ export function Download(props: DownloadProps) {
     </a>
   );
 }
+
+Download.displayName = "Download";

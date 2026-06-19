@@ -357,3 +357,5 @@ export function TableBody(props: TableBodyProps) {
     </tbody>
   );
 }
+
+TableBody.displayName = "TableBody";

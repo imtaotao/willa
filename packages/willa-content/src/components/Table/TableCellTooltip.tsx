@@ -17,3 +17,5 @@ export function TableCellTooltip(props: TableCellTooltipProps) {
     </div>
   );
 }
+
+TableCellTooltip.displayName = "TableCellTooltip";

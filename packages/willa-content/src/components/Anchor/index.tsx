@@ -243,3 +243,5 @@ const flattenAnchorItems = (items: Array<AnchorItem>): Array<AnchorItem> => {
     ...(item.children ? flattenAnchorItems(item.children) : []),
   ]);
 };
+
+Anchor.displayName = "Anchor";

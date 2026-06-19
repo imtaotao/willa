@@ -367,3 +367,5 @@ const clampPage = (page: number, pageCount: number) => {
   if (pageCount <= 0) return 1;
   return clampNumber(Math.floor(page), 1, pageCount);
 };
+
+Pagination.displayName = "Pagination";

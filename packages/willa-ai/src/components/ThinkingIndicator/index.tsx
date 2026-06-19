@@ -160,3 +160,5 @@ const thinkingIndicatorLabelMap: Record<ThinkingIndicatorStatus, string> = {
   generating: "正在生成",
   working: "正在处理",
 };
+
+ThinkingIndicator.displayName = "ThinkingIndicator";

@@ -40,3 +40,5 @@ export function FormActions(props: FormActionsProps) {
     </div>
   );
 }
+
+FormActions.displayName = "FormActions";

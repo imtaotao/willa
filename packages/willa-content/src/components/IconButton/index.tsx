@@ -309,3 +309,5 @@ const renderIconButtonContent = (options: {
     </span>
   );
 };
+
+IconButton.displayName = "IconButton";

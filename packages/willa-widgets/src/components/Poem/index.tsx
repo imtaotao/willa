@@ -70,3 +70,5 @@ export function Poem(props: PoemProps) {
     </section>
   );
 }
+
+Poem.displayName = "Poem";

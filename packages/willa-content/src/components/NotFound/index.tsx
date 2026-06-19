@@ -66,3 +66,5 @@ function NotFoundIllustration() {
     </span>
   );
 }
+
+NotFound.displayName = "NotFound";

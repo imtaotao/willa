@@ -206,3 +206,5 @@ const CommentInputToolButton = (props: CommentInputToolButtonProps) => {
 };
 
 type CommentInputToolButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
+
+CommentInput.displayName = "CommentInput";

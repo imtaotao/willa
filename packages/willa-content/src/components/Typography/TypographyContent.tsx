@@ -431,3 +431,5 @@ const stripTypographyProps = (
 
   return domProps;
 };
+
+TypographyContent.displayName = "TypographyContent";

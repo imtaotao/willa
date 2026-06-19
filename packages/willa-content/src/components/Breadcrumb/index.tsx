@@ -125,3 +125,5 @@ const BreadcrumbItemContent = ({
     </span>
   );
 };
+
+Breadcrumb.displayName = "Breadcrumb";

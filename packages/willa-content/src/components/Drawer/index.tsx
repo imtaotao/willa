@@ -326,3 +326,5 @@ export function Drawer(props: DrawerProps) {
     </>
   );
 }
+
+Drawer.displayName = "Drawer";

@@ -96,3 +96,5 @@ const resolveGridColumns = (
   }
   return `repeat(auto-fit, minmax(min(100%, ${minColumnWidth}), 1fr))`;
 };
+
+Grid.displayName = "Grid";

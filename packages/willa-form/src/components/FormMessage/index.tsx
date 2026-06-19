@@ -53,3 +53,5 @@ const defaultFormMessageIcons: Record<FormMessageTone, ReactNode> = {
   warning: <ExclamationTriangleIcon />,
   error: <CrossCircledIcon />,
 };
+
+FormMessage.displayName = "FormMessage";

@@ -267,3 +267,5 @@ export function EnglishCards(props: EnglishCardsProps) {
     </section>
   );
 }
+
+EnglishCards.displayName = "EnglishCards";

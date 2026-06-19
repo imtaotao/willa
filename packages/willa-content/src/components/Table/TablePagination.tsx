@@ -42,3 +42,5 @@ export function TablePagination(props: TablePaginationProps) {
     </div>
   );
 }
+
+TablePagination.displayName = "TablePagination";

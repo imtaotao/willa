@@ -60,3 +60,5 @@ export function FormGroup(props: FormGroupProps) {
     </fieldset>
   );
 }
+
+FormGroup.displayName = "FormGroup";

@@ -267,3 +267,5 @@ export function AudioEmbed(props: AudioEmbedProps) {
     </article>
   );
 }
+
+AudioEmbed.displayName = "AudioEmbed";

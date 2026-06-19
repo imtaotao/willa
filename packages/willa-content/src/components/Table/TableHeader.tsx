@@ -211,3 +211,5 @@ export function TableHeader(props: TableHeaderProps) {
     </thead>
   );
 }
+
+TableHeader.displayName = "TableHeader";

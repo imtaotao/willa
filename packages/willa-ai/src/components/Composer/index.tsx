@@ -88,3 +88,5 @@ export function Composer(props: ComposerProps) {
 const isRenderable = (value: ReactNode) => {
   return value !== undefined && value !== null && value !== false;
 };
+
+Composer.displayName = "Composer";

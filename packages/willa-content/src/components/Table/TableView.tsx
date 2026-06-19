@@ -394,3 +394,5 @@ export function TableView(props: TableViewProps) {
     </div>
   );
 }
+
+TableView.displayName = "TableView";

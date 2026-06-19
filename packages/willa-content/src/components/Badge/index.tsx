@@ -52,3 +52,5 @@ export function Badge(props: BadgeProps) {
     </span>
   );
 }
+
+Badge.displayName = "Badge";

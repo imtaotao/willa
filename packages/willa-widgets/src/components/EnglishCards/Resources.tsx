@@ -87,3 +87,5 @@ const formatResourceUrl = (href: string) => {
     return href;
   }
 };
+
+EnglishCardResourceLink.displayName = "EnglishCardResourceLink";

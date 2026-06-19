@@ -74,3 +74,5 @@ export function EmptyState(props: EmptyStateProps) {
     </section>
   );
 }
+
+EmptyState.displayName = "EmptyState";

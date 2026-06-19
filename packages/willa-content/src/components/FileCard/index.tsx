@@ -179,3 +179,5 @@ const getIconLabel = (extension: string) => {
   if (extension === "typescript") return "TS";
   return extension.slice(0, 4).toUpperCase();
 };
+
+FileCard.displayName = "FileCard";

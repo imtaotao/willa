@@ -182,3 +182,5 @@ export function Tabs(props: TabsProps) {
 
 const getTabId = (id: string, index: number) => `${id}-tab-${index}`;
 const getPanelId = (id: string, index: number) => `${id}-panel-${index}`;
+
+Tabs.displayName = "Tabs";

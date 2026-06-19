@@ -130,3 +130,5 @@ export function VideoEmbed({
     </article>
   );
 }
+
+VideoEmbed.displayName = "VideoEmbed";

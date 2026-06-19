@@ -59,3 +59,5 @@ export function Panel(props: PanelProps) {
     </Component>
   );
 }
+
+Panel.displayName = "Panel";

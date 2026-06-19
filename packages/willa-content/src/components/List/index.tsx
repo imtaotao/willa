@@ -396,3 +396,5 @@ const reorderItems = (
   nextItems.splice(overIndex, 0, activeItem);
   return nextItems;
 };
+
+List.displayName = "List";

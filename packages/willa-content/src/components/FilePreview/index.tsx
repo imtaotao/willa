@@ -848,3 +848,6 @@ const codeLanguageByExtension: Record<string, string> = {
   yaml: "yaml",
   yml: "yaml",
 };
+
+FilePreview.displayName = "FilePreview";
+FilePreviewDialog.displayName = "FilePreviewDialog";

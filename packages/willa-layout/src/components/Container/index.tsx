@@ -39,3 +39,5 @@ export function Container(props: ContainerProps) {
     </Component>
   );
 }
+
+Container.displayName = "Container";

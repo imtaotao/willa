@@ -310,3 +310,5 @@ export function Dialog(props: DialogProps) {
     </>
   );
 }
+
+Dialog.displayName = "Dialog";

@@ -116,3 +116,5 @@ const renderDefaultLabel = (selectedCount: number, totalCount?: number) => {
 
   return `已选择 ${selectedCount} / ${totalCount} 项`;
 };
+
+SelectionBar.displayName = "SelectionBar";

@@ -57,3 +57,5 @@ export function Separator(props: SeparatorProps) {
     </div>
   );
 }
+
+Separator.displayName = "Separator";

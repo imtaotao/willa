@@ -126,3 +126,5 @@ const ChatMessages = (props: ChatMessagesProps) => {
     </div>
   );
 };
+
+ChatThread.displayName = "ChatThread";

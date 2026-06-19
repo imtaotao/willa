@@ -81,3 +81,5 @@ const getDefaultIcon = (tone: ResultTone) => {
   if (tone === "warning") return <ExclamationTriangleIcon />;
   return <InfoCircledIcon />;
 };
+
+Result.displayName = "Result";

@@ -95,3 +95,5 @@ const stackJustifyMap: Record<StackJustify, CSSProperties["justifyContent"]> = {
   around: "space-around",
   evenly: "space-evenly",
 };
+
+Stack.displayName = "Stack";

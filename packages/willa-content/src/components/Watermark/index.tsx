@@ -290,3 +290,5 @@ const createWatermarkImageMarkup = (options: {
 
   return `<image href="${escapeSvgText(image)}" x="${imageX}" y="${imageY}" width="${imageWidth}" height="${imageBlockHeight}" preserveAspectRatio="xMidYMid meet" opacity="0.96" />`;
 };
+
+Watermark.displayName = "Watermark";

@@ -557,3 +557,6 @@ const scrollToTop = (
   }
   target.scrollTo({ top: 0, behavior });
 };
+
+FloatButton.displayName = "FloatButton";
+FloatButtonGroup.displayName = "FloatButtonGroup";

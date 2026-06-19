@@ -137,3 +137,5 @@ Image.__willaMediaElement = true;
 
 // Used by Lightbox to inject openLightbox when Image is rendered as its child.
 Image.__willaLightboxTrigger = true;
+
+Image.displayName = "Image";

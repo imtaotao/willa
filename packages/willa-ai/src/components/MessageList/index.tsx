@@ -92,3 +92,5 @@ const getMessageListStyle = (options: {
 
   return listStyle;
 };
+
+MessageList.displayName = "MessageList";

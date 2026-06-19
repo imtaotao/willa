@@ -84,3 +84,5 @@ const CodeTabsPanel = (props: {
     </div>
   );
 };
+
+CodeTabs.displayName = "CodeTabs";

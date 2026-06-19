@@ -67,3 +67,5 @@ const isMasonryGapPreset = (gap: MasonryGap): gap is MasonryGapPreset => {
 const resolveMasonryGap = (gap: MasonryGap) => {
   return isMasonryGapPreset(gap) ? masonryGapMap[gap] : gap;
 };
+
+Masonry.displayName = "Masonry";

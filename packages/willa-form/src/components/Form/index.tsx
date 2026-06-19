@@ -46,3 +46,5 @@ export function Form(props: FormProps) {
     </form>
   );
 }
+
+Form.displayName = "Form";

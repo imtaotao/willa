@@ -69,3 +69,5 @@ export function PageHeader(props: PageHeaderProps) {
     </header>
   );
 }
+
+PageHeader.displayName = "PageHeader";

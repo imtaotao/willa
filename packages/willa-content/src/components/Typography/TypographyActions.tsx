@@ -121,3 +121,5 @@ export function TypographyActionsView(props: TypographyActionsViewProps) {
     </span>
   );
 }
+
+TypographyActionsView.displayName = "TypographyActionsView";

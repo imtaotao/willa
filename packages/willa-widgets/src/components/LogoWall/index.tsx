@@ -100,3 +100,5 @@ export function LogoWall(props: LogoWallProps) {
     </section>
   );
 }
+
+LogoWall.displayName = "LogoWall";

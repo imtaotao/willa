@@ -63,3 +63,5 @@ export function SectionHeader(props: SectionHeaderProps) {
     </header>
   );
 }
+
+SectionHeader.displayName = "SectionHeader";

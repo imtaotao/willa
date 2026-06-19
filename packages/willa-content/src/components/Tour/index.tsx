@@ -817,3 +817,5 @@ const getSidePosition = (options: {
 
   return { top, left };
 };
+
+Tour.displayName = "Tour";

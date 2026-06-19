@@ -82,3 +82,5 @@ export function XPostEmbed({ url, id, title }: XPostEmbedProps) {
     </article>
   );
 }
+
+XPostEmbed.displayName = "XPostEmbed";

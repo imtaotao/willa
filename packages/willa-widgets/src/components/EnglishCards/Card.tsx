@@ -115,3 +115,5 @@ export function EnglishCard(props: {
     </article>
   );
 }
+
+EnglishCard.displayName = "EnglishCard";

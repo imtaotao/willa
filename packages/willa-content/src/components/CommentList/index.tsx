@@ -75,3 +75,5 @@ export function CommentList(props: CommentListProps) {
     </section>
   );
 }
+
+CommentList.displayName = "CommentList";

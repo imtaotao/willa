@@ -156,3 +156,5 @@ const generationStatusLabelMap: Record<GenerationCardStatus, string> = {
   completed: "已生成",
   failed: "生成失败",
 };
+
+GenerationCard.displayName = "GenerationCard";

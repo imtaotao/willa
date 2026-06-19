@@ -223,3 +223,5 @@ export function GitHubRepo({
     </span>
   );
 }
+
+GitHubRepo.displayName = "GitHubRepo";

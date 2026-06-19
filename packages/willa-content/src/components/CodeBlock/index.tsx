@@ -191,3 +191,5 @@ const resolveCodeBlockInput = (options: {
     showLineNumbers: showLineNumbers ?? meta.showLineNumbers,
   };
 };
+
+CodeBlock.displayName = "CodeBlock";

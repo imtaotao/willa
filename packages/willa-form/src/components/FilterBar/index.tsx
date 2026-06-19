@@ -94,3 +94,5 @@ const getFilterBarItemStyle = (width: CSSProperties["width"] | undefined) => {
 
   return { "--willa-filter-bar-item-width": width } as CSSProperties;
 };
+
+FilterBar.displayName = "FilterBar";

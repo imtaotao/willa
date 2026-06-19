@@ -66,3 +66,5 @@ export function AppShell(props: AppShellProps) {
     </div>
   );
 }
+
+AppShell.displayName = "AppShell";

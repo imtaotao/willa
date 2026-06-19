@@ -149,3 +149,5 @@ const TimelineEntry = ({ item }: { item: TimelineItem }) => {
     </li>
   );
 };
+
+Timeline.displayName = "Timeline";

@@ -565,3 +565,5 @@ const getTreeText = (value: ReactNode): string => {
 
   return "节点";
 };
+
+Tree.displayName = "Tree";

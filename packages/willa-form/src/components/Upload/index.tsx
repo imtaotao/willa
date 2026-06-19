@@ -633,3 +633,5 @@ const normalizeProgress = (progress: number | undefined) => {
 
   return Math.min(100, Math.max(0, progress));
 };
+
+Upload.displayName = "Upload";

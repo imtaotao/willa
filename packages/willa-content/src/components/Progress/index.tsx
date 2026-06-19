@@ -113,3 +113,5 @@ const normalizeProgressValue = (value: number, max: number) => {
   if (!Number.isFinite(value)) return 0;
   return clampNumber(value, 0, max);
 };
+
+Progress.displayName = "Progress";

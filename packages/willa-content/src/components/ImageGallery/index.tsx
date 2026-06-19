@@ -163,3 +163,5 @@ export function ImageGallery({
 
 // Used by Lightbox to inject openLightbox when ImageGallery is rendered as its child.
 ImageGallery.__willaLightboxTrigger = true;
+
+ImageGallery.displayName = "ImageGallery";

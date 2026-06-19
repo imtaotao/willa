@@ -322,3 +322,5 @@ export function Lightbox(props: LightboxProps) {
   }
   return <LightboxRoot {...props} />;
 }
+
+Lightbox.displayName = "Lightbox";

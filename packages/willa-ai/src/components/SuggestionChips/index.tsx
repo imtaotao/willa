@@ -143,3 +143,5 @@ const getNextSelectedIds = (options: {
 
   return selectedIds.includes(id) ? [] : [id];
 };
+
+SuggestionChips.displayName = "SuggestionChips";

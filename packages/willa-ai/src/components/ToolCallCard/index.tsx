@@ -129,3 +129,5 @@ const toolCallStatusLabelMap: Record<ToolCallCardStatus, string> = {
   success: "已完成",
   error: "失败",
 };
+
+ToolCallCard.displayName = "ToolCallCard";

@@ -170,3 +170,5 @@ const renderCardContent = (options: {
     </>
   );
 };
+
+Card.displayName = "Card";

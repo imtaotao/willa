@@ -327,3 +327,5 @@ const AvatarPreview = (props: AvatarPreviewProps) => {
 
   return createPortal(dialog, document.body);
 };
+
+Avatar.displayName = "Avatar";

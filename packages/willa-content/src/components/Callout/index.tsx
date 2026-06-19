@@ -57,3 +57,5 @@ export function Callout(props: CalloutProps) {
     </aside>
   );
 }
+
+Callout.displayName = "Callout";

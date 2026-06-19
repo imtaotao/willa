@@ -229,3 +229,5 @@ const renderExampleText = (value: ReactNode, word: string) => {
     );
   });
 };
+
+EnglishCardContent.displayName = "EnglishCardContent";

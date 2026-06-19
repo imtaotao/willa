@@ -137,3 +137,9 @@ export namespace Typography {
   export const Title = TypographyTitle;
   export const Link = TypographyLink;
 }
+
+Typography.displayName = "Typography";
+TypographyText.displayName = "Typography.Text";
+TypographyParagraph.displayName = "Typography.Paragraph";
+TypographyTitle.displayName = "Typography.Title";
+TypographyLink.displayName = "Typography.Link";

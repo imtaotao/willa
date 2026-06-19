@@ -104,3 +104,5 @@ export function SourceCard({
     </article>
   );
 }
+
+SourceCard.displayName = "SourceCard";

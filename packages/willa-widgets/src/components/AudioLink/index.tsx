@@ -174,3 +174,5 @@ export function AudioLink(props: AudioLinkProps) {
     </span>
   );
 }
+
+AudioLink.displayName = "AudioLink";

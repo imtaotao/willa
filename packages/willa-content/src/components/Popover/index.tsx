@@ -354,3 +354,5 @@ const getPopoverContentStyle = (position: PopoverPosition | undefined) => {
     visibility: position ? undefined : "hidden",
   } as CSSProperties;
 };
+
+Popover.displayName = "Popover";

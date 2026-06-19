@@ -236,3 +236,5 @@ const attachmentStatusLabelMap: Record<AttachmentListItemStatus, string> = {
   ready: "已连接",
   uploading: "上传中",
 };
+
+AttachmentList.displayName = "AttachmentList";

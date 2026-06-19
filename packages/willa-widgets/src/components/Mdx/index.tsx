@@ -364,3 +364,5 @@ export function Mdx(props: MdxProps) {
     </MDXProvider>
   );
 }
+
+Mdx.displayName = "Mdx";

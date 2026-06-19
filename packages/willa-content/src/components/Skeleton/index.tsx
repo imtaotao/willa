@@ -122,3 +122,5 @@ export function Skeleton({
     </Component>
   );
 }
+
+Skeleton.displayName = "Skeleton";

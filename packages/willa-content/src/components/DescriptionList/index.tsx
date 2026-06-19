@@ -92,3 +92,5 @@ export function DescriptionList(props: DescriptionListProps) {
     </section>
   );
 }
+
+DescriptionList.displayName = "DescriptionList";

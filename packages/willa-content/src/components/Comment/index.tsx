@@ -102,3 +102,5 @@ const getAvatarName = (author: ReactNode) => {
 
   return "Comment Author";
 };
+
+Comment.displayName = "Comment";

@@ -514,3 +514,5 @@ const applyContext = (
 
   return result;
 };
+
+DiffViewer.displayName = "DiffViewer";

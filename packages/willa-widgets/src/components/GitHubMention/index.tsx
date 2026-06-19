@@ -219,3 +219,5 @@ export function GitHubMention({
     </span>
   );
 }
+
+GitHubMention.displayName = "GitHubMention";

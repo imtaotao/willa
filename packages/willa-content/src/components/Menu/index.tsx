@@ -387,3 +387,5 @@ const getMenuContentStyle = (position: MenuPosition | undefined) => {
     visibility: position ? undefined : "hidden",
   } as CSSProperties;
 };
+
+Menu.displayName = "Menu";

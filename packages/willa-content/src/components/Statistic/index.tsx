@@ -86,3 +86,5 @@ export function Statistic(props: StatisticProps) {
     </div>
   );
 }
+
+Statistic.displayName = "Statistic";

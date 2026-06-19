@@ -253,3 +253,5 @@ export function QRCode(props: QRCodeProps) {
     </figure>
   );
 }
+
+QRCode.displayName = "QRCode";

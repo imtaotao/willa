@@ -51,3 +51,5 @@ export function Spinner(props: SpinnerProps) {
     </span>
   );
 }
+
+Spinner.displayName = "Spinner";

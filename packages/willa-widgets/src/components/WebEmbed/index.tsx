@@ -91,3 +91,5 @@ export function WebEmbed({
     </article>
   );
 }
+
+WebEmbed.displayName = "WebEmbed";

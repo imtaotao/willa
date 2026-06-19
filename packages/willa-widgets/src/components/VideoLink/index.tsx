@@ -157,3 +157,5 @@ export function VideoLink({
     </span>
   );
 }
+
+VideoLink.displayName = "VideoLink";

@@ -69,3 +69,5 @@ const isSidebarLayoutGapPreset = (
 const resolveSidebarLayoutGap = (gap: SidebarLayoutGap) => {
   return isSidebarLayoutGapPreset(gap) ? sidebarLayoutGapMap[gap] : gap;
 };
+
+SidebarLayout.displayName = "SidebarLayout";

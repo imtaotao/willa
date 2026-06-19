@@ -157,3 +157,5 @@ export const resizeEditTextArea = (
 
   textArea.style.height = `${nextHeight}px`;
 };
+
+TypographyEdit.displayName = "TypographyEdit";

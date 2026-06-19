@@ -112,3 +112,5 @@ const getProfileAvatarName = (name: ReactNode) => {
   }
   return "Profile";
 };
+
+ProfileCard.displayName = "ProfileCard";

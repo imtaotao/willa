@@ -67,3 +67,5 @@ export function SiteNav(props: SiteNavProps) {
     </header>
   );
 }
+
+SiteNav.displayName = "SiteNav";

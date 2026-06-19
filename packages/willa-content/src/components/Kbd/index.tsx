@@ -97,3 +97,6 @@ const getKbdShortcutKey = (key: ReactNode, index: number) => {
   }
   return String(index);
 };
+
+Kbd.displayName = "Kbd";
+KbdShortcut.displayName = "KbdShortcut";

@@ -142,3 +142,5 @@ const renderGroupChildrenWithSeparator = (
       ];
     });
 };
+
+Group.displayName = "Group";

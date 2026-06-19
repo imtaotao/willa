@@ -353,3 +353,5 @@ const isCoarsePointer = () => {
 
   return window.matchMedia("(pointer: coarse)").matches;
 };
+
+Tooltip.displayName = "Tooltip";

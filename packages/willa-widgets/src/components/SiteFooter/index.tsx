@@ -100,3 +100,5 @@ export function SiteFooter(props: SiteFooterProps) {
     </footer>
   );
 }
+
+SiteFooter.displayName = "SiteFooter";

@@ -165,3 +165,6 @@ const isHeadingElement = (node: ReactNode): node is HeadingElement => {
 
   return Boolean((node.type as HeadingComponent).mdxHeadingTag);
 };
+
+Steps.displayName = "Steps";
+Step.displayName = "Step";

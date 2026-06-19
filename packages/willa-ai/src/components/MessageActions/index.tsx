@@ -100,3 +100,5 @@ const resolveAriaLabel = (label: ReactNode) => {
 const resolveTitle = (label: ReactNode) => {
   return typeof label === "string" ? label : undefined;
 };
+
+MessageActions.displayName = "MessageActions";

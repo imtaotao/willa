@@ -199,3 +199,5 @@ const reasoningStepToneMap = {
   done: "success",
   error: "danger",
 } satisfies Record<ReasoningStepStatus, TimelineItem["tone"]>;
+
+ReasoningSteps.displayName = "ReasoningSteps";

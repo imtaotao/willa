@@ -31,3 +31,5 @@ export function DetailsBlock(props: DetailsBlockProps) {
     </details>
   );
 }
+
+DetailsBlock.displayName = "DetailsBlock";

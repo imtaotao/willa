@@ -131,3 +131,5 @@ export function Citation({
     </span>
   );
 }
+
+Citation.displayName = "Citation";

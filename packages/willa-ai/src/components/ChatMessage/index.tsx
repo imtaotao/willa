@@ -122,3 +122,5 @@ const getDefaultChatMessageName = (role: ChatMessageRole) => {
 
   return "";
 };
+
+ChatMessage.displayName = "ChatMessage";

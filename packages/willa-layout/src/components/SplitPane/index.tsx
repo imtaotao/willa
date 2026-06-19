@@ -429,3 +429,6 @@ const persistSizes = (storageKey: string | undefined, sizes: Array<number>) => {
 
   window.localStorage.setItem(storageKey, JSON.stringify(sizes));
 };
+
+ResizablePanel.displayName = "ResizablePanel";
+SplitPane.displayName = "SplitPane";
