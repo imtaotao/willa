@@ -103,7 +103,6 @@ export type {
   NumberInputControlOptions,
   NumberInputControls,
   NumberInputFormatOptions,
-  NumberInputFormatterInfo,
   NumberInputProps,
   NumberInputSlots,
   NumberInputStatus,

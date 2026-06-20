@@ -1062,7 +1062,7 @@ const TableDemoGallery = () => {
           label: "列宽调整",
           children: (
             <Table
-              caption="拖拽表头右侧把手调整列宽；聚焦把手后可用左右方向键调整，双击后自动适配内容宽度。"
+              caption="鼠标或触屏拖动表头右侧把手调整列宽；聚焦把手后可用左右方向键调整，双击后自动适配内容宽度。"
               items={resizeItems}
               resizableColumns
               stickyActions
@@ -1428,7 +1428,7 @@ export default defineDoc({
       name: "resizableColumns",
       type: "boolean",
       defaultValue: "false",
-      description: "是否允许表头列宽拖拽和双击自适应。",
+      description: "是否允许表头列宽拖动、键盘调整和双击自适应。",
     },
     {
       name: "virtualScroll",

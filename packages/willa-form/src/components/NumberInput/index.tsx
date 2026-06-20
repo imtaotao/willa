@@ -31,10 +31,6 @@ export type NumberInputStepInfo = {
   type: "up" | "down";
   emitter: "handler" | "keyboard";
 };
-export type NumberInputFormatterInfo = {
-  userTyping: boolean;
-  input: string;
-};
 export type NumberInputConstraints = {
   min?: number;
   max?: number;
@@ -59,10 +55,7 @@ export type NumberInputBehaviorOptions = {
 };
 export type NumberInputFormatOptions = {
   decimalSeparator?: string;
-  formatter?: (
-    value: NumberInputValue,
-    info: NumberInputFormatterInfo,
-  ) => string;
+  formatter?: (value: NumberInputValue) => string;
   parser?: (value: string) => string | number;
 };
 export type NumberInputSlots = {
@@ -159,11 +152,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
         onChange: onValueChange,
       });
     const formattedValue = useMemo(
-      () =>
-        formatNumberValue(currentValue, formatter, {
-          input: "",
-          userTyping: false,
-        }),
+      () => formatNumberValue(currentValue, formatter),
       [currentValue, formatter],
     );
     const [inputValue, setInputValue] = useState(formattedValue);
@@ -213,12 +202,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       });
 
       setCurrentValue(normalizedValue);
-      setInputValue(
-        formatNumberValue(normalizedValue, formatter, {
-          input: "",
-          userTyping: false,
-        }),
-      );
+      setInputValue(formatNumberValue(normalizedValue, formatter));
 
       return normalizedValue;
     };
@@ -452,10 +436,9 @@ NumberInput.displayName = "NumberInput";
 const formatNumberValue = (
   value: NumberInputValue,
   formatter: NumberInputFormatOptions["formatter"],
-  info: NumberInputFormatterInfo,
 ) => {
   if (formatter) {
-    return formatter(value, info);
+    return formatter(value);
   }
 
   return value === null ? "" : String(value);

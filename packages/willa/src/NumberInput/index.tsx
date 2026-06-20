@@ -5,7 +5,6 @@ export {
   type NumberInputControlOptions,
   type NumberInputControls,
   type NumberInputFormatOptions,
-  type NumberInputFormatterInfo,
   type NumberInputProps,
   type NumberInputSlots,
   type NumberInputStatus,

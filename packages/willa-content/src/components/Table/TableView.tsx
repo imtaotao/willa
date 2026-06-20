@@ -1,6 +1,7 @@
 import {
   type ComponentPropsWithoutRef,
   type MouseEvent,
+  type PointerEvent,
   type ReactNode,
   type RefObject,
 } from "react";
@@ -89,6 +90,12 @@ type TableViewProps = {
   treeExpandedKeySet: Set<string | number>;
   columnDragStateRef: RefObject<{ key: string } | null>;
   allHeaderKeys: Array<string>;
+  keyboardResizeStep: number;
+  keyboardResizeLargeStep: number;
+  cellTooltip: { text: string; x: number; y: number } | null;
+  tableScrollRef: RefObject<HTMLDivElement | null>;
+  tableRef: RefObject<HTMLTableElement | null>;
+  headerCellRefs: RefObject<Record<string, HTMLTableCellElement | null>>;
   setIsColumnDragging: (dragging: boolean) => void;
   onLoadMore?: () => void | Promise<void>;
   onColumnOrderChange: (order: Array<string>) => void;
@@ -98,25 +105,19 @@ type TableViewProps = {
   onToggleItemSelection: (item: TableItem) => void;
   onToggleExpanded: (item: TableItem) => void;
   onToggleSort: (cell: TableCell, index: number) => void;
+  onAutoSizeColumn: (cell: TableCell, index: number) => void;
+  onResizeColumnBy: (cell: TableCell, index: number, delta: number) => void;
+  onPageChange: (page: number) => void;
+  onCellTooltipHide: () => void;
   onStartColumnResize: (
-    event: MouseEvent<HTMLButtonElement>,
+    event: PointerEvent<HTMLButtonElement>,
     cell: TableCell,
     index: number,
   ) => void;
-  onResizeColumnBy: (cell: TableCell, index: number, delta: number) => void;
-  onAutoSizeColumn: (cell: TableCell, index: number) => void;
-  keyboardResizeLargeStep: number;
-  keyboardResizeStep: number;
   onCellTooltipShow: (
     event: MouseEvent<HTMLSpanElement>,
     cell: TableCell,
   ) => void;
-  onCellTooltipHide: () => void;
-  onPageChange: (page: number) => void;
-  cellTooltip: { text: string; x: number; y: number } | null;
-  tableScrollRef: RefObject<HTMLDivElement | null>;
-  tableRef: RefObject<HTMLTableElement | null>;
-  headerCellRefs: RefObject<Record<string, HTMLTableCellElement | null>>;
 };
 
 export function TableView(props: TableViewProps) {

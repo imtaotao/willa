@@ -1,7 +1,7 @@
 import {
   type DragEvent,
   type KeyboardEvent,
-  type MouseEvent,
+  type PointerEvent,
   type ReactNode,
   type RefObject,
 } from "react";
@@ -17,6 +17,10 @@ import {
   getCellKey,
 } from "#content/components/Table/utils";
 import { getResolvedCellStyle } from "#content/components/Table/layout";
+
+const shouldStartColumnResize = (event: PointerEvent<HTMLButtonElement>) => {
+  return event.pointerType !== "mouse" || event.detail === 1;
+};
 
 type TableHeaderProps = {
   headers: Array<TableCell>;
@@ -41,7 +45,7 @@ type TableHeaderProps = {
   onToggleVisibleSelection: () => void;
   onToggleSort: (cell: TableCell, index: number) => void;
   onStartColumnResize: (
-    event: MouseEvent<HTMLButtonElement>,
+    event: PointerEvent<HTMLButtonElement>,
     cell: TableCell,
     index: number,
   ) => void;
@@ -224,11 +228,11 @@ export function TableHeader(props: TableHeaderProps) {
                     event.stopPropagation();
                     onAutoSizeColumn(cell, index);
                   }}
-                  onMouseDown={(event) =>
-                    event.detail === 1
-                      ? onStartColumnResize(event, cell, index)
-                      : undefined
-                  }
+                  onPointerDown={(event) => {
+                    if (shouldStartColumnResize(event)) {
+                      onStartColumnResize(event, cell, index);
+                    }
+                  }}
                 />
               ) : null}
             </th>

@@ -759,7 +759,7 @@ export default defineDoc({
     },
     {
       name: "format",
-      type: "{ decimalSeparator?: string; formatter?: (value: number | null, info: NumberInputFormatterInfo) => string; parser?: (value: string) => string | number }",
+      type: "{ decimalSeparator?: string; formatter?: (value: number | null) => string; parser?: (value: string) => string | number }",
       description:
         "格式化配置。formatter 把数字转为展示文本，parser 从展示文本还原数字，小数分隔符在默认解析时生效。",
     },

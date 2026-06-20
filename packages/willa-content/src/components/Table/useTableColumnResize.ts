@@ -3,7 +3,7 @@ import {
   useEffect,
   useRef,
   useState,
-  type MouseEvent,
+  type PointerEvent,
   type RefObject,
 } from "react";
 
@@ -44,6 +44,7 @@ export function useTableColumnResize(options: UseTableColumnResizeOptions) {
 
   const resizeStateRef = useRef<{
     key: string;
+    pointerId: number;
     startX: number;
     startWidth: number;
     widths: Record<string, number>;
@@ -53,34 +54,47 @@ export function useTableColumnResize(options: UseTableColumnResizeOptions) {
     setColumnWidthsRef.current = setColumnWidths;
   }, [setColumnWidths]);
 
-  const handleColumnResizeMove = useCallback((event: globalThis.MouseEvent) => {
-    const resizeState = resizeStateRef.current;
-    if (!resizeState) return;
+  const handleColumnResizeMove = useCallback(
+    (event: globalThis.PointerEvent) => {
+      const resizeState = resizeStateRef.current;
+      if (!resizeState) return;
+      if (event.pointerId !== resizeState.pointerId) return;
 
-    const nextWidth = Math.max(
-      resizeState.startWidth + (event.clientX - resizeState.startX),
-      resizeMinWidth,
-    );
+      const nextWidth = Math.max(
+        resizeState.startWidth + (event.clientX - resizeState.startX),
+        resizeMinWidth,
+      );
 
-    setColumnWidthsRef.current((currentWidths) =>
-      currentWidths[resizeState.key] === nextWidth
-        ? currentWidths
-        : {
-            ...currentWidths,
-            ...resizeState.widths,
-            [resizeState.key]: nextWidth,
-          },
-    );
-  }, []);
+      setColumnWidthsRef.current((currentWidths) =>
+        currentWidths[resizeState.key] === nextWidth
+          ? currentWidths
+          : {
+              ...currentWidths,
+              ...resizeState.widths,
+              [resizeState.key]: nextWidth,
+            },
+      );
+    },
+    [],
+  );
 
-  const handleColumnResizeEnd = useCallback(() => {
-    resizeStateRef.current = null;
-    setIsResizing(false);
-    window.removeEventListener("mousemove", handleColumnResizeMove);
-    window.removeEventListener("mouseup", handleColumnResizeEnd);
-    document.body.style.cursor = "";
-    document.body.style.userSelect = "";
-  }, [handleColumnResizeMove]);
+  const handleColumnResizeEnd = useCallback(
+    (event?: globalThis.PointerEvent) => {
+      const resizeState = resizeStateRef.current;
+      if (event && resizeState && event.pointerId !== resizeState.pointerId) {
+        return;
+      }
+
+      resizeStateRef.current = null;
+      setIsResizing(false);
+      window.removeEventListener("pointermove", handleColumnResizeMove);
+      window.removeEventListener("pointerup", handleColumnResizeEnd);
+      window.removeEventListener("pointercancel", handleColumnResizeEnd);
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+    },
+    [handleColumnResizeMove],
+  );
 
   const measureHeaderWidths = useCallback(() => {
     return orderedHeaders.reduce<Record<string, number>>(
@@ -99,8 +113,13 @@ export function useTableColumnResize(options: UseTableColumnResizeOptions) {
   }, [headerCellRefs, orderedHeaders]);
 
   const startColumnResize = useCallback(
-    (event: MouseEvent<HTMLButtonElement>, cell: TableCell, index: number) => {
+    (
+      event: PointerEvent<HTMLButtonElement>,
+      cell: TableCell,
+      index: number,
+    ) => {
       if (!resizableColumns || typeof window === "undefined") return;
+      if (event.button !== 0) return;
 
       event.preventDefault();
       event.stopPropagation();
@@ -113,6 +132,7 @@ export function useTableColumnResize(options: UseTableColumnResizeOptions) {
 
       resizeStateRef.current = {
         key: columnKey,
+        pointerId: event.pointerId,
         startX: event.clientX,
         startWidth:
           measuredWidths[columnKey] ?? headerCell.getBoundingClientRect().width,
@@ -125,8 +145,9 @@ export function useTableColumnResize(options: UseTableColumnResizeOptions) {
       setIsResizing(true);
       document.body.style.cursor = "col-resize";
       document.body.style.userSelect = "none";
-      window.addEventListener("mousemove", handleColumnResizeMove);
-      window.addEventListener("mouseup", handleColumnResizeEnd);
+      window.addEventListener("pointermove", handleColumnResizeMove);
+      window.addEventListener("pointerup", handleColumnResizeEnd);
+      window.addEventListener("pointercancel", handleColumnResizeEnd);
     },
     [
       handleColumnResizeEnd,
