@@ -2,15 +2,10 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ExternalLinkIcon, PlayIcon, VideoIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
 
-import {
-  MediaLinkExternalAction,
-  renderMediaLinkContent,
-} from "@willa-ui/content/media";
-import {
-  resolveMediaAsset,
-  resolveMediaVolume,
-  type MediaContextProps,
-} from "@willa-ui/shared";
+import { MediaLinkExternalAction } from "@willa-ui/content/media";
+import { resolveMediaVolume, type MediaContextProps } from "@willa-ui/shared";
+
+import { resolveMediaInline } from "#widgets/internal/mediaInline";
 
 export type VideoLinkProps = MediaContextProps & {
   href?: string;
@@ -35,18 +30,16 @@ export function VideoLink({
 }: VideoLinkProps) {
   const wrapRef = useRef<HTMLSpanElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const normalizedHref = href?.trim() ?? "";
-  const normalizedSrc = src?.trim() ?? "";
-  const resolvedSrc = normalizedSrc
-    ? resolveMediaAsset({ articleSourcePath, resolveAssetUrl }, normalizedSrc)
-    : undefined;
-  const content = renderMediaLinkContent(
+  const { content, normalizedHref, resolvedSrc } = resolveMediaInline({
+    articleSourcePath,
     children,
+    href,
+    label,
+    mediaLabel: "video",
     provider,
-    "video",
-    label?.trim(),
-    normalizedHref,
-  );
+    resolveAssetUrl,
+    src,
+  });
   const [isOpen, setIsOpen] = useState(false);
 
   const closePlayer = () => {

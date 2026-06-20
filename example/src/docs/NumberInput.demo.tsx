@@ -54,56 +54,58 @@ const SegmentStepperPreview = () => {
     <div style={stackStyle}>
       <NumberInput
         value={seatCount}
-        min={0}
-        max={12}
-        controls={false}
-        addonBefore={
-          <button
-            className="willa-number-input-addon-action"
-            type="button"
-            aria-label="减少席位"
-            onClick={() => updateSeatCount(-1)}
-          >
-            <MinusIcon />
-          </button>
-        }
-        addonAfter={
-          <button
-            className="willa-number-input-addon-action"
-            type="button"
-            aria-label="增加席位"
-            onClick={() => updateSeatCount(1)}
-          >
-            <PlusIcon />
-          </button>
-        }
+        constraints={{ min: 0, max: 12 }}
+        stepper={{ controls: false }}
+        slots={{
+          addonBefore: (
+            <button
+              className="willa-number-input-addon-action"
+              type="button"
+              aria-label="减少席位"
+              onClick={() => updateSeatCount(-1)}
+            >
+              <MinusIcon />
+            </button>
+          ),
+          addonAfter: (
+            <button
+              className="willa-number-input-addon-action"
+              type="button"
+              aria-label="增加席位"
+              onClick={() => updateSeatCount(1)}
+            >
+              <PlusIcon />
+            </button>
+          ),
+        }}
         aria-label="席位数量"
       />
       <NumberInput
         value={guestCount}
-        min={0}
-        max={12}
-        controls={false}
-        addonBefore={
-          <button
-            className="willa-number-input-addon-action"
-            type="button"
-            aria-label="减少访客"
-            onClick={() => updateGuestCount(-1)}
-          >
-            <MinusIcon />
-          </button>
-        }
-        addonAfter={
-          <button
-            className="willa-number-input-addon-action"
-            type="button"
-            aria-label="增加访客"
-            onClick={() => updateGuestCount(1)}
-          >
-            <PlusIcon />
-          </button>
-        }
+        constraints={{ min: 0, max: 12 }}
+        stepper={{ controls: false }}
+        slots={{
+          addonBefore: (
+            <button
+              className="willa-number-input-addon-action"
+              type="button"
+              aria-label="减少访客"
+              onClick={() => updateGuestCount(-1)}
+            >
+              <MinusIcon />
+            </button>
+          ),
+          addonAfter: (
+            <button
+              className="willa-number-input-addon-action"
+              type="button"
+              aria-label="增加访客"
+              onClick={() => updateGuestCount(1)}
+            >
+              <PlusIcon />
+            </button>
+          ),
+        }}
         aria-label="访客数量"
       />
     </div>
@@ -117,11 +119,9 @@ const ControlledNumberPreview = () => {
     <div style={stackStyle}>
       <NumberInput
         value={temperature}
-        min={0}
-        max={2}
-        step={0.1}
-        precision={1}
-        suffix="temp"
+        constraints={{ min: 0, max: 2, precision: 1 }}
+        stepper={{ step: 0.1 }}
+        slots={{ suffix: "temp" }}
         aria-label="模型温度"
         onValueChange={setTemperature}
       />
@@ -166,7 +166,7 @@ const FocusNumberPreview = () => {
       <NumberInput
         ref={numberInputRef}
         defaultValue={999}
-        controls={false}
+        stepper={{ controls: false }}
         aria-label="可编程聚焦数字"
       />
     </div>
@@ -191,9 +191,8 @@ export default defineDoc({
     component: NumberInput,
     props: {
       defaultValue: 80,
-      min: 0,
-      max: 100,
-      suffix: "%",
+      constraints: { min: 0, max: 100 },
+      slots: { suffix: "%" },
       width: "16rem",
       "aria-label": "完成度",
     },
@@ -204,9 +203,8 @@ export default defineDoc({
 
     <NumberInput
       defaultValue={80}
-      min={0}
-      max={100}
-      suffix="%"
+      constraints={{ min: 0, max: 100 }}
+      slots={{ suffix: "%" }}
       aria-label="完成度"
     />;
   `,
@@ -218,27 +216,26 @@ export default defineDoc({
           <NumberInput defaultValue={24} aria-label="数量" />
           <NumberInput
             defaultValue={80}
-            min={0}
-            max={100}
-            suffix="%"
+            constraints={{ min: 0, max: 100 }}
+            slots={{ suffix: "%" }}
             aria-label="完成度"
           />
           <NumberInput
             defaultValue={1}
-            step={0.5}
-            precision={1}
-            suffix="x"
+            constraints={{ precision: 1 }}
+            stepper={{ step: 0.5 }}
+            slots={{ suffix: "x" }}
             aria-label="倍率"
           />
           <NumberInput
             defaultValue={12800}
-            prefix="￥"
-            suffix="RMB"
-            step={100}
-            formatter={(value) =>
-              value === null ? "" : value.toLocaleString("zh-CN")
-            }
-            parser={(value) => value.replace(/,/g, "")}
+            stepper={{ step: 100 }}
+            slots={{ prefix: "￥", suffix: "RMB" }}
+            format={{
+              formatter: (value) =>
+                value === null ? "" : value.toLocaleString("zh-CN"),
+              parser: (value) => value.replace(/,/g, ""),
+            }}
             aria-label="预算金额"
           />
         </div>;
@@ -248,27 +245,26 @@ export default defineDoc({
           <NumberInput defaultValue={24} aria-label="数量" />
           <NumberInput
             defaultValue={80}
-            min={0}
-            max={100}
-            suffix="%"
+            constraints={{ min: 0, max: 100 }}
+            slots={{ suffix: "%" }}
             aria-label="完成度"
           />
           <NumberInput
             defaultValue={1}
-            step={0.5}
-            precision={1}
-            suffix="x"
+            constraints={{ precision: 1 }}
+            stepper={{ step: 0.5 }}
+            slots={{ suffix: "x" }}
             aria-label="倍率"
           />
           <NumberInput
             defaultValue={12800}
-            prefix="￥"
-            suffix="RMB"
-            step={100}
-            formatter={(value) =>
-              value === null ? "" : value.toLocaleString("zh-CN")
-            }
-            parser={(value) => value.replace(/,/g, "")}
+            stepper={{ step: 100 }}
+            slots={{ prefix: "￥", suffix: "RMB" }}
+            format={{
+              formatter: (value) =>
+                value === null ? "" : value.toLocaleString("zh-CN"),
+              parser: (value) => value.replace(/,/g, ""),
+            }}
             aria-label="预算金额"
           />
         </div>
@@ -309,37 +305,33 @@ export default defineDoc({
         <div style={fullWidthStackStyle}>
           <NumberInput
             defaultValue={12800}
-            min={0}
-            step={100}
-            addonBefore="￥"
-            controls={false}
-            formatter={(value) =>
-              value === null ? "" : value.toLocaleString("zh-CN")
-            }
-            parser={(value) => value.replace(/,/g, "")}
+            constraints={{ min: 0 }}
+            stepper={{ step: 100, controls: false }}
+            slots={{ addonBefore: "￥" }}
+            format={{
+              formatter: (value) =>
+                value === null ? "" : value.toLocaleString("zh-CN"),
+              parser: (value) => value.replace(/,/g, ""),
+            }}
             aria-label="预算金额"
           />
           <NumberInput
             defaultValue={12800}
-            min={0}
-            step={100}
-            prefix="￥"
-            suffix="RMB"
-            controls={false}
-            formatter={(value) =>
-              value === null ? "" : value.toLocaleString("zh-CN")
-            }
-            parser={(value) => value.replace(/,/g, "")}
+            constraints={{ min: 0 }}
+            stepper={{ step: 100, controls: false }}
+            slots={{ prefix: "￥", suffix: "RMB" }}
+            format={{
+              formatter: (value) =>
+                value === null ? "" : value.toLocaleString("zh-CN"),
+              parser: (value) => value.replace(/,/g, ""),
+            }}
             aria-label="预算金额"
           />
           <NumberInput
             defaultValue={0.7}
-            min={0}
-            max={2}
-            step={0.1}
-            precision={1}
-            suffix="temp"
-            controls={false}
+            constraints={{ min: 0, max: 2, precision: 1 }}
+            stepper={{ step: 0.1, controls: false }}
+            slots={{ suffix: "temp" }}
             aria-label="模型温度"
           />
         </div>;
@@ -348,37 +340,33 @@ export default defineDoc({
         <div style={fullWidthStackStyle}>
           <NumberInput
             defaultValue={12800}
-            min={0}
-            step={100}
-            addonBefore="￥"
-            controls={false}
-            formatter={(value) =>
-              value === null ? "" : value.toLocaleString("zh-CN")
-            }
-            parser={(value) => value.replace(/,/g, "")}
+            constraints={{ min: 0 }}
+            stepper={{ step: 100, controls: false }}
+            slots={{ addonBefore: "￥" }}
+            format={{
+              formatter: (value) =>
+                value === null ? "" : value.toLocaleString("zh-CN"),
+              parser: (value) => value.replace(/,/g, ""),
+            }}
             aria-label="预算金额"
           />
           <NumberInput
             defaultValue={12800}
-            min={0}
-            step={100}
-            prefix="￥"
-            suffix="RMB"
-            controls={false}
-            formatter={(value) =>
-              value === null ? "" : value.toLocaleString("zh-CN")
-            }
-            parser={(value) => value.replace(/,/g, "")}
+            constraints={{ min: 0 }}
+            stepper={{ step: 100, controls: false }}
+            slots={{ prefix: "￥", suffix: "RMB" }}
+            format={{
+              formatter: (value) =>
+                value === null ? "" : value.toLocaleString("zh-CN"),
+              parser: (value) => value.replace(/,/g, ""),
+            }}
             aria-label="预算金额"
           />
           <NumberInput
             defaultValue={0.7}
-            min={0}
-            max={2}
-            step={0.1}
-            precision={1}
-            suffix="temp"
-            controls={false}
+            constraints={{ min: 0, max: 2, precision: 1 }}
+            stepper={{ step: 0.1, controls: false }}
+            slots={{ suffix: "temp" }}
             aria-label="模型温度"
           />
         </div>
@@ -388,49 +376,49 @@ export default defineDoc({
       title: "形态和状态",
       code: `
         <div style={stackStyle}>
-          <NumberInput
-            size="sm"
-            defaultValue={12}
-            controls={false}
-            aria-label="紧凑数字"
-          />
-          <NumberInput
-            variant="filled"
-            defaultValue={42}
-            controls={false}
-            aria-label="填充形态"
-          />
-          <NumberInput
-            variant="underlined"
-            defaultValue={64}
-            controls={false}
-            aria-label="下划线形态"
-          />
-          <NumberInput
-            variant="borderless"
-            defaultValue={128}
-            controls={false}
-            aria-label="无边框形态"
-          />
-          <NumberInput
-            status="warning"
-            defaultValue={88}
-            controls={false}
-            aria-label="警告数字"
-          />
-          <NumberInput
-            status="error"
-            defaultValue={108}
-            controls={false}
-            aria-label="错误数字"
-          />
-          <NumberInput
-            size="lg"
-            defaultValue={256}
-            disabled
-            controls={false}
-            aria-label="禁用数字"
-          />
+            <NumberInput
+              size="sm"
+              defaultValue={12}
+              stepper={{ controls: false }}
+              aria-label="紧凑数字"
+            />
+            <NumberInput
+              variant="filled"
+              defaultValue={42}
+              stepper={{ controls: false }}
+              aria-label="填充形态"
+            />
+            <NumberInput
+              variant="underlined"
+              defaultValue={64}
+              stepper={{ controls: false }}
+              aria-label="下划线形态"
+            />
+            <NumberInput
+              variant="borderless"
+              defaultValue={128}
+              stepper={{ controls: false }}
+              aria-label="无边框形态"
+            />
+            <NumberInput
+              status="warning"
+              defaultValue={88}
+              stepper={{ controls: false }}
+              aria-label="警告数字"
+            />
+            <NumberInput
+              status="error"
+              defaultValue={108}
+              stepper={{ controls: false }}
+              aria-label="错误数字"
+            />
+            <NumberInput
+              size="lg"
+              defaultValue={256}
+              disabled
+              stepper={{ controls: false }}
+              aria-label="禁用数字"
+            />
         </div>;
       `,
       content: (
@@ -438,44 +426,44 @@ export default defineDoc({
           <NumberInput
             size="sm"
             defaultValue={12}
-            controls={false}
+            stepper={{ controls: false }}
             aria-label="紧凑数字"
           />
           <NumberInput
             variant="filled"
             defaultValue={42}
-            controls={false}
+            stepper={{ controls: false }}
             aria-label="填充形态"
           />
           <NumberInput
             variant="underlined"
             defaultValue={64}
-            controls={false}
+            stepper={{ controls: false }}
             aria-label="下划线形态"
           />
           <NumberInput
             variant="borderless"
             defaultValue={128}
-            controls={false}
+            stepper={{ controls: false }}
             aria-label="无边框形态"
           />
           <NumberInput
             status="warning"
             defaultValue={88}
-            controls={false}
+            stepper={{ controls: false }}
             aria-label="警告数字"
           />
           <NumberInput
             status="error"
             defaultValue={108}
-            controls={false}
+            stepper={{ controls: false }}
             aria-label="错误数字"
           />
           <NumberInput
             size="lg"
             defaultValue={256}
             disabled
-            controls={false}
+            stepper={{ controls: false }}
             aria-label="禁用数字"
           />
         </div>
@@ -495,33 +483,34 @@ export default defineDoc({
           return (
             <NumberInput
               value={count}
-              min={0}
-              max={12}
-              controls={false}
-              addonBefore={
-                <button
-                  className="willa-number-input-addon-action"
-                  type="button"
-                  aria-label="减少"
-                  onClick={() =>
-                    setCount((value) => Math.max(0, (value ?? 0) - 1))
-                  }
-                >
-                  <MinusIcon />
-                </button>
-              }
-              addonAfter={
-                <button
-                  className="willa-number-input-addon-action"
-                  type="button"
-                  aria-label="增加"
-                  onClick={() =>
-                    setCount((value) => Math.min(12, (value ?? 0) + 1))
-                  }
-                >
-                  <PlusIcon />
-                </button>
-              }
+              constraints={{ min: 0, max: 12 }}
+              stepper={{ controls: false }}
+              slots={{
+                addonBefore: (
+                  <button
+                    className="willa-number-input-addon-action"
+                    type="button"
+                    aria-label="减少"
+                    onClick={() =>
+                      setCount((value) => Math.max(0, (value ?? 0) - 1))
+                    }
+                  >
+                    <MinusIcon />
+                  </button>
+                ),
+                addonAfter: (
+                  <button
+                    className="willa-number-input-addon-action"
+                    type="button"
+                    aria-label="增加"
+                    onClick={() =>
+                      setCount((value) => Math.min(12, (value ?? 0) + 1))
+                    }
+                  >
+                    <PlusIcon />
+                  </button>
+                ),
+              }}
               aria-label="数量"
             />
           );
@@ -535,22 +524,24 @@ export default defineDoc({
         <div style={stackStyle}>
           <NumberInput
             defaultValue={12800}
-            min={0}
-            step={100}
-            formatter={(value) =>
-              value === null ? "" : \`\${value.toLocaleString("zh-CN")} 元\`
-            }
-            parser={(value) => value.replace(/[^\\d.-]/g, "")}
+            constraints={{ min: 0 }}
+            stepper={{ step: 100 }}
+            format={{
+              formatter: (value) =>
+                value === null ? "" : \`\${value.toLocaleString("zh-CN")} 元\`,
+              parser: (value) => value.replace(/[^\\d.-]/g, ""),
+            }}
             aria-label="预算金额"
           />
           <NumberInput
             defaultValue={0.72}
-            min={0}
-            max={1}
-            step={0.01}
-            precision={2}
-            formatter={(value) => (value === null ? "" : \`\${value * 100}%\`)}
-            parser={(value) => String(Number(value.replace("%", "")) / 100)}
+            constraints={{ min: 0, max: 1, precision: 2 }}
+            stepper={{ step: 0.01 }}
+            format={{
+              formatter: (value) =>
+                value === null ? "" : \`\${value * 100}%\`,
+              parser: (value) => String(Number(value.replace("%", "")) / 100),
+            }}
             aria-label="命中率"
           />
         </div>;
@@ -559,22 +550,23 @@ export default defineDoc({
         <div style={stackStyle}>
           <NumberInput
             defaultValue={12800}
-            min={0}
-            step={100}
-            formatter={(value) =>
-              value === null ? "" : `${value.toLocaleString("zh-CN")} 元`
-            }
-            parser={(value) => value.replace(/[^\d.-]/g, "")}
+            constraints={{ min: 0 }}
+            stepper={{ step: 100 }}
+            format={{
+              formatter: (value) =>
+                value === null ? "" : `${value.toLocaleString("zh-CN")} 元`,
+              parser: (value) => value.replace(/[^\d.-]/g, ""),
+            }}
             aria-label="预算金额"
           />
           <NumberInput
             defaultValue={0.72}
-            min={0}
-            max={1}
-            step={0.01}
-            precision={2}
-            formatter={(value) => (value === null ? "" : `${value * 100}%`)}
-            parser={(value) => String(Number(value.replace("%", "")) / 100)}
+            constraints={{ min: 0, max: 1, precision: 2 }}
+            stepper={{ step: 0.01 }}
+            format={{
+              formatter: (value) => (value === null ? "" : `${value * 100}%`),
+              parser: (value) => String(Number(value.replace("%", "")) / 100),
+            }}
             aria-label="命中率"
           />
         </div>
@@ -590,15 +582,16 @@ export default defineDoc({
         <div style={stackStyle}>
           <NumberInput
             defaultValue={10}
-            min={0}
-            max={20}
-            controls={{ upIcon: <PlusIcon />, downIcon: <MinusIcon /> }}
+            constraints={{ min: 0, max: 20 }}
+            stepper={{
+              controls: { upIcon: <PlusIcon />, downIcon: <MinusIcon /> },
+            }}
             aria-label="自定义步进图标"
           />
           <NumberInput
             defaultValue={12}
-            controls={false}
-            keyboard={false}
+            stepper={{ controls: false }}
+            behavior={{ keyboard: false }}
             aria-label="关闭步进和键盘快捷"
           />
         </div>;
@@ -607,15 +600,16 @@ export default defineDoc({
         <div style={stackStyle}>
           <NumberInput
             defaultValue={10}
-            min={0}
-            max={20}
-            controls={{ upIcon: <PlusIcon />, downIcon: <MinusIcon /> }}
+            constraints={{ min: 0, max: 20 }}
+            stepper={{
+              controls: { upIcon: <PlusIcon />, downIcon: <MinusIcon /> },
+            }}
             aria-label="自定义步进图标"
           />
           <NumberInput
             defaultValue={12}
-            controls={false}
-            keyboard={false}
+            stepper={{ controls: false }}
+            behavior={{ keyboard: false }}
             aria-label="关闭步进和键盘快捷"
           />
         </div>
@@ -637,11 +631,9 @@ export default defineDoc({
             <div style={stackStyle}>
               <NumberInput
                 value={temperature}
-                min={0}
-                max={2}
-                step={0.1}
-                precision={1}
-                suffix="temp"
+                constraints={{ min: 0, max: 2, precision: 1 }}
+                stepper={{ step: 0.1 }}
+                slots={{ suffix: "temp" }}
                 aria-label="模型温度"
                 onValueChange={setTemperature}
               />
@@ -696,7 +688,7 @@ export default defineDoc({
               <NumberInput
                 ref={numberInputRef}
                 defaultValue={999}
-                controls={false}
+                stepper={{ controls: false }}
                 aria-label="可编程聚焦数字"
               />
             </div>
@@ -719,25 +711,10 @@ export default defineDoc({
       description: "非受控默认数字值。",
     },
     {
-      name: "min",
-      type: "number",
-      description: "允许输入的最小值，也会作为 spinbutton 的 aria-valuemin。",
-    },
-    {
-      name: "max",
-      type: "number",
-      description: "允许输入的最大值，也会作为 spinbutton 的 aria-valuemax。",
-    },
-    {
-      name: "step",
-      type: "number",
-      defaultValue: "1",
-      description: "点击步进按钮或按上下方向键时的增减步长。",
-    },
-    {
-      name: "precision",
-      type: "number",
-      description: "提交数值时保留的小数位数。",
+      name: "constraints",
+      type: "{ min?: number; max?: number; precision?: number }",
+      description:
+        "数值约束。min 和 max 同时作为 spinbutton 的 aria-valuemin / aria-valuemax；precision 控制提交时保留的小数位数。",
     },
     {
       name: "size",
@@ -769,42 +746,28 @@ export default defineDoc({
       description: "是否展示错误状态，等价于 status 为 error 的视觉效果。",
     },
     {
-      name: "changeOnBlur",
-      type: "boolean",
-      defaultValue: "true",
-      description: "失焦时是否把数值约束到 min 和 max 范围内并更新值。",
+      name: "stepper",
+      type: "{ step?: number; controls?: boolean | { upIcon?: ReactNode; downIcon?: ReactNode; incrementLabel?: string; decrementLabel?: string }; onStep?: (value: number, info: NumberInputStepInfo) => void }",
+      description:
+        "步进配置。step 控制增减步长；controls 控制右侧步进按钮和图标；onStep 在按钮或键盘步进时触发。",
     },
     {
-      name: "controls",
-      type: "boolean | { upIcon?: ReactNode; downIcon?: ReactNode }",
-      defaultValue: "true",
-      description: "是否展示右侧步进按钮，或自定义上下按钮图标。",
+      name: "behavior",
+      type: "{ changeOnBlur?: boolean; keyboard?: boolean; onPressEnter?: (event: KeyboardEvent<HTMLInputElement>) => void }",
+      description:
+        "交互行为。changeOnBlur 控制失焦时是否夹取到 min/max；keyboard 控制方向键、Home 和 End；onPressEnter 处理 Enter。",
     },
     {
-      name: "keyboard",
-      type: "boolean",
-      defaultValue: "true",
-      description: "是否启用上下方向键、Home 和 End 的快捷调整。",
+      name: "format",
+      type: "{ decimalSeparator?: string; formatter?: (value: number | null, info: NumberInputFormatterInfo) => string; parser?: (value: string) => string | number }",
+      description:
+        "格式化配置。formatter 把数字转为展示文本，parser 从展示文本还原数字，小数分隔符在默认解析时生效。",
     },
     {
-      name: "addonBefore",
-      type: "ReactNode",
-      description: "展示在输入框左侧的分段前缀，适合货币符号或操作按钮。",
-    },
-    {
-      name: "addonAfter",
-      type: "ReactNode",
-      description: "展示在输入框右侧的分段后缀，适合单位、按钮或组合操作。",
-    },
-    {
-      name: "prefix",
-      type: "ReactNode",
-      description: "展示在输入框左侧的前缀内容。",
-    },
-    {
-      name: "suffix",
-      type: "ReactNode",
-      description: "展示在输入框右侧的单位或补充内容。",
+      name: "slots",
+      type: "{ addonBefore?: ReactNode; addonAfter?: ReactNode; prefix?: ReactNode; suffix?: ReactNode }",
+      description:
+        "输入框周边内容。addonBefore / addonAfter 用于分段区域，prefix / suffix 用于内联前后缀。",
     },
     {
       name: "status",
@@ -820,46 +783,9 @@ export default defineDoc({
         "视觉形态，filled 会复用柔和背景，borderless 和 underlined 用于紧凑表单。",
     },
     {
-      name: "decimalSeparator",
-      type: "string",
-      description: "自定义小数分隔符，未传 parser 时会参与默认解析。",
-    },
-    {
-      name: "incrementLabel",
-      type: "string",
-      defaultValue: '"增加数值"',
-      description: "增加按钮的无障碍文案。",
-    },
-    {
-      name: "decrementLabel",
-      type: "string",
-      defaultValue: '"减少数值"',
-      description: "减少按钮的无障碍文案。",
-    },
-    {
-      name: "formatter",
-      type: "(value: number | null, info: { userTyping: boolean; input: string }) => string",
-      description: "把数字值格式化为展示文本。",
-    },
-    {
-      name: "parser",
-      type: "(value: string) => string | number",
-      description: "从展示文本中还原可解析的数字字符串。",
-    },
-    {
       name: "onValueChange",
       type: "(value: number | null) => void",
       description: "数字值变化时触发。",
-    },
-    {
-      name: "onPressEnter",
-      type: "(event: KeyboardEvent<HTMLInputElement>) => void",
-      description: "按下 Enter 时触发。",
-    },
-    {
-      name: "onStep",
-      type: "(value: number, info: { offset: number; type: 'up' | 'down'; emitter: 'handler' | 'keyboard' }) => void",
-      description: "点击步进按钮或使用键盘快捷调整数值时触发。",
     },
   ],
 });

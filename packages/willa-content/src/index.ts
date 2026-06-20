@@ -35,7 +35,6 @@ export { Kbd, KbdShortcut } from "#content/components/Kbd";
 export { Lightbox, normalizeLightboxImage } from "#content/components/Lightbox";
 export { List } from "#content/components/List";
 export { Menu } from "#content/components/Menu";
-export { NotFound } from "#content/components/NotFound";
 export { Pagination } from "#content/components/Pagination";
 export { Popover } from "#content/components/Popover";
 export { Progress } from "#content/components/Progress";
@@ -241,7 +240,6 @@ export type {
   MenuSide,
   MenuSize,
 } from "#content/components/Menu";
-export type { NotFoundProps } from "#content/components/NotFound";
 export type {
   PaginationEllipsisContext,
   PaginationProps,

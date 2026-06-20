@@ -18,6 +18,44 @@ const rowStyle = {
   width: "min(100%, 56rem)",
 } as const;
 
+const notFoundRecipeStyle = {
+  minHeight: "min(22rem, 70vh)",
+  alignContent: "center",
+} as const;
+
+const notFoundBadgeStyle = {
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "0.58rem",
+  padding: "0.54rem 0.72rem",
+  border: "1px solid var(--willa-empty-state-icon-border)",
+  borderRadius: "0.72rem",
+  background: "var(--willa-empty-state-icon-bg)",
+  color: "var(--willa-empty-state-icon-text)",
+  fontFamily: "var(--willa-title-font)",
+  fontWeight: 720,
+  lineHeight: 1,
+} as const;
+
+const notFoundBadgeIconStyle = {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "1.45rem",
+  height: "1.45rem",
+  borderRadius: "0.42rem",
+  background: "var(--willa-panel-bg)",
+} as const;
+
+const MissingPageBadge = () => (
+  <span style={notFoundBadgeStyle} aria-hidden="true">
+    <span style={notFoundBadgeIconStyle}>
+      <MagnifyingGlassIcon />
+    </span>
+    <span>404</span>
+  </span>
+);
+
 export default defineDoc({
   id: "empty-state",
   name: "EmptyState",
@@ -103,6 +141,50 @@ export default defineDoc({
               </Button>
               <Button size="sm" variant="outline">
                 保存搜索
+              </Button>
+            </Group>
+          }
+        />
+      ),
+    },
+    {
+      title: "404 页面",
+      code: `
+        <EmptyState
+          style={{
+            minHeight: "min(22rem, 70vh)",
+            alignContent: "center",
+          }}
+          icon={<MissingPageBadge />}
+          title="404 页面不存在"
+          description="你访问的内容可能已被移动、删除，或暂时不可用。"
+          size="lg"
+          actions={
+            <Group gap="sm" justify="center">
+              <Button size="sm" variant="solid">
+                返回首页
+              </Button>
+              <Button size="sm" variant="ghost">
+                联系支持
+              </Button>
+            </Group>
+          }
+        />;
+      `,
+      content: (
+        <EmptyState
+          style={notFoundRecipeStyle}
+          icon={<MissingPageBadge />}
+          title="404 页面不存在"
+          description="你访问的内容可能已被移动、删除，或暂时不可用。"
+          size="lg"
+          actions={
+            <Group gap="sm" justify="center">
+              <Button size="sm" variant="solid">
+                返回首页
+              </Button>
+              <Button size="sm" variant="ghost">
+                联系支持
               </Button>
             </Group>
           }

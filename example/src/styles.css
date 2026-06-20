@@ -462,7 +462,6 @@ select {
     .willa-file-card,
     .willa-form-message,
     .willa-generation-card,
-    .willa-not-found,
     .willa-prompt-input,
     .willa-prose-skeleton,
     .willa-reasoning-steps,
@@ -595,6 +594,35 @@ select {
 .docs-prop-tooltip-content {
   max-width: min(34rem, calc(100vw - 1rem));
   white-space: normal;
+}
+
+.docs-prop-tooltip-content--code {
+  max-width: min(48rem, calc(100vw - 1rem));
+}
+
+.docs-prop-tooltip-value {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.docs-prop-tooltip-inline,
+.docs-prop-tooltip-code {
+  margin: 0;
+  color: inherit;
+  font-family: var(--willa-code-font);
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.docs-prop-tooltip-inline {
+  white-space: normal;
+}
+
+.docs-prop-tooltip-code {
+  max-height: min(18rem, calc(100vh - 6rem));
+  max-width: min(44rem, calc(100vw - 3rem));
+  overflow: auto;
+  white-space: pre;
 }
 
 .docs-props-separator,

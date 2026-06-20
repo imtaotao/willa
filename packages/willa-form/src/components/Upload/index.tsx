@@ -10,21 +10,25 @@ import {
 } from "react";
 import classNames from "classnames";
 import { Cross2Icon, FileTextIcon, UploadIcon } from "@radix-ui/react-icons";
+import {
+  createObjectFileItem,
+  formatFileSize,
+  normalizeFileProgress,
+  resolveFileKindLabel,
+  type FileItemKind,
+  type FilePreviewMode,
+  type ObjectFileItem,
+} from "@willa-ui/shared";
 import { isPromiseLike } from "aidly";
 
 import { Download } from "@willa-ui/content/components/Download";
 import { FilePreviewDialog } from "@willa-ui/content/components/FilePreview";
 
-export type UploadFileKind = "image" | "audio" | "video" | "file";
+export type UploadFileKind = FileItemKind;
 export type UploadSize = "sm" | "md";
-export type UploadPreviewMode = "dialog" | "link" | "download" | "none";
+export type UploadPreviewMode = FilePreviewMode;
 
-export type UploadItem = {
-  id: string;
-  file: File;
-  url: string;
-  kind: UploadFileKind;
-};
+export type UploadItem = ObjectFileItem;
 
 export type UploadHandler = (
   files: Array<UploadItem>,
@@ -103,7 +107,7 @@ export function Upload({
     number | undefined
   >();
   const isUploading = loading ?? pendingUploads > 0;
-  const resolvedProgress = normalizeProgress(progress ?? internalProgress);
+  const resolvedProgress = normalizeFileProgress(progress ?? internalProgress);
   const isDisabled = disabled || isUploading;
 
   const commitItems = (nextItems: Array<UploadItem>) => {
@@ -125,7 +129,7 @@ export function Upload({
       return;
     }
 
-    const selectedItems = Array.from(fileList).map(createUploadItem);
+    const selectedItems = Array.from(fileList).map(createObjectFileItem);
     const candidateItems = multiple
       ? [...itemsRef.current, ...selectedItems]
       : selectedItems.slice(0, 1);
@@ -234,7 +238,7 @@ export function Upload({
   };
 
   const setUploadProgress = (nextProgress: number) => {
-    setInternalProgress(normalizeProgress(nextProgress));
+    setInternalProgress(normalizeFileProgress(nextProgress));
   };
 
   useEffect(
@@ -349,7 +353,7 @@ const UploadPreview = ({
   onRemove,
 }: UploadPreviewProps) => {
   const fileName = item.file.name;
-  const meta = `${formatFileSize(item.file.size)} · ${resolveKindLabel(item.kind)}`;
+  const meta = `${formatFileSize(item.file.size)} · ${resolveFileKindLabel(item.kind)}`;
   const handlePreview = () => {
     onPreview?.(item);
   };
@@ -565,73 +569,6 @@ const UploadFileTrigger = ({
       onClick={onPreview}
     />
   );
-};
-
-const createUploadItem = (file: File) => {
-  return {
-    id: `${file.name}-${file.size}-${file.lastModified}-${Math.random()
-      .toString(36)
-      .slice(2)}`,
-    file,
-    url: URL.createObjectURL(file),
-    kind: resolveFileKind(file),
-  };
-};
-
-const resolveFileKind = (file: File): UploadFileKind => {
-  if (file.type.startsWith("image/")) {
-    return "image";
-  }
-
-  if (file.type.startsWith("audio/")) {
-    return "audio";
-  }
-
-  if (file.type.startsWith("video/")) {
-    return "video";
-  }
-
-  return "file";
-};
-
-const resolveKindLabel = (kind: UploadFileKind) => {
-  if (kind === "image") {
-    return "图片";
-  }
-
-  if (kind === "audio") {
-    return "音频";
-  }
-
-  if (kind === "video") {
-    return "视频";
-  }
-
-  return "文件";
-};
-
-const formatFileSize = (size: number) => {
-  if (size <= 0) {
-    return "0 B";
-  }
-
-  const units = ["B", "KB", "MB", "GB"];
-  const unitIndex = Math.min(
-    Math.floor(Math.log(size) / Math.log(1024)),
-    units.length - 1,
-  );
-  const value = size / 1024 ** unitIndex;
-  const fractionDigits = value >= 10 || unitIndex === 0 ? 0 : 1;
-
-  return `${value.toFixed(fractionDigits)} ${units[unitIndex]}`;
-};
-
-const normalizeProgress = (progress: number | undefined) => {
-  if (typeof progress !== "number" || Number.isNaN(progress)) {
-    return undefined;
-  }
-
-  return Math.min(100, Math.max(0, progress));
 };
 
 Upload.displayName = "Upload";

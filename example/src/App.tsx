@@ -106,7 +106,6 @@ const docChineseNames: Record<string, string> = {
   Menu: "菜单",
   MessageActions: "消息操作",
   MessageList: "消息列表",
-  NotFound: "404 页面",
   NumberInput: "数字输入",
   PageHeader: "页面头部",
   Pagination: "分页",

@@ -1062,7 +1062,7 @@ const TableDemoGallery = () => {
           label: "列宽调整",
           children: (
             <Table
-              caption="拖拽表头右侧把手调整列宽，双击后自动适配内容宽度。"
+              caption="拖拽表头右侧把手调整列宽；聚焦把手后可用左右方向键调整，双击后自动适配内容宽度。"
               items={resizeItems}
               resizableColumns
               stickyActions

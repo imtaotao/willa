@@ -19,6 +19,11 @@ import {
   SpeakerLoudIcon,
   VideoIcon,
 } from "@radix-ui/react-icons";
+import {
+  getFileCodeLanguage,
+  resolveFilePreviewType,
+  type FilePreviewType as SharedFilePreviewType,
+} from "@willa-ui/shared";
 import classNames from "classnames";
 
 import { Button } from "#content/components/Button";
@@ -31,16 +36,7 @@ import {
 import { Spinner } from "#content/components/Spinner";
 import { Table, type TableItem } from "#content/components/Table";
 
-export type FilePreviewType =
-  | "auto"
-  | "image"
-  | "video"
-  | "audio"
-  | "pdf"
-  | "csv"
-  | "code"
-  | "text"
-  | "download";
+export type FilePreviewType = SharedFilePreviewType;
 export type FilePreviewSize = "sm" | "md" | "lg";
 
 export type FilePreviewProps = {
@@ -100,7 +96,7 @@ export function FilePreview(props: FilePreviewProps) {
     ...sectionProps
   } = props;
   const [previewOpen, setPreviewOpen] = useState(false);
-  const resolvedType = resolvePreviewType({ name, type, mimeType });
+  const resolvedType = resolveFilePreviewType({ name, type, mimeType });
   const canExpand = expandable && resolvedType !== "download";
 
   return (
@@ -216,7 +212,7 @@ export function FilePreviewDialog(props: FilePreviewDialogProps) {
     onOpenChange,
     ...previewProps
   } = props;
-  const resolvedType = resolvePreviewType({
+  const resolvedType = resolveFilePreviewType({
     name: previewProps.name,
     type: previewProps.type ?? "auto",
     mimeType: previewProps.mimeType,
@@ -657,41 +653,6 @@ const CsvPreview = (props: { name: string; text?: string }) => {
   );
 };
 
-const resolvePreviewType = (options: {
-  name: string;
-  type: FilePreviewType;
-  mimeType?: string;
-}): Exclude<FilePreviewType, "auto"> => {
-  if (options.type !== "auto") return options.type;
-
-  const mimeType = options.mimeType?.toLowerCase() ?? "";
-  const extension = getExtension(options.name);
-
-  if (mimeType.startsWith("image/") || imageExtensions.has(extension)) {
-    return "image";
-  }
-  if (mimeType.startsWith("video/") || videoExtensions.has(extension)) {
-    return "video";
-  }
-  if (mimeType.startsWith("audio/") || audioExtensions.has(extension)) {
-    return "audio";
-  }
-  if (mimeType === "application/pdf" || extension === "pdf") {
-    return "pdf";
-  }
-  if (mimeType === "text/csv" || extension === "csv") {
-    return "csv";
-  }
-  if (codeExtensions.has(extension)) {
-    return "code";
-  }
-  if (mimeType.startsWith("text/") || textExtensions.has(extension)) {
-    return "text";
-  }
-
-  return "download";
-};
-
 const getPreviewIcon = (type: Exclude<FilePreviewType, "auto">) => {
   if (type === "image") return <ImageIcon />;
   if (type === "video") return <VideoIcon />;
@@ -699,14 +660,7 @@ const getPreviewIcon = (type: Exclude<FilePreviewType, "auto">) => {
   return <FileTextIcon />;
 };
 
-const getExtension = (name: string) => {
-  return name.trim().toLowerCase().split(".").filter(Boolean).pop() ?? "";
-};
-
-const getCodeLanguage = (name: string) => {
-  const extension = getExtension(name);
-  return codeLanguageByExtension[extension] ?? extension;
-};
+const getCodeLanguage = (name: string) => getFileCodeLanguage(name);
 
 const getPdfPreviewSrc = (src: string) => {
   return src.includes("#") ? `${src}&view=Fit` : `${src}#view=Fit`;
@@ -795,58 +749,6 @@ const parseCsvRows = (text: string) => {
   return rows.filter((currentRow) =>
     currentRow.some((currentCell) => currentCell.trim()),
   );
-};
-
-const imageExtensions = new Set(["avif", "gif", "jpeg", "jpg", "png", "webp"]);
-const videoExtensions = new Set(["mov", "mp4", "webm"]);
-const audioExtensions = new Set(["aac", "flac", "m4a", "mp3", "ogg", "wav"]);
-const codeExtensions = new Set([
-  "bash",
-  "c",
-  "cpp",
-  "css",
-  "diff",
-  "go",
-  "html",
-  "java",
-  "js",
-  "json",
-  "jsx",
-  "md",
-  "py",
-  "rs",
-  "sh",
-  "sql",
-  "ts",
-  "tsx",
-  "xml",
-  "yaml",
-  "yml",
-]);
-const textExtensions = new Set(["log", "txt"]);
-
-const codeLanguageByExtension: Record<string, string> = {
-  bash: "bash",
-  c: "c",
-  cpp: "cpp",
-  css: "css",
-  diff: "diff",
-  go: "go",
-  html: "html",
-  java: "java",
-  js: "javascript",
-  json: "json",
-  jsx: "jsx",
-  md: "markdown",
-  py: "python",
-  rs: "rust",
-  sh: "bash",
-  sql: "sql",
-  ts: "typescript",
-  tsx: "tsx",
-  xml: "xml",
-  yaml: "yaml",
-  yml: "yaml",
 };
 
 FilePreview.displayName = "FilePreview";

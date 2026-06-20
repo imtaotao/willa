@@ -21,6 +21,7 @@ import {
   SelectablePanelShell,
   SelectablePanelTrigger,
 } from "#form/internal/selectablePanelParts";
+import { useSelectionModel } from "#form/internal/useSelectionModel";
 import { useSelectablePanel } from "#form/internal/useSelectablePanel";
 
 export type TreeSelectSize = "sm" | "md" | "lg";
@@ -103,15 +104,23 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
     const [expandedValues, setExpandedValues] = useState<Array<string>>(
       defaultExpandedValues,
     );
-    const [innerValue, setInnerValue] = useState<string | Array<string>>(
-      defaultValue ?? (mode === "multiple" ? [] : ""),
-    );
-    const currentValue = value ?? innerValue;
-    const selectedValues = normalizeTreeSelectValue(currentValue, mode);
     const allItems = useMemo(() => flattenAllTreeItems(items), [items]);
-    const selectedItems = allItems.filter((item) =>
-      selectedValues.includes(item.value),
-    );
+    const {
+      clearValue,
+      commitItem,
+      displayValue,
+      hasValue,
+      hiddenValue,
+      selectedValues,
+    } = useSelectionModel({
+      defaultValue,
+      items: allItems,
+      mode,
+      onValueChange,
+      placeholder,
+      renderValue,
+      value,
+    });
     const panelContentVersion = useMemo(
       () => ({ expandedValues, items }),
       [expandedValues, items],
@@ -148,12 +157,7 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
       invalid ||
       buttonProps["aria-invalid"] === true ||
       buttonProps["aria-invalid"] === "true";
-    const hasValue = selectedItems.length > 0;
     const hasClear = clearable && hasValue && !disabled;
-    const displayValue = hasValue
-      ? (renderValue?.(selectedItems) ??
-        selectedItems.map((item) => item.label).join("、"))
-      : placeholder;
 
     const setButtonRef = (node: HTMLButtonElement | null) => {
       triggerRef.current = node;
@@ -173,38 +177,12 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
       setExpandedValuesState(nextValues);
     };
 
-    const commitValue = (item: TreeSelectItem) => {
-      if (item.disabled) return;
+    const selectItem = (item: TreeSelectItem) => {
+      const committed = commitItem(item);
 
-      const nextValues =
-        mode === "multiple"
-          ? toggleTreeSelectValue(selectedValues, item.value)
-          : [item.value];
-      const nextValue =
-        mode === "multiple" ? nextValues : (nextValues[0] ?? "");
-      const nextItems = allItems.filter((option) =>
-        nextValues.includes(option.value),
-      );
-
-      if (value === undefined) {
-        setInnerValue(nextValue);
-      }
-
-      onValueChange?.(nextValue, nextItems);
-
-      if (mode === "single") {
+      if (committed && mode === "single") {
         setOpen(false);
       }
-    };
-
-    const clearValue = () => {
-      const nextValue = mode === "multiple" ? [] : "";
-
-      if (value === undefined) {
-        setInnerValue(nextValue);
-      }
-
-      onValueChange?.(nextValue, []);
     };
 
     const handleTreePanelKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -319,7 +297,7 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
                       aria-level={level + 1}
                       aria-expanded={hasChildren ? expanded : undefined}
                       disabled={item.disabled}
-                      onClick={() => commitValue(item)}
+                      onClick={() => selectItem(item)}
                     >
                       <span className="willa-tree-select-node-main">
                         <span className="willa-tree-select-node-label">
@@ -399,10 +377,7 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
             triggerRef={triggerRef}
           />
         ) : null}
-        <SelectablePanelHiddenInput
-          name={name}
-          value={selectedValues.join(",")}
-        />
+        <SelectablePanelHiddenInput name={name} value={hiddenValue} />
         {panel}
       </span>
     );
@@ -410,23 +385,6 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
 );
 
 TreeSelect.displayName = "TreeSelect";
-
-const normalizeTreeSelectValue = (
-  value: string | Array<string>,
-  mode: TreeSelectMode,
-) => {
-  if (Array.isArray(value)) return value;
-  if (!value) return [];
-  return mode === "multiple" ? value.split(",").filter(Boolean) : [value];
-};
-
-const toggleTreeSelectValue = (values: Array<string>, value: string) => {
-  if (values.includes(value)) {
-    return values.filter((item) => item !== value);
-  }
-
-  return [...values, value];
-};
 
 const flattenAllTreeItems = (items: Array<TreeSelectItem>) => {
   const result: Array<TreeSelectItem> = [];

@@ -77,6 +77,12 @@ from widening the root props by default. Prefer grouped option objects such as
 when the extension belongs to a stable sub-area. Components such as `Tour`
 should keep action text, behavior, positioning, render hooks, and class names in
 purpose-based objects instead of adding more root-level props.
+Feature-rich form controls need the same constraint. `NumberInput` owns value
+limits, stepping, commit timing, keyboard behavior, controls, addons, status,
+formatting, parsing, and event callbacks; it groups related capabilities into
+`constraints`, `stepper`, `behavior`, `format`, and `slots`. Future capabilities
+should extend those purpose-based options or internal sub-abilities instead of
+adding more flat root props.
 
 Visual design should stay flat and restrained. Avoid turning every compact icon
 control, status mark, or helper action into a pill. Pills are appropriate for
@@ -92,6 +98,31 @@ centers, system messages, task reminders, and activity feeds should use `List`
 directly unless they add substantial domain behavior. Components with stronger
 semantics, such as comments, chat logs, attachments, trees, or timelines, should
 keep their own structure instead of forcing reuse through `List`.
+
+Some public components are scenario presets over a lower-level component. Keep
+their preset identity clear in docs and API design so users do not read them as
+new base primitives:
+
+| Preset component | Base component | Boundary                                                                                                                 |
+| ---------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `Select`         | `Picker`       | Single-select dropdown preset; use `Picker`, `TreeSelect`, or future combobox components for broader selection behavior. |
+| `PromptInput`    | `InputPanel`   | AI prompt submission preset; use `InputPanel` for general multiline input composition.                                   |
+
+404 and missing-resource pages should be documented as `EmptyState` recipes
+instead of separate public components unless they introduce a distinct
+interaction model.
+
+Feedback components are separated by feedback level, not by visual similarity.
+Do not add another generic feedback component before checking whether one of
+these boundaries already covers the use case:
+
+| Component     | Level                     | Boundary                                                                                      |
+| ------------- | ------------------------- | --------------------------------------------------------------------------------------------- |
+| `Alert`       | Inline operation feedback | Closable or actionable page and section feedback, including banners and async results.        |
+| `Callout`     | Content semantic note     | Documentation, MDX, and article content notes such as info, tip, warning, success, and error. |
+| `FormMessage` | Form feedback             | Field or form-level validation, help, and submit state.                                       |
+| `Toast`       | Temporary global feedback | Short non-blocking notifications and transient async results.                                 |
+| `Result`      | Page-level outcome        | Success, failure, empty, or completion states after a workflow or route-level action.         |
 
 If a component needs an internal protocol marker, such as Lightbox identifying
 `Image` and `ImageGallery` children, attach the marker to the component object

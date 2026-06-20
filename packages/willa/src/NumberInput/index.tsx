@@ -1,10 +1,16 @@
 export {
   NumberInput,
+  type NumberInputBehaviorOptions,
+  type NumberInputConstraints,
+  type NumberInputControlOptions,
   type NumberInputControls,
+  type NumberInputFormatOptions,
   type NumberInputFormatterInfo,
   type NumberInputProps,
+  type NumberInputSlots,
   type NumberInputStatus,
   type NumberInputStepInfo,
+  type NumberInputStepperOptions,
   type NumberInputValue,
   type NumberInputVariant,
 } from "@willa-ui/form/components/NumberInput";

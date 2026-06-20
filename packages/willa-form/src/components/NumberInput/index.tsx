@@ -26,12 +26,6 @@ export type NumberInputVariant =
   | "borderless"
   | "filled"
   | "underlined";
-export type NumberInputControls =
-  | boolean
-  | {
-      upIcon?: ReactNode;
-      downIcon?: ReactNode;
-    };
 export type NumberInputStepInfo = {
   offset: number;
   type: "up" | "down";
@@ -40,6 +34,42 @@ export type NumberInputStepInfo = {
 export type NumberInputFormatterInfo = {
   userTyping: boolean;
   input: string;
+};
+export type NumberInputConstraints = {
+  min?: number;
+  max?: number;
+  precision?: number;
+};
+export type NumberInputControlOptions = {
+  upIcon?: ReactNode;
+  downIcon?: ReactNode;
+  incrementLabel?: string;
+  decrementLabel?: string;
+};
+export type NumberInputControls = boolean | NumberInputControlOptions;
+export type NumberInputStepperOptions = {
+  step?: number;
+  controls?: NumberInputControls;
+  onStep?: (value: number, info: NumberInputStepInfo) => void;
+};
+export type NumberInputBehaviorOptions = {
+  changeOnBlur?: boolean;
+  keyboard?: boolean;
+  onPressEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
+};
+export type NumberInputFormatOptions = {
+  decimalSeparator?: string;
+  formatter?: (
+    value: NumberInputValue,
+    info: NumberInputFormatterInfo,
+  ) => string;
+  parser?: (value: string) => string | number;
+};
+export type NumberInputSlots = {
+  addonBefore?: ReactNode;
+  addonAfter?: ReactNode;
+  prefix?: ReactNode;
+  suffix?: ReactNode;
 };
 
 export type NumberInputProps = Omit<
@@ -56,30 +86,14 @@ export type NumberInputProps = Omit<
 > & {
   value?: NumberInputValue;
   defaultValue?: NumberInputValue;
-  min?: number;
-  max?: number;
-  step?: number;
-  precision?: number;
-  changeOnBlur?: boolean;
-  controls?: NumberInputControls;
-  keyboard?: boolean;
-  addonBefore?: ReactNode;
-  addonAfter?: ReactNode;
-  prefix?: ReactNode;
-  suffix?: ReactNode;
+  constraints?: NumberInputConstraints;
+  stepper?: NumberInputStepperOptions;
+  behavior?: NumberInputBehaviorOptions;
+  format?: NumberInputFormatOptions;
+  slots?: NumberInputSlots;
   status?: NumberInputStatus;
   variant?: NumberInputVariant;
-  decimalSeparator?: string;
-  incrementLabel?: string;
-  decrementLabel?: string;
-  formatter?: (
-    value: NumberInputValue,
-    info: NumberInputFormatterInfo,
-  ) => string;
-  parser?: (value: string) => string | number;
   onValueChange?: (value: NumberInputValue) => void;
-  onPressEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
-  onStep?: (value: number, info: NumberInputStepInfo) => void;
 };
 
 type NormalizeOptions = {
@@ -94,24 +108,13 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     const {
       value,
       defaultValue = null,
-      min,
-      max,
-      step = 1,
-      precision,
-      changeOnBlur = true,
-      controls = true,
-      keyboard = true,
-      addonBefore,
-      addonAfter,
-      prefix,
-      suffix,
+      constraints,
+      stepper,
+      behavior,
+      format,
+      slots,
       status,
       variant = "outline",
-      decimalSeparator,
-      incrementLabel = "增加数值",
-      decrementLabel = "减少数值",
-      formatter,
-      parser,
       className,
       disabled,
       invalid,
@@ -120,11 +123,25 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       onBlur,
       onChange,
       onKeyDown,
-      onPressEnter,
-      onStep,
       onValueChange,
       ...inputProps
     } = props;
+    const min = constraints?.min;
+    const max = constraints?.max;
+    const precision = constraints?.precision;
+    const step = stepper?.step ?? 1;
+    const controls = stepper?.controls ?? true;
+    const onStep = stepper?.onStep;
+    const changeOnBlur = behavior?.changeOnBlur ?? true;
+    const keyboard = behavior?.keyboard ?? true;
+    const onPressEnter = behavior?.onPressEnter;
+    const decimalSeparator = format?.decimalSeparator;
+    const formatter = format?.formatter;
+    const parser = format?.parser;
+    const addonBefore = slots?.addonBefore;
+    const addonAfter = slots?.addonAfter;
+    const prefix = slots?.prefix;
+    const suffix = slots?.suffix;
     const normalizedDefaultValue = useMemo(
       () =>
         normalizeNumberValue(defaultValue, {
@@ -154,6 +171,8 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     const finiteMin = getFiniteNumber(min);
     const finiteMax = getFiniteNumber(max);
     const controlsConfig = normalizeControls(controls);
+    const incrementLabel = controlsConfig?.incrementLabel ?? "增加数值";
+    const decrementLabel = controlsConfig?.decrementLabel ?? "减少数值";
     const canStep = !disabled && !readOnly;
 
     const disableIncrement =
@@ -432,7 +451,7 @@ NumberInput.displayName = "NumberInput";
 
 const formatNumberValue = (
   value: NumberInputValue,
-  formatter: NumberInputProps["formatter"],
+  formatter: NumberInputFormatOptions["formatter"],
   info: NumberInputFormatterInfo,
 ) => {
   if (formatter) {
@@ -444,7 +463,7 @@ const formatNumberValue = (
 
 const parseNumberValue = (
   value: string,
-  parser: NumberInputProps["parser"],
+  parser: NumberInputFormatOptions["parser"],
   decimalSeparator?: string,
 ) => {
   const parsedValue = parser

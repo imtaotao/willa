@@ -117,7 +117,6 @@ const docSpecGroups = {
     "Lightbox",
     "List",
     "Menu",
-    "NotFound",
     "Pagination",
     "Popover",
     "Progress",

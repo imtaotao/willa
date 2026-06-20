@@ -1,7 +1,6 @@
 import {
   forwardRef,
   useMemo,
-  useState,
   type ButtonHTMLAttributes,
   type CSSProperties,
   type ReactNode,
@@ -20,6 +19,7 @@ import {
   SelectablePanelShell,
   SelectablePanelTrigger,
 } from "#form/internal/selectablePanelParts";
+import { useSelectionModel } from "#form/internal/useSelectionModel";
 import { useSelectablePanel } from "#form/internal/useSelectablePanel";
 
 export type PickerSize = "sm" | "md" | "lg";
@@ -89,14 +89,22 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(
       onKeyDown,
       ...buttonProps
     } = props;
-    const [innerValue, setInnerValue] = useState<string | Array<string>>(
-      defaultValue ?? (mode === "multiple" ? [] : ""),
-    );
-    const currentValue = value ?? innerValue;
-    const selectedValues = normalizePickerValue(currentValue, mode);
-    const selectedItems = items.filter((item) =>
-      selectedValues.includes(item.value),
-    );
+    const {
+      clearValue,
+      commitItem,
+      displayValue,
+      hasValue,
+      hiddenValue,
+      selectedValues,
+    } = useSelectionModel({
+      defaultValue,
+      items,
+      mode,
+      onValueChange,
+      placeholder,
+      renderValue,
+      value,
+    });
     const pickerStyle = getPickerStyle({ width, style });
     const {
       buttonId,
@@ -133,50 +141,19 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(
       invalid ||
       buttonProps["aria-invalid"] === true ||
       buttonProps["aria-invalid"] === "true";
-    const hasValue = selectedItems.length > 0;
     const hasClear = clearable && hasValue && !disabled;
-    const displayValue = hasValue
-      ? (renderValue?.(selectedItems) ??
-        selectedItems.map((item) => item.label).join("、"))
-      : placeholder;
 
     const setButtonRef = (node: HTMLButtonElement | null) => {
       triggerRef.current = node;
       assignRef(ref, node);
     };
 
-    const commitValue = (item: PickerItem) => {
-      if (item.disabled) return;
+    const selectItem = (item: PickerItem) => {
+      const committed = commitItem(item);
 
-      const nextValues =
-        mode === "multiple"
-          ? togglePickerValue(selectedValues, item.value)
-          : [item.value];
-      const nextValue =
-        mode === "multiple" ? nextValues : (nextValues[0] ?? "");
-      const nextItems = items.filter((option) =>
-        nextValues.includes(option.value),
-      );
-
-      if (value === undefined) {
-        setInnerValue(nextValue);
-      }
-
-      onValueChange?.(nextValue, nextItems);
-
-      if (mode === "single") {
+      if (committed && mode === "single") {
         setOpen(false);
       }
-    };
-
-    const clearValue = () => {
-      const nextValue = mode === "multiple" ? [] : "";
-
-      if (value === undefined) {
-        setInnerValue(nextValue);
-      }
-
-      onValueChange?.(nextValue, []);
     };
 
     const panel = (
@@ -235,7 +212,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(
                         role="option"
                         aria-selected={selected}
                         disabled={item.disabled}
-                        onClick={() => commitValue(item)}
+                        onClick={() => selectItem(item)}
                       >
                         <span className="willa-picker-option-main">
                           <span className="willa-picker-option-label">
@@ -316,10 +293,7 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(
             triggerRef={triggerRef}
           />
         ) : null}
-        <SelectablePanelHiddenInput
-          name={name}
-          value={selectedValues.join(",")}
-        />
+        <SelectablePanelHiddenInput name={name} value={hiddenValue} />
         {panel}
       </span>
     );
@@ -327,23 +301,6 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(
 );
 
 Picker.displayName = "Picker";
-
-const normalizePickerValue = (
-  value: string | Array<string>,
-  mode: PickerMode,
-) => {
-  if (Array.isArray(value)) return value;
-  if (!value) return [];
-  return mode === "multiple" ? value.split(",").filter(Boolean) : [value];
-};
-
-const togglePickerValue = (values: Array<string>, value: string) => {
-  if (values.includes(value)) {
-    return values.filter((item) => item !== value);
-  }
-
-  return [...values, value];
-};
 
 const filterPickerItems = (items: Array<PickerItem>, query: string) => {
   const normalizedQuery = query.trim().toLowerCase();

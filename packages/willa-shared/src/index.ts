@@ -26,6 +26,24 @@ export {
   resolveMediaVolume,
 } from "#shared/media";
 export {
+  canOpenFilePreviewDialog,
+  createObjectFileItem,
+  formatFileSize,
+  getFileCodeLanguage,
+  getFileExtension,
+  normalizeFileProgress,
+  resolveFileKind,
+  resolveFileKindLabel,
+  resolveFilePreviewType,
+  resolveFilePreviewMode,
+  type FileItemKind,
+  type FileItemStatus,
+  type FilePreviewMode,
+  type FilePreviewType,
+  type ObjectFileItem,
+  type ResolveFilePreviewTypeOptions,
+} from "#shared/file";
+export {
   type RequestJsonOptions,
   isAbortError,
   requestJson,

@@ -98,11 +98,17 @@ export type {
   InputVariant,
 } from "#form/components/Input";
 export type {
+  NumberInputBehaviorOptions,
+  NumberInputConstraints,
+  NumberInputControlOptions,
   NumberInputControls,
+  NumberInputFormatOptions,
   NumberInputFormatterInfo,
   NumberInputProps,
+  NumberInputSlots,
   NumberInputStatus,
   NumberInputStepInfo,
+  NumberInputStepperOptions,
   NumberInputValue,
   NumberInputVariant,
 } from "#form/components/NumberInput";

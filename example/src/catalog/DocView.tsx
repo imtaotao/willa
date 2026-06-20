@@ -25,10 +25,35 @@ type DemoBlockProps = {
   primary?: boolean;
 };
 
+type FormattedPropValue = {
+  value: string;
+  multiline: boolean;
+};
+
+const PropTooltipContent = (props: { value: string }) => {
+  const formattedValue = formatPropTooltipValue(props.value);
+
+  return (
+    <div className="docs-prop-tooltip-value">
+      {formattedValue.multiline ? (
+        <pre className="docs-prop-tooltip-code">
+          <code>{formattedValue.value}</code>
+        </pre>
+      ) : (
+        <code className="docs-prop-tooltip-inline">{formattedValue.value}</code>
+      )}
+    </div>
+  );
+};
+
 const PropToken = (props: { value: string; kind: "名称" | "类型" }) => (
   <Tooltip
-    content={`${props.kind}: ${props.value}`}
-    contentClassName="docs-prop-tooltip-content"
+    content={<PropTooltipContent value={props.value} />}
+    contentClassName={classNames(
+      "docs-prop-tooltip-content",
+      shouldUseMultilineTooltip(props.value) &&
+        "docs-prop-tooltip-content--code",
+    )}
     side="bottom"
     align="start"
   >
@@ -49,10 +74,14 @@ const PropDefaultValue = (props: { value?: string }) => {
 
   return (
     <Tooltip
-      content={`默认值: ${props.value}`}
+      content={<PropTooltipContent value={props.value} />}
       side="bottom"
       align="start"
-      contentClassName="docs-prop-tooltip-content"
+      contentClassName={classNames(
+        "docs-prop-tooltip-content",
+        shouldUseMultilineTooltip(props.value) &&
+          "docs-prop-tooltip-content--code",
+      )}
     >
       <code className="docs-prop-default" tabIndex={0}>
         {props.value}
@@ -76,6 +105,126 @@ const PropDescription = (props: { value: string }) => (
     </div>
   </Tooltip>
 );
+
+const formatPropTooltipValue = (value: string): FormattedPropValue => {
+  const normalizedValue = value.trim();
+
+  if (!shouldUseMultilineTooltip(normalizedValue)) {
+    return { value: normalizedValue, multiline: false };
+  }
+
+  return {
+    value: formatStructuredPropValue(normalizedValue),
+    multiline: true,
+  };
+};
+
+const shouldUseMultilineTooltip = (value: string) => {
+  const normalizedValue = value.trim();
+
+  return (
+    normalizedValue.length > 44 ||
+    normalizedValue.startsWith("{") ||
+    normalizedValue.startsWith("[") ||
+    normalizedValue.includes(";") ||
+    normalizedValue.includes("=>") ||
+    normalizedValue.includes(" | ")
+  );
+};
+
+const formatStructuredPropValue = (value: string) => {
+  const normalizedValue = value.trim();
+
+  if (normalizedValue.startsWith("{") && normalizedValue.endsWith("}")) {
+    return formatBraceBlock(normalizedValue);
+  }
+
+  if (normalizedValue.startsWith("[") && normalizedValue.endsWith("]")) {
+    return formatBracketBlock(normalizedValue);
+  }
+
+  if (normalizedValue.includes(" | ")) {
+    return splitTopLevel(normalizedValue, "|")
+      .map((item, index) => `${index === 0 ? "" : "| "}${item}`)
+      .join("\n");
+  }
+
+  if (normalizedValue.includes("=>")) {
+    return normalizedValue.replace(/\s*=>\s*/g, "\n  => ");
+  }
+
+  return normalizedValue;
+};
+
+const formatBraceBlock = (value: string) => {
+  const body = value.slice(1, -1).trim();
+  const separator = body.includes(";") ? ";" : ",";
+  const members = splitTopLevel(body, separator);
+
+  if (members.length === 0) return "{}";
+
+  return ["{", ...members.map((member) => `  ${member}${separator}`), "}"].join(
+    "\n",
+  );
+};
+
+const formatBracketBlock = (value: string) => {
+  const body = value.slice(1, -1).trim();
+  const items = splitTopLevel(body, ",");
+
+  if (items.length === 0) return "[]";
+
+  return ["[", ...items.map((item) => `  ${item},`), "]"].join("\n");
+};
+
+const splitTopLevel = (value: string, separator: string) => {
+  const parts: Array<string> = [];
+  let currentPart = "";
+  let braceDepth = 0;
+  let bracketDepth = 0;
+  let parenDepth = 0;
+  let quote: string | null = null;
+
+  for (const character of value) {
+    if (quote) {
+      currentPart += character;
+      if (character === quote) {
+        quote = null;
+      }
+      continue;
+    }
+
+    if (character === '"' || character === "'" || character === "`") {
+      quote = character;
+      currentPart += character;
+      continue;
+    }
+
+    if (character === "{") braceDepth += 1;
+    if (character === "}") braceDepth -= 1;
+    if (character === "[") bracketDepth += 1;
+    if (character === "]") bracketDepth -= 1;
+    if (character === "(") parenDepth += 1;
+    if (character === ")") parenDepth -= 1;
+
+    if (
+      character === separator &&
+      braceDepth === 0 &&
+      bracketDepth === 0 &&
+      parenDepth === 0
+    ) {
+      const trimmedPart = currentPart.trim();
+      if (trimmedPart) parts.push(trimmedPart);
+      currentPart = "";
+      continue;
+    }
+    currentPart += character;
+  }
+
+  const trimmedPart = currentPart.trim();
+  if (trimmedPart) parts.push(trimmedPart);
+  return parts;
+};
 
 const createPropTableItems = (props: Array<PropRow>) => {
   return props.map((prop) => ({

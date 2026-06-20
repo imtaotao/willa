@@ -7,11 +7,10 @@ import {
 } from "@radix-ui/react-icons";
 import classNames from "classnames";
 
-import {
-  MediaLinkExternalAction,
-  renderMediaLinkContent,
-} from "@willa-ui/content/media";
+import { MediaLinkExternalAction } from "@willa-ui/content/media";
 import { resolveMediaVolume, type MediaContextProps } from "@willa-ui/shared";
+
+import { resolveMediaInline } from "#widgets/internal/mediaInline";
 
 export type AudioLinkProps = MediaContextProps & {
   href?: string;
@@ -23,28 +22,17 @@ export type AudioLinkProps = MediaContextProps & {
   className?: string;
 };
 
-const resolveAudioSource = (props: AudioLinkProps) => {
-  const src = props.src?.trim() ?? "";
-  if (!src) return undefined;
-  return props.resolveAssetUrl?.(props.articleSourcePath ?? "", src) ?? src;
-};
-
 export function AudioLink(props: AudioLinkProps) {
-  const { href, children, label, provider, volume, className } = props;
-  const normalizedHref = href?.trim() ?? "";
-  const resolvedSrc = resolveAudioSource(props);
+  const { volume, className } = props;
+  const { content, normalizedHref, resolvedSrc } = resolveMediaInline({
+    ...props,
+    mediaLabel: "audio",
+  });
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [isLoading, setIsLoading] = useState(Boolean(resolvedSrc));
   const [loadError, setLoadError] = useState<string | null>(null);
-  const content = renderMediaLinkContent(
-    children,
-    provider,
-    "audio",
-    label?.trim(),
-    normalizedHref,
-  );
 
   useEffect(() => {
     setIsPlaying(false);

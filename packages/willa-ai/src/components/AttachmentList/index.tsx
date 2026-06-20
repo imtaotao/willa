@@ -1,5 +1,12 @@
 import type { ComponentPropsWithoutRef, MouseEvent, ReactNode } from "react";
 import { Cross2Icon, DownloadIcon, FileTextIcon } from "@radix-ui/react-icons";
+import {
+  canOpenFilePreviewDialog,
+  normalizeFileProgress,
+  resolveFilePreviewMode,
+  type FileItemStatus,
+  type FilePreviewMode,
+} from "@willa-ui/shared";
 import classNames from "classnames";
 
 import {
@@ -7,10 +14,10 @@ import {
   type FilePreviewType,
 } from "@willa-ui/content/components/FilePreview";
 
-export type AttachmentListItemStatus = "ready" | "uploading" | "error";
+export type AttachmentListItemStatus = FileItemStatus;
 export type AttachmentListSize = "sm" | "md";
 export type AttachmentListLayout = "inline" | "stack";
-export type AttachmentListPreviewMode = "dialog" | "link" | "download" | "none";
+export type AttachmentListPreviewMode = FilePreviewMode;
 
 export type AttachmentListItem = {
   id: string;
@@ -110,12 +117,17 @@ const AttachmentListItemView = ({
   onRemove?: (item: AttachmentListItem) => void;
 }) => {
   const status = item.status ?? "ready";
-  const resolvedPreviewMode = item.previewMode ?? previewMode;
-  const canPreviewInDialog =
-    resolvedPreviewMode === "dialog" &&
-    Boolean(item.href) &&
-    status === "ready" &&
-    !item.disabled;
+  const resolvedPreviewMode = resolveFilePreviewMode(
+    item.previewMode,
+    previewMode,
+  );
+  const canPreviewInDialog = canOpenFilePreviewDialog({
+    disabled: item.disabled,
+    href: item.href,
+    previewMode: resolvedPreviewMode,
+    status,
+  });
+  const normalizedProgress = normalizeFileProgress(item.progress);
   const entryClassName = classNames(
     "willa-attachment-list-entry",
     `willa-attachment-list-entry--${status}`,
@@ -135,11 +147,11 @@ const AttachmentListItemView = ({
             {status !== "ready" ? attachmentStatusLabelMap[status] : item.meta}
           </span>
         ) : null}
-        {status === "uploading" && typeof item.progress === "number" ? (
+        {status === "uploading" && typeof normalizedProgress === "number" ? (
           <span className="willa-attachment-list-progress" aria-hidden="true">
             <span
               style={{
-                inlineSize: `${Math.min(100, Math.max(0, item.progress))}%`,
+                inlineSize: `${normalizedProgress}%`,
               }}
             />
           </span>
