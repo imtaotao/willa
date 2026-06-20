@@ -35,6 +35,16 @@ select {
   font: inherit;
 }
 
+button,
+a,
+input,
+textarea,
+select,
+[role="button"],
+[tabindex] {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .docs-app {
   min-height: 100vh;
 }
@@ -69,11 +79,19 @@ select {
   align-content: start;
 }
 
+.docs-sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 6px 16px;
+}
+
 .docs-brand {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 0 6px 16px;
+  min-width: 0;
   color: inherit;
   text-decoration: none;
 }
@@ -179,13 +197,35 @@ select {
 
 .docs-nav-title-row {
   display: flex;
-  align-items: flex-start;
+  width: 100%;
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 0 10px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  padding: 6px 10px;
+  text-align: left;
+}
+
+.docs-nav-title-row:hover {
+  background: #f8fafc;
+}
+
+:root[data-wk-theme="dark"] .docs-nav-title-row:hover {
+  background: #1f2937;
+}
+
+.docs-nav-title-copy {
+  display: grid;
+  min-width: 0;
+  gap: 5px;
 }
 
 .docs-nav-title {
+  display: block;
   color: #1f2937;
   font-size: 16px;
   font-weight: 820;
@@ -197,10 +237,32 @@ select {
 }
 
 .docs-nav-description {
-  margin: 5px 0 1px;
+  display: block;
   color: #94a3b8;
   font-size: 11.5px;
   line-height: 1.25;
+}
+
+.docs-nav-title-action {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+}
+
+.docs-nav-toggle-icon {
+  width: 16px;
+  height: 16px;
+  color: #94a3b8;
+  transition: transform 160ms ease;
+}
+
+.docs-nav-title-row[aria-expanded="true"] .docs-nav-toggle-icon {
+  transform: rotate(180deg);
+}
+
+:root[data-wk-theme="dark"] .docs-nav-toggle-icon {
+  color: #64748b;
 }
 
 .docs-nav-anchor-title {
@@ -331,6 +393,10 @@ select {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.docs-sidebar-actions {
+  display: none;
 }
 
 .docs-content {
@@ -756,11 +822,11 @@ select {
   }
 
   .docs-app .willa-app-shell-main {
-    order: 1;
+    order: 2;
   }
 
   .docs-app .willa-app-shell-sidebar {
-    order: 2;
+    order: 1;
     position: static;
     height: auto;
     border-right: 0;
@@ -772,12 +838,24 @@ select {
     border-bottom-color: rgba(255, 255, 255, 0.1);
   }
 
+  .docs-header-actions {
+    display: none;
+  }
+
+  .docs-sidebar-actions {
+    display: flex;
+  }
+
   .docs-nav {
     grid-template-columns: 1fr;
   }
 
   .docs-nav-group {
     align-content: start;
+  }
+
+  .docs-nav-group + .docs-nav-group {
+    margin-top: 8px;
   }
 
   .docs-section {

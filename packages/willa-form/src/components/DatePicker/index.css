@@ -172,12 +172,16 @@
 }
 
 .willa-date-picker-calendar
-  .willa-calendar-day:not(.willa-calendar-day--marked) {
+  .willa-calendar-day:not(.willa-calendar-day--day):not(
+    .willa-calendar-day--marked
+  ) {
   padding: 0.52rem 0.24rem;
 }
 
 .willa-date-picker-calendar
-  .willa-calendar-day:not(.willa-calendar-day--marked)
+  .willa-calendar-day:not(.willa-calendar-day--day):not(
+    .willa-calendar-day--marked
+  )
   .willa-calendar-day-content {
   grid-template-rows: 1fr;
   align-content: center;
@@ -186,9 +190,21 @@
 }
 
 .willa-date-picker-calendar
+  .willa-calendar-day--day
+  .willa-calendar-day-content {
+  gap: 0.24rem;
+}
+
+.willa-date-picker-calendar
   .willa-calendar-day:not(.willa-calendar-day--marked)
   .willa-calendar-marker {
   display: none;
+}
+
+.willa-date-picker-calendar
+  .willa-calendar-day--day.willa-calendar-day--today::after {
+  left: 0.24rem;
+  transform: none;
 }
 
 .willa-date-picker-calendar .willa-calendar-week-number {

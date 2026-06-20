@@ -227,8 +227,8 @@
 .willa-number-input:hover:not(.willa-input--disabled)
   .willa-number-input-controls,
 .willa-number-input:focus-within .willa-number-input-controls {
-  border-color: var(--willa-input-border-hover);
-  background: var(--willa-input-bg-hover);
+  border-color: var(--willa-input-border);
+  background: var(--willa-number-input-controls-bg);
   opacity: 1;
   pointer-events: auto;
   transform: translateX(0);
@@ -255,12 +255,12 @@
 }
 
 .willa-number-input-control-button:hover:not(:disabled) {
-  background: var(--willa-input-soft-bg);
+  background: var(--willa-number-input-control-bg-hover);
   color: var(--willa-input-border-focus);
 }
 
 .willa-number-input-control-button:active:not(:disabled) {
-  background: var(--willa-input-bg-focus);
+  background: var(--willa-number-input-control-bg-active);
 }
 
 .willa-number-input-control-button:focus-visible {

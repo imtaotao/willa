@@ -45,6 +45,9 @@
   --willa-input-invalid-ring: rgba(220, 38, 38, 0.12);
   --willa-input-warning-border: rgba(217, 119, 6, 0.46);
   --willa-input-warning-ring: rgba(217, 119, 6, 0.13);
+  --willa-number-input-controls-bg: #ffffff;
+  --willa-number-input-control-bg-hover: #f1f5f9;
+  --willa-number-input-control-bg-active: #e8eef7;
   --willa-tag-input-bg: rgba(255, 255, 255, 0.9);
   --willa-tag-input-bg-hover: rgba(255, 255, 255, 0.96);
   --willa-tag-input-bg-focus: #ffffff;

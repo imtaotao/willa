@@ -93,17 +93,21 @@
   }
 
   .willa-filter-bar-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     align-items: stretch;
-    flex-direction: column;
   }
 
   .willa-filter-bar-search,
   .willa-filter-bar-filters,
   .willa-filter-bar-actions {
+    flex: none;
     width: 100%;
   }
 
   .willa-filter-bar-filters {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     align-items: stretch;
   }
 

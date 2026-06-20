@@ -64,6 +64,18 @@ const iifeCode = unindent(`
   </script>
 `);
 
+const tapHighlightCode = unindent(`
+  button,
+  a,
+  input,
+  textarea,
+  select,
+  [role="button"],
+  [tabindex] {
+    -webkit-tap-highlight-color: transparent;
+  }
+`);
+
 const usageItems = [
   {
     title: "IIFE",
@@ -140,6 +152,27 @@ export function UsageGuide() {
             />
           </Panel>
         ))}
+
+        <Panel
+          as="section"
+          className="docs-usage-section"
+          variant="plain"
+          padding="none"
+        >
+          <Stack gap="xs">
+            <Typography.Title level={3}>移动端点击高亮</Typography.Title>
+            <Typography.Paragraph>
+              移动端浏览器点击按钮、链接或表单控件时可能显示系统高亮色。宿主应用可以在全局样式里关闭
+              WebKit tap highlight，同时保留键盘焦点样式。
+            </Typography.Paragraph>
+          </Stack>
+          <CodeBlock
+            className="docs-usage-code-block"
+            code={tapHighlightCode}
+            language="css"
+            showLineNumbers
+          />
+        </Panel>
       </Stack>
     </Card>
   );

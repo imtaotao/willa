@@ -1,7 +1,6 @@
 import {
   useEffect,
   useMemo,
-  useRef,
   useState,
   type DragEvent,
   type RefObject,
@@ -95,7 +94,6 @@ export function useTableViewModel(options: UseTableViewModelOptions) {
     tableScrollRef,
   } = options;
 
-  const headerTableRef = useRef<HTMLTableElement | null>(null);
   const [bodyScrollContainer, setBodyScrollContainer] =
     useState<HTMLDivElement | null>(null);
 
@@ -213,7 +211,6 @@ export function useTableViewModel(options: UseTableViewModelOptions) {
   };
 
   return {
-    headerTableRef,
     renderedSelectionBar,
     resolvedVisibleItems,
     virtualWindow,

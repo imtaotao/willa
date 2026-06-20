@@ -103,7 +103,7 @@ export const getFixedColumnStyle = (options: {
     return {
       position: "sticky",
       left: offset,
-      zIndex: isHeader ? 2 : 1,
+      zIndex: isHeader ? 4 : 1,
     } satisfies CSSProperties;
   }
 
@@ -124,7 +124,7 @@ export const getFixedColumnStyle = (options: {
   return {
     position: "sticky",
     right: offset,
-    zIndex: isHeader ? 2 : 1,
+    zIndex: isHeader ? 4 : 1,
   } satisfies CSSProperties;
 };
 

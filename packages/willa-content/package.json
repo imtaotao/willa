@@ -67,6 +67,7 @@
     "@willa-ui/shared": "workspace:*",
     "@radix-ui/react-icons": "catalog:",
     "diff": "catalog:",
+    "katex": "catalog:",
     "aidly": "catalog:",
     "classnames": "catalog:"
   },

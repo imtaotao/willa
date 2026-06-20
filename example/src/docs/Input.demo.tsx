@@ -14,6 +14,12 @@ const stackStyle = {
   maxWidth: "42rem",
 } as const;
 
+const inputStackStyle = {
+  ...stackStyle,
+  width: "min(100%, 22rem)",
+  gap: "0.95rem",
+} as const;
+
 const rowStyle = {
   display: "flex",
   flexWrap: "wrap",
@@ -98,19 +104,25 @@ export default defineDoc({
     {
       title: "附加内容",
       code: `
-        <div style={stackStyle}>
-          <Input leadingAddon="https://" trailingAddon=".com" defaultValue="willa-ui" />
-          <Input leadingAddon="模型" defaultValue="gpt-4.1" />
-        </div>;
-      `,
-      content: (
-        <div style={stackStyle}>
+        <div style={inputStackStyle}>
           <Input
+            width="100%"
             leadingAddon="https://"
             trailingAddon=".com"
             defaultValue="willa-ui"
           />
-          <Input leadingAddon="模型" defaultValue="gpt-4.1" />
+          <Input width="100%" leadingAddon="模型" defaultValue="gpt-4.1" />
+        </div>;
+      `,
+      content: (
+        <div style={inputStackStyle}>
+          <Input
+            width="100%"
+            leadingAddon="https://"
+            trailingAddon=".com"
+            defaultValue="willa-ui"
+          />
+          <Input width="100%" leadingAddon="模型" defaultValue="gpt-4.1" />
         </div>
       ),
     },

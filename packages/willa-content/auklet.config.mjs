@@ -1,14 +1,5 @@
 import { defineConfig } from "auklet";
 
-const styleDependency = {
-  entry: "/style.css",
-  components: "/components/**.css",
-  themes: {
-    dark: "/themes/dark.css",
-    light: "/themes/light.css",
-  },
-};
-
 export const config = defineConfig({
   modules: true,
   styles: {
@@ -17,7 +8,17 @@ export const config = defineConfig({
       light: "./src/themes/light.css",
     },
     dependencies: {
-      "@willa-ui/layout": styleDependency,
+      katex: {
+        entry: "/dist/katex.min.css",
+      },
+      "@willa-ui/layout": {
+        entry: "/style.css",
+        components: "/components/**.css",
+        themes: {
+          dark: "/themes/dark.css",
+          light: "/themes/light.css",
+        },
+      },
     },
   },
 });

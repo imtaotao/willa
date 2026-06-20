@@ -14,7 +14,15 @@ const demoFrameStyle: CSSProperties = {
 const stackStyle: CSSProperties = {
   display: "grid",
   width: "min(100%, 56rem)",
+  minWidth: 0,
   gap: "0.82rem",
+};
+
+const noteBadgeStyle: CSSProperties = {
+  maxWidth: "100%",
+  whiteSpace: "normal",
+  lineHeight: 1.5,
+  textAlign: "left",
 };
 
 const scheduleEvents: Array<ScheduleCalendarEvent> = [
@@ -88,7 +96,7 @@ const SelectedScheduleCalendar = () => {
 
   return (
     <div style={stackStyle}>
-      <Badge tone="info">
+      <Badge tone="info" style={noteBadgeStyle}>
         当前选择：{selectedEventId || selectedSlot || "未选择"}
       </Badge>
       <ScheduleCalendar
@@ -187,10 +195,10 @@ export default defineDoc({
       `,
       content: (
         <div style={stackStyle}>
-          <Badge tone="info">
+          <Badge tone="info" style={noteBadgeStyle}>
             适合排期查看、事件选择和空白时间格点击；编辑表单、拖拽创建和保存流程由业务侧承接。
           </Badge>
-          <Badge tone="warning">
+          <Badge tone="warning" style={noteBadgeStyle}>
             周视图和月视图是桌面优先的信息密度，移动端保留横向浏览，不压缩为完整移动排期工作台。
           </Badge>
           <ScheduleCalendar
@@ -319,7 +327,7 @@ export default defineDoc({
       `,
       content: (
         <div style={stackStyle}>
-          <Badge tone="warning">
+          <Badge tone="warning" style={noteBadgeStyle}>
             全天事件的 end 是包含结束日；events
             只接收单日时段，跨天或无时间的时段事件会被忽略并提示。
           </Badge>

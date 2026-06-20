@@ -1,8 +1,20 @@
-import { GitHubLogoIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
-import { useEffect, useLayoutEffect, useState, type MouseEvent } from "react";
+import {
+  ChevronDownIcon,
+  GitHubLogoIcon,
+  MoonIcon,
+  SunIcon,
+} from "@radix-ui/react-icons";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type MouseEvent,
+} from "react";
 import { AppShell } from "willa/AppShell";
 import { Anchor, type AnchorItem } from "willa/Anchor";
 import { Callout } from "willa/Callout";
+import { FloatButton } from "willa/FloatButton";
 import { IconButton } from "willa/IconButton";
 import { Typography } from "willa/Typography";
 import { SearchInput } from "willa/SearchInput";
@@ -10,6 +22,7 @@ import { Skeleton } from "willa/Skeleton";
 import "willa/AppShell.css";
 import "willa/Anchor.css";
 import "willa/Callout.css";
+import "willa/FloatButton.css";
 import "willa/IconButton.css";
 import "willa/SearchInput.css";
 import "willa/Skeleton.css";
@@ -27,6 +40,7 @@ type Theme = "light" | "dark";
 
 const usagePageId = "usage";
 const themeStorageKey = "willa-docs-theme";
+const sidebarCompactQuery = "(max-width: 1040px)";
 
 const docGroups: Array<{
   id: ComponentDocEntry["category"];
@@ -50,6 +64,7 @@ const docChineseNames: Record<string, string> = {
   Avatar: "头像",
   Badge: "徽标",
   Breadcrumb: "面包屑",
+  BorderBeam: "边框流光",
   Button: "按钮",
   Calendar: "日历",
   Callout: "提示块",
@@ -177,6 +192,18 @@ const normalizeSearchText = (value: string) => value.trim().toLowerCase();
 const isTheme = (value: string | null): value is Theme =>
   value === "light" || value === "dark";
 
+const getIsCompactSidebar = () => {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia(sidebarCompactQuery).matches;
+};
+
+const getDefaultExpandedDocGroups = (isExpanded: boolean) => {
+  return docGroups.reduce(
+    (groups, group) => ({ ...groups, [group.id]: isExpanded }),
+    {} as Record<ComponentDocEntry["category"], boolean>,
+  );
+};
+
 const getInitialTheme = () => {
   try {
     const storedTheme = window.localStorage.getItem(themeStorageKey);
@@ -220,12 +247,16 @@ const scrollDocumentToTop = () => {
 };
 
 export function App() {
+  const docsMainRef = useRef<HTMLDivElement>(null);
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
   const [activeId, setActiveId] = useState(getInitialActiveId);
   const [loadedDoc, setLoadedDoc] = useState<ComponentDoc | null>(null);
   const [isDocLoading, setIsDocLoading] = useState(false);
   const [docError, setDocError] = useState<string | null>(null);
   const [sidebarQuery, setSidebarQuery] = useState("");
+  const [expandedDocGroups, setExpandedDocGroups] = useState(() =>
+    getDefaultExpandedDocGroups(!getIsCompactSidebar()),
+  );
   const activeEntry = componentDocRegistry.find((doc) => doc.id === activeId);
   const normalizedSidebarQuery = normalizeSearchText(sidebarQuery);
   const visibleDocGroups = docGroups
@@ -262,6 +293,20 @@ export function App() {
     meta: "docs-nav-anchor-meta",
   };
 
+  const scrollAfterNavigation = (id: string) => {
+    if (id !== usagePageId && getIsCompactSidebar()) {
+      window.requestAnimationFrame(() => {
+        docsMainRef.current?.scrollIntoView({
+          block: "start",
+          behavior: "smooth",
+        });
+      });
+      return;
+    }
+
+    scrollDocumentToTop();
+  };
+
   const handleDocAnchorClick = (
     item: AnchorItem,
     event: MouseEvent<HTMLAnchorElement>,
@@ -269,18 +314,51 @@ export function App() {
     event.preventDefault();
     setActiveId(item.id);
     updateDocHash(item.id);
-    scrollDocumentToTop();
+    scrollAfterNavigation(item.id);
   };
+
+  const toggleDocGroup = (groupId: ComponentDocEntry["category"]) => {
+    setExpandedDocGroups((groups) => ({
+      ...groups,
+      [groupId]: !(groups[groupId] ?? true),
+    }));
+  };
+
+  const renderDocsActions = (className = "docs-actions") => (
+    <nav className={className} aria-label="示例控制">
+      <IconButton
+        href="https://github.com/imtaotao/willa"
+        target="_blank"
+        variant="outline"
+        size="md"
+        ariaLabel="打开 GitHub 仓库"
+        icon={<GitHubLogoIcon />}
+      />
+      <IconButton
+        variant="outline"
+        size="md"
+        ariaLabel={theme === "dark" ? "切换到亮色主题" : "切换到暗色主题"}
+        icon={theme === "dark" ? <SunIcon /> : <MoonIcon />}
+        onClick={() =>
+          setTheme((current) => (current === "dark" ? "light" : "dark"))
+        }
+      />
+    </nav>
+  );
 
   const sidebar = (
     <div className="docs-sidebar willa-shell">
-      <a className="docs-brand" href={`#/${usagePageId}`}>
-        <span className="docs-brand-mark">W</span>
-        <span className="docs-brand-copy">
-          <span className="docs-brand-title">Willa</span>
-          <span className="docs-brand-subtitle">Components</span>
-        </span>
-      </a>
+      <div className="docs-sidebar-top">
+        <a className="docs-brand" href={`#/${usagePageId}`}>
+          <span className="docs-brand-mark">W</span>
+          <span className="docs-brand-copy">
+            <span className="docs-brand-title">Willa</span>
+            <span className="docs-brand-subtitle">Components</span>
+          </span>
+        </a>
+
+        {renderDocsActions("docs-actions docs-sidebar-actions")}
+      </div>
 
       <SearchInput
         className="docs-sidebar-search"
@@ -301,6 +379,7 @@ export function App() {
             activeId={activeId}
             size="md"
             variant="navigation"
+            showMarker={false}
             onItemClick={handleDocAnchorClick}
           />
         </div>
@@ -312,24 +391,46 @@ export function App() {
 
         {visibleDocGroups.map((group) => (
           <section className="docs-nav-group" key={group.id}>
-            <div className="docs-nav-title-row">
-              <div>
-                <div className="docs-nav-title">{group.label}</div>
-                <Typography.Paragraph className="docs-nav-description">
+            <button
+              className="docs-nav-title-row"
+              type="button"
+              aria-expanded={
+                normalizedSidebarQuery
+                  ? true
+                  : (expandedDocGroups[group.id] ?? true)
+              }
+              aria-controls={`docs-nav-group-${group.id}`}
+              onClick={() => toggleDocGroup(group.id)}
+            >
+              <span className="docs-nav-title-copy">
+                <span className="docs-nav-title">{group.label}</span>
+                <span className="docs-nav-description">
                   {group.description}
-                </Typography.Paragraph>
-              </div>
-              <span className="docs-nav-count">{group.docs.length}</span>
+                </span>
+              </span>
+              <span className="docs-nav-title-action">
+                <span className="docs-nav-count">{group.docs.length}</span>
+                <ChevronDownIcon className="docs-nav-toggle-icon" />
+              </span>
+            </button>
+            <div
+              id={`docs-nav-group-${group.id}`}
+              hidden={
+                !normalizedSidebarQuery &&
+                !(expandedDocGroups[group.id] ?? true)
+              }
+            >
+              <Anchor
+                className="docs-nav-anchor"
+                classNames={navAnchorClassNames}
+                items={group.docs.map(toDocAnchorItem)}
+                activeId={activeId}
+                size="md"
+                variant="navigation"
+                showMarker={false}
+                onItemClick={handleDocAnchorClick}
+              />
             </div>
-            <Anchor
-              className="docs-nav-anchor"
-              classNames={navAnchorClassNames}
-              items={group.docs.map(toDocAnchorItem)}
-              activeId={activeId}
-              size="md"
-              variant="navigation"
-              onItemClick={handleDocAnchorClick}
-            />
           </section>
         ))}
 
@@ -349,6 +450,19 @@ export function App() {
   }, [theme]);
 
   useEffect(() => {
+    const media = window.matchMedia(sidebarCompactQuery);
+    const updateExpandedGroups = () => {
+      setExpandedDocGroups(getDefaultExpandedDocGroups(!media.matches));
+    };
+
+    media.addEventListener("change", updateExpandedGroups);
+
+    return () => {
+      media.removeEventListener("change", updateExpandedGroups);
+    };
+  }, []);
+
+  useEffect(() => {
     document.title =
       activeId === usagePageId
         ? "安装使用 - Willa"
@@ -360,13 +474,14 @@ export function App() {
       const hashId = getDocIdFromHash();
       if (hashId === usagePageId) {
         setActiveId(usagePageId);
-        scrollDocumentToTop();
+        scrollAfterNavigation(usagePageId);
         return;
       }
 
       const hashDoc = componentDocRegistry.find((doc) => doc.id === hashId);
-      setActiveId(hashDoc?.id ?? usagePageId);
-      scrollDocumentToTop();
+      const nextId = hashDoc?.id ?? usagePageId;
+      setActiveId(nextId);
+      scrollAfterNavigation(nextId);
     };
 
     window.addEventListener("hashchange", syncActiveDocFromUrl);
@@ -411,67 +526,52 @@ export function App() {
   }, [activeEntry]);
 
   return (
-    <AppShell className="docs-app" sidebar={sidebar} sidebarWidth="324px">
-      <div className="docs-main">
-        <header className="docs-header">
-          <div className="docs-header-title">
-            <Typography.Text
-              className="docs-kicker"
-              style={{ display: "block" }}
-            >
-              Willa Components
-            </Typography.Text>
-            <Typography.Paragraph className="docs-header-subtitle">
-              AI、场景与基础组件示例
-            </Typography.Paragraph>
-          </div>
-          <nav className="docs-actions" aria-label="示例控制">
-            <IconButton
-              href="https://github.com/imtaotao/willa"
-              target="_blank"
-              variant="outline"
-              size="md"
-              ariaLabel="打开 GitHub 仓库"
-              icon={<GitHubLogoIcon />}
-            />
-            <IconButton
-              variant="outline"
-              size="md"
-              ariaLabel={theme === "dark" ? "切换到亮色主题" : "切换到暗色主题"}
-              icon={theme === "dark" ? <SunIcon /> : <MoonIcon />}
-              onClick={() =>
-                setTheme((current) => (current === "dark" ? "light" : "dark"))
-              }
-            />
-          </nav>
-        </header>
+    <>
+      <AppShell className="docs-app" sidebar={sidebar} sidebarWidth="324px">
+        <div className="docs-main" ref={docsMainRef}>
+          <header className="docs-header">
+            <div className="docs-header-title">
+              <Typography.Text
+                className="docs-kicker"
+                style={{ display: "block" }}
+              >
+                Willa Components
+              </Typography.Text>
+              <Typography.Paragraph className="docs-header-subtitle">
+                AI、场景与基础组件示例
+              </Typography.Paragraph>
+            </div>
+            {renderDocsActions("docs-actions docs-header-actions")}
+          </header>
 
-        <div className="docs-content willa-shell">
-          {activeId === usagePageId ? (
-            <UsageGuide />
-          ) : loadedDoc ? (
-            <DocView doc={loadedDoc} />
-          ) : docError ? (
-            <Callout tone="error" title="组件加载失败">
-              {docError}
-            </Callout>
-          ) : (
-            <Skeleton
-              loading={isDocLoading}
-              className="docs-loading"
-              lines={[
-                { width: "min(220px, 52%)", height: 16 },
-                { width: "min(520px, 100%)", height: 16 },
-              ]}
-              block
-              blockHeight={220}
-              label="加载组件文档"
-            >
-              <Callout title="暂无组件">当前没有可展示的组件。</Callout>
-            </Skeleton>
-          )}
+          <div className="docs-content willa-shell">
+            {activeId === usagePageId ? (
+              <UsageGuide />
+            ) : loadedDoc ? (
+              <DocView doc={loadedDoc} />
+            ) : docError ? (
+              <Callout tone="error" title="组件加载失败">
+                {docError}
+              </Callout>
+            ) : (
+              <Skeleton
+                loading={isDocLoading}
+                className="docs-loading"
+                lines={[
+                  { width: "min(220px, 52%)", height: 16 },
+                  { width: "min(520px, 100%)", height: 16 },
+                ]}
+                block
+                blockHeight={220}
+                label="加载组件文档"
+              >
+                <Callout title="暂无组件">当前没有可展示的组件。</Callout>
+              </Skeleton>
+            )}
+          </div>
         </div>
-      </div>
-    </AppShell>
+      </AppShell>
+      <FloatButton backToTop ariaLabel="回到顶部" tooltip="回到顶部" />
+    </>
   );
 }

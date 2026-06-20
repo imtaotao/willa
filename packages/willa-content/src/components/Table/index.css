@@ -34,12 +34,6 @@
   border-bottom: 1px solid var(--willa-table-divider);
 }
 
-.willa-table-header-scroll {
-  flex: 0 0 auto;
-  width: 100%;
-  overflow: hidden;
-}
-
 .willa-table-footer-slot {
   border-top: 1px solid var(--willa-table-divider);
   color: var(--willa-table-muted);
@@ -58,6 +52,7 @@
 }
 
 .willa-table--fixed-columns .willa-table-element,
+.willa-table--sticky-header .willa-table-element,
 .willa-table--resizable .willa-table-element {
   table-layout: fixed;
 }
@@ -459,7 +454,7 @@
 }
 
 .willa-table--sticky-actions .willa-table-actions-header {
-  z-index: 3;
+  z-index: 6;
   background: var(--willa-table-fixed-header-bg);
 }
 
@@ -530,10 +525,14 @@
   color: var(--willa-table-muted);
 }
 
-.willa-table--sticky-header th {
+.willa-table--sticky-header thead {
   position: sticky;
-  z-index: 2;
   top: 0;
+  z-index: 5;
+}
+
+.willa-table--sticky-header th {
+  z-index: 2;
 }
 
 .willa-table [data-align="center"] {

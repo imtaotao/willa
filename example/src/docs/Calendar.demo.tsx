@@ -31,6 +31,21 @@ const rowStyle: CSSProperties = {
   justifyItems: "center",
 };
 
+const customHeaderStyle: CSSProperties = {
+  display: "grid",
+  width: "100%",
+  gridTemplateColumns: "2rem minmax(0, 1fr) 2rem",
+  alignItems: "center",
+  gap: "0.4rem",
+};
+
+const customHeaderTitleStyle: CSSProperties = {
+  minWidth: 0,
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+};
+
 const calendarMarkers: Array<CalendarMarker> = [
   {
     value: "2026-06-16",
@@ -412,23 +427,41 @@ export default defineDoc({
           <Calendar
             defaultValue="2026-06-19"
             headerRender={({ title, previous, next }) => (
-              <div className="willa-calendar-header">
+              <div
+                style={{
+                  display: "grid",
+                  width: "100%",
+                  gridTemplateColumns: "2rem minmax(0, 1fr) 2rem",
+                  alignItems: "center",
+                  gap: "0.4rem",
+                }}
+              >
                 <button
                   className="willa-calendar-nav"
                   type="button"
                   aria-label="上一个月"
                   onClick={previous}
                 >
-                  上
+                  ‹
                 </button>
-                <div className="willa-calendar-title">排期视图 · {title}</div>
+                <div
+                  className="willa-calendar-title"
+                  style={{
+                    minWidth: 0,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  排期 · {title}
+                </div>
                 <button
                   className="willa-calendar-nav"
                   type="button"
                   aria-label="下一个月"
                   onClick={next}
                 >
-                  下
+                  ›
                 </button>
               </div>
             )}
@@ -441,23 +474,28 @@ export default defineDoc({
             <Calendar
               defaultValue="2026-06-19"
               headerRender={({ title, previous, next }) => (
-                <div className="willa-calendar-header">
+                <div style={customHeaderStyle}>
                   <button
                     className="willa-calendar-nav"
                     type="button"
                     aria-label="上一个月"
                     onClick={previous}
                   >
-                    上
+                    ‹
                   </button>
-                  <div className="willa-calendar-title">排期视图 · {title}</div>
+                  <div
+                    className="willa-calendar-title"
+                    style={customHeaderTitleStyle}
+                  >
+                    排期 · {title}
+                  </div>
                   <button
                     className="willa-calendar-nav"
                     type="button"
                     aria-label="下一个月"
                     onClick={next}
                   >
-                    下
+                    ›
                   </button>
                 </div>
               )}

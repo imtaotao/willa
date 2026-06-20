@@ -18,7 +18,6 @@ import { TableBody } from "#content/components/Table/TableBody";
 import { TableCellTooltip } from "#content/components/Table/TableCellTooltip";
 import { TableHeader } from "#content/components/Table/TableHeader";
 import { TablePagination } from "#content/components/Table/TablePagination";
-import { useTableHeaderScrollSync } from "#content/components/Table/useTableHeaderScrollSync";
 import { useTableInfiniteScroll } from "#content/components/Table/useTableInfiniteScroll";
 import { useTableViewModel } from "#content/components/Table/useTableViewModel";
 
@@ -201,7 +200,6 @@ export function TableView(props: TableViewProps) {
   } = props;
 
   const {
-    headerTableRef,
     renderedSelectionBar,
     resolvedVisibleItems,
     virtualWindow,
@@ -241,20 +239,6 @@ export function TableView(props: TableViewProps) {
     tableScrollRef,
   });
 
-  useTableHeaderScrollSync({
-    enabled: stickyHeader,
-    scrollContainerRef: tableScrollRef,
-    headerTableRef,
-    deps: [
-      headers,
-      columnWidths,
-      hasSelection,
-      hasExpandableRows,
-      hasActions,
-      actionsColumnWidth,
-    ],
-  });
-
   useTableInfiniteScroll({
     enabled: infiniteScroll,
     loading,
@@ -282,58 +266,15 @@ export function TableView(props: TableViewProps) {
           {renderedSelectionBar}
         </div>
       ) : null}
-      {stickyHeader ? (
-        <div className="willa-table-header-scroll">
-          <table
-            ref={headerTableRef}
-            className={classNames("willa-table-element", tableClassName)}
-          >
-            {caption ? (
-              <caption className="willa-table-caption">{caption}</caption>
-            ) : null}
-            <TableHeader
-              headers={headers}
-              orderedHeaders={orderedHeaders}
-              hasSelection={hasSelection}
-              selectionMode={selectionMode}
-              allVisibleSelected={allVisibleSelected}
-              someVisibleSelected={someVisibleSelected}
-              hasExpandableRows={hasExpandableRows}
-              hasActions={hasActions}
-              actionsLabel={actionsLabel}
-              actionsWidth={actionsWidth}
-              resizableColumns={resizableColumns}
-              columnDraggable={columnDraggable}
-              isColumnDragging={isColumnDragging}
-              stickyFixedColumns={false}
-              sort={props.sort}
-              columnWidths={columnWidths}
-              headerCellRefs={headerCellRefs}
-              stickyActions={stickyActions}
-              actionsColumnWidth={actionsColumnWidth}
-              onToggleVisibleSelection={onToggleVisibleSelection}
-              onToggleSort={onToggleSort}
-              onStartColumnResize={onStartColumnResize}
-              onResizeColumnBy={onResizeColumnBy}
-              onAutoSizeColumn={onAutoSizeColumn}
-              keyboardResizeLargeStep={keyboardResizeLargeStep}
-              keyboardResizeStep={keyboardResizeStep}
-              onColumnDragStart={handleColumnDragStart}
-              onColumnDrop={handleColumnDrop}
-              onColumnDragEnd={handleColumnDragEnd}
-            />
-          </table>
-        </div>
-      ) : null}
       <div className="willa-table-scroll" ref={tableScrollRef}>
         <table
           ref={tableRef}
           className={classNames("willa-table-element", tableClassName)}
         >
-          {caption && !stickyHeader ? (
+          {caption ? (
             <caption className="willa-table-caption">{caption}</caption>
           ) : null}
-          {!stickyHeader && headers.length > 0 ? (
+          {headers.length > 0 ? (
             <TableHeader
               headers={headers}
               orderedHeaders={orderedHeaders}
