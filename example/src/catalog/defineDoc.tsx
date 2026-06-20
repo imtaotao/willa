@@ -41,6 +41,7 @@ const willaDemoImportNames = new Set([
   "AppShell",
   "Avatar",
   "Badge",
+  "BorderBeam",
   "Breadcrumb",
   "Button",
   "Calendar",

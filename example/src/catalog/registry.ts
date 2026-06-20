@@ -68,6 +68,7 @@ const docSpecGroups = {
   ],
   layout: [
     "AppShell",
+    "BorderBeam",
     "Card",
     "Container",
     "Grid",

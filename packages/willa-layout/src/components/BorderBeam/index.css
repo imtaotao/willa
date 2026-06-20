@@ -1,0 +1,92 @@
+.willa-border-beam {
+  --willa-border-beam-width: 1px;
+  --willa-border-beam-outset: 0px;
+  --willa-border-beam-radius: 8px;
+  --willa-border-beam-duration: 5s;
+  --willa-border-beam-delay: 0s;
+  --willa-border-beam-gradient: linear-gradient(
+    to left,
+    rgba(37, 99, 235, 0.96) 0%,
+    rgba(6, 182, 212, 0.55) 70%,
+    transparent
+  );
+
+  position: relative;
+  display: block;
+  min-width: 0;
+  border-radius: var(--willa-border-beam-radius);
+  isolation: isolate;
+}
+
+.willa-border-beam__effect {
+  position: absolute;
+  z-index: 1;
+  inset: calc(var(--willa-border-beam-outset) * -1);
+  display: none;
+  overflow: hidden;
+  padding: var(--willa-border-beam-width);
+  border-radius: calc(
+    var(--willa-border-beam-radius) + var(--willa-border-beam-outset)
+  );
+  pointer-events: none;
+}
+
+.willa-border-beam > :not(.willa-border-beam__effect) {
+  position: relative;
+  z-index: 0;
+}
+
+@keyframes willa-border-beam-travel {
+  from {
+    offset-distance: 0%;
+  }
+
+  to {
+    offset-distance: 100%;
+  }
+}
+
+@supports ((mask-composite: exclude) or (-webkit-mask-composite: xor)) {
+  @supports (offset-path: rect(0 auto auto 0 round 1px)) {
+    .willa-border-beam__effect {
+      display: block;
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+    }
+
+    .willa-border-beam__effect::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100px;
+      aspect-ratio: 1 / 1;
+      animation: willa-border-beam-travel var(--willa-border-beam-duration)
+        linear infinite;
+      animation-delay: var(--willa-border-beam-delay);
+      background-image: var(--willa-border-beam-gradient);
+      content: "";
+      offset-anchor: 90% 50%;
+      offset-distance: 0%;
+      offset-path: rect(0 auto auto 0 round 200px);
+      offset-rotate: auto;
+      opacity: 0.95;
+      will-change: offset-distance;
+    }
+  }
+}
+
+.willa-border-beam--disabled .willa-border-beam__effect {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .willa-border-beam__effect::before {
+    display: none;
+  }
+}

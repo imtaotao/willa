@@ -1,4 +1,5 @@
 export { AppShell } from "#layout/components/AppShell";
+export { BorderBeam } from "#layout/components/BorderBeam";
 export { Card } from "#layout/components/Card";
 export { Container } from "#layout/components/Container";
 export { Grid } from "#layout/components/Grid";
@@ -13,6 +14,11 @@ export { ResizablePanel, SplitPane } from "#layout/components/SplitPane";
 export { Stack } from "#layout/components/Stack";
 
 export type { AppShellProps } from "#layout/components/AppShell";
+export type {
+  BorderBeamColor,
+  BorderBeamColorStop,
+  BorderBeamProps,
+} from "#layout/components/BorderBeam";
 export type {
   CardPadding,
   CardProps,
