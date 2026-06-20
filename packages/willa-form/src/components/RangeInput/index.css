@@ -1,7 +1,7 @@
 .willa-range-input {
   --willa-range-input-resolved-height: var(
     --willa-range-input-custom-height,
-    var(--willa-range-input-height)
+    var(--willa-range-input-size-height, var(--willa-range-input-height))
   );
   --willa-range-input-resolved-thumb-size: max(
     1rem,
@@ -31,6 +31,18 @@
   user-select: none;
 }
 
+.willa-range-input--sm {
+  --willa-range-input-size-height: var(--willa-range-input-height-sm);
+}
+
+.willa-range-input--md {
+  --willa-range-input-size-height: var(--willa-range-input-height);
+}
+
+.willa-range-input--lg {
+  --willa-range-input-size-height: var(--willa-range-input-height-lg);
+}
+
 .willa-range-input:focus-visible {
   outline: 2px solid var(--willa-focus-ring);
   outline-offset: 0.25rem;
@@ -44,6 +56,19 @@
 .willa-range-input::-webkit-slider-runnable-track {
   height: var(--willa-range-input-resolved-height);
   border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      var(--willa-range-input-custom-color, var(--willa-range-input-accent)) 0%,
+      var(--willa-range-input-custom-color, var(--willa-range-input-accent))
+        var(--willa-range-input-progress, 0%),
+      transparent var(--willa-range-input-progress, 0%)
+    ),
+    var(--willa-range-input-custom-track, var(--willa-range-input-track));
+  background-blend-mode: normal;
+}
+
+.willa-range-input[style*="--willa-range-input-custom-track"]::-webkit-slider-runnable-track {
   background: var(
     --willa-range-input-custom-track,
     var(--willa-range-input-track)
@@ -114,4 +139,86 @@
 
 .willa-range-input:active::-moz-range-thumb {
   cursor: grabbing;
+}
+
+.willa-range-input::-moz-range-progress {
+  height: var(--willa-range-input-resolved-height);
+  border-radius: 999px;
+  background: var(
+    --willa-range-input-custom-color,
+    var(--willa-range-input-accent)
+  );
+}
+
+.willa-range-input-field {
+  display: grid;
+  width: 100%;
+  max-width: 100%;
+  min-width: 10rem;
+  gap: 0.42rem;
+}
+
+.willa-range-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.72rem;
+  min-width: 0;
+}
+
+.willa-range-input-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4rem;
+  height: var(--willa-range-input-value-height);
+  padding: 0 0.55rem;
+  border: 1px solid var(--willa-range-input-value-border);
+  border-radius: 999px;
+  background: var(--willa-range-input-value-bg);
+  color: var(--willa-range-input-value-text);
+  font-size: var(--willa-range-input-value-font-size);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.willa-range-input-field--sm .willa-range-input-value {
+  min-width: 2rem;
+  height: calc(var(--willa-range-input-value-height) - 0.2rem);
+  padding-inline: 0.45rem;
+  font-size: 0.72rem;
+}
+
+.willa-range-input-field--lg .willa-range-input-value {
+  min-width: 2.8rem;
+  height: calc(var(--willa-range-input-value-height) + 0.2rem);
+  padding-inline: 0.65rem;
+  font-size: 0.84rem;
+}
+
+.willa-range-input-marks {
+  position: relative;
+  display: block;
+  height: 1.45rem;
+  margin-inline: 0.65rem;
+}
+
+.willa-range-input-mark {
+  position: absolute;
+  top: 0;
+  display: inline-grid;
+  justify-items: center;
+  gap: 0.28rem;
+  color: var(--willa-range-input-mark-text);
+  font-size: 0.72rem;
+  line-height: 1;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.willa-range-input-mark-tick {
+  width: 1px;
+  height: 0.34rem;
+  border-radius: 999px;
+  background: var(--willa-range-input-mark-tick);
 }

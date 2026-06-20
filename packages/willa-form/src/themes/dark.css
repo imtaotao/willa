@@ -180,9 +180,18 @@
   --willa-form-switch-thumb: rgba(255, 255, 255, 0.72);
   --willa-form-switch-thumb-shadow: rgba(0, 0, 0, 0.36);
   --willa-range-input-accent: var(--willa-accent);
+  --willa-range-input-height-sm: 0.28rem;
   --willa-range-input-height: 0.36rem;
+  --willa-range-input-height-lg: 0.46rem;
   --willa-range-input-track: rgba(125, 211, 252, 0.16);
   --willa-range-input-thumb: #1f2937;
   --willa-range-input-thumb-border: rgba(125, 211, 252, 0.48);
   --willa-range-input-thumb-shadow: rgba(0, 0, 0, 0.34);
+  --willa-range-input-value-height: 1.55rem;
+  --willa-range-input-value-bg: rgba(15, 23, 42, 0.78);
+  --willa-range-input-value-border: rgba(148, 163, 184, 0.24);
+  --willa-range-input-value-text: #dbeafe;
+  --willa-range-input-value-font-size: 0.78rem;
+  --willa-range-input-mark-text: #94a3b8;
+  --willa-range-input-mark-tick: rgba(148, 163, 184, 0.36);
 }

@@ -18,6 +18,7 @@ const compactRowStyle = {
 
 const RangeInputPreview = () => {
   const [strength, setStrength] = useState(60);
+  const [temperature, setTemperature] = useState(0.7);
 
   return (
     <div style={stackStyle}>
@@ -30,6 +31,8 @@ const RangeInputPreview = () => {
         height="0.5rem"
         color="#3b82f6"
         trackColor="rgba(59, 130, 246, 0.18)"
+        showValue
+        formatValue={(value) => `${value}%`}
         aria-label="生成强度"
         onChange={(event) => setStrength(Number(event.currentTarget.value))}
       />
@@ -37,13 +40,21 @@ const RangeInputPreview = () => {
         min={0}
         max={1}
         step={0.1}
-        defaultValue={0.7}
+        value={temperature}
         color="#14b8a6"
         thumbBorderColor="#0f766e"
         thumbColor="#ecfeff"
         thumbSize="1.2rem"
         trackColor="rgba(20, 184, 166, 0.18)"
+        showValue
+        formatValue={(value) => value.toFixed(1)}
+        marks={[
+          { value: 0, label: "保守" },
+          { value: 0.5, label: "均衡" },
+          { value: 1, label: "发散" },
+        ]}
         aria-label="温度"
+        onChange={(event) => setTemperature(Number(event.currentTarget.value))}
       />
     </div>
   );
@@ -70,10 +81,120 @@ export default defineDoc({
       max={100}
       step={1}
       defaultValue={60}
+      showValue
+      formatValue={(value) => \`\${value}%\`}
       aria-label="生成强度"
     />;
   `,
   sections: [
+    {
+      title: "尺寸",
+      code: `
+        <div style={stackStyle}>
+          <RangeInput size="sm" defaultValue={35} showValue aria-label="小尺寸" />
+          <RangeInput size="md" defaultValue={50} showValue aria-label="中尺寸" />
+          <RangeInput size="lg" defaultValue={72} showValue aria-label="大尺寸" />
+        </div>;
+      `,
+      content: (
+        <div style={stackStyle}>
+          <RangeInput
+            size="sm"
+            defaultValue={35}
+            showValue
+            aria-label="小尺寸"
+          />
+          <RangeInput
+            size="md"
+            defaultValue={50}
+            showValue
+            aria-label="中尺寸"
+          />
+          <RangeInput
+            size="lg"
+            defaultValue={72}
+            showValue
+            aria-label="大尺寸"
+          />
+        </div>
+      ),
+    },
+    {
+      title: "值展示和格式化",
+      code: `
+        <div style={stackStyle}>
+          <RangeInput
+            defaultValue={72}
+            showValue
+            formatValue={(value) => \`\${value}%\`}
+            aria-label="完成度"
+          />
+          <RangeInput
+            min={0}
+            max={2}
+            step={0.1}
+            defaultValue={0.8}
+            showValue
+            formatValue={(value) => \`温度 \${value.toFixed(1)}\`}
+            color="#0f766e"
+            aria-label="温度"
+          />
+        </div>;
+      `,
+      content: (
+        <div style={stackStyle}>
+          <RangeInput
+            defaultValue={72}
+            showValue
+            formatValue={(value) => `${value}%`}
+            aria-label="完成度"
+          />
+          <RangeInput
+            min={0}
+            max={2}
+            step={0.1}
+            defaultValue={0.8}
+            showValue
+            formatValue={(value) => `温度 ${value.toFixed(1)}`}
+            color="#0f766e"
+            aria-label="温度"
+          />
+        </div>
+      ),
+    },
+    {
+      title: "刻度",
+      code: `
+        <RangeInput
+          min={0}
+          max={100}
+          step={5}
+          defaultValue={50}
+          showValue
+          marks={[
+            { value: 0, label: "低" },
+            { value: 50, label: "中" },
+            { value: 100, label: "高" },
+          ]}
+          aria-label="风险等级"
+        />;
+      `,
+      content: (
+        <RangeInput
+          min={0}
+          max={100}
+          step={5}
+          defaultValue={50}
+          showValue
+          marks={[
+            { value: 0, label: "低" },
+            { value: 50, label: "中" },
+            { value: 100, label: "高" },
+          ]}
+          aria-label="风险等级"
+        />
+      ),
+    },
     {
       title: "宽高与颜色",
       code: `
@@ -204,6 +325,12 @@ export default defineDoc({
       description: "步进值。",
     },
     {
+      name: "size",
+      type: "'sm' | 'md' | 'lg'",
+      defaultValue: "'md'",
+      description: "尺寸，控制默认轨道高度和展示值徽标尺寸。",
+    },
+    {
       name: "width",
       type: "CSSProperties['width']",
       description: "滑块宽度，默认占满父容器。",
@@ -222,6 +349,22 @@ export default defineDoc({
       name: "color",
       type: "string",
       description: "主色，影响滑块边框和浏览器强调色。",
+    },
+    {
+      name: "showValue",
+      type: "boolean",
+      defaultValue: "false",
+      description: "是否在滑块右侧展示当前值。",
+    },
+    {
+      name: "formatValue",
+      type: "(value: number) => ReactNode",
+      description: "格式化展示值，适合补充百分号、单位或固定小数位。",
+    },
+    {
+      name: "marks",
+      type: "Array<number | { value: number; label?: ReactNode }>",
+      description: "轻量刻度标记，用于展示范围端点或关键值。",
     },
     {
       name: "thumbColor",
