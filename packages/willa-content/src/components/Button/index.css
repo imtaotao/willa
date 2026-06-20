@@ -43,6 +43,14 @@
   cursor: wait;
 }
 
+.willa-button--pressed,
+.willa-button--pressed:hover {
+  border-color: var(--willa-button-pressed-border);
+  background: var(--willa-button-pressed-bg);
+  color: var(--willa-button-pressed-text);
+  box-shadow: var(--willa-button-pressed-shadow);
+}
+
 .willa-button--sm {
   gap: 0.4rem;
   min-height: 2rem;
@@ -124,6 +132,14 @@
 .willa-button--link:hover {
   background: var(--willa-button-custom-bg, transparent);
   color: var(--willa-button-custom-text, var(--willa-button-link-text-hover));
+  box-shadow: none;
+}
+
+.willa-button--link.willa-button--pressed,
+.willa-button--link.willa-button--pressed:hover {
+  border-color: transparent;
+  background: transparent;
+  color: var(--willa-button-pressed-text);
   box-shadow: none;
 }
 

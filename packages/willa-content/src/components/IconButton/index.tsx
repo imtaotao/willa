@@ -22,6 +22,7 @@ type IconButtonBaseProps = {
   className?: string;
   disabled?: boolean;
   loading?: boolean;
+  pressed?: boolean;
   backgroundColor?: string;
   textColor?: string;
   copyText?: boolean | string;
@@ -60,6 +61,7 @@ export function IconButton(props: IconButtonProps) {
       className,
       disabled = false,
       loading = false,
+      pressed,
       backgroundColor,
       textColor,
       copyText,
@@ -91,6 +93,7 @@ export function IconButton(props: IconButtonProps) {
           shape,
           copied,
           loading,
+          pressed,
           className,
         })}
         style={buttonStyle}
@@ -100,6 +103,7 @@ export function IconButton(props: IconButtonProps) {
         aria-label={loading && loadingLabel ? loadingLabel : ariaLabel}
         aria-busy={loading || undefined}
         aria-disabled={effectiveDisabled || undefined}
+        aria-pressed={resolveAriaPressed(anchorProps["aria-pressed"], pressed)}
         tabIndex={effectiveDisabled ? -1 : anchorProps.tabIndex}
         onClick={(event) => {
           handleIconButtonClick(event, {
@@ -128,6 +132,7 @@ export function IconButton(props: IconButtonProps) {
     className,
     disabled,
     loading = false,
+    pressed,
     backgroundColor,
     textColor,
     copyText,
@@ -151,11 +156,13 @@ export function IconButton(props: IconButtonProps) {
         shape,
         copied,
         loading,
+        pressed,
         className,
       })}
       style={buttonStyle}
       aria-label={loading && loadingLabel ? loadingLabel : ariaLabel}
       aria-busy={loading || undefined}
+      aria-pressed={resolveAriaPressed(buttonProps["aria-pressed"], pressed)}
       disabled={effectiveDisabled}
       type={type}
       onClick={(event) => {
@@ -181,6 +188,7 @@ const getIconButtonClassName = (options: {
   shape: IconButtonShape;
   copied: boolean;
   loading: boolean;
+  pressed?: boolean;
   className?: string;
 }) => {
   return classNames(
@@ -190,8 +198,16 @@ const getIconButtonClassName = (options: {
     `willa-icon-button--${options.shape}`,
     options.copied && "willa-icon-button--copied",
     options.loading && "willa-icon-button--loading",
+    options.pressed && "willa-icon-button--pressed",
     options.className,
   );
+};
+
+const resolveAriaPressed = (
+  ariaPressed: AnchorHTMLAttributes<HTMLAnchorElement>["aria-pressed"],
+  pressed?: boolean,
+) => {
+  return ariaPressed ?? (typeof pressed === "boolean" ? pressed : undefined);
 };
 
 type IconButtonStyle = CSSProperties & {

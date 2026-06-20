@@ -21,6 +21,7 @@ type ButtonBaseProps = {
   disabled?: boolean;
   loading?: boolean;
   loadingText?: ReactNode;
+  pressed?: boolean;
   backgroundColor?: string;
   textColor?: string;
   copyText?: boolean | string;
@@ -59,6 +60,7 @@ export function Button(props: ButtonProps) {
       disabled = false,
       loading = false,
       loadingText,
+      pressed,
       backgroundColor,
       textColor,
       copyText,
@@ -89,6 +91,7 @@ export function Button(props: ButtonProps) {
           size,
           copied,
           loading,
+          pressed,
           className,
         })}
         style={buttonStyle}
@@ -97,6 +100,7 @@ export function Button(props: ButtonProps) {
         rel={resolvedRel}
         aria-busy={loading || undefined}
         aria-disabled={effectiveDisabled || undefined}
+        aria-pressed={resolveAriaPressed(anchorProps["aria-pressed"], pressed)}
         tabIndex={effectiveDisabled ? -1 : anchorProps.tabIndex}
         onClick={(event) => {
           handleButtonClick(event, {
@@ -131,6 +135,7 @@ export function Button(props: ButtonProps) {
     disabled,
     loading = false,
     loadingText,
+    pressed,
     backgroundColor,
     textColor,
     copyText,
@@ -153,10 +158,12 @@ export function Button(props: ButtonProps) {
         size,
         copied,
         loading,
+        pressed,
         className,
       })}
       style={buttonStyle}
       aria-busy={loading || undefined}
+      aria-pressed={resolveAriaPressed(buttonProps["aria-pressed"], pressed)}
       disabled={effectiveDisabled}
       type={type}
       onClick={(event) => {
@@ -187,6 +194,7 @@ const getButtonClassName = (options: {
   size: ButtonSize;
   copied: boolean;
   loading: boolean;
+  pressed?: boolean;
   className?: string;
 }) => {
   return classNames(
@@ -195,8 +203,16 @@ const getButtonClassName = (options: {
     `willa-button--${options.size}`,
     options.copied && "willa-button--copied",
     options.loading && "willa-button--loading",
+    options.pressed && "willa-button--pressed",
     options.className,
   );
+};
+
+const resolveAriaPressed = (
+  ariaPressed: AnchorHTMLAttributes<HTMLAnchorElement>["aria-pressed"],
+  pressed?: boolean,
+) => {
+  return ariaPressed ?? (typeof pressed === "boolean" ? pressed : undefined);
 };
 
 type ButtonStyle = CSSProperties & {

@@ -9,6 +9,8 @@ import { Stack } from "willa/Stack";
 import "willa/Stack.css";
 import { Tabs } from "willa/Tabs";
 import "willa/Tabs.css";
+import { Toolbar } from "willa/Toolbar";
+import "willa/Toolbar.css";
 import { Switch } from "willa/Switch";
 import "willa/Switch.css";
 import {
@@ -917,7 +919,7 @@ const TableCapabilityPreview = () => {
           label: "列拖拽与个性化",
           children: (
             <Stack gap="md" width="100%">
-              <Group gap="sm" wrap>
+              <Toolbar ariaLabel="列配置操作" size="sm" wrap>
                 <Switch
                   checked={!columnHiddenState.owner}
                   label="显示归属"
@@ -945,7 +947,7 @@ const TableCapabilityPreview = () => {
                 <Button size="sm" variant="ghost" onClick={resetColumnState}>
                   重置配置
                 </Button>
-              </Group>
+              </Toolbar>
               <Table
                 caption="拖拽列头即可调整顺序，列宽调整后会保留在本地状态里。"
                 items={personalizationItems}
@@ -1081,7 +1083,7 @@ const TableDemoGallery = () => {
                   setStickyHeader(event.currentTarget.checked)
                 }
               />
-              <Group gap="sm" wrap>
+              <Toolbar ariaLabel="表格滚动操作" size="sm" wrap>
                 <Button
                   size="sm"
                   variant="ghost"
@@ -1115,7 +1117,7 @@ const TableDemoGallery = () => {
                 >
                   到底部
                 </Button>
-              </Group>
+              </Toolbar>
               <Table
                 ref={tableRef}
                 caption="固定列、操作列和实例方法控制内部滚动容器"
@@ -1314,6 +1316,7 @@ export default defineDoc({
     { name: "useTableColumnState", from: "willa/Table" },
     { name: "Stack", from: "willa/Stack" },
     { name: "Group", from: "willa/Group" },
+    { name: "Toolbar", from: "willa/Toolbar" },
   ],
   css: "willa/Table.css",
   demo: {

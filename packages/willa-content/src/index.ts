@@ -49,6 +49,7 @@ export { Step, Steps } from "#content/components/Steps";
 export { Table, useTableColumnState } from "#content/components/Table";
 export { Tabs } from "#content/components/Tabs";
 export { Timeline } from "#content/components/Timeline";
+export { Toolbar } from "#content/components/Toolbar";
 export { Tour } from "#content/components/Tour";
 export { Tree } from "#content/components/Tree";
 export { createToast, toast } from "#content/components/Toast";
@@ -311,6 +312,11 @@ export type {
   TimelineTone,
   TimelineVariant,
 } from "#content/components/Timeline";
+export type {
+  ToolbarOrientation,
+  ToolbarProps,
+  ToolbarSize,
+} from "#content/components/Toolbar";
 export type {
   TourActionRenderInfo,
   TourGap,

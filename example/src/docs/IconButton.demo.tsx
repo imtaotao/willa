@@ -150,6 +150,41 @@ export default defineDoc({
       ),
     },
     {
+      title: "按下态",
+      code: `
+        <div style={iconButtonRowStyle}>
+          <IconButton
+            ariaLabel="收藏"
+            icon={<BookmarkIcon />}
+            pressed
+            variant="ghost"
+          />
+          <IconButton
+            ariaLabel="确认选择"
+            icon={<CheckIcon />}
+            pressed
+            variant="outline"
+          />
+        </div>;
+      `,
+      content: (
+        <div style={iconButtonRowStyle}>
+          <IconButton
+            ariaLabel="收藏"
+            icon={<BookmarkIcon />}
+            pressed
+            variant="ghost"
+          />
+          <IconButton
+            ariaLabel="确认选择"
+            icon={<CheckIcon />}
+            pressed
+            variant="outline"
+          />
+        </div>
+      ),
+    },
+    {
       title: "点击复制",
       code: `
         <div style={iconButtonRowStyle}>
@@ -272,6 +307,11 @@ export default defineDoc({
       name: "loadingLabel",
       type: "string",
       description: "加载时替换 ariaLabel 的辅助技术文案。",
+    },
+    {
+      name: "pressed",
+      type: "boolean",
+      description: "按钮是否处于按下态；传入后会同步 aria-pressed 语义。",
     },
     {
       name: "backgroundColor",

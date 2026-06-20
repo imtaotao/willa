@@ -95,9 +95,18 @@
   --willa-button-copied-bg: rgba(255, 255, 255, 0.08);
   --willa-button-copied-border: rgba(134, 239, 172, 0.2);
   --willa-button-copied-text: var(--willa-text-strong);
+  --willa-button-pressed-bg: rgba(130, 163, 236, 0.2);
+  --willa-button-pressed-border: rgba(130, 163, 236, 0.34);
+  --willa-button-pressed-text: var(--willa-text-strong);
+  --willa-button-pressed-shadow: none;
   --willa-copy-button-failed-bg: rgba(248, 113, 113, 0.14);
   --willa-copy-button-failed-border: rgba(248, 113, 113, 0.28);
   --willa-copy-button-failed-text: var(--willa-text-strong);
+  --willa-toolbar-bg: rgba(255, 255, 255, 0.06);
+  --willa-toolbar-border: rgba(255, 255, 255, 0.11);
+  --willa-toolbar-separator: rgba(255, 255, 255, 0.12);
+  --willa-toolbar-shadow: none;
+  --willa-toolbar-text: var(--willa-text);
   --willa-float-button-bg: rgba(255, 255, 255, 0.085);
   --willa-float-button-bg-hover: rgba(255, 255, 255, 0.11);
   --willa-float-button-border: rgba(255, 255, 255, 0.1);

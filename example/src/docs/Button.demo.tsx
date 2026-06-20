@@ -136,6 +136,29 @@ export default defineDoc({
       ),
     },
     {
+      title: "按下态",
+      code: `
+        <Group gap="md">
+          <Button pressed variant="ghost">
+            自动换行
+          </Button>
+          <Button pressed variant="outline">
+            预览模式
+          </Button>
+        </Group>;
+      `,
+      content: (
+        <Group gap="md">
+          <Button pressed variant="ghost">
+            自动换行
+          </Button>
+          <Button pressed variant="outline">
+            预览模式
+          </Button>
+        </Group>
+      ),
+    },
+    {
       title: "点击复制",
       code: `
         <Group gap="md">
@@ -229,6 +252,11 @@ export default defineDoc({
       name: "loadingText",
       type: "ReactNode",
       description: "加载时展示的替代文案，未传时保留原文案。",
+    },
+    {
+      name: "pressed",
+      type: "boolean",
+      description: "按钮是否处于按下态；传入后会同步 aria-pressed 语义。",
     },
     {
       name: "backgroundColor",

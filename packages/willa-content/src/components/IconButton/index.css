@@ -38,6 +38,14 @@
   cursor: wait;
 }
 
+.willa-icon-button--pressed,
+.willa-icon-button--pressed:hover {
+  border-color: var(--willa-button-pressed-border);
+  background: var(--willa-button-pressed-bg);
+  color: var(--willa-button-pressed-text);
+  box-shadow: var(--willa-button-pressed-shadow);
+}
+
 .willa-icon-button--sm {
   width: 2rem;
   height: 2rem;

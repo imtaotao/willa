@@ -131,6 +131,7 @@ const docSpecGroups = {
     "Table",
     "Tabs",
     "Timeline",
+    "Toolbar",
     "Tour",
     "Tree",
     "Toast",
