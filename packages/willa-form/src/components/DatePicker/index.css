@@ -171,6 +171,26 @@
   padding: 0.52rem 0.24rem 1.44rem;
 }
 
+.willa-date-picker-calendar
+  .willa-calendar-day:not(.willa-calendar-day--marked) {
+  padding: 0.52rem 0.24rem;
+}
+
+.willa-date-picker-calendar
+  .willa-calendar-day:not(.willa-calendar-day--marked)
+  .willa-calendar-day-content {
+  grid-template-rows: 1fr;
+  align-content: center;
+  align-items: center;
+  justify-items: center;
+}
+
+.willa-date-picker-calendar
+  .willa-calendar-day:not(.willa-calendar-day--marked)
+  .willa-calendar-marker {
+  display: none;
+}
+
 .willa-date-picker-calendar .willa-calendar-week-number {
   min-height: 3.2rem;
 }
@@ -180,6 +200,10 @@
 .willa-date-picker-calendar .willa-calendar-day--week {
   min-height: 2.7rem;
   font-size: 0.86rem;
+}
+
+.willa-date-picker-calendar .willa-calendar-day--week {
+  padding: 0 0.62rem;
 }
 
 .willa-date-picker-calendar .willa-calendar-marker {

@@ -93,12 +93,11 @@
 .willa-chat-bubble::before {
   position: absolute;
   top: 0.65rem;
-  left: -0.42rem;
-  width: 0;
-  height: 0;
-  border-top: 0.38rem solid transparent;
-  border-right: 0.48rem solid var(--willa-chat-bubble-bg);
-  border-bottom: 0.38rem solid transparent;
+  left: -0.52rem;
+  width: 0.52rem;
+  height: 0.72rem;
+  background: var(--willa-chat-bubble-bg);
+  clip-path: polygon(100% 0, 0 50%, 100% 100%);
   content: "";
 }
 
@@ -108,10 +107,10 @@
 }
 
 .willa-chat-item--right .willa-chat-bubble::before {
-  right: -0.42rem;
+  right: -0.52rem;
   left: auto;
-  border-right: 0;
-  border-left: 0.48rem solid var(--willa-chat-bubble-user-bg);
+  background: var(--willa-chat-bubble-user-bg);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
 }
 
 .willa-chat-line {

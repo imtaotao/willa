@@ -116,6 +116,7 @@ const willaDemoImportNames = new Set([
   "Select",
   "SelectionBar",
   "Separator",
+  "ScheduleCalendar",
   "SectionHeader",
   "SidebarLayout",
   "SiteFooter",

@@ -123,6 +123,7 @@ const docChineseNames: Record<string, string> = {
   ReasoningSteps: "推理步骤",
   Result: "结果",
   SearchInput: "搜索框",
+  ScheduleCalendar: "排期日历",
   SectionHeader: "区块标题",
   Select: "选择框",
   SelectionBar: "选择操作条",

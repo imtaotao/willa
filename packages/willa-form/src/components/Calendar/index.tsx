@@ -1,12 +1,16 @@
 import {
   forwardRef,
+  useRef,
   useMemo,
   useState,
   type CSSProperties,
   type HTMLAttributes,
+  type KeyboardEvent,
   type ReactNode,
 } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+import { Tooltip } from "@willa-ui/content/components/Tooltip";
+import { assignRef } from "@willa-ui/shared";
 import classNames from "classnames";
 import {
   formatDateValue,
@@ -48,7 +52,7 @@ export type CalendarCellContext = CalendarMarkerContext & {
   label: string;
   startLabel: string;
   endLabel: string;
-  marker?: CalendarMarker;
+  markers?: Array<CalendarMarker>;
   selected: boolean;
   inRange: boolean;
   rangeEdge: boolean;
@@ -150,6 +154,7 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
       style,
       ...rootProps
     } = props;
+    const rootRef = useRef<HTMLDivElement | null>(null);
     const [innerValue, setInnerValue] = useState<CalendarValue>(defaultValue);
     const currentValue = value ?? innerValue;
     const [innerVisibleDate, setInnerVisibleDate] = useState(() =>
@@ -170,6 +175,15 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
     );
     const calendarStyle = getCalendarStyle({ width, style });
     const panelTitle = formatPanelTitle(currentVisibleDate, mode);
+    const selectableOptions = useMemo(
+      () => optionGrid.filter((option) => option.weekNumber === undefined),
+      [optionGrid],
+    );
+
+    const setRootRef = (node: HTMLDivElement | null) => {
+      rootRef.current = node;
+      assignRef(ref, node);
+    };
 
     const setVisibleDate = (nextDate: Date) => {
       if (visibleDate === undefined) {
@@ -212,10 +226,52 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
       commitValue(sortRange(currentRange.start, nextValue));
     };
 
+    const focusOption = (targetIndex: number, direction: number) => {
+      const maxIndex = selectableOptions.length - 1;
+      let nextIndex = Math.min(maxIndex, Math.max(0, targetIndex));
+
+      while (nextIndex >= 0 && nextIndex <= maxIndex) {
+        const nextButton = rootRef.current?.querySelector<HTMLButtonElement>(
+          `[data-willa-calendar-option-index="${nextIndex}"]`,
+        );
+
+        if (nextButton && !nextButton.disabled) {
+          nextButton.focus();
+          return;
+        }
+
+        nextIndex += direction;
+      }
+    };
+
+    const handleCellKeyDown = (
+      event: KeyboardEvent<HTMLButtonElement>,
+      optionIndex: number,
+    ) => {
+      const columnCount = getCalendarColumnCount(mode);
+      const rowStart = Math.floor(optionIndex / columnCount) * columnCount;
+      const rowEnd = rowStart + columnCount - 1;
+      const lastIndex = selectableOptions.length - 1;
+      const keyMap: Partial<Record<string, number>> = {
+        ArrowLeft: optionIndex - 1,
+        ArrowRight: optionIndex + 1,
+        ArrowUp: optionIndex - columnCount,
+        ArrowDown: optionIndex + columnCount,
+        Home: rowStart,
+        End: Math.min(rowEnd, lastIndex),
+      };
+      const nextIndex = keyMap[event.key] ?? null;
+
+      if (nextIndex === null) return;
+
+      event.preventDefault();
+      focusOption(nextIndex, nextIndex >= optionIndex ? 1 : -1);
+    };
+
     return (
       <div
         {...rootProps}
-        ref={ref}
+        ref={setRootRef}
         className={classNames("willa-calendar", className)}
         style={calendarStyle}
       >
@@ -231,27 +287,38 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
           })
         ) : (
           <div className="willa-calendar-header">
-            <button
-              className="willa-calendar-nav"
-              type="button"
-              aria-label="上一页"
-              onClick={() =>
-                setVisibleDate(moveVisibleDate(currentVisibleDate, mode, -1))
-              }
-            >
-              <ChevronLeftIcon />
-            </button>
+            <div className="willa-calendar-header-side">
+              <button
+                className="willa-calendar-nav"
+                type="button"
+                aria-label="上一页"
+                onClick={() =>
+                  setVisibleDate(moveVisibleDate(currentVisibleDate, mode, -1))
+                }
+              >
+                <ChevronLeftIcon />
+              </button>
+            </div>
             <div className="willa-calendar-title">{panelTitle}</div>
-            <button
-              className="willa-calendar-nav"
-              type="button"
-              aria-label="下一页"
-              onClick={() =>
-                setVisibleDate(moveVisibleDate(currentVisibleDate, mode, 1))
-              }
-            >
-              <ChevronRightIcon />
-            </button>
+            <div className="willa-calendar-header-side willa-calendar-header-side--end">
+              <button
+                className="willa-calendar-today"
+                type="button"
+                onClick={() => setVisibleDate(getMonthStart(new Date()))}
+              >
+                今天
+              </button>
+              <button
+                className="willa-calendar-nav"
+                type="button"
+                aria-label="下一页"
+                onClick={() =>
+                  setVisibleDate(moveVisibleDate(currentVisibleDate, mode, 1))
+                }
+              >
+                <ChevronRightIcon />
+              </button>
+            </div>
           </div>
         )}
         {mode === "day" ? (
@@ -304,12 +371,13 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
               optionValue: option.value,
               value: currentValue,
             });
-            const markerSegment = getCalendarMarkerSegment({
+            const markerSegments = getCalendarMarkerSegments({
               getMarker,
               markers,
               mode,
               option,
             });
+            const markerSegment = markerSegments[0];
             const marker = markerSegment?.marker;
             const unavailable = isValueUnavailable(option.value, {
               min,
@@ -325,7 +393,7 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
               label: option.label,
               startLabel: option.startLabel,
               endLabel: option.endLabel,
-              marker,
+              markers: markerSegments.map((segment) => segment.marker),
               selected: selectedState.selected,
               inRange: selectedState.inRange,
               rangeEdge: selectedState.edge,
@@ -333,6 +401,9 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
               today: option.today,
               unavailable,
             } satisfies CalendarCellContext;
+            const selectableIndex = selectableOptions.findIndex(
+              (item) => item.value === option.value,
+            );
 
             return (
               <button
@@ -354,15 +425,16 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
                 type="button"
                 role="gridcell"
                 aria-selected={selectedState.selected}
+                data-willa-calendar-option-index={selectableIndex}
                 disabled={unavailable}
+                onKeyDown={(event) => handleCellKeyDown(event, selectableIndex)}
                 onClick={() => handleSelect(option)}
               >
                 <span className="willa-calendar-day-content">
                   {renderCell
                     ? renderCell(cellContext)
                     : renderDefaultCell({
-                        marker,
-                        markerSegment: markerSegment ?? undefined,
+                        markerSegments,
                         mode,
                         option,
                       })}
@@ -390,12 +462,14 @@ export type {
 const weekdayLabels = ["日", "一", "二", "三", "四", "五", "六"];
 
 const renderDefaultCell = (options: {
-  marker?: CalendarMarker;
-  markerSegment?: CalendarMarkerSegment;
+  markerSegments: Array<CalendarMarkerSegment>;
   mode: CalendarMode;
   option: CalendarOption;
 }) => {
-  const { marker, markerSegment, mode, option } = options;
+  const { markerSegments, mode, option } = options;
+  const visibleMarkerSegments = markerSegments.filter(
+    (segment) => segment.position !== "middle" && segment.position !== "end",
+  );
 
   return (
     <>
@@ -408,19 +482,39 @@ const renderDefaultCell = (options: {
       ) : (
         <span className="willa-calendar-day-label">{option.label}</span>
       )}
-      {marker ? (
-        <span
-          className={classNames(
-            "willa-calendar-marker",
-            markerSegment && `willa-calendar-marker--${markerSegment.position}`,
-          )}
-        >
-          {markerSegment?.position === "middle" ||
-          markerSegment?.position === "end"
-            ? null
-            : marker.label}
+      {visibleMarkerSegments.length > 0 ? (
+        <span className="willa-calendar-marker-list">
+          {visibleMarkerSegments.map((segment) => {
+            const markerContent = (
+              <span
+                className={classNames(
+                  "willa-calendar-marker",
+                  `willa-calendar-marker--${segment.position}`,
+                )}
+              >
+                <span className="willa-calendar-marker-label">
+                  {segment.marker.label}
+                </span>
+              </span>
+            );
+
+            return (
+              <Tooltip
+                key={`${segment.marker.value}-${segment.marker.endValue ?? ""}-${String(segment.marker.label)}`}
+                content={segment.marker.label}
+                delay={180}
+                side="top"
+              >
+                {markerContent}
+              </Tooltip>
+            );
+          })}
         </span>
-      ) : null}
+      ) : (
+        <span className="willa-calendar-marker-list">
+          <span className="willa-calendar-marker willa-calendar-marker--empty" />
+        </span>
+      )}
     </>
   );
 };
@@ -464,6 +558,13 @@ const formatValue = (date: Date, mode: CalendarMode) => {
   if (mode === "month") return formatMonthValue(date);
 
   return formatDateValue(mode === "week" ? getWeekStart(date) : date);
+};
+
+const getCalendarColumnCount = (mode: CalendarMode) => {
+  if (mode === "day") return 7;
+  if (mode === "week") return 1;
+
+  return 3;
 };
 
 const getMonthStart = (date: Date) =>
@@ -621,7 +722,7 @@ const getWeekNumber = (date: Date, firstDayOfWeek: 0 | 1) => {
   return Math.floor(diff / 604800000) + 1;
 };
 
-const getCalendarMarkerSegment = (options: {
+const getCalendarMarkerSegments = (options: {
   getMarker?: (
     value: string,
     context: CalendarMarkerContext,
@@ -639,16 +740,20 @@ const getCalendarMarkerSegment = (options: {
     currentMonth: option.currentMonth,
   } satisfies CalendarMarkerContext;
   const dynamicMarker = getMarker?.(option.value, context);
-  const marker =
-    dynamicMarker ??
-    markers.find((candidate) => isValueInMarker(option.value, candidate));
+  const matchedMarkers = markers.filter((candidate) =>
+    isValueInMarker(option.value, candidate),
+  );
+  const cellMarkers = dynamicMarker
+    ? [dynamicMarker, ...matchedMarkers]
+    : matchedMarkers;
 
-  if (!marker) return null;
-
-  return {
-    marker,
-    position: getMarkerSegmentPosition(option.value, marker),
-  } satisfies CalendarMarkerSegment;
+  return cellMarkers.map(
+    (marker) =>
+      ({
+        marker,
+        position: getMarkerSegmentPosition(option.value, marker),
+      }) satisfies CalendarMarkerSegment,
+  );
 };
 
 const getMarkerRange = (marker: CalendarMarker) => {

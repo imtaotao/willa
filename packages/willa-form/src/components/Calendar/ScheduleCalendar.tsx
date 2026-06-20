@@ -1,5 +1,6 @@
 import {
   forwardRef,
+  useEffect,
   useMemo,
   useState,
   type CSSProperties,
@@ -7,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+import { Tooltip } from "@willa-ui/content/components/Tooltip";
 import classNames from "classnames";
 import {
   addDays,
@@ -57,6 +59,11 @@ export type ScheduleCalendarProps = Omit<
   slotMinutes?: number;
   events?: Array<ScheduleCalendarEvent>;
   allDayEvents?: Array<ScheduleCalendarEvent>;
+  selectedEventId?: string;
+  selectedSlot?: string;
+  emptyText?: ReactNode;
+  disabledDate?: (value: string) => boolean;
+  disabledSlot?: (value: string) => boolean;
   renderEvent?: (
     event: ScheduleCalendarEvent,
     context: ScheduleCalendarEventContext,
@@ -82,6 +89,11 @@ export const ScheduleCalendar = forwardRef<
     slotMinutes = 60,
     events = [],
     allDayEvents = [],
+    selectedEventId,
+    selectedSlot,
+    emptyText = "暂无日程",
+    disabledDate,
+    disabledSlot,
     renderEvent,
     onVisibleDateChange,
     onViewChange,
@@ -92,11 +104,23 @@ export const ScheduleCalendar = forwardRef<
     ...rootProps
   } = props;
   const [innerVisibleDate, setInnerVisibleDate] = useState(() =>
-    getWeekStart(defaultVisibleDate ?? new Date()),
+    getInitialScheduleVisibleDate(
+      defaultVisibleDate ?? new Date(),
+      view ?? defaultView,
+    ),
   );
   const [innerView, setInnerView] = useState<ScheduleCalendarView>(defaultView);
   const currentVisibleDate = visibleDate ?? innerVisibleDate;
   const currentView = view ?? innerView;
+  const invalidTimedEvents = useMemo(
+    () => events.filter((event) => !isSingleDayTimedEvent(event)),
+    [events],
+  );
+  const validTimedEvents = useMemo(
+    () => events.filter((event) => isSingleDayTimedEvent(event)),
+    [events],
+  );
+  const hasEvents = validTimedEvents.length > 0 || allDayEvents.length > 0;
   const weekDays = useMemo(
     () => createWeekDays(currentVisibleDate),
     [currentVisibleDate],
@@ -109,8 +133,15 @@ export const ScheduleCalendar = forwardRef<
     () => createScheduleSlots(startHour, endHour, slotMinutes),
     [endHour, slotMinutes, startHour],
   );
-  const eventLayouts = useMemo(() => createEventLayoutMap(events), [events]);
+  const eventLayouts = useMemo(
+    () => createEventLayoutMap(validTimedEvents),
+    [validTimedEvents],
+  );
   const calendarStyle = getCalendarStyle({ width, style });
+
+  useEffect(() => {
+    warnInvalidTimedEvents(invalidTimedEvents);
+  }, [invalidTimedEvents]);
 
   const setVisibleDate = (nextDate: Date) => {
     if (visibleDate === undefined) {
@@ -124,6 +155,7 @@ export const ScheduleCalendar = forwardRef<
       setInnerView(nextView);
     }
 
+    setVisibleDate(getInitialScheduleVisibleDate(currentVisibleDate, nextView));
     onViewChange?.(nextView);
   };
   const moveByView = (direction: number) => {
@@ -155,6 +187,25 @@ export const ScheduleCalendar = forwardRef<
           <ChevronLeftIcon />
         </button>
         <div className="willa-calendar-title">{scheduleTitle}</div>
+        <button
+          className="willa-calendar-today"
+          type="button"
+          onClick={() =>
+            setVisibleDate(
+              getInitialScheduleVisibleDate(new Date(), currentView),
+            )
+          }
+        >
+          今天
+        </button>
+        <button
+          className="willa-calendar-nav"
+          type="button"
+          aria-label={currentView === "month" ? "下一月" : "下一周"}
+          onClick={() => moveByView(1)}
+        >
+          <ChevronRightIcon />
+        </button>
         <div className="willa-schedule-calendar-view-switch">
           {(["week", "month"] as Array<ScheduleCalendarView>).map((item) => (
             <button
@@ -172,21 +223,18 @@ export const ScheduleCalendar = forwardRef<
             </button>
           ))}
         </div>
-        <button
-          className="willa-calendar-nav"
-          type="button"
-          aria-label={currentView === "month" ? "下一月" : "下一周"}
-          onClick={() => moveByView(1)}
-        >
-          <ChevronRightIcon />
-        </button>
       </div>
       {currentView === "month" ? (
         <ScheduleCalendarMonth
           allDayEvents={allDayEvents}
           days={monthDays}
-          events={events}
+          disabledDate={disabledDate}
+          emptyText={emptyText}
+          events={validTimedEvents}
+          hasEvents={hasEvents}
           renderEvent={renderEvent}
+          selectedEventId={selectedEventId}
+          selectedSlot={selectedSlot}
           visibleDate={currentVisibleDate}
           onEventClick={onEventClick}
           onSlotClick={onSlotClick}
@@ -194,9 +242,15 @@ export const ScheduleCalendar = forwardRef<
       ) : (
         <ScheduleCalendarWeek
           allDayEvents={allDayEvents}
+          disabledDate={disabledDate}
+          disabledSlot={disabledSlot}
+          emptyText={emptyText}
           eventLayouts={eventLayouts}
-          events={events}
+          events={validTimedEvents}
+          hasEvents={hasEvents}
           renderEvent={renderEvent}
+          selectedEventId={selectedEventId}
+          selectedSlot={selectedSlot}
           slots={slots}
           slotMinutes={normalizeSlotMinutes(slotMinutes)}
           weekDays={weekDays}
@@ -229,12 +283,18 @@ type ScheduleEventLayout = {
 
 const ScheduleCalendarWeek = (props: {
   allDayEvents: Array<ScheduleCalendarEvent>;
+  disabledDate?: (value: string) => boolean;
+  disabledSlot?: (value: string) => boolean;
+  emptyText: ReactNode;
   eventLayouts: Map<string, ScheduleEventLayout>;
   events: Array<ScheduleCalendarEvent>;
+  hasEvents: boolean;
   renderEvent?: (
     event: ScheduleCalendarEvent,
     context: ScheduleCalendarEventContext,
   ) => ReactNode;
+  selectedEventId?: string;
+  selectedSlot?: string;
   slots: Array<ScheduleSlot>;
   slotMinutes: number;
   weekDays: Array<ScheduleDay>;
@@ -243,9 +303,15 @@ const ScheduleCalendarWeek = (props: {
 }) => {
   const {
     allDayEvents,
+    disabledDate,
+    disabledSlot,
+    emptyText,
     eventLayouts,
     events,
+    hasEvents,
     renderEvent,
+    selectedEventId,
+    selectedSlot,
     slots,
     slotMinutes,
     weekDays,
@@ -274,6 +340,8 @@ const ScheduleCalendarWeek = (props: {
         <ScheduleCalendarDaySlot
           key={`${day.value}-all-day`}
           className="willa-schedule-calendar-all-day-cell"
+          disabled={disabledDate?.(day.value)}
+          selected={selectedSlot === day.value}
           value={day.value}
           onSlotClick={onSlotClick}
         >
@@ -286,17 +354,25 @@ const ScheduleCalendarWeek = (props: {
                 dateValue={day.value}
                 event={event}
                 renderEvent={renderEvent}
+                selected={selectedEventId === event.id}
                 onEventClick={onEventClick}
               />
             ))}
         </ScheduleCalendarDaySlot>
       ))}
+      {!hasEvents ? (
+        <div className="willa-schedule-calendar-empty">{emptyText}</div>
+      ) : null}
       {slots.map((slot) => (
         <ScheduleCalendarRow
           key={`${slot.hour}-${slot.minute}`}
+          disabledDate={disabledDate}
+          disabledSlot={disabledSlot}
           eventLayouts={eventLayouts}
           events={events}
           renderEvent={renderEvent}
+          selectedEventId={selectedEventId}
+          selectedSlot={selectedSlot}
           slot={slot}
           slotMinutes={slotMinutes}
           weekDays={weekDays}
@@ -311,11 +387,16 @@ const ScheduleCalendarWeek = (props: {
 const ScheduleCalendarMonth = (props: {
   allDayEvents: Array<ScheduleCalendarEvent>;
   days: Array<ScheduleDay & { currentMonth: boolean }>;
+  disabledDate?: (value: string) => boolean;
+  emptyText: ReactNode;
   events: Array<ScheduleCalendarEvent>;
+  hasEvents: boolean;
   renderEvent?: (
     event: ScheduleCalendarEvent,
     context: ScheduleCalendarEventContext,
   ) => ReactNode;
+  selectedEventId?: string;
+  selectedSlot?: string;
   visibleDate: Date;
   onEventClick?: (event: ScheduleCalendarEvent) => void;
   onSlotClick?: (value: string) => void;
@@ -323,8 +404,13 @@ const ScheduleCalendarMonth = (props: {
   const {
     allDayEvents,
     days,
+    disabledDate,
+    emptyText,
     events,
+    hasEvents,
     renderEvent,
+    selectedEventId,
+    selectedSlot,
     visibleDate,
     onEventClick,
     onSlotClick,
@@ -349,6 +435,7 @@ const ScheduleCalendarMonth = (props: {
         const dayEvents = allEvents.filter((event) =>
           isDateInEventRange(event, day.value),
         );
+        const disabled = disabledDate?.(day.value);
 
         return (
           <ScheduleCalendarDaySlot
@@ -359,6 +446,8 @@ const ScheduleCalendarMonth = (props: {
               day.weekend && "willa-schedule-calendar-month-cell--weekend",
               day.today && "willa-schedule-calendar-month-cell--today",
             )}
+            disabled={disabled}
+            selected={selectedSlot === day.value}
             value={day.value}
             onSlotClick={onSlotClick}
           >
@@ -375,6 +464,7 @@ const ScheduleCalendarMonth = (props: {
                   dateValue={day.value}
                   event={event}
                   renderEvent={renderEvent}
+                  selected={selectedEventId === event.id}
                   onEventClick={onEventClick}
                 />
               ))}
@@ -387,6 +477,9 @@ const ScheduleCalendarMonth = (props: {
           </ScheduleCalendarDaySlot>
         );
       })}
+      {!hasEvents ? (
+        <div className="willa-schedule-calendar-month-empty">{emptyText}</div>
+      ) : null}
     </div>
   );
 };
@@ -394,22 +487,42 @@ const ScheduleCalendarMonth = (props: {
 const ScheduleCalendarDaySlot = (props: {
   children?: ReactNode;
   className: string;
+  disabled?: boolean;
+  selected?: boolean;
   value: string;
   onSlotClick?: (value: string) => void;
 }) => {
-  const { children, className, value, onSlotClick } = props;
+  const {
+    children,
+    className,
+    disabled = false,
+    selected = false,
+    value,
+    onSlotClick,
+  } = props;
 
   return (
     <div
-      className={className}
+      className={classNames(
+        className,
+        selected && "willa-schedule-calendar-slot--selected",
+        disabled && "willa-schedule-calendar-slot--disabled",
+      )}
       role="button"
-      tabIndex={0}
-      onClick={() => onSlotClick?.(value)}
+      tabIndex={disabled ? -1 : 0}
+      aria-disabled={disabled || undefined}
+      aria-pressed={selected || undefined}
+      onClick={() => {
+        if (disabled) return;
+
+        onSlotClick?.(value);
+      }}
       onKeyDown={(currentEvent) => {
+        if (disabled) return;
+        if (currentEvent.target !== currentEvent.currentTarget) return;
         if (currentEvent.key !== "Enter" && currentEvent.key !== " ") {
           return;
         }
-
         currentEvent.preventDefault();
         onSlotClick?.(value);
       }}
@@ -420,12 +533,16 @@ const ScheduleCalendarDaySlot = (props: {
 };
 
 const ScheduleCalendarRow = (props: {
+  disabledDate?: (value: string) => boolean;
+  disabledSlot?: (value: string) => boolean;
   eventLayouts: Map<string, ScheduleEventLayout>;
   events: Array<ScheduleCalendarEvent>;
   renderEvent?: (
     event: ScheduleCalendarEvent,
     context: ScheduleCalendarEventContext,
   ) => ReactNode;
+  selectedEventId?: string;
+  selectedSlot?: string;
   slot: ScheduleSlot;
   slotMinutes: number;
   weekDays: Array<ScheduleDay>;
@@ -433,9 +550,13 @@ const ScheduleCalendarRow = (props: {
   onSlotClick?: (value: string) => void;
 }) => {
   const {
+    disabledDate,
+    disabledSlot,
     eventLayouts,
     events,
     renderEvent,
+    selectedEventId,
+    selectedSlot,
     slot,
     slotMinutes,
     weekDays,
@@ -453,15 +574,31 @@ const ScheduleCalendarRow = (props: {
         const slotEvents = events.filter((event) =>
           isScheduleEventInSlot(event, day.value, slot, slotMinutes),
         );
+        const disabled =
+          Boolean(disabledDate?.(day.value)) ||
+          Boolean(disabledSlot?.(slotValue));
 
         return (
           <div
             key={`${day.value}-${slot.hour}-${slot.minute}`}
-            className="willa-schedule-calendar-slot"
+            className={classNames(
+              "willa-schedule-calendar-slot",
+              selectedSlot === slotValue &&
+                "willa-schedule-calendar-slot--selected",
+              disabled && "willa-schedule-calendar-slot--disabled",
+            )}
             role="button"
-            tabIndex={0}
-            onClick={() => onSlotClick?.(slotValue)}
+            tabIndex={disabled ? -1 : 0}
+            aria-disabled={disabled || undefined}
+            aria-pressed={selectedSlot === slotValue || undefined}
+            onClick={() => {
+              if (disabled) return;
+
+              onSlotClick?.(slotValue);
+            }}
             onKeyDown={(currentEvent) => {
+              if (disabled) return;
+              if (currentEvent.target !== currentEvent.currentTarget) return;
               if (currentEvent.key !== "Enter" && currentEvent.key !== " ") {
                 return;
               }
@@ -477,6 +614,7 @@ const ScheduleCalendarRow = (props: {
                 event={event}
                 layout={eventLayouts.get(event.id)}
                 renderEvent={renderEvent}
+                selected={selectedEventId === event.id}
                 style={getScheduleEventStyle(event, slot, slotMinutes)}
                 onEventClick={onEventClick}
               />
@@ -497,6 +635,7 @@ const ScheduleCalendarEventView = (props: {
     event: ScheduleCalendarEvent,
     context: ScheduleCalendarEventContext,
   ) => ReactNode;
+  selected?: boolean;
   style?: CSSProperties;
   onEventClick?: (event: ScheduleCalendarEvent) => void;
 }) => {
@@ -506,6 +645,7 @@ const ScheduleCalendarEventView = (props: {
     event,
     layout,
     renderEvent,
+    selected = false,
     style,
     onEventClick,
   } = props;
@@ -519,16 +659,22 @@ const ScheduleCalendarEventView = (props: {
     </>
   );
 
-  return (
+  const trigger = (
     <span
       className={classNames(
         "willa-schedule-calendar-event",
         allDay && "willa-schedule-calendar-event--all-day",
+        selected && "willa-schedule-calendar-event--selected",
         `willa-schedule-calendar-event--${event.tone ?? "info"}`,
       )}
       style={eventStyle}
       role="button"
       tabIndex={0}
+      aria-label={getScheduleEventAccessibleLabel(event)}
+      aria-pressed={selected || undefined}
+      onPointerDown={(currentEvent) => {
+        currentEvent.stopPropagation();
+      }}
       onClick={(currentEvent) => {
         currentEvent.stopPropagation();
         onEventClick?.(event);
@@ -545,6 +691,17 @@ const ScheduleCalendarEventView = (props: {
     >
       {content}
     </span>
+  );
+
+  return (
+    <Tooltip
+      content={renderScheduleEventTooltip(event)}
+      contentClassName="willa-schedule-calendar-event-tooltip"
+      delay={180}
+      side="top"
+    >
+      {trigger}
+    </Tooltip>
   );
 };
 
@@ -626,10 +783,45 @@ const formatScheduleTitle = (date: Date) => {
 const formatMonthTitle = (date: Date) =>
   `${date.getFullYear()} 年 ${date.getMonth() + 1} 月`;
 
+const getInitialScheduleVisibleDate = (
+  date: Date,
+  view: ScheduleCalendarView,
+) => {
+  if (view === "month") {
+    return getDateOnly(new Date(date.getFullYear(), date.getMonth(), 1));
+  }
+
+  return getWeekStart(date);
+};
+
 const addMonths = (date: Date, offset: number) =>
   getDateOnly(new Date(date.getFullYear(), date.getMonth() + offset, 1));
 
 const formatHourLabel = (hour: number) => `${String(hour).padStart(2, "0")}:00`;
+
+const renderScheduleEventTooltip = (event: ScheduleCalendarEvent) => (
+  <span className="willa-schedule-calendar-event-tooltip-content">
+    <span className="willa-schedule-calendar-event-tooltip-title">
+      {event.title}
+    </span>
+    <span className="willa-schedule-calendar-event-tooltip-time">
+      {event.start} - {event.end}
+    </span>
+    {event.meta ? (
+      <span className="willa-schedule-calendar-event-tooltip-meta">
+        {event.meta}
+      </span>
+    ) : null}
+  </span>
+);
+
+const getScheduleEventAccessibleLabel = (event: ScheduleCalendarEvent) => {
+  const parts = [event.title, `${event.start} - ${event.end}`, event.meta]
+    .filter((part) => typeof part === "string" || typeof part === "number")
+    .map(String);
+
+  return parts.join("，");
+};
 
 const normalizeSlotMinutes = (slotMinutes: number) => {
   const value = Math.floor(slotMinutes);
@@ -676,6 +868,37 @@ const isScheduleEventInSlot = (
   return eventStart >= slotStart && eventStart < slotStart + slotMinutes;
 };
 
+const isSingleDayTimedEvent = (event: ScheduleCalendarEvent) => {
+  if (!hasTimeValue(event.start) || !hasTimeValue(event.end)) return false;
+
+  const start = parseScheduleDateTime(event.start);
+  const end = parseScheduleDateTime(event.end);
+
+  return Boolean(start && end && start.dateValue === end.dateValue);
+};
+
+const hasTimeValue = (value: string) => /\s+\d{1,2}:\d{2}/.test(value.trim());
+
+const warnedInvalidTimedEventIds = new Set<string>();
+
+const warnInvalidTimedEvents = (events: Array<ScheduleCalendarEvent>) => {
+  if (events.length === 0) return;
+  if (typeof console === "undefined") return;
+
+  const freshEvents = events.filter(
+    (event) => !warnedInvalidTimedEventIds.has(event.id),
+  );
+
+  if (freshEvents.length === 0) return;
+
+  freshEvents.forEach((event) => warnedInvalidTimedEventIds.add(event.id));
+  console.warn(
+    `[Willa] ScheduleCalendar events only support single-day timed events. Move all-day or cross-day events to allDayEvents, or split them by day: ${freshEvents
+      .map((event) => event.id)
+      .join(", ")}`,
+  );
+};
+
 const isDateInEventRange = (
   event: ScheduleCalendarEvent,
   dateValue: string,
@@ -705,8 +928,8 @@ const getScheduleEventStyle = (
   const height = (durationMinutes / slotMinutes) * 100;
 
   return {
-    top: `${top}%`,
-    height: `calc(${height}% - 0.3rem)`,
+    top: `calc(${top}% + var(--willa-schedule-calendar-event-inset))`,
+    height: `calc(${height}% - var(--willa-schedule-calendar-event-inset) - var(--willa-schedule-calendar-event-inset))`,
   } satisfies CSSProperties;
 };
 

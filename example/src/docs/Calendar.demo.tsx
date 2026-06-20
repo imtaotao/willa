@@ -1,15 +1,15 @@
 import { useState, type CSSProperties } from "react";
 import {
   Calendar,
-  ScheduleCalendar,
   type CalendarCellContext,
   type CalendarMarker,
-  type ScheduleCalendarEvent,
   type CalendarValue,
 } from "willa/Calendar";
 import { Badge } from "willa/Badge";
+import { Tooltip } from "willa/Tooltip";
 import "willa/Calendar.css";
 import "willa/Badge.css";
+import "willa/Tooltip.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
@@ -38,67 +38,21 @@ const calendarMarkers: Array<CalendarMarker> = [
     label: "发布窗口",
     tone: "success",
   },
-  {
-    value: "2026-06-19",
-    endValue: "2026-06-21",
-    label: "端午假期",
-    tone: "warning",
-  },
+  { value: "2026-06-19", label: "风险复核", tone: "warning" },
+  { value: "2026-06-19", label: "假期确认", tone: "info" },
   { value: "2026-06-24", label: "维护", tone: "info" },
-];
-
-const scheduleEvents: Array<ScheduleCalendarEvent> = [
-  {
-    id: "standup",
-    title: "产品站会",
-    start: "2026-06-16 09:30",
-    end: "2026-06-16 10:00",
-    tone: "info",
-    meta: "30 分钟",
-  },
-  {
-    id: "review",
-    title: "发布评审",
-    start: "2026-06-18 14:00",
-    end: "2026-06-18 15:30",
-    tone: "success",
-    meta: "组件和文档",
-  },
-  {
-    id: "holiday",
-    title: "端午排期冻结",
-    start: "2026-06-19 11:00",
-    end: "2026-06-19 12:00",
-    tone: "warning",
-    meta: "发布窗口",
-  },
-  {
-    id: "risk-review",
-    title: "风险复核",
-    start: "2026-06-18 14:30",
-    end: "2026-06-18 15:30",
-    tone: "warning",
-    meta: "并行评审",
-  },
-];
-
-const allDayScheduleEvents: Array<ScheduleCalendarEvent> = [
-  {
-    id: "freeze",
-    title: "发布冻结",
-    start: "2026-06-19",
-    end: "2026-06-20",
-    tone: "warning",
-  },
 ];
 
 const customCellMeta: Record<
   string,
-  { count: number; label: string; tone: "info" | "success" | "warning" }
+  Array<{ label: string; tone: "info" | "success" | "warning" }>
 > = {
-  "2026-06-16": { count: 4, label: "发布", tone: "success" },
-  "2026-06-19": { count: 2, label: "风险", tone: "warning" },
-  "2026-06-24": { count: 3, label: "维护", tone: "info" },
+  "2026-06-16": [{ label: "发布窗口", tone: "success" }],
+  "2026-06-19": [
+    { label: "风险复核", tone: "warning" },
+    { label: "假期确认", tone: "info" },
+  ],
+  "2026-06-24": [{ label: "维护排期", tone: "info" }],
 };
 
 const CalendarPreview = () => {
@@ -116,7 +70,6 @@ const CalendarPreview = () => {
             if (context.date.getDay() === 1) {
               return { value: dateValue, label: "周会", tone: "neutral" };
             }
-
             return null;
           }}
           onValueChange={setValue}
@@ -146,40 +99,79 @@ const ControlledVisibleCalendar = () => {
 };
 
 const renderBusinessCell = (context: CalendarCellContext) => {
-  const meta = customCellMeta[context.value];
+  const customItems = customCellMeta[context.value] ?? [];
+  const items =
+    customItems.length > 0
+      ? customItems
+      : (context.markers ?? []).map((marker) => ({
+          label: marker.label,
+          tone: marker.tone ?? "info",
+        }));
 
   return (
     <>
       <span className="willa-calendar-day-label">{context.label}</span>
-      {meta ? (
-        <span
-          style={{
-            display: "inline-flex",
-            maxWidth: "100%",
-            alignItems: "center",
-            gap: "0.24rem",
-            borderRadius: "999px",
-            background:
-              meta.tone === "success"
-                ? "var(--willa-calendar-marker-success-bg)"
-                : meta.tone === "warning"
-                  ? "var(--willa-calendar-marker-warning-bg)"
-                  : "var(--willa-calendar-marker-bg)",
-            color:
-              meta.tone === "success"
-                ? "var(--willa-calendar-marker-success-text)"
-                : meta.tone === "warning"
-                  ? "var(--willa-calendar-marker-warning-text)"
-                  : "var(--willa-calendar-marker-text)",
-            fontSize: "0.68rem",
-            fontWeight: 720,
-            lineHeight: 1,
-            padding: "0.22rem 0.42rem",
-          }}
-        >
-          {meta.label} {meta.count}
-        </span>
-      ) : null}
+      <span
+        style={{
+          display: "grid",
+          maxWidth: "100%",
+          minHeight: "1.08rem",
+          gap: "0.18rem",
+          color: items.length > 0 ? undefined : "transparent",
+          overflow: "hidden",
+          fontSize: "0.7rem",
+          fontWeight: 720,
+          lineHeight: 1.2,
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {items.length > 0
+          ? items.map((item) => (
+              <span
+                key={`${context.value}-${String(item.label)}`}
+                style={{
+                  display: "inline-grid",
+                  minWidth: 0,
+                  gridTemplateColumns: "0.45rem minmax(0, 1fr)",
+                  alignItems: "center",
+                  gap: "0.3rem",
+                  color:
+                    item.tone === "success"
+                      ? "var(--willa-calendar-marker-success-text)"
+                      : item.tone === "warning"
+                        ? "var(--willa-calendar-marker-warning-text)"
+                        : item.tone === "neutral"
+                          ? "var(--willa-calendar-marker-neutral-text)"
+                          : "var(--willa-calendar-marker-text)",
+                  overflow: "hidden",
+                }}
+              >
+                <span
+                  style={{
+                    width: "0.38rem",
+                    height: "0.38rem",
+                    borderRadius: "999px",
+                    background: "currentColor",
+                    opacity: 0.66,
+                  }}
+                />
+                <Tooltip content={item.label} delay={180} side="top">
+                  <span
+                    style={{
+                      minWidth: 0,
+                      overflow: "hidden",
+                      textAlign: "left",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {item.label}
+                  </span>
+                </Tooltip>
+              </span>
+            ))
+          : "占位"}
+      </span>
     </>
   );
 };
@@ -189,10 +181,12 @@ export default defineDoc({
   name: "Calendar",
   category: "form",
   packageName: "willa/Calendar",
-  description: "用于展示日期网格、范围选择、日期标记和禁用规则。",
+  description:
+    "日期选择面板，用于 DatePicker 等输入入口里的日期、周、月份和年份选择。",
   imports: [
     { name: "Calendar", from: "willa/Calendar" },
-    { name: "ScheduleCalendar", from: "willa/Calendar" },
+    { name: "Badge", from: "willa/Badge" },
+    { name: "Tooltip", from: "willa/Tooltip" },
   ],
   css: "willa/Calendar.css",
   demo: {
@@ -215,12 +209,8 @@ export default defineDoc({
         label: "发布窗口",
         tone: "success",
       },
-      {
-        value: "2026-06-19",
-        endValue: "2026-06-21",
-        label: "端午假期",
-        tone: "warning",
-      },
+      { value: "2026-06-19", label: "风险复核", tone: "warning" },
+      { value: "2026-06-19", label: "假期确认", tone: "info" },
       { value: "2026-06-24", label: "维护", tone: "info" },
     ];
 
@@ -364,22 +354,24 @@ export default defineDoc({
         import "willa/Calendar.css";
 
         const cellMeta = {
-          "2026-06-16": { count: 4, label: "发布" },
-          "2026-06-19": { count: 2, label: "风险" },
-          "2026-06-24": { count: 3, label: "维护" },
+          "2026-06-16": [{ label: "发布窗口" }],
+          "2026-06-19": [{ label: "风险复核" }, { label: "假期确认" }],
+          "2026-06-24": [{ label: "维护排期" }],
         };
 
         const renderCell = (context: CalendarCellContext) => {
-          const meta = cellMeta[context.value];
+          const items = cellMeta[context.value] ?? [];
 
           return (
             <>
               <span className="willa-calendar-day-label">{context.label}</span>
-              {meta ? (
-                <span style={{ fontSize: "0.68rem", fontWeight: 720 }}>
-                  {meta.label} {meta.count}
-                </span>
-              ) : null}
+              <span style={{ display: "grid", gap: "0.18rem" }}>
+                {items.map((item) => (
+                  <span key={item.label} style={{ fontSize: "0.68rem", fontWeight: 720 }}>
+                    {item.label}
+                  </span>
+                ))}
+              </span>
             </>
           );
         };
@@ -471,88 +463,6 @@ export default defineDoc({
               )}
             />
           </div>
-        </div>
-      ),
-    },
-    {
-      title: "日程视图切换",
-      code: `
-        import {
-          ScheduleCalendar,
-          type ScheduleCalendarEvent,
-        } from "willa/Calendar";
-        import "willa/Calendar.css";
-
-        const events: Array<ScheduleCalendarEvent> = [
-          {
-            id: "standup",
-            title: "产品站会",
-            start: "2026-06-16 09:30",
-            end: "2026-06-16 10:00",
-            tone: "info",
-            meta: "30 分钟",
-          },
-          {
-            id: "review",
-            title: "发布评审",
-            start: "2026-06-18 14:00",
-            end: "2026-06-18 15:30",
-            tone: "success",
-            meta: "组件和文档",
-          },
-          {
-            id: "risk-review",
-            title: "风险复核",
-            start: "2026-06-18 14:30",
-            end: "2026-06-18 15:30",
-            tone: "warning",
-            meta: "并行评审",
-          },
-        ];
-
-        const allDayEvents: Array<ScheduleCalendarEvent> = [
-          {
-            id: "freeze",
-            title: "发布冻结",
-            start: "2026-06-19",
-            end: "2026-06-20",
-            tone: "warning",
-          },
-        ];
-
-        <ScheduleCalendar
-          defaultVisibleDate={new Date(2026, 5, 16)}
-          defaultView="week"
-          slotMinutes={30}
-          startHour={8}
-          endHour={18}
-          events={events}
-          allDayEvents={allDayEvents}
-          renderEvent={(event) => (
-            <>
-              <strong>{event.title}</strong>
-              {event.meta ? <span>{event.meta}</span> : null}
-            </>
-          )}
-        />;
-      `,
-      content: (
-        <div style={demoFrameStyle}>
-          <ScheduleCalendar
-            defaultVisibleDate={new Date(2026, 5, 16)}
-            defaultView="week"
-            slotMinutes={30}
-            startHour={8}
-            endHour={18}
-            events={scheduleEvents}
-            allDayEvents={allDayScheduleEvents}
-            renderEvent={(event) => (
-              <>
-                <strong>{event.title}</strong>
-                {event.meta ? <span>{event.meta}</span> : null}
-              </>
-            )}
-          />
         </div>
       ),
     },
@@ -789,99 +699,6 @@ export default defineDoc({
       type: "(value: string, context: CalendarSelectContext) => void",
       group: "Calendar",
       description: "点击可选格子时触发，context.source 表示当前选择粒度。",
-    },
-    {
-      name: "width",
-      type: "CSSProperties['width']",
-      group: "ScheduleCalendar",
-      description: "自定义宽度；设置为 100% 时占满父容器。",
-    },
-    {
-      name: "view",
-      type: '"week" | "month"',
-      group: "ScheduleCalendar",
-      description:
-        "受控日程视图；week 展示小时网格，month 展示月日程网格。表格式日程在移动端保留横向滚动，避免压缩 7 列后影响阅读和点击。",
-    },
-    {
-      name: "defaultView",
-      type: '"week" | "month"',
-      group: "ScheduleCalendar",
-      defaultValue: '"week"',
-      description: "非受控默认日程视图，默认 week。",
-    },
-    {
-      name: "visibleDate",
-      type: "Date",
-      group: "ScheduleCalendar",
-      description: "受控当前展示日期；周视图用于定位周，月视图用于定位月份。",
-    },
-    {
-      name: "defaultVisibleDate",
-      type: "Date",
-      group: "ScheduleCalendar",
-      defaultValue: "今天所在周",
-      description: "非受控初始展示日期。",
-    },
-    {
-      name: "onViewChange",
-      type: "(view: ScheduleCalendarView) => void",
-      group: "ScheduleCalendar",
-      description: "日程视图切换时触发。",
-    },
-    {
-      name: "onVisibleDateChange",
-      type: "(date: Date) => void",
-      group: "ScheduleCalendar",
-      description: "日程面板翻页时触发。",
-    },
-    {
-      name: "events",
-      type: "Array<ScheduleCalendarEvent>",
-      group: "ScheduleCalendar",
-      description: "周日程视图的事件块，start 和 end 使用 YYYY-MM-DD HH:mm。",
-    },
-    {
-      name: "allDayEvents",
-      type: "Array<ScheduleCalendarEvent>",
-      group: "ScheduleCalendar",
-      description: "全天事件，start 和 end 可以只传日期。",
-    },
-    {
-      name: "slotMinutes",
-      type: "number",
-      group: "ScheduleCalendar",
-      description: "时间格粒度；默认 60，常用 15、30 或 60。",
-    },
-    {
-      name: "renderEvent",
-      type: "(event: ScheduleCalendarEvent, context: ScheduleCalendarEventContext) => ReactNode",
-      group: "ScheduleCalendar",
-      description: "自定义事件块内容。",
-    },
-    {
-      name: "startHour",
-      type: "number",
-      group: "ScheduleCalendar",
-      description: "日程网格的起始小时，默认 8。",
-    },
-    {
-      name: "endHour",
-      type: "number",
-      group: "ScheduleCalendar",
-      description: "日程网格的结束小时，默认 18。",
-    },
-    {
-      name: "onSlotClick",
-      type: "(value: string) => void",
-      group: "ScheduleCalendar",
-      description: "点击空白小时格时触发，value 为 YYYY-MM-DD HH:mm。",
-    },
-    {
-      name: "onEventClick",
-      type: "(event: ScheduleCalendarEvent) => void",
-      group: "ScheduleCalendar",
-      description: "点击事件块时触发。",
     },
   ],
 });
