@@ -154,12 +154,12 @@ export default defineDoc({
   props: [
     {
       name: "value",
-      type: "string | number | readonly string[]",
+      type: "string | number | ReadonlyArray<string>",
       description: "受控输入值，透传给 textarea。",
     },
     {
       name: "defaultValue",
-      type: "string | number | readonly string[]",
+      type: "string | number | ReadonlyArray<string>",
       defaultValue: '""',
       description: "非受控默认值。",
     },

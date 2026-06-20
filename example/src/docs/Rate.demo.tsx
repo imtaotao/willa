@@ -373,7 +373,7 @@ export default defineDoc({
     },
     {
       name: "tooltips",
-      type: "string[]",
+      type: "Array<string>",
       group: "展示",
       description: "每一项评分对应的提示文案，同时用于可访问性文案。",
     },

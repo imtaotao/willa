@@ -104,7 +104,7 @@ components such as `Button`, `CodeBlock`, `Callout`, `Image`, `Tabs`,
 `packages/willa-layout` is the layout component package, published as
 `@willa-ui/layout`. It contains layout primitives such as `Card`, `Group`,
 `Stack`, `Grid`, `Masonry`, `Container`, `Panel`, `Separator`, `SplitPane`,
-`ResizablePanel`, `PageHeader`, `SectionHeader`, `AppShell`, and
+`ResizablePanel`, `BorderBeam`, `PageHeader`, `SectionHeader`, `AppShell`, and
 `SidebarLayout`. Layout components own their component-specific layout
 variables and the Willa base visual tokens such as fonts, text colors, lines,
 surfaces, and focus rings.

@@ -14,7 +14,7 @@ Before adding a component, choose its package based on the architecture guide:
 
 - `@willa-ui/layout`: layout primitives, such as card surfaces, separators,
   groups, stacks, grids, masonry flows, containers, panels, resizable panes,
-  page headers, section headers, and page shells.
+  page headers, section headers, decorative border beams, and page shells.
 - `@willa-ui/content`: general content rendering, such as text, lists,
   callouts, code blocks, product primitives, and reusable rich content
   primitives.

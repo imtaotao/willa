@@ -203,11 +203,12 @@ export default defineDoc({
       name: "as",
       type: "ElementType",
       defaultValue: '"div"',
-      description: "根节点元素。",
+      description:
+        "根节点元素的轻量 escape hatch。组件属性仍按 div 透传，不提供完整多态组件类型收敛。",
     },
     {
       name: "color",
-      type: "string | { color: string; percent: number }[]",
+      type: "string | Array<{ color: string; percent: number }>",
       description: "流光颜色。传数组时 percent 使用 0 到 100 的输入范围。",
     },
     {

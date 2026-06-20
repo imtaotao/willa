@@ -471,7 +471,7 @@ export default defineDoc({
     },
     {
       name: "presets",
-      type: "Array<{ label?: ReactNode; colors: string[] }>",
+      type: "Array<{ label?: ReactNode; colors: Array<string> }>",
       group: "面板",
       description: "预设色分组。",
     },
