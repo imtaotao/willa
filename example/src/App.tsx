@@ -42,6 +42,7 @@ const docGroups: Array<{
 
 const docChineseNames: Record<string, string> = {
   AppShell: "应用外壳",
+  Alert: "警告提示",
   Anchor: "锚点导航",
   AttachmentList: "附件列表",
   AudioEmbed: "音频嵌入",

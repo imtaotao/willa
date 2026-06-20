@@ -81,6 +81,7 @@ const docSpecGroups = {
     "Stack",
   ],
   content: [
+    "Alert",
     "Anchor",
     "Avatar",
     "Badge",

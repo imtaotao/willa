@@ -1,4 +1,5 @@
 export { Avatar } from "#content/components/Avatar";
+export { Alert } from "#content/components/Alert";
 export { Anchor } from "#content/components/Anchor";
 export { Badge } from "#content/components/Badge";
 export { Breadcrumb } from "#content/components/Breadcrumb";
@@ -62,6 +63,13 @@ export {
 export { Watermark } from "#content/components/Watermark";
 
 export type { ChatThreadProps } from "#content/components/ChatThread";
+export type {
+  AlertClosableOptions,
+  AlertProps,
+  AlertSlot,
+  AlertType,
+  AlertVariant,
+} from "#content/components/Alert";
 export type {
   AnchorItem,
   AnchorProps,
