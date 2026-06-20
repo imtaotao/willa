@@ -53,6 +53,7 @@ const docSpecGroups = {
     "FormGroup",
     "FormMessage",
     "Input",
+    "NumberInput",
     "Picker",
     "Radio",
     "Rate",

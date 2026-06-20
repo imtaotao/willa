@@ -9,6 +9,7 @@ export { FormGroup } from "#form/components/FormGroup";
 export { FormMessage } from "#form/components/FormMessage";
 export { FilterBar } from "#form/components/FilterBar";
 export { Input } from "#form/components/Input";
+export { NumberInput } from "#form/components/NumberInput";
 export { Picker } from "#form/components/Picker";
 export { Radio } from "#form/components/Radio";
 export { Rate } from "#form/components/Rate";
@@ -96,6 +97,15 @@ export type {
   InputSize,
   InputVariant,
 } from "#form/components/Input";
+export type {
+  NumberInputControls,
+  NumberInputFormatterInfo,
+  NumberInputProps,
+  NumberInputStatus,
+  NumberInputStepInfo,
+  NumberInputValue,
+  NumberInputVariant,
+} from "#form/components/NumberInput";
 export type {
   PickerItem,
   PickerMode,

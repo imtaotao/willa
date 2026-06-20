@@ -43,6 +43,8 @@
   --willa-input-disabled-text: var(--willa-text-faint);
   --willa-input-invalid-border: rgba(252, 165, 165, 0.42);
   --willa-input-invalid-ring: rgba(252, 165, 165, 0.13);
+  --willa-input-warning-border: rgba(251, 191, 36, 0.44);
+  --willa-input-warning-ring: rgba(251, 191, 36, 0.14);
   --willa-tag-input-bg: rgba(255, 255, 255, 0.06);
   --willa-tag-input-bg-hover: rgba(255, 255, 255, 0.08);
   --willa-tag-input-bg-focus: rgba(255, 255, 255, 0.075);

@@ -1,0 +1,315 @@
+.willa-number-input {
+  --willa-number-input-control-width: 1.38rem;
+
+  position: relative;
+  min-width: min(100%, 9.5rem);
+  overflow: hidden;
+}
+
+.willa-number-input--with-suffix {
+  min-width: min(100%, 11rem);
+}
+
+.willa-number-input--segmented {
+  min-width: min(100%, 10rem);
+}
+
+.willa-number-input .willa-input-control {
+  font-variant-numeric: tabular-nums;
+  width: 0;
+  min-width: 3.5rem;
+  text-align: left;
+}
+
+.willa-number-input .willa-input-addon {
+  display: inline-flex;
+  min-width: 0;
+  align-self: stretch;
+  align-items: stretch;
+}
+
+.willa-number-input--with-trailing.willa-input--sm {
+  padding-block: 0;
+  padding-inline-end: 0;
+}
+
+.willa-number-input--with-trailing.willa-input--md {
+  padding-block: 0;
+  padding-inline-end: 0;
+}
+
+.willa-number-input--with-trailing.willa-input--lg {
+  padding-block: 0;
+  padding-inline-end: 0;
+}
+
+.willa-number-input--with-addon-before.willa-input--sm,
+.willa-number-input--with-addon-before.willa-input--md,
+.willa-number-input--with-addon-before.willa-input--lg {
+  padding-block: 0;
+  padding-inline-start: 0;
+}
+
+.willa-number-input--segmented.willa-input--sm,
+.willa-number-input--segmented.willa-input--md,
+.willa-number-input--segmented.willa-input--lg {
+  gap: 0;
+}
+
+.willa-number-input--segmented .willa-input-control {
+  text-align: center;
+}
+
+.willa-number-input--warning {
+  border-color: var(--willa-input-warning-border);
+}
+
+.willa-number-input--warning:focus-within {
+  border-color: var(--willa-input-warning-border);
+  box-shadow: 0 0 0 3px var(--willa-input-warning-ring);
+}
+
+.willa-number-input--borderless {
+  border-color: transparent;
+  background: transparent;
+}
+
+.willa-number-input--borderless:hover:not(.willa-input--disabled),
+.willa-number-input--borderless:focus-within {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.willa-number-input--underlined {
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-left-color: transparent;
+  border-radius: 0;
+  background: transparent;
+}
+
+.willa-number-input--underlined:hover:not(.willa-input--disabled),
+.willa-number-input--underlined:focus-within {
+  background: transparent;
+}
+
+.willa-number-input-leading,
+.willa-number-input-trailing {
+  display: inline-flex;
+  flex: none;
+  align-self: stretch;
+  align-items: stretch;
+}
+
+.willa-number-input-leading {
+  gap: 0.38rem;
+}
+
+.willa-number-input-addon-before,
+.willa-number-input-addon-after,
+.willa-number-input-prefix,
+.willa-number-input-suffix {
+  display: inline-flex;
+  align-items: center;
+  color: var(--willa-input-addon-text);
+  font-size: 0.92em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.willa-number-input-addon-before,
+.willa-number-input-addon-after {
+  height: 100%;
+  align-self: stretch;
+  justify-content: center;
+  min-width: 2.6rem;
+  padding-inline: 0.7rem;
+  border-color: var(--willa-input-border);
+  background: var(--willa-input-soft-bg);
+  color: var(--willa-input-text);
+}
+
+.willa-number-input-addon-before {
+  border-right: 1px solid var(--willa-input-border);
+  border-radius: calc(0.6rem - 1px) 0 0 calc(0.6rem - 1px);
+}
+
+.willa-number-input-addon-after {
+  border-left: 1px solid var(--willa-input-border);
+  border-radius: 0 calc(0.6rem - 1px) calc(0.6rem - 1px) 0;
+}
+
+.willa-number-input-addon-action {
+  display: inline-flex;
+  width: 100%;
+  min-width: 1.4rem;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+.willa-number-input-addon-action:hover:not(:disabled) {
+  color: var(--willa-input-border-focus);
+}
+
+.willa-number-input-addon-action:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: -2px;
+}
+
+.willa-number-input-addon-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.willa-number-input-addon-action svg {
+  width: 1em;
+  height: 1em;
+}
+
+.willa-number-input-prefix {
+  color: var(--willa-input-text);
+}
+
+.willa-number-input-trailing {
+  min-width: 0;
+  max-width: none;
+  overflow: hidden;
+}
+
+.willa-number-input--segmented .willa-number-input-trailing {
+  max-width: none;
+}
+
+.willa-number-input-suffix {
+  display: inline-flex;
+  flex: none;
+  width: auto;
+  min-width: max-content;
+  max-width: none;
+  align-self: stretch;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-inline: 0.5rem;
+}
+
+.willa-number-input-controls {
+  position: absolute;
+  z-index: 1;
+  inset-block: 0;
+  inset-inline-end: 0;
+  display: inline-grid;
+  width: var(--willa-number-input-control-width);
+  min-height: 100%;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  overflow: hidden;
+  border-left: 1px solid transparent;
+  border-radius: 0 0.5rem 0.5rem 0;
+  background: transparent;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(100%);
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.willa-number-input:hover:not(.willa-input--disabled)
+  .willa-number-input-controls,
+.willa-number-input:focus-within .willa-number-input-controls {
+  border-color: var(--willa-input-border-hover);
+  background: var(--willa-input-bg-hover);
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+.willa-number-input-control-button {
+  display: inline-flex;
+  width: 100%;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--willa-input-addon-text);
+  cursor: pointer;
+  padding: 0;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.willa-number-input-control-button + .willa-number-input-control-button {
+  border-top: 1px solid var(--willa-input-border);
+}
+
+.willa-number-input-control-button:hover:not(:disabled) {
+  background: var(--willa-input-soft-bg);
+  color: var(--willa-input-border-focus);
+}
+
+.willa-number-input-control-button:active:not(:disabled) {
+  background: var(--willa-input-bg-focus);
+}
+
+.willa-number-input-control-button:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: -2px;
+}
+
+.willa-number-input-control-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+}
+
+.willa-number-input-control-icon {
+  display: inline-flex;
+  width: 0.78rem;
+  height: 0.78rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.willa-number-input-control-icon svg {
+  width: 0.78rem;
+  height: 0.78rem;
+}
+
+.willa-input--sm .willa-number-input-controls {
+  --willa-number-input-control-width: 1.22rem;
+}
+
+.willa-number-input.willa-input--sm {
+  --willa-number-input-control-width: 1.22rem;
+}
+
+.willa-input--sm .willa-number-input-control-icon,
+.willa-input--sm .willa-number-input-control-icon svg {
+  width: 0.68rem;
+  height: 0.68rem;
+}
+
+.willa-input--lg .willa-number-input-controls {
+  --willa-number-input-control-width: 1.52rem;
+}
+
+.willa-number-input.willa-input--lg {
+  --willa-number-input-control-width: 1.52rem;
+}
+
+.willa-input--lg .willa-number-input-control-icon,
+.willa-input--lg .willa-number-input-control-icon svg {
+  width: 0.88rem;
+  height: 0.88rem;
+}

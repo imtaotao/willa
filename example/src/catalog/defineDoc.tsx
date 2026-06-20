@@ -98,6 +98,7 @@ const willaDemoImportNames = new Set([
   "MessageList",
   "Masonry",
   "NotFound",
+  "NumberInput",
   "PageHeader",
   "Panel",
   "Pagination",
