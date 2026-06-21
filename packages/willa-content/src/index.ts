@@ -250,6 +250,7 @@ export type {
   MenuSeparatorItem,
   MenuSide,
   MenuSize,
+  MenuTriggerType,
 } from "#content/components/Menu";
 export type {
   PaginationEllipsisContext,

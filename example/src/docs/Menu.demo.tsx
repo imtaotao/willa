@@ -70,6 +70,19 @@ const rowStyle = {
   alignItems: "center",
 } as const;
 
+const contextAreaStyle = {
+  display: "grid",
+  minHeight: "8.5rem",
+  placeItems: "center",
+  padding: "1.25rem",
+  border: "1px dashed var(--willa-menu-border)",
+  borderRadius: "0.8rem",
+  background: "var(--willa-menu-item-bg-hover)",
+  color: "var(--willa-menu-muted)",
+  fontWeight: 700,
+  textAlign: "center",
+} as const;
+
 export default defineDoc({
   id: "menu",
   name: "Menu",
@@ -177,6 +190,31 @@ export default defineDoc({
         <Menu
           items={aiItems}
           trigger={<Button variant="soft">AI 生成模式</Button>}
+        />
+      ),
+    },
+    {
+      title: "右键菜单",
+      code: `
+        <Menu
+          triggerType="contextmenu"
+          items={basicItems}
+          trigger={
+            <div role="button" tabIndex={0} style={contextAreaStyle}>
+              在此区域右键，或聚焦后按 Shift + F10
+            </div>
+          }
+        />;
+      `,
+      content: (
+        <Menu
+          triggerType="contextmenu"
+          items={basicItems}
+          trigger={
+            <div role="button" tabIndex={0} style={contextAreaStyle}>
+              在此区域右键，或聚焦后按 Shift + F10
+            </div>
+          }
         />
       ),
     },
@@ -296,6 +334,13 @@ export default defineDoc({
       type: '"start" | "center" | "end"',
       defaultValue: '"start"',
       description: "菜单和触发元素的对齐方式。",
+    },
+    {
+      name: "triggerType",
+      type: '"click" | "contextmenu"',
+      defaultValue: '"click"',
+      description:
+        "菜单触发方式。contextmenu 会按右键位置定位，键盘打开时仍按触发元素定位。",
     },
     {
       name: "offset",

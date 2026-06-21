@@ -7,4 +7,5 @@ export {
   type MenuSeparatorItem,
   type MenuSide,
   type MenuSize,
+  type MenuTriggerType,
 } from "@willa-ui/content/components/Menu";

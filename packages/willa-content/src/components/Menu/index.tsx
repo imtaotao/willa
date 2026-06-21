@@ -21,6 +21,7 @@ import { clampNumber, composeRefs } from "@willa-ui/shared";
 export type MenuSize = "sm" | "md";
 export type MenuSide = "top" | "bottom";
 export type MenuAlign = "start" | "center" | "end";
+export type MenuTriggerType = "click" | "contextmenu";
 
 export type MenuActionItem = {
   type?: "item";
@@ -51,6 +52,7 @@ export type MenuProps = {
   size?: MenuSize;
   side?: MenuSide;
   align?: MenuAlign;
+  triggerType?: MenuTriggerType;
   offset?: number;
   closeOnSelect?: boolean;
   ariaLabel?: string;
@@ -60,6 +62,7 @@ export type MenuProps = {
 
 type MenuTriggerProps = {
   onClick?: MouseEventHandler<HTMLElement>;
+  onContextMenu?: MouseEventHandler<HTMLElement>;
   onKeyDown?: (event: KeyboardEvent<HTMLElement>) => void;
   [key: string]: unknown;
 };
@@ -67,8 +70,18 @@ type MenuTriggerProps = {
 type MenuPosition = {
   top: number;
   left: number;
-  minWidth: number;
+  minWidth?: number;
 };
+
+type MenuAnchor =
+  | {
+      type: "trigger";
+    }
+  | {
+      type: "point";
+      x: number;
+      y: number;
+    };
 
 export function Menu(props: MenuProps) {
   const {
@@ -81,6 +94,7 @@ export function Menu(props: MenuProps) {
     size = "md",
     side = "bottom",
     align = "start",
+    triggerType = "click",
     offset = 8,
     closeOnSelect = true,
     ariaLabel = "Menu",
@@ -96,6 +110,7 @@ export function Menu(props: MenuProps) {
   const contentRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const itemRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const anchorRef = useRef<MenuAnchor>({ type: "trigger" });
   const enabledItems = useMemo(() => {
     return items.filter(isEnabledActionItem);
   }, [items]);
@@ -115,17 +130,23 @@ export function Menu(props: MenuProps) {
     const triggerElement = triggerRef.current;
     if (!triggerElement || typeof window === "undefined") return;
 
+    const anchor = anchorRef.current;
     const rect = triggerElement.getBoundingClientRect();
     const contentElement = contentRef.current;
     const contentWidth = contentElement?.offsetWidth ?? rect.width;
     const contentHeight = contentElement?.offsetHeight ?? 0;
     const top =
-      side === "bottom"
-        ? rect.bottom + offset
-        : rect.top - contentHeight - offset;
-    const left = getMenuLeft(rect, contentWidth, align);
+      anchor.type === "point"
+        ? anchor.y
+        : side === "bottom"
+          ? rect.bottom + offset
+          : rect.top - contentHeight - offset;
+    const left =
+      anchor.type === "point"
+        ? anchor.x
+        : getMenuLeft(rect, contentWidth, align);
 
-    setPosition({
+    const nextPosition: MenuPosition = {
       top: clampNumber(
         top,
         8,
@@ -136,8 +157,13 @@ export function Menu(props: MenuProps) {
         8,
         Math.max(8, window.innerWidth - contentWidth - 8),
       ),
-      minWidth: Math.min(rect.width, window.innerWidth - 16),
-    });
+    };
+
+    if (anchor.type === "trigger") {
+      nextPosition.minWidth = Math.min(rect.width, window.innerWidth - 16);
+    }
+
+    setPosition(nextPosition);
   }, [align, offset, side]);
 
   const closeMenu = useCallback(() => {
@@ -192,9 +218,27 @@ export function Menu(props: MenuProps) {
 
   const handleTriggerClick = (event: MouseEvent<HTMLElement>) => {
     trigger.props.onClick?.(event);
+    if (triggerType !== "click") return;
     if (!event.defaultPrevented) {
+      anchorRef.current = { type: "trigger" };
       setMenuOpen(!isOpen);
     }
+  };
+
+  const handleTriggerContextMenu = (event: MouseEvent<HTMLElement>) => {
+    trigger.props.onContextMenu?.(event);
+    if (triggerType !== "contextmenu" || event.defaultPrevented) return;
+
+    event.preventDefault();
+    anchorRef.current = {
+      type: "point",
+      x: event.clientX,
+      y: event.clientY,
+    };
+    if (isOpen) {
+      updatePosition();
+    }
+    setMenuOpen(true);
   };
 
   const handleTriggerKeyDown = (event: KeyboardEvent<HTMLElement>) => {
@@ -204,9 +248,12 @@ export function Menu(props: MenuProps) {
     if (
       event.key === "ArrowDown" ||
       event.key === "Enter" ||
-      event.key === " "
+      event.key === " " ||
+      event.key === "ContextMenu" ||
+      (event.shiftKey && event.key === "F10")
     ) {
       event.preventDefault();
+      anchorRef.current = { type: "trigger" };
       setMenuOpen(true);
     }
   };
@@ -262,6 +309,7 @@ export function Menu(props: MenuProps) {
       "aria-expanded": isOpen,
       "aria-haspopup": "menu",
       onClick: handleTriggerClick,
+      onContextMenu: handleTriggerContextMenu,
       onKeyDown: handleTriggerKeyDown,
     } as MenuTriggerProps);
   };
@@ -383,7 +431,10 @@ const getMenuContentStyle = (position: MenuPosition | undefined) => {
   return {
     top: position ? `${position.top}px` : undefined,
     left: position ? `${position.left}px` : undefined,
-    minWidth: position ? `${position.minWidth}px` : undefined,
+    minWidth:
+      position && typeof position.minWidth === "number"
+        ? `${position.minWidth}px`
+        : undefined,
     visibility: position ? undefined : "hidden",
   } as CSSProperties;
 };
