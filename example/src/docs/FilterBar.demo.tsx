@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { Badge } from "willa/Badge";
 import { Button } from "willa/Button";
 import { FilterBar, type FilterBarItem } from "willa/FilterBar";
 import { SearchInput } from "willa/SearchInput";
 import { Select } from "willa/Select";
-import "willa/Badge.css";
+import { Tag } from "willa/Tag";
 import "willa/Button.css";
 import "willa/FilterBar.css";
 import "willa/SearchInput.css";
 import "willa/Select.css";
+import "willa/Tag.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
@@ -96,9 +96,9 @@ const BasicFilterBarPreview = () => {
           )
         }
       />
-      <Badge tone={hasFilter ? "info" : "neutral"}>
+      <Tag tone={hasFilter ? "info" : "neutral"} selected={hasFilter}>
         {hasFilter ? "筛选中" : "全部结果"}
-      </Badge>
+      </Tag>
     </div>
   );
 };
@@ -135,16 +135,16 @@ export default defineDoc({
       title: "完整筛选",
       code: `
         import { useState } from "react";
-        import { Badge } from "willa/Badge";
         import { Button } from "willa/Button";
         import { FilterBar, type FilterBarItem } from "willa/FilterBar";
         import { SearchInput } from "willa/SearchInput";
         import { Select } from "willa/Select";
-        import "willa/Badge.css";
+        import { Tag } from "willa/Tag";
         import "willa/Button.css";
         import "willa/FilterBar.css";
         import "willa/SearchInput.css";
         import "willa/Select.css";
+        import "willa/Tag.css";
 
         const Demo = () => {
           const [keyword, setKeyword] = useState("");
@@ -229,9 +229,9 @@ export default defineDoc({
           search={<SearchInput placeholder="搜索资源" width="100%" />}
           summary="children 可以承载标签、开关或自定义控件。"
         >
-          <Badge tone="info">AI 产品</Badge>
-          <Badge tone="success">已发布</Badge>
-          <Badge tone="neutral">内部文档</Badge>
+          <Tag tone="info">AI 产品</Tag>
+          <Tag tone="success">已发布</Tag>
+          <Tag tone="neutral">内部文档</Tag>
         </FilterBar>;
       `,
       content: (
@@ -240,9 +240,9 @@ export default defineDoc({
             search={<SearchInput placeholder="搜索资源" width="100%" />}
             summary="children 可以承载标签、开关或自定义控件。"
           >
-            <Badge tone="info">AI 产品</Badge>
-            <Badge tone="success">已发布</Badge>
-            <Badge tone="neutral">内部文档</Badge>
+            <Tag tone="info">AI 产品</Tag>
+            <Tag tone="success">已发布</Tag>
+            <Tag tone="neutral">内部文档</Tag>
           </FilterBar>
         </div>
       ),

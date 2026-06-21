@@ -107,7 +107,7 @@ public 组件。
 
 | 能力     | 待补组件                   | 包归属              | 使用场景                                                             |
 | -------- | -------------------------- | ------------------- | -------------------------------------------------------------------- |
-| 标签展示 | `Tag` / `Chip`             | `@willa-ui/content` | 分类、状态、筛选项、可关闭标签和轻量选中态。                         |
+| 标签展示 | `Tag`                      | `@willa-ui/content` | 分类、筛选项、可关闭标签和轻量选中态。                               |
 | 操作菜单 | `Dropdown` / `ContextMenu` | `@willa-ui/content` | 表格行操作、工具栏菜单、右键菜单和更多操作入口。                     |
 | 分段切换 | `Segmented`                | `@willa-ui/content` | 示例页能力切换、视图切换、筛选维度切换和轻量模式切换。               |
 | 折叠内容 | `Accordion` / `Collapse`   | `@willa-ui/content` | FAQ、配置面板、详情折叠和文档内容分组；区别于内容型 `DetailsBlock`。 |
@@ -116,6 +116,11 @@ public 组件。
 `ToggleGroup` 暂不作为 P0 独立公共组件；工具栏里的开关态优先由 `Toolbar` 组合
 `Button` / `IconButton` 的 `pressed` 状态承载，只有出现稳定的多选或单选工具状态组
 需求时再重新评估。
+
+`Tag` 只承担通用分类、筛选项和可关闭标签。静态状态标识优先使用 `Badge`，AI 推荐
+入口优先使用 `SuggestionChips`，表单内标签编辑优先使用 `TagInput`。`Chip` 不作为
+独立公共组件，后续出现稳定交互型标签需求时，优先作为 `Tag` 的 variant 或 recipe
+评估。
 
 ### P1
 

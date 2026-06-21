@@ -47,6 +47,7 @@ export { Spinner } from "#content/components/Spinner";
 export { Statistic } from "#content/components/Statistic";
 export { Step, Steps } from "#content/components/Steps";
 export { Table, useTableColumnState } from "#content/components/Table";
+export { Tag } from "#content/components/Tag";
 export { Tabs } from "#content/components/Tabs";
 export { Timeline } from "#content/components/Timeline";
 export { Toolbar } from "#content/components/Toolbar";
@@ -312,6 +313,14 @@ export type {
   TableSortState,
   UseTableColumnStateOptions,
 } from "#content/components/Table";
+export type {
+  TagCloseOptions,
+  TagProps,
+  TagShape,
+  TagSize,
+  TagTone,
+  TagVariant,
+} from "#content/components/Tag";
 export type { TabsItem, TabsProps, TabsSize } from "#content/components/Tabs";
 export type {
   TimelineItem,

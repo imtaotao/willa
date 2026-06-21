@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Badge } from "willa/Badge";
 import { Button } from "willa/Button";
 import { Stack } from "willa/Stack";
+import { Tag } from "willa/Tag";
 import { TagInput } from "willa/TagInput";
-import "willa/Badge.css";
 import "willa/Button.css";
 import "willa/Stack.css";
+import "willa/Tag.css";
 import "willa/TagInput.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
@@ -48,9 +48,9 @@ export default defineDoc({
   packageName: "willa/TagInput",
   description: "用于输入、编辑和提交多个文本标签的表单组件。",
   imports: [
-    { name: "Badge", from: "willa/Badge" },
     { name: "Button", from: "willa/Button" },
     { name: "Stack", from: "willa/Stack" },
+    { name: "Tag", from: "willa/Tag" },
     { name: "TagInput", from: "willa/TagInput" },
   ],
   css: "willa/TagInput.css",
@@ -181,10 +181,18 @@ export default defineDoc({
       code: `
         <TagInput
           defaultValue={["稳定", "待复核", "内部文档"]}
-          renderTag={(tag) => (
-            <Badge tone={tag === "待复核" ? "warning" : "info"}>
+          renderTag={(tag, context) => (
+            <Tag
+              tone={tag === "待复核" ? "warning" : "info"}
+              shape="pill"
+              close={{
+                ariaLabel: \`移除 \${tag}\`,
+                disabled: context.disabled || context.readOnly,
+                onClose: context.onRemove,
+              }}
+            >
               {tag}
-            </Badge>
+            </Tag>
           )}
           width="min(100%, 34rem)"
         />;
@@ -192,8 +200,18 @@ export default defineDoc({
       content: (
         <TagInput
           defaultValue={["稳定", "待复核", "内部文档"]}
-          renderTag={(tag) => (
-            <Badge tone={tag === "待复核" ? "warning" : "info"}>{tag}</Badge>
+          renderTag={(tag, context) => (
+            <Tag
+              tone={tag === "待复核" ? "warning" : "info"}
+              shape="pill"
+              close={{
+                ariaLabel: `移除 ${tag}`,
+                disabled: context.disabled || context.readOnly,
+                onClose: context.onRemove,
+              }}
+            >
+              {tag}
+            </Tag>
           )}
           width="min(100%, 34rem)"
         />
