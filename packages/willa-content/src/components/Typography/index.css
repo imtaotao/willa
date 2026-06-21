@@ -526,7 +526,7 @@
 
 .willa-typography-tooltip-content {
   position: fixed;
-  z-index: 70;
+  z-index: var(--willa-layer-tooltip, 1010);
   max-width: min(28rem, calc(100vw - 2rem));
   border: 1px solid var(--willa-typography-tooltip-border);
   border-radius: 0.45rem;

@@ -122,7 +122,7 @@ const DemoMdxContent = (props: Record<string, unknown>) => {
           },
         ]}
       />
-      <FileCard name="component-roadmap.md" meta="组件规划" />
+      <FileCard name="component-roadmap.md" size="组件规划" />
       <Download href="/willa/" name="下载示例资源" meta="willa 文档入口" />
       <SourceCard
         title="组件文档"

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FileTextIcon, ImageIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 import { AttachmentList, type AttachmentListItem } from "willa/AttachmentList";
 import { Button } from "willa/Button";
@@ -35,7 +35,6 @@ const initialItems: Array<AttachmentListItem> = [
     name: "screen-capture.png",
     meta: "428 KB",
     href: "https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg",
-    icon: <ImageIcon />,
     previewType: "image",
     alt: "屏幕截图预览",
   },
@@ -218,13 +217,11 @@ export default defineDoc({
                 id: "architecture",
                 name: "architecture.md",
                 meta: "仓库结构和包边界",
-                icon: <FileTextIcon />,
               },
               {
                 id: "component",
                 name: "component.md",
                 meta: "组件创建和迁移规则",
-                icon: <FileTextIcon />,
               },
             ]}
           />
@@ -328,8 +325,8 @@ export default defineDoc({
       name: "AttachmentListItem.icon",
       type: "ReactNode",
       group: "AttachmentListItem",
-      defaultValue: "<FileTextIcon />",
-      description: "附件图标。",
+      defaultValue: "由 name 推导",
+      description: "自定义附件图标；未传时根据文件名后缀推导。",
     },
     {
       name: "AttachmentListItem.previewMode",

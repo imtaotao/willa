@@ -179,6 +179,13 @@ separate registry pages when they are not meaningful on their own. Document the
 child props on the parent component page with a prop group named after the
 child component.
 
+Complex components can also expose a substantial sub-capability through the
+parent component entry. For example, `ScheduleCalendar` has its own example
+page because the scheduling view has independent usage scenarios, while its
+public import and CSS still come from `Calendar`. Use this pattern when the
+sub-capability is meaningful enough for focused docs but shares the parent's
+implementation boundary, theme variables, and single-component CSS entry.
+
 ## CSS Integration
 
 Every public component needs its own CSS file. Component CSS contains
@@ -194,11 +201,22 @@ accents sparingly. When a component introduces theme variables, define both
 light and dark values in the owning package and check contrast, hover, focus,
 disabled, and selected/copied states in both themes.
 
+Dark theme surfaces that carry content, such as cards, popovers, tour panels,
+inputs, chat bubbles, and editor/composer containers, should not depend on
+semi-transparent backgrounds for their base fill. If a translucent color is
+needed to match the design, composite it against the expected dark surface and
+store the resulting solid color as the theme variable. Keep transparency for
+overlays, masks, focus rings, borders, decorative highlights, and small status
+tints where seeing the layer underneath is intentional.
+
 When adding a component, confirm:
 
 - Structural styles live in the component directory's `index.css`.
 - Theme variables live in the owning package's `src/themes/light.css` and
   `src/themes/dark.css`.
+- Dark theme content surfaces use solid base backgrounds, so stacked demos,
+  toolbars, cards, and floating panels do not leak the colors of components
+  behind them.
 - content components that compose layout components express CSS dependencies
   through `styles.dependencies` in `auklet.config.mjs`; they do not copy layout
   CSS or theme variables.

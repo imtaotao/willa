@@ -155,7 +155,7 @@ export default defineDoc({
             minHeight: "min(22rem, 70vh)",
             alignContent: "center",
           }}
-          icon={<MissingPageBadge />}
+          image={<MissingPageBadge />}
           title="404 页面不存在"
           description="你访问的内容可能已被移动、删除，或暂时不可用。"
           size="lg"
@@ -174,7 +174,7 @@ export default defineDoc({
       content: (
         <EmptyState
           style={notFoundRecipeStyle}
-          icon={<MissingPageBadge />}
+          image={<MissingPageBadge />}
           title="404 页面不存在"
           description="你访问的内容可能已被移动、删除，或暂时不可用。"
           size="lg"

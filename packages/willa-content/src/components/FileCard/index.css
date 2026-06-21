@@ -38,17 +38,25 @@
 }
 
 .willa-file-card-icon {
+  --willa-file-card-icon-width: 1.78rem;
+  --willa-file-card-icon-height: 1.88rem;
+  --willa-file-card-icon-radius: 0.3rem;
+  --willa-file-card-icon-font-size: 0.48rem;
+  --willa-file-card-icon-fold-size: 0.42rem;
+  --willa-file-card-icon-label-gutter: 0.22rem;
+
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  width: 2.28rem;
-  height: 2.6rem;
-  border-radius: 0.36rem;
+  flex: none;
+  width: var(--willa-file-card-icon-width);
+  height: var(--willa-file-card-icon-height);
+  border-radius: var(--willa-file-card-icon-radius);
   background: var(--willa-file-card-icon-bg);
   color: var(--willa-file-card-icon-text);
-  font-size: 0.72rem;
+  font-size: var(--willa-file-card-icon-font-size);
   font-weight: 760;
   line-height: 1;
   letter-spacing: 0;
@@ -60,8 +68,8 @@
   position: absolute;
   inset-block-start: 0;
   inset-inline-end: 0;
-  width: 0.62rem;
-  height: 0.62rem;
+  width: var(--willa-file-card-icon-fold-size);
+  height: var(--willa-file-card-icon-fold-size);
   background: var(--willa-file-card-icon-fold);
   clip-path: polygon(100% 0, 0 0, 100% 100%);
   content: "";
@@ -72,13 +80,65 @@
   position: relative;
   z-index: 1;
   display: block;
-  max-width: 100%;
-  max-height: 100%;
+  width: 52%;
+  height: 52%;
 }
 
 .willa-file-card-icon-label {
   position: relative;
   z-index: 1;
+  display: block;
+  max-width: 100%;
+  padding-inline: var(--willa-file-card-icon-label-gutter);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.willa-file-card-icon--wide-label {
+  --willa-file-card-icon-font-size: 0.4rem;
+  --willa-file-card-icon-label-gutter: 0.12rem;
+}
+
+.willa-file-card-icon--sm {
+  --willa-file-card-icon-width: 1.62rem;
+  --willa-file-card-icon-height: 1.7rem;
+  --willa-file-card-icon-radius: 0.3rem;
+  --willa-file-card-icon-font-size: 0.4rem;
+  --willa-file-card-icon-fold-size: 0.42rem;
+  --willa-file-card-icon-label-gutter: 0.14rem;
+}
+
+.willa-file-card-icon--sm.willa-file-card-icon--wide-label {
+  --willa-file-card-icon-font-size: 0.34rem;
+  --willa-file-card-icon-label-gutter: 0.1rem;
+}
+
+.willa-file-card-icon--md {
+  --willa-file-card-icon-width: 1.78rem;
+  --willa-file-card-icon-height: 1.88rem;
+  --willa-file-card-icon-radius: 0.3rem;
+  --willa-file-card-icon-font-size: 0.44rem;
+  --willa-file-card-icon-fold-size: 0.42rem;
+  --willa-file-card-icon-label-gutter: 0.16rem;
+}
+
+.willa-file-card-icon--md.willa-file-card-icon--wide-label {
+  --willa-file-card-icon-font-size: 0.38rem;
+  --willa-file-card-icon-label-gutter: 0.12rem;
+}
+
+.willa-file-card-icon--lg {
+  --willa-file-card-icon-width: 2.28rem;
+  --willa-file-card-icon-height: 2.6rem;
+  --willa-file-card-icon-radius: 0.36rem;
+  --willa-file-card-icon-font-size: 0.66rem;
+  --willa-file-card-icon-fold-size: 0.62rem;
+  --willa-file-card-icon-label-gutter: 0.2rem;
+}
+
+.willa-file-card-icon--lg.willa-file-card-icon--wide-label {
+  --willa-file-card-icon-font-size: 0.56rem;
+  --willa-file-card-icon-label-gutter: 0.14rem;
 }
 
 .willa-file-card-content {
@@ -126,6 +186,21 @@
   --willa-file-card-icon-text: var(--willa-file-card-ppt-text);
 }
 
+.willa-file-card--image {
+  --willa-file-card-icon-bg: var(--willa-file-card-image-bg);
+  --willa-file-card-icon-text: var(--willa-file-card-image-text);
+}
+
+.willa-file-card--audio {
+  --willa-file-card-icon-bg: var(--willa-file-card-audio-bg);
+  --willa-file-card-icon-text: var(--willa-file-card-audio-text);
+}
+
+.willa-file-card--video {
+  --willa-file-card-icon-bg: var(--willa-file-card-video-bg);
+  --willa-file-card-icon-text: var(--willa-file-card-video-text);
+}
+
 .willa-file-card--archive {
   --willa-file-card-icon-bg: var(--willa-file-card-archive-bg);
   --willa-file-card-icon-text: var(--willa-file-card-archive-text);
@@ -160,8 +235,8 @@
     padding: 0.78rem 0.86rem;
   }
 
-  .willa-file-card-icon {
-    width: 2.12rem;
-    height: 2.42rem;
+  .willa-file-card > .willa-file-card-icon {
+    --willa-file-card-icon-width: 2.12rem;
+    --willa-file-card-icon-height: 2.42rem;
   }
 }

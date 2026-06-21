@@ -119,7 +119,7 @@
 
 .willa-date-picker-panel {
   position: fixed;
-  z-index: 80;
+  z-index: var(--willa-layer-popover, 1000);
   display: grid;
   box-sizing: border-box;
   width: max-content;

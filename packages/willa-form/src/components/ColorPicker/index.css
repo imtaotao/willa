@@ -175,7 +175,7 @@
 
 .willa-color-picker-panel {
   position: fixed;
-  z-index: 1200;
+  z-index: var(--willa-layer-popover, 1000);
   box-sizing: border-box;
   min-width: 19rem;
   max-width: calc(100vw - 1rem);

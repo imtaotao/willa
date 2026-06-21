@@ -13,11 +13,9 @@ import {
   EnterFullScreenIcon,
   ExternalLinkIcon,
   FileTextIcon,
-  ImageIcon,
   PauseIcon,
   PlayIcon,
   SpeakerLoudIcon,
-  VideoIcon,
 } from "@radix-ui/react-icons";
 import {
   getFileCodeLanguage,
@@ -33,6 +31,7 @@ import {
   type DialogProps,
   type DialogSize,
 } from "#content/components/Dialog";
+import { FileCardIcon } from "#content/components/FileCard";
 import { Spinner } from "#content/components/Spinner";
 import { Table, type TableItem } from "#content/components/Table";
 
@@ -111,9 +110,11 @@ export function FilePreview(props: FilePreviewProps) {
         )}
       >
         <div className="willa-file-preview__header">
-          <span className="willa-file-preview__icon" aria-hidden="true">
-            {getPreviewIcon(resolvedType)}
-          </span>
+          <FileCardIcon
+            className="willa-file-preview__icon"
+            name={name}
+            size="sm"
+          />
           <span className="willa-file-preview__heading">
             <span className="willa-file-preview__name" title={name}>
               {name}
@@ -655,13 +656,6 @@ const CsvPreview = (props: { name: string; text?: string }) => {
       empty="暂无可预览表格数据。"
     />
   );
-};
-
-const getPreviewIcon = (type: Exclude<FilePreviewType, "auto">) => {
-  if (type === "image") return <ImageIcon />;
-  if (type === "video") return <VideoIcon />;
-  if (type === "audio") return <SpeakerLoudIcon />;
-  return <FileTextIcon />;
 };
 
 const getCodeLanguage = (name: string) => getFileCodeLanguage(name);

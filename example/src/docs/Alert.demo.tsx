@@ -21,17 +21,17 @@ export default defineDoc({
   name: "Alert",
   packageName: "willa/Alert",
   description:
-    "用于页面内展示成功、信息、警告和错误反馈，适合静态提示、横幅提示和带操作的信息提示；文档正文里的长文本提示优先使用 Callout。",
+    "用于页面或区块内展示操作结果、异步状态和系统反馈，支持关闭、操作区、横幅和可访问性播报；文档正文里的长文本语义提示优先使用 Callout。",
   imports: [{ name: "Alert", from: "willa/Alert" }],
   css: "willa/Alert.css",
   demo: {
     name: "Alert",
     component: Alert,
     props: {
-      type: "info",
+      type: "success",
       showIcon: true,
-      title: "单组件引入",
-      description: "从对应的 Willa 入口同时引入组件和 CSS。",
+      title: "发布成功",
+      description: "内容已保存并进入发布队列，稍后可在任务中心查看处理结果。",
     },
   },
   code: `
@@ -39,10 +39,10 @@ export default defineDoc({
     import "willa/Alert.css";
 
     <Alert
-      type="info"
+      type="success"
       showIcon
-      title="单组件引入"
-      description="从对应的 Willa 入口同时引入组件和 CSS。"
+      title="发布成功"
+      description="内容已保存并进入发布队列，稍后可在任务中心查看处理结果。"
     />;
   `,
   sections: [
@@ -50,10 +50,10 @@ export default defineDoc({
       title: "语义类型",
       code: `
         <div style={{ display: "grid", gap: "0.85rem" }}>
-          <Alert type="info" showIcon title="说明" description="用于展示普通状态、配置说明或辅助信息。" />
-          <Alert type="success" showIcon title="完成" description="用于反馈保存成功、任务完成或结果符合预期。" />
-          <Alert type="warning" showIcon title="注意" description="用于提醒潜在风险、前置条件或需要确认的状态。" />
-          <Alert type="error" showIcon title="错误" description="用于说明失败原因、阻断状态或需要修复的问题。" />
+          <Alert type="info" showIcon title="同步进行中" description="系统正在拉取最新配置，页面数据可能会短暂延迟。" />
+          <Alert type="success" showIcon title="保存完成" description="表单变更已写入服务端，团队成员可以查看最新版本。" />
+          <Alert type="warning" showIcon title="发布窗口即将关闭" description="当前任务仍可继续提交，但建议在截止前完成确认。" />
+          <Alert type="error" showIcon title="提交失败" description="接口返回校验错误，请修复表单中的必填项后重试。" />
         </div>;
       `,
       content: (
@@ -61,26 +61,26 @@ export default defineDoc({
           <Alert
             type="info"
             showIcon
-            title="说明"
-            description="用于展示普通状态、配置说明或辅助信息。"
+            title="同步进行中"
+            description="系统正在拉取最新配置，页面数据可能会短暂延迟。"
           />
           <Alert
             type="success"
             showIcon
-            title="完成"
-            description="用于反馈保存成功、任务完成或结果符合预期。"
+            title="保存完成"
+            description="表单变更已写入服务端，团队成员可以查看最新版本。"
           />
           <Alert
             type="warning"
             showIcon
-            title="注意"
-            description="用于提醒潜在风险、前置条件或需要确认的状态。"
+            title="发布窗口即将关闭"
+            description="当前任务仍可继续提交，但建议在截止前完成确认。"
           />
           <Alert
             type="error"
             showIcon
-            title="错误"
-            description="用于说明失败原因、阻断状态或需要修复的问题。"
+            title="提交失败"
+            description="接口返回校验错误，请修复表单中的必填项后重试。"
           />
         </div>
       ),

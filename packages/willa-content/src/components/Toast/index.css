@@ -1,6 +1,6 @@
 .willa-toast-viewport {
   position: fixed;
-  z-index: 100;
+  z-index: var(--willa-layer-toast, 1250);
   display: grid;
   gap: 0.58rem;
   box-sizing: border-box;

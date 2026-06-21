@@ -199,6 +199,8 @@ const getIsCompactSidebar = () => {
   return window.matchMedia(sidebarCompactQuery).matches;
 };
 
+const getDefaultTheme = (): Theme => (getIsCompactSidebar() ? "dark" : "light");
+
 const getDefaultExpandedDocGroups = (isExpanded: boolean) => {
   return docGroups.reduce(
     (groups, group) => ({ ...groups, [group.id]: isExpanded }),
@@ -209,9 +211,9 @@ const getDefaultExpandedDocGroups = (isExpanded: boolean) => {
 const getInitialTheme = () => {
   try {
     const storedTheme = window.localStorage.getItem(themeStorageKey);
-    return isTheme(storedTheme) ? storedTheme : "light";
+    return isTheme(storedTheme) ? storedTheme : getDefaultTheme();
   } catch {
-    return "light";
+    return getDefaultTheme();
   }
 };
 

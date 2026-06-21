@@ -76,7 +76,7 @@
   min-width: 0;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 0.46rem;
+  gap: 0.62rem;
   border: 0;
   background: transparent;
   color: inherit;
@@ -121,11 +121,12 @@
   justify-content: center;
 }
 
-.willa-attachment-list-icon {
-  color: var(--willa-attachment-list-icon);
+.willa-attachment-list-download svg,
+.willa-attachment-list-remove svg {
+  position: relative;
+  z-index: 1;
 }
 
-.willa-attachment-list-icon svg,
 .willa-attachment-list-download svg,
 .willa-attachment-list-remove svg {
   width: 0.9rem;

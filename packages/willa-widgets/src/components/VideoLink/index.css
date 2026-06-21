@@ -92,7 +92,7 @@
   position: absolute;
   left: 0;
   top: calc(100% + 0.55rem);
-  z-index: 20;
+  z-index: var(--willa-layer-popover, 1000);
   display: block;
   width: min(24rem, calc(100vw - 3rem));
   padding: 0.7rem;

@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef, MouseEvent, ReactNode } from "react";
-import { Cross2Icon, DownloadIcon, FileTextIcon } from "@radix-ui/react-icons";
+import { Cross2Icon, DownloadIcon } from "@radix-ui/react-icons";
 import {
   canOpenFilePreviewDialog,
   normalizeFileProgress,
@@ -13,6 +13,7 @@ import {
   FilePreviewDialog,
   type FilePreviewType,
 } from "@willa-ui/content/components/FilePreview";
+import { FileCardIcon } from "@willa-ui/content/components/FileCard";
 
 export type AttachmentListItemStatus = FileItemStatus;
 export type AttachmentListSize = "sm" | "md";
@@ -135,9 +136,12 @@ const AttachmentListItemView = ({
   );
   const content = (
     <>
-      <span className="willa-attachment-list-icon" aria-hidden="true">
-        {item.icon ?? <FileTextIcon />}
-      </span>
+      <FileCardIcon
+        className="willa-attachment-list-icon"
+        icon={item.icon}
+        name={item.name}
+        size="sm"
+      />
       <span className="willa-attachment-list-content">
         <span className="willa-attachment-list-name" title={item.name}>
           {item.name}

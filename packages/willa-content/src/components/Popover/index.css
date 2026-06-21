@@ -5,7 +5,7 @@
 
 .willa-popover-content {
   position: fixed;
-  z-index: 85;
+  z-index: var(--willa-layer-popover, 1000);
   box-sizing: border-box;
   display: grid;
   max-width: min(24rem, calc(100vw - 1rem));

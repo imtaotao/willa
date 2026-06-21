@@ -74,13 +74,6 @@
   border-radius: 6px;
 }
 
-.willa-download-icon {
-  width: 1.56rem;
-  height: 1.56rem;
-  background: var(--willa-download-button-bg);
-  color: var(--willa-download-icon);
-}
-
 .willa-download-action {
   width: 1.36rem;
   height: 1.36rem;
@@ -88,15 +81,14 @@
   color: var(--willa-download-action);
 }
 
-.willa-download-icon svg,
+.willa-download-action svg {
+  position: relative;
+  z-index: 1;
+}
+
 .willa-download-action svg {
   width: 0.95rem;
   height: 0.95rem;
-}
-
-.willa-download--md .willa-download-icon {
-  width: 1.78rem;
-  height: 1.78rem;
 }
 
 .willa-download--md .willa-download-action {

@@ -346,6 +346,14 @@ colors such as the ColorPicker spectrum or Separator dashed gradient can stay
 in component CSS when they represent the rendered control itself rather than a
 theme surface, border, text, or status color.
 
+Generated content can keep functional rendering defaults when they are part of
+the generated artifact instead of the component skin. For example, `QRCode`
+`color` and `bgColor` defaults are QR rendering parameters, and `Watermark`
+canvas colors are fallback ink values for generated image output. These
+exceptions do not apply to themeable decorative visuals. For example,
+`BorderBeam`'s default gradient belongs in the layout theme because it is the
+component's visible skin and needs light/dark variants.
+
 Should a variable live in theme files even if only one component uses it?
 
 Yes, if it represents theme visuals. Reuse is not the deciding factor; theme

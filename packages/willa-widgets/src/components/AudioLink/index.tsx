@@ -7,10 +7,12 @@ import {
 } from "@radix-ui/react-icons";
 import classNames from "classnames";
 
-import { MediaLinkExternalAction } from "@willa-ui/content/media";
 import { resolveMediaVolume, type MediaContextProps } from "@willa-ui/shared";
 
-import { resolveMediaInline } from "#widgets/internal/mediaInline";
+import {
+  MediaLinkExternalAction,
+  resolveMediaInline,
+} from "#widgets/internal/media";
 
 export type AudioLinkProps = MediaContextProps & {
   href?: string;

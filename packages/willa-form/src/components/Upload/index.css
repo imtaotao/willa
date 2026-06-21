@@ -248,22 +248,6 @@ button.willa-upload-file-trigger {
   min-width: 0;
 }
 
-.willa-upload-item-icon {
-  display: inline-flex;
-  width: 1.4rem;
-  height: 1.4rem;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  background: var(--willa-upload-file-icon-bg);
-  color: var(--willa-upload-file-icon);
-}
-
-.willa-upload-item-icon svg {
-  width: 0.9rem;
-  height: 0.9rem;
-}
-
 .willa-upload-item-text {
   display: grid;
   min-width: 0;

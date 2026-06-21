@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import classNames from "classnames";
-import { Cross2Icon, FileTextIcon, UploadIcon } from "@radix-ui/react-icons";
+import { Cross2Icon, UploadIcon } from "@radix-ui/react-icons";
 import {
   createObjectFileItem,
   formatFileSize,
@@ -22,6 +22,7 @@ import {
 import { isPromiseLike } from "aidly";
 
 import { Download } from "@willa-ui/content/components/Download";
+import { FileCardIcon } from "@willa-ui/content/components/FileCard";
 import { FilePreviewDialog } from "@willa-ui/content/components/FilePreview";
 
 export type UploadFileKind = FileItemKind;
@@ -395,9 +396,11 @@ const UploadPreview = ({
       </div>
       {item.kind !== "file" ? (
         <div className="willa-upload-item-info">
-          <span className="willa-upload-item-icon" aria-hidden="true">
-            <FileTextIcon />
-          </span>
+          <FileCardIcon
+            className="willa-upload-item-icon"
+            name={fileName}
+            size="sm"
+          />
           <span className="willa-upload-item-text">
             <span className="willa-upload-item-name" title={fileName}>
               {fileName}
@@ -526,9 +529,11 @@ const UploadFileTrigger = ({
             disabled={disabled}
             onClick={onPreview}
           >
-            <span className="willa-upload-item-icon" aria-hidden="true">
-              <FileTextIcon />
-            </span>
+            <FileCardIcon
+              className="willa-upload-item-icon"
+              name={fileName}
+              size="sm"
+            />
             <span className="willa-upload-item-text">
               <span className="willa-upload-item-name" title={fileName}>
                 {fileName}
@@ -544,9 +549,11 @@ const UploadFileTrigger = ({
   if (previewMode === "none") {
     return (
       <div className="willa-upload-file-trigger" aria-disabled={disabled}>
-        <span className="willa-upload-item-icon" aria-hidden="true">
-          <FileTextIcon />
-        </span>
+        <FileCardIcon
+          className="willa-upload-item-icon"
+          name={fileName}
+          size="sm"
+        />
         <span className="willa-upload-item-text">
           <span className="willa-upload-item-name" title={fileName}>
             {fileName}

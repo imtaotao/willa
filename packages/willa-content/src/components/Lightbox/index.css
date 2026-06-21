@@ -1,7 +1,7 @@
 .willa-lightbox {
   position: fixed;
   inset: 0;
-  z-index: 80;
+  z-index: var(--willa-layer-modal, 1200);
   display: flex;
   width: 100%;
   height: 100%;

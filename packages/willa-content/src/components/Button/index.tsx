@@ -2,11 +2,14 @@ import {
   type AnchorHTMLAttributes,
   type ButtonHTMLAttributes,
   type CSSProperties,
-  type MouseEvent,
   type ReactNode,
 } from "react";
 import classNames from "classnames";
 import { flattenText, useCopyToClipboard } from "@willa-ui/shared";
+import {
+  handleActionClick,
+  resolveActionAriaPressed,
+} from "#content/internal/buttonActionUtils";
 
 export type ButtonVariant = "solid" | "soft" | "outline" | "ghost" | "link";
 export type ButtonSize = "sm" | "md" | "lg";
@@ -100,10 +103,13 @@ export function Button(props: ButtonProps) {
         rel={resolvedRel}
         aria-busy={loading || undefined}
         aria-disabled={effectiveDisabled || undefined}
-        aria-pressed={resolveAriaPressed(anchorProps["aria-pressed"], pressed)}
+        aria-pressed={resolveActionAriaPressed(
+          anchorProps["aria-pressed"],
+          pressed,
+        )}
         tabIndex={effectiveDisabled ? -1 : anchorProps.tabIndex}
         onClick={(event) => {
-          handleButtonClick(event, {
+          handleActionClick(event, {
             copyText: resolvedCopyText,
             copiedDuration,
             disabled: effectiveDisabled,
@@ -163,11 +169,14 @@ export function Button(props: ButtonProps) {
       })}
       style={buttonStyle}
       aria-busy={loading || undefined}
-      aria-pressed={resolveAriaPressed(buttonProps["aria-pressed"], pressed)}
+      aria-pressed={resolveActionAriaPressed(
+        buttonProps["aria-pressed"],
+        pressed,
+      )}
       disabled={effectiveDisabled}
       type={type}
       onClick={(event) => {
-        handleButtonClick(event, {
+        handleActionClick(event, {
           copyText: resolvedCopyText,
           copiedDuration,
           disabled: effectiveDisabled,
@@ -208,13 +217,6 @@ const getButtonClassName = (options: {
   );
 };
 
-const resolveAriaPressed = (
-  ariaPressed: AnchorHTMLAttributes<HTMLAnchorElement>["aria-pressed"],
-  pressed?: boolean,
-) => {
-  return ariaPressed ?? (typeof pressed === "boolean" ? pressed : undefined);
-};
-
 type ButtonStyle = CSSProperties & {
   "--willa-button-custom-bg"?: string;
   "--willa-button-custom-text"?: string;
@@ -253,42 +255,6 @@ const resolveCopyText = (
   if (copyText === true) return flattenText(children).trim();
   if (typeof copyText === "string") return copyText;
   return "";
-};
-
-const handleButtonClick = async <Element extends HTMLElement>(
-  event: MouseEvent<Element>,
-  options: {
-    copyText?: string;
-    copiedDuration: number;
-    disabled?: boolean;
-    onClick?: (event: MouseEvent<Element>) => void;
-    onCopyText?: (text: string) => void;
-    preventDefaultForCopy: boolean;
-    copy: (
-      text: string,
-      options?: { resetDuration?: number; onCopy?: (text: string) => void },
-    ) => Promise<boolean>;
-  },
-) => {
-  if (options.disabled) {
-    event.preventDefault();
-    return;
-  }
-
-  options.onClick?.(event);
-
-  if (event.defaultPrevented || !options.copyText) {
-    return;
-  }
-
-  if (options.preventDefaultForCopy) {
-    event.preventDefault();
-  }
-
-  await options.copy(options.copyText, {
-    resetDuration: options.copiedDuration,
-    onCopy: options.onCopyText,
-  });
 };
 
 const renderButtonContent = (options: {

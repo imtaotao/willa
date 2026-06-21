@@ -2,11 +2,14 @@ import {
   type AnchorHTMLAttributes,
   type ButtonHTMLAttributes,
   type CSSProperties,
-  type MouseEvent,
   type ReactNode,
 } from "react";
 import classNames from "classnames";
 import { useCopyToClipboard } from "@willa-ui/shared";
+import {
+  handleActionClick,
+  resolveActionAriaPressed,
+} from "#content/internal/buttonActionUtils";
 
 export type IconButtonVariant = "solid" | "soft" | "outline" | "ghost";
 export type IconButtonSize = "sm" | "md" | "lg";
@@ -103,10 +106,13 @@ export function IconButton(props: IconButtonProps) {
         aria-label={loading && loadingLabel ? loadingLabel : ariaLabel}
         aria-busy={loading || undefined}
         aria-disabled={effectiveDisabled || undefined}
-        aria-pressed={resolveAriaPressed(anchorProps["aria-pressed"], pressed)}
+        aria-pressed={resolveActionAriaPressed(
+          anchorProps["aria-pressed"],
+          pressed,
+        )}
         tabIndex={effectiveDisabled ? -1 : anchorProps.tabIndex}
         onClick={(event) => {
-          handleIconButtonClick(event, {
+          handleActionClick(event, {
             copyText: resolvedCopyText,
             copiedDuration,
             disabled: effectiveDisabled,
@@ -162,11 +168,14 @@ export function IconButton(props: IconButtonProps) {
       style={buttonStyle}
       aria-label={loading && loadingLabel ? loadingLabel : ariaLabel}
       aria-busy={loading || undefined}
-      aria-pressed={resolveAriaPressed(buttonProps["aria-pressed"], pressed)}
+      aria-pressed={resolveActionAriaPressed(
+        buttonProps["aria-pressed"],
+        pressed,
+      )}
       disabled={effectiveDisabled}
       type={type}
       onClick={(event) => {
-        handleIconButtonClick(event, {
+        handleActionClick(event, {
           copyText: resolvedCopyText,
           copiedDuration,
           disabled: effectiveDisabled,
@@ -201,13 +210,6 @@ const getIconButtonClassName = (options: {
     options.pressed && "willa-icon-button--pressed",
     options.className,
   );
-};
-
-const resolveAriaPressed = (
-  ariaPressed: AnchorHTMLAttributes<HTMLAnchorElement>["aria-pressed"],
-  pressed?: boolean,
-) => {
-  return ariaPressed ?? (typeof pressed === "boolean" ? pressed : undefined);
 };
 
 type IconButtonStyle = CSSProperties & {
@@ -248,42 +250,6 @@ const resolveIconButtonCopyText = (
   if (copyText === true) return ariaLabel.trim();
   if (typeof copyText === "string") return copyText;
   return "";
-};
-
-const handleIconButtonClick = async <Element extends HTMLElement>(
-  event: MouseEvent<Element>,
-  options: {
-    copyText?: string;
-    copiedDuration: number;
-    disabled?: boolean;
-    onClick?: (event: MouseEvent<Element>) => void;
-    onCopyText?: (text: string) => void;
-    preventDefaultForCopy: boolean;
-    copy: (
-      text: string,
-      options?: { resetDuration?: number; onCopy?: (text: string) => void },
-    ) => Promise<boolean>;
-  },
-) => {
-  if (options.disabled) {
-    event.preventDefault();
-    return;
-  }
-
-  options.onClick?.(event);
-
-  if (event.defaultPrevented || !options.copyText) {
-    return;
-  }
-
-  if (options.preventDefaultForCopy) {
-    event.preventDefault();
-  }
-
-  await options.copy(options.copyText, {
-    resetDuration: options.copiedDuration,
-    onCopy: options.onCopyText,
-  });
 };
 
 const renderIconButtonContent = (options: {

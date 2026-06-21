@@ -63,7 +63,7 @@
   position: absolute;
   left: 0;
   top: calc(100% + 14px);
-  z-index: 12;
+  z-index: var(--willa-layer-popover, 1000);
   display: flex;
   width: min(20rem, calc(100vw - 2rem));
   flex-direction: column;

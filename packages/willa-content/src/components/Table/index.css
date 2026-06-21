@@ -162,7 +162,7 @@
 
 .willa-table-cell-tooltip {
   position: fixed;
-  z-index: 90;
+  z-index: var(--willa-layer-tooltip, 1010);
   max-width: min(24rem, calc(100vw - 2rem));
   padding: 0.46rem 0.58rem;
   border: 1px solid var(--willa-table-tooltip-border);

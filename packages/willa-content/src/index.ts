@@ -23,7 +23,7 @@ export { Drawer } from "#content/components/Drawer";
 export { Download } from "#content/components/Download";
 export { EmptyState } from "#content/components/EmptyState";
 export { flattenText, createHeadingIdFactory } from "@willa-ui/shared";
-export { FileCard } from "#content/components/FileCard";
+export { FileCard, FileCardIcon } from "#content/components/FileCard";
 export { FilePreview } from "#content/components/FilePreview";
 export { FileTree } from "#content/components/FileTree";
 export { FloatButton, FloatButtonGroup } from "#content/components/FloatButton";
@@ -169,7 +169,12 @@ export type {
   EmptyStateSize,
   EmptyStateVariant,
 } from "#content/components/EmptyState";
-export type { FileCardProps, FileCardTone } from "#content/components/FileCard";
+export type {
+  FileCardIconProps,
+  FileCardIconSize,
+  FileCardProps,
+  FileCardTone,
+} from "#content/components/FileCard";
 export type {
   FilePreviewProps,
   FilePreviewSize,

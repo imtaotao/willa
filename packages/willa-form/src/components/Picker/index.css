@@ -144,7 +144,7 @@
 
 .willa-picker-panel {
   position: fixed;
-  z-index: 80;
+  z-index: var(--willa-layer-popover, 1000);
   display: flex;
   flex-direction: column;
   gap: 0.42rem;

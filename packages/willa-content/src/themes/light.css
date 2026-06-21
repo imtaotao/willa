@@ -334,6 +334,12 @@
   --willa-file-card-pdf-text: #ffffff;
   --willa-file-card-ppt-bg: #fb6d3a;
   --willa-file-card-ppt-text: #ffffff;
+  --willa-file-card-image-bg: #38bdf8;
+  --willa-file-card-image-text: #ffffff;
+  --willa-file-card-audio-bg: #8b5cf6;
+  --willa-file-card-audio-text: #ffffff;
+  --willa-file-card-video-bg: #ec4899;
+  --willa-file-card-video-text: #ffffff;
   --willa-file-card-archive-bg: #f59e0b;
   --willa-file-card-archive-text: #ffffff;
   --willa-file-card-code-bg: #fbbf24;

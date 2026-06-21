@@ -1,6 +1,8 @@
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import classNames from "classnames";
-import { DownloadIcon, FileTextIcon } from "@radix-ui/react-icons";
+import { DownloadIcon } from "@radix-ui/react-icons";
+
+import { FileCardIcon } from "#content/components/FileCard";
 
 export type DownloadVariant = "chip" | "button" | "plain";
 export type DownloadSize = "sm" | "md";
@@ -31,7 +33,7 @@ export function Download(props: DownloadProps) {
     meta,
     variant = "chip",
     size = "sm",
-    icon = <FileTextIcon />,
+    icon,
     trailingIcon = <DownloadIcon />,
     downloadName,
     disabled = false,
@@ -42,6 +44,8 @@ export function Download(props: DownloadProps) {
     ...anchorProps
   } = props;
   const resolvedRel = target === "_blank" && !rel ? "noreferrer" : rel;
+  const iconName =
+    downloadName ?? href ?? (typeof name === "string" ? name : "");
 
   return (
     <a
@@ -68,10 +72,13 @@ export function Download(props: DownloadProps) {
         onClick?.(event);
       }}
     >
-      {icon ? (
-        <span className="willa-download-icon" aria-hidden="true">
-          {icon}
-        </span>
+      {icon !== null ? (
+        <FileCardIcon
+          className="willa-download-icon"
+          icon={icon}
+          name={iconName}
+          size={size}
+        />
       ) : null}
       <span className="willa-download-content">
         <span className="willa-download-name">{name}</span>

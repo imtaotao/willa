@@ -5,7 +5,7 @@
 
 .willa-tooltip-content {
   position: fixed;
-  z-index: 90;
+  z-index: var(--willa-layer-tooltip, 1010);
   box-sizing: border-box;
   max-width: min(18rem, calc(100vw - 1rem));
   border: 1px solid var(--willa-tooltip-border);

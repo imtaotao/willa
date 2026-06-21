@@ -1,7 +1,7 @@
 .willa-dialog {
   position: fixed;
   inset: 0;
-  z-index: 90;
+  z-index: var(--willa-layer-modal, 1200);
   display: grid;
   width: 100%;
   height: 100%;
