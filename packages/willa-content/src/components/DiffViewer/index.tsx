@@ -148,23 +148,25 @@ export function DiffViewer(props: DiffViewerProps) {
       ) : null}
 
       <div className="willa-diff-viewer__body" role="table">
-        {variant === "split"
-          ? splitRows.map((row, index) => (
-              <SplitDiffRow
-                key={index}
-                row={row}
-                language={language}
-                showLineNumbers={showLineNumbers}
-              />
-            ))
-          : unifiedRows.map((row, index) => (
-              <UnifiedDiffRow
-                key={index}
-                row={row}
-                language={language}
-                showLineNumbers={showLineNumbers}
-              />
-            ))}
+        <div className="willa-diff-viewer__content" role="rowgroup">
+          {variant === "split"
+            ? splitRows.map((row, index) => (
+                <SplitDiffRow
+                  key={index}
+                  row={row}
+                  language={language}
+                  showLineNumbers={showLineNumbers}
+                />
+              ))
+            : unifiedRows.map((row, index) => (
+                <UnifiedDiffRow
+                  key={index}
+                  row={row}
+                  language={language}
+                  showLineNumbers={showLineNumbers}
+                />
+              ))}
+        </div>
       </div>
     </div>
   );
@@ -329,11 +331,9 @@ const createDiffStats = (lines: Array<DiffLine>) => {
       if (line.type === "insert") {
         stats.insertions += 1;
       }
-
       if (line.type === "delete") {
         stats.deletions += 1;
       }
-
       return stats;
     },
     { deletions: 0, insertions: 0 },

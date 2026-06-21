@@ -153,35 +153,43 @@
   line-height: 1.65;
 }
 
+.willa-diff-viewer__content {
+  display: grid;
+  width: max-content;
+  min-width: 100%;
+  padding-block-end: 0.42rem;
+}
+
 .willa-diff-viewer__row,
 .willa-diff-viewer__split-row {
-  min-width: 100%;
+  width: 100%;
+  min-width: 0;
 }
 
 .willa-diff-viewer__row {
   display: grid;
-  grid-template-columns: 3rem 3rem 1.6rem minmax(28rem, 1fr);
+  grid-template-columns: 3rem 3rem 1.6rem max-content;
   align-items: stretch;
 }
 
 .willa-diff-viewer--no-line-numbers .willa-diff-viewer__row {
-  grid-template-columns: 1.6rem minmax(28rem, 1fr);
+  grid-template-columns: 1.6rem max-content;
 }
 
 .willa-diff-viewer__split-row {
   display: grid;
-  grid-template-columns: repeat(2, minmax(24rem, 1fr));
+  grid-template-columns: repeat(2, minmax(24rem, max-content));
 }
 
 .willa-diff-viewer__split-cell {
   display: grid;
-  grid-template-columns: 3rem 1.6rem minmax(18rem, 1fr);
+  grid-template-columns: 3rem 1.6rem max-content;
   align-items: stretch;
   min-width: 0;
 }
 
 .willa-diff-viewer--no-line-numbers .willa-diff-viewer__split-cell {
-  grid-template-columns: 1.6rem minmax(18rem, 1fr);
+  grid-template-columns: 1.6rem max-content;
 }
 
 .willa-diff-viewer__split-cell + .willa-diff-viewer__split-cell {
@@ -239,7 +247,8 @@
 .willa-diff-viewer__omitted {
   display: flex;
   align-items: center;
-  min-width: 100%;
+  width: 100%;
+  min-width: 0;
   border-top: 1px solid var(--willa-diff-viewer-divider);
   border-bottom: 1px solid var(--willa-diff-viewer-divider);
   background: var(--willa-diff-viewer-omitted-bg);

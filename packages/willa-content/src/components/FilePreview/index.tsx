@@ -642,10 +642,14 @@ const AudioPreviewPlayer = (props: {
 
 const CsvPreview = (props: { name: string; text?: string }) => {
   const tableItems = createCsvTableItems(props.text);
+  const isEmpty = tableItems.length === 0;
 
   return (
     <Table
-      className="willa-file-preview__csv"
+      className={classNames(
+        "willa-file-preview__csv",
+        isEmpty && "willa-file-preview__csv--empty",
+      )}
       size="sm"
       items={tableItems}
       empty="暂无可预览表格数据。"

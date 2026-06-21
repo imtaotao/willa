@@ -46,6 +46,7 @@ const SuggestionChipsPreview = () => {
     <Panel padding="md" style={{ width: "min(100%, 56rem)" }}>
       <SuggestionChips
         items={suggestions}
+        style={{ marginBottom: "0.8rem" }}
         onSelect={(item) => {
           setValue(String(item.label));
         }}

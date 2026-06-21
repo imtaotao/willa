@@ -1,5 +1,6 @@
 .willa-file-preview {
   display: grid;
+  width: 100%;
   min-width: 0;
   overflow: hidden;
   color: var(--willa-file-preview-text);
@@ -172,6 +173,17 @@
 .willa-file-preview--code .willa-file-preview__body,
 .willa-file-preview--text .willa-file-preview__body {
   align-items: start;
+  justify-items: stretch;
+}
+
+.willa-file-preview--csv .willa-file-preview__body,
+.willa-file-preview--download .willa-file-preview__body {
+  align-items: stretch;
+  justify-items: stretch;
+}
+
+.willa-file-preview--csv .willa-file-preview__body {
+  min-height: 12rem;
 }
 
 .willa-file-preview--code .willa-file-preview__code,
@@ -181,8 +193,23 @@
 
 .willa-file-preview__csv {
   width: 100%;
+  min-height: 12rem;
   border: 0;
   border-radius: 0;
+}
+
+.willa-file-preview__csv--empty .willa-table-scroll {
+  display: grid;
+  min-height: inherit;
+}
+
+.willa-file-preview__csv .willa-table-element {
+  width: 100%;
+  min-width: 100%;
+}
+
+.willa-file-preview__csv--empty .willa-table-element {
+  height: 100%;
 }
 
 .willa-file-preview__code .willa-prose-code-block {
@@ -528,10 +555,16 @@
   .willa-file-preview-audio {
     width: 100%;
     grid-template-columns: 1fr;
+    border-radius: 0.65rem;
   }
 
   .willa-file-preview-audio__visual {
-    min-height: 6rem;
+    display: flex;
+    min-height: 4rem;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    gap: 0.45rem;
   }
 
   .willa-file-preview-audio__player {

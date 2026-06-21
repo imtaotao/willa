@@ -40,6 +40,7 @@ type Theme = "light" | "dark";
 
 const usagePageId = "usage";
 const themeStorageKey = "willa-docs-theme";
+const sidebarQueryStorageKey = "willa-docs-sidebar-query";
 const sidebarCompactQuery = "(max-width: 1040px)";
 
 const docGroups: Array<{
@@ -222,6 +223,26 @@ const persistTheme = (theme: Theme) => {
   }
 };
 
+const getInitialSidebarQuery = () => {
+  try {
+    return window.localStorage.getItem(sidebarQueryStorageKey) ?? "";
+  } catch {
+    return "";
+  }
+};
+
+const persistSidebarQuery = (query: string) => {
+  try {
+    if (query) {
+      window.localStorage.setItem(sidebarQueryStorageKey, query);
+      return;
+    }
+    window.localStorage.removeItem(sidebarQueryStorageKey);
+  } catch {
+    // Ignore storage failures so component search still works in memory.
+  }
+};
+
 const getDocIdFromHash = () => {
   const hash = window.location.hash.replace(/^#\/?/, "");
   return hash ? decodeURIComponent(hash) : "";
@@ -254,7 +275,7 @@ export function App() {
   const [loadedDoc, setLoadedDoc] = useState<ComponentDoc | null>(null);
   const [isDocLoading, setIsDocLoading] = useState(false);
   const [docError, setDocError] = useState<string | null>(null);
-  const [sidebarQuery, setSidebarQuery] = useState("");
+  const [sidebarQuery, setSidebarQuery] = useState(getInitialSidebarQuery);
   const [expandedDocGroups, setExpandedDocGroups] = useState(() =>
     getDefaultExpandedDocGroups(!getIsCompactSidebar()),
   );
@@ -276,10 +297,12 @@ export function App() {
       return { ...group, docs };
     })
     .filter((group) => group.docs.length > 0);
+
   const visibleDocCount = visibleDocGroups.reduce(
     (count, group) => count + group.docs.length,
     0,
   );
+
   const usageAnchorItems: Array<AnchorItem> = [
     {
       id: usagePageId,
@@ -449,6 +472,10 @@ export function App() {
       theme === "dark" ? "dark" : "light";
     persistTheme(theme);
   }, [theme]);
+
+  useEffect(() => {
+    persistSidebarQuery(sidebarQuery);
+  }, [sidebarQuery]);
 
   useEffect(() => {
     const media = window.matchMedia(sidebarCompactQuery);

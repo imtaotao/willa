@@ -263,20 +263,36 @@ export default defineDoc({
     {
       title: "CSV 预览",
       code: `
-        <FilePreview
-          name="feedback.csv"
-          src="/feedback.csv"
-          meta="CSV · 12 KB"
-          text={"id,feedback,owner,status\\n1,export is slow,Grace,pending"}
-        />
+        <>
+          <FilePreview
+            name="feedback.csv"
+            src="/feedback.csv"
+            meta="CSV · 12 KB"
+            text={"id,feedback,owner,status\\n1,export is slow,Grace,pending"}
+          />
+          <FilePreview
+            name="empty.csv"
+            src="/empty.csv"
+            meta="CSV · 空数据"
+            text=""
+          />
+        </>
       `,
       content: (
-        <FilePreview
-          name="feedback.csv"
-          src="/willa/"
-          meta="CSV · 12 KB"
-          text={csvText}
-        />
+        <>
+          <FilePreview
+            name="feedback.csv"
+            src="/willa/"
+            meta="CSV · 12 KB"
+            text={csvText}
+          />
+          <FilePreview
+            name="empty.csv"
+            src="/willa/"
+            meta="CSV · 空数据"
+            text=""
+          />
+        </>
       ),
     },
     {
