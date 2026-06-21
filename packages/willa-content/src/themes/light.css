@@ -371,6 +371,10 @@
   --willa-kbd-border: rgba(15, 23, 42, 0.14);
   --willa-kbd-separator: var(--willa-text-faint);
   --willa-kbd-text: var(--willa-text-strong);
+  --willa-math-expression-text: var(--willa-text-strong);
+  --willa-math-expression-error-bg: #fef2f2;
+  --willa-math-expression-error-border: #fecaca;
+  --willa-math-expression-error-text: #b91c1c;
   --willa-typography-action: var(--willa-text-soft);
   --willa-typography-action-bg-hover: rgba(15, 23, 42, 0.07);
   --willa-typography-action-hover: var(--willa-text-strong);

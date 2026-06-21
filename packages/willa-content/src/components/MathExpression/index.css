@@ -1,0 +1,46 @@
+.willa-math-expression {
+  color: var(--willa-math-expression-text);
+  font-family: var(--willa-body-font);
+  line-height: 1.5;
+}
+
+.willa-math-expression--inline {
+  display: inline;
+  vertical-align: baseline;
+}
+
+.willa-math-expression--block {
+  display: block;
+  max-width: 100%;
+  margin: 1rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.18rem 0;
+  text-align: center;
+  -webkit-overflow-scrolling: touch;
+}
+
+.willa-math-expression--invalid {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  border: 1px solid var(--willa-math-expression-error-border);
+  border-radius: 0.36rem;
+  background: var(--willa-math-expression-error-bg);
+  color: var(--willa-math-expression-error-text);
+  font-family: var(--willa-code-font);
+  font-size: 0.88em;
+  font-weight: 620;
+  overflow-wrap: anywhere;
+  padding: 0.12rem 0.32rem;
+  text-align: left;
+}
+
+.willa-math-expression--block.willa-math-expression--invalid {
+  width: fit-content;
+  margin-inline: auto;
+}
+
+.willa-math-expression .katex {
+  color: inherit;
+}

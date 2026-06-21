@@ -118,6 +118,7 @@ const docSpecGroups = {
     "Kbd",
     "Lightbox",
     "List",
+    "MathExpression",
     "Menu",
     "Pagination",
     "Popover",

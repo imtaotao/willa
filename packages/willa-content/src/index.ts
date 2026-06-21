@@ -34,6 +34,7 @@ export { InputPanel } from "#content/components/InputPanel";
 export { Kbd, KbdShortcut } from "#content/components/Kbd";
 export { Lightbox, normalizeLightboxImage } from "#content/components/Lightbox";
 export { List } from "#content/components/List";
+export { MathExpression } from "#content/components/MathExpression";
 export { Menu } from "#content/components/Menu";
 export { Pagination } from "#content/components/Pagination";
 export { Popover } from "#content/components/Popover";
@@ -231,6 +232,10 @@ export type {
   ListTone,
   ListVariant,
 } from "#content/components/List";
+export type {
+  MathExpressionDisplay,
+  MathExpressionProps,
+} from "#content/components/MathExpression";
 export type {
   MenuActionItem,
   MenuAlign,

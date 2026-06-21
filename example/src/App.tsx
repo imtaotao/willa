@@ -117,6 +117,7 @@ const docChineseNames: Record<string, string> = {
   List: "列表",
   LogoWall: "标识墙",
   Masonry: "瀑布流",
+  MathExpression: "数学公式",
   Mdx: "MDX 渲染",
   Menu: "菜单",
   MessageActions: "消息操作",
