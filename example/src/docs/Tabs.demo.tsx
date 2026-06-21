@@ -89,7 +89,8 @@ export default defineDoc({
   id: "tabs",
   name: "Tabs",
   packageName: "willa/Tabs",
-  description: "用于在同一上下文里切换多组内容的标签页组件。",
+  description:
+    "用于在同一上下文里切换多组内容面板；只切换视图、模式或筛选状态时优先使用 Segmented。",
   imports: [{ name: "Tabs", from: "willa/Tabs" }],
   css: "willa/Tabs.css",
   demo: {
@@ -188,6 +189,23 @@ export default defineDoc({
         };
       `,
       content: <ControlledTabsExample />,
+    },
+    {
+      title: "使用边界",
+      code: `
+        <Badge tone="info">
+          Tabs 用于内容分组；Segmented 用于视图、模式和筛选维度切换。
+        </Badge>;
+      `,
+      content: (
+        <div style={{ display: "grid", gap: "0.75rem", maxWidth: "34rem" }}>
+          <Badge tone="info">Tabs：每个选项对应独立内容面板</Badge>
+          <p style={{ margin: 0, color: "var(--willa-content-muted)" }}>
+            例如安装说明、代码示例、参数解释、多版本内容。若只是切换列表/看板、
+            预览/源码、紧凑/宽松或一组显示开关，使用 Segmented 更合适。
+          </p>
+        </div>
+      ),
     },
   ],
   props: [

@@ -1,12 +1,6 @@
-import {
-  useEffect,
-  useId,
-  useMemo,
-  useState,
-  type KeyboardEvent,
-  type ReactNode,
-} from "react";
+import { useId, type KeyboardEvent, type ReactNode } from "react";
 import classNames from "classnames";
+import { useSingleSelection } from "#content/internal/useSingleSelection";
 
 export type TabsItem = {
   value: string;
@@ -39,37 +33,12 @@ export function Tabs(props: TabsProps) {
     className,
   } = props;
   const id = useId();
-  const firstEnabledValue = useMemo(() => {
-    return items.find((item) => !item.disabled)?.value;
-  }, [items]);
-  const [uncontrolledValue, setUncontrolledValue] = useState(
-    defaultValue ?? firstEnabledValue,
-  );
-  const selectedValue = value ?? uncontrolledValue ?? firstEnabledValue;
-  const selectedItem =
-    items.find((item) => item.value === selectedValue && !item.disabled) ??
-    items.find((item) => !item.disabled);
-
-  useEffect(() => {
-    if (value !== undefined) return;
-    if (!firstEnabledValue) return;
-    if (
-      items.some((item) => item.value === uncontrolledValue && !item.disabled)
-    )
-      return;
-
-    setUncontrolledValue(firstEnabledValue);
-  }, [firstEnabledValue, items, uncontrolledValue, value]);
-
-  const selectValue = (nextValue: string) => {
-    const nextItem = items.find((item) => item.value === nextValue);
-    if (!nextItem || nextItem.disabled) return;
-
-    if (value === undefined) {
-      setUncontrolledValue(nextValue);
-    }
-    onValueChange?.(nextValue);
-  };
+  const { enabledItems, selectedItem, selectValue } = useSingleSelection({
+    items,
+    value,
+    defaultValue,
+    onValueChange,
+  });
 
   const focusTab = (container: HTMLDivElement, nextValue: string) => {
     const nextIndex = items.findIndex((item) => item.value === nextValue);
@@ -83,7 +52,6 @@ export function Tabs(props: TabsProps) {
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    const enabledItems = items.filter((item) => !item.disabled);
     if (!enabledItems.length || !selectedItem) return;
 
     const currentIndex = enabledItems.findIndex(

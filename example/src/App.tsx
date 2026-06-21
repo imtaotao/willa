@@ -144,6 +144,7 @@ const docChineseNames: Record<string, string> = {
   SectionHeader: "区块标题",
   Select: "选择框",
   SelectionBar: "选择操作条",
+  Segmented: "分段控制",
   Separator: "分隔线",
   SidebarLayout: "侧边布局",
   SiteFooter: "站点页脚",

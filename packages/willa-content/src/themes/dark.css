@@ -483,6 +483,17 @@
   --willa-spinner-warning: #fbbf24;
   --willa-spinner-danger: #fca5a5;
   --willa-spinner-label: var(--willa-text-soft);
+  --willa-segmented-bg: #252932;
+  --willa-segmented-border: rgba(255, 255, 255, 0.1);
+  --willa-segmented-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.035);
+  --willa-segmented-text: var(--willa-text);
+  --willa-segmented-option-text: var(--willa-text-soft);
+  --willa-segmented-option-text-hover: var(--willa-text-strong);
+  --willa-segmented-option-bg-hover: #2f343d;
+  --willa-segmented-option-selected-bg: #393f4a;
+  --willa-segmented-option-selected-border: rgba(255, 255, 255, 0.11);
+  --willa-segmented-option-selected-text: var(--willa-text-strong);
+  --willa-segmented-option-selected-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
   --willa-tabs-list-bg: rgba(255, 255, 255, 0.055);
   --willa-tabs-tab-text: var(--willa-text-soft);
   --willa-tabs-tab-text-hover: var(--willa-text-strong);

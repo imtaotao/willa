@@ -125,6 +125,7 @@ const docSpecGroups = {
     "Progress",
     "Result",
     "SelectionBar",
+    "Segmented",
     "Skeleton",
     "SourceCard",
     "Spinner",

@@ -1,0 +1,136 @@
+.willa-segmented {
+  box-sizing: border-box;
+  display: inline-flex;
+  max-width: 100%;
+  min-width: 0;
+  gap: 0.16rem;
+  padding: 0.18rem;
+  border: 1px solid var(--willa-segmented-border);
+  border-radius: 0.72rem;
+  background: var(--willa-segmented-bg);
+  color: var(--willa-segmented-text);
+  font-family: var(--willa-body-font);
+  box-shadow: var(--willa-segmented-shadow);
+}
+
+.willa-segmented--block {
+  display: flex;
+  width: 100%;
+}
+
+.willa-segmented-option {
+  box-sizing: border-box;
+  display: inline-flex;
+  min-width: 0;
+  flex: 0 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 0.38rem;
+  border: 1px solid transparent;
+  border-radius: 0.56rem;
+  background: transparent;
+  color: var(--willa-segmented-option-text);
+  font: inherit;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease;
+}
+
+.willa-segmented--block .willa-segmented-option {
+  flex: 1 1 0;
+}
+
+.willa-segmented--sm .willa-segmented-option {
+  min-height: 1.9rem;
+  padding: 0.32rem 0.66rem;
+  font-size: 0.84rem;
+}
+
+.willa-segmented--md .willa-segmented-option {
+  min-height: 2.28rem;
+  padding: 0.42rem 0.82rem;
+  font-size: 0.92rem;
+}
+
+.willa-segmented--lg .willa-segmented-option {
+  min-height: 2.72rem;
+  padding: 0.54rem 1rem;
+  font-size: 1rem;
+}
+
+.willa-segmented-option:hover:not(:disabled) {
+  background: var(--willa-segmented-option-bg-hover);
+  color: var(--willa-segmented-option-text-hover);
+}
+
+.willa-segmented-option[aria-checked="true"],
+.willa-segmented-option[aria-pressed="true"] {
+  border-color: var(--willa-segmented-option-selected-border);
+  background: var(--willa-segmented-option-selected-bg);
+  color: var(--willa-segmented-option-selected-text);
+  box-shadow: var(--willa-segmented-option-selected-shadow);
+}
+
+.willa-segmented-option:focus-visible {
+  outline: 2px solid var(--willa-focus-ring);
+  outline-offset: 2px;
+}
+
+.willa-segmented-option:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.willa-segmented-option-icon {
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+}
+
+.willa-segmented-option-icon svg {
+  width: 1em;
+  height: 1em;
+}
+
+.willa-segmented-option-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.willa-segmented--disabled {
+  opacity: 0.68;
+}
+
+@media (max-width: 767px) {
+  .willa-segmented {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .willa-segmented::-webkit-scrollbar {
+    display: none;
+  }
+
+  .willa-segmented-option {
+    flex: 0 0 auto;
+    min-height: 2.38rem;
+    touch-action: manipulation;
+  }
+
+  .willa-segmented--block .willa-segmented-option {
+    flex: 1 1 0;
+  }
+}

@@ -41,6 +41,7 @@ export { Popover } from "#content/components/Popover";
 export { Progress } from "#content/components/Progress";
 export { Result } from "#content/components/Result";
 export { SelectionBar } from "#content/components/SelectionBar";
+export { Segmented } from "#content/components/Segmented";
 export { Skeleton } from "#content/components/Skeleton";
 export { SourceCard } from "#content/components/SourceCard";
 export { Spinner } from "#content/components/Spinner";
@@ -322,6 +323,14 @@ export type {
   TagTone,
   TagVariant,
 } from "#content/components/Tag";
+export type {
+  SegmentedOption,
+  SegmentedMultipleProps,
+  SegmentedProps,
+  SegmentedSelectionMode,
+  SegmentedSingleProps,
+  SegmentedSize,
+} from "#content/components/Segmented";
 export type { TabsItem, TabsProps, TabsSize } from "#content/components/Tabs";
 export type {
   TimelineItem,
