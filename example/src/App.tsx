@@ -16,6 +16,7 @@ import { Anchor, type AnchorItem } from "willa/Anchor";
 import { Callout } from "willa/Callout";
 import { FloatButton } from "willa/FloatButton";
 import { IconButton } from "willa/IconButton";
+import { PageHeader } from "willa/PageHeader";
 import { Typography } from "willa/Typography";
 import { SearchInput } from "willa/SearchInput";
 import { Skeleton } from "willa/Skeleton";
@@ -24,6 +25,7 @@ import "willa/Anchor.css";
 import "willa/Callout.css";
 import "willa/FloatButton.css";
 import "willa/IconButton.css";
+import "willa/PageHeader.css";
 import "willa/SearchInput.css";
 import "willa/Skeleton.css";
 import "willa/Typography.css";
@@ -308,7 +310,7 @@ export function App() {
     0,
   );
 
-  const usageAnchorItems: Array<AnchorItem> = [
+  const startAnchorItems: Array<AnchorItem> = [
     {
       id: usagePageId,
       title: "安装使用",
@@ -404,7 +406,7 @@ export function App() {
           <Anchor
             className="docs-nav-anchor"
             classNames={navAnchorClassNames}
-            items={usageAnchorItems}
+            items={startAnchorItems}
             activeId={activeId}
             size="md"
             variant="navigation"
@@ -562,20 +564,12 @@ export function App() {
     <>
       <AppShell className="docs-app" sidebar={sidebar} sidebarWidth="324px">
         <div className="docs-main" ref={docsMainRef}>
-          <header className="docs-header">
-            <div className="docs-header-title">
-              <Typography.Text
-                className="docs-kicker"
-                style={{ display: "block" }}
-              >
-                Willa Components
-              </Typography.Text>
-              <Typography.Paragraph className="docs-header-subtitle">
-                AI、场景与基础组件示例
-              </Typography.Paragraph>
-            </div>
-            {renderDocsActions("docs-actions docs-header-actions")}
-          </header>
+          <PageHeader
+            className="docs-header"
+            eyebrow="Willa Components"
+            title="AI、场景与基础组件示例"
+            actions={renderDocsActions("docs-actions docs-header-actions")}
+          />
 
           <div className="docs-content willa-shell">
             {activeId === usagePageId ? (
