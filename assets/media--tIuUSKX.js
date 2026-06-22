@@ -1,0 +1,1 @@
+import{aK as i}from"./index-g4K0_yed.js";function t(r,e){if(e)return r.resolveAssetUrl?r.resolveAssetUrl(r.articleSourcePath??"",e):e}function n(r){if(r!==void 0&&Number.isFinite(r))return i(r,0,1)}export{n as a,t as r};
