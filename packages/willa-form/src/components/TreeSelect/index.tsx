@@ -7,22 +7,23 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from "react";
-import { CheckIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+import { CheckIcon } from "@radix-ui/react-icons";
+import {
+  Tree,
+  type TreeChangeInfo,
+  type TreeItem,
+} from "@willa-ui/content/components/Tree";
 import { assignRef } from "@willa-ui/shared";
 import classNames from "classnames";
 
+import { FloatingPanelShell } from "#form/internal/floatingPanelParts";
 import { handleSelectablePanelKeyDown } from "#form/internal/selectablePanelKeyboard";
 import {
-  SelectablePanelClearButton,
-  SelectablePanelHiddenInput,
-  SelectablePanelList,
   SelectablePanelPortal,
   SelectablePanelSearch,
-  SelectablePanelShell,
-  SelectablePanelTrigger,
 } from "#form/internal/selectablePanelParts";
-import { useSelectionModel } from "#form/internal/useSelectionModel";
-import { useSelectablePanel } from "#form/internal/useSelectablePanel";
+import { ComboboxField } from "#form/internal/comboboxField";
+import { useComboboxState } from "#form/internal/useComboboxState";
 
 export type TreeSelectSize = "sm" | "md" | "lg";
 export type TreeSelectVariant = "outline" | "soft";
@@ -34,12 +35,6 @@ export type TreeSelectItem = {
   description?: ReactNode;
   disabled?: boolean;
   children?: Array<TreeSelectItem>;
-};
-
-type FlatTreeSelectItem = {
-  item: TreeSelectItem;
-  level: number;
-  hasChildren: boolean;
 };
 
 export type TreeSelectProps = Omit<
@@ -57,6 +52,8 @@ export type TreeSelectProps = Omit<
   placeholder?: string;
   searchPlaceholder?: string;
   emptyText?: ReactNode;
+  leafOnly?: boolean;
+  showPath?: boolean;
   name?: string;
   value?: string | Array<string>;
   defaultValue?: string | Array<string>;
@@ -69,10 +66,10 @@ export type TreeSelectProps = Omit<
   onExpandedChange?: (values: Array<string>) => void;
 };
 
-const treeSelectNodeSelector = ".willa-tree-select-node";
+const treeSelectTreeSelector = ".willa-tree-select-tree .willa-tree-node";
 
 export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
-  (props, ref) => {
+  function TreeSelect(props, ref) {
     const {
       items,
       mode = "single",
@@ -85,6 +82,8 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
       placeholder = "请选择",
       searchPlaceholder = "搜索节点",
       emptyText = "暂无节点",
+      leafOnly = false,
+      showPath = false,
       name,
       value,
       defaultValue,
@@ -104,28 +103,32 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
     const [expandedValues, setExpandedValues] = useState<Array<string>>(
       defaultExpandedValues,
     );
-    const allItems = useMemo(() => flattenAllTreeItems(items), [items]);
+    const treeItemMap = useMemo(() => buildTreeSelectItemMap(items), [items]);
+    const mappedTreeItems = useMemo(
+      () =>
+        mapTreeSelectItems(items, {
+          leafOnly,
+        }),
+      [items, leafOnly],
+    );
+    const pathMap = useMemo(() => buildTreeSelectPathMap(items), [items]);
+    const resolvedRenderValue = useMemo(() => {
+      if (renderValue) return renderValue;
+      if (!showPath) return undefined;
+
+      return (selectedItems: Array<TreeSelectItem>) =>
+        formatTreeSelectPath(selectedItems, pathMap, mode);
+    }, [mode, pathMap, renderValue, showPath]);
+    const panelContentVersion = useMemo(
+      () => ({ expandedValues, items }),
+      [expandedValues, items],
+    );
     const {
       clearValue,
       commitItem,
       displayValue,
       hasValue,
       hiddenValue,
-      selectedValues,
-    } = useSelectionModel({
-      defaultValue,
-      items: allItems,
-      mode,
-      onValueChange,
-      placeholder,
-      renderValue,
-      value,
-    });
-    const panelContentVersion = useMemo(
-      () => ({ expandedValues, items }),
-      [expandedValues, items],
-    );
-    const {
       buttonId,
       closePanel,
       listRef,
@@ -141,17 +144,33 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
       setQuery,
       triggerRef,
       handleTriggerKeyDown,
-    } = useSelectablePanel({
+      selectedValues,
+    } = useComboboxState({
+      defaultValue,
+      items: flattenAllTreeItems(items),
+      mode,
+      onValueChange,
+      placeholder,
+      renderValue: resolvedRenderValue,
+      value,
       contentVersion: panelContentVersion,
       fallbackHeight: 340,
       id,
       minWidth: 300,
       searchable,
     });
-    const visibleItems = useMemo(
-      () => flattenVisibleTreeItems(items, expandedValues, query),
-      [items, expandedValues, query],
+    const searching = query.trim() !== "";
+    const visibleTreeItems = useMemo(
+      () => filterTreeSelectItems(mappedTreeItems, query),
+      [mappedTreeItems, query],
     );
+    const searchableExpandedKeys = useMemo(
+      () => collectExpandableTreeKeys(visibleTreeItems),
+      [visibleTreeItems],
+    );
+    const resolvedExpandedKeys = searching
+      ? searchableExpandedKeys
+      : expandedValues;
     const treeSelectStyle = getTreeSelectStyle({ width, style });
     const isInvalid =
       invalid ||
@@ -169,72 +188,54 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
       onExpandedChange?.(nextValues);
     };
 
-    const toggleExpanded = (item: TreeSelectItem) => {
-      const nextValues = expandedValues.includes(item.value)
-        ? expandedValues.filter((value) => value !== item.value)
-        : [...expandedValues, item.value];
+    const handleTreePanelKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === "Escape") {
+        closePanel();
+        triggerRef.current?.focus();
+        return;
+      }
 
+      const isTreeNodeTarget =
+        event.target instanceof HTMLElement
+          ? event.target.closest(treeSelectTreeSelector) !== null
+          : false;
+
+      if (isTreeNodeTarget) return;
+
+      handleSelectablePanelKeyDown(event, {
+        panel: panelRef.current,
+        selector: treeSelectTreeSelector,
+        onClose: closePanel,
+        trigger: triggerRef.current,
+      });
+    };
+
+    const handleTreeExpandedChange = (keys: Array<string | number>) => {
+      const nextValues = keys.map((key) => String(key));
       setExpandedValuesState(nextValues);
     };
 
-    const selectItem = (item: TreeSelectItem) => {
-      const committed = commitItem(item);
+    const handleTreeSelectedChange = (
+      _keys: Array<string | number>,
+      info: TreeChangeInfo,
+    ) => {
+      const originalItem = treeItemMap.get(String(info.key));
+      if (!originalItem) return;
+
+      const committed = commitItem(originalItem);
 
       if (committed && mode === "single") {
         setOpen(false);
       }
     };
 
-    const handleTreePanelKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-      const node =
-        event.target instanceof HTMLElement
-          ? event.target.closest<HTMLButtonElement>(treeSelectNodeSelector)
-          : null;
-
-      if (
-        node &&
-        query.trim() === "" &&
-        (event.key === "ArrowRight" || event.key === "ArrowLeft")
-      ) {
-        const value = node.dataset.value;
-        const entry = visibleItems.find(({ item }) => item.value === value);
-
-        if (entry?.hasChildren) {
-          const expanded = expandedValues.includes(entry.item.value);
-
-          if (event.key === "ArrowRight" && !expanded) {
-            event.preventDefault();
-            setExpandedValuesState([...expandedValues, entry.item.value]);
-            return;
-          }
-
-          if (event.key === "ArrowLeft" && expanded) {
-            event.preventDefault();
-            setExpandedValuesState(
-              expandedValues.filter((item) => item !== entry.item.value),
-            );
-            return;
-          }
-        }
-      }
-
-      handleSelectablePanelKeyDown(event, {
-        panel: panelRef.current,
-        selector: treeSelectNodeSelector,
-        onClose: closePanel,
-        trigger: triggerRef.current,
-      });
-    };
-
     const panel = (
       <SelectablePanelPortal open={open}>
-        <SelectablePanelShell
+        <FloatingPanelShell
           panelRef={panelRef}
           id={panelId}
           className="willa-tree-select-panel"
-          role="tree"
-          multiselectable={mode === "multiple"}
-          labelledBy={buttonId}
+          role="presentation"
           position={position}
           onKeyDown={handleTreePanelKeyDown}
         >
@@ -247,89 +248,37 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
               onChange={(event) => setQuery(event.currentTarget.value)}
             />
           ) : null}
-          <SelectablePanelList
-            listRef={listRef}
-            className="willa-tree-select-list"
-            scrollableClassName="willa-tree-select-list--scrollable"
-            scrollable={scrollable}
-          >
-            {visibleItems.length > 0 ? (
-              visibleItems.map(({ item, level, hasChildren }) => {
-                const selected = selectedValues.includes(item.value);
-                const expanded =
-                  query.trim() !== "" || expandedValues.includes(item.value);
-
-                return (
-                  <div
-                    key={item.value}
-                    className="willa-tree-select-row"
-                    style={
-                      {
-                        "--willa-tree-select-level": level,
-                      } as CSSProperties
-                    }
-                  >
-                    <button
-                      type="button"
-                      className="willa-tree-select-expand"
-                      aria-label={expanded ? "收起节点" : "展开节点"}
-                      aria-hidden={!hasChildren}
-                      tabIndex={hasChildren ? 0 : -1}
-                      onClick={() => toggleExpanded(item)}
-                    >
-                      {hasChildren ? (
-                        <ChevronRightIcon
-                          className={classNames(
-                            expanded && "willa-tree-select-expand-icon--open",
-                          )}
-                        />
-                      ) : null}
-                    </button>
-                    <button
-                      type="button"
-                      className={classNames(
-                        "willa-tree-select-node",
-                        selected && "willa-tree-select-node--selected",
-                      )}
-                      role="treeitem"
-                      data-value={item.value}
-                      aria-selected={selected}
-                      aria-level={level + 1}
-                      aria-expanded={hasChildren ? expanded : undefined}
-                      disabled={item.disabled}
-                      onClick={() => selectItem(item)}
-                    >
-                      <span className="willa-tree-select-node-main">
-                        <span className="willa-tree-select-node-label">
-                          {item.label}
-                        </span>
-                        {item.description ? (
-                          <span className="willa-tree-select-node-description">
-                            {item.description}
-                          </span>
-                        ) : null}
-                      </span>
-                      <span
-                        className="willa-tree-select-node-check"
-                        aria-hidden="true"
-                      >
-                        {selected ? <CheckIcon /> : null}
-                      </span>
-                    </button>
-                  </div>
-                );
-              })
-            ) : (
-              <div className="willa-tree-select-empty">{emptyText}</div>
+          <div
+            ref={listRef}
+            className={classNames(
+              "willa-tree-select-list",
+              scrollable && "willa-tree-select-list--scrollable",
             )}
-          </SelectablePanelList>
-        </SelectablePanelShell>
+          >
+            <Tree
+              className="willa-tree-select-tree"
+              items={visibleTreeItems}
+              size={size}
+              selectedKeys={selectedValues}
+              expandedKeys={resolvedExpandedKeys}
+              selectionMode={mode}
+              selectable
+              expandOnClick={leafOnly}
+              emptyText={emptyText}
+              renderExtra={({ selected }) =>
+                selected ? <CheckIcon aria-hidden="true" /> : null
+              }
+              onExpandedChange={handleTreeExpandedChange}
+              onSelectedChange={handleTreeSelectedChange}
+            />
+          </div>
+        </FloatingPanelShell>
       </SelectablePanelPortal>
     );
 
     return (
-      <span
-        ref={rootRef}
+      <ComboboxField
+        rootRef={rootRef}
         className={classNames(
           "willa-tree-select",
           `willa-tree-select--${size}`,
@@ -341,45 +290,42 @@ export const TreeSelect = forwardRef<HTMLButtonElement, TreeSelectProps>(
           className,
         )}
         style={treeSelectStyle}
+        triggerProps={buttonProps}
+        buttonRef={setButtonRef}
+        buttonId={buttonId}
+        panelId={panelId}
+        popupRole="tree"
+        expanded={open}
+        hasValue={hasValue}
+        invalid={isInvalid}
+        disabled={disabled}
+        controls={open ? panelId : undefined}
+        displayValue={displayValue}
+        placeholderClassName="willa-tree-select-value--placeholder"
+        triggerClassName="willa-tree-select-trigger"
+        valueClassName="willa-tree-select-value"
+        iconClassName="willa-tree-select-icon"
+        hasClear={hasClear}
+        clearClassName="willa-tree-select-clear"
+        clearLabel="清空选择"
+        triggerRef={triggerRef}
+        hiddenName={name}
+        hiddenValue={hiddenValue}
+        onClear={clearValue}
+        onTriggerBlur={onBlur}
+        onTriggerClick={(event) => {
+          onClick?.(event);
+          if (!event.defaultPrevented) setOpen((currentOpen) => !currentOpen);
+        }}
+        onTriggerKeyDown={(event) =>
+          handleTriggerKeyDown(event, {
+            selector: treeSelectTreeSelector,
+            onKeyDown,
+          })
+        }
       >
-        <SelectablePanelTrigger
-          {...buttonProps}
-          buttonRef={setButtonRef}
-          id={buttonId}
-          triggerClassName="willa-tree-select-trigger"
-          valueClassName="willa-tree-select-value"
-          placeholderClassName="willa-tree-select-value--placeholder"
-          iconClassName="willa-tree-select-icon"
-          disabled={disabled}
-          popupRole="tree"
-          expanded={open}
-          controls={open ? panelId : undefined}
-          invalid={isInvalid}
-          hasValue={hasValue}
-          displayValue={displayValue}
-          onBlur={onBlur}
-          onClick={(event) => {
-            onClick?.(event);
-            if (!event.defaultPrevented) setOpen((currentOpen) => !currentOpen);
-          }}
-          onKeyDown={(event) =>
-            handleTriggerKeyDown(event, {
-              selector: treeSelectNodeSelector,
-              onKeyDown,
-            })
-          }
-        />
-        {hasClear ? (
-          <SelectablePanelClearButton
-            className="willa-tree-select-clear"
-            ariaLabel="清空选择"
-            onClear={clearValue}
-            triggerRef={triggerRef}
-          />
-        ) : null}
-        <SelectablePanelHiddenInput name={name} value={hiddenValue} />
         {panel}
-      </span>
+      </ComboboxField>
     );
   },
 );
@@ -400,72 +346,104 @@ const flattenAllTreeItems = (items: Array<TreeSelectItem>) => {
   return result;
 };
 
-const flattenVisibleTreeItems = (
+const mapTreeSelectItems = (
   items: Array<TreeSelectItem>,
-  expandedValues: Array<string>,
+  options: {
+    leafOnly: boolean;
+  },
+): Array<TreeItem> => {
+  return items.map((item) => {
+    const hasChildren = Boolean(item.children?.length);
+
+    return {
+      key: item.value,
+      title: item.label,
+      description: item.description,
+      disabled: item.disabled,
+      selectable: options.leafOnly && hasChildren ? false : undefined,
+      children: item.children?.length
+        ? mapTreeSelectItems(item.children, options)
+        : undefined,
+    };
+  });
+};
+
+const filterTreeSelectItems = (
+  items: Array<TreeItem>,
   query: string,
-) => {
-  const result: Array<FlatTreeSelectItem> = [];
+): Array<TreeItem> => {
   const normalizedQuery = query.trim().toLowerCase();
-  const searching = normalizedQuery !== "";
+  if (!normalizedQuery) return items;
 
-  const walk = (currentItems: Array<TreeSelectItem>, level: number) => {
-    currentItems.forEach((item) => {
-      const hasChildren = Boolean(item.children?.length);
-      const matches = matchesTreeSelectQuery(item, normalizedQuery);
-      const childMatches = hasChildren
-        ? hasMatchedTreeSelectChild(item.children ?? [], normalizedQuery)
+  const walk = (currentItems: Array<TreeItem>): Array<TreeItem> => {
+    return currentItems.flatMap((item) => {
+      const matches =
+        getTextValue(item.title).toLowerCase().includes(normalizedQuery) ||
+        getTextValue(item.description).toLowerCase().includes(normalizedQuery);
+      const childMatches = item.children?.length
+        ? hasTreeSelectMatch(item.children, normalizedQuery)
         : false;
-      const visible = !searching || matches || childMatches;
 
-      if (!visible) return;
-
-      result.push({ item, level, hasChildren });
-
-      if (hasChildren && (searching || expandedValues.includes(item.value))) {
-        walk(item.children ?? [], level + 1);
-      }
+      if (!matches && !childMatches) return [];
+      return [item];
     });
   };
 
-  walk(items, 0);
-  return result;
+  return walk(items);
 };
 
-const hasMatchedTreeSelectChild = (
-  items: Array<TreeSelectItem>,
-  query: string,
-): boolean => {
+const hasTreeSelectMatch = (items: Array<TreeItem>, query: string): boolean => {
   return items.some((item) => {
     return (
-      matchesTreeSelectQuery(item, query) ||
-      hasMatchedTreeSelectChild(item.children ?? [], query)
+      getTextValue(item.title).toLowerCase().includes(query) ||
+      getTextValue(item.description).toLowerCase().includes(query) ||
+      hasTreeSelectMatch(item.children ?? [], query)
     );
   });
 };
 
-const matchesTreeSelectQuery = (item: TreeSelectItem, query: string) => {
-  if (!query) return true;
+const collectExpandableTreeKeys = (items: Array<TreeItem>) => {
+  const result: Array<string> = [];
 
-  return (
-    getTextValue(item.label).toLowerCase().includes(query) ||
-    getTextValue(item.description).toLowerCase().includes(query)
-  );
+  const walk = (currentItems: Array<TreeItem>) => {
+    currentItems.forEach((item) => {
+      if (item.children?.length) {
+        result.push(String(item.key));
+        walk(item.children);
+      }
+    });
+  };
+
+  walk(items);
+  return result;
+};
+
+const buildTreeSelectItemMap = (items: Array<TreeSelectItem>) => {
+  const map = new Map<string, TreeSelectItem>();
+
+  const walk = (currentItems: Array<TreeSelectItem>) => {
+    currentItems.forEach((item) => {
+      map.set(item.value, item);
+      if (item.children?.length) {
+        walk(item.children);
+      }
+    });
+  };
+
+  walk(items);
+  return map;
 };
 
 const getTextValue = (value: ReactNode): string => {
   if (value === null || value === undefined || typeof value === "boolean") {
     return "";
   }
-
   if (typeof value === "string" || typeof value === "number") {
     return String(value);
   }
-
   if (Array.isArray(value)) {
     return value.map(getTextValue).join(" ");
   }
-
   return "";
 };
 
@@ -477,9 +455,43 @@ const getTreeSelectStyle = ({
   style?: CSSProperties;
 }) => {
   if (width === undefined) return style;
+  return { ...style, width };
+};
 
-  return {
-    ...style,
-    width,
+const buildTreeSelectPathMap = (items: Array<TreeSelectItem>) => {
+  const pathMap = new Map<string, string>();
+
+  const walk = (currentItems: Array<TreeSelectItem>, path: Array<string>) => {
+    currentItems.forEach((item) => {
+      const label = getTextValue(item.label) || item.value;
+      const nextPath = [...path, label];
+
+      pathMap.set(item.value, nextPath.join(" / "));
+
+      if (item.children?.length) {
+        walk(item.children, nextPath);
+      }
+    });
   };
+
+  walk(items, []);
+  return pathMap;
+};
+
+const formatTreeSelectPath = (
+  items: Array<TreeSelectItem>,
+  pathMap: Map<string, string>,
+  mode: TreeSelectMode,
+) => {
+  if (items.length === 0) return "";
+
+  const paths = items.map((item) => {
+    return pathMap.get(item.value) ?? getTextValue(item.label) ?? item.value;
+  });
+
+  if (mode === "single") {
+    return paths[0] ?? "";
+  }
+
+  return paths.join("，");
 };

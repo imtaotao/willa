@@ -345,7 +345,6 @@
   --willa-download-text: var(--willa-text-strong);
   --willa-download-text-hover: var(--willa-text-strong);
   --willa-download-meta: var(--willa-text-soft);
-  --willa-download-icon: var(--willa-text-soft);
   --willa-download-action: var(--willa-accent);
   --willa-file-card-bg: rgba(15, 23, 42, 0.045);
   --willa-file-card-bg-hover: rgba(37, 99, 235, 0.06);

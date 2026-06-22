@@ -103,10 +103,10 @@ Some public components are scenario presets over a lower-level component. Keep
 their preset identity clear in docs and API design so users do not read them as
 new base primitives:
 
-| Preset component | Base component | Boundary                                                                                                                 |
-| ---------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `Select`         | `Picker`       | Single-select dropdown preset; use `Picker`, `TreeSelect`, or future combobox components for broader selection behavior. |
-| `PromptInput`    | `InputPanel`   | AI prompt submission preset; use `InputPanel` for general multiline input composition.                                   |
+| Preset component | Base component | Boundary                                                                                    |
+| ---------------- | -------------- | ------------------------------------------------------------------------------------------- |
+| `Select`         | `Picker`       | Single-select dropdown preset; use `Picker` or `TreeSelect` for broader selection behavior. |
+| `PromptInput`    | `InputPanel`   | AI prompt submission preset; use `InputPanel` for general multiline input composition.      |
 
 404 and missing-resource pages should be documented as `EmptyState` recipes
 instead of separate public components unless they introduce a distinct

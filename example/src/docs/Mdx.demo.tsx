@@ -42,15 +42,20 @@ const DemoMdxContent = (props: Record<string, unknown>) => {
   const Callout = components.Callout ?? "div";
   const Badge = components.Badge ?? "span";
   const Card = components.Card ?? "div";
+  const Citation = components.Citation ?? "span";
+  const Collapse = components.Collapse ?? "div";
   const DescriptionList = components.DescriptionList ?? "dl";
   const DiffViewer = components.DiffViewer ?? "div";
   const Download = components.Download ?? "a";
   const FileCard = components.FileCard ?? "div";
+  const FileTree = components.FileTree ?? "div";
+  const ChatThread = components.ChatThread ?? "div";
   const KbdShortcut = components.KbdShortcut ?? "span";
   const List = components.List ?? "div";
   const SourceCard = components.SourceCard ?? "div";
   const Table = components.Table ?? "table";
   const Timeline = components.Timeline ?? "div";
+  const Poem = components.Poem ?? "div";
   const GitHubRepo = components.GitHubRepo ?? "div";
   const EnglishCards = components.EnglishCards ?? "div";
   const ImageGallery = components.ImageGallery ?? "div";
@@ -158,6 +163,69 @@ const DemoMdxContent = (props: Record<string, unknown>) => {
             time: "10:00",
             tone: "info",
           },
+        ]}
+      />
+      <H2>更多内置块</H2>
+      <Citation
+        label="组件指南"
+        source="docs/component.md"
+        href="/willa/?#/component"
+        tone="info"
+        size="sm"
+        status="推荐"
+      >
+        适合放在正文里的参考链接和补充说明。
+      </Citation>
+      <Collapse
+        title="折叠说明"
+        hint="适合 FAQ、步骤说明和补充材料"
+        defaultOpen
+        size="sm"
+      >
+        <P>折叠块可以承载更长的说明，适合在 MDX 里收起不希望默认展开的内容。</P>
+        <FileTree
+          items={[
+            {
+              name: "docs",
+              type: "folder",
+              children: [
+                { name: "component.md", type: "file" },
+                { name: "component-roadmap.md", type: "file" },
+              ],
+            },
+            {
+              name: "packages",
+              type: "folder",
+              children: [{ name: "willa-widgets", type: "folder" }],
+            },
+          ]}
+          collapsible
+        />
+      </Collapse>
+      <ChatThread
+        title="文档讨论"
+        messages={[
+          {
+            name: "作者",
+            time: "10:32",
+            content: "MDX 里可以直接嵌入结构化内容块。",
+          },
+          {
+            align: "right",
+            name: "审阅者",
+            time: "10:35",
+            content: "这样正文里的信息层级会更清楚。",
+          },
+        ]}
+      />
+      <Poem
+        title="静夜思"
+        author="李白"
+        dynasty="唐"
+        width={420}
+        lines={[
+          ["床前明月光", "疑是地上霜"],
+          ["举头望明月", "低头思故乡"],
         ]}
       />
       <DiffViewer

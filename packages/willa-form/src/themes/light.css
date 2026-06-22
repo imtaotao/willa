@@ -139,8 +139,6 @@
   --willa-calendar-marker-warning-text: #8b6723;
   --willa-calendar-marker-danger-bg: #f8e5e5;
   --willa-calendar-marker-danger-text: #9d3636;
-  --willa-calendar-selected-marker-bg: #ffffff;
-  --willa-calendar-selected-marker-text: var(--willa-text-strong);
   --willa-picker-bg: rgba(255, 255, 255, 0.94);
   --willa-picker-bg-hover: rgba(248, 250, 252, 0.98);
   --willa-picker-soft-bg: rgba(15, 23, 42, 0.045);

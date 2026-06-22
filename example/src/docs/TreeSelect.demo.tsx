@@ -40,6 +40,61 @@ const treeItems: Array<TreeSelectItem> = [
   },
 ];
 
+const treeItemsDeep: Array<TreeSelectItem> = [
+  {
+    value: "docs",
+    label: "文档中心",
+    description: "面向产品、设计和研发的内容入口",
+    children: [
+      {
+        value: "docs-guides",
+        label: "指南",
+        description: "安装、迁移和接入说明",
+        children: [
+          {
+            value: "docs-guides-install",
+            label: "安装与使用",
+            description: "项目接入和运行时说明",
+          },
+          {
+            value: "docs-guides-migration",
+            label: "迁移清单",
+            description: "替换旧组件时的检查项",
+          },
+        ],
+      },
+      {
+        value: "docs-releases",
+        label: "发布记录",
+        description: "版本、变更和发布时间线",
+      },
+    ],
+  },
+  {
+    value: "assets",
+    label: "资源库",
+    description: "可复用的素材与附件",
+    children: [
+      {
+        value: "assets-images",
+        label: "图片",
+        description: "截图、插图和封面",
+      },
+      {
+        value: "assets-files",
+        label: "文件",
+        description: "PDF、CSV 和文档附件",
+      },
+    ],
+  },
+];
+
+const treeSelectPreviewStyle = {
+  display: "grid",
+  gap: "0.8rem",
+  width: "min(100%, 30rem)",
+} as const;
+
 const centerStyle = {
   display: "grid",
   justifyItems: "center",
@@ -57,7 +112,8 @@ export default defineDoc({
   name: "TreeSelect",
   category: "form",
   packageName: "willa/TreeSelect",
-  description: "用于从层级数据中选择目录、组织、分类或知识库节点。",
+  description:
+    "用于从层级数据中选择目录、组织、分类或知识库节点；需要级联式路径展示时可配合 leafOnly 和 showPath。",
   imports: [{ name: "TreeSelect", from: "willa/TreeSelect" }],
   css: "willa/TreeSelect.css",
   demo: {
@@ -114,6 +170,29 @@ export default defineDoc({
       ),
     },
     {
+      title: "三层级缩进",
+      code: `
+        <TreeSelect
+          items={treeItemsDeep}
+          showPath
+          defaultExpandedValues={["docs", "docs-guides", "assets"]}
+          defaultValue="docs-guides-install"
+          width="min(100%, 30rem)"
+        />;
+      `,
+      content: (
+        <div style={centerStyle}>
+          <TreeSelect
+            items={treeItemsDeep}
+            showPath
+            defaultExpandedValues={["docs", "docs-guides", "assets"]}
+            defaultValue="docs-guides-install"
+            width="min(100%, 30rem)"
+          />
+        </div>
+      ),
+    },
+    {
       title: "多选目录",
       code: `
         <TreeSelect
@@ -133,6 +212,111 @@ export default defineDoc({
             items={treeItems}
             defaultExpandedValues={["workspace", "knowledge"]}
             defaultValue={["workspace-docs", "knowledge-style"]}
+            width="min(100%, 30rem)"
+          />
+        </div>
+      ),
+    },
+    {
+      title: "尺寸与外观",
+      code: `
+        <div style={treeSelectPreviewStyle}>
+          <TreeSelect
+            size="sm"
+            items={treeItems}
+            defaultExpandedValues={["workspace", "knowledge"]}
+            defaultValue="workspace-docs"
+            width="100%"
+          />
+          <TreeSelect
+            items={treeItems}
+            defaultExpandedValues={["workspace", "knowledge"]}
+            defaultValue="knowledge-component"
+            width="100%"
+          />
+          <TreeSelect
+            size="lg"
+            variant="soft"
+            items={treeItems}
+            defaultExpandedValues={["workspace", "knowledge"]}
+            defaultValue="workspace-data"
+            width="100%"
+          />
+        </div>;
+      `,
+      content: (
+        <div style={centerStyle}>
+          <div style={treeSelectPreviewStyle}>
+            <TreeSelect
+              size="sm"
+              items={treeItems}
+              defaultExpandedValues={["workspace", "knowledge"]}
+              defaultValue="workspace-docs"
+              width="100%"
+            />
+            <TreeSelect
+              items={treeItems}
+              defaultExpandedValues={["workspace", "knowledge"]}
+              defaultValue="knowledge-component"
+              width="100%"
+            />
+            <TreeSelect
+              size="lg"
+              variant="soft"
+              items={treeItems}
+              defaultExpandedValues={["workspace", "knowledge"]}
+              defaultValue="workspace-data"
+              width="100%"
+            />
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "级联分类",
+      code: `
+        <TreeSelect
+          items={treeItems}
+          leafOnly
+          showPath
+          defaultExpandedValues={["workspace", "knowledge"]}
+          defaultValue="knowledge-component"
+          width="min(100%, 30rem)"
+        />;
+      `,
+      content: (
+        <div style={centerStyle}>
+          <TreeSelect
+            items={treeItems}
+            leafOnly
+            showPath
+            defaultExpandedValues={["workspace", "knowledge"]}
+            defaultValue="knowledge-component"
+            width="min(100%, 30rem)"
+          />
+        </div>
+      ),
+    },
+    {
+      title: "自定义值展示",
+      code: `
+        <TreeSelect
+          mode="multiple"
+          items={treeItems}
+          defaultExpandedValues={["workspace", "knowledge"]}
+          defaultValue={["workspace-docs", "knowledge-component"]}
+          renderValue={(items) => \`已选择 \${items.length} 个节点\`}
+          width="min(100%, 30rem)"
+        />;
+      `,
+      content: (
+        <div style={centerStyle}>
+          <TreeSelect
+            mode="multiple"
+            items={treeItems}
+            defaultExpandedValues={["workspace", "knowledge"]}
+            defaultValue={["workspace-docs", "knowledge-component"]}
+            renderValue={(items) => `已选择 ${items.length} 个节点`}
             width="min(100%, 30rem)"
           />
         </div>
@@ -191,10 +375,34 @@ export default defineDoc({
       description: "选择模式，默认单选。",
     },
     {
+      name: "size",
+      type: '"sm" | "md" | "lg"',
+      defaultValue: '"md"',
+      description: "选择器尺寸。",
+    },
+    {
+      name: "variant",
+      type: '"outline" | "soft"',
+      defaultValue: '"outline"',
+      description: "选择器外观变体。",
+    },
+    {
       name: "searchable",
       type: "boolean",
       defaultValue: "true",
       description: "是否展示搜索输入框，默认开启。",
+    },
+    {
+      name: "leafOnly",
+      type: "boolean",
+      defaultValue: "false",
+      description: "是否只允许选择叶子节点，非叶子节点点击时仅展开/收起。",
+    },
+    {
+      name: "showPath",
+      type: "boolean",
+      defaultValue: "false",
+      description: "是否在触发器中显示完整路径。",
     },
     {
       name: "clearable",

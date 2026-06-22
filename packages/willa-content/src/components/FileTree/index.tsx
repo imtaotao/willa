@@ -13,7 +13,11 @@ import classNames from "classnames";
 import { ArchiveIcon, FileIcon, FileTextIcon } from "@radix-ui/react-icons";
 import { clampNumber } from "@willa-ui/shared";
 
-import { Tree, type TreeItem, type TreeKey } from "#content/components/Tree";
+import {
+  Tree,
+  type TreeItem,
+  type TreeKey,
+} from "@willa-ui/content/components/Tree";
 
 export type FileTreeItemType = "file" | "folder";
 export type FileTreeSize = "sm" | "md";
@@ -308,7 +312,6 @@ const collectSelectedKeys = (
     const childKeys = item.children?.length
       ? collectSelectedKeys(item.children, keyPath)
       : [];
-
     return item.selected ? [currentKey, ...childKeys] : childKeys;
   });
 };
@@ -326,7 +329,6 @@ const getDefaultIcon = (type: FileTreeItemType, name: ReactNode) => {
   if (typeof name === "string" && name.toLowerCase().endsWith(".md")) {
     return <FileTextIcon />;
   }
-
   return <FileIcon />;
 };
 
@@ -334,7 +336,6 @@ const getLinkProps = (
   href: string,
 ): Pick<AnchorHTMLAttributes<HTMLAnchorElement>, "target" | "rel"> => {
   if (!/^https?:\/\//.test(href)) return {};
-
   return {
     target: "_blank",
     rel: "noreferrer",

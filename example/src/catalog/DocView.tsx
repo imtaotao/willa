@@ -3,12 +3,14 @@ import { Fragment, useMemo, useState, type ReactNode } from "react";
 import { Badge } from "willa/Badge";
 import { CodeBlock } from "willa/CodeBlock";
 import { Separator } from "willa/Separator";
+import { Segmented } from "willa/Segmented";
 import { Table, type TableItem } from "willa/Table";
 import { Tooltip } from "willa/Tooltip";
 import { Typography } from "willa/Typography";
 import "willa/Badge.css";
 import "willa/CodeBlock.css";
 import "willa/Separator.css";
+import "willa/Segmented.css";
 import "willa/Table.css";
 import "willa/Tooltip.css";
 
@@ -29,6 +31,11 @@ type FormattedPropValue = {
   value: string;
   multiline: boolean;
 };
+
+const demoViewOptions = [
+  { value: "preview", label: "效果" },
+  { value: "source", label: "源码" },
+];
 
 const PropTooltipContent = (props: { value: string }) => {
   const formattedValue = formatPropTooltipValue(props.value);
@@ -286,31 +293,16 @@ const DemoBlock = (props: DemoBlockProps) => {
           {props.title}
         </Typography.Title>
         {canShowSource ? (
-          <div
-            className="docs-demo-switch"
-            aria-label={`${props.title} 展示方式`}
-          >
-            <button
-              className={classNames(
-                "docs-demo-switch-button",
-                view === "preview" && "is-active",
-              )}
-              type="button"
-              onClick={() => setView("preview")}
-            >
-              效果
-            </button>
-            <button
-              className={classNames(
-                "docs-demo-switch-button",
-                view === "source" && "is-active",
-              )}
-              type="button"
-              onClick={() => setView("source")}
-            >
-              源码
-            </button>
-          </div>
+          <Segmented
+            size="sm"
+            value={view}
+            options={demoViewOptions}
+            ariaLabel={`${props.title} 展示方式`}
+            className="docs-demo-view-switch"
+            onValueChange={(nextView) =>
+              setView(nextView as "preview" | "source")
+            }
+          />
         ) : null}
       </div>
 

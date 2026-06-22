@@ -517,6 +517,10 @@ select,
   border-bottom: 1px solid var(--willa-line);
 }
 
+.docs-demo-view-switch {
+  flex: 0 0 auto;
+}
+
 .docs-demo-block-preview {
   --docs-demo-readable-width: 56rem;
   --docs-demo-narrow-width: 42rem;
@@ -710,40 +714,6 @@ select,
   margin: 0;
 }
 
-.docs-demo-switch {
-  display: inline-flex;
-  flex: 0 0 auto;
-  gap: 2px;
-  border: 1px solid var(--willa-line);
-  border-radius: 7px;
-  background: var(--willa-surface-soft);
-  padding: 2px;
-}
-
-.docs-demo-switch-button {
-  min-width: 3rem;
-  border: 0;
-  border-radius: 5px;
-  background: transparent;
-  color: var(--willa-text-soft);
-  cursor: pointer;
-  font: inherit;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1;
-  padding: 0.46rem 0.6rem;
-}
-
-.docs-demo-switch-button:hover {
-  color: var(--willa-text-strong);
-}
-
-.docs-demo-switch-button.is-active {
-  background: var(--willa-panel-bg);
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
-  color: var(--willa-text-strong);
-}
-
 .docs-meta-list {
   display: grid;
   grid-template-columns: minmax(220px, max-content) 1fr;
@@ -909,12 +879,13 @@ select,
     padding: 12px 14px;
   }
 
-  .docs-demo-switch {
+  .docs-demo-view-switch {
+    display: flex;
     width: 100%;
   }
 
-  .docs-demo-switch-button {
-    flex: 1;
+  .docs-demo-view-switch .willa-segmented-option {
+    flex: 1 1 0;
   }
 
   .docs-prop-name-cell {

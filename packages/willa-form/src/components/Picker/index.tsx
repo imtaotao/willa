@@ -11,16 +11,13 @@ import classNames from "classnames";
 
 import { handleSelectablePanelKeyDown } from "#form/internal/selectablePanelKeyboard";
 import {
-  SelectablePanelClearButton,
-  SelectablePanelHiddenInput,
   SelectablePanelList,
   SelectablePanelPortal,
   SelectablePanelSearch,
   SelectablePanelShell,
-  SelectablePanelTrigger,
 } from "#form/internal/selectablePanelParts";
-import { useSelectionModel } from "#form/internal/useSelectionModel";
-import { useSelectablePanel } from "#form/internal/useSelectablePanel";
+import { ComboboxField } from "#form/internal/comboboxField";
+import { useComboboxState } from "#form/internal/useComboboxState";
 
 export type PickerSize = "sm" | "md" | "lg";
 export type PickerVariant = "outline" | "soft";
@@ -95,18 +92,6 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(
       displayValue,
       hasValue,
       hiddenValue,
-      selectedValues,
-    } = useSelectionModel({
-      defaultValue,
-      items,
-      mode,
-      onValueChange,
-      placeholder,
-      renderValue,
-      value,
-    });
-    const pickerStyle = getPickerStyle({ width, style });
-    const {
       buttonId,
       closePanel,
       listRef,
@@ -122,13 +107,22 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(
       setQuery,
       triggerRef,
       handleTriggerKeyDown,
-    } = useSelectablePanel({
+      selectedValues,
+    } = useComboboxState({
+      defaultValue,
+      items,
+      mode,
+      onValueChange,
+      placeholder,
+      renderValue,
+      value,
       contentVersion: items,
       fallbackHeight: 320,
       id,
       minWidth: 280,
       searchable,
     });
+    const pickerStyle = getPickerStyle({ width, style });
     const filteredItems = useMemo(
       () => filterPickerItems(items, query),
       [items, query],
@@ -244,8 +238,8 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(
     );
 
     return (
-      <span
-        ref={rootRef}
+      <ComboboxField
+        rootRef={rootRef}
         className={classNames(
           "willa-picker",
           `willa-picker--${size}`,
@@ -257,45 +251,42 @@ export const Picker = forwardRef<HTMLButtonElement, PickerProps>(
           className,
         )}
         style={pickerStyle}
+        triggerProps={buttonProps}
+        buttonRef={setButtonRef}
+        buttonId={buttonId}
+        panelId={panelId}
+        popupRole="listbox"
+        expanded={open}
+        hasValue={hasValue}
+        invalid={isInvalid}
+        disabled={disabled}
+        controls={open ? panelId : undefined}
+        displayValue={displayValue}
+        placeholderClassName="willa-picker-value--placeholder"
+        triggerClassName="willa-picker-trigger"
+        valueClassName="willa-picker-value"
+        iconClassName="willa-picker-icon"
+        hasClear={hasClear}
+        clearClassName="willa-picker-clear"
+        clearLabel="清空选择"
+        triggerRef={triggerRef}
+        hiddenName={name}
+        hiddenValue={hiddenValue}
+        onClear={clearValue}
+        onTriggerBlur={onBlur}
+        onTriggerClick={(event) => {
+          onClick?.(event);
+          if (!event.defaultPrevented) setOpen((currentOpen) => !currentOpen);
+        }}
+        onTriggerKeyDown={(event) =>
+          handleTriggerKeyDown(event, {
+            selector: pickerOptionSelector,
+            onKeyDown,
+          })
+        }
       >
-        <SelectablePanelTrigger
-          {...buttonProps}
-          buttonRef={setButtonRef}
-          id={buttonId}
-          triggerClassName="willa-picker-trigger"
-          valueClassName="willa-picker-value"
-          placeholderClassName="willa-picker-value--placeholder"
-          iconClassName="willa-picker-icon"
-          disabled={disabled}
-          popupRole="listbox"
-          expanded={open}
-          controls={open ? panelId : undefined}
-          invalid={isInvalid}
-          hasValue={hasValue}
-          displayValue={displayValue}
-          onBlur={onBlur}
-          onClick={(event) => {
-            onClick?.(event);
-            if (!event.defaultPrevented) setOpen((currentOpen) => !currentOpen);
-          }}
-          onKeyDown={(event) =>
-            handleTriggerKeyDown(event, {
-              selector: pickerOptionSelector,
-              onKeyDown,
-            })
-          }
-        />
-        {hasClear ? (
-          <SelectablePanelClearButton
-            className="willa-picker-clear"
-            ariaLabel="清空选择"
-            onClear={clearValue}
-            triggerRef={triggerRef}
-          />
-        ) : null}
-        <SelectablePanelHiddenInput name={name} value={hiddenValue} />
         {panel}
-      </span>
+      </ComboboxField>
     );
   },
 );
@@ -347,15 +338,12 @@ const getTextValue = (value: ReactNode): string => {
   if (value === null || value === undefined || typeof value === "boolean") {
     return "";
   }
-
   if (typeof value === "string" || typeof value === "number") {
     return String(value);
   }
-
   if (Array.isArray(value)) {
     return value.map(getTextValue).join(" ");
   }
-
   return "";
 };
 
@@ -367,9 +355,5 @@ const getPickerStyle = ({
   style?: CSSProperties;
 }) => {
   if (width === undefined) return style;
-
-  return {
-    ...style,
-    width,
-  };
+  return { ...style, width };
 };

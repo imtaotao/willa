@@ -232,7 +232,7 @@ export function Mdx(props: MdxProps) {
       return Heading;
     };
 
-    return {
+    const proseComponents = {
       h1: createHeadingComponent("h1", "willa-prose-h1"),
       h2: createHeadingComponent("h2", "willa-prose-h2"),
       h3: createHeadingComponent("h3", "willa-prose-h3"),
@@ -275,10 +275,16 @@ export function Mdx(props: MdxProps) {
           </a>
         );
       },
-      img: Image,
-      ImageGallery,
-      AudioEmbed,
-      VideoEmbed,
+      pre: CodeBlock,
+      hr: () => <Separator className="willa-prose-separator" />,
+      code: (p: ComponentProps<"code">) => {
+        const isInline = !p.className;
+        if (!isInline) return <code className={p.className}>{p.children}</code>;
+        return <code className="willa-prose-inline-code">{p.children}</code>;
+      },
+    } as const;
+
+    const contentComponents = {
       Badge,
       Card,
       Citation,
@@ -295,38 +301,37 @@ export function Mdx(props: MdxProps) {
       SourceCard,
       Table,
       Timeline,
-      AudioLink,
-      VideoLink,
       ChatThread,
       Callout,
       Collapse,
       Step,
       Steps,
+    } as const;
+
+    const mediaComponents = {
+      img: Image,
+      ImageGallery,
+      AudioEmbed,
+      VideoEmbed,
+      AudioLink,
+      VideoLink,
       Poem,
       GitHubMention,
       GitHubRepo,
       WebEmbed,
       XPostEmbed,
       EnglishCards,
-      pre: CodeBlock,
-      hr: () => <Separator className="willa-prose-separator" />,
-      code: (p: ComponentProps<"code">) => {
-        const isInline = !p.className;
-        if (!isInline) return <code className={p.className}>{p.children}</code>;
-        return <code className="willa-prose-inline-code">{p.children}</code>;
-      },
+    };
+
+    return {
+      ...proseComponents,
+      ...contentComponents,
+      ...mediaComponents,
     };
   }, [
-    ImageGallery,
-    AudioEmbed,
-    VideoEmbed,
-    AudioLink,
-    VideoLink,
     Badge,
     Card,
-    Image,
-    ChatThread,
-    Callout,
+    Citation,
     Collapse,
     DescriptionList,
     DiffViewer,
@@ -334,6 +339,10 @@ export function Mdx(props: MdxProps) {
     EmptyState,
     FileCard,
     FileTree,
+    GitHubMention,
+    GitHubRepo,
+    Image,
+    ImageGallery,
     Kbd,
     KbdShortcut,
     List,
@@ -345,12 +354,15 @@ export function Mdx(props: MdxProps) {
     Steps,
     Table,
     Timeline,
-    GitHubMention,
-    GitHubRepo,
+    ChatThread,
+    AudioEmbed,
+    VideoEmbed,
+    AudioLink,
+    VideoLink,
+    Callout,
     WebEmbed,
     XPostEmbed,
     EnglishCards,
-    Citation,
     renderColorText,
     renderHeading,
   ]);

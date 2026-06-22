@@ -22,6 +22,11 @@
   --willa-card-shadow-hover: none;
   --willa-card-media-bg: rgba(255, 255, 255, 0.06);
   --willa-card-eyebrow: var(--willa-text-faint);
+  --willa-page-header-bg: linear-gradient(
+    180deg,
+    rgba(125, 211, 252, 0.04) 0%,
+    rgba(125, 211, 252, 0) 42%
+  );
   --willa-border-beam-gradient: linear-gradient(
     to left,
     rgba(125, 211, 252, 0.98) 0%,

@@ -8,11 +8,7 @@
   padding: 1.2rem;
   color: var(--willa-text);
   font-family: var(--willa-body-font);
-  background: linear-gradient(
-    180deg,
-    rgba(37, 99, 235, 0.03) 0%,
-    rgba(37, 99, 235, 0) 42%
-  );
+  background: var(--willa-page-header-bg);
 }
 
 .willa-page-header--divided {
