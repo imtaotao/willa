@@ -13,25 +13,6 @@ utilities for building composable product and content experiences.
 
 **Online docs**: https://imtaotao.github.io/willa/
 
-## Packages
-
-- `willa`: the public entry package for all exported components.
-- `@willa-ui/layout`: layout primitives such as cards, groups, grids, panels,
-  page headers, sidebars, split panes, and responsive containers.
-- `@willa-ui/content`: product and content components such as buttons, code
-  blocks, media, callouts, dialogs, tabs, tables, citations, and progress
-  indicators.
-- `@willa-ui/form`: form controls and form composition such as inputs,
-  selectors, date pickers, uploads, search/filter controls, calendars, and form
-  actions.
-- `@willa-ui/ai`: AI product components such as prompt inputs, chat messages,
-  attachments, tool calls, reasoning steps, generation cards, and related
-  interaction patterns. Context panels and agent status views remain roadmap
-  directions.
-- `@willa-ui/widgets`: integration-style components for GitHub, X/Twitter, web
-  embeds, and other special content.
-- `@willa-ui/shared`: shared utilities used by the package internals.
-
 ## Design Principles
 
 - Components are designed for production-oriented use cases, not only minimal
@@ -43,13 +24,16 @@ utilities for building composable product and content experiences.
 - Example pages and documentation should use Willa's own layout primitives
   whenever that makes the composition clearer.
 
-## Example
+## Development
 
 The `example` app demonstrates the public `willa` package and individual
 component imports.
 
 ```bash
+# first time setup
 $ pnpm run build:packages
+```
 
+```bash
 $ pnpm dev
 ```

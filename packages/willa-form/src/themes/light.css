@@ -1,6 +1,7 @@
 .willa-shell,
 .willa-color-picker-panel,
 .willa-date-picker-panel,
+.willa-time-picker-panel,
 .willa-picker-panel,
 .willa-tree-select-panel {
   --willa-upload-bg: rgba(248, 250, 252, 0.92);
@@ -108,6 +109,7 @@
   --willa-date-picker-control-border: rgba(15, 23, 42, 0.08);
   --willa-date-picker-control-border-hover: rgba(37, 99, 235, 0.22);
   --willa-date-picker-day-bg-hover: rgba(37, 99, 235, 0.07);
+  --willa-date-picker-wheel-column-bg: rgba(15, 23, 42, 0.024);
   --willa-date-picker-wheel-header-bg: rgba(15, 23, 42, 0.045);
   --willa-date-picker-scrollbar: rgba(100, 116, 139, 0.58);
   --willa-date-picker-selected-bg: #dbeafe;

@@ -62,6 +62,7 @@ const willaDemoImportNames = new Set([
   "Container",
   "DatePicker",
   "DetailsBlock",
+  "TimePicker",
   "DescriptionList",
   "Dialog",
   "DiffViewer",

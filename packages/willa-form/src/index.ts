@@ -2,6 +2,7 @@ export { Calendar, ScheduleCalendar } from "#form/components/Calendar";
 export { Checkbox } from "#form/components/Checkbox";
 export { ColorPicker } from "#form/components/ColorPicker";
 export { DatePicker } from "#form/components/DatePicker";
+export { TimePicker } from "#form/components/TimePicker";
 export { Form } from "#form/components/Form";
 export { FormActions } from "#form/components/FormActions";
 export { FormField } from "#form/components/FormField";
@@ -65,6 +66,15 @@ export type {
   DatePickerWheelColumn,
   DatePickerWheelColumns,
 } from "#form/components/DatePicker";
+export type {
+  TimePickerProps,
+  TimePickerSize,
+  TimePickerDisabledTime,
+  TimePickerPreset,
+  TimePickerVariant,
+  TimePickerWheelColumn,
+  TimePickerWheelColumns,
+} from "#form/components/TimePicker";
 export type { FormGap, FormProps } from "#form/components/Form";
 export type {
   FormActionsAlign,

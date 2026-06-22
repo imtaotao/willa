@@ -60,7 +60,7 @@ export default defineDoc({
   name: "DatePicker",
   category: "form",
   packageName: "willa/DatePicker",
-  description: "用于选择年份、月份、周、日期及时间范围。",
+  description: "用于选择年份、月份、周和日期范围。",
   imports: [{ name: "DatePicker", from: "willa/DatePicker" }],
   css: "willa/DatePicker.css",
   demo: {
@@ -246,17 +246,11 @@ export default defineDoc({
           />
           <DatePicker
             picker="wheel"
-            wheelColumns="time"
-            defaultValue="09:30:00"
+            wheelColumns="date"
+            showScrollbar
+            defaultValue="2026-06-10"
             width="100%"
-            aria-label="滚动选择时分秒"
-          />
-          <DatePicker
-            picker="wheel"
-            wheelColumns="datetime"
-            defaultValue="2026-06-10 09:30:00"
-            width="100%"
-            aria-label="滚动选择日期时间"
+            aria-label="显示滚动条的滚动选择"
           />
         </div>;
       `,
@@ -271,17 +265,11 @@ export default defineDoc({
           />
           <DatePicker
             picker="wheel"
-            wheelColumns="time"
-            defaultValue="09:30:00"
+            wheelColumns="date"
+            showScrollbar
+            defaultValue="2026-06-10"
             width="100%"
-            aria-label="滚动选择时分秒"
-          />
-          <DatePicker
-            picker="wheel"
-            wheelColumns="datetime"
-            defaultValue="2026-06-10 09:30:00"
-            width="100%"
-            aria-label="滚动选择日期时间"
+            aria-label="显示滚动条的滚动选择"
           />
         </div>
       ),
@@ -413,7 +401,7 @@ export default defineDoc({
     },
     {
       name: "wheelColumns",
-      type: '"date" | "time" | "datetime" | Array<DatePickerWheelColumn>',
+      type: '"date" | Array<DatePickerWheelColumn>',
       defaultValue: '"date"',
       description: "滚动选择器展示的列。",
     },
@@ -469,6 +457,12 @@ export default defineDoc({
       name: "disabledDate",
       type: "(value: string) => boolean",
       description: "禁用指定值。",
+    },
+    {
+      name: "showScrollbar",
+      type: "boolean",
+      defaultValue: "false",
+      description: "是否显示滚动条和右侧预留。",
     },
     {
       name: "placeholder",

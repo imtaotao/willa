@@ -19,8 +19,8 @@ Before adding a component, choose its package based on the architecture guide:
   callouts, code blocks, product primitives, and reusable rich content
   primitives.
 - `@willa-ui/form`: form controls and form layout, such as input, textarea,
-  select, checkbox, radio, switch, date picker, upload, form field, and form
-  actions.
+  select, checkbox, radio, switch, date picker, time picker, upload, form
+  field, and form actions.
 - `@willa-ui/ai`: AI product scenes and AI-specific composition, such as prompt
   inputs, chat messages, attachments, tool call displays, reasoning steps,
   generation cards, and related interaction patterns. Context panels and agent
