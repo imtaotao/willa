@@ -87,7 +87,7 @@ const docChineseNames: Record<string, string> = {
   DatePicker: "日期选择器",
   TimePicker: "时间选择器",
   DescriptionList: "描述列表",
-  DetailsBlock: "详情块",
+  Collapse: "折叠块",
   DiffViewer: "差异对比",
   Dialog: "弹窗",
   Download: "下载",

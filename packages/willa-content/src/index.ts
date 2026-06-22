@@ -15,7 +15,7 @@ export { CommentList } from "#content/components/CommentList";
 export { CopyButton } from "#content/components/CopyButton";
 
 export { CodeTabs } from "#content/components/CodeTabs";
-export { DetailsBlock } from "#content/components/DetailsBlock";
+export { Collapse } from "#content/components/Collapse";
 export { DescriptionList } from "#content/components/DescriptionList";
 export { DiffViewer } from "#content/components/DiffViewer";
 export { Dialog } from "#content/components/Dialog";
@@ -138,7 +138,7 @@ export type {
   CopyButtonSize,
   CopyButtonVariant,
 } from "#content/components/CopyButton";
-export type { DetailsBlockProps } from "#content/components/DetailsBlock";
+export type { CollapseProps, CollapseSize } from "#content/components/Collapse";
 export type {
   DescriptionListColumns,
   DescriptionListItem,

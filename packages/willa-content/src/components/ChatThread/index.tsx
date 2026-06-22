@@ -1,7 +1,7 @@
 import classNames from "classnames";
 
 import { Avatar } from "#content/components/Avatar";
-import { DetailsBlock } from "#content/components/DetailsBlock";
+import { Collapse } from "#content/components/Collapse";
 
 type ChatMessage = {
   align?: "left" | "right";
@@ -31,13 +31,14 @@ export function ChatThread(props: ChatThreadProps) {
   return (
     <section className={classNames("willa-chat", className)}>
       {collapsible ? (
-        <DetailsBlock
+        <Collapse
           title={title ?? "对话记录"}
           defaultOpen={defaultOpen}
-          className="willa-chat-details"
+          size="sm"
+          className="willa-chat-collapse"
         >
           <ChatMessages messages={messages} />
-        </DetailsBlock>
+        </Collapse>
       ) : (
         <>
           {title ? (

@@ -273,7 +273,7 @@
 }
 
 .willa-date-picker-wheel-options--scrollbar {
-  padding-inline-end: 0.1rem;
+  padding-inline-end: 0.65rem;
   scrollbar-width: thin;
   scrollbar-color: var(--willa-date-picker-scrollbar) transparent;
   -ms-overflow-style: auto;

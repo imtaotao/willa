@@ -180,7 +180,10 @@ export function TimePicker(props: TimePickerProps) {
     panelRef.current
       ?.querySelectorAll(".willa-time-picker-wheel-option--selected")
       .forEach((element) => {
-        element.scrollIntoView({ block: "center" });
+        element.scrollIntoView({
+          block: "center",
+          behavior: "smooth",
+        });
       });
   }, [open, panelValue]);
 

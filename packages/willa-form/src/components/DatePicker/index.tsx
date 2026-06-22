@@ -167,7 +167,10 @@ export function DatePicker(props: DatePickerProps) {
     panelRef.current
       ?.querySelectorAll(".willa-date-picker-wheel-option--selected")
       .forEach((element) => {
-        element.scrollIntoView({ block: "center" });
+        element.scrollIntoView({
+          block: "center",
+          behavior: "smooth",
+        });
       });
   }, [currentValue, open, picker]);
 
