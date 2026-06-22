@@ -2,11 +2,11 @@ import { useEffect, useRef } from "react";
 import { ExternalLinkIcon, PlayIcon, VideoIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
 
+import { resolveMediaVolume, type MediaContextProps } from "@willa-ui/shared";
 import {
-  resolveMediaAsset,
-  resolveMediaVolume,
-  type MediaContextProps,
-} from "@willa-ui/shared";
+  MediaEmbedContent,
+  resolveMediaEmbedAsset,
+} from "#widgets/internal/mediaEmbed";
 
 export type VideoEmbedProps = MediaContextProps & {
   href?: string;
@@ -38,10 +38,8 @@ export function VideoEmbed({
   const normalizedSrc = src?.trim() ?? "";
   const normalizedTitle = title.trim();
   const mediaContext = { articleSourcePath, resolveAssetUrl };
-  const resolvedSrc = normalizedSrc
-    ? resolveMediaAsset(mediaContext, normalizedSrc)
-    : undefined;
-  const resolvedPoster = resolveMediaAsset(mediaContext, poster);
+  const resolvedSrc = resolveMediaEmbedAsset(mediaContext, normalizedSrc);
+  const resolvedPoster = resolveMediaEmbedAsset(mediaContext, poster);
   const hasInlinePlayer = Boolean(resolvedSrc);
   const hasExternalLink = Boolean(normalizedHref);
 
@@ -55,21 +53,14 @@ export function VideoEmbed({
   if ((!hasExternalLink && !hasInlinePlayer) || !normalizedTitle) return null;
 
   const content = (
-    <span className="willa-prose-video-embed-content">
-      <span className="willa-prose-video-embed-kicker">
-        <VideoIcon className="willa-prose-video-embed-inline-icon" />
-        <span>{provider ? `${provider} video` : "video"}</span>
-        {duration ? (
-          <span className="willa-prose-video-embed-duration">{duration}</span>
-        ) : null}
-      </span>
-      <span className="willa-prose-video-embed-title">{normalizedTitle}</span>
-      {description ? (
-        <span className="willa-prose-video-embed-description">
-          {description}
-        </span>
-      ) : null}
-    </span>
+    <MediaEmbedContent
+      kind="video"
+      icon={<VideoIcon />}
+      provider={provider}
+      title={normalizedTitle}
+      description={description}
+      duration={duration}
+    />
   );
 
   if (!hasInlinePlayer) {

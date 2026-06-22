@@ -1,12 +1,13 @@
-import { useState, type ComponentPropsWithoutRef, type ReactNode } from "react";
+import { type ComponentPropsWithoutRef, type ReactNode } from "react";
 import {
-  ChevronDownIcon,
   CheckCircledIcon,
   CrossCircledIcon,
   LightningBoltIcon,
   MagicWandIcon,
 } from "@radix-ui/react-icons";
 import classNames from "classnames";
+
+import { CardToggle, useCardCollapse } from "#ai/internal/cardCollapse";
 
 export type GenerationCardStatus =
   | "pending"
@@ -53,18 +54,16 @@ export function GenerationCard({
   ...props
 }: GenerationCardProps) {
   const hasMetrics = metrics !== undefined && metrics.length > 0;
-  const canCollapse = collapsible && Boolean(children);
-  const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
-  const isCollapsed = canCollapse ? (collapsed ?? internalCollapsed) : false;
-  const resolvedSummary = summary ?? "查看生成结果";
-
-  const handleToggle = () => {
-    const nextCollapsed = !isCollapsed;
-    if (collapsed === undefined) {
-      setInternalCollapsed(nextCollapsed);
-    }
-    onCollapsedChange?.(nextCollapsed);
-  };
+  const { canCollapse, isCollapsed, resolvedSummary, toggleCollapsed } =
+    useCardCollapse({
+      collapsible,
+      collapsed,
+      defaultCollapsed,
+      hasContent: Boolean(children),
+      summary,
+      defaultSummary: "查看生成结果",
+      onCollapsedChange,
+    });
 
   return (
     <section
@@ -99,17 +98,14 @@ export function GenerationCard({
       </div>
 
       {canCollapse ? (
-        <button
+        <CardToggle
           className="willa-generation-card-toggle"
-          type="button"
-          aria-expanded={!isCollapsed}
-          onClick={handleToggle}
-        >
-          <span className="willa-generation-card-toggle-text">
-            {resolvedSummary}
-          </span>
-          <ChevronDownIcon className="willa-generation-card-toggle-icon" />
-        </button>
+          textClassName="willa-generation-card-toggle-text"
+          iconClassName="willa-generation-card-toggle-icon"
+          summary={resolvedSummary}
+          expanded={!isCollapsed}
+          onClick={toggleCollapsed}
+        />
       ) : null}
 
       {children && !isCollapsed ? (

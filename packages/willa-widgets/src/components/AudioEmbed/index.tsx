@@ -14,6 +14,10 @@ import {
 import classNames from "classnames";
 
 import { resolveMediaVolume, type MediaContextProps } from "@willa-ui/shared";
+import {
+  MediaEmbedContent,
+  resolveMediaEmbedAsset,
+} from "#widgets/internal/mediaEmbed";
 
 export type AudioEmbedProps = MediaContextProps & {
   href?: string;
@@ -36,18 +40,12 @@ const formatTime = (seconds: number) => {
   return `${minutes}:${String(remainSeconds).padStart(2, "0")}`;
 };
 
-const resolveAudioSource = (props: AudioEmbedProps) => {
-  const src = props.src?.trim() ?? "";
-  if (!src) return undefined;
-  return props.resolveAssetUrl?.(props.articleSourcePath ?? "", src) ?? src;
-};
-
 export function AudioEmbed(props: AudioEmbedProps) {
   const { href, title, description, duration, provider, volume, className } =
     props;
   const normalizedHref = href?.trim() ?? "";
   const normalizedTitle = title.trim();
-  const resolvedSrc = resolveAudioSource(props);
+  const resolvedSrc = resolveMediaEmbedAsset(props, props.src);
   const hasInlinePlayer = Boolean(resolvedSrc);
   const hasExternalLink = Boolean(normalizedHref);
 
@@ -90,21 +88,14 @@ export function AudioEmbed(props: AudioEmbedProps) {
   if ((!hasExternalLink && !hasInlinePlayer) || !normalizedTitle) return null;
 
   const content = (
-    <span className="willa-prose-audio-embed-content">
-      <span className="willa-prose-audio-embed-kicker">
-        <SpeakerLoudIcon className="willa-prose-audio-embed-inline-icon" />
-        <span>{provider ? `${provider} audio` : "audio"}</span>
-        {duration ? (
-          <span className="willa-prose-audio-embed-duration">{duration}</span>
-        ) : null}
-      </span>
-      <span className="willa-prose-audio-embed-title">{normalizedTitle}</span>
-      {description ? (
-        <span className="willa-prose-audio-embed-description">
-          {description}
-        </span>
-      ) : null}
-    </span>
+    <MediaEmbedContent
+      kind="audio"
+      icon={<SpeakerLoudIcon />}
+      provider={provider}
+      title={normalizedTitle}
+      description={description}
+      duration={duration}
+    />
   );
 
   if (!hasInlinePlayer) {

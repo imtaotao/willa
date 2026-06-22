@@ -1,7 +1,8 @@
-import { useState, type ComponentPropsWithoutRef, type ReactNode } from "react";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { type ComponentPropsWithoutRef, type ReactNode } from "react";
 import { Spinner } from "@willa-ui/content/components/Spinner";
 import classNames from "classnames";
+
+import { CardToggle, useCardCollapse } from "#ai/internal/cardCollapse";
 
 export type ToolCallCardStatus = "pending" | "running" | "success" | "error";
 
@@ -39,18 +40,16 @@ export function ToolCallCard({
   ...props
 }: ToolCallCardProps) {
   const hasBody = parameters || children;
-  const canCollapse = collapsible && Boolean(hasBody);
-  const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
-  const isCollapsed = canCollapse ? (collapsed ?? internalCollapsed) : false;
-  const resolvedSummary = summary ?? "查看工具输入和执行结果";
-
-  const handleToggle = () => {
-    const nextCollapsed = !isCollapsed;
-    if (collapsed === undefined) {
-      setInternalCollapsed(nextCollapsed);
-    }
-    onCollapsedChange?.(nextCollapsed);
-  };
+  const { canCollapse, isCollapsed, resolvedSummary, toggleCollapsed } =
+    useCardCollapse({
+      collapsible,
+      collapsed,
+      defaultCollapsed,
+      hasContent: Boolean(hasBody),
+      summary,
+      defaultSummary: "查看工具输入和执行结果",
+      onCollapsedChange,
+    });
 
   return (
     <section
@@ -83,17 +82,14 @@ export function ToolCallCard({
           <div className="willa-tool-call-card-description">{description}</div>
         ) : null}
         {canCollapse ? (
-          <button
+          <CardToggle
             className="willa-tool-call-card-toggle"
-            type="button"
-            aria-expanded={!isCollapsed}
-            onClick={handleToggle}
-          >
-            <span className="willa-tool-call-card-toggle-text">
-              {resolvedSummary}
-            </span>
-            <ChevronDownIcon className="willa-tool-call-card-toggle-icon" />
-          </button>
+            textClassName="willa-tool-call-card-toggle-text"
+            iconClassName="willa-tool-call-card-toggle-icon"
+            summary={resolvedSummary}
+            expanded={!isCollapsed}
+            onClick={toggleCollapsed}
+          />
         ) : null}
         {hasBody && !isCollapsed ? (
           <div className="willa-tool-call-card-content">

@@ -1,6 +1,8 @@
 import { type ComponentPropsWithoutRef, type ReactNode } from "react";
 import classNames from "classnames";
 
+import { HeaderBlock } from "#layout/internal/headerBlock";
+
 export type PageHeaderAlign = "start" | "center";
 
 export type PageHeaderProps = Omit<
@@ -48,19 +50,20 @@ export function PageHeader(props: PageHeaderProps) {
       ) : null}
       <div className="willa-page-header-row">
         <div className="willa-page-header-main">
-          {eyebrow ? (
-            <div className="willa-page-header-eyebrow">{eyebrow}</div>
-          ) : null}
-          <div className="willa-page-header-heading">
-            <h1 className="willa-page-header-title">{title}</h1>
-            {meta ? <div className="willa-page-header-meta">{meta}</div> : null}
-          </div>
-          {description ? (
-            <p className="willa-page-header-description">{description}</p>
-          ) : null}
-          {children ? (
-            <div className="willa-page-header-content">{children}</div>
-          ) : null}
+          <HeaderBlock
+            eyebrow={eyebrow}
+            title={title}
+            meta={meta}
+            description={description}
+            children={children}
+            titleAs="h1"
+            eyebrowClassName="willa-page-header-eyebrow"
+            headingClassName="willa-page-header-heading"
+            titleClassName="willa-page-header-title"
+            metaClassName="willa-page-header-meta"
+            descriptionClassName="willa-page-header-description"
+            contentClassName="willa-page-header-content"
+          />
         </div>
         {actions ? (
           <div className="willa-page-header-actions">{actions}</div>

@@ -1,6 +1,8 @@
 import { type ComponentPropsWithoutRef, type ReactNode } from "react";
 import classNames from "classnames";
 
+import { HeaderBlock } from "#layout/internal/headerBlock";
+
 export type SectionHeaderAlign = "start" | "center";
 export type SectionHeaderSize = "sm" | "md";
 
@@ -44,18 +46,18 @@ export function SectionHeader(props: SectionHeaderProps) {
       )}
     >
       <div className="willa-section-header-main">
-        {eyebrow ? (
-          <div className="willa-section-header-eyebrow">{eyebrow}</div>
-        ) : null}
-        <div className="willa-section-header-heading">
-          <h2 className="willa-section-header-title">{title}</h2>
-          {meta ? (
-            <div className="willa-section-header-meta">{meta}</div>
-          ) : null}
-        </div>
-        {description ? (
-          <p className="willa-section-header-description">{description}</p>
-        ) : null}
+        <HeaderBlock
+          eyebrow={eyebrow}
+          title={title}
+          meta={meta}
+          description={description}
+          titleAs="h2"
+          eyebrowClassName="willa-section-header-eyebrow"
+          headingClassName="willa-section-header-heading"
+          titleClassName="willa-section-header-title"
+          metaClassName="willa-section-header-meta"
+          descriptionClassName="willa-section-header-description"
+        />
       </div>
       {actions ? (
         <div className="willa-section-header-actions">{actions}</div>
