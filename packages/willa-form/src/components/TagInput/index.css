@@ -197,7 +197,26 @@
   background: var(--willa-tag-input-panel-bg);
   box-shadow: var(--willa-tag-input-panel-shadow);
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--willa-form-scrollbar-thumb) transparent;
+  -ms-overflow-style: auto;
   padding: 0.32rem;
+}
+
+.willa-tag-input__suggestions::-webkit-scrollbar {
+  width: 0.36rem;
+  height: 0.36rem;
+}
+
+.willa-tag-input__suggestions::-webkit-scrollbar-track,
+.willa-tag-input__suggestions::-webkit-scrollbar-track-piece,
+.willa-tag-input__suggestions::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.willa-tag-input__suggestions::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--willa-form-scrollbar-thumb);
 }
 
 .willa-tag-input__suggestion {

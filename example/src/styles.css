@@ -47,13 +47,17 @@ select,
 
 .docs-app {
   min-height: 100vh;
-  --docs-sidebar-scrollbar-thumb: rgba(100, 116, 139, 0.56);
-  --docs-sidebar-scrollbar-thumb-hover: rgba(71, 85, 105, 0.78);
+  --docs-sidebar-scrollbar-thumb: var(
+    --willa-scrollbar-thumb,
+    color-mix(in srgb, var(--willa-text-soft) 56%, transparent)
+  );
 }
 
 :root[data-wk-theme="dark"] .docs-app {
-  --docs-sidebar-scrollbar-thumb: rgba(148, 163, 184, 0.52);
-  --docs-sidebar-scrollbar-thumb-hover: rgba(226, 232, 240, 0.72);
+  --docs-sidebar-scrollbar-thumb: var(
+    --willa-scrollbar-thumb,
+    color-mix(in srgb, var(--willa-text-soft) 56%, transparent)
+  );
 }
 
 .docs-app .willa-app-shell-layout {
@@ -74,31 +78,23 @@ select,
   .docs-app .willa-app-shell-sidebar {
     scrollbar-width: thin;
     scrollbar-color: var(--docs-sidebar-scrollbar-thumb) transparent;
+    -ms-overflow-style: auto;
   }
 
   .docs-app .willa-app-shell-sidebar::-webkit-scrollbar {
-    width: 0.6rem;
-    height: 0.6rem;
-    background: transparent;
+    width: 0.36rem;
+    height: 0.36rem;
   }
 
   .docs-app .willa-app-shell-sidebar::-webkit-scrollbar-track,
   .docs-app .willa-app-shell-sidebar::-webkit-scrollbar-track-piece,
   .docs-app .willa-app-shell-sidebar::-webkit-scrollbar-corner {
     background: transparent;
-    border: 0;
-    box-shadow: none;
   }
 
   .docs-app .willa-app-shell-sidebar::-webkit-scrollbar-thumb {
-    border: 0;
     border-radius: 999px;
     background-color: var(--docs-sidebar-scrollbar-thumb);
-    background-clip: padding-box;
-  }
-
-  .docs-app .willa-app-shell-sidebar::-webkit-scrollbar-thumb:hover {
-    background-color: var(--docs-sidebar-scrollbar-thumb-hover);
   }
 }
 
@@ -706,7 +702,39 @@ select,
   max-height: min(18rem, calc(100vh - 6rem));
   max-width: min(44rem, calc(100vw - 3rem));
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(
+      --docs-sidebar-scrollbar-thumb,
+      var(
+        --willa-scrollbar-thumb,
+        color-mix(in srgb, var(--willa-text-soft) 56%, transparent)
+      )
+    )
+    transparent;
+  -ms-overflow-style: auto;
   white-space: pre;
+}
+
+.docs-prop-tooltip-code::-webkit-scrollbar {
+  width: 0.36rem;
+  height: 0.36rem;
+}
+
+.docs-prop-tooltip-code::-webkit-scrollbar-track,
+.docs-prop-tooltip-code::-webkit-scrollbar-track-piece,
+.docs-prop-tooltip-code::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.docs-prop-tooltip-code::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(
+    --docs-sidebar-scrollbar-thumb,
+    var(
+      --willa-scrollbar-thumb,
+      color-mix(in srgb, var(--willa-text-soft) 56%, transparent)
+    )
+  );
 }
 
 .docs-props-separator,

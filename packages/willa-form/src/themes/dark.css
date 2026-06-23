@@ -108,7 +108,10 @@
   --willa-date-picker-day-bg-hover: rgba(125, 211, 252, 0.1);
   --willa-date-picker-wheel-column-bg: rgba(255, 255, 255, 0.032);
   --willa-date-picker-wheel-header-bg: rgba(255, 255, 255, 0.055);
-  --willa-date-picker-scrollbar: rgba(148, 163, 184, 0.54);
+  --willa-form-scrollbar-thumb: var(
+    --willa-scrollbar-thumb,
+    color-mix(in srgb, var(--willa-text-soft) 56%, transparent)
+  );
   --willa-date-picker-selected-bg: rgba(125, 211, 252, 0.18);
   --willa-date-picker-selected-border: rgba(125, 211, 252, 0.42);
   --willa-date-picker-selected-text: var(--willa-text-strong);

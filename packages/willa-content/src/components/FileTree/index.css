@@ -116,10 +116,29 @@
     padding: 0.7rem;
     border-radius: 10px;
     overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--willa-content-scrollbar-thumb) transparent;
+    -ms-overflow-style: auto;
   }
 
   .willa-file-tree-resizer {
     display: none;
+  }
+
+  .willa-file-tree::-webkit-scrollbar {
+    width: 0.36rem;
+    height: 0.36rem;
+  }
+
+  .willa-file-tree::-webkit-scrollbar-track,
+  .willa-file-tree::-webkit-scrollbar-track-piece,
+  .willa-file-tree::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  .willa-file-tree::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: var(--willa-content-scrollbar-thumb);
   }
 
   .willa-file-tree-list {

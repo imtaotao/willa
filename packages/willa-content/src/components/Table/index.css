@@ -15,7 +15,26 @@
   min-height: 0;
   width: 100%;
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--willa-content-scrollbar-thumb) transparent;
+  -ms-overflow-style: auto;
   overscroll-behavior-inline: contain;
+}
+
+.willa-table-scroll::-webkit-scrollbar {
+  width: 0.36rem;
+  height: 0.36rem;
+}
+
+.willa-table-scroll::-webkit-scrollbar-track,
+.willa-table-scroll::-webkit-scrollbar-track-piece,
+.willa-table-scroll::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.willa-table-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--willa-content-scrollbar-thumb);
 }
 
 .willa-table-header-slot,

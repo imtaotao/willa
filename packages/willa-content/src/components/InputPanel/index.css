@@ -56,6 +56,9 @@
   max-height: calc(var(--willa-input-panel-max-rows) * 1.45em);
   min-height: calc(var(--willa-input-panel-min-rows) * 1.45em);
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--willa-content-scrollbar-thumb) transparent;
+  -ms-overflow-style: auto;
   resize: none;
   border: 0;
   outline: 0;
@@ -82,6 +85,22 @@
 
 .willa-input-panel-control:disabled {
   cursor: not-allowed;
+}
+
+.willa-input-panel-control::-webkit-scrollbar {
+  width: 0.36rem;
+  height: 0.36rem;
+}
+
+.willa-input-panel-control::-webkit-scrollbar-track,
+.willa-input-panel-control::-webkit-scrollbar-track-piece,
+.willa-input-panel-control::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.willa-input-panel-control::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--willa-content-scrollbar-thumb);
 }
 
 .willa-input-panel-reference {

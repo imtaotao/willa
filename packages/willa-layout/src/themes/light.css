@@ -26,6 +26,11 @@
   --willa-card-shadow-hover: 0 14px 30px rgba(15, 23, 42, 0.1);
   --willa-card-media-bg: var(--willa-surface-soft);
   --willa-card-eyebrow: var(--willa-text-faint);
+  --willa-scrollbar-thumb: color-mix(
+    in srgb,
+    var(--willa-text-soft) 56%,
+    transparent
+  );
   --willa-page-header-bg: linear-gradient(
     180deg,
     rgba(37, 99, 235, 0.03) 0%,

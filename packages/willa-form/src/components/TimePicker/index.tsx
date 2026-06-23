@@ -362,6 +362,7 @@ export function TimePicker(props: TimePickerProps) {
                     "willa-time-picker-wheel-options",
                     showScrollbar &&
                       "willa-time-picker-wheel-options--scrollbar",
+                    showScrollbar && "willa-form-scrollbar",
                   )}
                 >
                   {createTimeWheelOptions(column, {

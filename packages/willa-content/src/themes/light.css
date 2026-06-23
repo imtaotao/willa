@@ -132,6 +132,10 @@
   --willa-copy-button-failed-bg: #fee2e2;
   --willa-copy-button-failed-border: rgba(239, 68, 68, 0.22);
   --willa-copy-button-failed-text: var(--willa-text-strong);
+  --willa-content-scrollbar-thumb: var(
+    --willa-scrollbar-thumb,
+    color-mix(in srgb, var(--willa-text-soft) 56%, transparent)
+  );
   --willa-toolbar-bg: rgba(255, 255, 255, 0.88);
   --willa-toolbar-border: rgba(15, 23, 42, 0.1);
   --willa-toolbar-separator: rgba(15, 23, 42, 0.12);

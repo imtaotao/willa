@@ -76,10 +76,28 @@ const extraMessages = [
   "还需要验证单组件 CSS、暗黑主题和移动端消息间距。",
   "如果后续引入虚拟滚动，可以继续放在 MessageList 这一层。",
   "ChatMessage 仍只关心单条消息，不处理列表状态。",
-];
+  "我先检查组件树里所有可能的副作用并做静态校验。",
+  "MessageList 本身只负责排列和滚动，不应承载协议转换逻辑。",
+  "我建议后续补齐 aria-live 与边界态文案，增强可读性。",
+  "请优先修复 Table 横向滚动时列头与内容错位问题。",
+  "现在这条消息更长些，看看在窄屏下是否会自动换行。",
+  "我再补一条来模拟更真实的 AI 对话长度。",
+  "如果组件树里有重复导入，可继续做一次集中迁移。",
+  "建议把日期边界和日历语义说明写进文档，不要靠注释。",
+  "移动端需要更强的 touch 反馈，尤其是列表内的加载状态。",
+  "当前列表滚动条视觉需要和全局滚动条风格保持一致。",
+  "建议复用 MessageList 在 AI 编辑器中的容器布局样式。",
+  "如果你想，我再补一组工具消息用于异常链路。",
+  "收到。先发完当前结论，后续再补充执行日志。",
+  "工具消息通常只保留状态，正文可精简到一句。",
+  "组件化边界要持续收口，避免 UI 与交互能力混用。",
+  "还有一个点：空态和 loading 态都要有明显的布局占位。",
+  "我会继续记录这些差异，方便下轮回归。",
+] as const;
 
 const MessageListPreview = () => {
-  const [count, setCount] = useState(0);
+  const maxCount = extraMessages.length;
+  const [count, setCount] = useState(Math.min(14, maxCount));
 
   return (
     <div style={frameStyle}>
@@ -90,9 +108,10 @@ const MessageListPreview = () => {
         <Button
           size="sm"
           variant="soft"
-          onClick={() => setCount((value) => (value + 1) % 4)}
+          disabled={count >= maxCount}
+          onClick={() => setCount((value) => Math.min(value + 3, maxCount))}
         >
-          追加消息
+          {count >= maxCount ? "已全部加载" : "追加消息"}
         </Button>
       </div>
       <div style={viewportStyle}>

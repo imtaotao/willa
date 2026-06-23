@@ -116,10 +116,29 @@
 .willa-dialog-body {
   min-height: 0;
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--willa-content-scrollbar-thumb) transparent;
+  -ms-overflow-style: auto;
   padding: 1.05rem 1.2rem;
   color: var(--willa-text);
   font-size: 0.94rem;
   line-height: 1.72;
+}
+
+.willa-dialog-body::-webkit-scrollbar {
+  width: 0.36rem;
+  height: 0.36rem;
+}
+
+.willa-dialog-body::-webkit-scrollbar-track,
+.willa-dialog-body::-webkit-scrollbar-track-piece,
+.willa-dialog-body::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.willa-dialog-body::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--willa-content-scrollbar-thumb);
 }
 
 .willa-dialog-body > :first-child {

@@ -637,11 +637,30 @@
   max-width: 100%;
   min-width: 0;
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--willa-form-scrollbar-thumb) transparent;
+  -ms-overflow-style: auto;
   grid-template-columns: 4.4rem repeat(7, minmax(6.8rem, 1fr));
   border: 1px solid var(--willa-schedule-calendar-grid-border);
   border-radius: 0.72rem;
   background: var(--willa-panel-bg);
   -webkit-overflow-scrolling: touch;
+}
+
+.willa-schedule-calendar-grid::-webkit-scrollbar {
+  width: 0.36rem;
+  height: 0.36rem;
+}
+
+.willa-schedule-calendar-grid::-webkit-scrollbar-track,
+.willa-schedule-calendar-grid::-webkit-scrollbar-track-piece,
+.willa-schedule-calendar-grid::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.willa-schedule-calendar-grid::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--willa-form-scrollbar-thumb);
 }
 
 .willa-schedule-calendar-axis,
@@ -892,11 +911,30 @@
   position: relative;
   min-width: 0;
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--willa-form-scrollbar-thumb) transparent;
+  -ms-overflow-style: auto;
   grid-template-columns: repeat(7, minmax(7.4rem, 1fr));
   border: 1px solid var(--willa-schedule-calendar-grid-border);
   border-radius: 0.72rem;
   background: var(--willa-panel-bg);
   -webkit-overflow-scrolling: touch;
+}
+
+.willa-schedule-calendar-month::-webkit-scrollbar {
+  width: 0.36rem;
+  height: 0.36rem;
+}
+
+.willa-schedule-calendar-month::-webkit-scrollbar-track,
+.willa-schedule-calendar-month::-webkit-scrollbar-track-piece,
+.willa-schedule-calendar-month::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.willa-schedule-calendar-month::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--willa-form-scrollbar-thumb);
 }
 
 .willa-schedule-calendar-month-heading,

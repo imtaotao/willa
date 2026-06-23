@@ -15,9 +15,28 @@
   margin: 1rem 0;
   overflow-x: auto;
   overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--willa-content-scrollbar-thumb) transparent;
+  -ms-overflow-style: auto;
   padding: 0.18rem 0;
   text-align: center;
   -webkit-overflow-scrolling: touch;
+}
+
+.willa-math-expression--block::-webkit-scrollbar {
+  width: 0.36rem;
+  height: 0.36rem;
+}
+
+.willa-math-expression--block::-webkit-scrollbar-track,
+.willa-math-expression--block::-webkit-scrollbar-track-piece,
+.willa-math-expression--block::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.willa-math-expression--block::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--willa-content-scrollbar-thumb);
 }
 
 .willa-math-expression--invalid {

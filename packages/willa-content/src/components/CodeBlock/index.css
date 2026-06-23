@@ -103,6 +103,25 @@
 @media (hover: none), (max-width: 767px) {
   .willa-prose-pre {
     overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--willa-content-scrollbar-thumb) transparent;
+    -ms-overflow-style: auto;
+  }
+
+  .willa-prose-pre::-webkit-scrollbar {
+    width: 0.36rem;
+    height: 0.36rem;
+  }
+
+  .willa-prose-pre::-webkit-scrollbar-track,
+  .willa-prose-pre::-webkit-scrollbar-track-piece,
+  .willa-prose-pre::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  .willa-prose-pre::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: var(--willa-content-scrollbar-thumb);
   }
 
   .willa-prose-code-block {
@@ -138,6 +157,9 @@
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--willa-content-scrollbar-thumb) transparent;
+  -ms-overflow-style: auto;
   color: var(--willa-code-text);
   font-family: var(--willa-code-font);
   padding: 0.88rem 0 1rem;
@@ -152,6 +174,22 @@
     "ss03" 1,
     "ss06" 1,
     "zero" 1;
+}
+
+.willa-prose-code::-webkit-scrollbar {
+  width: 0.36rem;
+  height: 0.36rem;
+}
+
+.willa-prose-code::-webkit-scrollbar-track,
+.willa-prose-code::-webkit-scrollbar-track-piece,
+.willa-prose-code::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.willa-prose-code::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--willa-content-scrollbar-thumb);
 }
 
 .willa-prose-code-line {

@@ -147,10 +147,29 @@
 .willa-diff-viewer__body {
   width: 100%;
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--willa-content-scrollbar-thumb) transparent;
+  -ms-overflow-style: auto;
   background: var(--willa-diff-viewer-code-bg);
   font-family: var(--willa-code-font);
   font-size: 0.84rem;
   line-height: 1.65;
+}
+
+.willa-diff-viewer__body::-webkit-scrollbar {
+  width: 0.36rem;
+  height: 0.36rem;
+}
+
+.willa-diff-viewer__body::-webkit-scrollbar-track,
+.willa-diff-viewer__body::-webkit-scrollbar-track-piece,
+.willa-diff-viewer__body::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.willa-diff-viewer__body::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--willa-content-scrollbar-thumb);
 }
 
 .willa-diff-viewer__content {

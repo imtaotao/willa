@@ -193,6 +193,25 @@
 .willa-tree-select-list--scrollable {
   padding-right: 0.5rem;
   scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--willa-form-scrollbar-thumb) transparent;
+  -ms-overflow-style: auto;
+}
+
+.willa-tree-select-list--scrollable::-webkit-scrollbar {
+  width: 0.36rem;
+  height: 0.36rem;
+}
+
+.willa-tree-select-list--scrollable::-webkit-scrollbar-track,
+.willa-tree-select-list--scrollable::-webkit-scrollbar-track-piece,
+.willa-tree-select-list--scrollable::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.willa-tree-select-list--scrollable::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--willa-form-scrollbar-thumb);
 }
 
 .willa-tree-select-tree {

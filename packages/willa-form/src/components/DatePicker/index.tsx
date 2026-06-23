@@ -266,6 +266,7 @@ export function DatePicker(props: DatePickerProps) {
                       "willa-date-picker-wheel-options",
                       showScrollbar &&
                         "willa-date-picker-wheel-options--scrollbar",
+                      showScrollbar && "willa-form-scrollbar",
                     )}
                   >
                     {createWheelOptions(column, parts).map((option) => (

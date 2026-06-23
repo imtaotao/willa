@@ -121,9 +121,28 @@
 @media (max-width: 767px) {
   .willa-split-pane--horizontal {
     overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--willa-scrollbar-thumb) transparent;
+    -ms-overflow-style: auto;
   }
 
   .willa-split-pane--horizontal .willa-split-pane-slot {
     min-width: 12rem;
+  }
+
+  .willa-split-pane--horizontal::-webkit-scrollbar {
+    width: 0.36rem;
+    height: 0.36rem;
+  }
+
+  .willa-split-pane--horizontal::-webkit-scrollbar-track,
+  .willa-split-pane--horizontal::-webkit-scrollbar-track-piece,
+  .willa-split-pane--horizontal::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  .willa-split-pane--horizontal::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: var(--willa-scrollbar-thumb);
   }
 }

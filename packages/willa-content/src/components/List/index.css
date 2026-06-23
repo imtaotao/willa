@@ -4,8 +4,27 @@
   width: 100%;
   min-width: 0;
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--willa-content-scrollbar-thumb) transparent;
+  -ms-overflow-style: auto;
   color: var(--willa-list-text);
   font-family: var(--willa-body-font);
+}
+
+.willa-list::-webkit-scrollbar {
+  width: 0.36rem;
+  height: 0.36rem;
+}
+
+.willa-list::-webkit-scrollbar-track,
+.willa-list::-webkit-scrollbar-track-piece,
+.willa-list::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.willa-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--willa-content-scrollbar-thumb);
 }
 
 .willa-list--panel {

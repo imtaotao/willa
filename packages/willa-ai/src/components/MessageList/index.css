@@ -5,8 +5,27 @@
   min-width: 0;
   min-height: 0;
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--willa-ai-scrollbar-thumb) transparent;
+  -ms-overflow-style: auto;
   color: var(--willa-message-list-text);
   font-family: var(--willa-body-font);
+}
+
+.willa-message-list::-webkit-scrollbar {
+  width: 0.36rem;
+  height: 0.36rem;
+}
+
+.willa-message-list::-webkit-scrollbar-track,
+.willa-message-list::-webkit-scrollbar-track-piece,
+.willa-message-list::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.willa-message-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--willa-ai-scrollbar-thumb);
 }
 
 .willa-message-list-content {

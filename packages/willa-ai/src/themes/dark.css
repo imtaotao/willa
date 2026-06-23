@@ -28,6 +28,10 @@
   --willa-message-actions-active-bg: rgba(96, 165, 250, 0.1);
   --willa-message-actions-active-border: rgba(96, 165, 250, 0.18);
   --willa-message-actions-active-text: #93c5fd;
+  --willa-ai-scrollbar-thumb: var(
+    --willa-scrollbar-thumb,
+    color-mix(in srgb, var(--willa-text-soft) 56%, transparent)
+  );
   --willa-message-actions-positive: #86efac;
   --willa-message-actions-negative: #fca5a5;
   --willa-thinking-indicator-bg: #181f2f;

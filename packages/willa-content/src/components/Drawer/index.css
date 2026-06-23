@@ -109,7 +109,26 @@
   flex: 1;
   min-height: 0;
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--willa-content-scrollbar-thumb) transparent;
+  -ms-overflow-style: auto;
   padding: 1.1rem;
+}
+
+.willa-drawer__body::-webkit-scrollbar {
+  width: 0.36rem;
+  height: 0.36rem;
+}
+
+.willa-drawer__body::-webkit-scrollbar-track,
+.willa-drawer__body::-webkit-scrollbar-track-piece,
+.willa-drawer__body::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.willa-drawer__body::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--willa-content-scrollbar-thumb);
 }
 
 .willa-drawer__footer {

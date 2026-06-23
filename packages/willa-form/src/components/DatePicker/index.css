@@ -8,6 +8,28 @@
   line-height: 1.4;
 }
 
+.willa-form-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--willa-form-scrollbar-thumb) transparent;
+  -ms-overflow-style: auto;
+}
+
+.willa-form-scrollbar::-webkit-scrollbar {
+  width: 0.36rem;
+  height: 0.36rem;
+}
+
+.willa-form-scrollbar::-webkit-scrollbar-track,
+.willa-form-scrollbar::-webkit-scrollbar-track-piece,
+.willa-form-scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.willa-form-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--willa-form-scrollbar-thumb);
+}
+
 .willa-date-picker-control {
   display: inline-flex;
   box-sizing: border-box;
@@ -275,7 +297,7 @@
 .willa-date-picker-wheel-options--scrollbar {
   padding-inline-end: 0.65rem;
   scrollbar-width: thin;
-  scrollbar-color: var(--willa-date-picker-scrollbar) transparent;
+  scrollbar-color: var(--willa-form-scrollbar-thumb) transparent;
   -ms-overflow-style: auto;
 }
 
@@ -284,21 +306,15 @@
   height: 0.36rem;
 }
 
-.willa-date-picker-wheel-options--scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.willa-date-picker-wheel-options--scrollbar::-webkit-scrollbar-track-piece {
-  background: transparent;
-}
-
+.willa-date-picker-wheel-options--scrollbar::-webkit-scrollbar-track,
+.willa-date-picker-wheel-options--scrollbar::-webkit-scrollbar-track-piece,
 .willa-date-picker-wheel-options--scrollbar::-webkit-scrollbar-corner {
   background: transparent;
 }
 
 .willa-date-picker-wheel-options--scrollbar::-webkit-scrollbar-thumb {
   border-radius: 999px;
-  background: var(--willa-date-picker-scrollbar);
+  background: var(--willa-form-scrollbar-thumb);
 }
 
 .willa-date-picker-wheel-option {
