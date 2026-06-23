@@ -633,6 +633,9 @@
   --willa-comment-input-tool-border-hover: #b7cff7;
   --willa-comment-input-tool-text: #526fb5;
   --willa-comment-input-tool-text-hover: #375aa3;
+  --willa-comment-input-mention-item-bg-hover: rgba(37, 99, 235, 0.1);
+  --willa-comment-input-mention-item-border-hover: rgba(37, 99, 235, 0.25);
+  --willa-comment-input-mention-item-text-hover: var(--willa-list-text);
   --willa-input-panel-bg: #ffffff;
   --willa-input-panel-bg-hover: #ffffff;
   --willa-input-panel-border: #dce7f7;

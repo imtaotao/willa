@@ -58,6 +58,7 @@ export type ListProps = {
   maxHeight?: CSSProperties["maxHeight"];
   virtualScroll?: boolean;
   virtualScrollOverscan?: number;
+  virtualScrollItemHeight?: number;
   draggable?: boolean;
   infiniteScroll?: boolean;
   hasMore?: boolean;
@@ -88,6 +89,7 @@ export function List(props: ListProps) {
     maxHeight,
     virtualScroll = false,
     virtualScrollOverscan = 4,
+    virtualScrollItemHeight,
     draggable = false,
     infiniteScroll = false,
     hasMore = false,
@@ -110,7 +112,8 @@ export function List(props: ListProps) {
   const virtualWindow = useVirtualScrollWindow({
     enabled: virtualScroll,
     itemCount: items.length,
-    itemHeight: getEstimatedListItemHeight(size, itemLayout),
+    itemHeight:
+      virtualScrollItemHeight ?? getEstimatedListItemHeight(size, itemLayout),
     overscan: virtualScrollOverscan,
     container: scrollContainer,
   });

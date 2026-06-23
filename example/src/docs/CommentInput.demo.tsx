@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Badge } from "willa/Badge";
+import { Avatar } from "willa/Avatar";
 import { Button } from "willa/Button";
 import { CommentInput } from "willa/CommentInput";
+import { List } from "willa/List";
 import { Group } from "willa/Group";
 import "willa/Badge.css";
+import "willa/Avatar.css";
 import "willa/Button.css";
 import "willa/CommentInput.css";
+import "willa/List.css";
 import "willa/Group.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
@@ -15,6 +19,244 @@ const inputFrameStyle = {
   gap: "0.85rem",
   width: "min(100%, 52rem)",
   margin: "0 auto",
+} as const;
+
+type CommentOption = {
+  id: string;
+  label: string;
+  value: string;
+  avatarSrc: string;
+  team?: string;
+  role?: string;
+};
+
+const mentionOptions: Array<CommentOption> = [
+  {
+    id: "tom",
+    label: "Tom",
+    value: "@tom ",
+    avatarSrc: "https://i.pravatar.cc/64?img=11",
+    team: "设计",
+  },
+  {
+    id: "lucy",
+    label: "Lucy",
+    value: "@lucy ",
+    avatarSrc: "https://i.pravatar.cc/64?img=47",
+    team: "产品",
+  },
+  {
+    id: "nate",
+    label: "Nate",
+    value: "@nate ",
+    avatarSrc: "https://i.pravatar.cc/64?img=12",
+  },
+  {
+    id: "willa",
+    label: "Willa",
+    value: "@willa ",
+    avatarSrc: "https://i.pravatar.cc/64?img=50",
+  },
+  {
+    id: "zoe",
+    label: "Zoe",
+    value: "@zoe ",
+    avatarSrc: "https://i.pravatar.cc/64?img=33",
+  },
+  {
+    id: "harry",
+    label: "Harry",
+    value: "@harry ",
+    avatarSrc: "https://i.pravatar.cc/64?img=69",
+  },
+  {
+    id: "luna",
+    label: "Luna",
+    value: "@luna ",
+    avatarSrc: "https://i.pravatar.cc/64?img=63",
+    role: "文案",
+  },
+  {
+    id: "mona",
+    label: "Mona",
+    value: "@mona ",
+    avatarSrc: "https://i.pravatar.cc/64?img=67",
+  },
+  {
+    id: "neo",
+    label: "Neo",
+    value: "@neo ",
+    avatarSrc: "https://i.pravatar.cc/64?img=69",
+  },
+  {
+    id: "ava",
+    label: "Ava",
+    value: "@ava ",
+    avatarSrc: "https://i.pravatar.cc/64?img=55",
+  },
+  {
+    id: "finn",
+    label: "Finn",
+    value: "@finn ",
+    avatarSrc: "https://i.pravatar.cc/64?img=53",
+  },
+  {
+    id: "ivy",
+    label: "Ivy",
+    value: "@ivy ",
+    avatarSrc: "https://i.pravatar.cc/64?img=48",
+  },
+  {
+    id: "joel",
+    label: "Joel",
+    value: "@joel ",
+    avatarSrc: "https://i.pravatar.cc/64?img=51",
+  },
+  {
+    id: "kim",
+    label: "Kim",
+    value: "@kim ",
+    avatarSrc: "https://i.pravatar.cc/64?img=56",
+  },
+  {
+    id: "lara",
+    label: "Lara",
+    value: "@lara ",
+    avatarSrc: "https://i.pravatar.cc/64?img=65",
+  },
+  {
+    id: "mike",
+    label: "Mike",
+    value: "@mike ",
+    avatarSrc: "https://i.pravatar.cc/64?img=57",
+  },
+  {
+    id: "nina",
+    label: "Nina",
+    value: "@nina ",
+    avatarSrc: "https://i.pravatar.cc/64?img=58",
+    role: "前端",
+  },
+  {
+    id: "owen",
+    label: "Owen",
+    value: "@owen ",
+    avatarSrc: "https://i.pravatar.cc/64?img=60",
+    team: "设计",
+  },
+  {
+    id: "peter",
+    label: "Peter",
+    value: "@peter ",
+    avatarSrc: "https://i.pravatar.cc/64?img=59",
+    team: "产品",
+  },
+  {
+    id: "quinn",
+    label: "Quinn",
+    value: "@quinn ",
+    avatarSrc: "https://i.pravatar.cc/64?img=61",
+    role: "运营",
+  },
+  {
+    id: "rosie",
+    label: "Rosie",
+    value: "@rosie ",
+    avatarSrc: "https://i.pravatar.cc/64?img=62",
+    team: "测试",
+  },
+  {
+    id: "simon",
+    label: "Simon",
+    value: "@simon ",
+    avatarSrc: "https://i.pravatar.cc/64?img=64",
+    team: "后端",
+  },
+  {
+    id: "tracy",
+    label: "Tracy",
+    value: "@tracy ",
+    avatarSrc: "https://i.pravatar.cc/64?img=66",
+    role: "运营",
+  },
+  {
+    id: "ursula",
+    label: "Ursula",
+    value: "@ursula ",
+    avatarSrc: "https://i.pravatar.cc/64?img=68",
+    team: "文案",
+  },
+  {
+    id: "vincent",
+    label: "Vincent",
+    value: "@vincent ",
+    avatarSrc: "https://i.pravatar.cc/64?img=70",
+    role: "研发",
+  },
+  {
+    id: "wren",
+    label: "Wren",
+    value: "@wren ",
+    avatarSrc: "https://i.pravatar.cc/64?img=71",
+    team: "支持",
+  },
+  {
+    id: "yuki",
+    label: "Yuki",
+    value: "@yuki ",
+    avatarSrc: "https://i.pravatar.cc/64?img=72",
+    role: "前端",
+  },
+  {
+    id: "zane",
+    label: "Zane",
+    value: "@zane ",
+    avatarSrc: "https://i.pravatar.cc/64?img=73",
+    team: "客服",
+  },
+] as const;
+
+const mentionUserStyle = {
+  display: "grid",
+  gridTemplateColumns: "auto minmax(0, 1fr)",
+  alignItems: "center",
+  gap: "0.58rem",
+  width: "100%",
+  minHeight: "2.4rem",
+  padding: "0.12rem 0.42rem",
+  border: "0",
+  borderRadius: "0.58rem",
+  background: "transparent",
+  color: "inherit",
+  textAlign: "left",
+  font: "inherit",
+  cursor: "pointer",
+  transition: "background-color 160ms ease",
+} as const;
+
+const mentionUserInfoStyle = {
+  display: "grid",
+  minWidth: 0,
+  gap: "0.12rem",
+} as const;
+
+const mentionUserNameStyle = {
+  overflow: "hidden",
+  color: "var(--willa-comment-input-text)",
+  fontSize: "0.87rem",
+  fontWeight: 650,
+  lineHeight: 1.35,
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+} as const;
+
+const mentionUserMetaStyle = {
+  overflow: "hidden",
+  color: "var(--willa-comment-input-muted)",
+  fontSize: "0.76rem",
+  lineHeight: 1.35,
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
 } as const;
 
 const CommentInputPreview = () => {
@@ -41,13 +283,6 @@ const CommentExtensionPreview = () => {
   const [hint, setHint] = useState("");
   const [mentionHint, setMentionHint] = useState("");
 
-  const mentionOptions = [
-    { id: "tom", label: "Tom", value: "@tom " },
-    { id: "lucy", label: "Lucy", value: "@lucy " },
-    { id: "nate", label: "Nate", value: "@nate " },
-    { id: "willa", label: "Willa", value: "@willa " },
-  ];
-
   return (
     <div style={inputFrameStyle}>
       <CommentInput
@@ -57,6 +292,17 @@ const CommentExtensionPreview = () => {
           content: "这个输入区需要支持评论扩展能力。",
         }}
         onMentionClick={() => setHint("打开成员选择面板")}
+        mentionListProps={{
+          virtualScroll: true,
+          onItemClick: (item) => {
+            const target = mentionOptions.find(
+              (option) => (option.id ?? option.value) === item.id,
+            );
+
+            if (!target) return;
+            setMentionHint(`已插入 ${String(target.label ?? target.value)}`);
+          },
+        }}
         actions={
           <Button
             size="sm"
@@ -67,26 +313,7 @@ const CommentExtensionPreview = () => {
           </Button>
         }
         mentionOptions={mentionOptions}
-        mentionMaxSuggestions={4}
-        renderMentionOptions={(_context, options, onSelect) => {
-          return (
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
-              {options.map((item) => (
-                <Button
-                  key={item.id}
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => {
-                    onSelect(item);
-                    setMentionHint(`已插入 ${String(item.label)}`);
-                  }}
-                >
-                  {item.label}
-                </Button>
-              ))}
-            </div>
-          );
-        }}
+        mentionMaxSuggestions={30}
         onMentionQuery={(context) => {
           if (!context) {
             setMentionHint("");
@@ -100,6 +327,105 @@ const CommentExtensionPreview = () => {
           hint ||
           "输入 @ 可弹出候选人，或点击 @ 图标触发外部面板"
         }
+      />
+    </div>
+  );
+};
+
+const MentionRenderOptionsPreview = () => {
+  const [hint, setHint] = useState("");
+
+  return (
+    <div style={inputFrameStyle}>
+      <CommentInput
+        placeholder="输入 @ 可以展示自定义候选项"
+        quote={{
+          author: "产品开发",
+          content: "这个列表只负责演示 renderMentionOptions 自定义渲染。",
+        }}
+        onMentionClick={() => setHint("打开业务自己的成员弹窗")}
+        renderMentionOptions={(context, options, onSelect) => {
+          const optionById = new Map(
+            options.map((option) => [option.id ?? option.value, option]),
+          );
+
+          return (
+            <List
+              size="sm"
+              variant="plain"
+              split={false}
+              itemLayout="horizontal"
+              maxHeight="13.8rem"
+              renderItem={(item) => {
+                const targetOption = optionById.get(item.id);
+                if (!targetOption) return null;
+
+                return (
+                  <button
+                    type="button"
+                    style={mentionUserStyle}
+                    onMouseDown={(event) => event.preventDefault()}
+                    onClick={() => onSelect(targetOption)}
+                  >
+                    {targetOption.avatarSrc ? (
+                      <Avatar
+                        size="sm"
+                        name={String(targetOption.label ?? targetOption.value)}
+                        src={targetOption.avatarSrc}
+                      />
+                    ) : null}
+                    <span style={mentionUserInfoStyle}>
+                      <span style={mentionUserNameStyle}>
+                        {targetOption.label}
+                      </span>
+                      <span style={mentionUserMetaStyle}>
+                        {String(
+                          targetOption.role ??
+                            targetOption.team ??
+                            `匹配: ${context.query || "全部"}`,
+                        )}
+                      </span>
+                    </span>
+                  </button>
+                );
+              }}
+              items={options.map((option) => {
+                const id = option.id ?? option.value;
+                const label = String(option.label ?? option.value);
+
+                return {
+                  id,
+                  title: label,
+                  description: context.query
+                    ? `${label} 包含 ${context.query}`
+                    : label,
+                };
+              })}
+            />
+          );
+        }}
+        mentionOptions={Array.from(mentionOptions)}
+        mentionMaxSuggestions={30}
+        onMentionQuery={(context) => {
+          if (!context) {
+            setHint("");
+            return;
+          }
+
+          setHint(
+            `命中 ${context.trigger}，查询关键字：${context.query || "未输入"}`,
+          );
+        }}
+        actions={
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => setHint("自定义成员选择弹层已触发")}
+          >
+            表情
+          </Button>
+        }
+        footer={hint || "renderMentionOptions：支持全量接管弹层内容和交互"}
       />
     </div>
   );
@@ -119,8 +445,8 @@ export default defineDoc({
   },
   code: `
     import { useState } from "react";
-    import { CommentInput } from "willa/CommentInput";
-    import "willa/CommentInput.css";
+        import { CommentInput } from "willa/CommentInput";
+        import "willa/CommentInput.css";
 
     const Demo = () => {
       const [value, setValue] = useState("");
@@ -179,13 +505,6 @@ export default defineDoc({
     {
       title: "提及、表情和引用",
       code: `
-        const mentionOptions = [
-          { id: "tom", label: "Tom", value: "@tom " },
-          { id: "lucy", label: "Lucy", value: "@lucy " },
-          { id: "nate", label: "Nate", value: "@nate " },
-          { id: "willa", label: "Willa", value: "@willa " },
-        ];
-
         const [hint, setHint] = useState("");
         const [mentionHint, setMentionHint] = useState("");
 
@@ -206,7 +525,7 @@ export default defineDoc({
             </Button>
           }
           mentionOptions={mentionOptions}
-          mentionMaxSuggestions={4}
+          mentionMaxSuggestions={30}
           onMentionQuery={(context) => {
             if (!context) {
               setMentionHint("");
@@ -217,28 +536,89 @@ export default defineDoc({
               "正在匹配 " + context.trigger + " 开头的候选项",
             );
           }}
-          renderMentionOptions={(_context, options, onSelect) => {
-            return (
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
-                {options.map((item) => {
-                  return (
-            <Button
-              key={item.id}
-              size="sm"
-              variant="ghost"
-              onClick={() => onSelect(item)}
-            >
-                      {item.label}
-                    </Button>
-                  );
-                })}
-              </div>
-            );
-          }}
           footer={mentionHint || hint || "输入 @ 可弹出候选人，或点击 @ 图标触发外部面板"}
         />;
       `,
       content: <CommentExtensionPreview />,
+    },
+    {
+      title: "renderMentionOptions 自定义提及弹层",
+      code: `
+        import { Avatar } from "willa/Avatar";
+        import { Button } from "willa/Button";
+        import { CommentInput } from "willa/CommentInput";
+        import { List } from "willa/List";
+        import "willa/Avatar.css";
+        import "willa/Button.css";
+        import "willa/List.css";
+        import "willa/CommentInput.css";
+
+        const mentionOptions = [
+          { id: "tom", label: "Tom", value: "@tom ", avatarSrc: "https://i.pravatar.cc/64?img=11", role: "设计" },
+          { id: "lucy", label: "Lucy", value: "@lucy ", avatarSrc: "https://i.pravatar.cc/64?img=47", team: "产品" },
+        ];
+
+        <CommentInput
+          placeholder="输入 @ 可以展示自定义候选项"
+          renderMentionOptions={(context, options, onSelect) => {
+            const optionById = new Map(
+              options.map((option) => [option.id ?? option.value, option]),
+            );
+
+            return (
+              <List
+                size="sm"
+                variant="plain"
+                split={false}
+                itemLayout="horizontal"
+                maxHeight="13.8rem"
+                renderItem={(item) => {
+                  const target = optionById.get(item.id);
+                  if (!target) return null;
+
+                  return (
+                    <button
+                      type="button"
+                      style={{ display: "grid", gridTemplateColumns: "auto minmax(0, 1fr)", alignItems: "center", gap: "0.58rem", width: "100%", minHeight: "2.4rem", padding: "0.12rem 0.42rem", border: 0, borderRadius: "0.58rem", background: "transparent", textAlign: "left", font: "inherit", cursor: "pointer" }}
+                      onMouseDown={(event) => event.preventDefault()}
+                      onClick={() => onSelect(target)}
+                    >
+                      <Avatar size="sm" name={String(target.label ?? target.value)} src={target.avatarSrc} />
+                      <span style={{ display: "grid", minWidth: 0, gap: "0.12rem" }}>
+                        <span style={{ overflow: "hidden", color: "var(--willa-comment-input-text)", fontSize: "0.87rem", fontWeight: 650, lineHeight: 1.35, textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          {target.label}
+                        </span>
+                        <span style={{ overflow: "hidden", color: "var(--willa-comment-input-muted)", fontSize: "0.76rem", lineHeight: 1.35, textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          {String(
+                            target.role ||
+                              target.team ||
+                              "匹配: " + (context.query || "全部"),
+                          )}
+                        </span>
+                      </span>
+                    </button>
+                  );
+                }}
+                items={options.map((option) => ({
+                  id: option.id ?? option.value,
+                  title: String(option.label ?? option.value),
+                  description: context.query
+                    ? context.query + " 相关"
+                    : undefined,
+                }))}
+              />
+            );
+          }}
+          mentionOptions={mentionOptions}
+          mentionMaxSuggestions={30}
+          onMentionQuery={(context) => {
+            if (!context) return;
+            console.log(context.query);
+          }}
+          footer="renderMentionOptions 用于彻底接管候选弹层"
+        />;
+      `,
+      content: <MentionRenderOptionsPreview />,
     },
     {
       title: "提交状态",
@@ -331,12 +711,6 @@ export default defineDoc({
       description: "输入者头像地址。",
     },
     {
-      name: "avatarName",
-      type: "string",
-      defaultValue: '"Comment Author"',
-      description: "输入者头像名称。",
-    },
-    {
       name: "quote",
       type: "CommentInputQuote",
       description: "引用内容，包含被引用作者和正文内容。",
@@ -373,6 +747,17 @@ export default defineDoc({
       name: "renderMentionOptions",
       type: "(context: { trigger: string; query: string; start: number; end: number }, options: Array<CommentInputMentionItem>, onSelect: (item: CommentInputMentionItem) => void) => ReactNode",
       description: "可选覆盖默认提及候选展示，适配业务自己的弹层样式。",
+    },
+    {
+      name: "mentionListProps",
+      type: "CommentInputMentionListProps",
+      description:
+        "默认提及列表复用 List 的参数，支持 virtualScroll、infiniteScroll、onItemsChange 等。",
+    },
+    {
+      name: "renderMentionItem",
+      type: "(context: { trigger: string; query: string; start: number; end: number }, item: CommentInputMentionItem, onSelect: (item: CommentInputMentionItem) => void) => ReactNode",
+      description: "可选覆盖单个提及项渲染，适配头像/机构/分组等业务信息。",
     },
     {
       name: "onMentionClick",

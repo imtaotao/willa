@@ -83,40 +83,230 @@
 }
 
 .willa-comment-input-mentions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.38rem;
-  padding-top: 0.42rem;
+  display: block;
+  width: 100%;
 }
 
-.willa-comment-input-mention {
-  flex: none;
-  border: 1px solid var(--willa-comment-input-tool-border);
-  border-radius: 0.5rem;
-  background: var(--willa-comment-input-tool-bg);
-  color: var(--willa-comment-input-tool-text);
-  padding: 0.2rem 0.52rem;
-  font-size: 0.78rem;
+.willa-comment-input-mentions.willa-comment-input-mention-panel {
+  position: relative;
+  overflow: visible;
+  max-height: none;
+}
+
+.willa-comment-input-mention-layer {
+  position: fixed;
+  z-index: var(--willa-layer-popover, 1000);
+  width: min(18rem, calc(100vw - 1rem));
+  min-width: min(12rem, calc(100vw - 1rem));
+  max-width: min(18rem, 100vw - 0.75rem);
+}
+
+.willa-comment-input-mention-panel {
+  border: 1px solid var(--willa-input-panel-border);
+  border-radius: 0.65rem;
+  width: 100%;
+  background: var(--willa-input-panel-bg);
+  padding: 0.28rem;
+  box-shadow: var(--willa-comment-shadow, 0 16px 42px rgba(15, 23, 42, 0.12));
+}
+
+.willa-comment-input-mention-list.willa-list--plain .willa-list__items {
+  gap: 0;
+}
+
+.willa-comment-input-mention-list.willa-comment-input-mention-list--virtual-scroll.willa-list--plain
+  .willa-list__items {
+  gap: 0;
+}
+
+.willa-comment-input-mention-list .willa-list__items {
+  margin: 0;
+  padding: 0.2rem 0;
+  list-style: none;
+}
+
+.willa-comment-input-mention-list--virtual-scroll .willa-list__spacer {
+  margin: 0;
+}
+
+.willa-comment-input-mention-list .willa-list__item + .willa-list__item {
+  border-top: 1px solid var(--willa-list-divider);
+}
+
+.willa-comment-input-mention-list.willa-list--plain .willa-list__item {
+  border-radius: 0.58rem;
+  background: transparent;
+  position: relative;
+  margin: 0.2rem 0;
+}
+
+.willa-comment-input-mention-list--virtual-scroll.willa-list--plain
+  .willa-list__item {
+  padding: 0;
+  margin: 0.2rem 0;
+}
+
+.willa-comment-input-mention-list.willa-list--plain .willa-list__item:hover {
+  background: var(
+    --willa-comment-input-mention-item-bg-hover,
+    var(--willa-list-item-bg-hover, #f3f6fb)
+  ) !important;
+  border-color: var(
+    --willa-comment-input-mention-item-border-hover,
+    transparent
+  ) !important;
+  color: var(
+    --willa-comment-input-mention-item-text-hover,
+    var(--willa-list-text)
+  ) !important;
+  cursor: pointer !important;
+}
+
+.willa-comment-input-mention-list.willa-list--plain .willa-list__main:hover {
+  background: var(
+    --willa-comment-input-mention-item-bg-hover,
+    var(--willa-list-item-bg-hover, #f3f6fb)
+  ) !important;
+  color: var(
+    --willa-comment-input-mention-item-text-hover,
+    var(--willa-list-text)
+  ) !important;
+  border-radius: inherit;
+}
+
+.willa-comment-input-mention-list.willa-list--plain .willa-list__main {
+  color: inherit !important;
+}
+
+.willa-comment-input-mention-list.willa-list--plain .willa-list__main {
+  cursor: pointer;
+  align-items: center;
+}
+
+.willa-comment-input-mention-list.willa-list--plain
+  .willa-list__item:hover
+  .willa-list__title,
+.willa-comment-input-mention-list.willa-list--plain
+  .willa-list__item:hover
+  .willa-list__description,
+.willa-comment-input-mention-list.willa-list--plain
+  .willa-list__item:hover
+  .willa-list__meta,
+.willa-comment-input-mention-list.willa-list--plain
+  .willa-list__item:hover
+  .willa-list__body {
+  color: var(
+    --willa-comment-input-mention-item-text-hover,
+    var(--willa-list-text)
+  ) !important;
+}
+
+.willa-comment-input-mention-list.willa-list {
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(
+      --willa-content-scrollbar-thumb,
+      color-mix(in srgb, var(--willa-text-soft) 56%, transparent)
+    )
+    transparent;
+  max-height: 11.8rem;
+}
+
+.willa-comment-input-mention-list.willa-list::-webkit-scrollbar {
+  width: 0.36rem;
+  height: 0.36rem;
+}
+
+.willa-comment-input-mention-list.willa-list::-webkit-scrollbar-track,
+.willa-comment-input-mention-list.willa-list::-webkit-scrollbar-track-piece,
+.willa-comment-input-mention-list.willa-list::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.willa-comment-input-mention-list.willa-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--willa-content-scrollbar-thumb);
+}
+
+.willa-comment-input-mention-list.willa-list--plain .willa-list__main {
+  padding: 0.38rem 0.5rem;
+}
+
+.willa-comment-input-mention-list.willa-list--sm .willa-list__main {
+  padding: 0.44rem 0.52rem;
+}
+
+.willa-comment-input-mention-list .willa-list__media {
+  width: 1.75rem;
+  height: 1.75rem;
+  align-self: center;
+}
+
+.willa-comment-input-mention-list.willa-list--sm .willa-list__title {
+  font-size: 0.82rem;
   line-height: 1.35;
-  transition:
-    background-color 160ms ease,
-    border-color 160ms ease,
-    color 160ms ease;
+  color: var(--willa-list-title);
 }
 
-.willa-comment-input-mention:hover:not(:disabled) {
-  border-color: var(--willa-comment-input-tool-border-hover);
-  background: var(--willa-comment-input-tool-bg-hover);
-  color: var(--willa-comment-input-tool-text-hover);
+.willa-comment-input-mention-list .willa-list__title {
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: var(--willa-list-title);
+  font-weight: 650;
 }
 
-.willa-comment-input-mention:disabled {
-  cursor: not-allowed;
-  opacity: 0.55;
+.willa-comment-input-mention-list .willa-list__description {
+  font-size: 0.76rem;
+  line-height: 1.35;
+  color: var(--willa-list-muted);
+}
+
+.willa-comment-input-mention-list .willa-list__body {
+  gap: 0.12rem;
+}
+
+.willa-comment-input-mention-item-name {
+  overflow: hidden;
+  color: var(--willa-list-title);
+  font-size: 0.82rem;
+  font-weight: 650;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.willa-comment-input-mention-item-meta {
+  overflow: hidden;
+  color: var(--willa-list-muted);
+  font-size: 0.76rem;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 @media (max-width: 640px) {
-  .willa-comment-input-footer .willa-button {
-    width: 100%;
+  .willa-comment-input .willa-input-panel-actions {
+    width: auto;
+    justify-content: flex-end;
+  }
+
+  .willa-comment-input-tool {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .willa-comment-input-footer .willa-input-panel-submit {
+    width: auto;
+    min-width: 4.9rem;
+  }
+
+  .willa-comment-input .willa-input-panel-actions .willa-button {
+    min-height: 1.95rem;
+  }
+
+  .willa-comment-input .willa-input-panel-footer {
+    align-items: center;
+    gap: 0.62rem;
   }
 }
