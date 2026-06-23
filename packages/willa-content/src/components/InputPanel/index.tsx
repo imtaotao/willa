@@ -46,7 +46,10 @@ export type InputPanelProps = Omit<
   submitIcon?: ReactNode;
   submitButton?: ReactNode;
   slotClassNames?: InputPanelSlotClassNames;
-  onValueChange?: (value: string) => void;
+  onValueChange?: (
+    value: string,
+    event?: ChangeEvent<HTMLTextAreaElement>,
+  ) => void;
   onSubmit?: (value: string, event: InputPanelSubmitEvent) => void;
 };
 
@@ -119,7 +122,7 @@ export const InputPanel = forwardRef<HTMLTextAreaElement, InputPanelProps>(
         setUncontrolledValue(nextValue);
       }
 
-      onValueChange?.(nextValue);
+      onValueChange?.(nextValue, event);
       onChange?.(event);
     };
 

@@ -126,6 +126,8 @@ export type {
 } from "#content/components/Comment";
 export type {
   CommentInputQuote,
+  CommentInputMentionContext,
+  CommentInputMentionItem,
   CommentInputProps,
   CommentInputSubmitContext,
 } from "#content/components/CommentInput";

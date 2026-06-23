@@ -39,6 +39,14 @@ const CommentInputPreview = () => {
 
 const CommentExtensionPreview = () => {
   const [hint, setHint] = useState("");
+  const [mentionHint, setMentionHint] = useState("");
+
+  const mentionOptions = [
+    { id: "tom", label: "Tom", value: "@tom " },
+    { id: "lucy", label: "Lucy", value: "@lucy " },
+    { id: "nate", label: "Nate", value: "@nate " },
+    { id: "willa", label: "Willa", value: "@willa " },
+  ];
 
   return (
     <div style={inputFrameStyle}>
@@ -58,7 +66,40 @@ const CommentExtensionPreview = () => {
             表情
           </Button>
         }
-        footer={hint || "点击 @ 或表情按钮接入业务面板"}
+        mentionOptions={mentionOptions}
+        mentionMaxSuggestions={4}
+        renderMentionOptions={(_context, options, onSelect) => {
+          return (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
+              {options.map((item) => (
+                <Button
+                  key={item.id}
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    onSelect(item);
+                    setMentionHint(`已插入 ${String(item.label)}`);
+                  }}
+                >
+                  {item.label}
+                </Button>
+              ))}
+            </div>
+          );
+        }}
+        onMentionQuery={(context) => {
+          if (!context) {
+            setMentionHint("");
+            return;
+          }
+
+          setMentionHint(`正在匹配 ${context.trigger} 开头的候选项`);
+        }}
+        footer={
+          mentionHint ||
+          hint ||
+          "输入 @ 可弹出候选人，或点击 @ 图标触发外部面板"
+        }
       />
     </div>
   );
@@ -138,7 +179,15 @@ export default defineDoc({
     {
       title: "提及、表情和引用",
       code: `
+        const mentionOptions = [
+          { id: "tom", label: "Tom", value: "@tom " },
+          { id: "lucy", label: "Lucy", value: "@lucy " },
+          { id: "nate", label: "Nate", value: "@nate " },
+          { id: "willa", label: "Willa", value: "@willa " },
+        ];
+
         const [hint, setHint] = useState("");
+        const [mentionHint, setMentionHint] = useState("");
 
         <CommentInput
           placeholder="回复这条评论..."
@@ -156,7 +205,37 @@ export default defineDoc({
               表情
             </Button>
           }
-          footer={hint || "点击 @ 或表情按钮接入业务面板"}
+          mentionOptions={mentionOptions}
+          mentionMaxSuggestions={4}
+          onMentionQuery={(context) => {
+            if (!context) {
+              setMentionHint("");
+              return;
+            }
+
+            setMentionHint(
+              "正在匹配 " + context.trigger + " 开头的候选项",
+            );
+          }}
+          renderMentionOptions={(_context, options, onSelect) => {
+            return (
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
+                {options.map((item) => {
+                  return (
+            <Button
+              key={item.id}
+              size="sm"
+              variant="ghost"
+              onClick={() => onSelect(item)}
+            >
+                      {item.label}
+                    </Button>
+                  );
+                })}
+              </div>
+            );
+          }}
+          footer={mentionHint || hint || "输入 @ 可弹出候选人，或点击 @ 图标触发外部面板"}
         />;
       `,
       content: <CommentExtensionPreview />,
@@ -267,6 +346,33 @@ export default defineDoc({
       type: "ReactNode",
       defaultValue: '"@"',
       description: "@ 提及入口的展示内容，默认 @。",
+    },
+    {
+      name: "mentionTriggers",
+      type: "Array<string> | undefined",
+      defaultValue: '["@"]',
+      description: "提及触发字符集合，默认只处理 @。",
+    },
+    {
+      name: "mentionOptions",
+      type: "Array<CommentInputMentionItem>",
+      description: "输入 @ 时要展示的候选数据。",
+    },
+    {
+      name: "mentionMaxSuggestions",
+      type: "number",
+      defaultValue: "6",
+      description: "候选项展示上限。",
+    },
+    {
+      name: "onMentionQuery",
+      type: "(context: CommentInputMentionContext | null) => void",
+      description: "每次提及输入变化回调，context 为空表示退出提及态。",
+    },
+    {
+      name: "renderMentionOptions",
+      type: "(context: { trigger: string; query: string; start: number; end: number }, options: Array<CommentInputMentionItem>, onSelect: (item: CommentInputMentionItem) => void) => ReactNode",
+      description: "可选覆盖默认提及候选展示，适配业务自己的弹层样式。",
     },
     {
       name: "onMentionClick",

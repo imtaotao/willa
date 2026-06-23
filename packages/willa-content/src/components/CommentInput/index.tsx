@@ -1,8 +1,11 @@
 import {
   useState,
+  useMemo,
+  useRef,
   type ButtonHTMLAttributes,
   type ReactNode,
   type TextareaHTMLAttributes,
+  type ChangeEvent,
 } from "react";
 import classNames from "classnames";
 
@@ -21,11 +24,26 @@ export type CommentInputQuote = {
   content: ReactNode;
 };
 
+export type CommentInputMentionItem = {
+  id?: string;
+  label?: ReactNode;
+  value: string;
+  [key: string]: unknown;
+};
+
+export type CommentInputMentionContext = {
+  trigger: string;
+  query: string;
+  start: number;
+  end: number;
+  replace: (value: string) => void;
+};
+
+type MentionState = Omit<CommentInputMentionContext, "replace">;
+
 export type CommentInputProps = {
   value?: string;
   defaultValue?: string;
-  onValueChange?: (value: string) => void;
-  onSubmit?: (value: string, context: CommentInputSubmitContext) => void;
   placeholder?: string;
   submitLabel?: ReactNode;
   disabled?: boolean;
@@ -37,7 +55,18 @@ export type CommentInputProps = {
   avatarName?: string;
   quote?: CommentInputQuote;
   mentionLabel?: ReactNode;
+  mentionTriggers?: Array<string>;
+  mentionOptions?: Array<CommentInputMentionItem>;
+  mentionMaxSuggestions?: number;
+  onValueChange?: (value: string) => void;
+  onSubmit?: (value: string, context: CommentInputSubmitContext) => void;
   onMentionClick?: () => void;
+  onMentionQuery?: (context: CommentInputMentionContext | null) => void;
+  renderMentionOptions?: (
+    context: MentionState,
+    options: Array<CommentInputMentionItem>,
+    onSelect: (item: CommentInputMentionItem) => void,
+  ) => ReactNode;
   actions?: ReactNode;
   footer?: ReactNode;
   className?: string;
@@ -74,6 +103,11 @@ export function CommentInput(props: CommentInputProps) {
     quote,
     mentionLabel = "@",
     onMentionClick,
+    mentionTriggers = ["@"],
+    mentionOptions = [],
+    mentionMaxSuggestions = 6,
+    onMentionQuery,
+    renderMentionOptions,
     actions,
     footer,
     className,
@@ -83,12 +117,18 @@ export function CommentInput(props: CommentInputProps) {
   const [innerValue, setInnerValue] = useState(defaultValue);
   const currentValue = isControlled ? value : innerValue;
   const trimmedValue = currentValue.trim();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [activeMention, setActiveMention] = useState<MentionState | null>(null);
+  const activeMentionRef = useRef<MentionState | null>(null);
+  const normalizedMentions = useMemo(
+    () => [...new Set(mentionTriggers.filter(Boolean))],
+    [mentionTriggers],
+  );
 
   const updateValue = (nextValue: string) => {
     if (!isControlled) {
       setInnerValue(nextValue);
     }
-
     onValueChange?.(nextValue);
   };
 
@@ -96,9 +136,134 @@ export function CommentInput(props: CommentInputProps) {
     updateValue("");
   };
 
+  const applyMentionInsert = (replaceValue: string, context: MentionState) => {
+    const targetValue = textareaRef.current?.value ?? currentValue;
+    const nextValue =
+      targetValue.slice(0, context.start) +
+      replaceValue +
+      targetValue.slice(context.end);
+
+    updateValue(nextValue);
+    setActiveMention(null);
+    activeMentionRef.current = null;
+    onMentionQuery?.(null);
+
+    requestAnimationFrame(() => {
+      const textarea = textareaRef.current;
+      if (!textarea) return;
+
+      const nextCursor = context.start + replaceValue.length;
+      textarea.focus();
+      textarea.setSelectionRange(nextCursor, nextCursor);
+    });
+  };
+
+  const detectMention = (nextValue: string, caret: number) => {
+    if (!normalizedMentions.length || caret <= 0) return null;
+
+    let start = caret;
+    while (start > 0 && !/\s/.test(nextValue[start - 1])) {
+      start -= 1;
+    }
+
+    const token = nextValue.slice(start, caret);
+    if (!token) return null;
+
+    const match = normalizedMentions.find((trigger) =>
+      token.startsWith(trigger),
+    );
+    if (!match) return null;
+
+    return {
+      trigger: match,
+      query: token.slice(match.length),
+      start,
+      end: caret,
+    };
+  };
+
+  const updateMentionContext = (value: string, cursor: number) => {
+    const match = detectMention(value, cursor);
+    const nextMention = match ? { ...match } : null;
+    activeMentionRef.current = nextMention;
+    setActiveMention(nextMention);
+    onMentionQuery?.(
+      nextMention
+        ? {
+            ...nextMention,
+            replace: (insertValue) => {
+              applyMentionInsert(insertValue, nextMention);
+            },
+          }
+        : null,
+    );
+  };
+
+  const handleValueChange = (
+    nextValue: string,
+    event?: ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    updateValue(nextValue);
+    const cursor = event?.currentTarget.selectionStart ?? nextValue.length;
+    updateMentionContext(nextValue, cursor);
+  };
+
+  const handleMentionSelect = (item: CommentInputMentionItem) => {
+    const match = activeMentionRef.current;
+    if (!match) return;
+    applyMentionInsert(item.value, match);
+  };
+
+  const filteredMentions = useMemo(() => {
+    if (!activeMention) return [];
+
+    const options = mentionOptions;
+    if (!options.length) return [];
+
+    const normalizedQuery = activeMention.query.trim().toLowerCase();
+    if (!normalizedQuery) return options.slice(0, mentionMaxSuggestions);
+
+    const filtered = options.filter((option) => {
+      const text = String(option.label ?? option.value).toLowerCase();
+      return text.includes(normalizedQuery);
+    });
+
+    if (mentionMaxSuggestions <= 0) return filtered;
+
+    return filtered.slice(0, mentionMaxSuggestions);
+  }, [activeMention, mentionOptions, mentionMaxSuggestions]);
+
+  const mentionPanel = (() => {
+    if (!activeMention) return null;
+    if (!mentionOptions.length) return null;
+    if (!filteredMentions.length) return null;
+
+    if (renderMentionOptions) {
+      return renderMentionOptions(
+        activeMention,
+        filteredMentions,
+        handleMentionSelect,
+      );
+    }
+
+    return (
+      <div className="willa-comment-input-mentions">
+        {filteredMentions.map((option) => (
+          <button
+            key={option.id ?? option.value}
+            type="button"
+            className="willa-comment-input-mention"
+            onClick={() => handleMentionSelect(option)}
+          >
+            {option.label ?? option.value}
+          </button>
+        ))}
+      </div>
+    );
+  })();
+
   const handleSubmit = (_value: string, _event: InputPanelSubmitEvent) => {
     if (!trimmedValue) return;
-
     onSubmit?.(trimmedValue, { clear });
   };
 
@@ -154,6 +319,7 @@ export function CommentInput(props: CommentInputProps) {
               </span>
             </div>
           ) : null}
+          {mentionPanel}
         </>
       }
       footer={
@@ -187,7 +353,8 @@ export function CommentInput(props: CommentInputProps) {
       value={currentValue}
       placeholder={placeholder}
       disabled={disabled}
-      onValueChange={updateValue}
+      onValueChange={handleValueChange}
+      ref={textareaRef}
       onSubmit={handleSubmit}
     />
   );
@@ -195,7 +362,6 @@ export function CommentInput(props: CommentInputProps) {
 
 const CommentInputToolButton = (props: CommentInputToolButtonProps) => {
   const { className, type = "button", ...buttonProps } = props;
-
   return (
     <button
       {...buttonProps}

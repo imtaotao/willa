@@ -82,6 +82,39 @@
   opacity: 0.55;
 }
 
+.willa-comment-input-mentions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+  padding-top: 0.42rem;
+}
+
+.willa-comment-input-mention {
+  flex: none;
+  border: 1px solid var(--willa-comment-input-tool-border);
+  border-radius: 0.5rem;
+  background: var(--willa-comment-input-tool-bg);
+  color: var(--willa-comment-input-tool-text);
+  padding: 0.2rem 0.52rem;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.willa-comment-input-mention:hover:not(:disabled) {
+  border-color: var(--willa-comment-input-tool-border-hover);
+  background: var(--willa-comment-input-tool-bg-hover);
+  color: var(--willa-comment-input-tool-text-hover);
+}
+
+.willa-comment-input-mention:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 @media (max-width: 640px) {
   .willa-comment-input-footer .willa-button {
     width: 100%;
