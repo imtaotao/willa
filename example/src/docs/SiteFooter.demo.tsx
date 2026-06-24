@@ -180,5 +180,10 @@ export default defineDoc({
       group: "SiteFooterColumn",
       description: "分组内链接列表。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
   ],
 });

@@ -295,5 +295,10 @@ export default defineDoc({
       type: "ReactNode",
       description: "按钮内容。",
     },
+    {
+      name: "type",
+      type: "string",
+      description: "组件类型。",
+    },
   ],
 });

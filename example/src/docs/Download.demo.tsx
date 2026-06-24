@@ -174,5 +174,10 @@ export default defineDoc({
       defaultValue: "false",
       description: "禁用下载入口。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
   ],
 });

@@ -313,5 +313,30 @@ export default defineDoc({
       type: "string",
       description: "自定义文字头像颜色，支持 CSS 颜色值。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
+    {
+      name: "closeLabel",
+      type: "string",
+      description: "文案标签。",
+    },
+    {
+      name: "previewLabel",
+      type: "string",
+      description: "文案标签。",
+    },
+    {
+      name: "rel",
+      type: "string",
+      description: "链接关系属性。",
+    },
+    {
+      name: "target",
+      type: "string",
+      description: "链接打开方式。",
+    },
   ],
 });

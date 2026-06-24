@@ -589,5 +589,10 @@ export default defineDoc({
       type: "string",
       description: "选项仅用图标或文案不够明确时提供无障碍名称。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
   ],
 });

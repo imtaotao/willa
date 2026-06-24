@@ -493,5 +493,10 @@ export default defineDoc({
       defaultValue: "false",
       description: "展示错误状态。",
     },
+    {
+      name: "ref",
+      type: "Ref<HTMLButtonElement>",
+      description: "透传 ref。",
+    },
   ],
 });

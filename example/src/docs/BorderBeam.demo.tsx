@@ -247,5 +247,15 @@ export default defineDoc({
       defaultValue: "false",
       description: "是否关闭流光效果。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
+    {
+      name: "style",
+      type: "CSSProperties",
+      description: "自定义内联样式。",
+    },
   ],
 });

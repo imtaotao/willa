@@ -77,7 +77,6 @@ export default defineDoc({
     {
       name: "src",
       type: "string",
-      required: true,
       description: "图片资源地址。",
     },
     {

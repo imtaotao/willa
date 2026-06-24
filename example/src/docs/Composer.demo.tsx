@@ -265,5 +265,95 @@ export default defineDoc({
       type: "string",
       description: "传给内部 PromptInput 的 className。",
     },
+    {
+      name: "allowEmptySubmit",
+      type: "boolean",
+      description: "是否允许空内容提交。",
+    },
+    {
+      name: "autoResize",
+      type: "boolean",
+      description: "是否自动高度。",
+    },
+    {
+      name: "beforeInput",
+      type: "ReactNode",
+      description: "输入前回调。",
+    },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
+    {
+      name: "id",
+      type: "string",
+      description: "元素 id。",
+    },
+    {
+      name: "inputStyle",
+      type: "CSSProperties",
+      description: "输入区域样式。",
+    },
+    {
+      name: "loading",
+      type: "boolean",
+      description: "是否展示加载态。",
+    },
+    {
+      name: "maxRows",
+      type: "number",
+      description: "行数限制。",
+    },
+    {
+      name: "minRows",
+      type: "number",
+      description: "行数限制。",
+    },
+    {
+      name: "onValueChange",
+      type: "((value: string, event?: ChangeEvent<HTMLTextAreaElement>) => void)",
+      description: "对应事件回调。",
+    },
+    {
+      name: "role",
+      type: "AriaRole",
+      description: "无障碍角色。",
+    },
+    {
+      name: "size",
+      type: "PromptInputSize",
+      description: "尺寸。",
+    },
+    {
+      name: "slotClassNames",
+      type: "InputPanelSlotClassNames",
+      description: "插槽样式。",
+    },
+    {
+      name: "style",
+      type: "CSSProperties",
+      description: "自定义内联样式。",
+    },
+    {
+      name: "submitButton",
+      type: "ReactNode",
+      description: "提交按钮。",
+    },
+    {
+      name: "submitIcon",
+      type: "ReactNode",
+      description: "提交图标。",
+    },
+    {
+      name: "submitLabel",
+      type: "ReactNode",
+      description: "文案标签。",
+    },
+    {
+      name: "submitOnEnter",
+      type: "boolean",
+      description: "回车时提交。",
+    },
   ],
 });

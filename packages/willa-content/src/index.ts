@@ -13,6 +13,7 @@ export { Comment } from "#content/components/Comment";
 export { CommentInput } from "#content/components/CommentInput";
 export { CommentList } from "#content/components/CommentList";
 export { CopyButton } from "#content/components/CopyButton";
+export { MentionInput } from "#content/components/MentionInput";
 
 export { CodeTabs } from "#content/components/CodeTabs";
 export { Collapse } from "#content/components/Collapse";
@@ -131,6 +132,10 @@ export type {
   CommentInputProps,
   CommentInputSubmitContext,
 } from "#content/components/CommentInput";
+export type {
+  MentionInputProps,
+  MentionInputTriggerSource,
+} from "#content/components/MentionInput";
 export type {
   CommentListItem,
   CommentListProps,

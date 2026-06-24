@@ -246,5 +246,10 @@ export default defineDoc({
       type: "ReactNode",
       description: "自定义提交按钮，传入后会替换默认按钮。",
     },
+    {
+      name: "slotClassNames",
+      type: "InputPanelSlotClassNames",
+      description: "插槽样式。",
+    },
   ],
 });

@@ -258,5 +258,10 @@ export default defineDoc({
       group: "CommentListItem",
       description: "评论唯一标识。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
   ],
 });

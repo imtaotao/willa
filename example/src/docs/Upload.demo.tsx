@@ -290,5 +290,10 @@ export default defineDoc({
       type: "(file: UploadItem) => void",
       description: "移除单个文件时触发。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
   ],
 });

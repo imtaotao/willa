@@ -204,5 +204,15 @@ export default defineDoc({
       defaultValue: '"100%"',
       description: "网格容器宽度。需要内容收缩时可以传具体宽度或 fit-content。",
     },
+    {
+      name: "as",
+      type: "ElementType",
+      description: "自定义渲染标签或元素。",
+    },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
   ],
 });

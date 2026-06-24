@@ -218,5 +218,40 @@ export default defineDoc({
       type: "(value: string | Array<string>, items: Array<PickerItem>) => void",
       description: "选择变化时触发。",
     },
+    {
+      name: "emptyText",
+      type: "ReactNode",
+      description: "空态文案。",
+    },
+    {
+      name: "invalid",
+      type: "boolean",
+      description: "是否无效状态。",
+    },
+    {
+      name: "name",
+      type: "string",
+      description: "字段名。",
+    },
+    {
+      name: "placeholder",
+      type: "string",
+      description: "占位文本。",
+    },
+    {
+      name: "searchPlaceholder",
+      type: "string",
+      description: "搜索输入占位文本。",
+    },
+    {
+      name: "size",
+      type: "PickerSize",
+      description: "尺寸。",
+    },
+    {
+      name: "variant",
+      type: "PickerVariant",
+      description: "展示变体。",
+    },
   ],
 });

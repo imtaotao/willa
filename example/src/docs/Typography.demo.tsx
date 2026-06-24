@@ -922,5 +922,25 @@ export default defineDoc({
       group: "Typography.ellipsis",
       description: "省略状态变化和展开状态变化回调。",
     },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "组件子节点。",
+    },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
+    {
+      name: "classNames",
+      type: "Partial<Record<TypographySemanticDOM, string>>",
+      description: "classNames 属性。",
+    },
+    {
+      name: "styles",
+      type: "Partial<Record<TypographySemanticDOM, CSSProperties>>",
+      description: "styles 属性。",
+    },
   ],
 });

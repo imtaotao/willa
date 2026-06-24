@@ -377,5 +377,20 @@ export default defineDoc({
       group: "展示",
       description: "每一项评分对应的提示文案，同时用于可访问性文案。",
     },
+    {
+      name: "onBlur",
+      type: '(import("react").FocusEventHandler<HTMLDivElement> & ((event: FocusEvent<HTMLDivElement>) => void)) | undefined',
+      description: "${''}处理 Blur 事件。",
+    },
+    {
+      name: "onFocus",
+      type: '(import("react").FocusEventHandler<HTMLDivElement> & ((event: FocusEvent<HTMLDivElement>) => void)) | undefined',
+      description: "${''}处理 Focus 事件。",
+    },
+    {
+      name: "onKeyDown",
+      type: "((event: KeyboardEvent<HTMLDivElement>) => void)",
+      description: "${''}处理 KeyDown 事件。",
+    },
   ],
 });

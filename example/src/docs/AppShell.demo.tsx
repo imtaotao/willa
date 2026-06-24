@@ -178,5 +178,15 @@ export default defineDoc({
       defaultValue: "false",
       description: "顶部区域是否吸顶。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
+    {
+      name: "minContentWidth",
+      type: "string",
+      description: "最小内容宽度。",
+    },
   ],
 });

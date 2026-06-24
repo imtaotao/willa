@@ -338,5 +338,15 @@ export default defineDoc({
       type: "CSSProperties",
       description: "根节点自定义样式。",
     },
+    {
+      name: "articleSourcePath",
+      type: "string",
+      description: "水印资源配置。",
+    },
+    {
+      name: "resolveAssetUrl",
+      type: "ResolveAssetUrl",
+      description: "水印资源配置。",
+    },
   ],
 });

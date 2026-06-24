@@ -218,11 +218,6 @@ export default defineDoc({
   ],
   props: [
     {
-      name: "items *",
-      type: "Array<TimelineItem>",
-      description: "时间线节点列表。",
-    },
-    {
       name: "title",
       type: "ReactNode",
       description: "时间线标题。",
@@ -294,6 +289,12 @@ export default defineDoc({
       type: '"default" | "info" | "success" | "warning" | "danger"',
       defaultValue: '"default"',
       description: "节点状态色。",
+    },
+    {
+      name: "items",
+      type: "Array<TimelineItem>",
+      required: true,
+      description: "数据项。",
     },
   ],
 });

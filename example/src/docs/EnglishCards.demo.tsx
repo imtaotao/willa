@@ -117,7 +117,6 @@ export default defineDoc({
     {
       name: "items",
       type: "Array<EnglishCardItem>",
-      required: true,
       description: "需要渲染的词汇条目。",
     },
     {

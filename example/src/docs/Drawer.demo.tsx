@@ -182,6 +182,21 @@ export default defineDoc({
       type: "(open: boolean) => void",
       description: "打开状态变化回调。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
+    {
+      name: "overlayClassName",
+      type: "string",
+      description: "遮罩层 className。",
+    },
+    {
+      name: "panelClassName",
+      type: "string",
+      description: "弹层 className。",
+    },
   ],
   sections: [
     {

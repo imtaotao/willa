@@ -240,11 +240,5 @@ export default defineDoc({
       group: "AnchorItem",
       description: "子级锚点项。",
     },
-    {
-      name: "AnchorSlot",
-      type: '"list" | "item" | "link" | "title" | "meta" | "description"',
-      group: "AnchorSlot",
-      description: "Anchor 支持定制的语义槽位。",
-    },
   ],
 });

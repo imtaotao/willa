@@ -174,5 +174,10 @@ export default defineDoc({
       defaultValue: '"tablet"',
       description: "移动端是否折叠为上下布局。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
   ],
 });

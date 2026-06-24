@@ -183,5 +183,35 @@ export default defineDoc({
       type: "CSSProperties['width']",
       description: "自定义搜索框宽度。",
     },
+    {
+      name: "backgroundColor",
+      type: "string",
+      description: "背景色。",
+    },
+    {
+      name: "inputClassName",
+      type: "string",
+      description: "input 元素 className。",
+    },
+    {
+      name: "invalid",
+      type: "boolean",
+      description: "是否无效状态。",
+    },
+    {
+      name: "leadingAddon",
+      type: "ReactNode",
+      description: "前后置附加元素。",
+    },
+    {
+      name: "textColor",
+      type: "string",
+      description: "文本色。",
+    },
+    {
+      name: "variant",
+      type: "InputVariant",
+      description: "展示变体。",
+    },
   ],
 });

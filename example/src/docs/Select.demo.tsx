@@ -150,5 +150,15 @@ export default defineDoc({
       type: "(value: string, option: SelectOption) => void",
       description: "选中值变化时触发。",
     },
+    {
+      name: "defaultValue",
+      type: "string",
+      description: "默认值。",
+    },
+    {
+      name: "value",
+      type: "string",
+      description: "受控值。",
+    },
   ],
 });

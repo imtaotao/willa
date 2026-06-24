@@ -152,5 +152,10 @@ export default defineDoc({
       type: "string",
       description: "整张卡片的跳转地址。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
   ],
 });

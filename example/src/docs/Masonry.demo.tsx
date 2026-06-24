@@ -161,5 +161,10 @@ export default defineDoc({
       defaultValue: '"div"',
       description: "自定义渲染标签或组件。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
   ],
 });

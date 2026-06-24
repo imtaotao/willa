@@ -125,11 +125,6 @@ export default defineDoc({
   ],
   props: [
     {
-      name: "text *",
-      type: "string",
-      description: "要写入剪贴板的文本。",
-    },
-    {
       name: "variant",
       type: '"solid" | "soft" | "outline" | "ghost" | "link"',
       defaultValue: '"soft"',
@@ -169,6 +164,52 @@ export default defineDoc({
       type: "ReactNode",
       defaultValue: '"复制"',
       description: "默认状态的按钮文案。",
+    },
+    {
+      name: "backgroundColor",
+      type: "string",
+      description: "背景色。",
+    },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
+    {
+      name: "copiedIcon",
+      type: "ReactNode",
+      description: "copiedIcon 属性。",
+    },
+    {
+      name: "disabled",
+      type: "boolean",
+      description: "是否禁用。",
+    },
+    {
+      name: "failedIcon",
+      type: "ReactNode",
+      description: "failedIcon 属性。",
+    },
+    {
+      name: "icon",
+      type: "ReactNode",
+      description: "icon 属性。",
+    },
+    {
+      name: "text",
+      type: "string",
+      required: true,
+      description: "text 属性。",
+    },
+    {
+      name: "textColor",
+      type: "string",
+      description: "文本色。",
+    },
+    {
+      name: "type",
+      type: '"button" | "submit" | "reset"',
+      description: "组件类型。",
     },
   ],
 });

@@ -117,13 +117,15 @@ export default defineDoc({
   `),
   props: [
     {
-      name: "before *",
+      name: "before",
       type: "string",
+      required: true,
       description: "变更前的文本内容。",
     },
     {
-      name: "after *",
+      name: "after",
       type: "string",
+      required: true,
       description: "变更后的文本内容。",
     },
     {

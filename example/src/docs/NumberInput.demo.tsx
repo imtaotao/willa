@@ -787,5 +787,30 @@ export default defineDoc({
       type: "(value: number | null) => void",
       description: "数字值变化时触发。",
     },
+    {
+      name: "backgroundColor",
+      type: "string",
+      description: "背景色。",
+    },
+    {
+      name: "inputClassName",
+      type: "string",
+      description: "input 元素 className。",
+    },
+    {
+      name: "leadingIcon",
+      type: "ReactNode",
+      description: "前后缀图标。",
+    },
+    {
+      name: "textColor",
+      type: "string",
+      description: "文本色。",
+    },
+    {
+      name: "trailingIcon",
+      type: "ReactNode",
+      description: "前后缀图标。",
+    },
   ],
 });

@@ -340,5 +340,15 @@ export default defineDoc({
       type: "(text: string) => void",
       description: "复制成功后的回调。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
+    {
+      name: "type",
+      type: "string",
+      description: "组件类型。",
+    },
   ],
 });

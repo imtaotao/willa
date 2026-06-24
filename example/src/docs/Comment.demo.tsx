@@ -324,5 +324,10 @@ export default defineDoc({
       group: "CommentQuote",
       description: "被引用的正文。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
   ],
 });

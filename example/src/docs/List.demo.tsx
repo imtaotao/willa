@@ -1000,5 +1000,10 @@ export default defineDoc({
       type: "HTMLAnchorElement['target']",
       description: "链接打开方式。",
     },
+    {
+      name: "virtualScrollItemHeight",
+      type: "number",
+      description: "虚拟滚动项高度。",
+    },
   ],
 });

@@ -135,5 +135,20 @@ export default defineDoc({
       type: "string",
       description: "自定义骨架屏颜色，会生成同色系 shimmer 渐变。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
+    {
+      name: "contentClassName",
+      type: "string",
+      description: "内容区域 className。",
+    },
+    {
+      name: "skeletonClassName",
+      type: "string",
+      description: "骨架屏 className。",
+    },
   ],
 });

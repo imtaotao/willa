@@ -363,5 +363,10 @@ export default defineDoc({
       type: "ReactNode",
       description: "放置 Button、IconButton、Menu、Popover 等操作组件。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
   ],
 });

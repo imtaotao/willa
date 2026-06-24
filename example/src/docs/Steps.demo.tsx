@@ -82,7 +82,6 @@ export default defineDoc({
     {
       name: "children",
       type: "ReactNode",
-      required: true,
       description: "步骤内容。",
     },
   ],

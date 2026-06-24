@@ -732,5 +732,15 @@ export default defineDoc({
       group: "CarouselDotRenderInfo",
       description: "轮播项传入的可选 label。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
+    {
+      name: "style",
+      type: "CSSProperties",
+      description: "自定义内联样式。",
+    },
   ],
 });

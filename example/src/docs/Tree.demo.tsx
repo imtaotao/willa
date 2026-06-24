@@ -298,11 +298,6 @@ export default defineDoc({
   ],
   props: [
     {
-      name: "items *",
-      type: "Array<TreeItem>",
-      description: "树节点数据。",
-    },
-    {
       name: "size",
       type: '"sm" | "md" | "lg"',
       defaultValue: '"md"',
@@ -460,6 +455,27 @@ export default defineDoc({
       type: "boolean",
       group: "TreeItem",
       description: "禁用当前节点。",
+    },
+    {
+      name: "disabled",
+      type: "boolean",
+      description: "是否禁用。",
+    },
+    {
+      name: "emptyText",
+      type: "ReactNode",
+      description: "空态文案。",
+    },
+    {
+      name: "items",
+      type: "Array<TreeItem>",
+      required: true,
+      description: "数据项。",
+    },
+    {
+      name: "onItemClick",
+      type: "((info: TreeChangeInfo) => void)",
+      description: "对应事件回调。",
     },
   ],
 });

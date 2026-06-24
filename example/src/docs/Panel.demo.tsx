@@ -170,5 +170,15 @@ export default defineDoc({
       defaultValue: '"md"',
       description: "主体内边距。",
     },
+    {
+      name: "as",
+      type: "ElementType",
+      description: "自定义渲染标签或元素。",
+    },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
   ],
 });

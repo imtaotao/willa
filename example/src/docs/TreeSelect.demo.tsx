@@ -442,5 +442,35 @@ export default defineDoc({
       type: "(value: string | Array<string>, items: Array<TreeSelectItem>) => void",
       description: "选择变化时触发。",
     },
+    {
+      name: "emptyText",
+      type: "ReactNode",
+      description: "空态文案。",
+    },
+    {
+      name: "invalid",
+      type: "boolean",
+      description: "是否无效状态。",
+    },
+    {
+      name: "name",
+      type: "string",
+      description: "字段名。",
+    },
+    {
+      name: "onExpandedChange",
+      type: "((values: Array<string>) => void)",
+      description: "对应事件回调。",
+    },
+    {
+      name: "placeholder",
+      type: "string",
+      description: "占位文本。",
+    },
+    {
+      name: "searchPlaceholder",
+      type: "string",
+      description: "搜索输入占位文本。",
+    },
   ],
 });

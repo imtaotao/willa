@@ -127,6 +127,7 @@ const docChineseNames: Record<string, string> = {
   MessageActions: "消息操作",
   MessageList: "消息列表",
   NumberInput: "数字输入",
+  MentionInput: "提及输入",
   PageHeader: "页面头部",
   Pagination: "分页",
   Panel: "面板",

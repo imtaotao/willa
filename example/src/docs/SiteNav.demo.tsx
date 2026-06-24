@@ -147,5 +147,10 @@ export default defineDoc({
       group: "SiteNavItem",
       description: "当前导航项是否选中。",
     },
+    {
+      name: "className",
+      type: "string",
+      description: "自定义 className。",
+    },
   ],
 });

@@ -179,5 +179,15 @@ export default defineDoc({
       defaultValue: '"vertical"',
       description: "字段标签和控件的排列方式。",
     },
+    {
+      name: "controlClassName",
+      type: "string",
+      description: "控制层 className。",
+    },
+    {
+      name: "labelClassName",
+      type: "string",
+      description: "标签 className。",
+    },
   ],
 });

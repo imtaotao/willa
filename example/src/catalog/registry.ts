@@ -120,6 +120,7 @@ const docSpecGroups = {
     "Lightbox",
     "List",
     "MathExpression",
+    "MentionInput",
     "Menu",
     "Pagination",
     "Popover",
