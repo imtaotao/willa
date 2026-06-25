@@ -102,10 +102,13 @@
 }
 
 .willa-tag-label {
+  display: inline-flex;
+  align-items: center;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  line-height: 1;
 }
 
 .willa-tag-icon {
@@ -116,6 +119,7 @@
 }
 
 .willa-tag-icon svg {
+  display: block;
   width: 0.92em;
   height: 0.92em;
 }

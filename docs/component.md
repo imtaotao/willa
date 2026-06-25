@@ -23,7 +23,7 @@ Before adding a component, choose its package based on the architecture guide:
   field, and form actions.
 - `@willa-ui/ai`: AI product scenes and AI-specific composition, such as prompt
   inputs, chat messages, attachments, tool call displays, reasoning steps,
-  generation cards, and related interaction patterns. Context panels and agent
+  generation cards, context panels, and related interaction patterns. Agent
   status views are roadmap directions rather than current public components.
 - `@willa-ui/widgets`: platform integrations, MDX composition, and more
   scenario-specific components, such as GitHub, X, web embeds, audio/video

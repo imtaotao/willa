@@ -92,14 +92,16 @@ export function ToolCallCard({
           />
         ) : null}
         {hasBody && !isCollapsed ? (
-          <div className="willa-tool-call-card-content">
+          <div className="willa-tool-call-card-content" role="list">
             {parameters ? (
-              <div className="willa-tool-call-card-parameters">
+              <div className="willa-tool-call-card-parameters" role="listitem">
                 {parameters}
               </div>
             ) : null}
             {children ? (
-              <div className="willa-tool-call-card-result">{children}</div>
+              <div className="willa-tool-call-card-result" role="listitem">
+                {children}
+              </div>
             ) : null}
           </div>
         ) : null}

@@ -304,6 +304,14 @@ export default defineDoc({
       description: "是否使用 Enter 提交；默认开启，Shift + Enter 仍然换行。",
     },
     {
+      name: "submitShortcut",
+      type: '"enter" | "mod-enter" | "none"',
+      defaultValue: "由 submitOnEnter 推导",
+      group: "基础能力",
+      description:
+        "提交快捷键。未传时会根据 submitOnEnter 推导为 enter 或 none。",
+    },
+    {
       name: "allowEmptySubmit",
       type: "boolean",
       defaultValue: "false",
@@ -382,7 +390,7 @@ export default defineDoc({
       name: "beforeInput",
       type: "ReactNode",
       group: "基础能力",
-      description: "输入前回调。",
+      description: "输入框前置内容。",
     },
     {
       name: "onValueChange",
@@ -446,6 +454,20 @@ export default defineDoc({
       group: "提及能力（透传至 MentionInput）",
       description:
         "完整自定义提及候选项，优先级高于 users/resources/variables。",
+    },
+    {
+      name: "mentionMaxSuggestions",
+      type: "number",
+      defaultValue: "6",
+      group: "提及能力（透传至 MentionInput）",
+      description: "默认提及候选列表的展示上限。",
+    },
+    {
+      name: "mentionListProps",
+      type: "MentionInputMentionListProps",
+      group: "提及能力（透传至 MentionInput）",
+      description:
+        "默认提及列表复用 List 的参数，支持 virtualScroll、infiniteScroll、onItemsChange 等。",
     },
     {
       name: "onMentionQuery",

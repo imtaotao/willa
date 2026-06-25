@@ -255,5 +255,11 @@ export default defineDoc({
       group: "DescriptionListItem",
       description: "说明项右侧操作。",
     },
+    {
+      name: "DescriptionListItem.className",
+      type: "string",
+      group: "DescriptionListItem",
+      description: "说明项根节点 className。",
+    },
   ],
 });

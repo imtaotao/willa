@@ -7,11 +7,11 @@ import { CheckIcon, ClipboardIcon } from "@radix-ui/react-icons";
 import { isArray } from "aidly";
 import classNames from "classnames";
 
+import { CopyButton } from "#content/components/CopyButton";
 import {
   createCodeHighlightLines,
   highlightCodeToHtml,
   parseCodeMeta,
-  useCopyToClipboard,
 } from "@willa-ui/shared";
 
 export type CodeBlockHighlightLine =
@@ -42,10 +42,6 @@ export function CodeBlock(props: CodeBlockProps) {
     node: _node,
     ...rootProps
   } = props as CodeBlockProps & { node?: unknown };
-  const { status: copyStatus, copy } = useCopyToClipboard({
-    resetDuration: copiedDuration,
-  });
-
   const codeInput = resolveCodeBlockInput({
     children,
     code,
@@ -79,22 +75,19 @@ export function CodeBlock(props: CodeBlockProps) {
             <span className="willa-prose-code-lang" aria-hidden="true">
               {label}
             </span>
-            <button
-              type="button"
-              className={classNames(
-                "willa-prose-code-copy",
-                copyStatus === "copied" && "willa-prose-code-copy--copied",
-              )}
-              aria-label={`复制 ${label} 代码`}
-              onClick={(event) => {
-                if (event.detail > 0) {
-                  event.currentTarget.blur();
-                }
-                void copy(codeInput.code);
-              }}
-            >
-              {copyStatus === "copied" ? <CheckIcon /> : <ClipboardIcon />}
-            </button>
+            <CopyButton
+              ariaLabel={`复制 ${label} 代码`}
+              className="willa-prose-code-copy"
+              copiedClassName="willa-prose-code-copy--copied"
+              copiedDuration={copiedDuration}
+              copiedIcon={<CheckIcon />}
+              hideLabel
+              icon={<ClipboardIcon />}
+              size="sm"
+              statusClassName="willa-prose-code-copy-status"
+              text={codeInput.code}
+              variant="ghost"
+            />
           </div>
           <code
             className={`willa-prose-code hljs language-${codeInput.rawLanguage}`}

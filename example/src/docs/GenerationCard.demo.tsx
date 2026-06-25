@@ -7,9 +7,11 @@ import {
 } from "@radix-ui/react-icons";
 
 import { Button } from "willa/Button";
+import { CopyButton } from "willa/CopyButton";
 import { GenerationCard } from "willa/GenerationCard";
 import { Group } from "willa/Group";
 import "willa/Button.css";
+import "willa/CopyButton.css";
 import "willa/GenerationCard.css";
 import "willa/Group.css";
 
@@ -42,9 +44,13 @@ const GenerationCardPreview = () => (
       ]}
       actions={
         <Group gap="xs" wrap>
-          <Button size="sm" variant="soft" trailingIcon={<CopyIcon />}>
+          <CopyButton
+            icon={<CopyIcon />}
+            size="sm"
+            text="本周反馈集中在导出稳定性、批量处理体验和主题配置理解成本。建议优先处理导出失败兜底，其次优化批量任务进度提示。"
+          >
             复制
-          </Button>
+          </CopyButton>
           <Button size="sm" variant="solid" trailingIcon={<CheckIcon />}>
             采纳
           </Button>
@@ -106,9 +112,13 @@ export default defineDoc({
           ]}
           actions={
             <Group gap="xs" wrap>
-              <Button size="sm" variant="soft" trailingIcon={<CopyIcon />}>
+              <CopyButton
+                icon={<CopyIcon />}
+                size="sm"
+                text="我们已经确认你的导出任务失败，建议先重试一次；如果仍失败，可以保留任务 ID 联系支持，我们会继续追踪。"
+              >
                 复制
-              </Button>
+              </CopyButton>
               <Button size="sm" variant="solid">
                 采纳
               </Button>
@@ -135,9 +145,13 @@ export default defineDoc({
           ]}
           actions={
             <Group gap="xs" wrap>
-              <Button size="sm" variant="soft" trailingIcon={<CopyIcon />}>
+              <CopyButton
+                icon={<CopyIcon />}
+                size="sm"
+                text="我们已经确认你的导出任务失败，建议先重试一次；如果仍失败，可以保留任务 ID 联系支持，我们会继续追踪。"
+              >
                 复制
-              </Button>
+              </CopyButton>
               <Button size="sm" variant="solid">
                 采纳
               </Button>
@@ -246,9 +260,13 @@ export default defineDoc({
           ]}
           actions={
             <Group gap="xs" wrap>
-              <Button size="sm" variant="soft" trailingIcon={<CopyIcon />}>
+              <CopyButton
+                icon={<CopyIcon />}
+                size="sm"
+                text="用清晰的上下文、可控的工具和可信的证据链，快速搭建面向真实业务的 AI 产品。"
+              >
                 复制
-              </Button>
+              </CopyButton>
               <Button size="sm" variant="ghost" trailingIcon={<Pencil1Icon />}>
                 编辑
               </Button>
@@ -275,9 +293,13 @@ export default defineDoc({
           ]}
           actions={
             <Group gap="xs" wrap>
-              <Button size="sm" variant="soft" trailingIcon={<CopyIcon />}>
+              <CopyButton
+                icon={<CopyIcon />}
+                size="sm"
+                text="用清晰的上下文、可控的工具和可信的证据链，快速搭建面向真实业务的 AI 产品。"
+              >
                 复制
-              </Button>
+              </CopyButton>
               <Button size="sm" variant="ghost" trailingIcon={<Pencil1Icon />}>
                 编辑
               </Button>

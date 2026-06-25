@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { CheckIcon, CopyIcon, ReloadIcon } from "@radix-ui/react-icons";
 
 import { ChatMessage } from "willa/ChatMessage";
@@ -21,18 +20,13 @@ const frameStyle = {
 } as const;
 
 const MessageActionsPreview = () => {
-  const [copied, setCopied] = useState(false);
-
   const actions: Array<MessageActionItem> = [
     {
       id: "copy",
-      label: copied ? "已复制" : "复制",
-      icon: copied ? <CheckIcon /> : <CopyIcon />,
-      active: copied,
-      onClick: () => {
-        setCopied(true);
-        window.setTimeout(() => setCopied(false), 600);
-      },
+      label: "复制",
+      icon: <CopyIcon />,
+      copyText:
+        "可以先按影响面、紧急程度和实现成本拆分。\n优先处理阻塞登录的问题，其次是批量导出，最后再看主题配置。",
     },
     {
       id: "regenerate",
@@ -76,7 +70,6 @@ export default defineDoc({
     component: MessageActionsPreview,
   },
   code: `
-    import { useState } from "react";
     import { CheckIcon, CopyIcon, ReloadIcon } from "@radix-ui/react-icons";
     import { ChatMessage } from "willa/ChatMessage";
     import { MessageActions, type MessageActionItem } from "willa/MessageActions";
@@ -86,18 +79,13 @@ export default defineDoc({
     const assistantAvatarSrc = "https://github.com/openai.png";
 
     const Demo = () => {
-      const [copied, setCopied] = useState(false);
-
       const actions: Array<MessageActionItem> = [
         {
           id: "copy",
-          label: copied ? "已复制" : "复制",
-          icon: copied ? <CheckIcon /> : <CopyIcon />,
-          active: copied,
-          onClick: () => {
-            setCopied(true);
-            window.setTimeout(() => setCopied(false), 600);
-          },
+          label: "复制",
+          icon: <CopyIcon />,
+          copyText:
+            "可以先按影响面、紧急程度和实现成本拆分。\\n优先处理阻塞登录的问题，其次是批量导出，最后再看主题配置。",
         },
         { id: "regenerate", label: "重试", icon: <ReloadIcon /> },
         {
@@ -130,7 +118,12 @@ export default defineDoc({
           showLabels
           variant="soft"
           items={[
-            { id: "copy", label: "复制", icon: <CopyIcon /> },
+            {
+              id: "copy",
+              label: "复制",
+              icon: <CopyIcon />,
+              copyText: "生成结果摘要",
+            },
             { id: "retry", label: "重新生成", icon: <ReloadIcon /> },
             {
               id: "accept",
@@ -146,7 +139,12 @@ export default defineDoc({
           showLabels
           variant="soft"
           items={[
-            { id: "copy", label: "复制", icon: <CopyIcon /> },
+            {
+              id: "copy",
+              label: "复制",
+              icon: <CopyIcon />,
+              copyText: "生成结果摘要",
+            },
             { id: "retry", label: "重新生成", icon: <ReloadIcon /> },
             {
               id: "accept",
@@ -244,55 +242,114 @@ export default defineDoc({
       description: "追加自定义操作节点。",
     },
     {
-      name: "id",
+      name: "MessageActionItem.id",
       type: "string",
       required: true,
       group: "MessageActionItem",
       description: "动作唯一标识。",
     },
     {
-      name: "label",
+      name: "MessageActionItem.label",
       type: "ReactNode",
       required: true,
       group: "MessageActionItem",
       description: "动作文案，也会作为默认无障碍名称。",
     },
     {
-      name: "icon",
+      name: "MessageActionItem.icon",
       type: "ReactNode",
       group: "MessageActionItem",
       description: "动作图标。",
     },
     {
-      name: "tone",
+      name: "MessageActionItem.copyText",
+      type: "string",
+      group: "MessageActionItem",
+      description:
+        "复制到剪贴板的文本；设置后该动作会复用 CopyButton 的复制状态。",
+    },
+    {
+      name: "MessageActionItem.copiedLabel",
+      type: "ReactNode",
+      group: "MessageActionItem",
+      defaultValue: '"已复制"',
+      description: "复制成功后的临时文案。",
+    },
+    {
+      name: "MessageActionItem.failedLabel",
+      type: "ReactNode",
+      group: "MessageActionItem",
+      defaultValue: '"复制失败"',
+      description: "复制失败后的临时文案。",
+    },
+    {
+      name: "MessageActionItem.copiedIcon",
+      type: "ReactNode",
+      group: "MessageActionItem",
+      description: "复制成功后的临时图标。",
+    },
+    {
+      name: "MessageActionItem.copiedClassName",
+      type: "string",
+      group: "MessageActionItem",
+      defaultValue: '"willa-message-action--active"',
+      description: "复制成功状态追加到复制动作按钮上的 className。",
+    },
+    {
+      name: "MessageActionItem.failedIcon",
+      type: "ReactNode",
+      group: "MessageActionItem",
+      description: "复制失败后的临时图标。",
+    },
+    {
+      name: "MessageActionItem.failedClassName",
+      type: "string",
+      group: "MessageActionItem",
+      description: "复制失败状态追加到复制动作按钮上的 className。",
+    },
+    {
+      name: "MessageActionItem.copiedDuration",
+      type: "number",
+      group: "MessageActionItem",
+      defaultValue: "1200",
+      description: "复制反馈持续时间，单位为毫秒。",
+    },
+    {
+      name: "MessageActionItem.tone",
       type: '"neutral" | "positive" | "negative" | "danger"',
       group: "MessageActionItem",
       defaultValue: '"neutral"',
       description: "动作语义色，默认 neutral。",
     },
     {
-      name: "active",
+      name: "MessageActionItem.active",
       type: "boolean",
       group: "MessageActionItem",
       description: "是否处于选中或完成状态。",
     },
     {
-      name: "disabled",
+      name: "MessageActionItem.disabled",
       type: "boolean",
       group: "MessageActionItem",
       description: "是否禁用。",
     },
     {
-      name: "loading",
+      name: "MessageActionItem.loading",
       type: "boolean",
       group: "MessageActionItem",
       description: "是否展示处理中状态。",
     },
     {
-      name: "onClick",
+      name: "MessageActionItem.onClick",
       type: "(event: MouseEvent<HTMLButtonElement>) => void",
       group: "MessageActionItem",
       description: "单个动作点击回调。",
+    },
+    {
+      name: "MessageActionItem.onCopyText",
+      type: "(text: string) => void",
+      group: "MessageActionItem",
+      description: "复制成功后的回调。",
     },
   ],
 });

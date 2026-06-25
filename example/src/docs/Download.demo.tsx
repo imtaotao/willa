@@ -141,8 +141,7 @@ export default defineDoc({
     {
       name: "downloadName",
       type: "string",
-      defaultValue: "true",
-      description: "下载保存时使用的文件名；默认开启原生 download。",
+      description: "下载保存时使用的文件名；未传时仍会开启原生 download 行为。",
     },
     {
       name: "variant",

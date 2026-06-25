@@ -31,12 +31,19 @@
 }
 
 .willa-comment-input-mention-panel {
-  border: 1px solid var(--willa-input-panel-border);
+  border: 1px solid
+    var(
+      --willa-comment-input-mention-panel-border,
+      var(--willa-input-panel-border)
+    );
   border-radius: 0.65rem;
   width: 100%;
-  background: var(--willa-input-panel-bg);
+  background: var(
+    --willa-comment-input-mention-panel-bg,
+    var(--willa-input-panel-bg)
+  );
   padding: 0.28rem;
-  box-shadow: var(--willa-comment-shadow, 0 16px 42px rgba(15, 23, 42, 0.12));
+  box-shadow: var(--willa-comment-input-mention-panel-shadow);
 }
 
 .willa-comment-input-mention-list.willa-list--plain .willa-list__items {
@@ -78,7 +85,7 @@
 .willa-comment-input-mention-list.willa-list--plain .willa-list__item:hover {
   background: var(
     --willa-comment-input-mention-item-bg-hover,
-    var(--willa-list-item-bg-hover, #f3f6fb)
+    var(--willa-list-item-bg-hover)
   ) !important;
   border-color: var(
     --willa-comment-input-mention-item-border-hover,
@@ -94,7 +101,7 @@
 .willa-comment-input-mention-list.willa-list--plain .willa-list__main:hover {
   background: var(
     --willa-comment-input-mention-item-bg-hover,
-    var(--willa-list-item-bg-hover, #f3f6fb)
+    var(--willa-list-item-bg-hover)
   ) !important;
   color: var(
     --willa-comment-input-mention-item-text-hover,
@@ -135,8 +142,8 @@
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(
-      --willa-content-scrollbar-thumb,
-      color-mix(in srgb, var(--willa-text-soft) 56%, transparent)
+      --willa-comment-input-mention-scrollbar-thumb,
+      var(--willa-content-scrollbar-thumb)
     )
     transparent;
   max-height: 11.8rem;

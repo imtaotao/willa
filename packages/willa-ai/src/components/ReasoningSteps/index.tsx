@@ -1,5 +1,4 @@
 import {
-  useState,
   type ComponentPropsWithoutRef,
   type KeyboardEvent,
   type MouseEvent,
@@ -16,6 +15,7 @@ import {
   Timeline,
   type TimelineItem,
 } from "@willa-ui/content/components/Timeline";
+import { useCollapsibleState } from "#ai/internal/cardCollapse";
 
 export type ReasoningStepStatus = "pending" | "active" | "done" | "error";
 export type ReasoningStepsSize = "sm" | "md";
@@ -65,19 +65,15 @@ export function ReasoningSteps({
   ...props
 }: ReasoningStepsProps) {
   const isInteractive = Boolean(onStepClick);
-  const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
-  const isCollapsed = collapsible ? (collapsed ?? internalCollapsed) : false;
+  const { canCollapse, isCollapsed, toggleCollapsed } = useCollapsibleState({
+    collapsible,
+    collapsed,
+    defaultCollapsed,
+    onCollapsedChange,
+  });
   const currentStep = steps[activeStep] ?? steps[steps.length - 1];
   const resolvedSummary =
     summary ?? currentStep?.title ?? `${steps.length} 个处理步骤`;
-
-  const handleToggle = () => {
-    const nextCollapsed = !isCollapsed;
-    if (collapsed === undefined) {
-      setInternalCollapsed(nextCollapsed);
-    }
-    onCollapsedChange?.(nextCollapsed);
-  };
 
   return (
     <div
@@ -87,17 +83,17 @@ export function ReasoningSteps({
         `willa-reasoning-steps--${size}`,
         compact && "willa-reasoning-steps--compact",
         isInteractive && "willa-reasoning-steps--interactive",
-        collapsible && "willa-reasoning-steps--collapsible",
+        canCollapse && "willa-reasoning-steps--collapsible",
         isCollapsed && "willa-reasoning-steps--collapsed",
         className,
       )}
     >
-      {collapsible ? (
+      {canCollapse ? (
         <button
           className="willa-reasoning-steps-toggle"
           type="button"
           aria-expanded={!isCollapsed}
-          onClick={handleToggle}
+          onClick={toggleCollapsed}
         >
           <span className="willa-reasoning-steps-toggle-main">
             <span className="willa-reasoning-steps-toggle-title">

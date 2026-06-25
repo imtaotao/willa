@@ -157,6 +157,18 @@ export default defineDoc({
       description: "点击跳转地址。",
     },
     {
+      name: "LogoWallItem.target",
+      type: "string",
+      group: "LogoWallItem",
+      description: "链接打开目标。",
+    },
+    {
+      name: "LogoWallItem.rel",
+      type: "string",
+      group: "LogoWallItem",
+      description: "链接 rel 属性。",
+    },
+    {
       name: "LogoWallItem.description",
       type: "ReactNode",
       group: "LogoWallItem",

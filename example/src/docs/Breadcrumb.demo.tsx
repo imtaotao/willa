@@ -149,10 +149,28 @@ export default defineDoc({
       description: "节点展示内容。",
     },
     {
+      name: "BreadcrumbItem.id",
+      type: "string | number",
+      group: "BreadcrumbItem",
+      description: "节点稳定标识，未传时使用数组下标。",
+    },
+    {
       name: "BreadcrumbItem.href",
       type: "string",
       group: "BreadcrumbItem",
       description: "节点链接。当前项不会渲染为链接。",
+    },
+    {
+      name: "BreadcrumbItem.target",
+      type: "string",
+      group: "BreadcrumbItem",
+      description: "链接打开目标。",
+    },
+    {
+      name: "BreadcrumbItem.rel",
+      type: "string",
+      group: "BreadcrumbItem",
+      description: "链接 rel 属性。",
     },
     {
       name: "BreadcrumbItem.current",

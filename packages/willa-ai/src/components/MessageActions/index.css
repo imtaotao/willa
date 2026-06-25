@@ -38,6 +38,12 @@
     opacity 150ms ease;
 }
 
+.willa-message-action.willa-button {
+  gap: 0;
+  box-shadow: none;
+  transform: none;
+}
+
 .willa-message-actions--sm .willa-message-action {
   min-width: 1.84rem;
   min-height: 1.84rem;
@@ -92,7 +98,8 @@
   color: var(--willa-message-actions-negative);
 }
 
-.willa-message-action-icon {
+.willa-message-action-icon,
+.willa-message-action .willa-button-icon {
   display: inline-flex;
   width: 1em;
   height: 1em;
@@ -101,7 +108,8 @@
   justify-content: center;
 }
 
-.willa-message-action-icon svg {
+.willa-message-action-icon svg,
+.willa-message-action .willa-button-icon svg {
   width: 1em;
   height: 1em;
 }
@@ -111,7 +119,8 @@
   height: 1em;
 }
 
-.willa-message-action-label {
+.willa-message-action-label,
+.willa-message-action .willa-button-label {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -119,7 +128,8 @@
 }
 
 .willa-message-action-icon + .willa-message-action-label,
-.willa-message-action-spinner + .willa-message-action-label {
+.willa-message-action-spinner + .willa-message-action-label,
+.willa-message-action .willa-button-icon + .willa-button-label {
   margin-inline-start: 0.32rem;
 }
 
@@ -129,6 +139,18 @@
 .willa-message-actions:not(.willa-message-actions--labels)
   .willa-message-action-spinner
   + .willa-message-action-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  margin: -1px;
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.willa-message-action-status {
   position: absolute;
   width: 1px;
   height: 1px;

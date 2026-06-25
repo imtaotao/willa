@@ -152,20 +152,38 @@
 .willa-tool-call-card-content {
   display: grid;
   min-width: 0;
-  gap: 0.5rem;
-}
-
-.willa-tool-call-card-parameters,
-.willa-tool-call-card-result {
-  display: block;
-  min-width: 0;
+  gap: 0.42rem;
   border: 1px solid var(--willa-tool-call-card-panel-border);
   border-radius: 0.68rem;
   background: var(--willa-tool-call-card-panel-bg);
   color: var(--willa-tool-call-card-panel-text);
-  font-size: 0.78rem;
-  line-height: 1.56;
-  padding: 0.64rem 0.72rem;
+  padding: 0.42rem;
+}
+
+.willa-tool-call-card-parameters,
+.willa-tool-call-card-result {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: flex-start;
+  gap: 0.46rem;
+  border: 1px solid var(--willa-tool-call-card-item-border);
+  border-radius: 0.52rem;
+  background: var(--willa-tool-call-card-item-bg);
+  color: var(--willa-tool-call-card-muted);
+  font-size: 0.76rem;
+  line-height: 1.52;
+  padding: 0.56rem 0.64rem;
+}
+
+.willa-tool-call-card-parameters::before,
+.willa-tool-call-card-result::before {
+  width: 0.34rem;
+  height: 0.34rem;
+  margin-block-start: 0.42rem;
+  border-radius: 50%;
+  background: var(--willa-tool-call-card-item-marker);
+  content: "";
 }
 
 .willa-tool-call-card-actions {

@@ -148,6 +148,18 @@ export default defineDoc({
       description: "当前导航项是否选中。",
     },
     {
+      name: "SiteNavItem.target",
+      type: "string",
+      group: "SiteNavItem",
+      description: "链接打开目标。",
+    },
+    {
+      name: "SiteNavItem.rel",
+      type: "string",
+      group: "SiteNavItem",
+      description: "链接 rel 属性。",
+    },
+    {
       name: "className",
       type: "string",
       description: "自定义 className。",

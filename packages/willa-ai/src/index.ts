@@ -14,14 +14,35 @@ export type {
   ChatMessageProps,
   ChatMessageRole,
 } from "#ai/components/ChatMessage";
+export { ConversationList } from "#ai/components/ConversationList";
+export type {
+  ConversationGroup,
+  ConversationListItem,
+  ConversationListMode,
+  ConversationListProps,
+} from "#ai/components/ConversationList";
 export { Composer } from "#ai/components/Composer";
 export type { ComposerProps } from "#ai/components/Composer";
+export { ContextPanel } from "#ai/components/ContextPanel";
+export type {
+  ContextItem,
+  ContextItemStatus,
+  ContextPanelProps,
+  ContextPanelSource,
+} from "#ai/components/ContextPanel";
 export { GenerationCard } from "#ai/components/GenerationCard";
 export type {
   GenerationCardMetric,
   GenerationCardProps,
   GenerationCardStatus,
 } from "#ai/components/GenerationCard";
+export { FeedbackBar } from "#ai/components/FeedbackBar";
+export type {
+  FeedbackBarPayload,
+  FeedbackBarProps,
+  FeedbackBarState,
+  FeedbackValue,
+} from "#ai/components/FeedbackBar";
 export { MessageList } from "#ai/components/MessageList";
 export type { MessageListProps } from "#ai/components/MessageList";
 export { MessageActions } from "#ai/components/MessageActions";
@@ -38,6 +59,12 @@ export type {
   PromptInputSize,
   PromptInputSubmitEvent,
 } from "#ai/components/PromptInput";
+export { PromptTemplatePicker } from "#ai/components/PromptTemplatePicker";
+export type {
+  PromptTemplate,
+  PromptTemplateCategory,
+  PromptTemplatePickerProps,
+} from "#ai/components/PromptTemplatePicker";
 export { ReasoningSteps } from "#ai/components/ReasoningSteps";
 export type {
   ReasoningStepClickEvent,
@@ -46,6 +73,12 @@ export type {
   ReasoningStepsSize,
   ReasoningStepStatus,
 } from "#ai/components/ReasoningSteps";
+export { ModelSelector } from "#ai/components/ModelSelector";
+export type {
+  ModelOption,
+  ModelSelectorProps,
+  ModelSelectorStatus,
+} from "#ai/components/ModelSelector";
 export { SuggestionChips } from "#ai/components/SuggestionChips";
 export type {
   SuggestionChipItem,

@@ -50,7 +50,13 @@ const ChatMessagePreview = () => {
         actions={
           <MessageActions
             items={[
-              { id: "copy", label: "复制", icon: <CopyIcon /> },
+              {
+                id: "copy",
+                label: "复制",
+                icon: <CopyIcon />,
+                copyText:
+                  "可以先按影响面、紧急程度和实现成本拆分。\n我建议优先处理登录失败，其次是批量导出，最后再看主题配置。",
+              },
               { id: "retry", label: "重试", icon: <ReloadIcon /> },
             ]}
           />

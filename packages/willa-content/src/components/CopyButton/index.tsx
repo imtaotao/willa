@@ -24,6 +24,8 @@ type CopyButtonBaseProps = {
   text: string;
   variant?: CopyButtonVariant;
   size?: CopyButtonSize;
+  ariaLabel?: string;
+  hideLabel?: boolean;
   icon?: ReactNode;
   copiedIcon?: ReactNode;
   failedIcon?: ReactNode;
@@ -34,6 +36,9 @@ type CopyButtonBaseProps = {
   backgroundColor?: string;
   textColor?: string;
   className?: string;
+  copiedClassName?: string;
+  failedClassName?: string;
+  statusClassName?: string;
   children?: ReactNode;
   disabled?: boolean;
   type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
@@ -50,6 +55,8 @@ export function CopyButton(props: CopyButtonProps) {
     text,
     variant = "soft",
     size = "md",
+    ariaLabel,
+    hideLabel = false,
     icon = <ClipboardCopyIcon />,
     copiedIcon = <CheckIcon />,
     failedIcon = <CrossCircledIcon />,
@@ -60,6 +67,9 @@ export function CopyButton(props: CopyButtonProps) {
     backgroundColor,
     textColor,
     className,
+    copiedClassName,
+    failedClassName,
+    statusClassName,
     children = "复制",
     disabled,
     onClick,
@@ -76,14 +86,30 @@ export function CopyButton(props: CopyButtonProps) {
     copiedLabel,
     failedLabel,
   });
+  const buttonLabel = resolveCopyButtonLabel({
+    status,
+    children,
+    copiedLabel,
+    failedLabel,
+  });
+  const resolvedAriaLabel = resolveCopyButtonAriaLabel({
+    ariaLabel,
+    status,
+    children,
+    copiedLabel,
+    failedLabel,
+  });
 
   return (
     <>
       <Button
         {...buttonProps}
+        aria-label={resolvedAriaLabel}
         className={classNames(
           "willa-copy-button",
           `willa-copy-button--${status}`,
+          status === "copied" && copiedClassName,
+          status === "failed" && failedClassName,
           className,
         )}
         style={style}
@@ -103,15 +129,10 @@ export function CopyButton(props: CopyButtonProps) {
           });
         }}
       >
-        {resolveCopyButtonLabel({
-          status,
-          children,
-          copiedLabel,
-          failedLabel,
-        })}
+        {hideLabel ? null : buttonLabel}
       </Button>
       <span
-        className="willa-copy-button-status"
+        className={classNames("willa-copy-button-status", statusClassName)}
         role="status"
         aria-live="polite"
         aria-atomic="true"
@@ -151,6 +172,32 @@ const resolveCopyButtonStatusLabel = (options: {
 }) => {
   if (options.status === "copied") return options.copiedLabel;
   if (options.status === "failed") return options.failedLabel;
+  return null;
+};
+
+const resolveCopyButtonAriaLabel = (options: {
+  ariaLabel?: string;
+  status: "idle" | "copied" | "failed";
+  children?: ReactNode;
+  copiedLabel?: ReactNode;
+  failedLabel?: ReactNode;
+}) => {
+  if (options.status === "copied") {
+    return stringifyCopyButtonLabel(options.copiedLabel) ?? "已复制";
+  }
+
+  if (options.status === "failed") {
+    return stringifyCopyButtonLabel(options.failedLabel) ?? "复制失败";
+  }
+
+  return (
+    options.ariaLabel ?? stringifyCopyButtonLabel(options.children) ?? "复制"
+  );
+};
+
+const stringifyCopyButtonLabel = (label: ReactNode) => {
+  if (typeof label === "string") return label;
+  if (typeof label === "number") return String(label);
   return null;
 };
 

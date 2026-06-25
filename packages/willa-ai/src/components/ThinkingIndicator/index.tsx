@@ -1,6 +1,8 @@
-import { useState, type ComponentPropsWithoutRef, type ReactNode } from "react";
+import { type ComponentPropsWithoutRef, type ReactNode } from "react";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
+
+import { useCollapsibleState } from "#ai/internal/cardCollapse";
 
 export type ThinkingIndicatorStatus =
   | "thinking"
@@ -54,17 +56,13 @@ export function ThinkingIndicator({
 }: ThinkingIndicatorProps) {
   const resolvedLabel = label ?? thinkingIndicatorLabelMap[status];
   const hasSteps = steps !== undefined && steps.length > 0;
-  const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
-  const isCollapsed = collapsible ? (collapsed ?? internalCollapsed) : false;
+  const { canCollapse, isCollapsed, toggleCollapsed } = useCollapsibleState({
+    collapsible,
+    collapsed,
+    defaultCollapsed,
+    onCollapsedChange,
+  });
   const resolvedSummary = summary ?? description ?? resolvedLabel;
-
-  const handleToggle = () => {
-    const nextCollapsed = !isCollapsed;
-    if (collapsed === undefined) {
-      setInternalCollapsed(nextCollapsed);
-    }
-    onCollapsedChange?.(nextCollapsed);
-  };
 
   return (
     <div
@@ -76,19 +74,19 @@ export function ThinkingIndicator({
         `willa-thinking-indicator--${tone}`,
         animated && "willa-thinking-indicator--animated",
         compact && "willa-thinking-indicator--compact",
-        collapsible && "willa-thinking-indicator--collapsible",
+        canCollapse && "willa-thinking-indicator--collapsible",
         isCollapsed && "willa-thinking-indicator--collapsed",
         className,
       )}
       role={props.role ?? "status"}
       aria-live={props["aria-live"] ?? "polite"}
     >
-      {collapsible ? (
+      {canCollapse ? (
         <button
           className="willa-thinking-indicator-toggle"
           type="button"
           aria-expanded={!isCollapsed}
-          onClick={handleToggle}
+          onClick={toggleCollapsed}
         >
           <span className="willa-thinking-indicator-mark" aria-hidden="true">
             {icon ?? <ThinkingDots />}
@@ -112,7 +110,7 @@ export function ThinkingIndicator({
       )}
       {!isCollapsed ? (
         <span className="willa-thinking-indicator-body">
-          {!collapsible ? (
+          {!canCollapse ? (
             <span className="willa-thinking-indicator-label">
               {resolvedLabel}
             </span>

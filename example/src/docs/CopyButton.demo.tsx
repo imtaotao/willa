@@ -115,6 +115,39 @@ export default defineDoc({
         </Group>
       ),
     },
+    {
+      title: "图标入口",
+      code: `
+        <Group gap="md">
+          <CopyButton
+            ariaLabel="复制安装命令"
+            hideLabel
+            text="pnpm add willa"
+          />
+          <CopyButton
+            ariaLabel="复制链接"
+            hideLabel
+            text="https://willa-ui.dev"
+            variant="ghost"
+          />
+        </Group>;
+      `,
+      content: (
+        <Group gap="md">
+          <CopyButton
+            ariaLabel="复制安装命令"
+            hideLabel
+            text="pnpm add willa"
+          />
+          <CopyButton
+            ariaLabel="复制链接"
+            hideLabel
+            text="https://willa-ui.dev"
+            variant="ghost"
+          />
+        </Group>
+      ),
+    },
   ],
   propGroups: [
     {
@@ -166,6 +199,17 @@ export default defineDoc({
       description: "默认状态的按钮文案。",
     },
     {
+      name: "ariaLabel",
+      type: "string",
+      description: "按钮无障碍名称，适合只展示图标的复制入口。",
+    },
+    {
+      name: "hideLabel",
+      type: "boolean",
+      defaultValue: "false",
+      description: "是否隐藏按钮文案，仅保留图标和无障碍名称。",
+    },
+    {
       name: "backgroundColor",
       type: "string",
       description: "背景色。",
@@ -174,6 +218,11 @@ export default defineDoc({
       name: "className",
       type: "string",
       description: "自定义 className。",
+    },
+    {
+      name: "copiedClassName",
+      type: "string",
+      description: "复制成功状态追加到按钮上的 className。",
     },
     {
       name: "copiedIcon",
@@ -191,9 +240,19 @@ export default defineDoc({
       description: "failedIcon 属性。",
     },
     {
+      name: "failedClassName",
+      type: "string",
+      description: "复制失败状态追加到按钮上的 className。",
+    },
+    {
       name: "icon",
       type: "ReactNode",
       description: "icon 属性。",
+    },
+    {
+      name: "statusClassName",
+      type: "string",
+      description: "复制状态播报节点的 className。",
     },
     {
       name: "text",

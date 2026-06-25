@@ -409,15 +409,17 @@ export default defineDoc({
       description: "勾选状态变化时触发。",
     },
     {
-      name: "TreeItem.key *",
+      name: "TreeItem.key",
       type: "TreeKey",
       group: "TreeItem",
+      required: true,
       description: "节点唯一标识。",
     },
     {
-      name: "TreeItem.title *",
+      name: "TreeItem.title",
       type: "ReactNode",
       group: "TreeItem",
+      required: true,
       description: "节点标题。",
     },
     {
@@ -455,6 +457,30 @@ export default defineDoc({
       type: "boolean",
       group: "TreeItem",
       description: "禁用当前节点。",
+    },
+    {
+      name: "TreeItem.selectable",
+      type: "boolean",
+      group: "TreeItem",
+      description: "是否允许当前节点被选择。",
+    },
+    {
+      name: "TreeItem.checkable",
+      type: "boolean",
+      group: "TreeItem",
+      description: "是否允许当前节点被勾选。",
+    },
+    {
+      name: "TreeItem.muted",
+      type: "boolean",
+      group: "TreeItem",
+      description: "是否弱化当前节点展示。",
+    },
+    {
+      name: "TreeItem.className",
+      type: "string",
+      group: "TreeItem",
+      description: "节点根元素 className。",
     },
     {
       name: "disabled",

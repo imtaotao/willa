@@ -225,7 +225,7 @@ export default defineDoc({
     },
     {
       name: "attachments",
-      type: "ReactNode",
+      type: "Array<AttachmentListItem>",
       description:
         "上下文附件数据。Composer 会通过 AttachmentList 渲染附件区域。",
     },
@@ -278,7 +278,7 @@ export default defineDoc({
     {
       name: "beforeInput",
       type: "ReactNode",
-      description: "输入前回调。",
+      description: "内部输入框前置内容。",
     },
     {
       name: "className",
@@ -354,6 +354,82 @@ export default defineDoc({
       name: "submitOnEnter",
       type: "boolean",
       description: "回车时提交。",
+    },
+    {
+      name: "submitShortcut",
+      type: '"enter" | "mod-enter" | "none"',
+      description:
+        "内部 PromptInput 的提交快捷键。未传时会根据 submitOnEnter 推导。",
+    },
+    {
+      name: "mentionLabel",
+      type: "ReactNode",
+      defaultValue: '"@"',
+      description: "内部 PromptInput 的提及入口按钮内容。",
+    },
+    {
+      name: "mentionTriggers",
+      type: "Array<string>",
+      defaultValue: '["@","#","$"]',
+      description: "内部 PromptInput 支持的提及触发字符集合。",
+    },
+    {
+      name: "users",
+      type: "Array<MentionInputMentionItem>",
+      description: "用于 @ 提及的候选项。",
+    },
+    {
+      name: "resources",
+      type: "Array<MentionInputMentionItem>",
+      description: "用于 # 提及的候选项。",
+    },
+    {
+      name: "variables",
+      type: "Array<MentionInputMentionItem>",
+      description: "用于 $ 提及的候选项。",
+    },
+    {
+      name: "mentionSources",
+      type: "Array<MentionInputTriggerSource>",
+      description: "按触发符自定义内部 PromptInput 的提及源与候选。",
+    },
+    {
+      name: "mentionOptions",
+      type: "Array<MentionInputMentionItem>",
+      description:
+        "完整自定义提及候选项，优先级高于 users/resources/variables。",
+    },
+    {
+      name: "mentionMaxSuggestions",
+      type: "number",
+      defaultValue: "6",
+      description: "默认提及候选列表的展示上限。",
+    },
+    {
+      name: "mentionListProps",
+      type: "MentionInputMentionListProps",
+      description:
+        "默认提及列表复用 List 的参数，支持 virtualScroll、infiniteScroll、onItemsChange 等。",
+    },
+    {
+      name: "onMentionQuery",
+      type: "(context: MentionInputMentionContext | null) => void",
+      description: "内部 PromptInput 的提及输入变化回调。",
+    },
+    {
+      name: "renderMentionOptions",
+      type: "(context: { trigger: string; query: string; start: number; end: number }, options: Array<MentionInputMentionItem>, onSelect: (item: MentionInputMentionItem) => void) => ReactNode",
+      description: "覆盖内部 PromptInput 的默认提及列表渲染。",
+    },
+    {
+      name: "renderMentionItem",
+      type: "(context: { trigger: string; query: string; start: number; end: number }, item: MentionInputMentionItem, onSelect: (item: MentionInputMentionItem) => void) => ReactNode",
+      description: "覆盖内部 PromptInput 的单条提及项渲染。",
+    },
+    {
+      name: "onMentionClick",
+      type: "() => void",
+      description: "点击内部 PromptInput 的提及入口按钮时触发。",
     },
   ],
 });

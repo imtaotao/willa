@@ -3,7 +3,8 @@ import { CheckIcon, ClipboardIcon } from "@radix-ui/react-icons";
 import { diffLines as createDiffLineChanges } from "diff";
 import classNames from "classnames";
 
-import { highlightCodeToHtml, useCopyToClipboard } from "@willa-ui/shared";
+import { CopyButton } from "#content/components/CopyButton";
+import { highlightCodeToHtml } from "@willa-ui/shared";
 
 export type DiffViewerVariant = "unified" | "split";
 
@@ -75,9 +76,6 @@ export function DiffViewer(props: DiffViewerProps) {
     style,
     ...rootProps
   } = props;
-  const { status: copyStatus, copy } = useCopyToClipboard({
-    resetDuration: copiedDuration,
-  });
   const lineDiff = useMemo(
     () => createLineDiff(before, after),
     [after, before],
@@ -121,22 +119,20 @@ export function DiffViewer(props: DiffViewerProps) {
           </div>
         </div>
         {copyable ? (
-          <button
-            type="button"
-            className={classNames(
-              "willa-diff-viewer__copy",
-              copyStatus === "copied" && "willa-diff-viewer__copy--copied",
-            )}
-            onClick={(event) => {
-              if (event.detail > 0) {
-                event.currentTarget.blur();
-              }
-              void copy(after);
-            }}
+          <CopyButton
+            ariaLabel="复制新版内容"
+            className="willa-diff-viewer__copy"
+            copiedClassName="willa-diff-viewer__copy--copied"
+            copiedDuration={copiedDuration}
+            copiedIcon={<CheckIcon />}
+            icon={<ClipboardIcon />}
+            size="sm"
+            statusClassName="willa-diff-viewer__copy-status"
+            text={after}
+            variant="soft"
           >
-            {copyStatus === "copied" ? <CheckIcon /> : <ClipboardIcon />}
-            <span>{copyStatus === "copied" ? "已复制" : "复制新版"}</span>
-          </button>
+            复制新版
+          </CopyButton>
         ) : null}
       </div>
 

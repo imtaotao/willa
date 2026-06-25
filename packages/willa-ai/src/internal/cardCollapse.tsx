@@ -11,21 +11,26 @@ export type CardCollapseOptions = {
   onCollapsedChange?: (collapsed: boolean) => void;
 };
 
-export function useCardCollapse(options: CardCollapseOptions) {
+export type CollapsibleStateOptions = {
+  collapsible?: boolean;
+  collapsed?: boolean;
+  defaultCollapsed?: boolean;
+  hasContent?: boolean;
+  onCollapsedChange?: (collapsed: boolean) => void;
+};
+
+export function useCollapsibleState(options: CollapsibleStateOptions) {
   const {
     collapsible = false,
     collapsed,
     defaultCollapsed = false,
-    hasContent,
-    summary,
-    defaultSummary,
+    hasContent = true,
     onCollapsedChange,
   } = options;
 
   const canCollapse = collapsible && hasContent;
   const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
   const isCollapsed = canCollapse ? (collapsed ?? internalCollapsed) : false;
-  const resolvedSummary = summary ?? defaultSummary;
 
   const toggleCollapsed = () => {
     const nextCollapsed = !isCollapsed;
@@ -38,8 +43,17 @@ export function useCardCollapse(options: CardCollapseOptions) {
   return {
     canCollapse,
     isCollapsed,
-    resolvedSummary,
     toggleCollapsed,
+  };
+}
+
+export function useCardCollapse(options: CardCollapseOptions) {
+  const { summary, defaultSummary, ...collapsibleOptions } = options;
+  const collapseState = useCollapsibleState(collapsibleOptions);
+
+  return {
+    ...collapseState,
+    resolvedSummary: summary ?? defaultSummary,
   };
 }
 

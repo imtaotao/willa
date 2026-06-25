@@ -251,7 +251,35 @@ export default defineDoc({
     {
       name: "TabsItem.icon",
       type: "ReactNode",
+      group: "TabsItem",
       description: "展示在标签文案前面的图标。",
+    },
+    {
+      name: "TabsItem.value",
+      type: "string",
+      required: true,
+      group: "TabsItem",
+      description: "标签唯一值。",
+    },
+    {
+      name: "TabsItem.label",
+      type: "ReactNode",
+      required: true,
+      group: "TabsItem",
+      description: "标签按钮内容。",
+    },
+    {
+      name: "TabsItem.children",
+      type: "ReactNode",
+      required: true,
+      group: "TabsItem",
+      description: "标签对应的面板内容。",
+    },
+    {
+      name: "TabsItem.disabled",
+      type: "boolean",
+      group: "TabsItem",
+      description: "是否禁用当前标签。",
     },
   ],
 });

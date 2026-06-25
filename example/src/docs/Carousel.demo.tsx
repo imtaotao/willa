@@ -673,10 +673,28 @@ export default defineDoc({
       description: "当前轮播项的无障碍标签。",
     },
     {
-      name: "CarouselRef",
+      name: "ref",
       type: "{ next: () => void; prev: () => void; goTo: (index: number) => void }",
-      group: "CarouselRef",
+      group: "命令式控制",
       description: "通过 ref 暴露的命令式控制方法。",
+    },
+    {
+      name: "CarouselRef.next",
+      type: "() => void",
+      group: "CarouselRef",
+      description: "切换到下一项。",
+    },
+    {
+      name: "CarouselRef.prev",
+      type: "() => void",
+      group: "CarouselRef",
+      description: "切换到上一项。",
+    },
+    {
+      name: "CarouselRef.goTo",
+      type: "(index: number) => void",
+      group: "CarouselRef",
+      description: "切换到指定下标。",
     },
     {
       name: "CarouselArrowRenderInfo.direction",

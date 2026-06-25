@@ -378,6 +378,12 @@ export default defineDoc({
       description: "菜单项唯一值。",
     },
     {
+      name: "MenuItem.type",
+      type: '"item" | "separator"',
+      group: "MenuItem",
+      description: "菜单项类型；separator 用于分隔线。",
+    },
+    {
       name: "MenuItem.label",
       type: "ReactNode",
       required: true,

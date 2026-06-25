@@ -695,6 +695,26 @@ export default defineDoc({
       description: "提交按钮文案。",
     },
     {
+      name: "submitIcon",
+      type: "ReactNode",
+      group: "基础能力",
+      description: "提交按钮图标。",
+    },
+    {
+      name: "submitShortcut",
+      type: '"enter" | "mod-enter" | "none"',
+      defaultValue: '"mod-enter"',
+      group: "基础能力",
+      description: "提交快捷键，默认使用 Cmd/Ctrl + Enter。",
+    },
+    {
+      name: "allowEmptySubmit",
+      type: "boolean",
+      defaultValue: "false",
+      group: "基础能力",
+      description: "是否允许提交空内容。",
+    },
+    {
       name: "disabled",
       type: "boolean",
       defaultValue: "false",
@@ -714,6 +734,24 @@ export default defineDoc({
       defaultValue: "3",
       group: "基础能力",
       description: "输入框最小行数，默认 3。",
+    },
+    {
+      name: "maxRows",
+      type: "number",
+      group: "基础能力",
+      description: "输入框最大行数。",
+    },
+    {
+      name: "autoResize",
+      type: "boolean",
+      group: "基础能力",
+      description: "是否按内容自动调整高度。",
+    },
+    {
+      name: "size",
+      type: '"md" | "lg"',
+      group: "基础能力",
+      description: "输入区域尺寸。",
     },
     {
       name: "maxLength",
@@ -763,6 +801,12 @@ export default defineDoc({
       type: "CSSProperties",
       group: "基础能力",
       description: "透传给根容器的内联样式。",
+    },
+    {
+      name: "slotClassNames",
+      type: "InputPanelSlotClassNames",
+      group: "基础能力",
+      description: "传给输入面板内部插槽的 className 配置。",
     },
     {
       name: "textareaProps",

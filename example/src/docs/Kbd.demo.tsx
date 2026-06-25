@@ -145,13 +145,15 @@ export default defineDoc({
       description: "按键展示内容。",
     },
     {
-      name: "keys",
+      name: "KbdShortcut.keys",
+      group: "KbdShortcut",
       type: "Array<ReactNode>",
       required: true,
       description: "KbdShortcut 组件渲染的组合按键列表。",
     },
     {
-      name: "separator",
+      name: "KbdShortcut.separator",
+      group: "KbdShortcut",
       type: '"plus" | "none"',
       defaultValue: '"plus"',
       description: "KbdShortcut 组件的按键分隔方式。",

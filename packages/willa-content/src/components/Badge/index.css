@@ -7,7 +7,9 @@
 
   display: inline-flex;
   align-items: center;
+  box-sizing: border-box;
   max-width: 100%;
+  min-width: 0;
   border: 1px solid transparent;
   border-radius: 999px;
   font-family: var(--willa-body-font);
@@ -16,7 +18,7 @@
   text-align: center;
   text-decoration: none;
   text-shadow: none;
-  vertical-align: 0.08em;
+  vertical-align: middle;
   white-space: nowrap;
 }
 
@@ -85,21 +87,25 @@
 }
 
 .willa-badge-label {
+  display: inline-flex;
+  align-items: center;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1;
 }
 
 .willa-badge-icon {
-  display: inline-flex;
+  display: inline-grid;
+  place-items: center;
   width: 1em;
   height: 1em;
   flex: none;
-  align-items: center;
-  justify-content: center;
 }
 
 .willa-badge-icon svg {
+  display: block;
   width: 1em;
   height: 1em;
+  transform: translateY(0.06em);
 }

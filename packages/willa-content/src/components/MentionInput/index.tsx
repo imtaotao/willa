@@ -732,19 +732,23 @@ export const MentionInput = forwardRef<HTMLTextAreaElement, MentionInputProps>(
       const textareaStyle = textareaRef.current
         ? window.getComputedStyle(textareaRef.current)
         : null;
+      const readPanelVariable = (name: string) =>
+        textareaStyle?.getPropertyValue(name).trim() || "";
       const panelBackground =
-        textareaStyle?.getPropertyValue("--willa-input-panel-bg")?.trim() ||
-        textareaStyle?.getPropertyValue("--willa-comment-input-bg")?.trim() ||
-        "#ffffff";
+        readPanelVariable("--willa-comment-input-mention-panel-bg") ||
+        readPanelVariable("--willa-input-panel-bg") ||
+        readPanelVariable("--willa-comment-input-bg") ||
+        "var(--willa-comment-input-mention-panel-bg)";
       const panelBorderColor =
-        textareaStyle?.getPropertyValue("--willa-input-panel-border")?.trim() ??
-        textareaStyle
-          ?.getPropertyValue("--willa-comment-input-tool-border")
-          ?.trim() ??
-        "rgba(15, 23, 42, 0.12)";
+        readPanelVariable("--willa-comment-input-mention-panel-border") ||
+        readPanelVariable("--willa-input-panel-border") ||
+        readPanelVariable("--willa-comment-input-tool-border") ||
+        readPanelVariable("--willa-comment-input-border") ||
+        "var(--willa-comment-input-mention-panel-border)";
       const panelShadow =
-        textareaStyle?.getPropertyValue("--willa-comment-shadow")?.trim() ||
-        "0 16px 42px rgba(15, 23, 42, 0.12)";
+        readPanelVariable("--willa-comment-input-mention-panel-shadow") ||
+        readPanelVariable("--willa-comment-shadow") ||
+        "var(--willa-comment-input-mention-panel-shadow)";
       const mentionAnchorFallback = mentionAnchorPoint ?? {
         x: 0,
         y: 0,
@@ -762,37 +766,37 @@ export const MentionInput = forwardRef<HTMLTextAreaElement, MentionInputProps>(
               })}px`,
         left: `${mentionPanelPosition?.x ?? mentionAnchorFallback.x}px`,
         top: `${mentionPanelPosition?.y ?? mentionAnchorFallback.y + 10}px`,
+        "--willa-comment-input-mention-panel-bg": panelBackground,
+        "--willa-comment-input-mention-panel-border": panelBorderColor,
+        "--willa-comment-input-mention-panel-shadow": panelShadow,
         "--willa-input-panel-bg": panelBackground,
+        "--willa-input-panel-border": panelBorderColor,
         "--willa-comment-input-tool-border": panelBorderColor,
         "--willa-comment-shadow": panelShadow,
         "--willa-comment-input-mention-item-bg-hover":
-          textareaStyle
-            ?.getPropertyValue("--willa-comment-input-mention-item-bg-hover")
-            ?.trim() ||
-          textareaStyle
-            ?.getPropertyValue("--willa-list-item-bg-hover")
-            ?.trim() ||
-          "rgba(255, 255, 255, 0.08)",
+          readPanelVariable("--willa-comment-input-mention-item-bg-hover") ||
+          readPanelVariable("--willa-list-item-bg-hover") ||
+          "var(--willa-comment-input-mention-item-bg-hover)",
         "--willa-comment-input-mention-item-border-hover":
-          textareaStyle
-            ?.getPropertyValue(
-              "--willa-comment-input-mention-item-border-hover",
-            )
-            ?.trim() ||
-          textareaStyle?.getPropertyValue("--willa-list-border")?.trim() ||
-          "rgba(255, 255, 255, 0.16)",
+          readPanelVariable(
+            "--willa-comment-input-mention-item-border-hover",
+          ) ||
+          readPanelVariable("--willa-list-border") ||
+          "var(--willa-comment-input-mention-item-border-hover)",
         "--willa-comment-input-mention-item-text-hover":
-          textareaStyle
-            ?.getPropertyValue("--willa-comment-input-mention-item-text-hover")
-            ?.trim() ||
-          textareaStyle?.getPropertyValue("--willa-list-text")?.trim() ||
+          readPanelVariable("--willa-comment-input-mention-item-text-hover") ||
+          readPanelVariable("--willa-list-text") ||
           "var(--willa-text)",
+        "--willa-comment-input-mention-scrollbar-thumb":
+          readPanelVariable("--willa-comment-input-mention-scrollbar-thumb") ||
+          readPanelVariable("--willa-content-scrollbar-thumb") ||
+          readPanelVariable("--willa-scrollbar-thumb") ||
+          "var(--willa-comment-input-mention-scrollbar-thumb)",
         "--willa-content-scrollbar-thumb":
-          textareaStyle
-            ?.getPropertyValue("--willa-content-scrollbar-thumb")
-            ?.trim() ||
-          textareaStyle?.getPropertyValue("--willa-scrollbar-thumb")?.trim() ||
-          "color-mix(in srgb, var(--willa-text-soft) 56%, transparent)",
+          readPanelVariable("--willa-comment-input-mention-scrollbar-thumb") ||
+          readPanelVariable("--willa-content-scrollbar-thumb") ||
+          readPanelVariable("--willa-scrollbar-thumb") ||
+          "var(--willa-content-scrollbar-thumb)",
       } as CSSProperties & Record<string, string>;
 
       if (renderMentionOptions) {

@@ -1,0 +1,173 @@
+.willa-prompt-template-picker {
+  --willa-prompt-template-picker-toolbar-gap: 0.55rem;
+
+  display: grid;
+  gap: 0.78rem;
+  width: 100%;
+  min-width: 0;
+  color: var(--willa-prompt-template-picker-text);
+  font-family: var(--willa-body-font);
+}
+
+.willa-prompt-template-picker--loading {
+  opacity: var(--willa-prompt-template-picker-loading-opacity, 0.86);
+}
+
+.willa-prompt-template-picker__toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--willa-prompt-template-picker-toolbar-gap);
+  align-items: center;
+  min-width: 0;
+  border: 1px solid var(--willa-prompt-template-picker-border);
+  border-radius: 0.82rem;
+  padding: 0.64rem;
+  background: color-mix(
+    in srgb,
+    var(--willa-prompt-template-picker-preview-bg) 72%,
+    transparent
+  );
+}
+
+.willa-prompt-template-picker__search {
+  min-width: 0;
+}
+
+.willa-prompt-template-picker__category {
+  min-width: 11rem;
+}
+
+.willa-prompt-template-picker__selected {
+  border: 1px solid var(--willa-prompt-template-picker-border);
+  border-radius: 0.7rem;
+  padding: 0.72rem 0.8rem;
+  background: var(--willa-prompt-template-picker-selected-bg);
+  color: var(--willa-prompt-template-picker-text);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.willa-prompt-template-picker__selected-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.34rem;
+  color: var(--willa-prompt-template-picker-muted);
+  font-size: 0.78rem;
+}
+
+.willa-prompt-template-picker__list {
+  min-width: 0;
+}
+
+.willa-prompt-template-picker__item-title {
+  display: grid;
+  min-width: 0;
+  gap: 0.22rem;
+}
+
+.willa-prompt-template-picker__item-title-main {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 650;
+}
+
+.willa-prompt-template-picker__item-description {
+  color: var(--willa-prompt-template-picker-muted);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.willa-prompt-template-picker__item-meta {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.28rem;
+  margin-top: 0.28rem;
+}
+
+.willa-prompt-template-picker__item-meta .willa-tag {
+  max-width: max-content;
+}
+
+.willa-prompt-template-picker__actions {
+  display: inline-flex;
+  gap: 0.35rem;
+}
+
+.willa-prompt-template-picker__preview {
+  display: grid;
+  gap: 0.42rem;
+  border: 1px solid var(--willa-prompt-template-picker-border);
+  border-radius: 0.72rem;
+  padding: 0.72rem;
+  background: var(--willa-prompt-template-picker-preview-bg);
+  color: var(--willa-prompt-template-picker-text);
+}
+
+.willa-prompt-template-picker__preview-title {
+  color: var(--willa-prompt-template-picker-title);
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.willa-prompt-template-picker__preview-content {
+  margin: 0;
+  max-height: 12rem;
+  overflow: auto;
+  border: 1px solid var(--willa-prompt-template-picker-border);
+  border-radius: 0.58rem;
+  padding: 0.62rem 0.72rem;
+  background: var(--willa-prompt-template-picker-code-bg);
+  color: var(--willa-prompt-template-picker-text);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.willa-prompt-template-picker--disabled {
+  opacity: var(--willa-prompt-template-picker-disabled-opacity);
+}
+
+.willa-prompt-template-picker--empty {
+  border: 1px dashed var(--willa-prompt-template-picker-border);
+  border-radius: 0.72rem;
+  padding: 0.72rem;
+  background: var(--willa-prompt-template-picker-empty-bg);
+}
+
+.willa-prompt-template-picker__summary {
+  display: inline-flex;
+  width: max-content;
+  max-width: 100%;
+  border-radius: 999px;
+  padding: 0.24rem 0.58rem;
+  background: var(--willa-prompt-template-picker-selected-bg);
+  color: var(--willa-prompt-template-picker-muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.willa-prompt-template-picker__mark {
+  background: var(--willa-prompt-template-picker-mark-bg);
+  color: var(--willa-prompt-template-picker-title);
+  border-radius: 0.2rem;
+  padding: 0.02rem 0.24rem;
+}
+
+@media (max-width: 767px) {
+  .willa-prompt-template-picker__toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .willa-prompt-template-picker__category {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .willa-prompt-template-picker__actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

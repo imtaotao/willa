@@ -245,8 +245,14 @@ export default defineDoc({
       description: "传给根节点的类名。",
     },
     {
-      name: "TimelineItem.title *",
+      name: "TimelineItem.id",
+      type: "string | number",
+      description: "节点稳定标识，未传时使用数组下标。",
+    },
+    {
+      name: "TimelineItem.title",
       type: "ReactNode",
+      required: true,
       description: "节点标题。",
     },
     {
@@ -289,6 +295,11 @@ export default defineDoc({
       type: '"default" | "info" | "success" | "warning" | "danger"',
       defaultValue: '"default"',
       description: "节点状态色。",
+    },
+    {
+      name: "TimelineItem.className",
+      type: "string",
+      description: "节点根元素 className。",
     },
     {
       name: "items",

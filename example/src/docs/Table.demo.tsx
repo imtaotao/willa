@@ -1632,7 +1632,7 @@ export default defineDoc({
         "列顺序、隐藏和列宽的本地记忆 key。非受控列状态可直接由 Table 读写；受控列状态建议配合 useTableColumnState 使用。",
     },
     {
-      name: "useTableColumnState",
+      name: "useTableColumnState(options)",
       type: "(options: UseTableColumnStateOptions) => ReturnType<typeof useTableColumnState>",
       group: "Hook",
       description:
@@ -1757,6 +1757,12 @@ export default defineDoc({
       description: "点击或键盘触发行时的回调。",
     },
     {
+      name: "TableItem.className",
+      type: "string",
+      group: "TableItem",
+      description: "行根节点 className。",
+    },
+    {
       name: "TableCell.key",
       type: "string",
       group: "TableCell",
@@ -1846,6 +1852,18 @@ export default defineDoc({
       type: "string",
       group: "TableCell",
       description: "单元格截断时的自定义提示文本。",
+    },
+    {
+      name: "TableCell.className",
+      type: "string",
+      group: "TableCell",
+      description: "单元格内容 className。",
+    },
+    {
+      name: "TableCell.headerClassName",
+      type: "string",
+      group: "TableCell",
+      description: "表头单元格 className。",
     },
     {
       name: "TableRef.scrollTo",
