@@ -468,15 +468,12 @@ const FilePreviewState = (props: {
   );
 };
 
-const normalizeErrorMessage = (
-  error: ReactNode | undefined,
-  errorText: ReactNode | undefined,
-) => {
+const normalizeErrorMessage = (error?: ReactNode, errorText?: ReactNode) => {
   if (!isErrorVisible(error)) return undefined;
   return error === true ? errorText : error;
 };
 
-const isErrorVisible = (error: ReactNode | undefined) => {
+const isErrorVisible = (error?: ReactNode) => {
   return error !== undefined && error !== null && error !== false;
 };
 
@@ -674,7 +671,7 @@ const formatAudioTime = (seconds: number) => {
   return `${minutes}:${String(remainSeconds).padStart(2, "0")}`;
 };
 
-const createCsvTableItems = (text: string | undefined) => {
+const createCsvTableItems = (text?: string) => {
   const rows = parseCsvRows(text ?? "");
   if (rows.length === 0) return [];
 

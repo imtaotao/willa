@@ -693,8 +693,6 @@
   --willa-tour-description: var(--willa-text);
   --willa-tour-dot: rgba(15, 23, 42, 0.16);
   --willa-tour-dot-active: #82a3ec;
-  --willa-tour-highlight-bg: rgba(255, 255, 255, 0.08);
-  --willa-tour-highlight-border: rgba(130, 163, 236, 0.74);
   --willa-tour-highlight-shadow: 0 0 0 3px rgba(130, 163, 236, 0.18);
   --willa-tour-mask-bg: rgba(15, 23, 42, 0.38);
   --willa-tour-muted: var(--willa-text-soft);

@@ -8,7 +8,11 @@ import {
   type KeyboardEvent,
   type MouseEvent,
 } from "react";
-import { flattenText, useCopyToClipboard } from "@willa-ui/shared";
+import {
+  flattenText,
+  useControllableState,
+  useCopyToClipboard,
+} from "@willa-ui/shared";
 import classNames from "classnames";
 
 import { Kbd } from "#content/components/Kbd";
@@ -59,21 +63,20 @@ export function TypographyContent(options: RenderTypographyContentOptions) {
     actions,
   } = options;
   const { status: copied, copy } = useCopyToClipboard();
-  const [uncontrolledExpanded, setUncontrolledExpanded] = useState(
-    getDefaultExpanded(ellipsis),
-  );
   const editableConfig = normalizeEditable(editable);
-  const isEditingControlled = editableConfig?.editing !== undefined;
-  const [uncontrolledEditing, setUncontrolledEditing] = useState(
-    editableConfig?.defaultEditing ?? false,
-  );
-  const editing = editableConfig?.editing ?? uncontrolledEditing;
+  const ellipsisConfig = normalizeEllipsis(ellipsis);
+  const [expanded, setExpanded] = useControllableState({
+    value: ellipsisConfig?.expanded,
+    defaultValue: getDefaultExpanded(ellipsis),
+  });
+  const [editing, setEditing] = useControllableState({
+    value: editableConfig?.editing,
+    defaultValue: editableConfig?.defaultEditing ?? false,
+  });
   const initialText = resolveEditableText(editableConfig, children);
   const [editedText, setEditedText] = useState(initialText);
   const [displayText, setDisplayText] = useState(initialText);
   const [ellipsized, setEllipsized] = useState(false);
-  const ellipsisConfig = normalizeEllipsis(ellipsis);
-  const expanded = ellipsisConfig?.expanded ?? uncontrolledExpanded;
   const Tag =
     editing && kind !== "text" && kind !== "link"
       ? "div"
@@ -163,17 +166,12 @@ export function TypographyContent(options: RenderTypographyContentOptions) {
   const handleExpand = (event: MouseEvent<HTMLButtonElement>) => {
     const nextExpanded = !expanded;
 
-    if (ellipsisConfig?.expanded === undefined) {
-      setUncontrolledExpanded(nextExpanded);
-    }
-
+    setExpanded(nextExpanded);
     ellipsisConfig?.onExpand?.(event, { expanded: nextExpanded });
   };
 
   const updateEditing = (nextEditing: boolean) => {
-    if (!isEditingControlled) {
-      setUncontrolledEditing(nextEditing);
-    }
+    setEditing(nextEditing);
   };
 
   const handleEditStart = () => {

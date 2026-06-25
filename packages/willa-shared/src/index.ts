@@ -22,6 +22,20 @@ export {
   createCodeHighlightLines,
 } from "#shared/codeHighlight";
 export { getFocusableElements } from "#shared/dom";
+export {
+  getFloatingPanelPosition,
+  type FloatingPanelAlign,
+  type FloatingPanelPoint,
+  type FloatingPanelPosition,
+  type FloatingPanelPositionOptions,
+  type FloatingPanelRect,
+  type FloatingPanelSide,
+} from "#shared/floating";
+export {
+  useFloatingLayer,
+  type FloatingLayerPosition,
+  type UseFloatingLayerOptions,
+} from "#shared/floatingLayer";
 export { isMediaOnlyParagraph } from "#shared/nodes";
 export { assignRef, composeRefs } from "#shared/refs";
 export { clampNumber, createNumberRange } from "#shared/number";

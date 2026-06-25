@@ -1,3 +1,5 @@
+@import "../../internal/syntaxHighlight.css";
+
 .willa-diff-viewer {
   box-sizing: border-box;
   width: 100%;
@@ -288,67 +290,7 @@
   font-size: 0.78rem;
 }
 
-.willa-diff-viewer .hljs,
-.willa-diff-viewer .hljs-subst {
-  color: var(--willa-code-text);
-}
-
-.willa-diff-viewer .hljs,
-.willa-diff-viewer .hljs * {
-  font-style: normal !important;
-}
-
-.willa-diff-viewer .hljs-comment,
-.willa-diff-viewer .hljs-quote,
-.willa-diff-viewer .hljs-doctag {
-  color: var(--willa-code-comment) !important;
-}
-
-.willa-diff-viewer .hljs-keyword,
-.willa-diff-viewer .hljs-selector-tag,
-.willa-diff-viewer .hljs-type,
-.willa-diff-viewer .hljs-template-tag {
-  color: var(--willa-code-keyword) !important;
-}
-
-.willa-diff-viewer .hljs-string,
-.willa-diff-viewer .hljs-regexp,
-.willa-diff-viewer .hljs-meta .hljs-string {
-  color: var(--willa-code-string) !important;
-}
-
-.willa-diff-viewer .hljs-attr,
-.willa-diff-viewer .hljs-attribute,
-.willa-diff-viewer .hljs-property,
-.willa-diff-viewer .hljs-params {
-  color: var(--willa-code-attr) !important;
-}
-
-.willa-diff-viewer .hljs-number,
-.willa-diff-viewer .hljs-literal,
-.willa-diff-viewer .hljs-bullet {
-  color: var(--willa-code-number) !important;
-}
-
-.willa-diff-viewer .hljs-built_in,
-.willa-diff-viewer .hljs-symbol,
-.willa-diff-viewer .hljs-variable,
-.willa-diff-viewer .hljs-template-variable,
-.willa-diff-viewer .hljs-selector-id,
-.willa-diff-viewer .hljs-selector-class {
-  color: var(--willa-code-symbol) !important;
-}
-
-.willa-diff-viewer .hljs-title,
-.willa-diff-viewer .hljs-title.function_,
-.willa-diff-viewer .hljs-title.class_,
-.willa-diff-viewer .hljs-name,
-.willa-diff-viewer .hljs-section,
-.willa-diff-viewer .hljs-function {
-  color: var(--willa-code-title) !important;
-}
-
-@media (max-width: 720px) {
+@media (max-width: 767px) {
   .willa-diff-viewer__header {
     align-items: flex-start;
     flex-direction: column;

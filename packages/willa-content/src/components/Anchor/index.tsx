@@ -1,13 +1,13 @@
 import {
   useEffect,
   useMemo,
-  useState,
   type ComponentPropsWithoutRef,
   type CSSProperties,
   type MouseEvent,
   type ReactNode,
 } from "react";
 import classNames from "classnames";
+import { useControllableState } from "@willa-ui/shared";
 
 export type AnchorItem = {
   id: string;
@@ -64,13 +64,14 @@ export function Anchor(props: AnchorProps) {
     ...navProps
   } = props;
   const flattenedItems = useMemo(() => flattenAnchorItems(items), [items]);
-  const [internalActiveId, setInternalActiveId] = useState(
-    defaultActiveId ?? flattenedItems[0]?.id,
-  );
-  const resolvedActiveId = activeId ?? internalActiveId;
+  const [resolvedActiveId, setResolvedActiveId, activeControlled] =
+    useControllableState({
+      value: activeId,
+      defaultValue: defaultActiveId ?? flattenedItems[0]?.id,
+    });
 
   useEffect(() => {
-    if (activeId !== undefined || typeof window === "undefined") return;
+    if (activeControlled || typeof window === "undefined") return;
 
     const updateActiveId = () => {
       const nextItem = flattenedItems
@@ -85,8 +86,8 @@ export function Anchor(props: AnchorProps) {
         .filter((entry) => entry.top <= offsetTop + 12)
         .sort((a, b) => b.top - a.top)[0]?.item;
 
-      if (!nextItem || nextItem.id === internalActiveId) return;
-      setInternalActiveId(nextItem.id);
+      if (!nextItem || nextItem.id === resolvedActiveId) return;
+      setResolvedActiveId(nextItem.id);
       onActiveChange?.(nextItem.id);
     };
 
@@ -98,7 +99,14 @@ export function Anchor(props: AnchorProps) {
       window.removeEventListener("scroll", updateActiveId);
       window.removeEventListener("resize", updateActiveId);
     };
-  }, [activeId, flattenedItems, internalActiveId, offsetTop, onActiveChange]);
+  }, [
+    activeControlled,
+    flattenedItems,
+    offsetTop,
+    onActiveChange,
+    resolvedActiveId,
+    setResolvedActiveId,
+  ]);
 
   const setActiveItem = (
     item: AnchorItem,
@@ -113,9 +121,7 @@ export function Anchor(props: AnchorProps) {
     event.preventDefault();
     document.getElementById(item.id)?.scrollIntoView({ block: "start" });
 
-    if (activeId === undefined) {
-      setInternalActiveId(item.id);
-    }
+    setResolvedActiveId(item.id);
 
     onActiveChange?.(item.id);
     if (window.location.hash !== href) {

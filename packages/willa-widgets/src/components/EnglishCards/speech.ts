@@ -8,7 +8,7 @@ export function speakEnglishCardWord(item: EnglishCardItem) {
   speakText(item.word);
 }
 
-export function speakText(text: string | undefined) {
+export function speakText(text?: string) {
   const speakableText = normalizeSpeakText(text);
   if (!speakableText) return;
 
@@ -19,7 +19,7 @@ export function speakText(text: string | undefined) {
   void audio.play().catch(() => speakWithBrowser(speakableText));
 }
 
-export function normalizeSpeakText(text: string | undefined) {
+export function normalizeSpeakText(text?: string) {
   const value = text?.replace(/\s+/g, " ").trim();
   if (!value || !/[a-z]/i.test(value)) return undefined;
   return value;

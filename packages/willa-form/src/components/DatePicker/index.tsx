@@ -11,7 +11,7 @@ import {
   type Ref,
 } from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
-import { assignRef, clampNumber } from "@willa-ui/shared";
+import { assignRef, clampNumber, useControllableState } from "@willa-ui/shared";
 import classNames from "classnames";
 
 import {
@@ -110,8 +110,13 @@ export function DatePicker(props: DatePickerProps) {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(false);
-  const [innerValue, setInnerValue] = useState<DatePickerValue>(defaultValue);
-  const currentValue = value ?? innerValue;
+  const [currentValue, setCurrentValue] = useControllableState<DatePickerValue>(
+    {
+      value,
+      defaultValue,
+      onChange: onValueChange,
+    },
+  );
   const normalizedWheelColumns = useMemo(
     () => normalizeWheelColumns(wheelColumns),
     [wheelColumns],
@@ -175,11 +180,7 @@ export function DatePicker(props: DatePickerProps) {
   }, [currentValue, open, picker]);
 
   const commitValue = (nextValue: DatePickerValue, shouldClose: boolean) => {
-    if (value === undefined) {
-      setInnerValue(nextValue);
-    }
-
-    onValueChange?.(nextValue);
+    setCurrentValue(nextValue);
 
     if (shouldClose) {
       setOpen(false);

@@ -37,6 +37,10 @@
   background: transparent;
 }
 
+.willa-list--menu {
+  background: transparent;
+}
+
 .willa-list__items {
   display: grid;
   min-width: 0;
@@ -88,6 +92,11 @@
   gap: 0.58rem;
 }
 
+.willa-list--menu .willa-list__items {
+  gap: 0;
+  padding: 0.2rem 0;
+}
+
 .willa-list--grid .willa-list__items {
   grid-template-columns: repeat(
     var(--willa-list-grid-columns, auto-fit),
@@ -117,7 +126,7 @@
   color: var(--willa-list-text);
   transition:
     background-color 160ms ease,
-    border-color 160ms ease,
+    box-shadow 160ms ease,
     color 160ms ease;
 }
 
@@ -125,6 +134,23 @@
 .willa-list--grid.willa-list--panel .willa-list__item {
   border: 1px solid var(--willa-list-border);
   border-radius: 0.72rem;
+}
+
+.willa-list--menu .willa-list__item {
+  border-radius: 0.58rem;
+  margin: 0.2rem 0;
+}
+
+.willa-list--split.willa-list--menu
+  .willa-list__item
+  + .willa-list__item::before {
+  position: absolute;
+  inset-block-start: -0.2rem;
+  inset-inline: 0;
+  height: 1px;
+  background: var(--willa-list-divider);
+  content: "";
+  pointer-events: none;
 }
 
 .willa-list--draggable .willa-list__item {
@@ -141,6 +167,17 @@
 
 .willa-list__item:hover {
   background: var(--willa-list-item-bg-hover);
+}
+
+.willa-list--menu .willa-list__item:hover {
+  background: var(
+    --willa-list-menu-item-bg-hover,
+    var(--willa-list-item-bg-hover)
+  );
+  box-shadow: inset 0 0 0 1px
+    var(--willa-list-menu-item-border-hover, transparent);
+  color: var(--willa-list-menu-item-text-hover, var(--willa-list-text));
+  cursor: pointer;
 }
 
 .willa-list__item--selected {
@@ -193,6 +230,15 @@ a.willa-list__main[aria-disabled="true"] {
   padding: 1.08rem 1.16rem;
 }
 
+.willa-list--menu .willa-list__main {
+  align-items: center;
+  padding: 0.38rem 0.5rem;
+}
+
+.willa-list--menu.willa-list--sm .willa-list__main {
+  padding: 0.44rem 0.52rem;
+}
+
 .willa-list--vertical .willa-list__main {
   align-items: start;
 }
@@ -217,10 +263,20 @@ a.willa-list__main[aria-disabled="true"] {
   height: 1rem;
 }
 
+.willa-list--menu .willa-list__media {
+  width: 1.75rem;
+  height: 1.75rem;
+  align-self: center;
+}
+
 .willa-list__body {
   display: grid;
   min-width: 0;
   gap: 0.22rem;
+}
+
+.willa-list--menu .willa-list__body {
+  gap: 0.12rem;
 }
 
 .willa-list__header {
@@ -240,6 +296,11 @@ a.willa-list__main[aria-disabled="true"] {
   white-space: nowrap;
 }
 
+.willa-list--menu .willa-list__title {
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
 .willa-list__time {
   flex: 0 0 auto;
   color: var(--willa-list-muted);
@@ -253,10 +314,28 @@ a.willa-list__main[aria-disabled="true"] {
   line-height: 1.55;
 }
 
+.willa-list--menu .willa-list__description {
+  color: var(--willa-list-muted);
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
 .willa-list__meta {
   color: var(--willa-list-muted);
   font-size: 0.78rem;
   line-height: 1.45;
+}
+
+.willa-list--menu .willa-list__meta {
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.willa-list--menu .willa-list__item:hover .willa-list__title,
+.willa-list--menu .willa-list__item:hover .willa-list__description,
+.willa-list--menu .willa-list__item:hover .willa-list__meta,
+.willa-list--menu .willa-list__item:hover .willa-list__body {
+  color: var(--willa-list-menu-item-text-hover, inherit);
 }
 
 .willa-list__extra {

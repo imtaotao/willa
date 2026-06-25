@@ -4,6 +4,8 @@
 }
 
 .willa-tooltip-content {
+  --willa-tooltip-arrow-x: 50%;
+  --willa-tooltip-arrow-y: 50%;
   position: fixed;
   z-index: var(--willa-layer-tooltip, 1010);
   box-sizing: border-box;
@@ -42,24 +44,40 @@
 
 .willa-tooltip-content--top::after {
   bottom: -0.31rem;
-  left: calc(50% - 0.25rem);
+  left: clamp(
+    0.5rem,
+    calc(var(--willa-tooltip-arrow-x) - 0.25rem),
+    calc(100% - 1rem)
+  );
   transform: rotate(45deg);
 }
 
 .willa-tooltip-content--bottom::after {
   top: -0.31rem;
-  left: calc(50% - 0.25rem);
+  left: clamp(
+    0.5rem,
+    calc(var(--willa-tooltip-arrow-x) - 0.25rem),
+    calc(100% - 1rem)
+  );
   transform: rotate(225deg);
 }
 
 .willa-tooltip-content--left::after {
-  top: calc(50% - 0.25rem);
+  top: clamp(
+    0.5rem,
+    calc(var(--willa-tooltip-arrow-y) - 0.25rem),
+    calc(100% - 1rem)
+  );
   right: -0.31rem;
   transform: rotate(-45deg);
 }
 
 .willa-tooltip-content--right::after {
-  top: calc(50% - 0.25rem);
+  top: clamp(
+    0.5rem,
+    calc(var(--willa-tooltip-arrow-y) - 0.25rem),
+    calc(100% - 1rem)
+  );
   left: -0.31rem;
   transform: rotate(135deg);
 }

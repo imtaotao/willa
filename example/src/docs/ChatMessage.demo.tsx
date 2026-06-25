@@ -83,18 +83,66 @@ export default defineDoc({
     component: ChatMessagePreview,
   },
   code: `
+    import { CopyIcon, ReloadIcon } from "@radix-ui/react-icons";
     import { ChatMessage } from "willa/ChatMessage";
+    import { MessageActions } from "willa/MessageActions";
     import "willa/ChatMessage.css";
+    import "willa/MessageActions.css";
 
-    <ChatMessage
-      role="assistant"
-      name="Willa AI"
-      avatarSrc="https://github.com/openai.png"
-      meta="已生成"
-    >
-      <p>可以先按影响面、紧急程度和实现成本拆分。</p>
-      <p>我建议优先处理登录失败，其次是批量导出。</p>
-    </ChatMessage>;
+    const chatFrameStyle = {
+      display: "grid",
+      gap: "1rem",
+      width: "min(100%, 58rem)",
+      border: "1px solid var(--willa-line)",
+      borderRadius: "0.9rem",
+      background: "var(--willa-panel-bg)",
+      padding: "1rem",
+    };
+
+    <div style={chatFrameStyle}>
+      <ChatMessage
+        role="assistant"
+        name="Willa AI"
+        avatarSrc="https://github.com/openai.png"
+        meta="准备就绪"
+        compact
+      >
+        你可以把产品反馈、会议纪要或用户访谈贴进来，我会帮你整理结构。
+      </ChatMessage>
+      <ChatMessage
+        role="user"
+        showAvatar
+        avatarSrc="https://github.com/imtaotao.png"
+        avatarAlt="imtaotao"
+        meta="刚刚"
+      >
+        帮我把这段产品反馈整理成三个优先级。
+      </ChatMessage>
+      <ChatMessage
+        role="assistant"
+        name="Willa AI"
+        avatarSrc="https://github.com/openai.png"
+        meta="已生成"
+        actions={
+          <MessageActions
+            items={[
+              {
+                id: "copy",
+                label: "复制",
+                icon: <CopyIcon />,
+                copyText:
+                  "可以先按影响面、紧急程度和实现成本拆分。\\n我建议优先处理登录失败，其次是批量导出，最后再看主题配置。",
+              },
+              { id: "retry", label: "重试", icon: <ReloadIcon /> },
+            ]}
+          />
+        }
+        footer="基于 12 条反馈归纳"
+      >
+        <p>可以先按影响面、紧急程度和实现成本拆分。</p>
+        <p>我建议优先处理登录失败，其次是批量导出，最后再看主题配置。</p>
+      </ChatMessage>
+    </div>;
   `,
   sections: [
     {

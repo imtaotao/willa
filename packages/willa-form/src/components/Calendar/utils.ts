@@ -44,6 +44,9 @@ export const formatShortDateValue = (date: Date) => {
 export const getDateOnly = (date: Date) =>
   new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
+export const addMonths = (date: Date, offset: number) =>
+  getDateOnly(new Date(date.getFullYear(), date.getMonth() + offset, 1));
+
 export const addDays = (date: Date, offset: number) => {
   const nextDate = new Date(date);
   nextDate.setDate(nextDate.getDate() + offset);

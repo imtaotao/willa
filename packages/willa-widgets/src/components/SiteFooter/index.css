@@ -96,7 +96,7 @@
   line-height: 1.4;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .willa-site-footer-main,
   .willa-site-footer-columns {
     grid-template-columns: minmax(0, 1fr);

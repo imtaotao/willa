@@ -160,11 +160,6 @@
   color: var(--willa-model-selector-muted);
 }
 
-.willa-model-selector__meta-value {
-  min-width: 0;
-  color: var(--willa-model-selector-text);
-}
-
 .willa-model-selector__status {
   color: var(--willa-model-selector-muted);
   font-size: 0.8rem;

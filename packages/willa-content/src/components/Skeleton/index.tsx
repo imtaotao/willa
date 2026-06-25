@@ -45,7 +45,7 @@ const createLineStyle = (line: SkeletonLineSpec) => {
   } as CSSProperties;
 };
 
-const createSkeletonBackground = (color: string | undefined) => {
+const createSkeletonBackground = (color?: string) => {
   const value = color?.trim();
   if (!value) return undefined;
 

@@ -67,9 +67,19 @@
   border-radius: 0.74rem;
 }
 
+.willa-conversation-list__list .willa-list__items {
+  gap: 0.34rem;
+}
+
 .willa-conversation-list__list.willa-list--panel {
   border-color: transparent;
   background: transparent;
+}
+
+.willa-conversation-list__list.willa-list--split.willa-list--panel
+  .willa-list__item
+  + .willa-list__item {
+  border-top: 0;
 }
 
 .willa-conversation-list__list .willa-list__main {
@@ -106,9 +116,6 @@
 
 .willa-conversation-list__list .willa-list__item--selected {
   --willa-list-item-selected-bg: var(--willa-conversation-list-item-active-bg);
-  --willa-list-item-selected-text: var(
-    --willa-conversation-list-item-active-text
-  );
   box-shadow: inset 0 0 0 1px
     color-mix(
       in srgb,
@@ -142,9 +149,19 @@
 }
 
 .willa-conversation-list__summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.24rem;
+  align-items: center;
   color: var(--willa-conversation-list-summary);
   font-size: 0.84rem;
   line-height: 1.55;
+}
+
+.willa-conversation-list__summary svg {
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
 }
 
 .willa-conversation-list__meta {
@@ -232,7 +249,7 @@
   font-size: 1rem;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .willa-conversation-list__toolbar {
     grid-template-columns: 1fr;
   }

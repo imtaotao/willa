@@ -32,7 +32,7 @@ export const getCellTooltipText = (cell: TableCell) => {
   return undefined;
 };
 
-export const getAriaSort = (direction: TableSortDirection | undefined) => {
+export const getAriaSort = (direction?: TableSortDirection) => {
   if (direction === "asc") return "ascending";
   if (direction === "desc") return "descending";
   return undefined;
@@ -46,7 +46,7 @@ export const getCellStyle = (cell: TableCell) => {
   };
 };
 
-export const getCellWidth = (width: number | string | undefined) => {
+export const getCellWidth = (width?: number | string) => {
   if (width === undefined) return undefined;
   return typeof width === "number" ? `${width}px` : width;
 };
@@ -201,10 +201,7 @@ export const renderTableSelectionBar = (options: {
   });
 };
 
-export const sortItems = (
-  items: Array<TableItem>,
-  sort: TableSortState | undefined,
-) => {
+export const sortItems = (items: Array<TableItem>, sort?: TableSortState) => {
   if (!sort) return items;
 
   return [...items].sort((a, b) => {

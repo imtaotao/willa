@@ -23,15 +23,14 @@ export function normalizeWordKey(word: string) {
 }
 
 export function normalizeOpenApiConfig(
-  openApi: boolean | EnglishCardsOpenApiConfig | undefined,
-): NormalizedOpenApiConfig {
+  openApi?: boolean | EnglishCardsOpenApiConfig,
+) {
   if (typeof openApi !== "object" || openApi === null) {
     return {
       enabled: openApi === true,
       language: "en",
     };
   }
-
   return {
     enabled: openApi.enabled ?? true,
     language: openApi.language ?? "en",
@@ -42,7 +41,7 @@ export async function fetchDictionaryWord(
   word: string,
   config: NormalizedOpenApiConfig,
   requestInit: Pick<RequestInit, "signal">,
-): Promise<Partial<EnglishCardItem>> {
+) {
   const cachedItem = readCache(word, config);
   if (cachedItem) return cachedItem;
 
@@ -100,7 +99,6 @@ const createDictionaryUrl = (word: string) => {
   url.searchParams.set("keyfrom", "mdict.9.0.android");
   url.searchParams.set("network", "wifi");
   url.searchParams.set("xmlVersion", "5.1");
-
   return url;
 };
 
@@ -133,8 +131,8 @@ const parseDictionaryResponse = (
 };
 
 const readWord = (
-  ecWord: Record<string, unknown> | undefined,
-  simpleWord: Record<string, unknown> | undefined,
+  ecWord?: Record<string, unknown>,
+  simpleWord?: Record<string, unknown>,
 ) => {
   return (
     readString(record(record(ecWord?.["return-phrase"])?.l) ?? {}, ["i"]) ??
@@ -142,7 +140,7 @@ const readWord = (
   );
 };
 
-const readTranslations = (ecWord: Record<string, unknown> | undefined) => {
+const readTranslations = (ecWord?: Record<string, unknown>) => {
   return records(ecWord?.trs)
     .map((translation) => {
       const partOfSpeech = readString(translation, ["pos"]);
@@ -158,13 +156,12 @@ const readTranslations = (ecWord: Record<string, unknown> | undefined) => {
     .filter(isPresent);
 };
 
-const readPartOfSpeech = (ecWord: Record<string, unknown> | undefined) => {
+const readPartOfSpeech = (ecWord?: Record<string, unknown>) => {
   const parts = unique(
     records(ecWord?.trs)
       .map((translation) => readString(translation, ["pos"]))
       .filter(isPresent),
   );
-
   return parts.length ? parts.join(" / ") : undefined;
 };
 
@@ -231,7 +228,7 @@ const readExamples = (value: Record<string, unknown>) => {
 
 const readDetails = (
   value: Record<string, unknown>,
-  ecWord: Record<string, unknown> | undefined,
+  ecWord?: Record<string, unknown>,
 ) => {
   return [
     createDetail("词形", readWordForms(value.wordform, ecWord)),
@@ -251,10 +248,7 @@ const createDetail = (label: string, items: Array<string>) => {
   };
 };
 
-const readWordForms = (
-  value: unknown,
-  ecWord: Record<string, unknown> | undefined,
-) => {
+const readWordForms = (value: unknown, ecWord?: Record<string, unknown>) => {
   const formSource = firstRecord(record(value)?.word) ?? ecWord;
 
   return records(formSource?.wfs)
@@ -386,7 +380,7 @@ const readDictionaryError = async (response: Response) => {
   }
 };
 
-const normalizePhonetic = (value: string | undefined) => {
+const normalizePhonetic = (value?: string) => {
   const text = value?.trim();
   if (!text) return undefined;
   if (text.startsWith("/") && text.endsWith("/")) return text;
@@ -457,7 +451,7 @@ const record = (value: unknown): Record<string, unknown> | undefined => {
   return isRecord(value) ? value : undefined;
 };
 
-const stripHtml = (value: string | undefined) => {
+const stripHtml = (value?: string) => {
   return value
     ?.replace(/<[^>]*>/g, "")
     .replace(/\s+/g, " ")
@@ -482,7 +476,7 @@ const uniqueExamples = (
   });
 };
 
-const isPresent = <T>(value: T | undefined): value is T => {
+const isPresent = <T>(value?: T): value is T => {
   return Boolean(value);
 };
 

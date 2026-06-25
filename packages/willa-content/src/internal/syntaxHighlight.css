@@ -1,0 +1,82 @@
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-subst {
+  color: var(--willa-code-text);
+}
+
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs * {
+  font-style: normal !important;
+}
+
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-comment,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-quote,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-doctag {
+  color: var(--willa-code-comment) !important;
+}
+
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-keyword,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-selector-tag,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-type,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-template-tag {
+  color: var(--willa-code-keyword) !important;
+}
+
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-string,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-regexp,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-meta .hljs-string {
+  color: var(--willa-code-string) !important;
+}
+
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-attr,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-attribute,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-property,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-params {
+  color: var(--willa-code-attr) !important;
+}
+
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-number,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-literal,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-bullet {
+  color: var(--willa-code-number) !important;
+}
+
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-built_in,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-symbol,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-variable,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-template-variable,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-selector-id,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-selector-class {
+  color: var(--willa-code-symbol) !important;
+}
+
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-title,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-title.function_,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-title.class_,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-name,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-section,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-function {
+  color: var(--willa-code-title) !important;
+}
+
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-meta,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-tag,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-selector-attr,
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-selector-pseudo {
+  color: var(--willa-code-muted) !important;
+}
+
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-deletion {
+  color: var(--willa-code-deletion) !important;
+}
+
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-addition {
+  color: var(--willa-code-addition) !important;
+}
+
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-emphasis {
+  font-style: italic !important;
+}
+
+:where(.willa-prose-pre, .willa-diff-viewer) .hljs-strong {
+  font-weight: 700;
+}

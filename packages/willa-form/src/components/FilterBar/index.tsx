@@ -89,7 +89,7 @@ const FilterBarItemView = ({ item }: { item: FilterBarItem }) => {
   );
 };
 
-const getFilterBarItemStyle = (width: CSSProperties["width"] | undefined) => {
+const getFilterBarItemStyle = (width?: CSSProperties["width"]) => {
   if (width === undefined) return undefined;
 
   return { "--willa-filter-bar-item-width": width } as CSSProperties;

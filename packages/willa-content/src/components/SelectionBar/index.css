@@ -92,7 +92,7 @@
   flex: 0 0 auto;
 }
 
-@media (max-width: 560px) {
+@media (max-width: 640px) {
   .willa-selection-bar {
     align-items: stretch;
     flex-direction: column;

@@ -1,4 +1,4 @@
-import { useState, type MouseEvent, type ReactNode } from "react";
+import { type MouseEvent, type ReactNode } from "react";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -6,7 +6,11 @@ import {
   DoubleArrowRightIcon,
 } from "@radix-ui/react-icons";
 import classNames from "classnames";
-import { clampNumber, createNumberRange } from "@willa-ui/shared";
+import {
+  clampNumber,
+  createNumberRange,
+  useControllableState,
+} from "@willa-ui/shared";
 
 export type PaginationSize = "sm" | "md";
 
@@ -67,11 +71,13 @@ export function Pagination(props: PaginationProps) {
     getEllipsisPage,
   } = props;
   const normalizedPageCount = Math.max(0, Math.floor(pageCount));
-  const [uncontrolledPage, setUncontrolledPage] = useState(() =>
-    clampPage(defaultPage, normalizedPageCount),
-  );
-  const currentPage = clampPage(page ?? uncontrolledPage, normalizedPageCount);
-  const isControlled = page !== undefined;
+  const [pageState, setCurrentPage] = useControllableState({
+    value:
+      page === undefined ? undefined : clampPage(page, normalizedPageCount),
+    defaultValue: () => clampPage(defaultPage, normalizedPageCount),
+    onChange: onPageChange,
+  });
+  const currentPage = clampPage(pageState, normalizedPageCount);
 
   if (normalizedPageCount <= 0) return null;
 
@@ -79,11 +85,7 @@ export function Pagination(props: PaginationProps) {
     const resolvedPage = clampPage(nextPage, normalizedPageCount);
     if (resolvedPage === currentPage || disabled) return;
 
-    if (!isControlled) {
-      setUncontrolledPage(resolvedPage);
-    }
-
-    onPageChange?.(resolvedPage);
+    setCurrentPage(resolvedPage);
   };
   const items = createPaginationItems({
     page: currentPage,

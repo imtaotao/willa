@@ -2,7 +2,6 @@ import {
   forwardRef,
   useRef,
   useMemo,
-  useState,
   type CSSProperties,
   type HTMLAttributes,
   type KeyboardEvent,
@@ -10,9 +9,10 @@ import {
 } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import { Tooltip } from "@willa-ui/content/components/Tooltip";
-import { assignRef } from "@willa-ui/shared";
+import { assignRef, useControllableState } from "@willa-ui/shared";
 import classNames from "classnames";
 import {
+  addMonths,
   formatDateValue,
   formatShortDateValue,
   getCalendarStyle,
@@ -155,12 +155,22 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
       ...rootProps
     } = props;
     const rootRef = useRef<HTMLDivElement | null>(null);
-    const [innerValue, setInnerValue] = useState<CalendarValue>(defaultValue);
-    const currentValue = value ?? innerValue;
-    const [innerVisibleDate, setInnerVisibleDate] = useState(() =>
-      getMonthStart(defaultVisibleDate ?? getInitialDate(currentValue, mode)),
+    const [currentValue, setCurrentValue] = useControllableState<CalendarValue>(
+      {
+        value,
+        defaultValue,
+        onChange: onValueChange,
+      },
     );
-    const currentVisibleDate = visibleDate ?? innerVisibleDate;
+    const [currentVisibleDate, setCurrentVisibleDate] =
+      useControllableState<Date>({
+        value: visibleDate,
+        defaultValue: () =>
+          getMonthStart(
+            defaultVisibleDate ?? getInitialDate(currentValue, mode),
+          ),
+        onChange: onVisibleDateChange,
+      });
     const calendarDays = useMemo(
       () => createCalendarDays(currentVisibleDate, firstDayOfWeek),
       [currentVisibleDate, firstDayOfWeek],
@@ -186,19 +196,11 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
     };
 
     const setVisibleDate = (nextDate: Date) => {
-      if (visibleDate === undefined) {
-        setInnerVisibleDate(nextDate);
-      }
-
-      onVisibleDateChange?.(nextDate);
+      setCurrentVisibleDate(nextDate);
     };
 
     const commitValue = (nextValue: CalendarValue) => {
-      if (value === undefined) {
-        setInnerValue(nextValue);
-      }
-
-      onValueChange?.(nextValue);
+      setCurrentValue(nextValue);
     };
 
     const commitSelectedValue = (nextValue: string) => {
@@ -597,9 +599,6 @@ const getCalendarColumnCount = (mode: CalendarMode) => {
 
 const getMonthStart = (date: Date) =>
   new Date(date.getFullYear(), date.getMonth(), 1);
-
-const addMonths = (date: Date, offset: number) =>
-  new Date(date.getFullYear(), date.getMonth() + offset, 1);
 
 const addYears = (date: Date, offset: number) =>
   new Date(date.getFullYear() + offset, date.getMonth(), 1);

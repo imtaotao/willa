@@ -11,7 +11,7 @@ import {
 } from "react";
 import classNames from "classnames";
 import { ArchiveIcon, FileIcon, FileTextIcon } from "@radix-ui/react-icons";
-import { clampNumber } from "@willa-ui/shared";
+import { clampNumber, useControllableState } from "@willa-ui/shared";
 
 import {
   Tree,
@@ -80,21 +80,17 @@ export function FileTree(props: FileTreeProps) {
   const initialExpandedIds = useMemo(() => {
     return new Set(defaultExpandedIds ?? collectExpandableIds(items));
   }, [defaultExpandedIds, items]);
-  const [uncontrolledExpandedIds, setUncontrolledExpandedIds] =
-    useState(initialExpandedIds);
-  const resolvedExpandedIds = expandedIds
-    ? new Set(expandedIds)
-    : uncontrolledExpandedIds;
+  const [resolvedExpandedIds, setResolvedExpandedIds] = useControllableState({
+    value: expandedIds ? new Set(expandedIds) : undefined,
+    defaultValue: initialExpandedIds,
+  });
   const treeItems = useMemo(() => {
     return toTreeItems(items, onFileClick);
   }, [items, onFileClick]);
   const itemByKey = useMemo(() => createFileTreeItemMap(items), [items]);
   const selectedKeys = useMemo(() => collectSelectedKeys(items), [items]);
   const updateExpandedIds = (nextExpandedIds: Set<string>) => {
-    if (!expandedIds) {
-      setUncontrolledExpandedIds(nextExpandedIds);
-    }
-
+    setResolvedExpandedIds(nextExpandedIds);
     onExpandedChange?.([...nextExpandedIds]);
   };
   const handleExpandedChange = (nextKeys: Array<TreeKey>) => {

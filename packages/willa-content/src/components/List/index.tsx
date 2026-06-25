@@ -16,7 +16,7 @@ import { useVirtualScrollWindow } from "@willa-ui/shared";
 
 export type ListTone = "neutral" | "info" | "success" | "warning" | "danger";
 export type ListSize = "sm" | "md" | "lg";
-export type ListVariant = "panel" | "plain";
+export type ListVariant = "panel" | "plain" | "menu";
 export type ListItemLayout = "horizontal" | "vertical";
 
 export type ListGrid = {

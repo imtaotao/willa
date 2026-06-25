@@ -14,7 +14,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { getFocusableElements } from "@willa-ui/shared";
+import { getFocusableElements, useControllableState } from "@willa-ui/shared";
 import classNames from "classnames";
 import { isPromiseLike } from "aidly";
 
@@ -78,28 +78,17 @@ export function Dialog(props: DialogProps) {
     overlayClassName,
     contentClassName,
   } = props;
-  const isControlled = open !== undefined;
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(
-    defaultOpen ?? false,
-  );
+  const [isOpen, setDialogOpen] = useControllableState({
+    value: open,
+    defaultValue: defaultOpen ?? false,
+    onChange: onOpenChange,
+  });
   const [confirmPending, setConfirmPending] = useState(false);
-  const isOpen = open ?? uncontrolledOpen;
   const dialogId = useId();
   const titleId = title ? `${dialogId}-title` : undefined;
   const descriptionId = description ? `${dialogId}-description` : undefined;
   const panelRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
-
-  const setDialogOpen = useCallback(
-    (nextOpen: boolean) => {
-      if (!isControlled) {
-        setUncontrolledOpen(nextOpen);
-      }
-
-      onOpenChange?.(nextOpen);
-    },
-    [isControlled, onOpenChange],
-  );
 
   const closeDialog = useCallback(() => {
     setDialogOpen(false);

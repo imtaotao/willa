@@ -1,4 +1,5 @@
 import {
+  Fragment,
   forwardRef,
   useId,
   useMemo,
@@ -12,6 +13,8 @@ import {
   type ReactNode,
 } from "react";
 import { Cross2Icon } from "@radix-ui/react-icons";
+import { Tag } from "@willa-ui/content/components/Tag";
+import { useControllableState } from "@willa-ui/shared";
 import classNames from "classnames";
 
 export type TagInputSize = "sm" | "md" | "lg";
@@ -99,14 +102,21 @@ export const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
     } = props;
     const fallbackId = useId();
     const inputId = id ?? fallbackId;
-    const isValueControlled = value !== undefined;
-    const isInputControlled = inputValue !== undefined;
-    const [innerValue, setInnerValue] = useState(defaultValue);
-    const [innerInputValue, setInnerInputValue] = useState(defaultInputValue);
+    const [currentValue, setCurrentValue] = useControllableState<Array<string>>(
+      {
+        value,
+        defaultValue,
+        onChange: onValueChange,
+      },
+    );
+    const [currentInputValue, setCurrentInputValue] =
+      useControllableState<string>({
+        value: inputValue,
+        defaultValue: defaultInputValue,
+        onChange: onInputValueChange,
+      });
     const [focused, setFocused] = useState(false);
     const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
-    const currentValue = isValueControlled ? value : innerValue;
-    const currentInputValue = isInputControlled ? inputValue : innerInputValue;
     const canEdit = !disabled && !readOnly;
     const hasClear = clearable && canEdit && currentValue.length > 0;
     const canAddMore = maxTags === undefined || currentValue.length < maxTags;
@@ -137,19 +147,11 @@ export const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
     } satisfies CSSProperties;
 
     const updateTags = (nextTags: Array<string>) => {
-      if (!isValueControlled) {
-        setInnerValue(nextTags);
-      }
-
-      onValueChange?.(nextTags);
+      setCurrentValue(nextTags);
     };
 
     const updateInputValue = (nextInputValue: string) => {
-      if (!isInputControlled) {
-        setInnerInputValue(nextInputValue);
-      }
-
-      onInputValueChange?.(nextInputValue);
+      setCurrentInputValue(nextInputValue);
     };
 
     const rejectTag = (tag: string, reason: TagInputRejectReason) => {
@@ -334,44 +336,48 @@ export const TagInput = forwardRef<HTMLInputElement, TagInputProps>(
         onFocus={handleFocus}
       >
         <div className="willa-tag-input__control" onClick={focusInput}>
-          {currentValue.map((tag, index) => (
-            <span
-              className={classNames(
-                "willa-tag-input__tag",
-                renderTag && "willa-tag-input__tag--custom",
-              )}
-              key={`${tag}-${index}`}
-            >
-              {renderTag ? (
-                renderTag(tag, {
-                  index,
-                  disabled,
-                  readOnly,
-                  onRemove: () => removeTag(index),
-                })
-              ) : (
-                <>
-                  <span className="willa-tag-input__tag-label">{tag}</span>
-                  {canEdit ? (
-                    <button
-                      className="willa-tag-input__remove"
-                      type="button"
-                      aria-label={`移除 ${tag}`}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        removeTag(index);
-                      }}
-                    >
-                      <Cross2Icon aria-hidden="true" />
-                    </button>
-                  ) : null}
-                </>
-              )}
-              {name ? (
-                <input type="hidden" name={name} value={tag} readOnly />
-              ) : null}
-            </span>
-          ))}
+          {currentValue.map((tag, index) => {
+            const hiddenInput = name ? (
+              <input type="hidden" name={name} value={tag} readOnly />
+            ) : null;
+
+            if (renderTag) {
+              return (
+                <Fragment key={`${tag}-${index}`}>
+                  <span className="willa-tag-input__custom-tag">
+                    {renderTag(tag, {
+                      index,
+                      disabled,
+                      readOnly,
+                      onRemove: () => removeTag(index),
+                    })}
+                  </span>
+                  {hiddenInput}
+                </Fragment>
+              );
+            }
+
+            return (
+              <Fragment key={`${tag}-${index}`}>
+                <Tag
+                  className="willa-tag-input__tag"
+                  size={size === "lg" ? "md" : size}
+                  shape="pill"
+                  close={
+                    canEdit
+                      ? {
+                          ariaLabel: `移除 ${tag}`,
+                          onClose: () => removeTag(index),
+                        }
+                      : false
+                  }
+                >
+                  {tag}
+                </Tag>
+                {hiddenInput}
+              </Fragment>
+            );
+          })}
           <input
             ref={ref}
             id={inputId}

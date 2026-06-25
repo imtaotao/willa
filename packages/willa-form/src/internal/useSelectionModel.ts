@@ -1,4 +1,5 @@
-import { useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
+import { useControllableState } from "@willa-ui/shared";
 
 export type SelectionModelMode = "single" | "multiple";
 export type SelectionModelValue = string | Array<string>;
@@ -31,10 +32,11 @@ export function useSelectionModel<Item extends SelectionModelItem>(
     renderValue,
     onValueChange,
   } = options;
-  const [innerValue, setInnerValue] = useState<SelectionModelValue>(
-    defaultValue ?? getEmptySelectionValue(mode),
-  );
-  const currentValue = value ?? innerValue;
+  const [currentValue, setCurrentValue] =
+    useControllableState<SelectionModelValue>({
+      value,
+      defaultValue: defaultValue ?? getEmptySelectionValue(mode),
+    });
   const selectedValues = normalizeSelectionValue(currentValue, mode);
   const selectedItems = items.filter((item) =>
     selectedValues.includes(item.value),
@@ -59,10 +61,7 @@ export function useSelectionModel<Item extends SelectionModelItem>(
       nextValues.includes(option.value),
     );
 
-    if (value === undefined) {
-      setInnerValue(nextValue);
-    }
-
+    setCurrentValue(nextValue);
     onValueChange?.(nextValue, nextItems);
 
     return true;
@@ -71,10 +70,7 @@ export function useSelectionModel<Item extends SelectionModelItem>(
   const clearValue = () => {
     const nextValue = getEmptySelectionValue(mode);
 
-    if (value === undefined) {
-      setInnerValue(nextValue);
-    }
-
+    setCurrentValue(nextValue);
     onValueChange?.(nextValue, []);
   };
 

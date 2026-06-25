@@ -1,10 +1,10 @@
 import {
-  useState,
   type ComponentPropsWithoutRef,
   type MouseEvent,
   type ReactNode,
 } from "react";
 import classNames from "classnames";
+import { useControllableState } from "@willa-ui/shared";
 
 export type SuggestionChipsSize = "sm" | "md";
 export type SuggestionChipsVariant = "soft" | "outline";
@@ -49,12 +49,10 @@ export function SuggestionChips({
   className,
   ...props
 }: SuggestionChipsProps) {
-  const [uncontrolledSelectedIds, setUncontrolledSelectedIds] =
-    useState(defaultSelectedIds);
-  const isControlled = selectedIds !== undefined;
-  const currentSelectedIds = isControlled
-    ? selectedIds
-    : uncontrolledSelectedIds;
+  const [currentSelectedIds, setCurrentSelectedIds] = useControllableState({
+    value: selectedIds,
+    defaultValue: defaultSelectedIds,
+  });
 
   if (items.length === 0) {
     return null;
@@ -97,10 +95,7 @@ export function SuggestionChips({
                   selectedIds: currentSelectedIds,
                 });
 
-                if (!isControlled) {
-                  setUncontrolledSelectedIds(nextSelectedIds);
-                }
-
+                setCurrentSelectedIds(nextSelectedIds);
                 onSelect?.(item, event);
                 onChange?.(nextSelectedIds, item, event);
               }}

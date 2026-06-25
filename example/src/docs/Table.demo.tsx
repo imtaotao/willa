@@ -1349,21 +1349,59 @@ export default defineDoc({
     {
       title: "能力总览",
       code: `
+        import { type TableItem } from "willa/Table";
+
+        const items: Array<TableItem> = [
+          {
+            key: "prompt-input",
+            cells: [
+              { key: "name", label: "组件", value: "PromptInput", sortable: true },
+              { key: "owner", label: "归属", value: "AI" },
+              { key: "status", label: "状态", value: "stable" },
+            ],
+          },
+        ];
+
+        const treeItems: Array<TableItem> = [
+          {
+            key: "ai",
+            cells: [
+              { key: "name", label: "组件", value: "AI 组件" },
+              { key: "owner", label: "归属", value: "AI" },
+              { key: "status", label: "状态", value: "stable" },
+            ],
+            children: items,
+          },
+        ];
+
         const columnState = useTableColumnState({
           columnStateKey: "table-capability-personalization",
         });
 
         <Tabs
           items={[
-            { value: "filter", label: "搜索与筛选", children: <Table ... /> },
-            { value: "virtual", label: "虚拟滚动", children: <Table ... virtualScroll /> },
-            { value: "virtual-tree", label: "树形 + 虚拟", children: <Table ... treeMode virtualScroll /> },
+            {
+              value: "filter",
+              label: "搜索与筛选",
+              children: <Table caption="组件筛选结果" items={items} stickyActions />,
+            },
+            {
+              value: "virtual",
+              label: "虚拟滚动",
+              children: <Table caption="虚拟滚动" items={items} maxHeight="24rem" virtualScroll />,
+            },
+            {
+              value: "virtual-tree",
+              label: "树形 + 虚拟",
+              children: <Table caption="树形虚拟滚动" items={treeItems} treeMode virtualScroll />,
+            },
             {
               value: "personalization",
               label: "拖拽与个性化",
               children: (
                 <Table
-                  ...
+                  caption="列个性化"
+                  items={items}
                   columnOrder={columnState.columnOrder}
                   hiddenColumns={columnState.hiddenColumns}
                   columnWidths={columnState.columnWidths}

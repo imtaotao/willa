@@ -13,7 +13,7 @@ import type {
   TypographyTitleLevel,
 } from "#content/components/Typography/types";
 
-export const normalizeEditable = (editable: TypographyEditable | undefined) => {
+export const normalizeEditable = (editable?: TypographyEditable) => {
   if (!editable) return undefined;
   if (editable === true) {
     return {
@@ -53,7 +53,7 @@ export const resolveEditableText = (
   return editableConfig?.text ?? flattenText(children).trim();
 };
 
-export const normalizeEllipsis = (ellipsis: TypographyEllipsis | undefined) => {
+export const normalizeEllipsis = (ellipsis?: TypographyEllipsis) => {
   if (!ellipsis) return undefined;
   if (ellipsis === true) {
     return {
@@ -81,9 +81,7 @@ export type NormalizedEllipsis = NonNullable<
   ReturnType<typeof normalizeEllipsis>
 >;
 
-export const getDefaultExpanded = (
-  ellipsis: TypographyEllipsis | undefined,
-) => {
+export const getDefaultExpanded = (ellipsis?: TypographyEllipsis) => {
   if (!ellipsis || ellipsis === true) return false;
   return ellipsis.defaultExpanded ?? false;
 };

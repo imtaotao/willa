@@ -3,7 +3,6 @@ import {
   useEffect,
   useImperativeHandle,
   useRef,
-  useState,
   type ChangeEvent,
   type ComponentPropsWithoutRef,
   type CSSProperties,
@@ -11,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import classNames from "classnames";
+import { useControllableState } from "@willa-ui/shared";
 
 import { Button } from "#content/components/Button";
 
@@ -83,11 +83,11 @@ export const InputPanel = forwardRef<HTMLTextAreaElement, InputPanelProps>(
       ...textAreaProps
     } = props;
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
-    const [uncontrolledValue, setUncontrolledValue] = useState(() =>
-      String(defaultValue ?? ""),
-    );
-    const isControlled = value !== undefined;
-    const currentValue = String(isControlled ? value : uncontrolledValue);
+    const [currentValue, setCurrentValue, valueControlled] =
+      useControllableState<string>({
+        value: value === undefined ? undefined : String(value),
+        defaultValue: () => String(defaultValue ?? ""),
+      });
     const isSubmitDisabled =
       disabled || loading || (!allowEmptySubmit && currentValue.trim() === "");
     const inputPanelStyle = getInputPanelStyle({ maxRows, minRows, style });
@@ -118,10 +118,7 @@ export const InputPanel = forwardRef<HTMLTextAreaElement, InputPanelProps>(
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
       const nextValue = event.currentTarget.value;
 
-      if (!isControlled) {
-        setUncontrolledValue(nextValue);
-      }
-
+      setCurrentValue(nextValue);
       onValueChange?.(nextValue, event);
       onChange?.(event);
     };
@@ -160,7 +157,7 @@ export const InputPanel = forwardRef<HTMLTextAreaElement, InputPanelProps>(
             slotClassNames?.control,
           )}
           value={value}
-          defaultValue={isControlled ? undefined : defaultValue}
+          defaultValue={valueControlled ? undefined : defaultValue}
           placeholder={placeholder}
           disabled={disabled || loading}
           rows={minRows}

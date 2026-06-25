@@ -15,7 +15,11 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { formatCssSize, getFocusableElements } from "@willa-ui/shared";
+import {
+  formatCssSize,
+  getFocusableElements,
+  useControllableState,
+} from "@willa-ui/shared";
 import { isPromiseLike } from "aidly";
 import classNames from "classnames";
 
@@ -86,28 +90,17 @@ export function Drawer(props: DrawerProps) {
     onConfirm,
     onOpenChange,
   } = props;
-  const isControlled = open !== undefined;
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(
-    defaultOpen ?? false,
-  );
+  const [isOpen, setDrawerOpen] = useControllableState({
+    value: open,
+    defaultValue: defaultOpen ?? false,
+    onChange: onOpenChange,
+  });
   const [confirmPending, setConfirmPending] = useState(false);
-  const isOpen = open ?? uncontrolledOpen;
   const drawerId = useId();
   const titleId = title ? `${drawerId}-title` : undefined;
   const descriptionId = description ? `${drawerId}-description` : undefined;
   const panelRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
-
-  const setDrawerOpen = useCallback(
-    (nextOpen: boolean) => {
-      if (!isControlled) {
-        setUncontrolledOpen(nextOpen);
-      }
-
-      onOpenChange?.(nextOpen);
-    },
-    [isControlled, onOpenChange],
-  );
 
   const closeDrawer = useCallback(() => {
     setDrawerOpen(false);

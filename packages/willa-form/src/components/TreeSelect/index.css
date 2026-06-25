@@ -301,13 +301,6 @@
   color: var(--willa-picker-selected-mark);
 }
 
-.willa-tree-select-empty {
-  padding: 1.4rem 0.2rem;
-  color: var(--willa-picker-muted);
-  font-size: 0.85rem;
-  text-align: center;
-}
-
 @media (max-width: 640px) {
   .willa-tree-select-panel {
     border-radius: 0.7rem;

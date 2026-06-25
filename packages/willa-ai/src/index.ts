@@ -30,12 +30,27 @@ export type {
   ContextPanelProps,
   ContextPanelSource,
 } from "#ai/components/ContextPanel";
+export { ContextWindowMeter } from "#ai/components/ContextWindowMeter";
+export type {
+  ContextWindowMeterProps,
+  ContextWindowMeterSegment,
+  ContextWindowMeterSize,
+  ContextWindowMeterTone,
+} from "#ai/components/ContextWindowMeter";
 export { GenerationCard } from "#ai/components/GenerationCard";
 export type {
   GenerationCardMetric,
   GenerationCardProps,
   GenerationCardStatus,
 } from "#ai/components/GenerationCard";
+export { HumanApprovalCard } from "#ai/components/HumanApprovalCard";
+export type {
+  HumanApprovalCardAction,
+  HumanApprovalCardDetail,
+  HumanApprovalCardProps,
+  HumanApprovalCardStatus,
+  HumanApprovalCardTone,
+} from "#ai/components/HumanApprovalCard";
 export { FeedbackBar } from "#ai/components/FeedbackBar";
 export type {
   FeedbackBarPayload,

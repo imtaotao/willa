@@ -15,7 +15,7 @@ import {
 } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
-import { clampNumber } from "@willa-ui/shared";
+import { clampNumber, useControllableState } from "@willa-ui/shared";
 
 import { IconButton } from "#content/components/IconButton";
 
@@ -119,13 +119,15 @@ export const Carousel = forwardRef<CarouselRef, CarouselProps>(
       () => createSlides(items, children),
       [children, items],
     );
-    const isControlled = active !== undefined;
-    const [internalActive, setInternalActive] = useState(defaultActive);
+    const [activeValue, setActiveValue] = useControllableState({
+      value: active,
+      defaultValue: defaultActive,
+    });
     const [paused, setPaused] = useState(false);
     const [activeHeight, setActiveHeight] = useState<number>();
     const pointerStartXRef = useRef<number | null>(null);
     const slideRefs = useRef<Array<HTMLDivElement | null>>([]);
-    const activeIndex = clampIndex(active ?? internalActive, slides.length);
+    const activeIndex = clampIndex(activeValue, slides.length);
     const canMove = slides.length > 1;
     const previousDisabled = !loop && activeIndex === 0;
     const nextDisabled = !loop && activeIndex === slides.length - 1;
@@ -144,10 +146,7 @@ export const Carousel = forwardRef<CarouselRef, CarouselProps>(
 
         beforeChange?.(activeIndex, normalizedIndex);
 
-        if (!isControlled) {
-          setInternalActive(normalizedIndex);
-        }
-
+        setActiveValue(normalizedIndex);
         onChange?.(normalizedIndex, activeIndex);
         afterChange?.(normalizedIndex);
       },
@@ -156,9 +155,9 @@ export const Carousel = forwardRef<CarouselRef, CarouselProps>(
         afterChange,
         beforeChange,
         canMove,
-        isControlled,
         loop,
         onChange,
+        setActiveValue,
         slides.length,
       ],
     );

@@ -77,7 +77,7 @@ export const highlightCodeToHtml = (
 };
 
 export const createCodeHighlightLines = (
-  ranges: Array<number | readonly [start: number, end: number]> | undefined,
+  ranges?: Array<number | readonly [start: number, end: number]>,
 ) => {
   const highlightLines = new Set<number>();
 

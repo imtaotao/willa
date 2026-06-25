@@ -12,7 +12,7 @@ import {
   type Ref,
 } from "react";
 import { ClockIcon, CheckIcon, Cross2Icon } from "@radix-ui/react-icons";
-import { assignRef } from "@willa-ui/shared";
+import { assignRef, useControllableState } from "@willa-ui/shared";
 import classNames from "classnames";
 
 import {
@@ -28,16 +28,18 @@ import {
   getTimeWheelParts,
   normalizeTimeWheelColumns,
   normalizeTimeWheelParts,
-  type TimePickerDisabledTime,
-  type TimePickerWheelColumn,
-  type TimePickerWheelColumns,
 } from "#form/internal/timePickerParts";
+import type {
+  TimePickerDisabledTime,
+  TimePickerWheelColumn,
+  TimePickerWheelColumns,
+} from "#form/components/TimePicker/types";
 
 export type {
   TimePickerDisabledTime,
   TimePickerWheelColumn,
   TimePickerWheelColumns,
-} from "#form/internal/timePickerParts";
+} from "#form/components/TimePicker/types";
 
 export type TimePickerSize = "sm" | "md" | "lg";
 export type TimePickerVariant = "outline" | "soft";
@@ -116,9 +118,12 @@ export function TimePicker(props: TimePickerProps) {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(false);
-  const [innerValue, setInnerValue] = useState(defaultValue);
+  const [currentValue, setCurrentValue] = useControllableState({
+    value,
+    defaultValue,
+    onChange: onValueChange,
+  });
   const [draftValue, setDraftValue] = useState(defaultValue);
-  const currentValue = value ?? innerValue;
   const normalizedWheelColumns = useMemo(
     () => normalizeTimeWheelColumns(wheelColumns),
     [wheelColumns],
@@ -188,11 +193,7 @@ export function TimePicker(props: TimePickerProps) {
   }, [open, panelValue]);
 
   const commitValue = (nextValue: string, shouldClose: boolean) => {
-    if (value === undefined) {
-      setInnerValue(nextValue);
-    }
-
-    onValueChange?.(nextValue);
+    setCurrentValue(nextValue);
 
     if (shouldClose) {
       setOpen(false);

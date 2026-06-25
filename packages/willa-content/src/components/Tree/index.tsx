@@ -9,6 +9,7 @@ import {
 } from "react";
 import classNames from "classnames";
 import { CheckIcon, ChevronRightIcon, MinusIcon } from "@radix-ui/react-icons";
+import { useControllableState } from "@willa-ui/shared";
 
 export type TreeKey = string | number;
 export type TreeSize = "sm" | "md" | "lg";
@@ -117,15 +118,18 @@ export function Tree(props: TreeProps) {
     if (defaultExpandedKeys) return defaultExpandedKeys;
     return defaultExpandAll ? collectExpandableKeys(items) : [];
   }, [defaultExpandAll, defaultExpandedKeys, items]);
-  const [innerExpandedKeys, setInnerExpandedKeys] =
-    useState<Array<TreeKey>>(defaultExpanded);
-  const [innerSelectedKeys, setInnerSelectedKeys] =
-    useState<Array<TreeKey>>(defaultSelectedKeys);
-  const [innerCheckedKeys, setInnerCheckedKeys] =
-    useState<Array<TreeKey>>(defaultCheckedKeys);
-  const resolvedExpandedKeys = expandedKeys ?? innerExpandedKeys;
-  const resolvedSelectedKeys = selectedKeys ?? innerSelectedKeys;
-  const resolvedCheckedKeys = checkedKeys ?? innerCheckedKeys;
+  const [resolvedExpandedKeys, setResolvedExpandedKeys] = useControllableState({
+    value: expandedKeys,
+    defaultValue: defaultExpanded,
+  });
+  const [resolvedSelectedKeys, setResolvedSelectedKeys] = useControllableState({
+    value: selectedKeys,
+    defaultValue: defaultSelectedKeys,
+  });
+  const [resolvedCheckedKeys, setResolvedCheckedKeys] = useControllableState({
+    value: checkedKeys,
+    defaultValue: defaultCheckedKeys,
+  });
   const expandedSet = useMemo(
     () => new Set(resolvedExpandedKeys),
     [resolvedExpandedKeys],
@@ -157,10 +161,7 @@ export function Tree(props: TreeProps) {
     info: TreeItemRenderInfo,
     nextKeys: Array<TreeKey>,
   ) => {
-    if (expandedKeys === undefined) {
-      setInnerExpandedKeys(nextKeys);
-    }
-
+    setResolvedExpandedKeys(nextKeys);
     onExpandedChange?.(nextKeys, { ...info, key });
   };
 
@@ -169,10 +170,7 @@ export function Tree(props: TreeProps) {
     info: TreeItemRenderInfo,
     nextKeys: Array<TreeKey>,
   ) => {
-    if (selectedKeys === undefined) {
-      setInnerSelectedKeys(nextKeys);
-    }
-
+    setResolvedSelectedKeys(nextKeys);
     onSelectedChange?.(nextKeys, { ...info, key });
   };
 
@@ -181,10 +179,7 @@ export function Tree(props: TreeProps) {
     info: TreeItemRenderInfo,
     nextKeys: Array<TreeKey>,
   ) => {
-    if (checkedKeys === undefined) {
-      setInnerCheckedKeys(nextKeys);
-    }
-
+    setResolvedCheckedKeys(nextKeys);
     onCheckedChange?.(nextKeys, { ...info, key });
   };
 

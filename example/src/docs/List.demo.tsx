@@ -812,9 +812,9 @@ export default defineDoc({
     },
     {
       name: "variant",
-      type: '"panel" | "plain"',
+      type: '"panel" | "plain" | "menu"',
       defaultValue: '"panel"',
-      description: "列表视觉类型。",
+      description: "列表视觉类型，menu 适合浮层候选项列表。",
     },
     {
       name: "itemLayout",

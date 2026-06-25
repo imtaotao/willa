@@ -587,26 +587,33 @@ export default defineDoc({
         const [editing, setEditing] = useState(true);
         const [value, setValue] = useState("This is a design language ...");
 
-        <Switch checked={editing} label="Editing" size="sm" />
-        <Typography.Paragraph
-          copyable={{
-            text: value,
-            tooltips: ["复制文案", "已复制文案"],
-          }}
-          editable={{
-            editing,
-            text: value,
-            triggerType: ["icon", "text"],
-            autoSize: { minRows: 2, maxRows: 5 },
-            maxLength: 180,
-            onStart: () => setEditing(true),
-            onChange: (nextValue) => setValue(nextValue),
-            onCancel: () => setEditing(false),
-            onEnd: () => setEditing(false),
-          }}
-        >
-          {value}
-        </Typography.Paragraph>;
+        <>
+          <Switch
+            checked={editing}
+            label="Editing"
+            size="sm"
+            onChange={(event) => setEditing(event.currentTarget.checked)}
+          />
+          <Typography.Paragraph
+            copyable={{
+              text: value,
+              tooltips: ["复制文案", "已复制文案"],
+            }}
+            editable={{
+              editing,
+              text: value,
+              triggerType: ["icon", "text"],
+              autoSize: { minRows: 2, maxRows: 5 },
+              maxLength: 180,
+              onStart: () => setEditing(true),
+              onChange: (nextValue) => setValue(nextValue),
+              onCancel: () => setEditing(false),
+              onEnd: () => setEditing(false),
+            }}
+          >
+            {value}
+          </Typography.Paragraph>
+        </>;
       `,
       content: (
         <div style={typographyEditableSummaryStyle}>

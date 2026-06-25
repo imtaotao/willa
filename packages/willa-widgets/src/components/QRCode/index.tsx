@@ -56,7 +56,7 @@ const statusLabels = {
   scanned: "已扫描",
 } satisfies Record<Exclude<QRCodeStatus, "active">, string>;
 
-const normalizeIconSize = (iconSize: QRCodeIconSize | undefined) => {
+const normalizeIconSize = (iconSize?: QRCodeIconSize) => {
   if (typeof iconSize === "number") {
     return { width: iconSize, height: iconSize };
   }

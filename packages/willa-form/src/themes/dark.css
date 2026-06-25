@@ -19,8 +19,6 @@
   --willa-upload-preview-bg: rgba(255, 255, 255, 0.055);
   --willa-upload-preview-border: rgba(255, 255, 255, 0.1);
   --willa-upload-media-bg: rgba(255, 255, 255, 0.06);
-  --willa-upload-file-icon-bg: rgba(125, 211, 252, 0.14);
-  --willa-upload-file-icon: #bae6fd;
   --willa-upload-progress-bg: rgba(125, 211, 252, 0.14);
   --willa-upload-progress-bar: linear-gradient(90deg, #38bdf8, #67e8f9);
   --willa-upload-remove-bg: rgba(255, 255, 255, 0.08);
@@ -63,9 +61,6 @@
   --willa-tag-input-disabled-text: var(--willa-text-faint);
   --willa-tag-input-invalid-border: rgba(252, 165, 165, 0.42);
   --willa-tag-input-invalid-ring: rgba(252, 165, 165, 0.13);
-  --willa-tag-input-tag-bg: rgba(255, 255, 255, 0.08);
-  --willa-tag-input-tag-border: rgba(255, 255, 255, 0.12);
-  --willa-tag-input-tag-text: var(--willa-text-strong);
   --willa-tag-input-action-text: var(--willa-text-soft);
   --willa-tag-input-action-text-hover: var(--willa-text-strong);
   --willa-tag-input-action-bg-hover: rgba(255, 255, 255, 0.09);
@@ -128,7 +123,6 @@
   --willa-calendar-selected-bg: #263756;
   --willa-calendar-selected-border: rgba(130, 163, 236, 0.48);
   --willa-calendar-selected-text: var(--willa-text-strong);
-  --willa-calendar-selected-marked-bg: #202a3f;
   --willa-calendar-marker-bg: #25344f;
   --willa-calendar-marker-text: #d8e2ff;
   --willa-calendar-marker-neutral-bg: #30343b;

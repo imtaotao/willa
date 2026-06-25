@@ -336,10 +336,7 @@ const createDiffStats = (lines: Array<DiffLine>) => {
   );
 };
 
-const createUnifiedRows = (
-  lines: Array<DiffLine>,
-  contextLines: number | undefined,
-) => {
+const createUnifiedRows = (lines: Array<DiffLine>, contextLines?: number) => {
   return applyContext(lines, contextLines).map((chunk) =>
     "count" in chunk
       ? ({
@@ -353,10 +350,7 @@ const createUnifiedRows = (
   );
 };
 
-const createSplitRows = (
-  lines: Array<DiffLine>,
-  contextLines: number | undefined,
-) => {
+const createSplitRows = (lines: Array<DiffLine>, contextLines?: number) => {
   const visibleLines = applyContext(lines, contextLines);
   const rows: Array<SplitRow> = [];
   let index = 0;
@@ -441,10 +435,7 @@ const createSplitRows = (
   return rows;
 };
 
-const applyContext = (
-  lines: Array<DiffLine>,
-  contextLines: number | undefined,
-) => {
+const applyContext = (lines: Array<DiffLine>, contextLines?: number) => {
   if (contextLines === undefined || contextLines < 0) {
     return lines;
   }

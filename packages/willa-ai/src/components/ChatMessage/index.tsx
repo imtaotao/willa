@@ -68,7 +68,7 @@ export function ChatMessage(props: ChatMessageProps) {
           name={resolvedName}
           src={avatarSrc}
           alt={avatarAlt}
-          size={compact ? "sm" : "md"}
+          size="md"
         />
       ) : null}
       <div className="willa-chat-message-body">

@@ -15,7 +15,13 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import classNames from "classnames";
-import { clampNumber, isMobileViewport } from "@willa-ui/shared";
+import {
+  clampNumber,
+  isMobileViewport,
+  useFloatingLayer,
+  useControllableState,
+  type FloatingPanelRect,
+} from "@willa-ui/shared";
 
 import { Avatar } from "#content/components/Avatar";
 import {
@@ -60,12 +66,6 @@ export type MentionInputTriggerSource = {
 };
 
 type MentionState = Omit<MentionInputMentionContext, "replace">;
-type MentionPanelPosition = {
-  x: number;
-  y: number;
-  width?: number;
-  placement: "top" | "bottom";
-};
 
 const getStringValue = (value: unknown): string | null => {
   if (typeof value === "string") {
@@ -276,23 +276,25 @@ export const MentionInput = forwardRef<HTMLTextAreaElement, MentionInputProps>(
       style,
       slotClassNames,
     } = props;
-    const isControlled = value !== undefined;
-    const [innerValue, setInnerValue] = useState(defaultValue);
-    const currentValue = isControlled ? value : innerValue;
+    const [currentValue, setCurrentValue] = useControllableState({
+      value,
+      defaultValue,
+    });
     const trimmedValue = currentValue.trim();
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+
     useImperativeHandle(forwardedRef, () => textareaRef.current!);
+
     const [activeMention, setActiveMention] = useState<MentionState | null>(
       null,
     );
+    const mentionPanelRef = useRef<HTMLDivElement>(null);
+    const mentionOutsideRefs = useMemo(() => [textareaRef], []);
     const activeMentionRef = useRef<MentionState | null>(null);
     const [mentionAnchorPoint, setMentionAnchorPoint] = useState<null | {
       x: number;
       y: number;
     }>(null);
-    const mentionPanelRef = useRef<HTMLDivElement>(null);
-    const [mentionPanelPosition, setMentionPanelPosition] =
-      useState<MentionPanelPosition | null>(null);
 
     const sources = useMemo(
       () =>
@@ -361,19 +363,14 @@ export const MentionInput = forwardRef<HTMLTextAreaElement, MentionInputProps>(
       activeMentionRef.current = null;
       setActiveMention(null);
       setMentionAnchorPoint(null);
-      setMentionPanelPosition(null);
       onMentionQuery?.(null);
     }, [onMentionQuery]);
 
-    const updateMentionPanelPosition = useCallback(() => {
-      if (!mentionAnchorPoint || !mentionPanelRef.current || !activeMention) {
-        return;
-      }
-
+    const getMentionAnchorRect = useCallback((): FloatingPanelRect | null => {
+      if (!mentionAnchorPoint || !activeMention) return null;
       const textarea = textareaRef.current;
       const textareaRect = textarea?.getBoundingClientRect();
       const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
       const fallbackWidth = Math.max(viewportWidth - 16, 0);
       const viewportIsMobile = isMobileViewport(viewportWidth);
       const targetWidth = getMentionInputMentionPanelWidth({
@@ -381,16 +378,6 @@ export const MentionInput = forwardRef<HTMLTextAreaElement, MentionInputProps>(
         fallbackWidth,
         textareaWidth: textareaRect?.width ?? 0,
       });
-
-      const panelRect = mentionPanelRef.current.getBoundingClientRect();
-      const panelWidth = viewportIsMobile
-        ? clampNumber(panelRect.width || targetWidth, targetWidth, targetWidth)
-        : clampNumber(
-            panelRect.width || targetWidth,
-            12 * 16,
-            Math.min(targetWidth, fallbackWidth),
-          );
-      const panelHeight = panelRect.height || 188;
       const leftLimitMin = textareaRect
         ? Math.max(8, textareaRect.left + 6)
         : 8;
@@ -398,11 +385,11 @@ export const MentionInput = forwardRef<HTMLTextAreaElement, MentionInputProps>(
         ? Math.max(
             8,
             Math.min(
-              viewportWidth - panelWidth - 8,
-              textareaRect.right - panelWidth - 8,
+              viewportWidth - targetWidth - 8,
+              textareaRect.right - targetWidth - 8,
             ),
           )
-        : Math.max(8, viewportWidth - panelWidth - 8);
+        : Math.max(8, viewportWidth - targetWidth - 8);
 
       const left = viewportIsMobile
         ? clampNumber(
@@ -412,27 +399,15 @@ export const MentionInput = forwardRef<HTMLTextAreaElement, MentionInputProps>(
           )
         : clampNumber(mentionAnchorPoint.x, leftLimitMin, leftLimitMax);
       const cursorLineHeight = getTextareaLineHeight(textarea);
-      const baseTop = mentionAnchorPoint.y + cursorLineHeight + 2;
-      const hasBelowSpace = baseTop + panelHeight <= viewportHeight - 8;
-      const fallbackTop = textareaRect
-        ? textareaRect.top - panelHeight - 8
-        : mentionAnchorPoint.y - panelHeight - 8;
-      const top = hasBelowSpace
-        ? baseTop
-        : Math.min(Math.max(fallbackTop, 8), viewportHeight - panelHeight - 8);
-      const placement = hasBelowSpace ? "bottom" : "top";
-      const clampedTop = clampNumber(
-        top,
-        8,
-        Math.max(8, viewportHeight - panelHeight - 8),
-      );
 
-      setMentionPanelPosition({
-        x: left,
-        y: clampedTop,
-        width: panelWidth,
-        placement,
-      });
+      return {
+        top: mentionAnchorPoint.y,
+        right: left + targetWidth,
+        bottom: mentionAnchorPoint.y + cursorLineHeight,
+        left,
+        width: targetWidth,
+        height: cursorLineHeight,
+      };
     }, [mentionAnchorPoint, activeMention]);
 
     useEffect(() => {
@@ -456,69 +431,27 @@ export const MentionInput = forwardRef<HTMLTextAreaElement, MentionInputProps>(
     }, [activeMention, updateMentionAnchorPoint]);
 
     useEffect(() => {
-      if (!activeMention) {
-        setMentionPanelPosition(null);
-        return;
-      }
-
-      const raf = window.requestAnimationFrame(() => {
-        updateMentionPanelPosition();
-      });
-
-      const handleUpdate = () => {
-        updateMentionPanelPosition();
-      };
-      const handleOutsidePointerDown = (event: PointerEvent) => {
-        const target = event.target;
-        if (!(target instanceof Node)) return;
-
-        if (
-          mentionPanelRef.current?.contains(target) ||
-          textareaRef.current?.contains(target)
-        ) {
-          return;
-        }
-
-        closeMentionPanel();
-      };
-
+      if (!activeMention) return;
       const handleEscape = (event: KeyboardEvent) => {
         if (event.key !== "Escape") return;
         closeMentionPanel();
       };
 
-      window.addEventListener("resize", handleUpdate);
-      window.addEventListener("scroll", handleUpdate, true);
-      textareaRef.current?.addEventListener("scroll", handleUpdate);
-      textareaRef.current?.ownerDocument?.addEventListener(
-        "pointerdown",
-        handleOutsidePointerDown,
-      );
       textareaRef.current?.ownerDocument?.addEventListener(
         "keydown",
         handleEscape,
       );
 
       return () => {
-        window.cancelAnimationFrame(raf);
-        window.removeEventListener("resize", handleUpdate);
-        window.removeEventListener("scroll", handleUpdate, true);
-        textareaRef.current?.removeEventListener("scroll", handleUpdate);
-        textareaRef.current?.ownerDocument?.removeEventListener(
-          "pointerdown",
-          handleOutsidePointerDown,
-        );
         textareaRef.current?.ownerDocument?.removeEventListener(
           "keydown",
           handleEscape,
         );
       };
-    }, [activeMention, closeMentionPanel, updateMentionPanelPosition]);
+    }, [activeMention, closeMentionPanel]);
 
     const updateValue = (nextValue: string) => {
-      if (!isControlled) {
-        setInnerValue(nextValue);
-      }
+      setCurrentValue(nextValue);
       onValueChange?.(nextValue);
     };
 
@@ -718,6 +651,20 @@ export const MentionInput = forwardRef<HTMLTextAreaElement, MentionInputProps>(
     const showMentionPanel = Boolean(
       activeMention && mentionAnchorPoint && filteredMentions.length,
     );
+    const { position: mentionPanelPosition } = useFloatingLayer({
+      open: showMentionPanel,
+      floatingRef: mentionPanelRef,
+      getAnchorRect: getMentionAnchorRect,
+      side: "bottom",
+      align: "start",
+      offset: 2,
+      fallbackHeight: 188,
+      matchAnchorWidth: true,
+      applyResolvedWidth: true,
+      flipToFit: true,
+      outsideRefs: mentionOutsideRefs,
+      onClose: closeMentionPanel,
+    });
 
     const mentionPanel = (() => {
       if (!activeMention) return null;
@@ -764,8 +711,8 @@ export const MentionInput = forwardRef<HTMLTextAreaElement, MentionInputProps>(
                 textareaWidth:
                   textareaRef.current?.getBoundingClientRect().width ?? 0,
               })}px`,
-        left: `${mentionPanelPosition?.x ?? mentionAnchorFallback.x}px`,
-        top: `${mentionPanelPosition?.y ?? mentionAnchorFallback.y + 10}px`,
+        left: `${mentionPanelPosition?.left ?? mentionAnchorFallback.x}px`,
+        top: `${mentionPanelPosition?.top ?? mentionAnchorFallback.y + 10}px`,
         "--willa-comment-input-mention-panel-bg": panelBackground,
         "--willa-comment-input-mention-panel-border": panelBorderColor,
         "--willa-comment-input-mention-panel-shadow": panelShadow,
@@ -875,13 +822,11 @@ export const MentionInput = forwardRef<HTMLTextAreaElement, MentionInputProps>(
               {...restListProps}
               className={classNames(
                 "willa-comment-input-mention-list",
-                "willa-list--plain",
-                "willa-list--sm",
                 shouldUseVirtualScroll &&
                   "willa-comment-input-mention-list--virtual-scroll",
               )}
               size="sm"
-              variant="plain"
+              variant="menu"
               itemLayout="horizontal"
               split={split ?? true}
               virtualScroll={shouldUseVirtualScroll}

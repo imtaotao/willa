@@ -208,7 +208,7 @@ const getAvatarStyle = (options: {
   return style;
 };
 
-const getAvatarInitials = (value: string | undefined) => {
+const getAvatarInitials = (value?: string) => {
   const words = value?.trim().split(/\s+/).filter(Boolean);
 
   if (!words?.length) return "?";

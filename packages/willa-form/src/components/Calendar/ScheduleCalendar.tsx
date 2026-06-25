@@ -12,6 +12,7 @@ import { Tooltip } from "@willa-ui/content/components/Tooltip";
 import classNames from "classnames";
 import {
   addDays,
+  addMonths,
   clampHour,
   formatDateValue,
   formatShortDateValue,
@@ -794,9 +795,6 @@ const getInitialScheduleVisibleDate = (
   return getWeekStart(date);
 };
 
-const addMonths = (date: Date, offset: number) =>
-  getDateOnly(new Date(date.getFullYear(), date.getMonth() + offset, 1));
-
 const formatHourLabel = (hour: number) => `${String(hour).padStart(2, "0")}:00`;
 
 const renderScheduleEventTooltip = (event: ScheduleCalendarEvent) => (
@@ -934,8 +932,8 @@ const getScheduleEventStyle = (
 };
 
 const getScheduleEventColumnStyle = (
-  style: CSSProperties | undefined,
-  layout: ScheduleEventLayout | undefined,
+  style?: CSSProperties,
+  layout?: ScheduleEventLayout,
 ) => {
   if (!layout || layout.columns <= 1) return style;
 

@@ -5,7 +5,6 @@ import {
   useEffect,
   useId,
   useRef,
-  useState,
   type CSSProperties,
   type FocusEvent,
   type FocusEventHandler,
@@ -19,7 +18,12 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import classNames from "classnames";
-import { clampNumber, composeRefs } from "@willa-ui/shared";
+import {
+  composeRefs,
+  useFloatingLayer,
+  useControllableState,
+  type FloatingLayerPosition,
+} from "@willa-ui/shared";
 
 export type TooltipSide = "top" | "right" | "bottom" | "left";
 export type TooltipAlign = "start" | "center" | "end";
@@ -51,11 +55,6 @@ type TooltipTriggerProps = {
   [key: string]: unknown;
 };
 
-type TooltipPosition = {
-  top: number;
-  left: number;
-};
-
 export function Tooltip(props: TooltipProps) {
   const {
     content,
@@ -73,24 +72,15 @@ export function Tooltip(props: TooltipProps) {
     contentClassName,
   } = props;
   const id = useId();
-  const isControlled = open !== undefined;
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
-  const isOpen = !disabled && Boolean(content) && (open ?? uncontrolledOpen);
-  const [position, setPosition] = useState<TooltipPosition>();
+  const [tooltipOpen, setTooltipOpen] = useControllableState({
+    value: open,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
+  const isOpen = !disabled && Boolean(content) && tooltipOpen;
   const triggerRef = useRef<HTMLElement | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const openTimerRef = useRef<number | undefined>(undefined);
-
-  const setTooltipOpen = useCallback(
-    (nextOpen: boolean) => {
-      if (!isControlled) {
-        setUncontrolledOpen(nextOpen);
-      }
-
-      onOpenChange?.(nextOpen);
-    },
-    [isControlled, onOpenChange],
-  );
 
   const clearOpenTimer = useCallback(() => {
     if (openTimerRef.current === undefined) return;
@@ -118,78 +108,21 @@ export function Tooltip(props: TooltipProps) {
     setTooltipOpen(false);
   }, [clearOpenTimer, setTooltipOpen]);
 
-  const updatePosition = useCallback(() => {
-    const triggerElement = triggerRef.current;
-    const tooltipElement = contentRef.current;
-    if (!triggerElement || !tooltipElement || typeof window === "undefined") {
-      return;
-    }
-
-    const triggerRect = triggerElement.getBoundingClientRect();
-    const tooltipRect = tooltipElement.getBoundingClientRect();
-    const nextPosition = getTooltipPosition({
-      triggerRect,
-      tooltipRect,
-      side,
-      align,
-      offset,
-    });
-
-    setPosition({
-      top: clampNumber(
-        nextPosition.top,
-        8,
-        Math.max(8, window.innerHeight - tooltipRect.height - 8),
-      ),
-      left: clampNumber(
-        nextPosition.left,
-        8,
-        Math.max(8, window.innerWidth - tooltipRect.width - 8),
-      ),
-    });
-  }, [align, offset, side]);
+  const { position } = useFloatingLayer({
+    open: isOpen,
+    triggerRef,
+    floatingRef: contentRef,
+    side,
+    align,
+    offset,
+    onClose: closeTooltip,
+  });
 
   useEffect(() => {
     return () => {
       clearOpenTimer();
     };
   }, [clearOpenTimer]);
-
-  useEffect(() => {
-    if (!isOpen || typeof window === "undefined") return;
-
-    updatePosition();
-    const frame = window.requestAnimationFrame(updatePosition);
-    const handleWindowUpdate = () => updatePosition();
-
-    window.addEventListener("resize", handleWindowUpdate);
-    window.addEventListener("scroll", handleWindowUpdate, true);
-
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.removeEventListener("resize", handleWindowUpdate);
-      window.removeEventListener("scroll", handleWindowUpdate, true);
-    };
-  }, [isOpen, updatePosition]);
-
-  useEffect(() => {
-    if (!isOpen || typeof document === "undefined") return;
-
-    const handleDocumentPointerDown = (event: PointerEvent) => {
-      const target = event.target;
-      if (!(target instanceof Node)) return;
-      if (triggerRef.current?.contains(target)) return;
-      if (contentRef.current?.contains(target)) return;
-
-      closeTooltip();
-    };
-
-    document.addEventListener("pointerdown", handleDocumentPointerDown);
-
-    return () => {
-      document.removeEventListener("pointerdown", handleDocumentPointerDown);
-    };
-  }, [closeTooltip, isOpen]);
 
   const handleTriggerMouseEnter = (event: MouseEvent<HTMLElement>) => {
     children.props.onMouseEnter?.(event);
@@ -267,7 +200,7 @@ export function Tooltip(props: TooltipProps) {
                 `willa-tooltip-content--${side}`,
                 contentClassName,
               )}
-              style={getTooltipContentStyle(position)}
+              style={getTooltipContentStyle(position, side)}
               role="tooltip"
             >
               {content}
@@ -279,68 +212,43 @@ export function Tooltip(props: TooltipProps) {
   );
 }
 
-const getTooltipPosition = (options: {
-  triggerRect: DOMRect;
-  tooltipRect: DOMRect;
-  side: TooltipSide;
-  align: TooltipAlign;
-  offset: number;
-}) => {
-  const { triggerRect, tooltipRect, side, align, offset } = options;
-  const centerLeft =
-    triggerRect.left + triggerRect.width / 2 - tooltipRect.width / 2;
-  const centerTop =
-    triggerRect.top + triggerRect.height / 2 - tooltipRect.height / 2;
-
-  if (side === "top" || side === "bottom") {
-    const top =
-      side === "top"
-        ? triggerRect.top - tooltipRect.height - offset
-        : triggerRect.bottom + offset;
-    const left = getAlignedPosition(
-      triggerRect.left,
-      triggerRect.right,
-      tooltipRect.width,
-      centerLeft,
-      align,
-    );
-
-    return { top, left };
-  }
-
-  const left =
-    side === "left"
-      ? triggerRect.left - tooltipRect.width - offset
-      : triggerRect.right + offset;
-  const top = getAlignedPosition(
-    triggerRect.top,
-    triggerRect.bottom,
-    tooltipRect.height,
-    centerTop,
-    align,
-  );
-
-  return { top, left };
-};
-
-const getAlignedPosition = (
-  start: number,
-  end: number,
-  size: number,
-  center: number,
-  align: TooltipAlign,
+const getTooltipContentStyle = (
+  position: FloatingLayerPosition | undefined,
+  side: TooltipSide,
 ) => {
-  if (align === "start") return start;
-  if (align === "end") return end - size;
-  return center;
-};
+  const arrowPosition = getTooltipArrowPosition(position, side);
 
-const getTooltipContentStyle = (position: TooltipPosition | undefined) => {
   return {
     top: position ? `${position.top}px` : undefined,
     left: position ? `${position.left}px` : undefined,
+    "--willa-tooltip-arrow-x":
+      arrowPosition.x === null ? undefined : `${arrowPosition.x}px`,
+    "--willa-tooltip-arrow-y":
+      arrowPosition.y === null ? undefined : `${arrowPosition.y}px`,
     visibility: position ? undefined : "hidden",
   } as CSSProperties;
+};
+
+const getTooltipArrowPosition = (
+  position: FloatingLayerPosition | undefined,
+  side: TooltipSide,
+) => {
+  const anchorRect = position?.anchorRect;
+  if (!position || !anchorRect) {
+    return { x: null, y: null };
+  }
+
+  if (side === "top" || side === "bottom") {
+    return {
+      x: anchorRect.left + anchorRect.width / 2 - position.left,
+      y: null,
+    };
+  }
+
+  return {
+    x: null,
+    y: anchorRect.top + anchorRect.height / 2 - position.top,
+  };
 };
 
 const isCoarsePointer = () => {

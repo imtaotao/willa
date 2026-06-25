@@ -13,7 +13,14 @@ import {
 import { createPortal } from "react-dom";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import classNames from "classnames";
-import { clampNumber } from "@willa-ui/shared";
+import {
+  clampNumber,
+  useControllableState,
+  getFloatingPanelPosition,
+  type FloatingPanelAlign,
+  type FloatingPanelRect,
+  type FloatingPanelSide,
+} from "@willa-ui/shared";
 
 import { Button } from "#content/components/Button";
 import { IconButton } from "#content/components/IconButton";
@@ -173,17 +180,16 @@ export function Tour(props: TourProps) {
     zIndex,
   } = positioning ?? {};
   const id = useId();
-  const isOpenControlled = open !== undefined;
-  const isCurrentControlled = current !== undefined;
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
-  const [uncontrolledCurrent, setUncontrolledCurrent] =
-    useState(defaultCurrent);
-  const isOpen = open ?? uncontrolledOpen;
-  const activeIndex = clampNumber(
-    current ?? uncontrolledCurrent,
-    0,
-    steps.length - 1,
-  );
+  const [isOpen, setTourOpen] = useControllableState({
+    value: open,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
+  const [currentStep, setCurrentStep] = useControllableState({
+    value: current,
+    defaultValue: defaultCurrent,
+  });
+  const activeIndex = clampNumber(currentStep, 0, steps.length - 1);
   const activeStep = steps[activeIndex];
   const total = steps.length;
   const isFirst = activeIndex === 0;
@@ -203,28 +209,14 @@ export function Tour(props: TourProps) {
   const motionFrameRef = useRef<number | null>(null);
   const activeIndexRef = useRef(activeIndex);
 
-  const setTourOpen = useCallback(
-    (nextOpen: boolean) => {
-      if (!isOpenControlled) {
-        setUncontrolledOpen(nextOpen);
-      }
-
-      onOpenChange?.(nextOpen);
-    },
-    [isOpenControlled, onOpenChange],
-  );
-
   const setTourCurrent = useCallback(
     (nextCurrent: number) => {
       const normalizedCurrent = clampNumber(nextCurrent, 0, steps.length - 1);
 
-      if (!isCurrentControlled) {
-        setUncontrolledCurrent(normalizedCurrent);
-      }
-
+      setCurrentStep(normalizedCurrent);
       onChange?.(normalizedCurrent);
     },
-    [isCurrentControlled, onChange, steps.length],
+    [onChange, setCurrentStep, steps.length],
   );
 
   const closeTour = useCallback(() => {
@@ -254,6 +246,7 @@ export function Tour(props: TourProps) {
 
   const updateLayout = useCallback(() => {
     if (!isOpen || !activeStep || typeof window === "undefined") return;
+    const panelElement = panelRef.current;
     const targetElement = resolveTarget(activeTarget);
 
     if (targetElement && scrollIntoView) {
@@ -264,7 +257,6 @@ export function Tour(props: TourProps) {
       );
     }
 
-    const panelElement = panelRef.current;
     const nextTargetRect = targetElement
       ? createHighlightRect(targetElement.getBoundingClientRect(), gap)
       : null;
@@ -274,33 +266,12 @@ export function Tour(props: TourProps) {
         ? previousRect
         : nextTargetRect,
     );
-
-    if (!panelElement) return;
-
-    if (!targetElement || resolvedPlacement === "center") {
-      setPanelPosition((previousPosition) =>
-        previousPosition?.placement === "center"
-          ? previousPosition
-          : {
-              top: viewportPadding,
-              left: viewportPadding,
-              placement: "center",
-            },
-      );
-      return;
-    }
-
-    const panelRect = panelElement.getBoundingClientRect();
-    const nextPanelPosition = getPanelPosition({
-      panelRect,
-      placement: resolvedPlacement,
-      targetRect: nextTargetRect,
-    });
-
-    setPanelPosition((previousPosition) =>
-      areTourPanelPositionsEqual(previousPosition, nextPanelPosition)
-        ? previousPosition
-        : nextPanelPosition,
+    setPanelPosition(
+      getTourPanelPosition({
+        panelElement,
+        placement: resolvedPlacement,
+        targetRect: nextTargetRect,
+      }),
     );
   }, [
     activeStep,
@@ -373,15 +344,18 @@ export function Tour(props: TourProps) {
     setPanelPosition(null);
   }, [isOpen]);
 
+  const hasPositionedPanel = panelPosition !== null;
+
   useEffect(() => {
-    if (!isOpen || typeof window === "undefined") return;
+    if (!hasPositionedPanel || animateMotion || typeof window === "undefined") {
+      return;
+    }
 
     if (motionFrameRef.current !== null) {
       window.cancelAnimationFrame(motionFrameRef.current);
       motionFrameRef.current = null;
     }
 
-    setAnimateMotion(false);
     motionFrameRef.current = window.requestAnimationFrame(() => {
       setAnimateMotion(true);
       motionFrameRef.current = null;
@@ -393,7 +367,7 @@ export function Tour(props: TourProps) {
         motionFrameRef.current = null;
       }
     };
-  }, [isOpen]);
+  }, [animateMotion, hasPositionedPanel]);
 
   useEffect(() => {
     if (!isOpen || typeof window === "undefined") {
@@ -681,7 +655,7 @@ const handlePanelKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
   }
 };
 
-const resolveTarget = (target: TourTarget | undefined) => {
+const resolveTarget = (target?: TourTarget) => {
   if (!target || typeof document === "undefined") return null;
   if (target instanceof HTMLElement) return target;
   if (typeof target === "function") return target();
@@ -726,9 +700,11 @@ const normalizeGap = (gap: TourGap) => {
 
 const getHighlightStyle = (rect: TourRect) => {
   return {
-    clipPath: `inset(${rect.top}px ${window.innerWidth - rect.left - rect.width}px ${
-      window.innerHeight - rect.top - rect.height
-    }px ${rect.left}px round ${rect.radius}px)`,
+    top: rect.top,
+    left: rect.left,
+    width: rect.width,
+    height: rect.height,
+    borderRadius: rect.radius,
   } satisfies CSSProperties;
 };
 
@@ -748,26 +724,25 @@ const areTourRectsEqual = (
   );
 };
 
-const areTourPanelPositionsEqual = (
-  previousPosition: TourPanelPosition | null,
-  nextPosition: TourPanelPosition,
-) => {
-  if (!previousPosition) return false;
+const getTourFloatingPlacement = (
+  placement: TourPlacement,
+): { side: FloatingPanelSide; align: FloatingPanelAlign } | null => {
+  if (placement === "center") return null;
 
-  return (
-    previousPosition.top === nextPosition.top &&
-    previousPosition.left === nextPosition.left &&
-    previousPosition.placement === nextPosition.placement
-  );
+  const [side, align = "center"] = placement.split("-") as [
+    FloatingPanelSide,
+    FloatingPanelAlign | undefined,
+  ];
+
+  return { side, align };
 };
 
-const getPanelPosition = (options: {
-  targetRect: TourRect | null;
-  panelRect: DOMRect;
+const getTourPanelPosition = (options: {
+  panelElement: HTMLElement | null;
   placement: TourPlacement;
-}): TourPanelPosition => {
-  const { targetRect, panelRect } = options;
-  const placement = targetRect ? options.placement : "center";
+  targetRect: TourRect | null;
+}): TourPanelPosition | null => {
+  const { panelElement, placement, targetRect } = options;
 
   if (!targetRect || placement === "center") {
     return {
@@ -777,72 +752,37 @@ const getPanelPosition = (options: {
     };
   }
 
-  const [side, align = "center"] = placement.split("-") as [
-    "top" | "right" | "bottom" | "left",
-    "start" | "end" | "center" | undefined,
-  ];
-  const offset = 14;
-  const position = getSidePosition({
-    align,
-    offset,
-    panelRect,
-    side,
-    targetRect,
+  const floatingPlacement = getTourFloatingPlacement(placement);
+  if (!floatingPlacement || !panelElement) return null;
+
+  const position = getFloatingPanelPosition({
+    anchorRect: createFloatingRect(targetRect),
+    floatingRect: {
+      width: panelElement.offsetWidth,
+      height: panelElement.offsetHeight,
+    },
+    side: floatingPlacement.side,
+    align: floatingPlacement.align,
+    offset: 14,
+    viewportPadding,
   });
 
   return {
-    top: clampNumber(
-      position.top,
-      viewportPadding,
-      window.innerHeight - panelRect.height - viewportPadding,
-    ),
-    left: clampNumber(
-      position.left,
-      viewportPadding,
-      window.innerWidth - panelRect.width - viewportPadding,
-    ),
+    top: position.top,
+    left: position.left,
     placement,
   };
 };
 
-const getSidePosition = (options: {
-  side: "top" | "right" | "bottom" | "left";
-  align: "start" | "end" | "center" | undefined;
-  offset: number;
-  panelRect: DOMRect;
-  targetRect: TourRect;
-}) => {
-  const { align, offset, panelRect, side, targetRect } = options;
-  const targetCenterX = targetRect.left + targetRect.width / 2;
-  const targetCenterY = targetRect.top + targetRect.height / 2;
-
-  if (side === "top" || side === "bottom") {
-    const top =
-      side === "top"
-        ? targetRect.top - panelRect.height - offset
-        : targetRect.top + targetRect.height + offset;
-    const left =
-      align === "start"
-        ? targetRect.left
-        : align === "end"
-          ? targetRect.left + targetRect.width - panelRect.width
-          : targetCenterX - panelRect.width / 2;
-
-    return { top, left };
-  }
-
-  const left =
-    side === "left"
-      ? targetRect.left - panelRect.width - offset
-      : targetRect.left + targetRect.width + offset;
-  const top =
-    align === "start"
-      ? targetRect.top
-      : align === "end"
-        ? targetRect.top + targetRect.height - panelRect.height
-        : targetCenterY - panelRect.height / 2;
-
-  return { top, left };
+const createFloatingRect = (rect: TourRect): FloatingPanelRect => {
+  return {
+    top: rect.top,
+    right: rect.left + rect.width,
+    bottom: rect.top + rect.height,
+    left: rect.left,
+    width: rect.width,
+    height: rect.height,
+  };
 };
 
 Tour.displayName = "Tour";

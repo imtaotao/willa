@@ -2,11 +2,9 @@ import {
   cloneElement,
   isValidElement,
   useCallback,
-  useEffect,
   useId,
   useMemo,
   useRef,
-  useState,
   type CSSProperties,
   type KeyboardEvent,
   type MouseEvent,
@@ -16,11 +14,18 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import classNames from "classnames";
-import { clampNumber, composeRefs } from "@willa-ui/shared";
+import {
+  composeRefs,
+  useFloatingLayer,
+  useControllableState,
+  type FloatingPanelAlign,
+  type FloatingPanelPoint,
+  type FloatingLayerPosition,
+} from "@willa-ui/shared";
 
 export type MenuSize = "sm" | "md";
 export type MenuSide = "top" | "bottom";
-export type MenuAlign = "start" | "center" | "end";
+export type MenuAlign = FloatingPanelAlign;
 export type MenuTriggerType = "click" | "contextmenu";
 
 export type MenuActionItem = {
@@ -67,12 +72,6 @@ type MenuTriggerProps = {
   [key: string]: unknown;
 };
 
-type MenuPosition = {
-  top: number;
-  left: number;
-  minWidth?: number;
-};
-
 type MenuAnchor =
   | {
       type: "trigger";
@@ -102,119 +101,46 @@ export function Menu(props: MenuProps) {
     contentClassName,
   } = props;
   const id = useId();
-  const isControlled = open !== undefined;
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
-  const isOpen = open ?? uncontrolledOpen;
-  const [position, setPosition] = useState<MenuPosition>();
+  const [isOpen, setMenuOpen] = useControllableState({
+    value: open,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
   const triggerRef = useRef<HTMLElement | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
   const itemRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const anchorRef = useRef<MenuAnchor>({ type: "trigger" });
   const enabledItems = useMemo(() => {
     return items.filter(isEnabledActionItem);
   }, [items]);
 
-  const setMenuOpen = useCallback(
-    (nextOpen: boolean) => {
-      if (!isControlled) {
-        setUncontrolledOpen(nextOpen);
-      }
-
-      onOpenChange?.(nextOpen);
-    },
-    [isControlled, onOpenChange],
-  );
-
-  const updatePosition = useCallback(() => {
-    const triggerElement = triggerRef.current;
-    if (!triggerElement || typeof window === "undefined") return;
-
+  const getMenuAnchorPoint = useCallback((): FloatingPanelPoint | null => {
     const anchor = anchorRef.current;
-    const rect = triggerElement.getBoundingClientRect();
-    const contentElement = contentRef.current;
-    const contentWidth = contentElement?.offsetWidth ?? rect.width;
-    const contentHeight = contentElement?.offsetHeight ?? 0;
-    const top =
-      anchor.type === "point"
-        ? anchor.y
-        : side === "bottom"
-          ? rect.bottom + offset
-          : rect.top - contentHeight - offset;
-    const left =
-      anchor.type === "point"
-        ? anchor.x
-        : getMenuLeft(rect, contentWidth, align);
-
-    const nextPosition: MenuPosition = {
-      top: clampNumber(
-        top,
-        8,
-        Math.max(8, window.innerHeight - contentHeight - 8),
-      ),
-      left: clampNumber(
-        left,
-        8,
-        Math.max(8, window.innerWidth - contentWidth - 8),
-      ),
-    };
-
-    if (anchor.type === "trigger") {
-      nextPosition.minWidth = Math.min(rect.width, window.innerWidth - 16);
-    }
-
-    setPosition(nextPosition);
-  }, [align, offset, side]);
+    return anchor.type === "point" ? { x: anchor.x, y: anchor.y } : null;
+  }, []);
 
   const closeMenu = useCallback(() => {
     setMenuOpen(false);
   }, [setMenuOpen]);
 
-  useEffect(() => {
-    if (!isOpen || typeof window === "undefined") return;
+  const focusFirstMenuItem = useCallback(() => {
+    const firstItem = getEnabledButtons(itemRefs.current)[0];
+    firstItem?.focus();
+  }, []);
 
-    previousFocusRef.current =
-      document.activeElement instanceof HTMLElement
-        ? document.activeElement
-        : null;
-    updatePosition();
-
-    const focusTimer = window.setTimeout(() => {
-      const firstItem = getEnabledButtons(itemRefs.current)[0];
-      firstItem?.focus();
-    }, 0);
-
-    const handlePointerDown = (event: PointerEvent) => {
-      const target = event.target;
-      if (!(target instanceof Node)) return;
-      if (contentRef.current?.contains(target)) return;
-      if (triggerRef.current?.contains(target)) return;
-      closeMenu();
-    };
-
-    const handleWindowUpdate = () => updatePosition();
-
-    document.addEventListener("pointerdown", handlePointerDown);
-    window.addEventListener("resize", handleWindowUpdate);
-    window.addEventListener("scroll", handleWindowUpdate, true);
-
-    return () => {
-      window.clearTimeout(focusTimer);
-      document.removeEventListener("pointerdown", handlePointerDown);
-      window.removeEventListener("resize", handleWindowUpdate);
-      window.removeEventListener("scroll", handleWindowUpdate, true);
-      previousFocusRef.current?.focus();
-      previousFocusRef.current = null;
-    };
-  }, [closeMenu, isOpen, updatePosition]);
-
-  useEffect(() => {
-    if (isOpen) {
-      updatePosition();
-    } else {
-      setPosition(undefined);
-    }
-  }, [isOpen, updatePosition]);
+  const { position, updatePosition } = useFloatingLayer({
+    open: isOpen,
+    triggerRef,
+    floatingRef: contentRef,
+    getAnchorPoint: getMenuAnchorPoint,
+    side,
+    align,
+    offset,
+    matchAnchorMinWidth: anchorRef.current.type === "trigger",
+    restoreFocus: true,
+    onClose: closeMenu,
+    onOpenAutoFocus: focusFirstMenuItem,
+  });
 
   const handleTriggerClick = (event: MouseEvent<HTMLElement>) => {
     trigger.props.onClick?.(event);
@@ -415,19 +341,7 @@ const getEnabledButtons = (items: Array<HTMLButtonElement | null>) => {
   });
 };
 
-const getMenuLeft = (rect: DOMRect, contentWidth: number, align: MenuAlign) => {
-  if (align === "center") {
-    return rect.left + rect.width / 2 - contentWidth / 2;
-  }
-
-  if (align === "end") {
-    return rect.right - contentWidth;
-  }
-
-  return rect.left;
-};
-
-const getMenuContentStyle = (position: MenuPosition | undefined) => {
+const getMenuContentStyle = (position?: FloatingLayerPosition) => {
   return {
     top: position ? `${position.top}px` : undefined,
     left: position ? `${position.left}px` : undefined,

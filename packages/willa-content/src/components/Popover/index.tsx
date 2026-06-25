@@ -2,10 +2,8 @@ import {
   cloneElement,
   isValidElement,
   useCallback,
-  useEffect,
   useId,
   useRef,
-  useState,
   type CSSProperties,
   type KeyboardEvent,
   type MouseEvent,
@@ -17,13 +15,17 @@ import {
 import { createPortal } from "react-dom";
 import classNames from "classnames";
 import {
-  clampNumber,
   composeRefs,
   getFocusableElements,
+  useFloatingLayer,
+  useControllableState,
+  type FloatingPanelAlign,
+  type FloatingPanelSide,
+  type FloatingLayerPosition,
 } from "@willa-ui/shared";
 
-export type PopoverSide = "top" | "right" | "bottom" | "left";
-export type PopoverAlign = "start" | "center" | "end";
+export type PopoverSide = FloatingPanelSide;
+export type PopoverAlign = FloatingPanelAlign;
 export type PopoverSize = "sm" | "md" | "lg";
 
 export type PopoverProps = {
@@ -54,12 +56,6 @@ type PopoverTriggerProps = {
   [key: string]: unknown;
 };
 
-type PopoverPosition = {
-  top: number;
-  left: number;
-  minWidth: number;
-};
-
 export function Popover(props: PopoverProps) {
   const {
     trigger,
@@ -85,111 +81,40 @@ export function Popover(props: PopoverProps) {
   const id = useId();
   const titleId = title ? `${id}-title` : undefined;
   const descriptionId = description ? `${id}-description` : undefined;
-  const isControlled = open !== undefined;
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
-  const isOpen = open ?? uncontrolledOpen;
-  const [position, setPosition] = useState<PopoverPosition>();
+  const [isOpen, setPopoverOpen] = useControllableState({
+    value: open,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
   const triggerRef = useRef<HTMLElement | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
-
-  const setPopoverOpen = useCallback(
-    (nextOpen: boolean) => {
-      if (!isControlled) {
-        setUncontrolledOpen(nextOpen);
-      }
-
-      onOpenChange?.(nextOpen);
-    },
-    [isControlled, onOpenChange],
-  );
 
   const closePopover = useCallback(() => {
     setPopoverOpen(false);
   }, [setPopoverOpen]);
 
-  const updatePosition = useCallback(() => {
-    const triggerElement = triggerRef.current;
-    const popoverElement = contentRef.current;
-    if (!triggerElement || !popoverElement || typeof window === "undefined") {
-      return;
-    }
+  const focusPopoverContent = useCallback(() => {
+    if (!autoFocus) return;
+    const contentElement = contentRef.current;
+    if (!contentElement) return;
 
-    const triggerRect = triggerElement.getBoundingClientRect();
-    const popoverRect = popoverElement.getBoundingClientRect();
-    const nextPosition = getPopoverPosition({
-      triggerRect,
-      popoverRect,
-      side,
-      align,
-      offset: showArrow ? offset + 6 : offset,
-    });
+    const firstFocusable = getFocusableElements(contentElement)[0];
+    (firstFocusable ?? contentElement).focus();
+  }, [autoFocus]);
 
-    setPosition({
-      top: clampNumber(
-        nextPosition.top,
-        8,
-        Math.max(8, window.innerHeight - popoverRect.height - 8),
-      ),
-      left: clampNumber(
-        nextPosition.left,
-        8,
-        Math.max(8, window.innerWidth - popoverRect.width - 8),
-      ),
-      minWidth: Math.min(triggerRect.width, window.innerWidth - 16),
-    });
-  }, [align, offset, showArrow, side]);
-
-  useEffect(() => {
-    if (!isOpen || typeof window === "undefined") return;
-
-    previousFocusRef.current =
-      document.activeElement instanceof HTMLElement
-        ? document.activeElement
-        : null;
-    updatePosition();
-
-    const frame = window.requestAnimationFrame(updatePosition);
-    const focusTimer = window.setTimeout(() => {
-      if (!autoFocus) return;
-      const contentElement = contentRef.current;
-      if (!contentElement) return;
-
-      const firstFocusable = getFocusableElements(contentElement)[0];
-      (firstFocusable ?? contentElement).focus();
-    }, 0);
-
-    const handlePointerDown = (event: PointerEvent) => {
-      if (!closeOnOutsidePointerDown) return;
-      const target = event.target;
-      if (!(target instanceof Node)) return;
-      if (contentRef.current?.contains(target)) return;
-      if (triggerRef.current?.contains(target)) return;
-      closePopover();
-    };
-
-    const handleWindowUpdate = () => updatePosition();
-
-    document.addEventListener("pointerdown", handlePointerDown);
-    window.addEventListener("resize", handleWindowUpdate);
-    window.addEventListener("scroll", handleWindowUpdate, true);
-
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.clearTimeout(focusTimer);
-      document.removeEventListener("pointerdown", handlePointerDown);
-      window.removeEventListener("resize", handleWindowUpdate);
-      window.removeEventListener("scroll", handleWindowUpdate, true);
-      previousFocusRef.current?.focus();
-      previousFocusRef.current = null;
-    };
-  }, [
-    autoFocus,
+  const { position } = useFloatingLayer({
+    open: isOpen,
+    triggerRef,
+    floatingRef: contentRef,
+    side,
+    align,
+    offset: showArrow ? offset + 6 : offset,
+    matchAnchorMinWidth: true,
     closeOnOutsidePointerDown,
-    closePopover,
-    isOpen,
-    updatePosition,
-  ]);
+    restoreFocus: true,
+    onClose: closePopover,
+    onOpenAutoFocus: focusPopoverContent,
+  });
 
   const handleTriggerClick = (event: MouseEvent<HTMLElement>) => {
     trigger.props.onClick?.(event);
@@ -289,64 +214,7 @@ export function Popover(props: PopoverProps) {
   );
 }
 
-const getPopoverPosition = (options: {
-  triggerRect: DOMRect;
-  popoverRect: DOMRect;
-  side: PopoverSide;
-  align: PopoverAlign;
-  offset: number;
-}) => {
-  const { triggerRect, popoverRect, side, align, offset } = options;
-  const centerLeft =
-    triggerRect.left + triggerRect.width / 2 - popoverRect.width / 2;
-  const centerTop =
-    triggerRect.top + triggerRect.height / 2 - popoverRect.height / 2;
-
-  if (side === "top" || side === "bottom") {
-    const top =
-      side === "top"
-        ? triggerRect.top - popoverRect.height - offset
-        : triggerRect.bottom + offset;
-
-    const left = getAlignedPosition(
-      triggerRect.left,
-      triggerRect.right,
-      popoverRect.width,
-      centerLeft,
-      align,
-    );
-
-    return { top, left };
-  }
-
-  const left =
-    side === "left"
-      ? triggerRect.left - popoverRect.width - offset
-      : triggerRect.right + offset;
-  const top = getAlignedPosition(
-    triggerRect.top,
-    triggerRect.bottom,
-    popoverRect.height,
-    centerTop,
-    align,
-  );
-
-  return { top, left };
-};
-
-const getAlignedPosition = (
-  start: number,
-  end: number,
-  size: number,
-  center: number,
-  align: PopoverAlign,
-) => {
-  if (align === "start") return start;
-  if (align === "end") return end - size;
-  return center;
-};
-
-const getPopoverContentStyle = (position: PopoverPosition | undefined) => {
+const getPopoverContentStyle = (position?: FloatingLayerPosition) => {
   return {
     top: position ? `${position.top}px` : undefined,
     left: position ? `${position.left}px` : undefined,

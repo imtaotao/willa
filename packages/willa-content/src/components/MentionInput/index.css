@@ -46,98 +46,24 @@
   box-shadow: var(--willa-comment-input-mention-panel-shadow);
 }
 
-.willa-comment-input-mention-list.willa-list--plain .willa-list__items {
-  gap: 0;
-}
-
-.willa-comment-input-mention-list.willa-comment-input-mention-list--virtual-scroll.willa-list--plain
-  .willa-list__items {
-  gap: 0;
-}
-
-.willa-comment-input-mention-list .willa-list__items {
-  margin: 0;
-  padding: 0.2rem 0;
-  list-style: none;
-}
-
 .willa-comment-input-mention-list--virtual-scroll .willa-list__spacer {
   margin: 0;
 }
 
-.willa-comment-input-mention-list .willa-list__item + .willa-list__item {
-  border-top: 1px solid var(--willa-list-divider);
-}
-
-.willa-comment-input-mention-list.willa-list--plain .willa-list__item {
-  border-radius: 0.58rem;
-  background: transparent;
-  position: relative;
-  margin: 0.2rem 0;
-}
-
-.willa-comment-input-mention-list--virtual-scroll.willa-list--plain
-  .willa-list__item {
-  padding: 0;
-  margin: 0.2rem 0;
-}
-
-.willa-comment-input-mention-list.willa-list--plain .willa-list__item:hover {
-  background: var(
+.willa-comment-input-mention-list.willa-list {
+  --willa-list-menu-item-bg-hover: var(
     --willa-comment-input-mention-item-bg-hover,
     var(--willa-list-item-bg-hover)
-  ) !important;
-  border-color: var(
+  );
+  --willa-list-menu-item-border-hover: var(
     --willa-comment-input-mention-item-border-hover,
     transparent
-  ) !important;
-  color: var(
+  );
+  --willa-list-menu-item-text-hover: var(
     --willa-comment-input-mention-item-text-hover,
     var(--willa-list-text)
-  ) !important;
-  cursor: pointer !important;
-}
+  );
 
-.willa-comment-input-mention-list.willa-list--plain .willa-list__main:hover {
-  background: var(
-    --willa-comment-input-mention-item-bg-hover,
-    var(--willa-list-item-bg-hover)
-  ) !important;
-  color: var(
-    --willa-comment-input-mention-item-text-hover,
-    var(--willa-list-text)
-  ) !important;
-  border-radius: inherit;
-}
-
-.willa-comment-input-mention-list.willa-list--plain .willa-list__main {
-  color: inherit !important;
-}
-
-.willa-comment-input-mention-list.willa-list--plain .willa-list__main {
-  cursor: pointer;
-  align-items: center;
-}
-
-.willa-comment-input-mention-list.willa-list--plain
-  .willa-list__item:hover
-  .willa-list__title,
-.willa-comment-input-mention-list.willa-list--plain
-  .willa-list__item:hover
-  .willa-list__description,
-.willa-comment-input-mention-list.willa-list--plain
-  .willa-list__item:hover
-  .willa-list__meta,
-.willa-comment-input-mention-list.willa-list--plain
-  .willa-list__item:hover
-  .willa-list__body {
-  color: var(
-    --willa-comment-input-mention-item-text-hover,
-    var(--willa-list-text)
-  ) !important;
-}
-
-.willa-comment-input-mention-list.willa-list {
   overflow-x: hidden;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -163,60 +89,4 @@
 .willa-comment-input-mention-list.willa-list::-webkit-scrollbar-thumb {
   border-radius: 999px;
   background: var(--willa-content-scrollbar-thumb);
-}
-
-.willa-comment-input-mention-list.willa-list--plain .willa-list__main {
-  padding: 0.38rem 0.5rem;
-}
-
-.willa-comment-input-mention-list.willa-list--sm .willa-list__main {
-  padding: 0.44rem 0.52rem;
-}
-
-.willa-comment-input-mention-list .willa-list__media {
-  width: 1.75rem;
-  height: 1.75rem;
-  align-self: center;
-}
-
-.willa-comment-input-mention-list.willa-list--sm .willa-list__title {
-  font-size: 0.82rem;
-  line-height: 1.35;
-  color: var(--willa-list-title);
-}
-
-.willa-comment-input-mention-list .willa-list__title {
-  font-size: 0.82rem;
-  line-height: 1.35;
-  color: var(--willa-list-title);
-  font-weight: 650;
-}
-
-.willa-comment-input-mention-list .willa-list__description {
-  font-size: 0.76rem;
-  line-height: 1.35;
-  color: var(--willa-list-muted);
-}
-
-.willa-comment-input-mention-list .willa-list__body {
-  gap: 0.12rem;
-}
-
-.willa-comment-input-mention-item-name {
-  overflow: hidden;
-  color: var(--willa-list-title);
-  font-size: 0.82rem;
-  font-weight: 650;
-  line-height: 1.35;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.willa-comment-input-mention-item-meta {
-  overflow: hidden;
-  color: var(--willa-list-muted);
-  font-size: 0.76rem;
-  line-height: 1.35;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }

@@ -1,14 +1,13 @@
 import {
   forwardRef,
-  useEffect,
   useMemo,
-  useState,
   type ChangeEvent,
   type ComponentPropsWithoutRef,
   type CSSProperties,
   type InputEvent,
   type ReactNode,
 } from "react";
+import { useControllableState } from "@willa-ui/shared";
 import classNames from "classnames";
 
 export type RangeInputSize = "sm" | "md" | "lg";
@@ -69,9 +68,12 @@ export const RangeInput = forwardRef<HTMLInputElement, RangeInputProps>(
       () => normalizeRangeMarks(marks, numericMin, numericMax),
       [marks, numericMax, numericMin],
     );
-    const [currentValue, setCurrentValue] = useState(() =>
-      getRangeNumber(value ?? defaultValue, fallbackValue),
-    );
+    const controlledValue =
+      value === undefined ? undefined : getRangeNumber(value, fallbackValue);
+    const [currentValue, setCurrentValue] = useControllableState({
+      value: controlledValue,
+      defaultValue: () => getRangeNumber(defaultValue, fallbackValue),
+    });
     const progress = getRangeProgress(currentValue, numericMin, numericMax);
     const withMeta = showValue || normalizedMarks.length > 0;
     const rangeStyle = getRangeInputStyle({
@@ -92,12 +94,6 @@ export const RangeInput = forwardRef<HTMLInputElement, RangeInputProps>(
     const formattedValue = formatValue
       ? formatValue(currentValue)
       : currentValue;
-
-    useEffect(() => {
-      if (value !== undefined) {
-        setCurrentValue(getRangeNumber(value, fallbackValue));
-      }
-    }, [fallbackValue, value]);
 
     const handleInput = (event: InputEvent<HTMLInputElement>) => {
       setCurrentValue(getRangeNumber(event.currentTarget.value, fallbackValue));

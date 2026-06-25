@@ -84,47 +84,11 @@
   font-size: 1.04rem;
 }
 
-.willa-tag-input__tag {
-  display: inline-flex;
-  align-items: center;
+.willa-tag-input__tag,
+.willa-tag-input__custom-tag {
   max-width: 100%;
-  min-width: 0;
-  gap: 0.24rem;
-  border: 1px solid var(--willa-tag-input-tag-border);
-  border-radius: 999px;
-  background: var(--willa-tag-input-tag-bg);
-  color: var(--willa-tag-input-tag-text);
-  font-weight: 650;
-  line-height: 1.2;
 }
 
-.willa-tag-input--sm .willa-tag-input__tag {
-  padding: 0.18rem 0.34rem;
-}
-
-.willa-tag-input--md .willa-tag-input__tag {
-  padding: 0.22rem 0.4rem;
-}
-
-.willa-tag-input--lg .willa-tag-input__tag {
-  padding: 0.26rem 0.48rem;
-}
-
-.willa-tag-input__tag-label {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.willa-tag-input__tag--custom {
-  gap: 0;
-  border: 0;
-  background: transparent;
-  padding: 0;
-}
-
-.willa-tag-input__remove,
 .willa-tag-input__clear {
   display: inline-grid;
   place-items: center;
@@ -137,24 +101,17 @@
   padding: 0;
 }
 
-.willa-tag-input__remove {
-  width: 1.05rem;
-  height: 1.05rem;
-}
-
 .willa-tag-input__clear {
   width: 1.38rem;
   height: 1.38rem;
   margin-left: auto;
 }
 
-.willa-tag-input__remove:hover,
 .willa-tag-input__clear:hover {
   background: var(--willa-tag-input-action-bg-hover);
   color: var(--willa-tag-input-action-text-hover);
 }
 
-.willa-tag-input__remove svg,
 .willa-tag-input__clear svg {
   width: 0.82rem;
   height: 0.82rem;

@@ -1,3 +1,5 @@
+@import "../../internal/syntaxHighlight.css";
+
 .willa-prose-pre {
   margin: 0;
   padding: 0;
@@ -246,89 +248,6 @@
 
 .willa-prose-code.hljs {
   padding: 0.88rem 0 1rem;
-}
-
-.willa-prose-pre .hljs,
-.willa-prose-pre .hljs-subst {
-  color: var(--willa-code-text);
-}
-
-.willa-prose-pre .hljs,
-.willa-prose-pre .hljs * {
-  font-style: normal !important;
-}
-
-.willa-prose-pre .hljs-comment,
-.willa-prose-pre .hljs-quote,
-.willa-prose-pre .hljs-doctag {
-  color: var(--willa-code-comment) !important;
-}
-
-.willa-prose-pre .hljs-keyword,
-.willa-prose-pre .hljs-selector-tag,
-.willa-prose-pre .hljs-type,
-.willa-prose-pre .hljs-template-tag {
-  color: var(--willa-code-keyword) !important;
-}
-
-.willa-prose-pre .hljs-string,
-.willa-prose-pre .hljs-regexp,
-.willa-prose-pre .hljs-meta .hljs-string {
-  color: var(--willa-code-string) !important;
-}
-
-.willa-prose-pre .hljs-attr,
-.willa-prose-pre .hljs-attribute,
-.willa-prose-pre .hljs-property,
-.willa-prose-pre .hljs-params {
-  color: var(--willa-code-attr) !important;
-}
-
-.willa-prose-pre .hljs-number,
-.willa-prose-pre .hljs-literal,
-.willa-prose-pre .hljs-bullet {
-  color: var(--willa-code-number) !important;
-}
-
-.willa-prose-pre .hljs-built_in,
-.willa-prose-pre .hljs-symbol,
-.willa-prose-pre .hljs-variable,
-.willa-prose-pre .hljs-template-variable,
-.willa-prose-pre .hljs-selector-id,
-.willa-prose-pre .hljs-selector-class {
-  color: var(--willa-code-symbol) !important;
-}
-
-.willa-prose-pre .hljs-title,
-.willa-prose-pre .hljs-title.function_,
-.willa-prose-pre .hljs-title.class_,
-.willa-prose-pre .hljs-name,
-.willa-prose-pre .hljs-section,
-.willa-prose-pre .hljs-function {
-  color: var(--willa-code-title) !important;
-}
-
-.willa-prose-pre .hljs-meta,
-.willa-prose-pre .hljs-tag,
-.willa-prose-pre .hljs-selector-attr,
-.willa-prose-pre .hljs-selector-pseudo {
-  color: var(--willa-code-muted) !important;
-}
-
-.willa-prose-pre .hljs-deletion {
-  color: var(--willa-code-deletion) !important;
-}
-
-.willa-prose-pre .hljs-addition {
-  color: var(--willa-code-addition) !important;
-}
-
-.willa-prose-pre .hljs-emphasis {
-  font-style: italic !important;
-}
-
-.willa-prose-pre .hljs-strong {
-  font-weight: 700;
 }
 
 @media (max-width: 767px) {

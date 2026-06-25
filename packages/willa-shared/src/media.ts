@@ -8,7 +8,7 @@ export type MediaContextProps = {
 
 export function resolveMediaAsset(
   props: MediaContextProps,
-  assetPath: string | undefined,
+  assetPath?: string,
 ) {
   if (!assetPath) return undefined;
   return props.resolveAssetUrl

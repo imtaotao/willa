@@ -1,18 +1,15 @@
 import { clampNumber } from "@willa-ui/shared";
 
-export type TimePickerWheelColumn = "hour" | "minute" | "second";
-export type TimePickerWheelColumns = "time" | Array<TimePickerWheelColumn>;
+import type {
+  TimePickerDisabledTime,
+  TimePickerWheelColumn,
+  TimePickerWheelColumns,
+} from "#form/components/TimePicker/types";
 
 export type TimePickerParts = {
   hour: number;
   minute: number;
   second: number;
-};
-
-export type TimePickerDisabledTime = {
-  disabledHours?: () => Array<number>;
-  disabledMinutes?: (hour: number) => Array<number>;
-  disabledSeconds?: (hour: number, minute: number) => Array<number>;
 };
 
 export type TimePickerWheelOption = {

@@ -1,5 +1,11 @@
-import { useCallback, useEffect, useState, type RefObject } from "react";
-import { clampNumber } from "@willa-ui/shared";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type RefObject,
+} from "react";
+import { useFloatingLayer } from "@willa-ui/shared";
 
 export type FloatingPanelPosition = {
   left: number;
@@ -36,49 +42,32 @@ export const useFloatingPanel = ({
   viewportPadding = 8,
   onClose,
 }: UseFloatingPanelOptions) => {
-  const [position, setPosition] = useState<FloatingPanelPosition | null>(null);
   const [scrollable, setScrollable] = useState(false);
-
-  const updatePosition = useCallback(() => {
-    if (!triggerRef.current) return;
-
-    const rect = triggerRef.current.getBoundingClientRect();
-    const panelHeight = panelRef.current?.offsetHeight ?? fallbackHeight;
-    const panelWidth = panelRef.current?.offsetWidth;
-    const viewportWidth = window.innerWidth;
-    const maxWidth = viewportWidth - viewportPadding * 2;
-    const baseMinWidth = minWidth ?? rect.width;
-    const nextWidth =
-      fullWidthBelow !== undefined && viewportWidth <= fullWidthBelow
-        ? maxWidth
-        : matchTriggerWidth
-          ? Math.min(Math.max(rect.width, baseMinWidth), maxWidth)
-          : Math.min(
-              Math.max(panelWidth ?? rect.width, baseMinWidth),
-              maxWidth,
-            );
-    const left = clampNumber(
-      rect.left,
-      viewportPadding,
-      viewportWidth - viewportPadding - nextWidth,
-    );
-    const belowTop = rect.bottom + gap;
-    const aboveTop = rect.top - gap - panelHeight;
-    const hasBottomSpace =
-      window.innerHeight - rect.bottom - viewportPadding >= panelHeight;
-    const top = hasBottomSpace ? belowTop : Math.max(viewportPadding, aboveTop);
-
-    setPosition({ left, top, width: nextWidth });
-  }, [
+  const outsideRefs = useMemo(() => [rootRef], [rootRef]);
+  const { position: layerPosition, updatePosition } = useFloatingLayer({
+    open,
+    triggerRef,
+    floatingRef: panelRef,
+    minWidth,
+    matchAnchorWidth: matchTriggerWidth,
     fallbackHeight,
     fullWidthBelow,
-    gap,
-    matchTriggerWidth,
-    minWidth,
-    panelRef,
-    triggerRef,
+    applyResolvedWidth: true,
+    flipToFit: true,
+    side: "bottom",
+    align: "start",
+    offset: gap,
     viewportPadding,
-  ]);
+    outsideRefs,
+    onClose,
+  });
+  const position: FloatingPanelPosition | null = layerPosition
+    ? {
+        left: layerPosition.left,
+        top: layerPosition.top,
+        width: layerPosition.width,
+      }
+    : null;
 
   const updateScrollable = useCallback(() => {
     const list = listRef?.current;
@@ -96,38 +85,23 @@ export const useFloatingPanel = ({
   useEffect(() => {
     if (!open) return;
 
-    const handlePointerDown = (event: PointerEvent) => {
-      const target = event.target as Node;
-
-      if (
-        !rootRef.current?.contains(target) &&
-        !panelRef.current?.contains(target)
-      ) {
-        onClose();
-      }
-    };
     const handleViewportChange = () => {
-      updatePosition();
       updateScrollable();
     };
 
-    updatePosition();
     updateScrollable();
-    window.addEventListener("pointerdown", handlePointerDown);
     window.addEventListener("resize", handleViewportChange);
     window.addEventListener("scroll", handleViewportChange, true);
 
     return () => {
-      window.removeEventListener("pointerdown", handlePointerDown);
       window.removeEventListener("resize", handleViewportChange);
       window.removeEventListener("scroll", handleViewportChange, true);
     };
-  }, [open, onClose, panelRef, rootRef, updatePosition, updateScrollable]);
+  }, [open, updateScrollable]);
 
   useEffect(() => {
     if (open) return;
 
-    setPosition(null);
     setScrollable(false);
   }, [open]);
 

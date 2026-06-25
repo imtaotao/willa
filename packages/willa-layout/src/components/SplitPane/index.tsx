@@ -295,8 +295,8 @@ const resolvePanelLimits = (panels: Array<ResizablePanelElement>) => {
 
 const resolveInitialSizes = (
   panels: Array<ResizablePanelElement>,
-  defaultSizes: Array<number> | undefined,
-  storageKey: string | undefined,
+  defaultSizes?: Array<number>,
+  storageKey?: string,
 ) => {
   const storedSizes = readStoredSizes(storageKey);
   if (storedSizes) return storedSizes;
@@ -400,14 +400,14 @@ const resolveCollapsiblePanelIndex = (
 
 const clampSize = (
   size: number,
-  limit: { minSize: number; maxSize: number } | undefined,
+  limit?: { minSize: number; maxSize: number },
 ) => {
   if (!limit) return size;
 
   return clampNumber(size, limit.minSize, limit.maxSize);
 };
 
-const readStoredSizes = (storageKey: string | undefined) => {
+const readStoredSizes = (storageKey?: string) => {
   if (!storageKey || typeof window === "undefined") return null;
 
   try {

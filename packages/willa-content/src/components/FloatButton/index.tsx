@@ -12,7 +12,7 @@ import {
 } from "react";
 import { ArrowUpIcon, PlusIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
-import { formatCssSize } from "@willa-ui/shared";
+import { formatCssSize, useControllableState } from "@willa-ui/shared";
 
 import { Tooltip } from "#content/components/Tooltip";
 
@@ -219,20 +219,12 @@ export function FloatButtonGroup(props: FloatButtonGroupProps) {
     className,
     contentClassName,
   } = props;
-  const isControlled = open !== undefined;
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
-  const isOpen = open ?? uncontrolledOpen;
+  const [isOpen, setGroupOpen] = useControllableState({
+    value: open,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
   const groupRef = useRef<HTMLDivElement | null>(null);
-
-  const setGroupOpen = useCallback(
-    (nextOpen: boolean) => {
-      if (!isControlled) {
-        setUncontrolledOpen(nextOpen);
-      }
-      onOpenChange?.(nextOpen);
-    },
-    [isControlled, onOpenChange],
-  );
 
   useEffect(() => {
     if (!isOpen || typeof document === "undefined") return;

@@ -272,6 +272,7 @@ export default defineDoc({
           onToggleItem={(id, checked) => {
             setActiveIds((prev) =>
               checked ? [...new Set([...prev, id])] : prev.filter((itemId) => itemId !== id),
+            );
           }}
           onClearAll={() => {
             setActiveIds([]);

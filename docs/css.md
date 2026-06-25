@@ -70,6 +70,13 @@ backgrounds or broad gradients. Avoid translucent white for primary AI
 surfaces because it makes layering and contrast unpredictable across host
 pages.
 
+AI themes should define shared semantic tokens before component variables and
+map component variables to those tokens where possible. Use names such as
+`--willa-ai-surface`, `--willa-ai-surface-hover`, `--willa-ai-border`,
+`--willa-ai-muted`, and `--willa-ai-accent` for repeated AI package surfaces,
+text, borders, and accents. New AI components should prefer these shared tokens
+over introducing new per-component colors for the same visual role.
+
 ## Component CSS
 
 Component `index.css` files can contain:
@@ -111,6 +118,25 @@ Theme CSS should define variables:
   --willa-lightbox-solid-bg: #111317;
 }
 ```
+
+## Responsive Breakpoints
+
+Package component CSS should reuse a small breakpoint set so components fold at
+predictable viewport widths:
+
+- `900px`: application shells, sidebars, large navigation, and multi-column
+  marketing or footer layouts.
+- `767px`: the default mobile boundary for component layout changes.
+- `640px`: compact content and action layouts that need to stack before narrow
+  phones.
+- `520px`: dense popovers, pickers, calendars, and fixed-width panels that need
+  extra narrow-screen treatment.
+- `480px`: final small-phone adjustments for spacing or very short labels.
+
+Avoid adding nearby one-off values such as `720px`, `760px`, or `768px` unless a
+component has a measured layout threshold that cannot fit one of the existing
+breakpoints. When an exception is necessary, keep it local to that component and
+prefer documenting the reason in the related code review or component notes.
 
 ## Portal Components
 
