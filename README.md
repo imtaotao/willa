@@ -13,17 +13,6 @@ utilities for building composable product and content experiences.
 
 **Online docs**: https://imtaotao.github.io/willa/
 
-## Design Principles
-
-- Components are designed for production-oriented use cases, not only minimal
-  demos.
-- APIs should stay small and expressive, while covering common composition,
-  state, accessibility, theme, and responsive needs.
-- Styling is flat and restrained. Theme values live in the owning package, and
-  component CSS should avoid hard-coded colors.
-- Example pages and documentation should use Willa's own layout primitives
-  whenever that makes the composition clearer.
-
 ## Development
 
 The `example` app demonstrates the public `willa` package and individual
@@ -32,8 +21,7 @@ component imports.
 ```bash
 # first time setup
 $ pnpm run build:packages
-```
 
-```bash
+# start the example dev server
 $ pnpm dev
 ```

@@ -1,6 +1,5 @@
 import {
   type ComponentPropsWithoutRef,
-  type MouseEvent,
   type PointerEvent,
   type ReactNode,
   type RefObject,
@@ -15,7 +14,6 @@ import type {
 } from "#content/components/Table/types";
 
 import { TableBody } from "#content/components/Table/TableBody";
-import { TableCellTooltip } from "#content/components/Table/TableCellTooltip";
 import { TableHeader } from "#content/components/Table/TableHeader";
 import { TablePagination } from "#content/components/Table/TablePagination";
 import { useTableInfiniteScroll } from "#content/components/Table/useTableInfiniteScroll";
@@ -26,6 +24,7 @@ type TableViewProps = {
   header?: ReactNode;
   footer?: ReactNode;
   size: "sm" | "md" | "lg";
+  cellTooltip: boolean;
   stickyHeader: boolean;
   stickyActions: boolean;
   resizableColumns: boolean;
@@ -91,7 +90,6 @@ type TableViewProps = {
   allHeaderKeys: Array<string>;
   keyboardResizeStep: number;
   keyboardResizeLargeStep: number;
-  cellTooltip: { text: string; x: number; y: number } | null;
   tableScrollRef: RefObject<HTMLDivElement | null>;
   tableRef: RefObject<HTMLTableElement | null>;
   headerCellRefs: RefObject<Record<string, HTMLTableCellElement | null>>;
@@ -107,15 +105,10 @@ type TableViewProps = {
   onAutoSizeColumn: (cell: TableCell, index: number) => void;
   onResizeColumnBy: (cell: TableCell, index: number, delta: number) => void;
   onPageChange: (page: number) => void;
-  onCellTooltipHide: () => void;
   onStartColumnResize: (
     event: PointerEvent<HTMLButtonElement>,
     cell: TableCell,
     index: number,
-  ) => void;
-  onCellTooltipShow: (
-    event: MouseEvent<HTMLSpanElement>,
-    cell: TableCell,
   ) => void;
 };
 
@@ -125,6 +118,7 @@ export function TableView(props: TableViewProps) {
     header,
     footer,
     size,
+    cellTooltip,
     stickyHeader,
     stickyActions,
     resizableColumns,
@@ -181,10 +175,7 @@ export function TableView(props: TableViewProps) {
     onAutoSizeColumn,
     keyboardResizeLargeStep,
     keyboardResizeStep,
-    onCellTooltipShow,
-    onCellTooltipHide,
     onPageChange,
-    cellTooltip,
     tableScrollRef,
     tableRef,
     headerCellRefs,
@@ -317,6 +308,7 @@ export function TableView(props: TableViewProps) {
             resolvedVisibleItems={resolvedVisibleItems}
             orderedHeaderKeys={orderedHeaderKeys}
             orderedHeaders={orderedHeaders}
+            cellTooltip={cellTooltip}
             hasSelection={hasSelection}
             selectionMode={selectionMode}
             selectionName={selectionName}
@@ -332,8 +324,6 @@ export function TableView(props: TableViewProps) {
             onToggleTreeExpanded={onToggleTreeExpanded}
             onToggleItemSelection={onToggleItemSelection}
             onToggleExpanded={onToggleExpanded}
-            onCellTooltipShow={onCellTooltipShow}
-            onCellTooltipHide={onCellTooltipHide}
           />
         </table>
       </div>
@@ -344,7 +334,6 @@ export function TableView(props: TableViewProps) {
           onPageChange={onPageChange}
         />
       ) : null}
-      {cellTooltip ? <TableCellTooltip {...cellTooltip} /> : null}
     </div>
   );
 }

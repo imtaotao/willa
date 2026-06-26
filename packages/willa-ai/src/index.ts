@@ -113,3 +113,11 @@ export type {
   ToolCallCardProps,
   ToolCallCardStatus,
 } from "#ai/components/ToolCallCard";
+export { TraceViewer } from "#ai/components/TraceViewer";
+export type {
+  TraceViewerKind,
+  TraceViewerMetric,
+  TraceViewerProps,
+  TraceViewerSpan,
+  TraceViewerStatus,
+} from "#ai/components/TraceViewer";

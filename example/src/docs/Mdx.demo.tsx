@@ -127,7 +127,7 @@ const DemoMdxContent = (props: Record<string, unknown>) => {
           },
         ]}
       />
-      <FileCard name="component-roadmap.md" size="组件规划" />
+      <FileCard name="architecture.md" size="架构说明" />
       <Download href="/willa/" name="下载示例资源" meta="willa 文档入口" />
       <SourceCard
         title="组件文档"
@@ -190,7 +190,7 @@ const DemoMdxContent = (props: Record<string, unknown>) => {
               type: "folder",
               children: [
                 { name: "component.md", type: "file" },
-                { name: "component-roadmap.md", type: "file" },
+                { name: "architecture.md", type: "file" },
               ],
             },
             {

@@ -8,6 +8,7 @@ export { useTableColumnState } from "#content/components/Table/useTableColumnSta
 export type {
   TableAlign,
   TableCell,
+  TableCellBehavior,
   TableColumnFixed,
   TableColumnState,
   TableDisplayRow,
@@ -31,6 +32,8 @@ const tablePropKeys = new Set([
   "header",
   "footer",
   "size",
+  "cellBehavior",
+  "cellTooltip",
   "stickyHeader",
   "stickyActions",
   "actionsWidth",

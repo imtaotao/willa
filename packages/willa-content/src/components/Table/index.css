@@ -174,39 +174,27 @@
 
 .willa-table-cell-content {
   display: block;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.willa-table-cell-tooltip {
-  position: fixed;
-  z-index: var(--willa-layer-tooltip, 1010);
-  max-width: min(24rem, calc(100vw - 2rem));
-  padding: 0.46rem 0.58rem;
-  border: 1px solid var(--willa-table-tooltip-border);
-  border-radius: 7px;
-  background: var(--willa-table-tooltip-bg);
-  box-shadow: var(--willa-table-tooltip-shadow);
-  color: var(--willa-table-tooltip-text);
-  font-size: 0.82rem;
-  line-height: 1.45;
-  overflow-wrap: anywhere;
-  pointer-events: none;
-  transform: translate(-50%, -100%);
+.willa-table-cell-tooltip-trigger {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
 }
 
-.willa-table-cell-tooltip::after {
-  position: absolute;
-  bottom: -0.28rem;
-  left: 50%;
-  width: 0.48rem;
-  height: 0.48rem;
-  border-right: 1px solid var(--willa-table-tooltip-border);
-  border-bottom: 1px solid var(--willa-table-tooltip-border);
-  background: var(--willa-table-tooltip-bg);
-  content: "";
-  transform: translateX(-50%) rotate(45deg);
+.willa-table-tree-cell .willa-table-cell-tooltip-trigger {
+  flex: 1 1 auto;
+  width: auto;
+}
+
+.willa-table-cell-tooltip {
+  max-width: min(24rem, calc(100vw - 2rem));
+  overflow-wrap: anywhere;
 }
 
 .willa-table tbody tr:last-child td,

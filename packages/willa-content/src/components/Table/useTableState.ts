@@ -5,13 +5,13 @@ import {
   useRef,
   useState,
   type HTMLAttributes,
-  type MouseEvent,
   type ReactNode,
   type Ref,
 } from "react";
 
 import type {
   TableCell,
+  TableCellBehavior,
   TableGroupContext,
   TableItem,
   TablePagination,
@@ -21,7 +21,6 @@ import type {
 } from "#content/components/Table/types";
 import {
   getCellKey,
-  getCellTooltipText,
   getCellWidth,
   getPaginationState,
   getVisibleCells,
@@ -34,18 +33,14 @@ import { useTableColumnState } from "#content/components/Table/useTableColumnSta
 import { useTableExpansion } from "#content/components/Table/useTableExpansion";
 import { useTableSelection } from "#content/components/Table/useTableSelection";
 
-type TableCellTooltip = {
-  text: string;
-  x: number;
-  y: number;
-};
-
 type UseTableStateOptions = {
   items: Array<TableItem>;
   caption?: ReactNode;
   header?: ReactNode;
   footer?: ReactNode;
   size?: "sm" | "md" | "lg";
+  cellBehavior?: TableCellBehavior;
+  cellTooltip?: boolean;
   stickyHeader?: boolean;
   stickyActions?: boolean;
   actionsWidth?: number | string;
@@ -110,6 +105,8 @@ export function useTableState(options: UseTableStateOptions) {
     header,
     footer,
     size = "md",
+    cellBehavior,
+    cellTooltip,
     stickyHeader = false,
     stickyActions = false,
     actionsWidth,
@@ -167,7 +164,6 @@ export function useTableState(options: UseTableStateOptions) {
   const [internalPage, setInternalPage] = useState(
     pagination?.defaultPage ?? 1,
   );
-  const [cellTooltip, setCellTooltip] = useState<TableCellTooltip | null>(null);
 
   const [isColumnDragging, setIsColumnDragging] = useState(false);
   const selectionName = useId();
@@ -351,25 +347,7 @@ export function useTableState(options: UseTableStateOptions) {
     setSortState({ key: sortKey, direction });
   };
 
-  const showCellTooltip = (
-    event: MouseEvent<HTMLSpanElement>,
-    cell: TableCell,
-  ) => {
-    const text = getCellTooltipText(cell);
-    if (!text) return;
-
-    const element = event.currentTarget;
-    if (element.scrollWidth <= element.clientWidth + 1) return;
-
-    const rect = element.getBoundingClientRect();
-    setCellTooltip({
-      text,
-      x: rect.left + rect.width / 2,
-      y: rect.top - 8,
-    });
-  };
-
-  const hideCellTooltip = () => setCellTooltip(null);
+  const resolvedCellTooltip = cellBehavior?.tooltip ?? cellTooltip ?? true;
 
   const tableState = {
     className,
@@ -379,6 +357,7 @@ export function useTableState(options: UseTableStateOptions) {
     header,
     footer,
     size,
+    cellTooltip: resolvedCellTooltip,
     stickyHeader,
     stickyActions,
     resizableColumns,
@@ -427,7 +406,6 @@ export function useTableState(options: UseTableStateOptions) {
     groupLabel,
     groupSummary,
     treeExpandedKeySet,
-    cellTooltip,
     tableScrollRef,
     tableRef,
     headerCellRefs,
@@ -443,8 +421,6 @@ export function useTableState(options: UseTableStateOptions) {
     onAutoSizeColumn: autoSizeColumn,
     keyboardResizeLargeStep,
     keyboardResizeStep,
-    onCellTooltipShow: showCellTooltip,
-    onCellTooltipHide: hideCellTooltip,
     onColumnOrderChange: setColumnOrderState,
     onHiddenColumnsChange: setHiddenColumnsState,
     onToggleTreeExpanded: toggleTreeExpanded,

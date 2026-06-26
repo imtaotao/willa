@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
-import classNames from "classnames";
-import { InfoCircledIcon, SpeakerLoudIcon } from "@radix-ui/react-icons";
+import { SpeakerLoudIcon } from "@radix-ui/react-icons";
 
 import {
   EnglishCardResourceLink,
@@ -14,27 +13,21 @@ import type {
   EnglishCardDetail,
   EnglishCardExample,
   EnglishCardItem,
-  OpenApiWordState,
 } from "#widgets/components/EnglishCards/types";
 
-export function EnglishCardContent(props: {
-  item: EnglishCardItem;
-  apiState?: OpenApiWordState;
-}) {
-  const { item, apiState } = props;
+export function EnglishCardContent(props: { item: EnglishCardItem }) {
+  const { item } = props;
   const resources = createEnglishCardResources(item);
 
   return (
     <div className="willa-english-card-content">
-      {apiState ? <EnglishCardOpenApiStatus state={apiState} /> : null}
-
       <section className="willa-english-card-section willa-english-card-section--translation">
         <div className="willa-english-card-label">中文翻译</div>
         {item.translation ? (
           renderLines(item.translation, "translation")
         ) : (
           <p className="willa-english-card-line willa-english-card-line--empty">
-            Fetching Chinese definitions from Youdao Dictionary.
+            暂无中文翻译。
           </p>
         )}
       </section>
@@ -79,29 +72,6 @@ export function EnglishCardContent(props: {
     </div>
   );
 }
-
-const EnglishCardOpenApiStatus = (props: { state: OpenApiWordState }) => {
-  const { state } = props;
-
-  if (state.status === "success") return null;
-
-  const copy =
-    state.status === "loading"
-      ? "Fetching from Youdao Dictionary."
-      : (state.message ?? "Dictionary API is not available.");
-
-  return (
-    <div
-      className={classNames(
-        "willa-english-card-openapi",
-        `willa-english-card-openapi--${state.status}`,
-      )}
-    >
-      <InfoCircledIcon />
-      <span>{copy}</span>
-    </div>
-  );
-};
 
 const renderLines = (
   value: ReactNode | Array<ReactNode>,

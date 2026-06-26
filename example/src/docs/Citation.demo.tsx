@@ -156,7 +156,7 @@ export default defineDoc({
       code: `
         <Citation
           label="上下文命中"
-          source="AI 组件规划"
+          source="组件规范"
           icon={<MagnifyingGlassIcon />}
           tone="info"
           href="#"
@@ -167,7 +167,7 @@ export default defineDoc({
       content: (
         <Citation
           label="上下文命中"
-          source="AI 组件规划"
+          source="组件规范"
           icon={<MagnifyingGlassIcon />}
           tone="info"
           href="#"

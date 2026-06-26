@@ -29,6 +29,7 @@ const docSpecGroups = {
     "SuggestionChips",
     "ThinkingIndicator",
     "ToolCallCard",
+    "TraceViewer",
   ],
   widgets: [
     "AudioEmbed",

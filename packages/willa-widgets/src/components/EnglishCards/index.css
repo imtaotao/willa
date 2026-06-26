@@ -189,33 +189,6 @@
   background: var(--willa-english-card-section-bg);
 }
 
-.willa-english-card-openapi {
-  display: flex;
-  align-items: center;
-  gap: 0.38rem;
-  padding: 0.46rem 0.56rem;
-  border: 1px solid var(--willa-english-card-openapi-border);
-  border-radius: 8px;
-  background: var(--willa-english-card-openapi-bg);
-  color: var(--willa-english-card-openapi-color);
-  font-size: 0.78rem;
-  font-weight: 600;
-  line-height: 1.45;
-  text-shadow: none;
-}
-
-.willa-english-card-openapi--error {
-  border-color: var(--willa-english-card-openapi-error-border);
-  background: var(--willa-english-card-openapi-error-bg);
-  color: var(--willa-english-card-openapi-error-color);
-}
-
-.willa-english-card-openapi svg {
-  flex: 0 0 auto;
-  width: 0.9rem;
-  height: 0.9rem;
-}
-
 .willa-english-card-label {
   margin-bottom: 0.32rem;
   color: var(--willa-text-faint);

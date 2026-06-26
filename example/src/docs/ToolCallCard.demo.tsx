@@ -39,8 +39,8 @@ const ToolCallCardPreview = () => (
     <ToolCallCard
       name="读取文件"
       status="success"
-      description="命中 AI 组件规划文档，并抽取了公开执行过程相关规则。"
-      parameters="path: docs/component-roadmap.md"
+      description="命中组件规范文档，并抽取了公开执行过程相关规则。"
+      parameters="path: docs/component.md"
       meta="4 files"
       icon={<FileTextIcon />}
     >

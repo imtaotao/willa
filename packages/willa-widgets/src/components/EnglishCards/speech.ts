@@ -2,7 +2,7 @@ import type { EnglishCardItem } from "#widgets/components/EnglishCards/types";
 
 export function speakEnglishCardWord(item: EnglishCardItem) {
   if (item.audioUrl) {
-    void new Audio(item.audioUrl).play();
+    new Audio(item.audioUrl).play();
     return;
   }
   speakText(item.word);
@@ -11,12 +11,7 @@ export function speakEnglishCardWord(item: EnglishCardItem) {
 export function speakText(text?: string) {
   const speakableText = normalizeSpeakText(text);
   if (!speakableText) return;
-
-  const audio = new Audio(createGoogleTtsUrl(speakableText));
-  audio.addEventListener("error", () => speakWithBrowser(speakableText), {
-    once: true,
-  });
-  void audio.play().catch(() => speakWithBrowser(speakableText));
+  speakWithBrowser(speakableText);
 }
 
 export function normalizeSpeakText(text?: string) {
@@ -27,18 +22,8 @@ export function normalizeSpeakText(text?: string) {
 
 const speakWithBrowser = (text: string) => {
   if (typeof window === "undefined" || !window.speechSynthesis) return;
-
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = "en-GB";
+  utterance.lang = "en-US";
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(utterance);
-};
-
-const createGoogleTtsUrl = (text: string) => {
-  const url = new URL("https://translate.google.com/translate_tts");
-  url.searchParams.set("ie", "UTF-8");
-  url.searchParams.set("client", "tw-ob");
-  url.searchParams.set("tl", "en");
-  url.searchParams.set("q", text);
-  return url.toString();
 };

@@ -178,6 +178,7 @@ const docChineseNames: Record<string, string> = {
   Timeline: "时间线",
   Toast: "轻提示",
   ToolCallCard: "工具调用卡片",
+  TraceViewer: "链路追踪",
   Toolbar: "工具栏",
   Tooltip: "文字提示",
   Tour: "漫游引导",

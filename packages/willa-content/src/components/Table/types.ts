@@ -31,6 +31,10 @@ export type TablePagination = {
   onPageChange?: (page: number) => void;
 };
 
+export type TableCellBehavior = {
+  tooltip?: boolean;
+};
+
 export type TableCell = {
   key?: string;
   label: React.ReactNode;
@@ -114,6 +118,8 @@ export type TableProps = {
   header?: React.ReactNode;
   footer?: React.ReactNode;
   size?: TableSize;
+  cellBehavior?: TableCellBehavior;
+  cellTooltip?: boolean;
   stickyHeader?: boolean;
   stickyActions?: boolean;
   actionsWidth?: number | string;

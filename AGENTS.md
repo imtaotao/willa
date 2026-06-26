@@ -25,8 +25,6 @@ The repository is a pnpm workspace monorepo. Packages are built with `auklet`.
   style dependencies, and CSS pitfalls.
 - [docs/style.md](./docs/style.md): TypeScript, React, naming, comments, and demo
   code style.
-- [docs/component-roadmap.md](./docs/component-roadmap.md): future component
-  planning and deferred product directions.
 
 ## Task Routing
 
@@ -39,8 +37,6 @@ crosses boundaries.
   component ownership, review the pitfalls in `docs/architecture.md`.
 - New component, component migration, exports, example docs, or public entry
   changes: read `docs/component.md`.
-- Component roadmap, future component planning, or AI product component
-  planning: read `docs/component-roadmap.md`.
 - Component CSS, theme variables, cross-package CSS dependencies, or portal
   styling: read `docs/css.md`.
 - TypeScript, React implementation style, naming, comments, or demo code style:

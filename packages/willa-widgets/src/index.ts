@@ -22,7 +22,6 @@ export type {
   EnglishCardExample,
   EnglishCardItem,
   EnglishCardResource,
-  EnglishCardsOpenApiConfig,
   EnglishCardsProps,
 } from "#widgets/components/EnglishCards";
 export type { GitHubMentionProps } from "#widgets/components/GitHubMention";

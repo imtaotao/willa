@@ -5,8 +5,6 @@ example docs, and acceptance checks for Willa. Package responsibilities and
 dependency relationships are documented in [Willa Architecture](./architecture.md).
 Code style is documented in [Willa Style Guide](./style.md). CSS and theme
 variables are documented in [Willa CSS Guide](./css.md).
-Future component planning is tracked in
-[Willa Component Roadmap](./component-roadmap.md).
 
 ## Package Ownership
 
@@ -23,8 +21,8 @@ Before adding a component, choose its package based on the architecture guide:
   field, and form actions.
 - `@willa-ui/ai`: AI product scenes and AI-specific composition, such as prompt
   inputs, chat messages, attachments, tool call displays, reasoning steps,
-  generation cards, context panels, and related interaction patterns. Agent
-  status views are roadmap directions rather than current public components.
+  generation cards, context panels, trace viewers, and related interaction
+  patterns.
 - `@willa-ui/widgets`: platform integrations, MDX composition, and more
   scenario-specific components, such as GitHub, X, web embeds, audio/video
   embeds, poems, and EnglishCards.

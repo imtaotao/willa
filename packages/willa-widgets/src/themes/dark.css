@@ -37,12 +37,6 @@
   --willa-english-card-translation-border: var(
     --willa-english-card-section-border
   );
-  --willa-english-card-openapi-border: rgba(156, 185, 221, 0.12);
-  --willa-english-card-openapi-bg: rgba(96, 165, 250, 0.055);
-  --willa-english-card-openapi-color: #c0d2e8;
-  --willa-english-card-openapi-error-border: rgba(248, 113, 113, 0.2);
-  --willa-english-card-openapi-error-bg: rgba(248, 113, 113, 0.08);
-  --willa-english-card-openapi-error-color: #fca5a5;
   --willa-english-card-chip-border: rgba(255, 255, 255, 0.1);
   --willa-english-card-chip-bg: rgba(255, 255, 255, 0.045);
   --willa-english-card-meta-bg: rgba(255, 255, 255, 0.045);

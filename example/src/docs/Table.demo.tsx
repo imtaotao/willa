@@ -222,6 +222,84 @@ const customRenderItems: Array<TableItem> = [
   },
 ];
 
+const tooltipItems: Array<TableItem> = [
+  {
+    key: "long-description",
+    cells: [
+      {
+        key: "component",
+        label: "组件",
+        value: "Table",
+        width: "9rem",
+      },
+      {
+        key: "description",
+        label: "说明",
+        value:
+          "表格单元格内容过长时会自动省略，鼠标悬停在真实溢出的文本上时展示完整提示。",
+        width: "13rem",
+      },
+      {
+        key: "status",
+        label: "状态",
+        value: "stable",
+        render: <Badge tone="success">稳定</Badge>,
+        width: "7rem",
+      },
+    ],
+  },
+  {
+    key: "custom-title",
+    cells: [
+      {
+        key: "component",
+        label: "组件",
+        value: "TraceViewer",
+        width: "9rem",
+      },
+      {
+        key: "description",
+        label: "说明",
+        value: "查看运行链路",
+        title:
+          "查看 Agent 运行链路、工具调用、模型输出、token、耗时和失败节点详情。",
+        width: "13rem",
+      },
+      {
+        key: "status",
+        label: "状态",
+        value: "new",
+        render: <Badge tone="info">新增</Badge>,
+        width: "7rem",
+      },
+    ],
+  },
+  {
+    key: "short-description",
+    cells: [
+      {
+        key: "component",
+        label: "组件",
+        value: "Badge",
+        width: "9rem",
+      },
+      {
+        key: "description",
+        label: "说明",
+        value: "短文本不弹出提示。",
+        width: "13rem",
+      },
+      {
+        key: "status",
+        label: "状态",
+        value: "stable",
+        render: <Badge tone="success">稳定</Badge>,
+        width: "7rem",
+      },
+    ],
+  },
+];
+
 const resizeItems: Array<TableItem> = [
   {
     key: "prompt-config",
@@ -1015,6 +1093,7 @@ const TableCapabilityPreview = () => {
 const TableDemoGallery = () => {
   const tableRef = useRef<TableRef>(null);
   const [stickyHeader, setStickyHeader] = useState(true);
+  const [cellTooltip, setCellTooltip] = useState(true);
   const [virtualInfiniteItems, setVirtualInfiniteItems] = useState<
     Array<TableItem>
   >(buildVirtualInfiniteTableItems(80));
@@ -1055,6 +1134,27 @@ const TableDemoGallery = () => {
               items={customRenderItems}
               stickyActions
             />
+          ),
+        },
+        {
+          value: "tooltip",
+          label: "溢出提示",
+          children: (
+            <Stack gap="md" width="100%">
+              <Switch
+                checked={cellTooltip}
+                label="开启单元格提示"
+                onChange={(event) =>
+                  setCellTooltip(event.currentTarget.checked)
+                }
+              />
+              <Table
+                caption="单元格内容真实溢出时展示提示；短文本不会弹出。"
+                items={tooltipItems}
+                cellBehavior={{ tooltip: cellTooltip }}
+                tableClassName="table-tooltip-demo"
+              />
+            </Stack>
           ),
         },
         {
@@ -1374,6 +1474,21 @@ export default defineDoc({
           },
         ];
 
+        const tooltipItems: Array<TableItem> = [
+          {
+            key: "tooltip",
+            cells: [
+              { key: "name", label: "组件", value: "Table", width: "9rem" },
+              {
+                key: "description",
+                label: "说明",
+                value: "表格单元格内容过长时会自动省略，并在真实溢出时展示完整提示。",
+                width: "13rem",
+              },
+            ],
+          },
+        ];
+
         const columnState = useTableColumnState({
           columnStateKey: "table-capability-personalization",
         });
@@ -1389,6 +1504,17 @@ export default defineDoc({
               value: "virtual",
               label: "虚拟滚动",
               children: <Table caption="虚拟滚动" items={items} maxHeight="24rem" virtualScroll />,
+            },
+            {
+              value: "tooltip",
+              label: "溢出提示",
+              children: (
+                <Table
+                  caption="单元格内容真实溢出时展示提示"
+                  items={tooltipItems}
+                  cellBehavior={{ tooltip: true }}
+                />
+              ),
             },
             {
               value: "virtual-tree",
@@ -1444,6 +1570,20 @@ export default defineDoc({
       type: '"sm" | "md" | "lg"',
       defaultValue: '"md"',
       description: "表格密度。",
+    },
+    {
+      name: "cellBehavior",
+      type: "{ tooltip?: boolean }",
+      defaultValue: "{ tooltip: true }",
+      description:
+        "单元格行为配置；tooltip 控制内容被省略且真实溢出时是否展示完整内容提示。",
+    },
+    {
+      name: "cellTooltip",
+      type: "boolean",
+      defaultValue: "true",
+      description:
+        "兼容旧写法的单元格提示开关；新用法优先使用 cellBehavior.tooltip。",
     },
     {
       name: "stickyHeader",

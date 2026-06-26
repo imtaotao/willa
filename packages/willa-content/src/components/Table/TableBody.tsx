@@ -1,8 +1,9 @@
-import { Fragment, type MouseEvent, type ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import classNames from "classnames";
 
 import { EmptyState } from "#content/components/EmptyState";
 import { Spinner } from "#content/components/Spinner";
+import { Tooltip } from "#content/components/Tooltip";
 
 import type {
   TableCell,
@@ -15,6 +16,11 @@ import {
 } from "#content/components/Table/utils";
 import { getResolvedCellStyle } from "#content/components/Table/layout";
 import { getOrderedRowCells } from "#content/components/Table/columns";
+
+const shouldShowCellTooltip = (element: HTMLElement, tooltipText?: string) => {
+  if (!tooltipText) return false;
+  return element.scrollWidth > element.clientWidth + 1;
+};
 
 type TableBodyProps = {
   loading: boolean;
@@ -31,6 +37,7 @@ type TableBodyProps = {
   resolvedVisibleItems: Array<TableDisplayRow>;
   orderedHeaderKeys: Array<string>;
   orderedHeaders: Array<TableCell>;
+  cellTooltip: boolean;
   hasSelection: boolean;
   selectionMode: "none" | "single" | "multiple";
   selectionName: string;
@@ -46,11 +53,6 @@ type TableBodyProps = {
   onToggleTreeExpanded: (item: TableItem) => void;
   onToggleItemSelection: (item: TableItem) => void;
   onToggleExpanded: (item: TableItem) => void;
-  onCellTooltipShow: (
-    event: MouseEvent<HTMLSpanElement>,
-    cell: TableCell,
-  ) => void;
-  onCellTooltipHide: () => void;
 };
 
 export function TableBody(props: TableBodyProps) {
@@ -64,6 +66,7 @@ export function TableBody(props: TableBodyProps) {
     resolvedVisibleItems,
     orderedHeaderKeys,
     orderedHeaders,
+    cellTooltip,
     hasSelection,
     selectionMode,
     selectionName,
@@ -79,8 +82,6 @@ export function TableBody(props: TableBodyProps) {
     onToggleTreeExpanded,
     onToggleItemSelection,
     onToggleExpanded,
-    onCellTooltipShow,
-    onCellTooltipHide,
   } = props;
 
   const rowSpanCoverage = new Map<number, number>();
@@ -90,15 +91,42 @@ export function TableBody(props: TableBodyProps) {
     if (cell.ellipsis === false) return content;
 
     const tooltipText = getCellTooltipText(cell);
-    return (
+    const trigger = (
       <span
         className="willa-table-cell-content"
         aria-label={tooltipText}
-        onMouseEnter={(event) => onCellTooltipShow(event, cell)}
-        onMouseLeave={onCellTooltipHide}
+        onMouseEnter={(event) => {
+          if (!shouldShowCellTooltip(event.currentTarget, tooltipText)) {
+            event.preventDefault();
+          }
+        }}
+        onClick={(event) => {
+          if (!shouldShowCellTooltip(event.currentTarget, tooltipText)) {
+            event.preventDefault();
+          }
+        }}
+        onFocus={(event) => {
+          if (!shouldShowCellTooltip(event.currentTarget, tooltipText)) {
+            event.preventDefault();
+          }
+        }}
       >
         {content}
       </span>
+    );
+
+    if (!cellTooltip || !tooltipText) return trigger;
+
+    return (
+      <Tooltip
+        className="willa-table-cell-tooltip-trigger"
+        content={tooltipText}
+        contentClassName="willa-table-cell-tooltip"
+        side="top"
+        align="center"
+      >
+        {trigger}
+      </Tooltip>
     );
   };
 

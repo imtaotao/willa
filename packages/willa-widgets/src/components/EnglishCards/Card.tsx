@@ -12,12 +12,10 @@ import { EnglishCardPractice } from "#widgets/components/EnglishCards/Practice";
 import { speakEnglishCardWord } from "#widgets/components/EnglishCards/speech";
 import type {
   EnglishCardItem,
-  OpenApiWordState,
   PracticeAnswerState,
 } from "#widgets/components/EnglishCards/types";
 
 export function EnglishCard(props: {
-  apiState?: OpenApiWordState;
   item: EnglishCardItem;
   isExpanded: boolean;
   isPracticeMode: boolean;
@@ -31,7 +29,6 @@ export function EnglishCard(props: {
   onToggleReveal: (wordKey: string) => void;
 }) {
   const {
-    apiState,
     item,
     isExpanded,
     isPracticeMode,
@@ -109,7 +106,7 @@ export function EnglishCard(props: {
             onCheck={() => onCheckPracticeAnswer(wordKey, item)}
           />
         ) : (
-          <EnglishCardContent item={item} apiState={apiState} />
+          <EnglishCardContent item={item} />
         )
       ) : null}
     </article>

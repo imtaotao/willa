@@ -11,11 +11,10 @@ import { defineDoc } from "#example/catalog/defineDoc";
 
 const sources: Array<SourceCardProps> = [
   {
-    title: "AI 产品组件路线",
-    description:
-      "记录输入、对话、过程、结果和反馈相关组件的优先级，以及 SourceCard 在 RAG 场景中的职责边界。",
-    source: "component-roadmap.md",
-    url: "docs/component-roadmap.md",
+    title: "组件创建规范",
+    description: "说明新组件的包归属、导出、CSS、主题变量和示例文档接入规则。",
+    source: "component.md",
+    url: "docs/component.md",
     meta: "命中 92%",
     icon: <FileTextIcon />,
     href: "#",
@@ -78,10 +77,10 @@ export default defineDoc({
     import "willa/SourceCard.css";
 
     <SourceCard
-      title="AI 产品组件路线"
-      description="记录输入、对话、过程、结果和反馈相关组件的优先级。"
-      source="component-roadmap.md"
-      url="docs/component-roadmap.md"
+      title="组件创建规范"
+      description="说明新组件的包归属、导出、CSS、主题变量和示例文档接入规则。"
+      source="component.md"
+      url="docs/component.md"
       meta="命中 92%"
       index="1"
       href="#"

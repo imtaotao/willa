@@ -1,19 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { Pencil2Icon, ReaderIcon } from "@radix-ui/react-icons";
-import { isAbortError } from "@willa-ui/shared";
 import classNames from "classnames";
 
 import { EnglishCard } from "#widgets/components/EnglishCards/Card";
-import {
-  fetchDictionaryWord,
-  normalizeOpenApiConfig,
-  normalizeWordKey,
-} from "#widgets/components/EnglishCards/data";
 import { isPracticeAnswerCorrect } from "#widgets/components/EnglishCards/Practice";
 import type {
   EnglishCardItem,
   EnglishCardsProps,
-  OpenApiWordState,
   PracticeAnswerState,
 } from "#widgets/components/EnglishCards/types";
 
@@ -22,65 +15,11 @@ export type {
   EnglishCardExample,
   EnglishCardItem,
   EnglishCardResource,
-  EnglishCardsOpenApiConfig,
   EnglishCardsProps,
 } from "#widgets/components/EnglishCards/types";
 
-const createEnglishCardItems = (
-  props: EnglishCardsProps,
-): Array<EnglishCardItem> => {
-  const itemMap = new Map(
-    props.items?.map((item) => [normalizeWordKey(item.word), item]) ?? [],
-  );
-
-  if (!props.words?.length) return props.items ?? [];
-
-  return props.words.map((word) => {
-    const normalizedWord = normalizeWordKey(word);
-    return itemMap.get(normalizedWord) ?? { word };
-  });
-};
-
-const mergeEnglishCardItem = (
-  apiItem: Partial<EnglishCardItem> | undefined,
-  item: EnglishCardItem,
-): EnglishCardItem => {
-  return {
-    ...apiItem,
-    ...item,
-    word: item.word || apiItem?.word || "",
-    phonetic: item.phonetic ?? apiItem?.phonetic,
-    audioUrl: item.audioUrl ?? apiItem?.audioUrl,
-    partOfSpeech: item.partOfSpeech ?? apiItem?.partOfSpeech,
-    translation: item.translation ?? apiItem?.translation,
-    explanation: item.explanation ?? apiItem?.explanation,
-    example: item.example ?? apiItem?.example,
-    details: item.details ?? apiItem?.details,
-    resources: item.resources ?? apiItem?.resources,
-    note: item.note ?? apiItem?.note,
-    tags: item.tags ?? apiItem?.tags,
-  };
-};
-
-const getErrorMessage = (error: unknown) => {
-  if (isAbortError(error)) return "Dictionary request was cancelled.";
-
-  return error instanceof Error ? error.message : "Dictionary request failed.";
-};
-
 export function EnglishCards(props: EnglishCardsProps) {
-  const { title, defaultMode = "study", className } = props;
-  const items = useMemo(
-    () => createEnglishCardItems(props),
-    [props.items, props.words],
-  );
-  const openApiConfig = useMemo(
-    () => normalizeOpenApiConfig(props.openApi),
-    [props.openApi],
-  );
-  const [openApiWords, setOpenApiWords] = useState<
-    Record<string, OpenApiWordState>
-  >({});
+  const { title, items = [], defaultMode = "study", className } = props;
   const [mode, setMode] = useState(defaultMode);
   const [revealedWords, setRevealedWords] = useState<Set<string>>(new Set());
   const [practiceAnswers, setPracticeAnswers] = useState<
@@ -91,68 +30,6 @@ export function EnglishCards(props: EnglishCardsProps) {
   >({});
   const [expandedWords, setExpandedWords] = useState<Set<string>>(new Set());
   const isPracticeMode = mode === "practice";
-
-  useEffect(() => {
-    if (!openApiConfig.enabled) {
-      setOpenApiWords({});
-      return;
-    }
-
-    const uniqueWords = Array.from(
-      new Set(items.map((item) => normalizeWordKey(item.word)).filter(Boolean)),
-    );
-
-    if (!uniqueWords.length) {
-      setOpenApiWords({});
-      return;
-    }
-
-    const abortController = new AbortController();
-
-    setOpenApiWords(
-      Object.fromEntries(
-        uniqueWords.map((word) => [
-          word,
-          { status: "loading" } satisfies OpenApiWordState,
-        ]),
-      ),
-    );
-
-    void Promise.all(
-      uniqueWords.map(async (word) => {
-        try {
-          const apiItem = await fetchDictionaryWord(word, openApiConfig, {
-            signal: abortController.signal,
-          });
-
-          return [
-            word,
-            { status: "success", item: apiItem } satisfies OpenApiWordState,
-          ] as const;
-        } catch (error) {
-          if (abortController.signal.aborted) {
-            return [
-              word,
-              { status: "loading" } satisfies OpenApiWordState,
-            ] as const;
-          }
-
-          return [
-            word,
-            {
-              status: "error",
-              message: getErrorMessage(error),
-            } satisfies OpenApiWordState,
-          ] as const;
-        }
-      }),
-    ).then((entries) => {
-      if (abortController.signal.aborted) return;
-      setOpenApiWords(Object.fromEntries(entries));
-    });
-
-    return () => abortController.abort();
-  }, [items, openApiConfig]);
 
   const toggleMode = () => {
     setMode((currentMode) => (currentMode === "study" ? "practice" : "study"));
@@ -239,14 +116,11 @@ export function EnglishCards(props: EnglishCardsProps) {
         {items.map((item, index) => {
           const wordKey = `${item.word}-${index}`;
           const isRevealed = !isPracticeMode || revealedWords.has(wordKey);
-          const apiState = openApiWords[normalizeWordKey(item.word)];
-          const cardItem = mergeEnglishCardItem(apiState?.item, item);
 
           return (
             <EnglishCard
               key={wordKey}
-              apiState={apiState}
-              item={cardItem}
+              item={item}
               isExpanded={expandedWords.has(wordKey)}
               isPracticeMode={isPracticeMode}
               isRevealed={isRevealed}

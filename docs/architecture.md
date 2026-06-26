@@ -32,7 +32,6 @@ The repository is a pnpm workspace monorepo. Packages are built with `auklet`.
   CONTRIBUTING.md
   docs/
     architecture.md
-    component-roadmap.md
     component.md
     css.md
     style.md
@@ -82,8 +81,6 @@ not maintain their own `tsconfig.json`; they use the root `tsconfig.json`.
 
 - `architecture.md`: overall structure, module relationships, build flow, and
   pitfalls.
-- `component-roadmap.md`: component roadmap and future AI product component
-  planning.
 - `component.md`: component creation, migration, exports, and example rules.
 - `css.md`: CSS, theme variables, and cross-package style dependency rules.
 - `style.md`: TypeScript, React, and documentation code style.
@@ -119,10 +116,9 @@ layout and content must not depend on form.
 `packages/willa-ai` is the AI product component package, published as
 `@willa-ui/ai`. It contains AI-oriented scene components such as prompt inputs,
 chat messages, attachments, tool call displays, reasoning steps, generation
-cards, context panels, and related interaction patterns. Agent status views are
-roadmap directions rather than current public components. It can compose layout
-and content components and reuse their CSS through `styles.dependencies`, but it
-must not make layout or content depend on AI.
+cards, context panels, trace viewers, and related interaction patterns. It can
+compose layout and content components and reuse their CSS through
+`styles.dependencies`, but it must not make layout or content depend on AI.
 
 `packages/willa-widgets` is the scenario component package, published as
 `@willa-ui/widgets`. It contains platform integrations, MDX composition,
