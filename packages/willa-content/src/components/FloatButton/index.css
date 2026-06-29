@@ -22,6 +22,7 @@
     transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
     background-color 180ms ease,
     border-color 180ms ease,
+    color 180ms ease,
     box-shadow 180ms ease,
     opacity 180ms ease;
 }
@@ -37,6 +38,10 @@
 }
 
 .willa-float-button:hover {
+  color: var(
+    --willa-float-button-custom-text-hover,
+    var(--willa-float-button-custom-text, var(--willa-float-button-text))
+  );
   background: var(
     --willa-float-button-custom-bg-hover,
     var(--willa-float-button-bg-hover)
@@ -70,7 +75,17 @@
 }
 
 .willa-float-button--primary:hover {
-  background: var(--willa-float-button-primary-bg-hover);
+  color: var(
+    --willa-float-button-custom-text-hover,
+    var(
+      --willa-float-button-custom-text,
+      var(--willa-float-button-primary-text)
+    )
+  );
+  background: var(
+    --willa-float-button-custom-bg-hover,
+    var(--willa-float-button-primary-bg-hover)
+  );
   border-color: var(--willa-float-button-primary-border-hover);
   box-shadow: var(--willa-float-button-primary-shadow-hover);
 }
@@ -101,6 +116,36 @@
   min-width: 4.25rem;
   min-height: 4.25rem;
   padding: 1.05rem 1.1rem;
+}
+
+.willa-float-button--ghost {
+  color: var(
+    --willa-float-button-custom-text,
+    var(--willa-float-button-ghost-text)
+  );
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.willa-float-button--ghost:hover {
+  color: var(
+    --willa-float-button-custom-text-hover,
+    var(
+      --willa-float-button-custom-text,
+      var(--willa-float-button-ghost-text-hover)
+    )
+  );
+  background: var(
+    --willa-float-button-custom-bg-hover,
+    var(--willa-float-button-ghost-bg-hover)
+  );
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.willa-float-button--ghost:focus-visible {
+  box-shadow: 0 0 0 3px var(--willa-focus-ring);
 }
 
 .willa-float-button__content {

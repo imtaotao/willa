@@ -188,6 +188,12 @@ export default defineDoc({
       description: "按语义槽位追加 className，用于定制局部样式。",
     },
     {
+      name: "renderLink",
+      type: "(props: WillaRenderLinkProps) => ReactNode",
+      description:
+        "自定义目录项链接渲染，可接入客户端路由；未传时渲染原生 a 标签。",
+    },
+    {
       name: "styles",
       type: "Partial<Record<AnchorSlot, CSSProperties>>",
       description: "按语义槽位追加内联样式，用于轻量定制。",

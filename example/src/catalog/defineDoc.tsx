@@ -170,6 +170,7 @@ const willaDemoImportNames = new Set([
   "VideoLink",
   "Watermark",
   "WebEmbed",
+  "WillaShell",
   "XPostEmbed",
 ]);
 

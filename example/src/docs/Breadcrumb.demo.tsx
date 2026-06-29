@@ -142,6 +142,12 @@ export default defineDoc({
       description: "分隔符，默认使用箭头图标。",
     },
     {
+      name: "renderLink",
+      type: "(props: WillaRenderLinkProps) => ReactNode",
+      description:
+        "自定义非当前项链接渲染，可接入客户端路由；未传时渲染原生 a 标签。",
+    },
+    {
       name: "BreadcrumbItem.label",
       type: "ReactNode",
       required: true,

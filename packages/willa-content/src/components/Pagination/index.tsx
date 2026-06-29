@@ -10,6 +10,8 @@ import {
   clampNumber,
   createNumberRange,
   useControllableState,
+  type WillaRenderLink,
+  type WillaRenderLinkProps,
 } from "@willa-ui/shared";
 
 export type PaginationSize = "sm" | "md";
@@ -38,6 +40,7 @@ export type PaginationProps = {
   className?: string;
   onPageChange?: (page: number) => void;
   getPageHref?: (page: number) => string;
+  renderLink?: WillaRenderLink;
   getEllipsisPage?: (context: PaginationEllipsisContext) => number;
 };
 
@@ -69,6 +72,7 @@ export function Pagination(props: PaginationProps) {
     disabled = false,
     className,
     getEllipsisPage,
+    renderLink,
   } = props;
   const normalizedPageCount = Math.max(0, Math.floor(pageCount));
   const [pageState, setCurrentPage] = useControllableState({
@@ -112,6 +116,7 @@ export function Pagination(props: PaginationProps) {
               currentPage={currentPage}
               disabled={disabled || currentPage === 1}
               getPageHref={getPageHref}
+              renderLink={renderLink}
               label="第一页"
               onPageChange={setPage}
             >
@@ -126,6 +131,7 @@ export function Pagination(props: PaginationProps) {
               currentPage={currentPage}
               disabled={disabled || currentPage === 1}
               getPageHref={getPageHref}
+              renderLink={renderLink}
               label={
                 typeof previousLabel === "string" ? previousLabel : "上一页"
               }
@@ -146,6 +152,7 @@ export function Pagination(props: PaginationProps) {
                 currentPage={currentPage}
                 disabled={disabled}
                 getPageHref={getPageHref}
+                renderLink={renderLink}
                 label={`第 ${item} 页`}
                 onPageChange={setPage}
               >
@@ -158,6 +165,7 @@ export function Pagination(props: PaginationProps) {
                 pageCount={normalizedPageCount}
                 disabled={disabled}
                 getPageHref={getPageHref}
+                renderLink={renderLink}
                 getEllipsisPage={getEllipsisPage}
                 onPageChange={setPage}
               />
@@ -171,6 +179,7 @@ export function Pagination(props: PaginationProps) {
               currentPage={currentPage}
               disabled={disabled || currentPage === normalizedPageCount}
               getPageHref={getPageHref}
+              renderLink={renderLink}
               label={typeof nextLabel === "string" ? nextLabel : "下一页"}
               onPageChange={setPage}
             >
@@ -188,6 +197,7 @@ export function Pagination(props: PaginationProps) {
               currentPage={currentPage}
               disabled={disabled || currentPage === normalizedPageCount}
               getPageHref={getPageHref}
+              renderLink={renderLink}
               label="最后一页"
               onPageChange={setPage}
             >
@@ -207,6 +217,7 @@ const PaginationEllipsis = (props: {
   disabled: boolean;
   onPageChange: (page: number) => void;
   getPageHref?: (page: number) => string;
+  renderLink?: WillaRenderLink;
   getEllipsisPage?: (context: PaginationEllipsisContext) => number;
 }) => {
   const context: PaginationEllipsisContext = {
@@ -236,6 +247,7 @@ const PaginationEllipsis = (props: {
       currentPage={props.currentPage}
       disabled={props.disabled}
       getPageHref={props.getPageHref}
+      renderLink={props.renderLink}
       label={`跳转到第 ${targetPage} 页`}
       onPageChange={props.onPageChange}
       className="willa-pagination-ellipsis"
@@ -254,6 +266,7 @@ const PaginationControl = (props: {
   className?: string;
   onPageChange: (page: number) => void;
   getPageHref?: (page: number) => string;
+  renderLink?: WillaRenderLink;
 }) => {
   const isCurrent = props.page === props.currentPage;
   const className = classNames(
@@ -270,16 +283,16 @@ const PaginationControl = (props: {
   };
 
   if (props.getPageHref && !props.disabled && !isCurrent) {
-    return (
-      <a
-        className={className}
-        href={props.getPageHref(props.page)}
-        aria-label={props.label}
-        onClick={handleClick}
-      >
-        {props.children}
-      </a>
-    );
+    const linkProps = {
+      className,
+      href: props.getPageHref(props.page),
+      "aria-label": props.label,
+      onClick: handleClick,
+      children: props.children,
+    } satisfies WillaRenderLinkProps;
+
+    if (props.renderLink) return props.renderLink(linkProps);
+    return <a {...linkProps} />;
   }
 
   return (

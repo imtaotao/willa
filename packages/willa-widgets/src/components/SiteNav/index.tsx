@@ -1,5 +1,6 @@
-import { type HTMLAttributes, type ReactNode } from "react";
+import { Fragment, type HTMLAttributes, type ReactNode } from "react";
 import classNames from "classnames";
+import type { WillaRenderLink, WillaRenderLinkProps } from "@willa-ui/shared";
 
 export type SiteNavItem = {
   label: ReactNode;
@@ -16,6 +17,7 @@ export type SiteNavProps = {
   items?: Array<SiteNavItem>;
   actions?: ReactNode;
   sticky?: boolean;
+  renderLink?: WillaRenderLink;
   className?: string;
 } & Omit<HTMLAttributes<HTMLElement>, "children">;
 
@@ -27,6 +29,7 @@ export function SiteNav(props: SiteNavProps) {
     items,
     actions,
     sticky = false,
+    renderLink,
     className,
     ...navProps
   } = props;
@@ -40,26 +43,32 @@ export function SiteNav(props: SiteNavProps) {
         className,
       )}
     >
-      <a className="willa-site-nav-brand" href={brandHref}>
-        {logo ? <span className="willa-site-nav-logo">{logo}</span> : null}
-        <span>{brand}</span>
-      </a>
+      {renderSiteNavLink(renderLink, {
+        className: "willa-site-nav-brand",
+        href: brandHref,
+        children: (
+          <>
+            {logo ? <span className="willa-site-nav-logo">{logo}</span> : null}
+            <span>{brand}</span>
+          </>
+        ),
+      })}
       {items?.length ? (
         <nav className="willa-site-nav-links" aria-label="Site navigation">
           {items.map((item) => (
-            <a
-              key={`${item.href}-${String(item.label)}`}
-              className={classNames(
-                "willa-site-nav-link",
-                item.active && "willa-site-nav-link--active",
-              )}
-              href={item.href}
-              target={item.target}
-              rel={item.rel}
-              aria-current={item.active ? "page" : undefined}
-            >
-              {item.label}
-            </a>
+            <Fragment key={`${item.href}-${String(item.label)}`}>
+              {renderSiteNavLink(renderLink, {
+                className: classNames(
+                  "willa-site-nav-link",
+                  item.active && "willa-site-nav-link--active",
+                ),
+                href: item.href,
+                target: item.target,
+                rel: item.rel,
+                "aria-current": item.active ? "page" : undefined,
+                children: item.label,
+              })}
+            </Fragment>
           ))}
         </nav>
       ) : null}
@@ -67,5 +76,13 @@ export function SiteNav(props: SiteNavProps) {
     </header>
   );
 }
+
+const renderSiteNavLink = (
+  renderLink: WillaRenderLink | undefined,
+  props: WillaRenderLinkProps,
+) => {
+  if (renderLink) return renderLink(props);
+  return <a {...props} />;
+};
 
 SiteNav.displayName = "SiteNav";

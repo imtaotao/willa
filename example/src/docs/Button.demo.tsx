@@ -227,6 +227,12 @@ export default defineDoc({
       description: "传入后渲染为链接按钮。",
     },
     {
+      name: "renderLink",
+      type: "(props: WillaRenderLinkProps) => ReactNode",
+      description:
+        "自定义链接渲染。传入 href 时可接入客户端路由，未传时渲染原生 a 标签；disabled 或 loading 时不会调用。",
+    },
+    {
       name: "icon",
       type: "ReactNode",
       description: "展示在文字前的图标。",

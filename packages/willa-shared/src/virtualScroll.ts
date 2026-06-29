@@ -96,8 +96,8 @@ export const useVirtualScrollWindow = (options: VirtualScrollOptions) => {
       typeof ResizeObserver === "undefined"
         ? undefined
         : new ResizeObserver(schedule);
-    resizeObserver?.observe(container);
 
+    resizeObserver?.observe(container);
     window.addEventListener("resize", schedule);
 
     return () => {

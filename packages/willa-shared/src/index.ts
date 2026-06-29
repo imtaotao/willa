@@ -44,6 +44,7 @@ export {
   resolveMediaAsset,
   resolveMediaVolume,
 } from "#shared/media";
+export type { WillaRenderLink, WillaRenderLinkProps } from "#shared/link";
 export {
   canOpenFilePreviewDialog,
   createObjectFileItem,

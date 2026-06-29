@@ -31,7 +31,7 @@ export type {
   LogoWallItem,
   LogoWallProps,
 } from "#widgets/components/LogoWall";
-export type { Heading, MdxProps } from "#widgets/components/Mdx";
+export type { Heading, MdxComponents, MdxProps } from "#widgets/components/Mdx";
 export type { PoemProps } from "#widgets/components/Poem";
 export type {
   ProfileCardLink,

@@ -5,6 +5,7 @@ import {
 } from "react";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
+import type { WillaRenderLink, WillaRenderLinkProps } from "@willa-ui/shared";
 
 export type BreadcrumbSize = "sm" | "md";
 
@@ -26,6 +27,7 @@ export type BreadcrumbProps = Omit<
   items: Array<BreadcrumbItem>;
   size?: BreadcrumbSize;
   separator?: ReactNode;
+  renderLink?: WillaRenderLink;
 };
 
 export function Breadcrumb(props: BreadcrumbProps) {
@@ -33,6 +35,7 @@ export function Breadcrumb(props: BreadcrumbProps) {
     items,
     size = "md",
     separator = <ChevronRightIcon />,
+    renderLink,
     className,
     "aria-label": ariaLabel = "Breadcrumb",
     ...breadcrumbProps
@@ -62,7 +65,11 @@ export function Breadcrumb(props: BreadcrumbProps) {
                   {separator}
                 </span>
               ) : null}
-              <BreadcrumbItemContent item={item} current={isCurrent} />
+              <BreadcrumbItemContent
+                item={item}
+                current={isCurrent}
+                renderLink={renderLink}
+              />
             </li>
           );
         })}
@@ -74,9 +81,11 @@ export function Breadcrumb(props: BreadcrumbProps) {
 const BreadcrumbItemContent = ({
   item,
   current,
+  renderLink,
 }: {
   item: BreadcrumbItem;
   current: boolean;
+  renderLink?: WillaRenderLink;
 }) => {
   const content = (
     <>
@@ -91,17 +100,16 @@ const BreadcrumbItemContent = ({
 
   if (item.href && !current) {
     const rel = item.target === "_blank" && !item.rel ? "noreferrer" : item.rel;
+    const linkProps = {
+      className: "willa-breadcrumb-link",
+      href: item.href,
+      target: item.target,
+      rel,
+      children: content,
+    } satisfies WillaRenderLinkProps;
 
-    return (
-      <a
-        className="willa-breadcrumb-link"
-        href={item.href}
-        target={item.target}
-        rel={rel}
-      >
-        {content}
-      </a>
-    );
+    if (renderLink) return renderLink(linkProps);
+    return <a {...linkProps} />;
   }
 
   if (item.onClick && !current) {

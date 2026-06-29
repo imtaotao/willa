@@ -7,7 +7,11 @@ import {
   type ReactNode,
 } from "react";
 import classNames from "classnames";
-import { useControllableState } from "@willa-ui/shared";
+import {
+  useControllableState,
+  type WillaRenderLink,
+  type WillaRenderLinkProps,
+} from "@willa-ui/shared";
 
 export type AnchorItem = {
   id: string;
@@ -39,6 +43,7 @@ export type AnchorProps = {
   showMarker?: boolean;
   classNames?: Partial<Record<AnchorSlot, string>>;
   styles?: Partial<Record<AnchorSlot, CSSProperties>>;
+  renderLink?: WillaRenderLink;
   onActiveChange?: (id: string) => void;
   onItemClick?: (
     item: AnchorItem,
@@ -58,6 +63,7 @@ export function Anchor(props: AnchorProps) {
     showMarker = true,
     classNames: slotClassNames,
     styles,
+    renderLink,
     onActiveChange,
     onItemClick,
     className,
@@ -152,6 +158,7 @@ export function Anchor(props: AnchorProps) {
             activeId={resolvedActiveId}
             classNames={slotClassNames}
             styles={styles}
+            renderLink={renderLink}
             onItemClick={setActiveItem}
           />
         ))}
@@ -165,6 +172,7 @@ const AnchorNode = (props: {
   activeId?: string;
   classNames?: Partial<Record<AnchorSlot, string>>;
   styles?: Partial<Record<AnchorSlot, CSSProperties>>;
+  renderLink?: WillaRenderLink;
   onItemClick: (item: AnchorItem, event: MouseEvent<HTMLAnchorElement>) => void;
 }) => {
   const {
@@ -172,26 +180,22 @@ const AnchorNode = (props: {
     activeId,
     classNames: slotClassNames,
     styles,
+    renderLink,
     onItemClick,
   } = props;
   const isActive = activeId === item.id;
-
-  return (
-    <li
-      className={classNames("willa-anchor__item", slotClassNames?.item)}
-      style={styles?.item}
-    >
-      <a
-        className={classNames(
-          "willa-anchor__link",
-          isActive && "willa-anchor__link--active",
-          slotClassNames?.link,
-        )}
-        style={styles?.link}
-        href={item.href ?? `#${item.id}`}
-        aria-current={isActive ? "location" : undefined}
-        onClick={(event) => onItemClick(item, event)}
-      >
+  const linkProps = {
+    className: classNames(
+      "willa-anchor__link",
+      isActive && "willa-anchor__link--active",
+      slotClassNames?.link,
+    ),
+    style: styles?.link,
+    href: item.href ?? `#${item.id}`,
+    "aria-current": isActive ? "location" : undefined,
+    onClick: (event) => onItemClick(item, event),
+    children: (
+      <>
         <span
           className={classNames("willa-anchor__title", slotClassNames?.title)}
           style={styles?.title}
@@ -217,7 +221,16 @@ const AnchorNode = (props: {
             {item.description}
           </span>
         )}
-      </a>
+      </>
+    ),
+  } satisfies WillaRenderLinkProps;
+
+  return (
+    <li
+      className={classNames("willa-anchor__item", slotClassNames?.item)}
+      style={styles?.item}
+    >
+      {renderAnchorLink(renderLink, linkProps)}
       {item.children?.length ? (
         <ol
           className={classNames(
@@ -234,6 +247,7 @@ const AnchorNode = (props: {
               activeId={activeId}
               classNames={slotClassNames}
               styles={styles}
+              renderLink={renderLink}
               onItemClick={onItemClick}
             />
           ))}
@@ -241,6 +255,14 @@ const AnchorNode = (props: {
       ) : null}
     </li>
   );
+};
+
+const renderAnchorLink = (
+  renderLink: WillaRenderLink | undefined,
+  props: WillaRenderLinkProps,
+) => {
+  if (renderLink) return renderLink(props);
+  return <a {...props} />;
 };
 
 const flattenAnchorItems = (items: Array<AnchorItem>): Array<AnchorItem> => {

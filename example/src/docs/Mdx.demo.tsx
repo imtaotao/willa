@@ -1,7 +1,7 @@
 import { unindent } from "aidly";
-import { useState, type ElementType } from "react";
+import { useState, type ComponentProps, type ElementType } from "react";
 import { Lightbox } from "willa/Lightbox";
-import { Mdx } from "willa/Mdx";
+import { Mdx, type MdxComponents } from "willa/Mdx";
 
 import "willa/Mdx.css";
 
@@ -29,6 +29,28 @@ const galleryImages = [
 
 const resolveDemoAssetUrl = (_articleSourcePath: string, assetPath: string) =>
   assetPath;
+
+const ArticleLink = (props: ComponentProps<"a">) => {
+  const { children, style, ...rest } = props;
+
+  return (
+    <a
+      {...rest}
+      style={{
+        color: "var(--willa-color-blue)",
+        fontWeight: 720,
+        textUnderlineOffset: "0.18em",
+        ...style,
+      }}
+    >
+      {children}
+    </a>
+  );
+};
+
+const mdxComponents = {
+  a: ArticleLink,
+} satisfies MdxComponents;
 
 const DemoMdxContent = (props: Record<string, unknown>) => {
   const components = (props.components ?? {}) as Record<string, ElementType>;
@@ -258,6 +280,7 @@ const MdxPreview = () => {
         articleSourcePath="/posts/demo.mdx"
         resolveAssetUrl={resolveDemoAssetUrl}
         openLightbox={setLightbox}
+        components={mdxComponents}
       />
       {lightbox?.selectedImage ? (
         <Lightbox
@@ -282,11 +305,24 @@ export default defineDoc({
     component: MdxPreview,
   },
   code: unindent(`
-    import { Mdx } from "willa/Mdx";
+    import { Mdx, type MdxComponents } from "willa/Mdx";
     import "willa/Mdx.css";
 
     const resolveAssetUrl = (_articleSourcePath: string, assetPath: string) =>
       assetPath;
+
+    const mdxComponents = {
+      a: ({ href, children, ...props }) =>
+        href?.startsWith("https://") ? (
+          <a href={href} target="_blank" rel="noreferrer" {...props}>
+            {children}
+          </a>
+        ) : (
+          <a href={href} {...props}>
+            {children}
+          </a>
+        ),
+    } satisfies MdxComponents;
 
     function DemoMdxContent(props) {
       const {
@@ -313,6 +349,7 @@ export default defineDoc({
       Content={DemoMdxContent}
       articleSourcePath="/posts/demo.mdx"
       resolveAssetUrl={resolveAssetUrl}
+      components={mdxComponents}
     />;
   `),
   props: [
@@ -333,6 +370,12 @@ export default defineDoc({
       type: "(articleSourcePath: string, assetPath: string) => string | undefined",
       required: true,
       description: "把 MDX 中的相对资源转换为可访问 URL。",
+    },
+    {
+      name: "components",
+      type: "MdxComponents",
+      description:
+        "覆盖内置 MDX 组件映射。可接管链接、标题、图片或自定义组件策略，未覆盖的项继续使用 Willa 默认映射。",
     },
     {
       name: "openLightbox",

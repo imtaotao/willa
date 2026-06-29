@@ -8,6 +8,7 @@ import {
   type ReactNode,
   type ComponentProps,
   type ComponentType,
+  type ElementType,
 } from "react";
 import {
   Badge,
@@ -68,11 +69,13 @@ import { XPostEmbed } from "#widgets/components/XPostEmbed";
 
 export { extractHeadings } from "@willa-ui/shared";
 export type { Heading } from "@willa-ui/shared";
+export type MdxComponents = Record<string, ElementType>;
 
 export type MdxProps = {
   Content: ComponentType<Record<string, unknown>>;
   articleSourcePath: string;
   resolveAssetUrl: ResolveAssetUrl;
+  components?: MdxComponents;
   openLightbox?: (state: LightboxState | null) => void;
 };
 
@@ -327,6 +330,7 @@ export function Mdx(props: MdxProps) {
       ...proseComponents,
       ...contentComponents,
       ...mediaComponents,
+      ...props.components,
     };
   }, [
     Badge,
@@ -363,6 +367,7 @@ export function Mdx(props: MdxProps) {
     WebEmbed,
     XPostEmbed,
     EnglishCards,
+    props.components,
     renderColorText,
     renderHeading,
   ]);

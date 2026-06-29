@@ -38,6 +38,29 @@ export type LightboxRootProps = {
 
 export type LightboxProps = LightboxDialogProps | LightboxRootProps;
 
+let lightboxBodyScrollLockCount = 0;
+let previousBodyOverflow = "";
+
+const lockBodyScroll = () => {
+  if (typeof document === "undefined") return () => {};
+
+  if (lightboxBodyScrollLockCount === 0) {
+    previousBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+  }
+
+  lightboxBodyScrollLockCount += 1;
+
+  return () => {
+    lightboxBodyScrollLockCount = Math.max(0, lightboxBodyScrollLockCount - 1);
+
+    if (lightboxBodyScrollLockCount === 0) {
+      document.body.style.overflow = previousBodyOverflow;
+      previousBodyOverflow = "";
+    }
+  };
+};
+
 export function normalizeLightboxImage(
   src?: string,
   alt?: string,
@@ -93,6 +116,36 @@ const LightboxDialog = (props: LightboxDialogProps) => {
   const animationTimerRef = useRef<number | null>(null);
   const [imageMotionClassName, setImageMotionClassName] = useState("");
   const transitionDirection = props.transitionDirection ?? 0;
+
+  useEffect(() => lockBodyScroll(), []);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    const handleKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (event.defaultPrevented) return;
+
+      if (event.key === "Escape") {
+        event.preventDefault();
+        props.onClose();
+        return;
+      }
+
+      if (event.key === "ArrowLeft" && props.onPrev) {
+        event.preventDefault();
+        props.onPrev();
+        return;
+      }
+
+      if (event.key === "ArrowRight" && props.onNext) {
+        event.preventDefault();
+        props.onNext();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [props.onClose, props.onNext, props.onPrev]);
 
   useEffect(() => {
     const imageKey = [

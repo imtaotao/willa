@@ -913,6 +913,12 @@ export default defineDoc({
       description: "完全自定义单条渲染。",
     },
     {
+      name: "renderLink",
+      type: "(props: WillaRenderLinkProps) => ReactNode",
+      description:
+        "自定义条目链接渲染，可接入客户端路由；仅在条目有 href 且未禁用时调用。",
+    },
+    {
       name: "onItemsChange",
       type: "(items: Array<ListItem>) => void",
       description: "拖拽排序后的数据回调。",
@@ -999,6 +1005,12 @@ export default defineDoc({
       name: "ListItem.target",
       type: "HTMLAnchorElement['target']",
       description: "链接打开方式。",
+    },
+    {
+      name: "ListItem.rel",
+      type: "HTMLAnchorElement['rel']",
+      description:
+        "链接 rel 属性；target 为 _blank 且未传 rel 时默认使用 noreferrer。",
     },
     {
       name: "virtualScrollItemHeight",

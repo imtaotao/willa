@@ -64,6 +64,8 @@ const BackToTopPreview = () => {
       </Stack>
       <FloatButton
         backToTop
+        variant="ghost"
+        hoverTextColor="var(--willa-text-strong)"
         target={() => document.querySelector("[data-float-button-scroll]")}
       />
     </div>
@@ -214,7 +216,9 @@ const CustomColorPreview = () => {
         label="上线中心"
         description="查看待发布项"
         backgroundColor="#1f2937"
+        hoverBackgroundColor="#111827"
         textColor="#f8fafc"
+        hoverTextColor="#ffffff"
         badge="2"
       />
     </div>
@@ -452,7 +456,9 @@ export default defineDoc({
             label="上线中心"
             description="查看待发布项"
             backgroundColor="#1f2937"
+            hoverBackgroundColor="#111827"
             textColor="#f8fafc"
+            hoverTextColor="#ffffff"
             badge="2"
           />
         </div>;
@@ -498,6 +504,8 @@ export default defineDoc({
           <FloatButton
             icon={<ArrowUpIcon />}
             backToTop
+            variant="ghost"
+            hoverTextColor="var(--willa-text-strong)"
             target={() => document.querySelector("[data-float-button-scroll]")}
           />
         </div>;
@@ -537,21 +545,32 @@ export default defineDoc({
       description: "自定义按钮背景色。",
     },
     {
+      name: "hoverBackgroundColor",
+      type: "string",
+      description: "自定义 hover 状态背景色。ghost 未传时保持透明。",
+    },
+    {
       name: "textColor",
       type: "string",
       description: "自定义按钮文字和图标颜色。",
     },
     {
+      name: "hoverTextColor",
+      type: "string",
+      description: "自定义 hover 状态文字和图标颜色。",
+    },
+    {
       name: "variant",
-      type: '"default" | "primary"',
+      type: '"default" | "primary" | "ghost"',
       defaultValue: '"default"',
-      description: "视觉变体。",
+      description: "视觉变体。ghost 会隐藏背景、边框和阴影，只保留内容。",
     },
     {
       name: "shape",
       type: '"circle" | "square"',
-      defaultValue: "内容按钮自动推导",
-      description: "按钮形状。未传时会根据是否有文字自动推导。",
+      defaultValue: "backToTop 为圆形，否则为方形",
+      description:
+        "按钮形状。未传时普通悬浮按钮使用方形，回到顶部按钮使用圆形。",
     },
     {
       name: "size",

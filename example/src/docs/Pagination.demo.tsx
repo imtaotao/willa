@@ -220,6 +220,12 @@ export default defineDoc({
         "返回页码链接地址；适合文章列表、搜索结果等需要真实 URL 的分页。",
     },
     {
+      name: "renderLink",
+      type: "(props: WillaRenderLinkProps) => ReactNode",
+      description:
+        "自定义页码链接渲染，可接入客户端路由；仅在 getPageHref 返回地址且页码可点击时调用。",
+    },
+    {
       name: "getEllipsisPage",
       type: "(context: PaginationEllipsisContext) => number",
       description: "自定义点击省略号时跳转的页码，默认跳到被折叠区间的中间页。",

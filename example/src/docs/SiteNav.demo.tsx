@@ -12,6 +12,17 @@ const navItems: Array<SiteNavItem> = [
   { label: "价格", href: "#pricing" },
 ];
 
+const routeNavItems: Array<SiteNavItem> = [
+  { label: "组件", href: "/components", active: true },
+  { label: "文档", href: "/docs" },
+  {
+    label: "GitHub",
+    href: "https://github.com/imtaotao/willa",
+    target: "_blank",
+    rel: "noreferrer",
+  },
+];
+
 export default defineDoc({
   id: "site-nav",
   name: "SiteNav",
@@ -91,6 +102,54 @@ export default defineDoc({
         />
       ),
     },
+    {
+      title: "路由链接",
+      code: `
+        import { Link } from "react-router-dom";
+        import { SiteNav, type SiteNavItem } from "willa/SiteNav";
+        import "willa/SiteNav.css";
+
+        const items: Array<SiteNavItem> = [
+          { label: "组件", href: "/components", active: true },
+          { label: "文档", href: "/docs" },
+          {
+            label: "GitHub",
+            href: "https://github.com/imtaotao/willa",
+            target: "_blank",
+            rel: "noreferrer",
+          },
+        ];
+
+        <SiteNav
+          brand="Willa"
+          brandHref="/"
+          items={items}
+          renderLink={({ href, children, ...props }) =>
+            href.startsWith("http") ? (
+              <a href={href} {...props}>
+                {children}
+              </a>
+            ) : (
+              <Link to={href} {...props}>
+                {children}
+              </Link>
+            )
+          }
+        />;
+      `,
+      content: (
+        <SiteNav
+          brand="Willa"
+          brandHref="/"
+          items={routeNavItems}
+          renderLink={({ href, children, ...props }) => (
+            <a href={href} {...props}>
+              {children}
+            </a>
+          )}
+        />
+      ),
+    },
   ],
   props: [
     {
@@ -125,6 +184,12 @@ export default defineDoc({
       type: "boolean",
       defaultValue: "false",
       description: "是否吸附在页面顶部。",
+    },
+    {
+      name: "renderLink",
+      type: "(props: WillaRenderLinkProps) => ReactNode",
+      description:
+        "自定义品牌和导航项链接渲染，可接入客户端路由；未传时渲染原生 a 标签。",
     },
     {
       name: "SiteNavItem.label",

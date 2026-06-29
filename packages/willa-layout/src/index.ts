@@ -12,6 +12,7 @@ export { Separator } from "#layout/components/Separator";
 export { SidebarLayout } from "#layout/components/SidebarLayout";
 export { ResizablePanel, SplitPane } from "#layout/components/SplitPane";
 export { Stack } from "#layout/components/Stack";
+export { WillaShell } from "#layout/components/WillaShell";
 
 export type { AppShellProps } from "#layout/components/AppShell";
 export type {
@@ -89,3 +90,4 @@ export type {
   StackJustify,
   StackProps,
 } from "#layout/components/Stack";
+export type { WillaShellProps } from "#layout/components/WillaShell";

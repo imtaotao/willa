@@ -141,8 +141,8 @@
   --willa-toolbar-separator: rgba(255, 255, 255, 0.12);
   --willa-toolbar-shadow: none;
   --willa-toolbar-text: var(--willa-text);
-  --willa-float-button-bg: rgba(255, 255, 255, 0.085);
-  --willa-float-button-bg-hover: rgba(255, 255, 255, 0.11);
+  --willa-float-button-bg: #1f2937;
+  --willa-float-button-bg-hover: #273244;
   --willa-float-button-border: rgba(255, 255, 255, 0.1);
   --willa-float-button-border-hover: rgba(130, 163, 236, 0.28);
   --willa-float-button-text: var(--willa-text-strong);
@@ -158,6 +158,9 @@
   --willa-float-button-primary-muted: rgba(255, 255, 255, 0.72);
   --willa-float-button-primary-shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
   --willa-float-button-primary-shadow-hover: 0 24px 46px rgba(0, 0, 0, 0.36);
+  --willa-float-button-ghost-bg-hover: transparent;
+  --willa-float-button-ghost-text: var(--willa-text-soft);
+  --willa-float-button-ghost-text-hover: var(--willa-text-strong);
   --willa-float-button-badge-bg: rgba(24, 27, 32, 0.96);
   --willa-float-button-badge-border: rgba(130, 163, 236, 0.24);
   --willa-float-button-badge-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);

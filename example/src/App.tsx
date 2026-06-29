@@ -20,6 +20,7 @@ import { PageHeader } from "willa/PageHeader";
 import { Typography } from "willa/Typography";
 import { SearchInput } from "willa/SearchInput";
 import { Skeleton } from "willa/Skeleton";
+import { WillaShell } from "willa/WillaShell";
 import "willa/AppShell.css";
 import "willa/Anchor.css";
 import "willa/Callout.css";
@@ -29,6 +30,7 @@ import "willa/PageHeader.css";
 import "willa/SearchInput.css";
 import "willa/Skeleton.css";
 import "willa/Typography.css";
+import "willa/WillaShell.css";
 
 import {
   componentDocRegistry,
@@ -190,6 +192,7 @@ const docChineseNames: Record<string, string> = {
   VideoLink: "视频链接",
   Watermark: "水印",
   WebEmbed: "网页嵌入",
+  WillaShell: "Willa 作用域",
   XPostEmbed: "X 内容嵌入",
 };
 
@@ -292,6 +295,7 @@ export function App() {
   const [isDocLoading, setIsDocLoading] = useState(false);
   const [docError, setDocError] = useState<string | null>(null);
   const [sidebarQuery, setSidebarQuery] = useState(getInitialSidebarQuery);
+  const [isCompactSidebar, setIsCompactSidebar] = useState(getIsCompactSidebar);
   const [expandedDocGroups, setExpandedDocGroups] = useState(() =>
     getDefaultExpandedDocGroups(!getIsCompactSidebar()),
   );
@@ -318,6 +322,12 @@ export function App() {
     (count, group) => count + group.docs.length,
     0,
   );
+  const backToTopFloatButtonProps = isCompactSidebar
+    ? {
+        hoverTextColor: "var(--willa-text-strong)",
+        variant: "ghost" as const,
+      }
+    : {};
 
   const startAnchorItems: Array<AnchorItem> = [
     {
@@ -387,7 +397,7 @@ export function App() {
   );
 
   const sidebar = (
-    <div className="docs-sidebar willa-shell">
+    <div className="docs-sidebar">
       <div className="docs-sidebar-top">
         <a className="docs-brand" href={`#/${usagePageId}`}>
           <span className="docs-brand-mark">W</span>
@@ -496,9 +506,11 @@ export function App() {
   useEffect(() => {
     const media = window.matchMedia(sidebarCompactQuery);
     const updateExpandedGroups = () => {
+      setIsCompactSidebar(media.matches);
       setExpandedDocGroups(getDefaultExpandedDocGroups(!media.matches));
     };
 
+    updateExpandedGroups();
     media.addEventListener("change", updateExpandedGroups);
 
     return () => {
@@ -570,7 +582,7 @@ export function App() {
   }, [activeEntry]);
 
   return (
-    <>
+    <WillaShell>
       <AppShell className="docs-app" sidebar={sidebar} sidebarWidth="324px">
         <div className="docs-main" ref={docsMainRef}>
           <PageHeader
@@ -580,7 +592,7 @@ export function App() {
             actions={renderDocsActions("docs-actions docs-header-actions")}
           />
 
-          <div className="docs-content willa-shell">
+          <div className="docs-content">
             {activeId === usagePageId ? (
               <UsageGuide />
             ) : loadedDoc ? (
@@ -607,7 +619,12 @@ export function App() {
           </div>
         </div>
       </AppShell>
-      <FloatButton backToTop ariaLabel="回到顶部" tooltip="回到顶部" />
-    </>
+      <FloatButton
+        backToTop
+        ariaLabel="回到顶部"
+        tooltip="回到顶部"
+        {...backToTopFloatButtonProps}
+      />
+    </WillaShell>
   );
 }

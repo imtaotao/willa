@@ -12,7 +12,11 @@ import classNames from "classnames";
 import { isPromiseLike } from "aidly";
 
 import { Spinner } from "#content/components/Spinner";
-import { useVirtualScrollWindow } from "@willa-ui/shared";
+import {
+  useVirtualScrollWindow,
+  type WillaRenderLink,
+  type WillaRenderLinkProps,
+} from "@willa-ui/shared";
 
 export type ListTone = "neutral" | "info" | "success" | "warning" | "danger";
 export type ListSize = "sm" | "md" | "lg";
@@ -40,6 +44,7 @@ export type ListItem = {
   disabled?: boolean;
   href?: string;
   target?: AnchorHTMLAttributes<HTMLAnchorElement>["target"];
+  rel?: AnchorHTMLAttributes<HTMLAnchorElement>["rel"];
 };
 
 export type ListProps = {
@@ -70,6 +75,7 @@ export type ListProps = {
     item: ListItem,
     event: MouseEvent<HTMLAnchorElement | HTMLButtonElement>,
   ) => void;
+  renderLink?: WillaRenderLink;
 } & Omit<ComponentPropsWithoutRef<"section">, "children" | "draggable">;
 
 export function List(props: ListProps) {
@@ -98,6 +104,7 @@ export function List(props: ListProps) {
     onItemsChange,
     onLoadMore,
     onItemClick,
+    renderLink,
     onScroll,
     className,
     style,
@@ -249,7 +256,11 @@ export function List(props: ListProps) {
               {renderItem ? (
                 renderItem(item)
               ) : (
-                <ListItemContent item={item} onItemClick={onItemClick} />
+                <ListItemContent
+                  item={item}
+                  onItemClick={onItemClick}
+                  renderLink={renderLink}
+                />
               )}
             </li>
           ))}
@@ -280,8 +291,9 @@ export function List(props: ListProps) {
 const ListItemContent = (props: {
   item: ListItem;
   onItemClick?: ListProps["onItemClick"];
+  renderLink?: WillaRenderLink;
 }) => {
-  const { item, onItemClick } = props;
+  const { item, onItemClick, renderLink } = props;
   const mainContent = (
     <>
       {item.media ? (
@@ -315,6 +327,7 @@ const ListItemContent = (props: {
         item,
         mainContent,
         onItemClick,
+        renderLink,
       })}
       {item.actions ? (
         <span className="willa-list__actions">{item.actions}</span>
@@ -330,29 +343,33 @@ const renderMain = (options: {
   item: ListItem;
   mainContent: ReactNode;
   onItemClick?: ListProps["onItemClick"];
+  renderLink?: WillaRenderLink;
 }) => {
-  const { item, mainContent, onItemClick } = options;
+  const { item, mainContent, onItemClick, renderLink } = options;
 
   if (item.href) {
-    return (
-      <a
-        className="willa-list__main"
-        href={item.disabled ? undefined : item.href}
-        target={item.target}
-        rel={item.target === "_blank" ? "noreferrer" : undefined}
-        aria-disabled={item.disabled || undefined}
-        onClick={(event) => {
-          if (item.disabled) {
-            event.preventDefault();
-            return;
-          }
+    const rel =
+      item.rel ?? (item.target === "_blank" ? "noreferrer" : undefined);
+    const linkProps = {
+      className: "willa-list__main",
+      href: item.href,
+      target: item.target,
+      rel,
+      "aria-disabled": item.disabled || undefined,
+      onClick: (event) => {
+        if (item.disabled) {
+          event.preventDefault();
+          return;
+        }
 
-          onItemClick?.(item, event);
-        }}
-      >
-        {mainContent}
-      </a>
-    );
+        onItemClick?.(item, event);
+      },
+      children: mainContent,
+    } satisfies WillaRenderLinkProps;
+
+    if (renderLink && !item.disabled) return renderLink(linkProps);
+
+    return <a {...linkProps} href={item.disabled ? undefined : item.href} />;
   }
 
   if (onItemClick) {

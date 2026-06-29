@@ -91,6 +91,7 @@ const docSpecGroups = {
     "SidebarLayout",
     "SplitPane",
     "Stack",
+    "WillaShell",
   ],
   content: [
     "Alert",

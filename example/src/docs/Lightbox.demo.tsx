@@ -69,7 +69,8 @@ export default defineDoc({
   id: "lightbox",
   name: "Lightbox",
   packageName: "willa/Lightbox",
-  description: "占满视口的图片预览弹层。",
+  description:
+    "占满视口的图片预览弹层，打开时会锁定页面滚动，并支持 Escape 关闭和左右方向键切换。",
   imports: [
     { name: "Button", from: "willa/Button" },
     { name: "Image", from: "willa/Image" },
@@ -152,17 +153,20 @@ export default defineDoc({
     {
       name: "onClose",
       type: "() => void",
-      description: "受控模式下弹层需要关闭时触发。",
+      description:
+        "受控模式下弹层需要关闭时触发；点击背景、点击图片或按 Escape 都会调用。",
     },
     {
       name: "onPrev",
       type: "() => void",
-      description: "可选的上一张图片操作。",
+      description:
+        "可选的上一张图片操作；传入后左侧按钮和 ArrowLeft 都会调用。",
     },
     {
       name: "onNext",
       type: "() => void",
-      description: "可选的下一张图片操作。",
+      description:
+        "可选的下一张图片操作；传入后右侧按钮和 ArrowRight 都会调用。",
     },
     {
       name: "backdrop",

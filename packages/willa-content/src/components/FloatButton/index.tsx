@@ -21,7 +21,7 @@ export type FloatButtonPlacement =
   | "bottom-left"
   | "top-right"
   | "top-left";
-export type FloatButtonVariant = "default" | "primary";
+export type FloatButtonVariant = "default" | "primary" | "ghost";
 export type FloatButtonShape = "circle" | "square";
 export type FloatButtonSize = "md" | "lg";
 export type FloatButtonGroupDirection = "up" | "down" | "left" | "right";
@@ -38,7 +38,9 @@ type FloatButtonBaseProps = {
   tooltip?: ReactNode;
   badge?: ReactNode;
   backgroundColor?: string;
+  hoverBackgroundColor?: string;
   textColor?: string;
+  hoverTextColor?: string;
   variant?: FloatButtonVariant;
   shape?: FloatButtonShape;
   size?: FloatButtonSize;
@@ -100,7 +102,9 @@ export function FloatButton(props: FloatButtonProps) {
     tooltip,
     badge,
     backgroundColor,
+    hoverBackgroundColor,
     textColor,
+    hoverTextColor,
     variant = "default",
     shape,
     size = "md",
@@ -117,7 +121,7 @@ export function FloatButton(props: FloatButtonProps) {
     contentClassName,
   } = props;
   const [visible, setVisible] = useState(!backToTop);
-  const resolvedShape = shape ?? (label || description ? "square" : "circle");
+  const resolvedShape = shape ?? (backToTop ? "circle" : "square");
   const resolvedIcon = icon ?? (backToTop ? <ArrowUpIcon /> : null);
   const resolvedAriaLabel = ariaLabel ?? resolveFloatButtonAriaLabel(label);
   const rootStyle = useMemo(
@@ -128,9 +132,20 @@ export function FloatButton(props: FloatButtonProps) {
         offset,
         zIndex,
         backgroundColor,
+        hoverBackgroundColor,
         textColor,
+        hoverTextColor,
       }),
-    [backgroundColor, fixed, offset, placement, textColor, zIndex],
+    [
+      backgroundColor,
+      fixed,
+      hoverBackgroundColor,
+      hoverTextColor,
+      offset,
+      placement,
+      textColor,
+      zIndex,
+    ],
   );
 
   useEffect(() => {
@@ -470,7 +485,9 @@ const getFloatButtonStyle = (options: {
   offset: readonly [number | string, number | string];
   zIndex?: number;
   backgroundColor?: string;
+  hoverBackgroundColor?: string;
   textColor?: string;
+  hoverTextColor?: string;
 }) => {
   const [offsetX, offsetY] = options.offset;
   const style: CSSProperties & {
@@ -480,6 +497,7 @@ const getFloatButtonStyle = (options: {
     "--willa-float-button-custom-bg"?: string;
     "--willa-float-button-custom-bg-hover"?: string;
     "--willa-float-button-custom-text"?: string;
+    "--willa-float-button-custom-text-hover"?: string;
     "--willa-float-button-custom-muted"?: string;
     "--willa-float-button-description-opacity"?: string;
   } = {
@@ -489,13 +507,21 @@ const getFloatButtonStyle = (options: {
 
   if (options.backgroundColor) {
     style["--willa-float-button-custom-bg"] = options.backgroundColor;
-    style["--willa-float-button-custom-bg-hover"] = options.backgroundColor;
+    style["--willa-float-button-custom-bg-hover"] =
+      options.hoverBackgroundColor ?? options.backgroundColor;
+  } else if (options.hoverBackgroundColor) {
+    style["--willa-float-button-custom-bg-hover"] =
+      options.hoverBackgroundColor;
   }
 
   if (options.textColor) {
     style["--willa-float-button-custom-text"] = options.textColor;
+    style["--willa-float-button-custom-text-hover"] =
+      options.hoverTextColor ?? options.textColor;
     style["--willa-float-button-custom-muted"] = options.textColor;
     style["--willa-float-button-description-opacity"] = "0.74";
+  } else if (options.hoverTextColor) {
+    style["--willa-float-button-custom-text-hover"] = options.hoverTextColor;
   }
 
   if (options.zIndex !== undefined) {

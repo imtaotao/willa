@@ -5,7 +5,12 @@ import {
   type ReactNode,
 } from "react";
 import classNames from "classnames";
-import { flattenText, useCopyToClipboard } from "@willa-ui/shared";
+import {
+  flattenText,
+  useCopyToClipboard,
+  type WillaRenderLink,
+  type WillaRenderLinkProps,
+} from "@willa-ui/shared";
 import {
   handleActionClick,
   resolveActionAriaPressed,
@@ -34,9 +39,10 @@ type ButtonBaseProps = {
 
 type ButtonAnchorProps = ButtonBaseProps & {
   href: string;
+  renderLink?: WillaRenderLink;
 } & Omit<
     AnchorHTMLAttributes<HTMLAnchorElement>,
-    keyof ButtonBaseProps | "href"
+    keyof ButtonBaseProps | "href" | "renderLink"
   >;
 
 type ButtonNativeProps = ButtonBaseProps & {
@@ -71,6 +77,7 @@ export function Button(props: ButtonProps) {
       onCopyText,
       onClick,
       href,
+      renderLink,
       target,
       rel,
       style,
@@ -86,9 +93,54 @@ export function Button(props: ButtonProps) {
       style,
     });
 
+    const linkProps = {
+      ...anchorProps,
+      className: getButtonClassName({
+        variant,
+        size,
+        copied,
+        loading,
+        pressed,
+        className,
+      }),
+      style: buttonStyle,
+      href,
+      target,
+      rel: resolvedRel,
+      "aria-busy": loading || undefined,
+      "aria-disabled": effectiveDisabled || undefined,
+      "aria-pressed": resolveActionAriaPressed(
+        anchorProps["aria-pressed"],
+        pressed,
+      ),
+      tabIndex: effectiveDisabled ? -1 : anchorProps.tabIndex,
+      onClick: (event) => {
+        handleActionClick(event, {
+          copyText: resolvedCopyText,
+          copiedDuration,
+          disabled: effectiveDisabled,
+          onClick,
+          onCopyText,
+          preventDefaultForCopy: true,
+          copy,
+        });
+      },
+      children: renderButtonContent({
+        icon,
+        trailingIcon,
+        children,
+        loading,
+        loadingText,
+      }),
+    } satisfies WillaRenderLinkProps;
+
+    if (renderLink && !effectiveDisabled) {
+      return renderLink(linkProps);
+    }
+
     return (
       <a
-        {...anchorProps}
+        {...linkProps}
         className={getButtonClassName({
           variant,
           size,
@@ -97,37 +149,8 @@ export function Button(props: ButtonProps) {
           pressed,
           className,
         })}
-        style={buttonStyle}
         href={effectiveDisabled ? undefined : href}
-        target={target}
-        rel={resolvedRel}
-        aria-busy={loading || undefined}
-        aria-disabled={effectiveDisabled || undefined}
-        aria-pressed={resolveActionAriaPressed(
-          anchorProps["aria-pressed"],
-          pressed,
-        )}
-        tabIndex={effectiveDisabled ? -1 : anchorProps.tabIndex}
-        onClick={(event) => {
-          handleActionClick(event, {
-            copyText: resolvedCopyText,
-            copiedDuration,
-            disabled: effectiveDisabled,
-            onClick,
-            onCopyText,
-            preventDefaultForCopy: true,
-            copy,
-          });
-        }}
-      >
-        {renderButtonContent({
-          icon,
-          trailingIcon,
-          children,
-          loading,
-          loadingText,
-        })}
-      </a>
+      />
     );
   }
 
