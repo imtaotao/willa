@@ -1,6 +1,6 @@
 {
   "name": "@willa-ui/shared",
-  "version": "0.0.4",
+  "version": "0.0.4-alpha.c4d0aea",
   "description": "Shared utilities and types for Willa UI.",
   "author": "chentao.arthur",
   "license": "MIT",
