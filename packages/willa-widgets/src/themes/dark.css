@@ -1,5 +1,14 @@
-:root[data-wk-theme="dark"] .willa-shell,
-:root[data-wk-theme="dark"] .willa-prose {
+:root[data-wk-theme="dark"]
+  .willa-shell:not([data-willa-theme="light"]):not(
+    [data-willa-theme="light"] *
+  ),
+:root[data-wk-theme="dark"]
+  .willa-prose:not([data-willa-theme="light"]):not(
+    [data-willa-theme="light"] *
+  ),
+[data-willa-theme="dark"].willa-shell,
+[data-willa-theme="dark"].willa-prose,
+[data-willa-theme="dark"] .willa-prose {
   --willa-inline-code-bg: #242832;
   --willa-heading-1: #ffffff;
   --willa-heading-2: #dbeafe;
@@ -21,7 +30,11 @@
   --willa-prose-link-decoration-thickness: 1.25px;
 }
 
-:root[data-wk-theme="dark"] .willa-shell {
+:root[data-wk-theme="dark"]
+  .willa-shell:not([data-willa-theme="light"]):not(
+    [data-willa-theme="light"] *
+  ),
+[data-willa-theme="dark"].willa-shell {
   --willa-english-cards-border: rgba(255, 255, 255, 0.18);
   --willa-english-cards-bg: #111318;
   --willa-english-cards-shadow: 0 16px 38px rgba(0, 0, 0, 0.42);

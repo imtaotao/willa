@@ -9,6 +9,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { Cross2Icon } from "@radix-ui/react-icons";
+import { useWillaThemeScopeProps } from "@willa-ui/shared";
 import classNames from "classnames";
 
 export type AvatarSize = "sm" | "md" | "lg" | "xl";
@@ -271,6 +272,8 @@ type AvatarPreviewProps = {
 };
 
 const AvatarPreview = (props: AvatarPreviewProps) => {
+  const themeScopeProps = useWillaThemeScopeProps();
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -284,6 +287,7 @@ const AvatarPreview = (props: AvatarPreviewProps) => {
 
   const dialog = (
     <div
+      {...themeScopeProps}
       className="willa-avatar-preview"
       role="dialog"
       aria-modal="true"

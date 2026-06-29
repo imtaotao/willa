@@ -19,6 +19,7 @@ import {
   getFocusableElements,
   useFloatingLayer,
   useControllableState,
+  useWillaThemeScopeProps,
   type FloatingPanelAlign,
   type FloatingPanelSide,
   type FloatingLayerPosition,
@@ -88,6 +89,7 @@ export function Popover(props: PopoverProps) {
   });
   const triggerRef = useRef<HTMLElement | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const themeScopeProps = useWillaThemeScopeProps();
 
   const closePopover = useCallback(() => {
     setPopoverOpen(false);
@@ -167,6 +169,7 @@ export function Popover(props: PopoverProps) {
       {isOpen && typeof document !== "undefined"
         ? createPortal(
             <div
+              {...themeScopeProps}
               ref={contentRef}
               id={id}
               className={classNames(

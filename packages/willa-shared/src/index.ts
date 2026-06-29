@@ -23,8 +23,13 @@ export {
 } from "#shared/codeHighlight";
 export { getFocusableElements } from "#shared/dom";
 export {
+  getWillaThemeScopeProps,
   getWillaDocumentTheme,
+  useWillaTheme,
   useWillaDocumentTheme,
+  useWillaThemeOverride,
+  useWillaThemeScopeProps,
+  WillaThemeProvider,
   type WillaTheme,
 } from "#shared/theme";
 export {

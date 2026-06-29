@@ -26,6 +26,7 @@ import {
   clampNumber,
   useControllableState,
   useCopyToClipboard,
+  useWillaThemeScopeProps,
 } from "@willa-ui/shared";
 import classNames from "classnames";
 
@@ -328,6 +329,7 @@ export const ColorPicker = forwardRef<HTMLButtonElement, ColorPickerProps>(
         );
       }
     };
+    const themeScopeProps = useWillaThemeScopeProps();
 
     const panelContent = (
       <ColorPickerPanel
@@ -350,6 +352,7 @@ export const ColorPicker = forwardRef<HTMLButtonElement, ColorPickerProps>(
       isPanelOpen && typeof document !== "undefined"
         ? createPortal(
             <div
+              {...themeScopeProps}
               ref={panelRef}
               id={panelId}
               className="willa-color-picker-panel"

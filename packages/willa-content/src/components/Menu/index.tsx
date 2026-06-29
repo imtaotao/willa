@@ -18,6 +18,7 @@ import {
   composeRefs,
   useFloatingLayer,
   useControllableState,
+  useWillaThemeScopeProps,
   type FloatingPanelAlign,
   type FloatingPanelPoint,
   type FloatingLayerPosition,
@@ -110,6 +111,7 @@ export function Menu(props: MenuProps) {
   const contentRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const anchorRef = useRef<MenuAnchor>({ type: "trigger" });
+  const themeScopeProps = useWillaThemeScopeProps();
   const enabledItems = useMemo(() => {
     return items.filter(isEnabledActionItem);
   }, [items]);
@@ -248,6 +250,7 @@ export function Menu(props: MenuProps) {
       {isOpen && typeof document !== "undefined"
         ? createPortal(
             <div
+              {...themeScopeProps}
               ref={contentRef}
               id={id}
               className={classNames(

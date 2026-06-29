@@ -10,7 +10,7 @@ import {
 import classNames from "classnames";
 import {
   resolveMediaAsset,
-  useWillaDocumentTheme,
+  useWillaTheme,
   type MediaContextProps,
 } from "@willa-ui/shared";
 
@@ -70,7 +70,7 @@ export function Watermark(props: WatermarkProps) {
     ...rootProps
   } = props;
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const theme = useWillaDocumentTheme();
+  const theme = useWillaTheme();
   const [themeColor, setThemeColor] = useState(LIGHT_FALLBACK_COLOR);
   const resolvedImage = resolveMediaAsset(
     { articleSourcePath, resolveAssetUrl },

@@ -8,6 +8,7 @@ import {
   InfoCircledIcon,
 } from "@radix-ui/react-icons";
 import classNames from "classnames";
+import { getWillaThemeScopeProps, type WillaTheme } from "@willa-ui/shared";
 
 export type ToastTone = "info" | "success" | "warning" | "error";
 export type ToastPlacement =
@@ -39,6 +40,7 @@ export type ToastConfig = {
   duration?: number;
   maxToasts?: number;
   className?: string;
+  theme?: WillaTheme;
 };
 
 export type ToastApi = {
@@ -68,7 +70,11 @@ type ToastItem = Required<Pick<ToastOptions, "id" | "tone">> &
 
 type ToastState = {
   toasts: Array<ToastItem>;
-  config: Required<ToastConfig>;
+  config: ResolvedToastConfig;
+};
+
+type ResolvedToastConfig = Required<Omit<ToastConfig, "theme">> & {
+  theme: WillaTheme | null;
 };
 
 const defaultToastConfig = {
@@ -76,7 +82,8 @@ const defaultToastConfig = {
   duration: 3000,
   maxToasts: 4,
   className: "",
-} satisfies Required<ToastConfig>;
+  theme: null,
+} satisfies ResolvedToastConfig;
 
 const toastIcons: Record<ToastTone, ReactNode> = {
   info: <InfoCircledIcon />,
@@ -91,6 +98,7 @@ const resolveToastConfig = (config?: ToastConfig) => {
     duration: config?.duration ?? defaultToastConfig.duration,
     maxToasts: config?.maxToasts ?? defaultToastConfig.maxToasts,
     className: config?.className ?? defaultToastConfig.className,
+    theme: config?.theme ?? defaultToastConfig.theme,
   };
 };
 
@@ -191,8 +199,11 @@ const ToastViewport = (props: {
 
   if (state.toasts.length === 0) return null;
 
+  const themeScopeProps = getWillaThemeScopeProps(state.config.theme);
+
   return (
     <div
+      {...themeScopeProps}
       className={classNames(
         "willa-toast-viewport",
         `willa-toast-viewport--${normalizePlacement(state.config.placement)}`,

@@ -20,6 +20,7 @@ import {
   isMobileViewport,
   useFloatingLayer,
   useControllableState,
+  useWillaThemeScopeProps,
   type FloatingPanelRect,
 } from "@willa-ui/shared";
 
@@ -282,6 +283,7 @@ export const MentionInput = forwardRef<HTMLTextAreaElement, MentionInputProps>(
     });
     const trimmedValue = currentValue.trim();
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const themeScopeProps = useWillaThemeScopeProps();
 
     useImperativeHandle(forwardedRef, () => textareaRef.current!);
 
@@ -749,6 +751,7 @@ export const MentionInput = forwardRef<HTMLTextAreaElement, MentionInputProps>(
       if (renderMentionOptions) {
         return createPortal(
           <div
+            {...themeScopeProps}
             ref={mentionPanelRef}
             className="willa-comment-input-mention-layer"
             style={panelStyle}
@@ -768,6 +771,7 @@ export const MentionInput = forwardRef<HTMLTextAreaElement, MentionInputProps>(
       if (renderMentionItem) {
         return createPortal(
           <div
+            {...themeScopeProps}
             ref={mentionPanelRef}
             className="willa-comment-input-mention-layer"
             style={panelStyle}
@@ -813,6 +817,7 @@ export const MentionInput = forwardRef<HTMLTextAreaElement, MentionInputProps>(
 
       return createPortal(
         <div
+          {...themeScopeProps}
           ref={mentionPanelRef}
           className="willa-comment-input-mention-layer"
           style={panelStyle}

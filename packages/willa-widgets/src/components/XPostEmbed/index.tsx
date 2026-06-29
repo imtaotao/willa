@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Tweet } from "react-twitter-widgets";
 import { Skeleton } from "@willa-ui/content/components/Skeleton";
-import { useWillaDocumentTheme } from "@willa-ui/shared";
+import { useWillaTheme } from "@willa-ui/shared";
 import classNames from "classnames";
 
 export type XPostEmbedProps = {
@@ -35,7 +35,7 @@ const extractTweetId = (urlOrId: string) => {
 export function XPostEmbed({ url, id, title, className }: XPostEmbedProps) {
   const source = url?.trim() || id?.trim() || "";
   const tweetId = extractTweetId(source);
-  const theme = useWillaDocumentTheme();
+  const theme = useWillaTheme();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

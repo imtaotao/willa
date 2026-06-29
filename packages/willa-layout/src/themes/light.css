@@ -1,4 +1,5 @@
-:root {
+:root,
+[data-willa-theme="light"] {
   --willa-body-font: var(--site-font-body, system-ui, sans-serif);
   --willa-title-font: var(--site-font-title, system-ui, sans-serif);
   --willa-code-font:

@@ -1,4 +1,5 @@
-:root[data-wk-theme="dark"] {
+:root[data-wk-theme="dark"],
+[data-willa-theme="dark"] {
   --willa-surface-soft: rgba(255, 255, 255, 0.045);
   --willa-surface-tint: rgba(255, 255, 255, 0.03);
   --willa-text-strong: #f3f4f6;

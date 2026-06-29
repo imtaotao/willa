@@ -1,4 +1,8 @@
-:root[data-wk-theme="dark"] .willa-shell {
+:root[data-wk-theme="dark"]
+  .willa-shell:not([data-willa-theme="light"]):not(
+    [data-willa-theme="light"] *
+  ),
+[data-willa-theme="dark"].willa-shell {
   --willa-ai-surface: #171e2e;
   --willa-ai-surface-raised: #191f2f;
   --willa-ai-surface-hover: #212a3a;

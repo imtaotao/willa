@@ -47,6 +47,12 @@ Variables live in the theme files of the package that owns the component:
 - `Lightbox` variables still belong to content, even though Lightbox renders
   through a portal into `document.body`.
 
+Theme CSS must support both document-level theme switching and scoped theme
+overrides. `WillaShell theme="light" | "dark"` writes `data-willa-theme` on the
+shell and provides the same value through React context for portal components.
+Theme selectors should keep the document default behavior while allowing
+`data-willa-theme` to override it locally.
+
 Do not copy layout or content variables into form, AI, or widgets themes.
 These packages already depend on layout and content CSS through
 `styles.dependencies`, so they should reuse the owning package as the variable

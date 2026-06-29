@@ -14,7 +14,11 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { getFocusableElements, useControllableState } from "@willa-ui/shared";
+import {
+  getFocusableElements,
+  useControllableState,
+  useWillaThemeScopeProps,
+} from "@willa-ui/shared";
 import classNames from "classnames";
 import { isPromiseLike } from "aidly";
 
@@ -89,6 +93,7 @@ export function Dialog(props: DialogProps) {
   const descriptionId = description ? `${dialogId}-description` : undefined;
   const panelRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+  const themeScopeProps = useWillaThemeScopeProps();
 
   const closeDialog = useCallback(() => {
     setDialogOpen(false);
@@ -232,6 +237,7 @@ export function Dialog(props: DialogProps) {
     isOpen && typeof document !== "undefined"
       ? createPortal(
           <div
+            {...themeScopeProps}
             className={classNames("willa-dialog", overlayClassName)}
             onClick={handleOverlayClick}
           >

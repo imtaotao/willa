@@ -21,23 +21,28 @@
 .willa-prose-code-meta {
   position: absolute;
   top: 0.62rem;
-  right: 0.72rem;
+  right: 0.9rem;
   z-index: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 2rem;
+  justify-content: flex-end;
+  min-width: 2rem;
+  width: max-content;
+  max-width: calc(100% - 1.8rem);
   height: 1.65rem;
   pointer-events: none;
 }
 
 .willa-prose-code-copy {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0;
+  width: 2rem;
+  height: 100%;
   padding: 0;
   border: 0;
   border-radius: 4px;
@@ -92,19 +97,22 @@
 }
 
 .willa-prose-code-lang {
-  position: absolute;
-  inset: 0;
+  position: static;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   min-width: 0;
-  padding: 0;
+  max-width: 100%;
+  padding: 0 0.2rem;
+  overflow: hidden;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0;
   color: var(--willa-code-lang-color);
   font-family: var(--willa-code-font);
   line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   transition: opacity 160ms ease;
 }
 

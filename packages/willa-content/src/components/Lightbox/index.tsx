@@ -12,6 +12,7 @@ import {
 import { createPortal } from "react-dom";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
+import { useWillaThemeScopeProps } from "@willa-ui/shared";
 
 import type {
   LightboxImage,
@@ -116,6 +117,7 @@ const LightboxDialog = (props: LightboxDialogProps) => {
   const animationTimerRef = useRef<number | null>(null);
   const [imageMotionClassName, setImageMotionClassName] = useState("");
   const transitionDirection = props.transitionDirection ?? 0;
+  const themeScopeProps = useWillaThemeScopeProps();
 
   useEffect(() => lockBodyScroll(), []);
 
@@ -247,6 +249,7 @@ const LightboxDialog = (props: LightboxDialogProps) => {
 
   return (
     <div
+      {...themeScopeProps}
       className={classNames(
         "willa-lightbox",
         props.backdrop === "solid" && "willa-lightbox--solid",

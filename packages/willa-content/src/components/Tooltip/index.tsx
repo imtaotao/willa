@@ -22,6 +22,7 @@ import {
   composeRefs,
   useFloatingLayer,
   useControllableState,
+  useWillaThemeScopeProps,
   type FloatingLayerPosition,
 } from "@willa-ui/shared";
 
@@ -81,6 +82,7 @@ export function Tooltip(props: TooltipProps) {
   const triggerRef = useRef<HTMLElement | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const openTimerRef = useRef<number | undefined>(undefined);
+  const themeScopeProps = useWillaThemeScopeProps();
 
   const clearOpenTimer = useCallback(() => {
     if (openTimerRef.current === undefined) return;
@@ -192,6 +194,7 @@ export function Tooltip(props: TooltipProps) {
       {isOpen && typeof document !== "undefined"
         ? createPortal(
             <div
+              {...themeScopeProps}
               ref={contentRef}
               id={id}
               className={classNames(

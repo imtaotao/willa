@@ -17,6 +17,7 @@ import {
   clampNumber,
   useControllableState,
   getFloatingPanelPosition,
+  useWillaThemeScopeProps,
   type FloatingPanelAlign,
   type FloatingPanelRect,
   type FloatingPanelSide,
@@ -413,6 +414,7 @@ export function Tour(props: TourProps) {
   } as CSSProperties;
 
   const rootStyle = zIndexStyle;
+  const themeScopeProps = useWillaThemeScopeProps();
   const indicators = useMemo(() => {
     if (render?.indicators) return render.indicators(activeIndex, total);
 
@@ -469,6 +471,7 @@ export function Tour(props: TourProps) {
 
   return createPortal(
     <div
+      {...themeScopeProps}
       className={classNames(
         "willa-tour",
         `willa-tour--${resolvedType}`,

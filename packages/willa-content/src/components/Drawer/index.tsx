@@ -19,6 +19,7 @@ import {
   formatCssSize,
   getFocusableElements,
   useControllableState,
+  useWillaThemeScopeProps,
 } from "@willa-ui/shared";
 import { isPromiseLike } from "aidly";
 import classNames from "classnames";
@@ -101,6 +102,7 @@ export function Drawer(props: DrawerProps) {
   const descriptionId = description ? `${drawerId}-description` : undefined;
   const panelRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+  const themeScopeProps = useWillaThemeScopeProps();
 
   const closeDrawer = useCallback(() => {
     setDrawerOpen(false);
@@ -251,6 +253,7 @@ export function Drawer(props: DrawerProps) {
     isOpen && typeof document !== "undefined"
       ? createPortal(
           <div
+            {...themeScopeProps}
             className={classNames(
               "willa-drawer",
               `willa-drawer--${placement}`,

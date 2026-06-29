@@ -1,12 +1,51 @@
-:root[data-wk-theme="dark"] .willa-shell,
-:root[data-wk-theme="dark"] .willa-lightbox,
-:root[data-wk-theme="dark"] .willa-dialog,
-:root[data-wk-theme="dark"] .willa-drawer,
-:root[data-wk-theme="dark"] .willa-menu-content,
-:root[data-wk-theme="dark"] .willa-popover-content,
-:root[data-wk-theme="dark"] .willa-tooltip-content,
-:root[data-wk-theme="dark"] .willa-tour,
-:root[data-wk-theme="dark"] .willa-toast-viewport {
+:root[data-wk-theme="dark"]
+  .willa-shell:not([data-willa-theme="light"]):not(
+    [data-willa-theme="light"] *
+  ),
+:root[data-wk-theme="dark"]
+  .willa-avatar-preview:not([data-willa-theme="light"]):not(
+    [data-willa-theme="light"] *
+  ),
+:root[data-wk-theme="dark"]
+  .willa-lightbox:not([data-willa-theme="light"]):not(
+    [data-willa-theme="light"] *
+  ),
+:root[data-wk-theme="dark"]
+  .willa-dialog:not([data-willa-theme="light"]):not(
+    [data-willa-theme="light"] *
+  ),
+:root[data-wk-theme="dark"]
+  .willa-drawer:not([data-willa-theme="light"]):not(
+    [data-willa-theme="light"] *
+  ),
+:root[data-wk-theme="dark"]
+  .willa-menu-content:not([data-willa-theme="light"]):not(
+    [data-willa-theme="light"] *
+  ),
+:root[data-wk-theme="dark"]
+  .willa-popover-content:not([data-willa-theme="light"]):not(
+    [data-willa-theme="light"] *
+  ),
+:root[data-wk-theme="dark"]
+  .willa-tooltip-content:not([data-willa-theme="light"]):not(
+    [data-willa-theme="light"] *
+  ),
+:root[data-wk-theme="dark"]
+  .willa-tour:not([data-willa-theme="light"]):not([data-willa-theme="light"] *),
+:root[data-wk-theme="dark"]
+  .willa-toast-viewport:not([data-willa-theme="light"]):not(
+    [data-willa-theme="light"] *
+  ),
+[data-willa-theme="dark"].willa-shell,
+[data-willa-theme="dark"].willa-avatar-preview,
+[data-willa-theme="dark"].willa-lightbox,
+[data-willa-theme="dark"].willa-dialog,
+[data-willa-theme="dark"].willa-drawer,
+[data-willa-theme="dark"].willa-menu-content,
+[data-willa-theme="dark"].willa-popover-content,
+[data-willa-theme="dark"].willa-tooltip-content,
+[data-willa-theme="dark"].willa-tour,
+[data-willa-theme="dark"].willa-toast-viewport {
   --willa-anchor-active-bg: rgba(130, 163, 236, 0.15);
   --willa-anchor-active-meta-text: #a7bef6;
   --willa-anchor-active-text: var(--willa-text-strong);
@@ -664,21 +703,22 @@
   --willa-toast-control-bg-hover: rgba(255, 255, 255, 0.07);
   --willa-toast-control-border-hover: rgba(255, 255, 255, 0.1);
   --willa-toast-control-text-hover: var(--willa-text-strong);
+  --willa-toast-card-bg: #252a33;
   --willa-toast-info: #7dd3fc;
   --willa-toast-info-bg: rgba(125, 211, 252, 0.11);
-  --willa-toast-info-card-bg: #1f3d49;
+  --willa-toast-info-card-bg: var(--willa-toast-card-bg);
   --willa-toast-info-border: rgba(125, 211, 252, 0.18);
   --willa-toast-success: #86efac;
   --willa-toast-success-bg: rgba(134, 239, 172, 0.1);
-  --willa-toast-success-card-bg: #214038;
+  --willa-toast-success-card-bg: var(--willa-toast-card-bg);
   --willa-toast-success-border: rgba(134, 239, 172, 0.18);
   --willa-toast-warning: #fbbf24;
   --willa-toast-warning-bg: rgba(251, 191, 36, 0.12);
-  --willa-toast-warning-card-bg: #47391f;
+  --willa-toast-warning-card-bg: var(--willa-toast-card-bg);
   --willa-toast-warning-border: rgba(251, 191, 36, 0.2);
   --willa-toast-error: #fca5a5;
   --willa-toast-error-bg: rgba(252, 165, 165, 0.1);
-  --willa-toast-error-card-bg: #432f34;
+  --willa-toast-error-card-bg: var(--willa-toast-card-bg);
   --willa-toast-error-border: rgba(252, 165, 165, 0.19);
   --willa-tooltip-bg: rgba(243, 244, 246, 0.96);
   --willa-tooltip-border: rgba(255, 255, 255, 0.12);

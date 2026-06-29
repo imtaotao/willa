@@ -10,6 +10,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 let topToast: ReturnType<typeof createToast> | undefined;
 let bottomToast: ReturnType<typeof createToast> | undefined;
 let bottomRightToast: ReturnType<typeof createToast> | undefined;
+let darkToast: ReturnType<typeof createToast> | undefined;
 
 const getTopToast = () => {
   topToast ??= createToast({
@@ -35,6 +36,15 @@ const getBottomRightToast = () => {
   });
 
   return bottomRightToast;
+};
+
+const getDarkToast = () => {
+  darkToast ??= createToast({
+    placement: "top",
+    theme: "dark",
+  });
+
+  return darkToast;
 };
 
 const ToastPreview = () => {
@@ -120,6 +130,21 @@ const ToastConfigDemo = () => {
         右下角配置
       </Button>
     </Group>
+  );
+};
+
+const ToastThemeDemo = () => {
+  return (
+    <Button
+      variant="soft"
+      onClick={() => {
+        getDarkToast().success("深色主题提示", {
+          description: "这个实例会固定使用 dark 主题。",
+        });
+      }}
+    >
+      深色 Toast
+    </Button>
   );
 };
 
@@ -245,6 +270,32 @@ export default defineDoc({
       content: <ToastConfigDemo />,
     },
     {
+      title: "强制主题",
+      code: `
+        import { Button } from "willa/Button";
+        import { createToast } from "willa/Toast";
+        import "willa/Button.css";
+        import "willa/Toast.css";
+
+        const darkToast = createToast({
+          placement: "top",
+          theme: "dark",
+        });
+
+        <Button
+          variant="soft"
+          onClick={() => {
+            darkToast.success("深色主题提示", {
+              description: "这个实例会固定使用 dark 主题。",
+            });
+          }}
+        >
+          深色 Toast
+        </Button>;
+      `,
+      content: <ToastThemeDemo />,
+    },
+    {
       title: "底部展示",
       code: `
         import { Button } from "willa/Button";
@@ -346,6 +397,13 @@ export default defineDoc({
       group: "ToastConfig",
       defaultValue: '""',
       description: "传给浮层容器的类名。",
+    },
+    {
+      name: "theme",
+      type: '"light" | "dark"',
+      group: "ToastConfig",
+      description:
+        "强制 Toast 实例使用指定主题；不传时跟随文档主题。Toast 是全局实例，不会自动继承局部 WillaShell 主题。",
     },
   ],
 });

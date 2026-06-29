@@ -5,6 +5,7 @@ import {
   type Ref,
 } from "react";
 import { createPortal } from "react-dom";
+import { useWillaThemeScopeProps } from "@willa-ui/shared";
 
 import type { FloatingPanelPosition } from "#form/internal/useFloatingPanel";
 
@@ -48,9 +49,11 @@ export function FloatingPanelShell(props: FloatingPanelShellProps) {
     role,
     onKeyDown,
   } = props;
+  const themeScopeProps = useWillaThemeScopeProps();
 
   return (
     <div
+      {...themeScopeProps}
       ref={panelRef}
       id={id}
       className={className}
