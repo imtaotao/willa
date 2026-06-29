@@ -54,8 +54,8 @@ const compactGridStyle = {
 
 const SourceCardPreview = () => (
   <div style={frameStyle}>
-    {sources.map((source) => (
-      <SourceCard key={String(source.title)} {...source} />
+    {sources.map((source, index) => (
+      <SourceCard key={`${String(source.title)}-${index}`} {...source} />
     ))}
   </div>
 );

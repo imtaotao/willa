@@ -38,6 +38,9 @@ import { Table, type TableItem } from "#content/components/Table";
 export type FilePreviewType = SharedFilePreviewType;
 export type FilePreviewSize = "sm" | "md" | "lg";
 
+type FilePreviewCustomStyle = CSSProperties &
+  Record<`--${string}`, string | number>;
+
 export type FilePreviewProps = {
   src: string;
   name: string;
@@ -649,10 +652,23 @@ const CsvPreview = (props: { name: string; text?: string }) => {
         isEmpty && "willa-file-preview__csv--empty",
       )}
       size="sm"
+      style={csvTableStyle}
       items={tableItems}
       empty="暂无可预览表格数据。"
     />
   );
+};
+
+const csvTableStyle: FilePreviewCustomStyle = {
+  "--willa-table-cell-padding-x": "0.68rem",
+  "--willa-table-cell-padding-y": "0.52rem",
+  "--willa-table-cell-font-weight": 500,
+  "--willa-table-font-size": "0.8rem",
+  "--willa-table-header-font-size": "0.78rem",
+  "--willa-table-header-text": "var(--willa-file-preview-title)",
+  "--willa-table-line-height": 1.45,
+  "--willa-table-muted": "var(--willa-file-preview-muted)",
+  "--willa-table-text": "var(--willa-file-preview-muted)",
 };
 
 const getCodeLanguage = (name: string) => getFileCodeLanguage(name);
@@ -676,21 +692,24 @@ const createCsvTableItems = (text?: string) => {
   if (rows.length === 0) return [];
 
   const [headers, ...bodyRows] = rows;
-  const normalizedHeaders = headers.map((header, index) => {
+  const columns = headers.map((header, index) => {
     const trimmedHeader = header.trim();
-    return trimmedHeader || `字段 ${index + 1}`;
+    return {
+      key: `column-${index}`,
+      label: trimmedHeader || `字段 ${index + 1}`,
+    };
   });
 
   return bodyRows
     .filter((row) => row.some((cell) => cell.trim()))
     .map<TableItem>((row, rowIndex) => ({
       key: rowIndex,
-      cells: normalizedHeaders.map((header, cellIndex) => {
+      cells: columns.map((column, cellIndex) => {
         const value = row[cellIndex]?.trim() ?? "";
 
         return {
-          key: `${rowIndex}-${cellIndex}`,
-          label: header,
+          key: column.key,
+          label: column.label,
           value,
           ellipsis: true,
           title: value,

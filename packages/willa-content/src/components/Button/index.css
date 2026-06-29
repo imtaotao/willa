@@ -79,8 +79,14 @@
 }
 
 .willa-button--solid:hover {
-  background: var(--willa-button-custom-bg, var(--willa-button-solid-bg-hover));
-  color: var(--willa-button-custom-text, var(--willa-button-solid-text));
+  background: var(
+    --willa-button-custom-bg-hover,
+    var(--willa-button-custom-bg, var(--willa-button-solid-bg-hover))
+  );
+  color: var(
+    --willa-button-custom-text-hover,
+    var(--willa-button-custom-text, var(--willa-button-solid-text))
+  );
   box-shadow: var(--willa-button-solid-shadow-hover);
 }
 
@@ -90,8 +96,14 @@
 }
 
 .willa-button--soft:hover {
-  background: var(--willa-button-custom-bg, var(--willa-button-soft-bg-hover));
-  color: var(--willa-button-custom-text, var(--willa-button-soft-text));
+  background: var(
+    --willa-button-custom-bg-hover,
+    var(--willa-button-custom-bg, var(--willa-button-soft-bg-hover))
+  );
+  color: var(
+    --willa-button-custom-text-hover,
+    var(--willa-button-custom-text, var(--willa-button-soft-text))
+  );
 }
 
 .willa-button--outline {
@@ -103,10 +115,13 @@
 .willa-button--outline:hover {
   border-color: var(--willa-button-outline-border-hover);
   background: var(
-    --willa-button-custom-bg,
-    var(--willa-button-outline-bg-hover)
+    --willa-button-custom-bg-hover,
+    var(--willa-button-custom-bg, var(--willa-button-outline-bg-hover))
   );
-  color: var(--willa-button-custom-text, var(--willa-button-outline-text));
+  color: var(
+    --willa-button-custom-text-hover,
+    var(--willa-button-custom-text, var(--willa-button-outline-text))
+  );
 }
 
 .willa-button--ghost {
@@ -115,8 +130,14 @@
 }
 
 .willa-button--ghost:hover {
-  background: var(--willa-button-custom-bg, var(--willa-button-ghost-bg-hover));
-  color: var(--willa-button-custom-text, var(--willa-button-ghost-text));
+  background: var(
+    --willa-button-custom-bg-hover,
+    var(--willa-button-custom-bg, var(--willa-button-ghost-bg-hover))
+  );
+  color: var(
+    --willa-button-custom-text-hover,
+    var(--willa-button-custom-text, var(--willa-button-ghost-text))
+  );
 }
 
 .willa-button--link {
@@ -130,8 +151,14 @@
 }
 
 .willa-button--link:hover {
-  background: var(--willa-button-custom-bg, transparent);
-  color: var(--willa-button-custom-text, var(--willa-button-link-text-hover));
+  background: var(
+    --willa-button-custom-bg-hover,
+    var(--willa-button-custom-bg, transparent)
+  );
+  color: var(
+    --willa-button-custom-text-hover,
+    var(--willa-button-custom-text, var(--willa-button-link-text-hover))
+  );
   box-shadow: none;
 }
 

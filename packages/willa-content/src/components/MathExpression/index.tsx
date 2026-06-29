@@ -92,6 +92,7 @@ const renderMathExpression = (options: {
   try {
     return {
       html: katex.renderToString(expression, {
+        strict: "ignore",
         ...options.options,
         displayMode: display === "block",
       }),

@@ -148,7 +148,8 @@ export default defineDoc({
     {
       name: "options",
       type: "Omit<KatexOptions, 'displayMode'>",
-      description: "透传给 KaTeX 的渲染配置，displayMode 由 display 控制。",
+      description:
+        "透传给 KaTeX 的渲染配置，displayMode 由 display 控制；strict 默认忽略兼容性提示，可通过 options.strict 覆盖。",
     },
     {
       name: "fallback",

@@ -7,12 +7,14 @@
 
 .willa-prose-skeleton-content {
   display: block;
+  width: 100%;
 }
 
 .willa-prose-skeleton--inline,
 .willa-prose-skeleton--inline .willa-prose-skeleton-placeholder,
 .willa-prose-skeleton--inline .willa-prose-skeleton-content {
   display: inline-block;
+  width: auto;
 }
 
 .willa-prose-skeleton-placeholder {

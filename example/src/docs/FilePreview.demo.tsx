@@ -15,12 +15,21 @@ const videoSrc =
 const pdfSrc =
   "https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf";
 
-const csvText = unindent(`
-  id,feedback,owner,status
-  1,export is slow,Grace,pending
-  2,theme preview missing,Lin,resolved
-  3,mobile layout wraps too early,Chen,reviewing
-`);
+const csvRows = [
+  "id,feedback,owner,status,priority,channel,updatedAt",
+  "1,export is slow,Grace,pending,P1,web,2026-06-10",
+  "2,theme preview missing,Lin,resolved,P0,docs,2026-06-11",
+  "3,mobile layout wraps too early,Chen,reviewing,P2,mobile,2026-06-12",
+  "4,upload progress is unclear,Maya,pending,P1,console,2026-06-13",
+  "5,markdown table overflows,Ian,resolved,P2,blog,2026-06-14",
+  "6,audio preview has dark border,Ada,resolved,P1,content,2026-06-15",
+  "7,lightbox keyboard shortcut missing,Nora,reviewing,P0,gallery,2026-06-16",
+  "8,copy button tooltip flickers,Oscar,pending,P3,widgets,2026-06-17",
+  "9,theme token bridge incomplete,Wei,resolved,P0,mdx,2026-06-18",
+  "10,file preview csv style too heavy,Rui,reviewing,P2,content,2026-06-19",
+];
+
+const csvText = csvRows.join("\n");
 
 export default defineDoc({
   id: "file-preview",
@@ -263,12 +272,26 @@ export default defineDoc({
     {
       title: "CSV 预览",
       code: `
+        const csvRows = [
+          "id,feedback,owner,status,priority,channel,updatedAt",
+          "1,export is slow,Grace,pending,P1,web,2026-06-10",
+          "2,theme preview missing,Lin,resolved,P0,docs,2026-06-11",
+          "3,mobile layout wraps too early,Chen,reviewing,P2,mobile,2026-06-12",
+          "4,upload progress is unclear,Maya,pending,P1,console,2026-06-13",
+          "5,markdown table overflows,Ian,resolved,P2,blog,2026-06-14",
+          "6,audio preview has dark border,Ada,resolved,P1,content,2026-06-15",
+          "7,lightbox keyboard shortcut missing,Nora,reviewing,P0,gallery,2026-06-16",
+          "8,copy button tooltip flickers,Oscar,pending,P3,widgets,2026-06-17",
+          "9,theme token bridge incomplete,Wei,resolved,P0,mdx,2026-06-18",
+          "10,file preview csv style too heavy,Rui,reviewing,P2,content,2026-06-19",
+        ];
+
         <>
           <FilePreview
             name="feedback.csv"
             src="/feedback.csv"
             meta="CSV · 12 KB"
-            text={"id,feedback,owner,status\\n1,export is slow,Grace,pending"}
+            text={csvRows.join("\\n")}
           />
           <FilePreview
             name="empty.csv"

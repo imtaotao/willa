@@ -66,7 +66,7 @@
   border-collapse: separate;
   border-spacing: 0;
   font-size: var(--willa-table-font-size);
-  line-height: 1.5;
+  line-height: var(--willa-table-line-height, 1.5);
   text-align: left;
 }
 
@@ -113,6 +113,7 @@
 .willa-table th {
   background: var(--willa-table-header-bg);
   color: var(--willa-table-header-text);
+  font-size: var(--willa-table-header-font-size, inherit);
   font-weight: 650;
   white-space: nowrap;
 }
@@ -124,6 +125,7 @@
 
 .willa-table td {
   color: var(--willa-table-text);
+  font-weight: var(--willa-table-cell-font-weight, inherit);
 }
 
 .willa-table-cell--ellipsis {

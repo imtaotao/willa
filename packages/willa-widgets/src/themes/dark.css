@@ -131,12 +131,12 @@
     #f87171 0%,
     #ef4444 100%
   );
-  --willa-audio-toggle-color: #07110d;
+  --willa-audio-toggle-color: #ffffff;
   --willa-audio-toggle-shadow: 0 12px 26px rgba(0, 0, 0, 0.28);
   --willa-audio-toggle-shadow-hover: 0 14px 30px rgba(0, 0, 0, 0.34);
   --willa-audio-progress-bg: rgba(255, 255, 255, 0.1);
   --willa-audio-progress-fill: linear-gradient(90deg, #34d399, #86efac);
-  --willa-audio-thumb-border: #111318;
+  --willa-audio-thumb-border: transparent;
   --willa-audio-thumb-bg: #86efac;
   --willa-audio-thumb-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
   --willa-audio-status-bg: rgba(134, 239, 172, 0.12);

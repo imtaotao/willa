@@ -134,7 +134,7 @@
   --willa-audio-toggle-shadow-hover: 0 12px 28px rgba(5, 150, 105, 0.24);
   --willa-audio-progress-bg: rgba(15, 23, 42, 0.08);
   --willa-audio-progress-fill: linear-gradient(90deg, #10b981, #34d399);
-  --willa-audio-thumb-border: #ffffff;
+  --willa-audio-thumb-border: transparent;
   --willa-audio-thumb-bg: #059669;
   --willa-audio-thumb-shadow: 0 2px 8px rgba(5, 150, 105, 0.28);
   --willa-audio-status-bg: rgba(5, 150, 105, 0.1);

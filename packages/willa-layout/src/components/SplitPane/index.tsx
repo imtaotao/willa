@@ -1,5 +1,6 @@
 import {
   Children,
+  Fragment,
   cloneElement,
   isValidElement,
   useEffect,
@@ -61,8 +62,24 @@ type PointerDragState = {
   startSizes: Array<number>;
 };
 
+type PanelLimit = {
+  minSize: number;
+  maxSize: number;
+  collapsedSize: number | null;
+  collapsible: boolean;
+};
+
 export function ResizablePanel(props: ResizablePanelProps) {
-  const { className, children, ...panelProps } = props;
+  const {
+    className,
+    children,
+    defaultSize: _defaultSize,
+    minSize: _minSize,
+    maxSize: _maxSize,
+    collapsedSize: _collapsedSize,
+    collapsible: _collapsible,
+    ...panelProps
+  } = props;
 
   return (
     <div
@@ -275,14 +292,31 @@ export function SplitPane(props: SplitPaneProps) {
 }
 
 const resolvePanels = (children: ReactNode) => {
-  return Children.toArray(children).filter(isResizablePanelElement);
+  const panels: Array<ResizablePanelElement> = [];
+
+  const collectPanels = (node: ReactNode) => {
+    Children.forEach(node, (child) => {
+      if (isResizablePanelElement(child)) {
+        panels.push(child);
+        return;
+      }
+
+      if (isValidElement<{ children?: ReactNode }>(child)) {
+        if (child.type === Fragment) {
+          collectPanels(child.props.children);
+        }
+      }
+    });
+  };
+
+  collectPanels(children);
+  return panels;
 };
 
 const isResizablePanelElement = (
   child: ReactNode,
 ): child is ResizablePanelElement => {
   if (!isValidElement<ResizablePanelProps>(child)) return false;
-
   return Boolean((child.type as ResizablePanelComponent).__willaResizablePanel);
 };
 
@@ -290,6 +324,10 @@ const resolvePanelLimits = (panels: Array<ResizablePanelElement>) => {
   return panels.map((panel) => ({
     minSize: panel.props.minSize ?? 8,
     maxSize: panel.props.maxSize ?? 92,
+    collapsedSize: panel.props.collapsible
+      ? (panel.props.collapsedSize ?? 0)
+      : null,
+    collapsible: Boolean(panel.props.collapsible),
   }));
 };
 
@@ -320,7 +358,7 @@ const createEqualSizes = (count: number) => {
 const normalizeSizes = (
   sizes: Array<number>,
   count: number,
-  limits: Array<{ minSize: number; maxSize: number }>,
+  limits: Array<PanelLimit>,
 ) => {
   if (count <= 0) return [];
 
@@ -338,7 +376,7 @@ const resizeAdjacentPanels = (
   sizes: Array<number>,
   index: number,
   delta: number,
-  limits: Array<{ minSize: number; maxSize: number }>,
+  limits: Array<PanelLimit>,
 ) => {
   const nextSizes = [...sizes];
   const left = sizes[index];
@@ -394,17 +432,20 @@ const resolveCollapsiblePanelIndex = (
 ) => {
   if (panels[handleIndex]?.props.collapsible) return handleIndex;
   if (panels[handleIndex + 1]?.props.collapsible) return handleIndex + 1;
-
   return -1;
 };
 
-const clampSize = (
-  size: number,
-  limit?: { minSize: number; maxSize: number },
-) => {
+const clampSize = (size: number, limit?: PanelLimit) => {
   if (!limit) return size;
 
-  return clampNumber(size, limit.minSize, limit.maxSize);
+  const minSize =
+    limit.collapsible &&
+    limit.collapsedSize !== null &&
+    size <= limit.collapsedSize + 0.5
+      ? Math.min(limit.minSize, limit.collapsedSize)
+      : limit.minSize;
+
+  return clampNumber(size, minSize, limit.maxSize);
 };
 
 const readStoredSizes = (storageKey?: string) => {
@@ -426,7 +467,6 @@ const readStoredSizes = (storageKey?: string) => {
 
 const persistSizes = (storageKey: string | undefined, sizes: Array<number>) => {
   if (!storageKey || typeof window === "undefined") return;
-
   window.localStorage.setItem(storageKey, JSON.stringify(sizes));
 };
 

@@ -31,7 +31,9 @@ type ButtonBaseProps = {
   loadingText?: ReactNode;
   pressed?: boolean;
   backgroundColor?: string;
+  hoverBackgroundColor?: string;
   textColor?: string;
+  hoverTextColor?: string;
   copyText?: boolean | string;
   copiedDuration?: number;
   onCopyText?: (text: string) => void;
@@ -71,7 +73,9 @@ export function Button(props: ButtonProps) {
       loadingText,
       pressed,
       backgroundColor,
+      hoverBackgroundColor,
       textColor,
+      hoverTextColor,
       copyText,
       copiedDuration = 300,
       onCopyText,
@@ -89,7 +93,9 @@ export function Button(props: ButtonProps) {
     const resolvedCopyText = resolveCopyText(copyText, children);
     const buttonStyle = getButtonStyle({
       backgroundColor,
+      hoverBackgroundColor,
       textColor,
+      hoverTextColor,
       style,
     });
 
@@ -166,7 +172,9 @@ export function Button(props: ButtonProps) {
     loadingText,
     pressed,
     backgroundColor,
+    hoverBackgroundColor,
     textColor,
+    hoverTextColor,
     copyText,
     copiedDuration = 300,
     onCopyText,
@@ -177,7 +185,13 @@ export function Button(props: ButtonProps) {
   } = props;
   const effectiveDisabled = disabled || loading;
   const resolvedCopyText = resolveCopyText(copyText, children);
-  const buttonStyle = getButtonStyle({ backgroundColor, textColor, style });
+  const buttonStyle = getButtonStyle({
+    backgroundColor,
+    hoverBackgroundColor,
+    textColor,
+    hoverTextColor,
+    style,
+  });
 
   return (
     <button
@@ -242,24 +256,43 @@ const getButtonClassName = (options: {
 
 type ButtonStyle = CSSProperties & {
   "--willa-button-custom-bg"?: string;
+  "--willa-button-custom-bg-hover"?: string;
   "--willa-button-custom-text"?: string;
+  "--willa-button-custom-text-hover"?: string;
 };
 
 const getButtonStyle = (options: {
   backgroundColor?: string;
+  hoverBackgroundColor?: string;
   textColor?: string;
+  hoverTextColor?: string;
   style?: CSSProperties;
 }) => {
-  if (!options.backgroundColor && !options.textColor) return options.style;
+  if (
+    !options.backgroundColor &&
+    !options.hoverBackgroundColor &&
+    !options.textColor &&
+    !options.hoverTextColor
+  ) {
+    return options.style;
+  }
 
   const style: ButtonStyle = { ...options.style };
 
   if (options.backgroundColor) {
     style["--willa-button-custom-bg"] = options.backgroundColor;
+    style["--willa-button-custom-bg-hover"] =
+      options.hoverBackgroundColor ?? options.backgroundColor;
+  } else if (options.hoverBackgroundColor) {
+    style["--willa-button-custom-bg-hover"] = options.hoverBackgroundColor;
   }
 
   if (options.textColor) {
     style["--willa-button-custom-text"] = options.textColor;
+    style["--willa-button-custom-text-hover"] =
+      options.hoverTextColor ?? options.textColor;
+  } else if (options.hoverTextColor) {
+    style["--willa-button-custom-text-hover"] = options.hoverTextColor;
   }
 
   return style;

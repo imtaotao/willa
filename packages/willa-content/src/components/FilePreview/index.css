@@ -165,6 +165,8 @@
 .willa-file-preview--text .willa-file-preview__body {
   align-items: start;
   justify-items: stretch;
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 12rem;
 }
 
 .willa-file-preview--csv .willa-file-preview__body,
@@ -179,7 +181,8 @@
 
 .willa-file-preview--code .willa-file-preview__code,
 .willa-file-preview--text .willa-file-preview__code {
-  height: auto;
+  min-height: 12rem;
+  height: 100%;
 }
 
 .willa-file-preview__csv {
@@ -204,9 +207,21 @@
 }
 
 .willa-file-preview__code .willa-prose-code-block {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  height: 100%;
   min-height: 12rem;
   border: 0;
   border-radius: 0;
+}
+
+.willa-file-preview__code .willa-prose-pre,
+.willa-file-preview__code .willa-prose-code {
+  height: 100%;
+}
+
+.willa-file-preview__code .willa-prose-code {
+  overflow: auto;
 }
 
 .willa-file-preview__download {
@@ -358,6 +373,7 @@
 
 .willa-file-preview-audio__progress {
   --willa-file-preview-audio-progress: 0%;
+  --willa-file-preview-audio-thumb-size: 0.82rem;
   position: relative;
   display: flex;
   height: 0.9rem;
@@ -379,7 +395,13 @@
 .willa-file-preview-audio__progress::after {
   position: absolute;
   inset: calc(50% - 0.21rem) auto auto 0;
-  width: var(--willa-file-preview-audio-progress);
+  width: min(
+    100%,
+    calc(
+      var(--willa-file-preview-audio-progress) +
+        var(--willa-file-preview-audio-thumb-size) / 2
+    )
+  );
   height: 0.42rem;
   border-radius: inherit;
   background: var(--willa-file-preview-icon);
@@ -405,9 +427,9 @@
 .willa-file-preview-audio__progress input::-webkit-slider-thumb {
   position: relative;
   z-index: 2;
-  width: 0.82rem;
-  height: 0.82rem;
-  border: 2px solid var(--willa-file-preview-bg);
+  width: var(--willa-file-preview-audio-thumb-size);
+  height: var(--willa-file-preview-audio-thumb-size);
+  border: 0;
   border-radius: 50%;
   appearance: none;
   background: var(--willa-file-preview-icon);
@@ -420,9 +442,9 @@
 }
 
 .willa-file-preview-audio__progress input::-moz-range-thumb {
-  width: 0.82rem;
-  height: 0.82rem;
-  border: 2px solid var(--willa-file-preview-bg);
+  width: var(--willa-file-preview-audio-thumb-size);
+  height: var(--willa-file-preview-audio-thumb-size);
+  border: 0;
   border-radius: 50%;
   background: var(--willa-file-preview-icon);
 }
@@ -505,7 +527,7 @@
 .willa-file-preview--dialog.willa-file-preview--code .willa-file-preview__body,
 .willa-file-preview--dialog.willa-file-preview--csv .willa-file-preview__body,
 .willa-file-preview--dialog.willa-file-preview--text .willa-file-preview__body {
-  height: auto;
+  height: 100%;
   padding: 2rem 1rem;
   place-items: stretch;
 }
