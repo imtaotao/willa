@@ -133,7 +133,7 @@ utilities, clipboard helpers, and similar logic. It does not contain React
 components or component CSS.
 
 `example` is the component demo and documentation app. In development, it
-consumes package source through tsconfig aliases. The default port is `2333`.
+consumes package source through tsconfig aliases. The default port is `2334`.
 
 ## Dependency Relationships
 

@@ -6,6 +6,6 @@ export default defineConfig({
   base: "/willa/",
   plugins: [aukletStylePlugin({ mode: "monorepo" }), tsconfigPaths()],
   server: {
-    port: 2333,
+    port: 2334,
   },
 });

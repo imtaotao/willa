@@ -5,6 +5,7 @@ import {
   useMemo,
   useCallback,
   createElement,
+  type CSSProperties,
   type ReactNode,
   type ComponentProps,
   type ComponentType,
@@ -70,11 +71,45 @@ import { XPostEmbed } from "#widgets/components/XPostEmbed";
 export { extractHeadings } from "@willa-ui/shared";
 export type { Heading } from "@willa-ui/shared";
 export type MdxComponents = Record<string, ElementType>;
+export type MdxColors = Record<string, string>;
+export type MdxTheme = {
+  fontFamily?: string;
+  titleFont?: string;
+  codeFont?: string;
+  text?: string;
+  textSoft?: string;
+  textMuted?: string;
+  textFaint?: string;
+  textStrong?: string;
+  heading1?: string;
+  heading2?: string;
+  heading3?: string;
+  heading4?: string;
+  heading5?: string;
+  heading6?: string;
+  inlineCodeBg?: string;
+  selectionBg?: string;
+  selectionColor?: string;
+  markerColor?: string;
+  nestedMarkerColor?: string;
+  markBg?: string;
+  quoteColor?: string;
+  quoteBorder?: string;
+  linkColor?: string;
+  linkHoverColor?: string;
+  linkDecoration?: string;
+  linkHoverDecoration?: string;
+  linkDecorationThickness?: string;
+};
 
 export type MdxProps = {
   Content: ComponentType<Record<string, unknown>>;
   articleSourcePath: string;
   resolveAssetUrl: ResolveAssetUrl;
+  className?: string;
+  style?: CSSProperties;
+  theme?: MdxTheme;
+  colors?: MdxColors;
   components?: MdxComponents;
   openLightbox?: (state: LightboxState | null) => void;
 };
@@ -94,8 +129,8 @@ type PresetColor = (typeof presetColors)[number];
 
 type ColorTextProps = {
   color?: string;
-  preset?: PresetColor;
-  c?: PresetColor;
+  preset?: string;
+  c?: string;
   className?: string;
   children?: ReactNode;
 };
@@ -106,8 +141,76 @@ type HeadingComponent = ((p: ComponentProps<"h1">) => ReactNode) & {
   mdxHeadingTag: HeadingTag;
 };
 
+type MdxCustomStyle = CSSProperties & Record<`--${string}`, string | number>;
+
+const mdxThemeVariableMap = {
+  fontFamily: "--willa-body-font",
+  titleFont: "--willa-title-font",
+  codeFont: "--willa-code-font",
+  text: "--willa-text",
+  textSoft: "--willa-text-soft",
+  textMuted: "--willa-text-muted",
+  textFaint: "--willa-text-faint",
+  textStrong: "--willa-text-strong",
+  heading1: "--willa-heading-1",
+  heading2: "--willa-heading-2",
+  heading3: "--willa-heading-3",
+  heading4: "--willa-heading-4",
+  heading5: "--willa-heading-5",
+  heading6: "--willa-heading-6",
+  inlineCodeBg: "--willa-inline-code-bg",
+  selectionBg: "--willa-prose-selection-bg",
+  selectionColor: "--willa-prose-selection-color",
+  markerColor: "--willa-prose-marker-color",
+  nestedMarkerColor: "--willa-prose-nested-marker-color",
+  markBg: "--willa-prose-mark-bg",
+  quoteColor: "--willa-prose-quote-color",
+  quoteBorder: "--willa-prose-quote-border",
+  linkColor: "--willa-prose-link-color",
+  linkHoverColor: "--willa-prose-link-hover-color",
+  linkDecoration: "--willa-prose-link-decoration",
+  linkHoverDecoration: "--willa-prose-link-hover-decoration",
+  linkDecorationThickness: "--willa-prose-link-decoration-thickness",
+} satisfies Record<keyof MdxTheme, `--${string}`>;
+
+const mdxThemeEntries = Object.entries(mdxThemeVariableMap) as Array<
+  [keyof MdxTheme, (typeof mdxThemeVariableMap)[keyof MdxTheme]]
+>;
+
+const isValidMdxColorName = (name: string) => /^[a-zA-Z0-9_-]+$/.test(name);
+
+const getMdxStyle = (options: {
+  colors?: MdxColors;
+  style?: CSSProperties;
+  theme?: MdxTheme;
+}) => {
+  const nextStyle = { ...options.style } as MdxCustomStyle;
+
+  mdxThemeEntries.forEach(([key, variable]) => {
+    const value = options.theme?.[key];
+    if (!value) return;
+    nextStyle[variable] = value;
+  });
+
+  Object.entries(options.colors ?? {}).forEach(([name, value]) => {
+    if (!isValidMdxColorName(name) || !value) return;
+    nextStyle[`--willa-color-${name}`] = value;
+  });
+
+  return nextStyle;
+};
+
 export function Mdx(props: MdxProps) {
   const nextHeadingIdRef = useRef(createHeadingIdFactory());
+  const mdxStyle = useMemo(
+    () =>
+      getMdxStyle({
+        colors: props.colors,
+        style: props.style,
+        theme: props.theme,
+      }),
+    [props.colors, props.style, props.theme],
+  );
 
   const openLightbox = useCallback(
     (state: LightboxState | null) => {
@@ -122,10 +225,14 @@ export function Mdx(props: MdxProps) {
 
   const renderColorText = useCallback(
     ({ color, preset, c, className, children }: ColorTextProps) => {
-      const resolvedPreset =
-        c ?? preset ?? (isPresetColor(color) ? color : undefined);
+      const colorPreset =
+        color && (props.colors?.[color] || isPresetColor(color))
+          ? color
+          : undefined;
+      const resolvedPreset = c ?? preset ?? colorPreset;
       const resolvedColor = resolvedPreset
-        ? `var(--willa-color-${resolvedPreset})`
+        ? (props.colors?.[resolvedPreset] ??
+          `var(--willa-color-${resolvedPreset})`)
         : color;
 
       return (
@@ -137,7 +244,7 @@ export function Mdx(props: MdxProps) {
         </span>
       );
     },
-    [],
+    [props.colors],
   );
 
   const Image = useCallback(
@@ -373,9 +480,14 @@ export function Mdx(props: MdxProps) {
   ]);
 
   return (
-    <MDXProvider components={components}>
-      <props.Content components={components} />
-    </MDXProvider>
+    <div
+      className={classNames("willa-prose", props.className)}
+      style={mdxStyle}
+    >
+      <MDXProvider components={components}>
+        <props.Content components={components} />
+      </MDXProvider>
+    </div>
   );
 }
 

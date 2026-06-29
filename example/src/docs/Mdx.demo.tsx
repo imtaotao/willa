@@ -1,7 +1,12 @@
 import { unindent } from "aidly";
 import { useState, type ComponentProps, type ElementType } from "react";
 import { Lightbox } from "willa/Lightbox";
-import { Mdx, type MdxComponents } from "willa/Mdx";
+import {
+  Mdx,
+  type MdxColors,
+  type MdxComponents,
+  type MdxTheme,
+} from "willa/Mdx";
 
 import "willa/Mdx.css";
 
@@ -37,7 +42,7 @@ const ArticleLink = (props: ComponentProps<"a">) => {
     <a
       {...rest}
       style={{
-        color: "var(--willa-color-blue)",
+        color: "var(--willa-accent)",
         fontWeight: 720,
         textUnderlineOffset: "0.18em",
         ...style,
@@ -52,12 +57,27 @@ const mdxComponents = {
   a: ArticleLink,
 } satisfies MdxComponents;
 
+const mdxTheme = {
+  linkColor: "var(--willa-accent)",
+  linkHoverColor: "var(--willa-accent)",
+  linkDecoration: "color-mix(in srgb, var(--willa-accent), transparent 62%)",
+  linkHoverDecoration: "var(--willa-accent)",
+  quoteColor: "var(--willa-text)",
+  quoteBorder: "color-mix(in srgb, var(--willa-accent), transparent 58%)",
+} satisfies MdxTheme;
+
+const mdxColors = {
+  brand: "var(--willa-accent)",
+  success: "var(--willa-accent-2)",
+} satisfies MdxColors;
+
 const DemoMdxContent = (props: Record<string, unknown>) => {
   const components = (props.components ?? {}) as Record<string, ElementType>;
   const H1 = components.h1 ?? "h1";
   const H2 = components.h2 ?? "h2";
   const P = components.p ?? "p";
   const A = components.a ?? "a";
+  const ColorText = components.ColorText ?? "span";
   const Pre = components.pre ?? "pre";
   const Code = components.code ?? "code";
   const Img = components.img ?? "img";
@@ -109,6 +129,11 @@ const DemoMdxContent = (props: Record<string, unknown>) => {
       <P>
         这是一个 <A href="https://github.com/imtaotao/willa">项目链接</A>，
         也可以渲染内联代码 <Code>const name = "willa"</Code>。
+      </P>
+      <P>
+        正文局部颜色可以使用{" "}
+        <ColorText preset="brand">自定义 brand 色</ColorText> 和{" "}
+        <ColorText preset="success">业务扩展色</ColorText>。
       </P>
       <Pre>
         <Code className="language-tsx--meta-ln">
@@ -281,6 +306,8 @@ const MdxPreview = () => {
         resolveAssetUrl={resolveDemoAssetUrl}
         openLightbox={setLightbox}
         components={mdxComponents}
+        theme={mdxTheme}
+        colors={mdxColors}
       />
       {lightbox?.selectedImage ? (
         <Lightbox
@@ -305,7 +332,7 @@ export default defineDoc({
     component: MdxPreview,
   },
   code: unindent(`
-    import { Mdx, type MdxComponents } from "willa/Mdx";
+    import { Mdx, type MdxColors, type MdxComponents, type MdxTheme } from "willa/Mdx";
     import "willa/Mdx.css";
 
     const resolveAssetUrl = (_articleSourcePath: string, assetPath: string) =>
@@ -324,10 +351,22 @@ export default defineDoc({
         ),
     } satisfies MdxComponents;
 
+    const mdxTheme = {
+      linkColor: "var(--willa-accent)",
+      linkHoverColor: "var(--willa-accent)",
+      quoteBorder: "color-mix(in srgb, var(--willa-accent), transparent 58%)",
+    } satisfies MdxTheme;
+
+    const mdxColors = {
+      brand: "var(--willa-accent)",
+      success: "var(--willa-accent-2)",
+    } satisfies MdxColors;
+
     function DemoMdxContent(props) {
       const {
         h1: H1 = "h1",
         p: P = "p",
+        ColorText = "span",
         Callout = "div",
         GitHubRepo = "div",
       } = props.components ?? {};
@@ -336,6 +375,9 @@ export default defineDoc({
         <>
           <H1>MDX 渲染示例</H1>
           <P>这段内容会使用 Mdx 注入的 components 映射渲染。</P>
+          <P>
+            可以使用 <ColorText preset="brand">自定义正文颜色</ColorText>。
+          </P>
           <Callout tone="tip" title="组件映射">
             自定义组件也会进入 Willa 的展示体系。
           </Callout>
@@ -350,6 +392,8 @@ export default defineDoc({
       articleSourcePath="/posts/demo.mdx"
       resolveAssetUrl={resolveAssetUrl}
       components={mdxComponents}
+      theme={mdxTheme}
+      colors={mdxColors}
     />;
   `),
   props: [
@@ -376,6 +420,29 @@ export default defineDoc({
       type: "MdxComponents",
       description:
         "覆盖内置 MDX 组件映射。可接管链接、标题、图片或自定义组件策略，未覆盖的项继续使用 Willa 默认映射。",
+    },
+    {
+      name: "theme",
+      type: "MdxTheme",
+      description:
+        "覆盖当前正文区域的主题变量，包括正文、标题、链接、引用、标记和内联代码颜色。只作用于当前 Mdx 根节点。",
+    },
+    {
+      name: "colors",
+      type: "MdxColors",
+      description:
+        '扩展 ColorText/Color 可用的局部颜色名，例如 preset="brand" 会读取 colors.brand。',
+    },
+    {
+      name: "className",
+      type: "string",
+      description: "传给 Mdx 自动生成的 .willa-prose 根节点。",
+    },
+    {
+      name: "style",
+      type: "CSSProperties",
+      description:
+        "传给 Mdx 自动生成的 .willa-prose 根节点，可直接覆盖 CSS 变量或布局样式。",
     },
     {
       name: "openLightbox",

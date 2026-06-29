@@ -41,6 +41,9 @@ Variables live in the theme files of the package that owns the component:
   `packages/willa-widgets/src/themes/light.css` and
   `packages/willa-widgets/src/themes/dark.css`.
 - `Mdx` prose, heading, and inline-code variables belong to widgets.
+- `Mdx` renders its own `.willa-prose` root. Prose variables should be available
+  on both `.willa-shell` and `.willa-prose`, so standalone article rendering
+  keeps the same text, heading, link, quote, marker, and inline-code theme.
 - `Lightbox` variables still belong to content, even though Lightbox renders
   through a portal into `document.body`.
 

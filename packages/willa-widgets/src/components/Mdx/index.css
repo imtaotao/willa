@@ -1,11 +1,9 @@
 .willa-prose {
   font-family: var(--willa-body-font);
   font-size: 1rem;
-  font-weight: 500;
   font-synthesis: none;
   line-height: 1.62;
   color: var(--willa-text);
-  text-shadow: 0.018em 0 0 currentColor;
 }
 
 .willa-prose code {
@@ -144,6 +142,7 @@
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.62;
+  text-shadow: 0.018em 0 0 currentColor;
 }
 
 .willa-prose-ul,
@@ -154,6 +153,7 @@
   font-weight: 500;
   line-height: 1.62;
   list-style-position: outside;
+  text-shadow: 0.018em 0 0 currentColor;
 }
 
 .willa-prose-ul {
@@ -206,6 +206,7 @@
   color: var(--willa-prose-quote-color);
   font-weight: 500;
   border-left: 3px solid var(--willa-prose-quote-border);
+  text-shadow: 0.018em 0 0 currentColor;
 }
 
 .willa-prose-quote,
@@ -270,4 +271,38 @@
 
 .willa-prose-separator {
   margin: 1.6rem 0;
+}
+
+.willa-prose
+  > :where(
+    .willa-callout,
+    .willa-card,
+    .willa-citation,
+    .willa-collapse,
+    .willa-description-list,
+    .willa-diff-viewer,
+    .willa-download,
+    .willa-file-card,
+    .willa-file-tree,
+    .willa-list,
+    .willa-panel,
+    .willa-poem,
+    .willa-prose-gallery,
+    .willa-prose-image,
+    .willa-source-card,
+    .willa-table,
+    .willa-timeline,
+    .willa-chat,
+    .willa-english-cards
+  ) {
+  margin-block: 1.12rem;
+}
+
+.willa-prose > :where(.willa-download, .willa-file-card) {
+  margin-block: 0.72rem;
+}
+
+.willa-prose > .willa-prose-github-repo-wrap {
+  display: inline-block;
+  margin: 0.15rem 0 1.15rem;
 }
