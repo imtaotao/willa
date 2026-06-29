@@ -23,6 +23,11 @@ export {
 } from "#shared/codeHighlight";
 export { getFocusableElements } from "#shared/dom";
 export {
+  getWillaDocumentTheme,
+  useWillaDocumentTheme,
+  type WillaTheme,
+} from "#shared/theme";
+export {
   getFloatingPanelPosition,
   type FloatingPanelAlign,
   type FloatingPanelPoint,

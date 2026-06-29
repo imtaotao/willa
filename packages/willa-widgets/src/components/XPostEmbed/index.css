@@ -1,7 +1,7 @@
 .willa-prose-x-post-embed {
-  margin: 0 0 1.35rem;
+  margin: 0 auto 1.35rem;
   display: block;
-  width: 100%;
+  width: min(100%, var(--willa-x-post-embed-width, 550px));
   max-width: 100%;
 }
 

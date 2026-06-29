@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Tweet } from "react-twitter-widgets";
 import { Skeleton } from "@willa-ui/content/components/Skeleton";
+import { useWillaDocumentTheme } from "@willa-ui/shared";
 import classNames from "classnames";
 
 export type XPostEmbedProps = {
@@ -34,15 +35,8 @@ const extractTweetId = (urlOrId: string) => {
 export function XPostEmbed({ url, id, title, className }: XPostEmbedProps) {
   const source = url?.trim() || id?.trim() || "";
   const tweetId = extractTweetId(source);
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const theme = useWillaDocumentTheme();
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const shell = document.querySelector<HTMLElement>(".willa-shell");
-    const currentTheme =
-      shell?.dataset.willaTheme === "dark" ? "dark" : "light";
-    setTheme(currentTheme);
-  }, []);
 
   useEffect(() => {
     setIsLoading(true);
@@ -53,33 +47,31 @@ export function XPostEmbed({ url, id, title, className }: XPostEmbedProps) {
 
   return (
     <article className={classNames("willa-prose-x-post-embed", className)}>
-      <div className="willa-prose-x-post-embed-frame-shell">
-        <div className="willa-prose-x-post-embed-widget" aria-label={ariaLabel}>
-          <Skeleton
-            loading={isLoading}
-            keepChildrenMounted
-            className="willa-prose-x-post-embed-loading"
-            skeletonClassName="willa-prose-x-post-embed-loading-placeholder"
-            lines={["100%", "82%", "64%", "100%"]}
-            label={`Loading ${ariaLabel}`}
-          >
-            <Tweet
-              key={`${tweetId}-${theme}`}
-              tweetId={tweetId}
-              options={{ theme }}
-              onLoad={() => {
-                setIsLoading(false);
-              }}
-              renderError={() => (
-                <XPostEmbedErrorFallback
-                  onVisible={() => {
-                    setIsLoading(false);
-                  }}
-                />
-              )}
-            />
-          </Skeleton>
-        </div>
+      <div className="willa-prose-x-post-embed-widget" aria-label={ariaLabel}>
+        <Skeleton
+          loading={isLoading}
+          keepChildrenMounted
+          className="willa-prose-x-post-embed-loading"
+          skeletonClassName="willa-prose-x-post-embed-loading-placeholder"
+          lines={["100%", "82%", "64%", "100%"]}
+          label={`Loading ${ariaLabel}`}
+        >
+          <Tweet
+            key={`${tweetId}-${theme}`}
+            tweetId={tweetId}
+            options={{ theme }}
+            onLoad={() => {
+              setIsLoading(false);
+            }}
+            renderError={() => (
+              <XPostEmbedErrorFallback
+                onVisible={() => {
+                  setIsLoading(false);
+                }}
+              />
+            )}
+          />
+        </Skeleton>
       </div>
     </article>
   );

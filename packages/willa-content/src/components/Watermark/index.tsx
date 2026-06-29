@@ -8,7 +8,11 @@ import {
   type ReactNode,
 } from "react";
 import classNames from "classnames";
-import { resolveMediaAsset, type MediaContextProps } from "@willa-ui/shared";
+import {
+  resolveMediaAsset,
+  useWillaDocumentTheme,
+  type MediaContextProps,
+} from "@willa-ui/shared";
 
 export type WatermarkFont = {
   color?: string;
@@ -66,6 +70,7 @@ export function Watermark(props: WatermarkProps) {
     ...rootProps
   } = props;
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const theme = useWillaDocumentTheme();
   const [themeColor, setThemeColor] = useState(LIGHT_FALLBACK_COLOR);
   const resolvedImage = resolveMediaAsset(
     { articleSourcePath, resolveAssetUrl },
@@ -115,32 +120,15 @@ export function Watermark(props: WatermarkProps) {
     const root = rootRef.current;
     if (!root) return;
 
-    const readThemeColor = () => {
-      const scopedColor = getComputedStyle(root)
-        .getPropertyValue("--willa-watermark-ink")
-        .trim();
+    const scopedColor = getComputedStyle(root)
+      .getPropertyValue("--willa-watermark-ink")
+      .trim();
 
-      if (scopedColor) {
-        setThemeColor(scopedColor);
-        return;
-      }
-
-      const theme = document.documentElement.getAttribute("data-wk-theme");
-      setThemeColor(
-        theme === "dark" ? DARK_FALLBACK_COLOR : LIGHT_FALLBACK_COLOR,
-      );
-    };
-
-    readThemeColor();
-
-    const observer = new MutationObserver(readThemeColor);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-wk-theme", "class"],
-    });
-
-    return () => observer.disconnect();
-  }, []);
+    setThemeColor(
+      scopedColor ||
+        (theme === "dark" ? DARK_FALLBACK_COLOR : LIGHT_FALLBACK_COLOR),
+    );
+  }, [theme]);
 
   const mergedStyle = {
     ...style,
