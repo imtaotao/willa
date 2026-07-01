@@ -11,21 +11,34 @@ import { resolveMediaVolume, type MediaContextProps } from "@willa-ui/shared";
 
 import {
   MediaLinkExternalAction,
+  type MediaEventHandlers,
   resolveMediaInline,
 } from "#widgets/internal/media";
 
-export type AudioLinkProps = MediaContextProps & {
-  href?: string;
-  src?: string;
-  volume?: number;
-  children?: ReactNode;
-  label?: string;
-  provider?: string;
-  className?: string;
-};
+export type AudioLinkProps = MediaContextProps &
+  MediaEventHandlers<HTMLAudioElement> & {
+    href?: string;
+    src?: string;
+    volume?: number;
+    children?: ReactNode;
+    label?: string;
+    provider?: string;
+    className?: string;
+  };
 
 export function AudioLink(props: AudioLinkProps) {
-  const { volume, className } = props;
+  const {
+    volume,
+    className,
+    onLoadStart,
+    onCanPlay,
+    onLoadedMetadata,
+    onTimeUpdate,
+    onPlay,
+    onPause,
+    onEnded,
+    onError,
+  } = props;
   const { content, normalizedHref, resolvedSrc } = resolveMediaInline({
     ...props,
     mediaLabel: "audio",
@@ -140,26 +153,38 @@ export function AudioLink(props: AudioLinkProps) {
         className="willa-prose-audio-link-audio"
         preload="metadata"
         src={resolvedSrc}
-        onLoadStart={() => {
+        onLoadStart={(event) => {
           setIsLoading(true);
           setLoadError(null);
+          onLoadStart?.(event);
         }}
-        onCanPlay={() => {
+        onCanPlay={(event) => {
           setIsReady(true);
           setIsLoading(false);
+          onCanPlay?.(event);
         }}
-        onPlay={() => {
+        onLoadedMetadata={onLoadedMetadata}
+        onTimeUpdate={onTimeUpdate}
+        onPlay={(event) => {
           setIsPlaying(true);
           setIsLoading(false);
           setLoadError(null);
+          onPlay?.(event);
         }}
-        onPause={() => setIsPlaying(false)}
-        onEnded={() => setIsPlaying(false)}
-        onError={() => {
+        onPause={(event) => {
+          setIsPlaying(false);
+          onPause?.(event);
+        }}
+        onEnded={(event) => {
+          setIsPlaying(false);
+          onEnded?.(event);
+        }}
+        onError={(event) => {
           setIsPlaying(false);
           setIsReady(false);
           setIsLoading(false);
           setLoadError("audio unavailable");
+          onError?.(event);
         }}
       />
     </span>

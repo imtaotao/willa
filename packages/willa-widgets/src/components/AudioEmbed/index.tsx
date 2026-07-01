@@ -14,21 +14,23 @@ import {
 import classNames from "classnames";
 
 import { resolveMediaVolume, type MediaContextProps } from "@willa-ui/shared";
+import type { MediaEventHandlers } from "#widgets/internal/media";
 import {
   MediaEmbedContent,
   resolveMediaEmbedAsset,
 } from "#widgets/internal/mediaEmbed";
 
-export type AudioEmbedProps = MediaContextProps & {
-  href?: string;
-  title: string;
-  src?: string;
-  volume?: number;
-  description?: string;
-  duration?: string;
-  provider?: string;
-  className?: string;
-};
+export type AudioEmbedProps = MediaContextProps &
+  MediaEventHandlers<HTMLAudioElement> & {
+    href?: string;
+    title: string;
+    src?: string;
+    volume?: number;
+    description?: string;
+    duration?: string;
+    provider?: string;
+    className?: string;
+  };
 
 const formatTime = (seconds: number) => {
   if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
@@ -41,8 +43,23 @@ const formatTime = (seconds: number) => {
 };
 
 export function AudioEmbed(props: AudioEmbedProps) {
-  const { href, title, description, duration, provider, volume, className } =
-    props;
+  const {
+    href,
+    title,
+    description,
+    duration,
+    provider,
+    volume,
+    className,
+    onLoadStart,
+    onCanPlay,
+    onLoadedMetadata,
+    onTimeUpdate,
+    onPlay,
+    onPause,
+    onEnded,
+    onError,
+  } = props;
   const normalizedHref = href?.trim() ?? "";
   const normalizedTitle = title.trim();
   const resolvedSrc = resolveMediaEmbedAsset(props, props.src);
@@ -227,38 +244,48 @@ export function AudioEmbed(props: AudioEmbedProps) {
             className="willa-prose-audio-embed-native"
             preload="metadata"
             src={resolvedSrc}
-            onLoadStart={() => {
+            onLoadStart={(event) => {
               setIsLoading(true);
               setLoadError(null);
+              onLoadStart?.(event);
             }}
-            onCanPlay={() => {
+            onCanPlay={(event) => {
               setIsReady(true);
               setIsLoading(false);
+              onCanPlay?.(event);
             }}
             onLoadedMetadata={(event) => {
               const nextDuration = event.currentTarget.duration;
               if (Number.isFinite(nextDuration)) {
                 setDurationSeconds(nextDuration);
               }
+              onLoadedMetadata?.(event);
             }}
             onTimeUpdate={(event) => {
               setCurrentTime(event.currentTarget.currentTime);
+              onTimeUpdate?.(event);
             }}
-            onPlay={() => {
+            onPlay={(event) => {
               setIsPlaying(true);
               setIsLoading(false);
               setLoadError(null);
+              onPlay?.(event);
             }}
-            onPause={() => setIsPlaying(false)}
-            onError={() => {
+            onPause={(event) => {
+              setIsPlaying(false);
+              onPause?.(event);
+            }}
+            onError={(event) => {
               setIsPlaying(false);
               setIsReady(false);
               setIsLoading(false);
               setLoadError("audio unavailable");
+              onError?.(event);
             }}
-            onEnded={() => {
+            onEnded={(event) => {
               setIsPlaying(false);
               setCurrentTime(0);
+              onEnded?.(event);
             }}
           />
         </div>

@@ -117,6 +117,12 @@
   line-height: 1.4;
 }
 
+.willa-prose-audio-embed-kicker > span {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
 .willa-prose-audio-embed-inline-icon {
   flex: none;
   width: 0.92rem;
@@ -128,6 +134,7 @@
   font-family: var(--willa-code-font);
   font-size: 0.75rem;
   font-weight: 500;
+  font-variant-numeric: tabular-nums;
 }
 
 .willa-prose-audio-embed-title {

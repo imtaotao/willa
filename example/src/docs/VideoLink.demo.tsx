@@ -3,6 +3,63 @@ import "willa/VideoLink.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
 
+const resolveDemoAssetUrl = (_articleSourcePath: string, assetPath: string) =>
+  `https://interactive-examples.mdn.mozilla.net/media/cc0-videos/${assetPath.replace(
+    /^\.\//,
+    "",
+  )}`;
+
+const mediaEventProps = [
+  {
+    name: "onLoadStart",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频开始加载时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onCanPlay",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频可以播放时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onLoadedMetadata",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频元数据加载完成时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onTimeUpdate",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频播放进度变化时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onPlay",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频开始播放时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onPause",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频暂停时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onEnded",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频播放结束时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onError",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频加载或播放失败时触发；仅在传入 src 时生效。",
+  },
+];
+
 export default defineDoc({
   id: "video-link",
   name: "VideoLink",
@@ -10,6 +67,12 @@ export default defineDoc({
   description: "可弹出播放层的内联视频链接。",
   imports: [{ name: "VideoLink", from: "willa/VideoLink" }],
   css: "willa/VideoLink.css",
+  propGroups: [
+    {
+      title: "媒体事件",
+      description: "这些事件透传给内联 video 元素；仅外部链接状态不会触发。",
+    },
+  ],
   demo: {
     name: "VideoLink",
     component: VideoLink,
@@ -33,6 +96,53 @@ export default defineDoc({
       href="https://developer.mozilla.org/"
     />;
   `,
+  sections: [
+    {
+      title: "仅外部链接",
+      code: `
+        <VideoLink
+          label="打开视频来源"
+          provider="MDN"
+          href="https://developer.mozilla.org/"
+        />;
+      `,
+      content: (
+        <VideoLink
+          label="打开视频来源"
+          provider="MDN"
+          href="https://developer.mozilla.org/"
+        />
+      ),
+    },
+    {
+      title: "文章相对资源",
+      code: `
+        const resolveAssetUrl = (_articleSourcePath, assetPath) =>
+          \`https://interactive-examples.mdn.mozilla.net/media/cc0-videos/\${assetPath.replace(/^\\.\\//, "")}\`;
+
+        <VideoLink
+          provider="MDX"
+          volume={0.35}
+          articleSourcePath="/posts/video-demo.mdx"
+          resolveAssetUrl={resolveAssetUrl}
+          src="./flower.mp4"
+        >
+          播放文章视频
+        </VideoLink>;
+      `,
+      content: (
+        <VideoLink
+          provider="MDX"
+          volume={0.35}
+          articleSourcePath="/posts/video-demo.mdx"
+          resolveAssetUrl={resolveDemoAssetUrl}
+          src="./flower.mp4"
+        >
+          播放文章视频
+        </VideoLink>
+      ),
+    },
+  ],
   props: [
     {
       name: "src",
@@ -79,5 +189,6 @@ export default defineDoc({
       type: "ReactNode",
       description: "自定义内联内容。",
     },
+    ...mediaEventProps,
   ],
 });

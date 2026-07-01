@@ -142,7 +142,6 @@
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.62;
-  text-shadow: 0.018em 0 0 currentColor;
 }
 
 .willa-prose-ul,
@@ -153,7 +152,6 @@
   font-weight: 500;
   line-height: 1.62;
   list-style-position: outside;
-  text-shadow: 0.018em 0 0 currentColor;
 }
 
 .willa-prose-ul {
@@ -206,7 +204,6 @@
   color: var(--willa-prose-quote-color);
   font-weight: 500;
   border-left: 3px solid var(--willa-prose-quote-border);
-  text-shadow: 0.018em 0 0 currentColor;
 }
 
 .willa-prose-quote,
@@ -287,6 +284,7 @@
     .willa-list,
     .willa-panel,
     .willa-poem,
+    .willa-prose-pre,
     .willa-prose-gallery,
     .willa-prose-image,
     .willa-source-card,

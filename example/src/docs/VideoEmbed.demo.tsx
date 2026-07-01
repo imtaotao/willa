@@ -4,9 +4,66 @@ import "willa/VideoEmbed.css";
 import { defineDoc } from "#example/catalog/defineDoc";
 
 const previewStyle = {
-  width: "min(100%, 52rem)",
+  width: "min(100%, 48rem)",
   margin: "0 auto",
 } as const;
+
+const resolveDemoAssetUrl = (_articleSourcePath: string, assetPath: string) =>
+  `https://interactive-examples.mdn.mozilla.net/media/cc0-videos/${assetPath.replace(
+    /^\.\//,
+    "",
+  )}`;
+
+const mediaEventProps = [
+  {
+    name: "onLoadStart",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频开始加载时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onCanPlay",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频可以播放时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onLoadedMetadata",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频元数据加载完成时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onTimeUpdate",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频播放进度变化时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onPlay",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频开始播放时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onPause",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频暂停时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onEnded",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频播放结束时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onError",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频加载或播放失败时触发；仅在传入 src 时生效。",
+  },
+];
 
 const VideoEmbedPreview = () => (
   <div style={previewStyle}>
@@ -29,6 +86,12 @@ export default defineDoc({
   description: "视频卡片组件，可选择在页面内播放。",
   imports: [{ name: "VideoEmbed", from: "willa/VideoEmbed" }],
   css: "willa/VideoEmbed.css",
+  propGroups: [
+    {
+      title: "媒体事件",
+      description: "这些事件透传给内联 video 元素；仅外部链接状态不会触发。",
+    },
+  ],
   demo: {
     name: "VideoEmbedPreview",
     component: VideoEmbedPreview,
@@ -47,6 +110,65 @@ export default defineDoc({
       href="https://developer.mozilla.org/"
     />;
   `,
+  sections: [
+    {
+      title: "仅外部链接",
+      code: `
+        <VideoEmbed
+          title="外部视频"
+          description="没有 src 时，组件会渲染为可点击的视频外链卡片。"
+          duration="0:10"
+          provider="MDN"
+          poster="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80"
+          href="https://developer.mozilla.org/"
+        />;
+      `,
+      content: (
+        <div style={previewStyle}>
+          <VideoEmbed
+            title="外部视频"
+            description="没有 src 时，组件会渲染为可点击的视频外链卡片。"
+            duration="0:10"
+            provider="MDN"
+            poster="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80"
+            href="https://developer.mozilla.org/"
+          />
+        </div>
+      ),
+    },
+    {
+      title: "文章相对资源",
+      code: `
+        const resolveAssetUrl = (_articleSourcePath, assetPath) =>
+          \`https://interactive-examples.mdn.mozilla.net/media/cc0-videos/\${assetPath.replace(/^\\.\\//, "")}\`;
+
+        <VideoEmbed
+          title="文章内视频"
+          description="src 可以是相对路径，由 articleSourcePath 和 resolveAssetUrl 转成可访问地址。"
+          duration="0:10"
+          provider="MDX"
+          volume={0.35}
+          articleSourcePath="/posts/video-demo.mdx"
+          resolveAssetUrl={resolveAssetUrl}
+          src="./flower.mp4"
+        />;
+      `,
+      content: (
+        <div style={previewStyle}>
+          <VideoEmbed
+            title="文章内视频"
+            description="src 可以是相对路径，由 articleSourcePath 和 resolveAssetUrl 转成可访问地址。"
+            duration="0:10"
+            provider="MDX"
+            volume={0.35}
+            articleSourcePath="/posts/video-demo.mdx"
+            resolveAssetUrl={resolveDemoAssetUrl}
+            src="./flower.mp4"
+          />
+        </div>
+      ),
+    },
+  ],
   props: [
     {
       name: "title",
@@ -104,5 +226,6 @@ export default defineDoc({
       type: "(articleSourcePath: string, assetPath: string) => string | undefined",
       description: "把相对视频或封面资源转换为可访问 URL。",
     },
+    ...mediaEventProps,
   ],
 });

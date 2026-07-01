@@ -3,22 +3,24 @@ import { ExternalLinkIcon, PlayIcon, VideoIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
 
 import { resolveMediaVolume, type MediaContextProps } from "@willa-ui/shared";
+import type { MediaEventHandlers } from "#widgets/internal/media";
 import {
   MediaEmbedContent,
   resolveMediaEmbedAsset,
 } from "#widgets/internal/mediaEmbed";
 
-export type VideoEmbedProps = MediaContextProps & {
-  href?: string;
-  title: string;
-  src?: string;
-  volume?: number;
-  description?: string;
-  duration?: string;
-  poster?: string;
-  provider?: string;
-  className?: string;
-};
+export type VideoEmbedProps = MediaContextProps &
+  MediaEventHandlers<HTMLVideoElement> & {
+    href?: string;
+    title: string;
+    src?: string;
+    volume?: number;
+    description?: string;
+    duration?: string;
+    poster?: string;
+    provider?: string;
+    className?: string;
+  };
 
 export function VideoEmbed({
   href,
@@ -32,6 +34,14 @@ export function VideoEmbed({
   className,
   articleSourcePath,
   resolveAssetUrl,
+  onLoadStart,
+  onCanPlay,
+  onLoadedMetadata,
+  onTimeUpdate,
+  onPlay,
+  onPause,
+  onEnded,
+  onError,
 }: VideoEmbedProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const normalizedHref = href?.trim() ?? "";
@@ -125,6 +135,14 @@ export function VideoEmbed({
           controls
           preload="metadata"
           src={resolvedSrc}
+          onLoadStart={onLoadStart}
+          onCanPlay={onCanPlay}
+          onLoadedMetadata={onLoadedMetadata}
+          onTimeUpdate={onTimeUpdate}
+          onPlay={onPlay}
+          onPause={onPause}
+          onEnded={onEnded}
+          onError={onError}
         />
       </div>
     </article>

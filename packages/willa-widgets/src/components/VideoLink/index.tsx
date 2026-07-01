@@ -6,18 +6,20 @@ import { resolveMediaVolume, type MediaContextProps } from "@willa-ui/shared";
 
 import {
   MediaLinkExternalAction,
+  type MediaEventHandlers,
   resolveMediaInline,
 } from "#widgets/internal/media";
 
-export type VideoLinkProps = MediaContextProps & {
-  href?: string;
-  src?: string;
-  volume?: number;
-  children?: ReactNode;
-  label?: string;
-  provider?: string;
-  className?: string;
-};
+export type VideoLinkProps = MediaContextProps &
+  MediaEventHandlers<HTMLVideoElement> & {
+    href?: string;
+    src?: string;
+    volume?: number;
+    children?: ReactNode;
+    label?: string;
+    provider?: string;
+    className?: string;
+  };
 
 export function VideoLink({
   href,
@@ -29,6 +31,14 @@ export function VideoLink({
   className,
   articleSourcePath,
   resolveAssetUrl,
+  onLoadStart,
+  onCanPlay,
+  onLoadedMetadata,
+  onTimeUpdate,
+  onPlay,
+  onPause,
+  onEnded,
+  onError,
 }: VideoLinkProps) {
   const wrapRef = useRef<HTMLSpanElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -151,6 +161,14 @@ export function VideoLink({
             controls
             preload="metadata"
             src={resolvedSrc}
+            onLoadStart={onLoadStart}
+            onCanPlay={onCanPlay}
+            onLoadedMetadata={onLoadedMetadata}
+            onTimeUpdate={onTimeUpdate}
+            onPlay={onPlay}
+            onPause={onPause}
+            onEnded={onEnded}
+            onError={onError}
           />
         </span>
       ) : null}

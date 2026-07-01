@@ -1,4 +1,4 @@
-import { createElement, type ReactNode } from "react";
+import { createElement, type ReactEventHandler, type ReactNode } from "react";
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
 
 import { resolveMediaAsset, type MediaContextProps } from "@willa-ui/shared";
@@ -10,6 +10,17 @@ export type MediaInlineOptions = MediaContextProps & {
   mediaLabel: string;
   provider?: string;
   src?: string;
+};
+
+export type MediaEventHandlers<T extends HTMLMediaElement> = {
+  onLoadStart?: ReactEventHandler<T>;
+  onCanPlay?: ReactEventHandler<T>;
+  onLoadedMetadata?: ReactEventHandler<T>;
+  onTimeUpdate?: ReactEventHandler<T>;
+  onPlay?: ReactEventHandler<T>;
+  onPause?: ReactEventHandler<T>;
+  onEnded?: ReactEventHandler<T>;
+  onError?: ReactEventHandler<T>;
 };
 
 export function resolveMediaInline(options: MediaInlineOptions) {
