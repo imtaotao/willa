@@ -1,7 +1,6 @@
 import { MDXProvider } from "@mdx-js/react";
 import classNames from "classnames";
 import {
-  useRef,
   useMemo,
   useCallback,
   createElement,
@@ -201,7 +200,7 @@ const getMdxStyle = (options: {
 };
 
 export function Mdx(props: MdxProps) {
-  const nextHeadingIdRef = useRef(createHeadingIdFactory());
+  const nextHeadingId = createHeadingIdFactory();
   const mdxStyle = useMemo(
     () =>
       getMdxStyle({
@@ -313,7 +312,7 @@ export function Mdx(props: MdxProps) {
   const renderHeading = useCallback(
     (tag: HeadingTag, className: string, p: ComponentProps<"h1">) => {
       const text = flattenText(p.children);
-      const id = nextHeadingIdRef.current(text);
+      const id = nextHeadingId(text);
       const label = text ? `定位到标题：${text}` : "定位到当前标题";
 
       return createElement(
@@ -328,7 +327,7 @@ export function Mdx(props: MdxProps) {
         </a>,
       );
     },
-    [],
+    [nextHeadingId],
   );
 
   const components = useMemo(() => {
