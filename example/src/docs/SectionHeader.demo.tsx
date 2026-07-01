@@ -136,6 +136,21 @@ export default defineDoc({
         </div>
       ),
     },
+    {
+      title: "线中标题",
+      code: `
+        <SectionHeader
+          variant="centered-line"
+          size="sm"
+          title="工作经历"
+        />;
+      `,
+      content: (
+        <div style={previewStyle}>
+          <SectionHeader variant="centered-line" size="sm" title="工作经历" />
+        </div>
+      ),
+    },
   ],
   props: [
     {
@@ -169,6 +184,12 @@ export default defineDoc({
       type: '"start" | "center"',
       defaultValue: '"start"',
       description: "对齐方式，默认 start。",
+    },
+    {
+      name: "variant",
+      type: '"default" | "centered-line"',
+      defaultValue: '"default"',
+      description: "标题布局变体，centered-line 会将标题居中夹在横线中。",
     },
     {
       name: "size",

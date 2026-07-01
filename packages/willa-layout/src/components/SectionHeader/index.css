@@ -15,6 +15,12 @@
   border-bottom: 1px solid var(--willa-line);
 }
 
+.willa-section-header--centered-line {
+  flex-direction: column;
+  align-items: stretch;
+  text-align: center;
+}
+
 .willa-section-header-main {
   display: grid;
   min-width: 0;
@@ -33,7 +39,7 @@
   display: flex;
   min-width: 0;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   gap: 0.5rem;
 }
 
@@ -91,6 +97,44 @@
   justify-content: center;
 }
 
+.willa-section-header--centered-line .willa-section-header-main {
+  width: 100%;
+  justify-items: center;
+}
+
+.willa-section-header--centered-line .willa-section-header-heading {
+  width: 100%;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.72rem;
+}
+
+.willa-section-header--centered-line .willa-section-header-heading::before,
+.willa-section-header--centered-line .willa-section-header-heading::after {
+  display: block;
+  min-width: 1.5rem;
+  height: 1px;
+  flex: 1 1 0;
+  background: var(--willa-line);
+  content: "";
+}
+
+.willa-section-header--centered-line .willa-section-header-title {
+  flex: none;
+  max-width: 70%;
+}
+
+.willa-section-header--centered-line .willa-section-header-description {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.willa-section-header--centered-line .willa-section-header-actions {
+  width: 100%;
+  justify-content: center;
+}
+
 @media (max-width: 767px) {
   .willa-section-header {
     flex-direction: column;
@@ -100,5 +144,13 @@
   .willa-section-header-actions {
     width: 100%;
     justify-content: flex-start;
+  }
+
+  .willa-section-header--centered-line .willa-section-header-actions {
+    justify-content: center;
+  }
+
+  .willa-section-header--centered-line .willa-section-header-title {
+    max-width: 58%;
   }
 }

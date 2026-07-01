@@ -63,6 +63,7 @@ export type {
   SectionHeaderAlign,
   SectionHeaderProps,
   SectionHeaderSize,
+  SectionHeaderVariant,
 } from "#layout/components/SectionHeader";
 export type {
   SeparatorAlign,

@@ -5,6 +5,7 @@ import { HeaderBlock } from "#layout/internal/headerBlock";
 
 export type SectionHeaderAlign = "start" | "center";
 export type SectionHeaderSize = "sm" | "md";
+export type SectionHeaderVariant = "default" | "centered-line";
 
 export type SectionHeaderProps = Omit<
   ComponentPropsWithoutRef<"header">,
@@ -17,6 +18,7 @@ export type SectionHeaderProps = Omit<
   actions?: ReactNode;
   align?: SectionHeaderAlign;
   size?: SectionHeaderSize;
+  variant?: SectionHeaderVariant;
   divided?: boolean;
 };
 
@@ -29,6 +31,7 @@ export function SectionHeader(props: SectionHeaderProps) {
     actions,
     align = "start",
     size = "md",
+    variant = "default",
     divided = false,
     className,
     ...headerProps
@@ -41,6 +44,7 @@ export function SectionHeader(props: SectionHeaderProps) {
         "willa-section-header",
         `willa-section-header--${align}`,
         `willa-section-header--${size}`,
+        `willa-section-header--${variant}`,
         divided && "willa-section-header--divided",
         className,
       )}
