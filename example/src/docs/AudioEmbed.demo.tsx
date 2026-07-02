@@ -40,6 +40,12 @@ const mediaEventProps = [
     description: "内联音频元数据加载完成时触发；仅在传入 src 时生效。",
   },
   {
+    name: "onDurationChange",
+    type: "ReactEventHandler<HTMLAudioElement>",
+    group: "媒体事件",
+    description: "内联音频时长变化时触发；仅在传入 src 时生效。",
+  },
+  {
     name: "onTimeUpdate",
     type: "ReactEventHandler<HTMLAudioElement>",
     group: "媒体事件",
@@ -204,6 +210,31 @@ export default defineDoc({
             duration="0:00"
             provider="Demo"
             src="/media/missing-audio.mp3"
+            href="https://developer.mozilla.org/"
+          />
+        </div>
+      ),
+    },
+    {
+      title: "时长兜底和错误保护",
+      code: `
+        <AudioEmbed
+          title="带展示时长的不可用音频"
+          description="即使 duration 提供了展示时长，资源未就绪或加载失败时也不会启用进度条。"
+          duration="3:48"
+          provider="Demo"
+          src="/media/missing-audio-with-duration.mp3"
+          href="https://developer.mozilla.org/"
+        />;
+      `,
+      content: (
+        <div style={previewStyle}>
+          <AudioEmbed
+            title="带展示时长的不可用音频"
+            description="即使 duration 提供了展示时长，资源未就绪或加载失败时也不会启用进度条。"
+            duration="3:48"
+            provider="Demo"
+            src="/media/missing-audio-with-duration.mp3"
             href="https://developer.mozilla.org/"
           />
         </div>

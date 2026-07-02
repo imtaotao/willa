@@ -25,6 +25,7 @@ import {
   getFileCodeLanguage,
   getMediaDuration,
   resolveFilePreviewType,
+  setMediaCurrentTime,
   type FilePreviewType as SharedFilePreviewType,
 } from "@willa-ui/shared";
 import classNames from "classnames";
@@ -672,7 +673,9 @@ const VideoPreviewPlayer = (props: {
     );
 
     if (video && Math.abs(video.currentTime - nextTime) > 0.05) {
-      video.currentTime = nextTime;
+      if (!setMediaCurrentTime(video, nextTime)) {
+        syncPlaybackState({ currentTime: video.currentTime });
+      }
     }
 
     if (!playbackState.shouldResume || !video) return;
@@ -723,6 +726,7 @@ const AudioPreviewPlayer = (props: {
   playbackControl?: MediaPreviewPlaybackControl;
 }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const seekFrameRef = useRef<number | null>(null);
   const seekingController = useMemo(() => createMediaSeekingController(), []);
   const isPlaybackActive = props.playbackControl?.active ?? true;
   const playbackState = props.playbackControl?.state;
@@ -732,7 +736,13 @@ const AudioPreviewPlayer = (props: {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const progress = duration > 0 ? Math.min(currentTime / duration, 1) : 0;
+  const canSeek = duration > 0 && !isLoading && !hasError;
   const endSeeking = seekingController.end;
+  const cancelScheduledSeek = () => {
+    if (seekFrameRef.current === null) return;
+    cancelAnimationFrame(seekFrameRef.current);
+    seekFrameRef.current = null;
+  };
 
   const durationLabel = useMemo(() => formatMediaTime(duration), [duration]);
   const currentTimeLabel = useMemo(
@@ -742,6 +752,7 @@ const AudioPreviewPlayer = (props: {
 
   useEffect(() => {
     endSeeking();
+    cancelScheduledSeek();
     setIsPlaying(false);
     setIsLoading(true);
     setHasError(false);
@@ -749,7 +760,13 @@ const AudioPreviewPlayer = (props: {
     setDuration(0);
   }, [endSeeking, props.src]);
 
-  useEffect(() => endSeeking, [endSeeking]);
+  useEffect(
+    () => () => {
+      endSeeking();
+      cancelScheduledSeek();
+    },
+    [endSeeking],
+  );
 
   const syncPlaybackState = (patch: FilePreviewMediaPlaybackStatePatch) => {
     if (isPlaybackActive) {
@@ -757,11 +774,25 @@ const AudioPreviewPlayer = (props: {
     }
   };
 
+  const syncDuration = (audio: HTMLAudioElement) => {
+    const nextDuration = getMediaDuration(audio);
+    if (nextDuration > 0) {
+      if (duration !== nextDuration) {
+        setDuration(nextDuration);
+      }
+      if (playbackState?.duration !== nextDuration) {
+        syncPlaybackState({ duration: nextDuration });
+      }
+    }
+    return nextDuration;
+  };
+
   useEffect(() => {
     const audio = audioRef.current;
 
     if (!isPlaybackActive) {
       endSeeking();
+      cancelScheduledSeek();
       audio?.pause();
       return;
     }
@@ -780,7 +811,10 @@ const AudioPreviewPlayer = (props: {
     }
 
     if (audio && Math.abs(audio.currentTime - nextTime) > 0.05) {
-      audio.currentTime = nextTime;
+      if (!setMediaCurrentTime(audio, nextTime)) {
+        setCurrentTime(audio.currentTime);
+        syncPlaybackState({ currentTime: audio.currentTime });
+      }
     }
 
     if (!playbackState.shouldResume || !audio) return;
@@ -811,20 +845,42 @@ const AudioPreviewPlayer = (props: {
     audio.pause();
   };
 
-  const seekTo = (value: number) => {
+  const seekTo = (value: number, commit = false) => {
     const audio = audioRef.current;
     const nextTime = clampMediaTime(value, duration || getMediaDuration(audio));
 
-    setCurrentTime(nextTime);
-    syncPlaybackState({ currentTime: nextTime });
+    if (!audio || !canSeek) return;
 
-    if (audio) {
-      audio.currentTime = nextTime;
+    setCurrentTime(nextTime);
+
+    if (commit) {
+      cancelScheduledSeek();
+      commitAudioSeek(audio, nextTime);
+      return;
+    }
+
+    cancelScheduledSeek();
+    seekFrameRef.current = requestAnimationFrame(() => {
+      seekFrameRef.current = null;
+      commitAudioSeek(audio, nextTime);
+    });
+  };
+
+  const commitAudioSeek = (audio: HTMLAudioElement, nextTime: number) => {
+    if (setMediaCurrentTime(audio, nextTime)) {
+      syncPlaybackState({ currentTime: nextTime });
+    } else {
+      setCurrentTime(audio.currentTime);
+      syncPlaybackState({ currentTime: audio.currentTime });
     }
   };
 
   const handleSeekInput = (event: SeekInputEvent) => {
     seekTo(Number(event.currentTarget.value));
+  };
+
+  const handleSeekCommit = (event: SeekInputEvent) => {
+    seekTo(Number(event.currentTarget.value), true);
   };
 
   return (
@@ -870,27 +926,36 @@ const AudioPreviewPlayer = (props: {
                 type="range"
                 min={0}
                 max={duration || 0}
-                step={0.1}
+                step="any"
                 value={Math.min(currentTime, duration || currentTime)}
-                disabled={duration <= 0 || hasError}
+                disabled={!canSeek}
                 onPointerDown={(event) => {
                   seekingController.begin(registerSeekingEndListeners);
                   event.currentTarget.setPointerCapture(event.pointerId);
                 }}
                 onPointerUp={(event) => {
+                  handleSeekCommit(event);
                   endSeeking();
                   if (event.currentTarget.hasPointerCapture(event.pointerId)) {
                     event.currentTarget.releasePointerCapture(event.pointerId);
                   }
                 }}
                 onPointerCancel={(event) => {
+                  handleSeekCommit(event);
                   endSeeking();
                   if (event.currentTarget.hasPointerCapture(event.pointerId)) {
                     event.currentTarget.releasePointerCapture(event.pointerId);
                   }
                 }}
-                onLostPointerCapture={endSeeking}
-                onBlur={endSeeking}
+                onLostPointerCapture={(event) => {
+                  handleSeekCommit(event);
+                  endSeeking();
+                }}
+                onBlur={(event) => {
+                  handleSeekCommit(event);
+                  endSeeking();
+                }}
+                onKeyUp={handleSeekCommit}
                 onInput={handleSeekInput}
                 onChange={handleSeekInput}
                 aria-label="调整播放进度"
@@ -922,28 +987,33 @@ const AudioPreviewPlayer = (props: {
           setIsLoading(true);
           setHasError(false);
         }}
-        onCanPlay={() => {
+        onCanPlay={(event) => {
           setIsLoading(false);
+          syncDuration(event.currentTarget);
         }}
         onLoadedMetadata={(event) => {
-          const nextDuration = event.currentTarget.duration;
-          if (Number.isFinite(nextDuration)) {
-            setDuration(nextDuration);
-            syncPlaybackState({ duration: nextDuration });
-          }
+          syncDuration(event.currentTarget);
+        }}
+        onDurationChange={(event) => {
+          syncDuration(event.currentTarget);
+        }}
+        onProgress={(event) => {
+          syncDuration(event.currentTarget);
         }}
         onTimeUpdate={(event) => {
+          syncDuration(event.currentTarget);
           if (!seekingController.isSeeking()) {
             const nextTime = event.currentTarget.currentTime;
             setCurrentTime(nextTime);
             syncPlaybackState({ currentTime: nextTime });
           }
         }}
-        onPlay={() => {
+        onPlay={(event) => {
           endSeeking();
           setIsPlaying(true);
           setIsLoading(false);
           setHasError(false);
+          syncDuration(event.currentTarget);
           syncPlaybackState({ isPlaying: true });
         }}
         onPause={() => {

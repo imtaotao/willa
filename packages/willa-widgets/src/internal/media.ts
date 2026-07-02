@@ -17,6 +17,7 @@ export type MediaEventHandlers<T extends HTMLMediaElement> = {
   onProgress?: ReactEventHandler<T>;
   onCanPlay?: ReactEventHandler<T>;
   onLoadedMetadata?: ReactEventHandler<T>;
+  onDurationChange?: ReactEventHandler<T>;
   onTimeUpdate?: ReactEventHandler<T>;
   onWaiting?: ReactEventHandler<T>;
   onStalled?: ReactEventHandler<T>;

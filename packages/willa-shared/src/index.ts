@@ -65,6 +65,8 @@ export {
   formatMediaTime,
   getMediaBufferedPercent,
   getMediaDuration,
+  parseMediaTime,
+  setMediaCurrentTime,
   type MediaContextProps,
   type MediaSeekingListenerRegistrar,
   resolveMediaAsset,

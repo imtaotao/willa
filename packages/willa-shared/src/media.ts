@@ -59,6 +59,29 @@ export function formatMediaTime(seconds: number) {
   return `${minutes}:${String(remainSeconds).padStart(2, "0")}`;
 }
 
+export function parseMediaTime(value?: string | null) {
+  const normalizedValue = value?.trim();
+  if (!normalizedValue) return 0;
+
+  if (/^\d+(?:\.\d+)?$/.test(normalizedValue)) {
+    const seconds = Number(normalizedValue);
+    return Number.isFinite(seconds) && seconds > 0 ? seconds : 0;
+  }
+
+  const parts = normalizedValue.split(":");
+  if (parts.length < 2 || parts.length > 3) return 0;
+
+  const normalizedParts = parts.map((part) => part.trim());
+  if (normalizedParts.some((part) => !/^\d+$/.test(part))) return 0;
+
+  const values = normalizedParts.map((part) => Number(part));
+  if (values.some((part) => !Number.isFinite(part) || part < 0)) return 0;
+  if (values.slice(1).some((part) => part >= 60)) return 0;
+
+  const seconds = values.reduce((total, part) => total * 60 + part, 0);
+  return seconds > 0 ? seconds : 0;
+}
+
 export function getMediaDuration(media: HTMLMediaElement | null) {
   if (!media || !Number.isFinite(media.duration) || media.duration <= 0) {
     return 0;
@@ -72,6 +95,21 @@ export function clampMediaTime(value: number, duration: number) {
     return Math.max(safeValue, 0);
   }
   return clampNumber(safeValue, 0, duration);
+}
+
+export function setMediaCurrentTime(
+  media: HTMLMediaElement | null,
+  currentTime: number,
+) {
+  if (!media || !Number.isFinite(currentTime) || currentTime < 0) {
+    return false;
+  }
+  try {
+    media.currentTime = currentTime;
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function getMediaBufferedPercent(media: HTMLMediaElement) {
