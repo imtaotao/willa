@@ -15,6 +15,7 @@ import classNames from "classnames";
 import { useWillaThemeScopeProps } from "@willa-ui/shared";
 
 import type {
+  LightboxTriggerComponent,
   LightboxImage,
   LightboxState,
   OpenLightbox,
@@ -75,11 +76,7 @@ export function normalizeLightboxImage(
 const isLightboxTrigger = (node: ReactElement) => {
   if (typeof node.type === "string") return false;
   return Boolean(
-    (
-      node.type as {
-        __willaLightboxTrigger?: boolean;
-      }
-    ).__willaLightboxTrigger,
+    (node.type as LightboxTriggerComponent).__willaLightboxTrigger,
   );
 };
 

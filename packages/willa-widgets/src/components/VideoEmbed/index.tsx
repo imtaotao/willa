@@ -2,7 +2,11 @@ import { useEffect, useRef } from "react";
 import { ExternalLinkIcon, PlayIcon, VideoIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
 
-import { resolveMediaVolume, type MediaContextProps } from "@willa-ui/shared";
+import {
+  markMdxBlockComponent,
+  resolveMediaVolume,
+  type MediaContextProps,
+} from "@willa-ui/shared";
 import type { MediaEventHandlers } from "#widgets/internal/media";
 import {
   MediaEmbedContent,
@@ -176,5 +180,7 @@ export function VideoEmbed({
     </article>
   );
 }
+
+markMdxBlockComponent(VideoEmbed);
 
 VideoEmbed.displayName = "VideoEmbed";

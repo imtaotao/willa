@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Pencil2Icon, ReaderIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
 
+import { markMdxBlockComponent } from "@willa-ui/shared";
 import { EnglishCard } from "#widgets/components/EnglishCards/Card";
 import { isPracticeAnswerCorrect } from "#widgets/components/EnglishCards/Practice";
 import type {
@@ -138,5 +139,7 @@ export function EnglishCards(props: EnglishCardsProps) {
     </section>
   );
 }
+
+markMdxBlockComponent(EnglishCards);
 
 EnglishCards.displayName = "EnglishCards";

@@ -1,5 +1,7 @@
 import { type CSSProperties, useRef } from "react";
 import {
+  markLightboxTrigger,
+  markMdxBlockComponent,
   resolveMediaAsset,
   type LightboxImage,
   type MediaContextProps,
@@ -164,7 +166,6 @@ export function ImageGallery({
   );
 }
 
-// Used by Lightbox to inject openLightbox when ImageGallery is rendered as its child.
-ImageGallery.__willaLightboxTrigger = true;
+markLightboxTrigger(markMdxBlockComponent(ImageGallery));
 
 ImageGallery.displayName = "ImageGallery";

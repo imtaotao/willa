@@ -2,6 +2,8 @@ import type { CSSProperties } from "react";
 import { ExternalLinkIcon, GlobeIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
 
+import { markMdxBlockComponent } from "@willa-ui/shared";
+
 export type WebEmbedProps = {
   src: string;
   href?: string;
@@ -94,5 +96,7 @@ export function WebEmbed({
     </article>
   );
 }
+
+markMdxBlockComponent(WebEmbed);
 
 WebEmbed.displayName = "WebEmbed";

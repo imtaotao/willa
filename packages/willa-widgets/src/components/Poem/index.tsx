@@ -1,6 +1,8 @@
 import type { CSSProperties } from "react";
 import classNames from "classnames";
 
+import { markMdxBlockComponent } from "@willa-ui/shared";
+
 type PoemStanza = string | Array<string>;
 
 export type PoemProps = {
@@ -70,5 +72,7 @@ export function Poem(props: PoemProps) {
     </section>
   );
 }
+
+markMdxBlockComponent(Poem);
 
 Poem.displayName = "Poem";

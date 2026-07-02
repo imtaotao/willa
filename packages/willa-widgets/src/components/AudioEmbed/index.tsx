@@ -15,7 +15,11 @@ import {
 } from "@radix-ui/react-icons";
 import classNames from "classnames";
 
-import { resolveMediaVolume, type MediaContextProps } from "@willa-ui/shared";
+import {
+  markMdxBlockComponent,
+  resolveMediaVolume,
+  type MediaContextProps,
+} from "@willa-ui/shared";
 import {
   getMediaBufferedPercent,
   type MediaEventHandlers,
@@ -394,5 +398,7 @@ export function AudioEmbed(props: AudioEmbedProps) {
     </article>
   );
 }
+
+markMdxBlockComponent(AudioEmbed);
 
 AudioEmbed.displayName = "AudioEmbed";

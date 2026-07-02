@@ -3,6 +3,7 @@ import { useState, type ComponentProps, type ElementType } from "react";
 import { Lightbox } from "willa/Lightbox";
 import {
   Mdx,
+  markMdxBlockComponent,
   type MdxColors,
   type MdxComponents,
   type MdxTheme,
@@ -53,8 +54,32 @@ const ArticleLink = (props: ComponentProps<"a">) => {
   );
 };
 
+const CustomMdxImage = markMdxBlockComponent(
+  ({ alt, title, style, ...props }: ComponentProps<"img">) => (
+    <figure style={{ margin: 0 }}>
+      <img
+        {...props}
+        alt={alt}
+        title={title}
+        style={{
+          display: "block",
+          width: "100%",
+          borderRadius: 12,
+          ...style,
+        }}
+      />
+      {title ? (
+        <figcaption style={{ marginTop: 8, color: "var(--willa-text-muted)" }}>
+          {title}
+        </figcaption>
+      ) : null}
+    </figure>
+  ),
+);
+
 const mdxComponents = {
   a: ArticleLink,
+  img: CustomMdxImage,
 } satisfies MdxComponents;
 
 const mdxTheme = {
@@ -147,7 +172,9 @@ const DemoMdxContent = (props: Record<string, unknown>) => {
         </Code>
       </Pre>
       <H2>图片组件</H2>
-      <Img {...lakeImage} />
+      <P>
+        <Img {...lakeImage} />
+      </P>
       <ImageGallery images={galleryImages} columns={2} />
       <H2>文档增强组件</H2>
       <DescriptionList
@@ -332,7 +359,7 @@ export default defineDoc({
     component: MdxPreview,
   },
   code: unindent(`
-    import { Mdx, type MdxColors, type MdxComponents, type MdxTheme } from "willa/Mdx";
+    import { Mdx, markMdxBlockComponent, type MdxColors, type MdxComponents, type MdxTheme } from "willa/Mdx";
     import "willa/Mdx.css";
 
     const resolveAssetUrl = (_articleSourcePath: string, assetPath: string) =>
@@ -349,6 +376,12 @@ export default defineDoc({
             {children}
           </a>
         ),
+      img: markMdxBlockComponent(({ alt, title, ...props }) => (
+        <figure>
+          <img {...props} alt={alt} title={title} />
+          {title ? <figcaption>{title}</figcaption> : null}
+        </figure>
+      )),
     } satisfies MdxComponents;
 
     const mdxTheme = {
@@ -367,6 +400,7 @@ export default defineDoc({
         h1: H1 = "h1",
         p: P = "p",
         ColorText = "span",
+        img: Img = "img",
         Callout = "div",
         GitHubRepo = "div",
       } = props.components ?? {};
@@ -377,6 +411,9 @@ export default defineDoc({
           <P>这段内容会使用 Mdx 注入的 components 映射渲染。</P>
           <P>
             可以使用 <ColorText preset="brand">自定义正文颜色</ColorText>。
+          </P>
+          <P>
+            <Img src="/cover.jpg" alt="封面" title="自定义图片组件" />
           </P>
           <Callout tone="tip" title="组件映射">
             自定义组件也会进入 Willa 的展示体系。
@@ -419,7 +456,7 @@ export default defineDoc({
       name: "components",
       type: "MdxComponents",
       description:
-        "覆盖内置 MDX 组件映射。可接管链接、标题、图片或自定义组件策略，未覆盖的项继续使用 Willa 默认映射。",
+        "覆盖内置 MDX 组件映射。会渲染块级结构的自定义组件可用 markMdxBlockComponent 标记，避免被段落 p 包裹；markLightboxTrigger 只用于 Lightbox 包裹 children 时注入 openLightbox，不会让 Mdx 自动给自定义组件注入灯箱能力。",
     },
     {
       name: "theme",
@@ -447,7 +484,8 @@ export default defineDoc({
     {
       name: "openLightbox",
       type: "(state: LightboxState | null) => void",
-      description: "图片或图片组触发预览时的灯箱状态回调。",
+      description:
+        "内置 Image 和 ImageGallery 触发预览时的灯箱状态回调。自定义 components 需要自行接入回调；markLightboxTrigger 不等同于 Mdx 自动注入 openLightbox。",
     },
   ],
 });

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Tweet } from "react-twitter-widgets";
 import { Skeleton } from "@willa-ui/content/components/Skeleton";
-import { useWillaTheme } from "@willa-ui/shared";
+import { markMdxBlockComponent, useWillaTheme } from "@willa-ui/shared";
 import classNames from "classnames";
 
 export type XPostEmbedProps = {
@@ -76,5 +76,7 @@ export function XPostEmbed({ url, id, title, className }: XPostEmbedProps) {
     </article>
   );
 }
+
+markMdxBlockComponent(XPostEmbed);
 
 XPostEmbed.displayName = "XPostEmbed";

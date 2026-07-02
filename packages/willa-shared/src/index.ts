@@ -46,7 +46,17 @@ export {
   type FloatingLayerPosition,
   type UseFloatingLayerOptions,
 } from "#shared/floatingLayer";
-export { isMediaOnlyParagraph } from "#shared/nodes";
+export {
+  isBlockOnlyParagraph,
+  isMediaOnlyParagraph,
+  markLightboxTrigger,
+  markMdxBlockComponent,
+  markMdxMediaComponent,
+  type LightboxTriggerComponent,
+  type MarkMdxMediaComponentOptions,
+  type MdxBlockComponent,
+  type MdxMediaComponent,
+} from "#shared/nodes";
 export { assignRef, composeRefs } from "#shared/refs";
 export { clampNumber, createNumberRange } from "#shared/number";
 export {

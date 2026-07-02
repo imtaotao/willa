@@ -7,6 +7,8 @@ import {
 } from "react";
 import classNames from "classnames";
 import {
+  markLightboxTrigger,
+  markMdxBlockComponent,
   resolveMediaAsset,
   type MediaContextProps,
   type OpenLightbox,
@@ -132,10 +134,6 @@ const getImageStyle = (backgroundColor?: CSSProperties["backgroundColor"]) => {
     : undefined;
 };
 
-// Used by isMediaOnlyParagraph to avoid wrapping standalone images in <p>.
-Image.__willaMediaElement = true;
-
-// Used by Lightbox to inject openLightbox when Image is rendered as its child.
-Image.__willaLightboxTrigger = true;
+markLightboxTrigger(markMdxBlockComponent(Image));
 
 Image.displayName = "Image";

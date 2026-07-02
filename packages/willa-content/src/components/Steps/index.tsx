@@ -96,6 +96,10 @@ type HeadingComponent = {
   mdxHeadingTag?: string;
 };
 
+type StepComponent = {
+  __willaStepElement?: boolean;
+};
+
 type HeadingElement = ReactElement<{
   children?: ReactNode;
 }>;
@@ -151,20 +155,21 @@ const createAutoStepGroups = (nodes: Array<ReactNode>) => {
 };
 
 const isStepElement = (node: ReactNode): node is ReactElement<StepProps> => {
-  return isValidElement(node) && node.type === Step;
+  if (!isValidElement(node) || typeof node.type === "string") return false;
+  return Boolean((node.type as StepComponent).__willaStepElement);
 };
 
 const isHeadingElement = (node: ReactNode): node is HeadingElement => {
   if (!isValidElement(node)) return false;
-
   if (typeof node.type === "string") {
     return /^h[1-6]$/.test(node.type);
   }
-
-  if (typeof node.type !== "function") return false;
-
+  if (typeof node.type !== "function") {
+    return false;
+  }
   return Boolean((node.type as HeadingComponent).mdxHeadingTag);
 };
 
 Steps.displayName = "Steps";
 Step.displayName = "Step";
+(Step as typeof Step & StepComponent).__willaStepElement = true;

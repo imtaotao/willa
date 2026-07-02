@@ -3,6 +3,7 @@ import classNames from "classnames";
 import {
   useMemo,
   useCallback,
+  forwardRef,
   createElement,
   type CSSProperties,
   type ReactNode,
@@ -38,7 +39,9 @@ import { Card, Panel, Separator } from "@willa-ui/layout";
 import {
   createHeadingIdFactory,
   flattenText,
-  isMediaOnlyParagraph,
+  isBlockOnlyParagraph,
+  markLightboxTrigger,
+  markMdxBlockComponent,
 } from "@willa-ui/shared";
 
 import type { LightboxState, ResolveAssetUrl } from "@willa-ui/shared";
@@ -67,8 +70,19 @@ import {
 import { WebEmbed } from "#widgets/components/WebEmbed";
 import { XPostEmbed } from "#widgets/components/XPostEmbed";
 
-export { extractHeadings } from "@willa-ui/shared";
-export type { Heading } from "@willa-ui/shared";
+export {
+  extractHeadings,
+  markLightboxTrigger,
+  markMdxBlockComponent,
+  markMdxMediaComponent,
+} from "@willa-ui/shared";
+export type {
+  Heading,
+  LightboxTriggerComponent,
+  MarkMdxMediaComponentOptions,
+  MdxBlockComponent,
+  MdxMediaComponent,
+} from "@willa-ui/shared";
 export type MdxComponents = Record<string, ElementType>;
 export type MdxColors = Record<string, string>;
 export type MdxTheme = {
@@ -178,6 +192,99 @@ const mdxThemeEntries = Object.entries(mdxThemeVariableMap) as Array<
 
 const isValidMdxColorName = (name: string) => /^[a-zA-Z0-9_-]+$/.test(name);
 
+const getMdxComponentName = (name: string, component: ElementType) => {
+  if (typeof component === "string") return component;
+
+  const namedComponent = component as ComponentType & {
+    displayName?: string;
+    name?: string;
+  };
+
+  return namedComponent.displayName ?? namedComponent.name ?? name;
+};
+
+const copyWillaComponentMarkers = (source: object, target: object) => {
+  Reflect.ownKeys(source).forEach((key) => {
+    if (typeof key !== "string" || !key.startsWith("__willa")) return;
+
+    const descriptor = Object.getOwnPropertyDescriptor(source, key);
+    if (!descriptor) return;
+
+    Object.defineProperty(target, key, descriptor);
+  });
+};
+
+const createMarkedMdxComponent = (
+  name: string,
+  component: Exclude<ElementType, string>,
+) => {
+  const MarkedMdxComponent = forwardRef<unknown, Record<string, unknown>>(
+    (props, ref) => {
+      const componentProps = ref ? { ...props, ref } : props;
+      return createElement(component, componentProps);
+    },
+  );
+
+  MarkedMdxComponent.displayName = `MdxBlock(${getMdxComponentName(
+    name,
+    component,
+  )})`;
+
+  copyWillaComponentMarkers(component, MarkedMdxComponent);
+  markMdxBlockComponent(MarkedMdxComponent);
+
+  return MarkedMdxComponent;
+};
+
+const mdxStaticBlockComponents = {
+  Card: createMarkedMdxComponent("Card", Card),
+  Citation: createMarkedMdxComponent("Citation", Citation),
+  DescriptionList: createMarkedMdxComponent("DescriptionList", DescriptionList),
+  DiffViewer: createMarkedMdxComponent("DiffViewer", DiffViewer),
+  Download: createMarkedMdxComponent("Download", Download),
+  EmptyState: createMarkedMdxComponent("EmptyState", EmptyState),
+  FileCard: createMarkedMdxComponent("FileCard", FileCard),
+  FileTree: createMarkedMdxComponent("FileTree", FileTree),
+  List: createMarkedMdxComponent("List", List),
+  Panel: createMarkedMdxComponent("Panel", Panel),
+  SourceCard: createMarkedMdxComponent("SourceCard", SourceCard),
+  Table: createMarkedMdxComponent("Table", Table),
+  Timeline: createMarkedMdxComponent("Timeline", Timeline),
+  ChatThread: createMarkedMdxComponent("ChatThread", ChatThread),
+  Callout: createMarkedMdxComponent("Callout", Callout),
+  Collapse: createMarkedMdxComponent("Collapse", Collapse),
+  Step: createMarkedMdxComponent("Step", Step),
+  Steps: createMarkedMdxComponent("Steps", Steps),
+  Poem: createMarkedMdxComponent("Poem", Poem),
+  WebEmbed: createMarkedMdxComponent("WebEmbed", WebEmbed),
+  XPostEmbed: createMarkedMdxComponent("XPostEmbed", XPostEmbed),
+  EnglishCards: createMarkedMdxComponent("EnglishCards", EnglishCards),
+} as const;
+
+const mdxBlockComponentNames = [
+  "img",
+  "Image",
+  "ImageGallery",
+  "AudioEmbed",
+  "VideoEmbed",
+  ...Object.keys(mdxStaticBlockComponents),
+];
+
+const markMdxComponentMap = (components?: MdxComponents) => {
+  if (!components) return undefined;
+
+  const nextComponents = { ...components };
+
+  mdxBlockComponentNames.forEach((name) => {
+    const component = nextComponents[name];
+    if (!component || typeof component === "string") return;
+
+    nextComponents[name] = createMarkedMdxComponent(name, component);
+  });
+
+  return nextComponents;
+};
+
 const getMdxStyle = (options: {
   colors?: MdxColors;
   style?: CSSProperties;
@@ -209,6 +316,10 @@ export function Mdx(props: MdxProps) {
         theme: props.theme,
       }),
     [props.colors, props.style, props.theme],
+  );
+  const customComponents = useMemo(
+    () => markMdxComponentMap(props.components),
+    [props.components],
   );
 
   const openLightbox = useCallback(
@@ -246,48 +357,60 @@ export function Mdx(props: MdxProps) {
     [props.colors],
   );
 
-  const Image = useCallback(
-    (p: ComponentProps<"img">) => (
-      <WillaImage
-        {...p}
-        articleSourcePath={props.articleSourcePath}
-        resolveAssetUrl={props.resolveAssetUrl}
-        openLightbox={openLightbox}
-      />
-    ),
+  const Image = useMemo(
+    () =>
+      markLightboxTrigger(
+        markMdxBlockComponent((p: ComponentProps<"img">) => (
+          <WillaImage
+            {...p}
+            articleSourcePath={props.articleSourcePath}
+            resolveAssetUrl={props.resolveAssetUrl}
+            openLightbox={openLightbox}
+          />
+        )),
+      ),
     [openLightbox, props.articleSourcePath, props.resolveAssetUrl],
   );
-  const ImageGallery = useCallback(
-    (p: ImageGalleryProps) => (
-      <WillaImageGallery
-        {...p}
-        articleSourcePath={props.articleSourcePath}
-        resolveAssetUrl={props.resolveAssetUrl}
-        openLightbox={openLightbox}
-      />
-    ),
+
+  const ImageGallery = useMemo(
+    () =>
+      markLightboxTrigger(
+        markMdxBlockComponent((p: ImageGalleryProps) => (
+          <WillaImageGallery
+            {...p}
+            articleSourcePath={props.articleSourcePath}
+            resolveAssetUrl={props.resolveAssetUrl}
+            openLightbox={openLightbox}
+          />
+        )),
+      ),
     [openLightbox, props.articleSourcePath, props.resolveAssetUrl],
   );
-  const AudioEmbed = useCallback(
-    (p: AudioEmbedProps) => (
-      <WillaAudioEmbed
-        {...p}
-        articleSourcePath={props.articleSourcePath}
-        resolveAssetUrl={props.resolveAssetUrl}
-      />
-    ),
+
+  const AudioEmbed = useMemo(
+    () =>
+      markMdxBlockComponent((p: AudioEmbedProps) => (
+        <WillaAudioEmbed
+          {...p}
+          articleSourcePath={props.articleSourcePath}
+          resolveAssetUrl={props.resolveAssetUrl}
+        />
+      )),
     [props.articleSourcePath, props.resolveAssetUrl],
   );
-  const VideoEmbed = useCallback(
-    (p: VideoEmbedProps) => (
-      <WillaVideoEmbed
-        {...p}
-        articleSourcePath={props.articleSourcePath}
-        resolveAssetUrl={props.resolveAssetUrl}
-      />
-    ),
+
+  const VideoEmbed = useMemo(
+    () =>
+      markMdxBlockComponent((p: VideoEmbedProps) => (
+        <WillaVideoEmbed
+          {...p}
+          articleSourcePath={props.articleSourcePath}
+          resolveAssetUrl={props.resolveAssetUrl}
+        />
+      )),
     [props.articleSourcePath, props.resolveAssetUrl],
   );
+
   const AudioLink = useCallback(
     (p: AudioLinkProps) => (
       <WillaAudioLink
@@ -349,7 +472,7 @@ export function Mdx(props: MdxProps) {
       h5: createHeadingComponent("h5", "willa-prose-h5"),
       h6: createHeadingComponent("h6", "willa-prose-h6"),
       p: (p: ComponentProps<"p">) => {
-        if (isMediaOnlyParagraph(p.children)) {
+        if (isBlockOnlyParagraph(p.children)) {
           return <div className="willa-prose-media-block">{p.children}</div>;
         }
         return <p className="willa-prose-p">{p.children}</p>;
@@ -395,26 +518,9 @@ export function Mdx(props: MdxProps) {
 
     const contentComponents = {
       Badge,
-      Card,
-      Citation,
-      DescriptionList,
-      DiffViewer,
-      Download,
-      EmptyState,
-      FileCard,
-      FileTree,
       Kbd,
       KbdShortcut,
-      List,
-      Panel,
-      SourceCard,
-      Table,
-      Timeline,
-      ChatThread,
-      Callout,
-      Collapse,
-      Step,
-      Steps,
+      ...mdxStaticBlockComponents,
     } as const;
 
     const mediaComponents = {
@@ -424,56 +530,30 @@ export function Mdx(props: MdxProps) {
       VideoEmbed,
       AudioLink,
       VideoLink,
-      Poem,
       GitHubMention,
       GitHubRepo,
-      WebEmbed,
-      XPostEmbed,
-      EnglishCards,
     };
 
     return {
       ...proseComponents,
       ...contentComponents,
       ...mediaComponents,
-      ...props.components,
+      ...customComponents,
     };
   }, [
     Badge,
-    Card,
-    Citation,
-    Collapse,
-    DescriptionList,
-    DiffViewer,
-    Download,
-    EmptyState,
-    FileCard,
-    FileTree,
     GitHubMention,
     GitHubRepo,
     Image,
     ImageGallery,
     Kbd,
     KbdShortcut,
-    List,
-    Panel,
-    Poem,
     Separator,
-    SourceCard,
-    Step,
-    Steps,
-    Table,
-    Timeline,
-    ChatThread,
     AudioEmbed,
     VideoEmbed,
     AudioLink,
     VideoLink,
-    Callout,
-    WebEmbed,
-    XPostEmbed,
-    EnglishCards,
-    props.components,
+    customComponents,
     renderColorText,
     renderHeading,
   ]);

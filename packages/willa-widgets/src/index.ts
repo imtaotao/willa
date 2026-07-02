@@ -4,7 +4,13 @@ export { EnglishCards } from "#widgets/components/EnglishCards";
 export { GitHubMention } from "#widgets/components/GitHubMention";
 export { GitHubRepo } from "#widgets/components/GitHubRepo";
 export { LogoWall } from "#widgets/components/LogoWall";
-export { Mdx, extractHeadings } from "#widgets/components/Mdx";
+export {
+  Mdx,
+  extractHeadings,
+  markLightboxTrigger,
+  markMdxBlockComponent,
+  markMdxMediaComponent,
+} from "#widgets/components/Mdx";
 export { Poem } from "#widgets/components/Poem";
 export { ProfileCard } from "#widgets/components/ProfileCard";
 export { QRCode } from "#widgets/components/QRCode";
@@ -33,8 +39,12 @@ export type {
 } from "#widgets/components/LogoWall";
 export type {
   Heading,
+  LightboxTriggerComponent,
+  MarkMdxMediaComponentOptions,
+  MdxBlockComponent,
   MdxColors,
   MdxComponents,
+  MdxMediaComponent,
   MdxProps,
   MdxTheme,
 } from "#widgets/components/Mdx";
