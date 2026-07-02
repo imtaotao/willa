@@ -26,30 +26,6 @@ export type MediaEventHandlers<T extends HTMLMediaElement> = {
   onError?: ReactEventHandler<T>;
 };
 
-export function getMediaBufferedPercent(media: HTMLMediaElement) {
-  const { buffered, duration } = media;
-  if (!Number.isFinite(duration) || duration <= 0 || buffered.length === 0) {
-    return 0;
-  }
-
-  let bufferedEnd = 0;
-  const currentTime = media.currentTime;
-
-  for (let index = 0; index < buffered.length; index += 1) {
-    const start = buffered.start(index);
-    const end = buffered.end(index);
-
-    if (currentTime >= start && currentTime <= end) {
-      bufferedEnd = end;
-      break;
-    }
-
-    bufferedEnd = Math.max(bufferedEnd, end);
-  }
-
-  return Math.min(100, Math.max(0, (bufferedEnd / duration) * 100));
-}
-
 export function resolveMediaInline(options: MediaInlineOptions) {
   const normalizedHref = options.href?.trim() ?? "";
   const normalizedSrc = options.src?.trim() ?? "";

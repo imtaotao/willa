@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -18,7 +19,11 @@ import {
   SpeakerLoudIcon,
 } from "@radix-ui/react-icons";
 import {
+  clampMediaTime,
+  createMediaSeekingController,
+  formatMediaTime,
   getFileCodeLanguage,
+  getMediaDuration,
   resolveFilePreviewType,
   type FilePreviewType as SharedFilePreviewType,
 } from "@willa-ui/shared";
@@ -40,6 +45,40 @@ export type FilePreviewSize = "sm" | "md" | "lg";
 
 type FilePreviewCustomStyle = CSSProperties &
   Record<`--${string}`, string | number>;
+
+type SeekInputEvent = {
+  currentTarget: HTMLInputElement;
+};
+
+type FilePreviewMediaPlaybackState = {
+  currentTime: number;
+  duration: number;
+  isPlaying: boolean;
+  handoffKey: number;
+  shouldResume: boolean;
+};
+
+type FilePreviewMediaPlaybackStatePatch = Partial<
+  Pick<FilePreviewMediaPlaybackState, "currentTime" | "duration" | "isPlaying">
+>;
+
+type MediaPreviewPlaybackControl = {
+  active: boolean;
+  state: FilePreviewMediaPlaybackState;
+  onStateChange: (patch: FilePreviewMediaPlaybackStatePatch) => void;
+};
+
+const registerSeekingEndListeners = (endSeeking: () => void) => {
+  window.addEventListener("pointerup", endSeeking, true);
+  window.addEventListener("pointercancel", endSeeking, true);
+  window.addEventListener("blur", endSeeking, true);
+
+  return () => {
+    window.removeEventListener("pointerup", endSeeking, true);
+    window.removeEventListener("pointercancel", endSeeking, true);
+    window.removeEventListener("blur", endSeeking, true);
+  };
+};
 
 export type FilePreviewProps = {
   src: string;
@@ -73,133 +112,135 @@ export type FilePreviewDialogProps = FilePreviewProps & {
   onOpenChange?: (open: boolean) => void;
 };
 
+const createInitialMediaPlaybackState = (): FilePreviewMediaPlaybackState => ({
+  currentTime: 0,
+  duration: 0,
+  isPlaying: false,
+  handoffKey: 0,
+  shouldResume: false,
+});
+
 export function FilePreview(props: FilePreviewProps) {
   const {
+    alt,
+    className,
+    downloadName,
+    error,
+    errorText,
+    language,
+    loading,
+    loadingText,
+    meta,
+    openInNewWindow,
+    poster,
+    showLineNumbers,
     src,
+    text,
     name,
     type = "auto",
     mimeType,
-    size = "md",
-    meta,
-    text,
-    language,
-    showLineNumbers,
-    poster,
-    alt,
-    loading,
-    loadingText,
-    error,
-    errorText,
-    downloadName,
-    actions,
     expandable = true,
-    openInNewWindow = true,
-    className,
-    ...sectionProps
   } = props;
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [mediaPlaybackState, setMediaPlaybackState] = useState(
+    createInitialMediaPlaybackState,
+  );
   const resolvedType = resolveFilePreviewType({ name, type, mimeType });
   const canExpand = expandable && resolvedType !== "download";
+  const canHandoffMedia = resolvedType === "audio" || resolvedType === "video";
+
+  useEffect(() => {
+    setMediaPlaybackState(createInitialMediaPlaybackState());
+  }, [props.src, resolvedType]);
+
+  const updateMediaPlaybackState = useCallback(
+    (patch: FilePreviewMediaPlaybackStatePatch) => {
+      setMediaPlaybackState((state) => ({
+        ...state,
+        ...patch,
+      }));
+    },
+    [],
+  );
+  const handlePreviewOpenChange = useCallback(
+    (open: boolean) => {
+      if (canHandoffMedia) {
+        setMediaPlaybackState((state) => ({
+          ...state,
+          handoffKey: state.handoffKey + 1,
+          shouldResume: state.isPlaying,
+        }));
+      }
+
+      setPreviewOpen(open);
+    },
+    [canHandoffMedia],
+  );
+
+  const inlineMediaPlaybackControl = canHandoffMedia
+    ? {
+        active: !previewOpen,
+        state: mediaPlaybackState,
+        onStateChange: updateMediaPlaybackState,
+      }
+    : undefined;
+  const dialogMediaPlaybackControl = canHandoffMedia
+    ? {
+        active: previewOpen,
+        state: mediaPlaybackState,
+        onStateChange: updateMediaPlaybackState,
+      }
+    : undefined;
+  const dialogPreviewProps = {
+    alt,
+    className: classNames("willa-file-preview--dialog", className),
+    downloadName,
+    error,
+    errorText,
+    language,
+    loading,
+    loadingText,
+    meta,
+    mimeType,
+    name,
+    openInNewWindow,
+    poster,
+    showLineNumbers,
+    src,
+    text,
+    type: resolvedType,
+  };
 
   return (
     <>
-      <section
-        {...sectionProps}
-        className={classNames(
-          "willa-file-preview",
-          `willa-file-preview--${resolvedType}`,
-          `willa-file-preview--${size}`,
-          className,
-        )}
-      >
-        <div className="willa-file-preview__header">
-          <FileCardIcon
-            className="willa-file-preview__icon"
-            name={name}
-            size="sm"
-          />
-          <span className="willa-file-preview__heading">
-            <span className="willa-file-preview__name" title={name}>
-              {name}
-            </span>
-            {meta ? (
-              <span className="willa-file-preview__meta">{meta}</span>
-            ) : null}
-          </span>
-          <div className="willa-file-preview__actions">
-            {actions}
-            {canExpand ? (
-              <Button
-                variant="ghost"
-                size="sm"
-                icon={<EnterFullScreenIcon />}
-                onClick={() => setPreviewOpen(true)}
-              >
-                放大
-              </Button>
-            ) : null}
-            {openInNewWindow ? (
-              <Button
-                href={src}
-                target="_blank"
-                rel="noreferrer"
-                variant="ghost"
-                size="sm"
-                icon={<ExternalLinkIcon />}
-              >
-                新窗口
-              </Button>
-            ) : null}
-            <Button
-              href={src}
-              variant="ghost"
-              size="sm"
-              icon={<DownloadIcon />}
-              download={downloadName ?? true}
-            >
-              下载
-            </Button>
-          </div>
-        </div>
-        <div className="willa-file-preview__body">
-          {renderPreviewBody({
-            alt,
-            language,
-            name,
-            poster,
-            resolvedType,
-            showLineNumbers,
-            src,
-            text,
-            loading,
-            loadingText,
-            error,
-            errorText,
-          })}
-        </div>
-      </section>
+      <FilePreviewSurface
+        {...props}
+        resolvedType={resolvedType}
+        canExpand={canExpand}
+        mediaPlaybackControl={inlineMediaPlaybackControl}
+        onExpand={() => handlePreviewOpenChange(true)}
+      />
       {canExpand ? (
-        <FilePreviewDialog
-          alt={alt}
-          dialogTitle="放大预览"
-          downloadName={downloadName}
-          language={language}
-          meta={meta}
-          mimeType={mimeType}
-          name={name}
+        <Dialog
           open={previewOpen}
-          poster={poster}
-          showLineNumbers={showLineNumbers}
-          size="lg"
-          src={src}
-          text={text}
-          type={resolvedType}
-          loading={loading}
-          loadingText={loadingText}
-          error={error}
-          errorText={errorText}
-          onOpenChange={setPreviewOpen}
-        />
+          title="放大预览"
+          size="xl"
+          footer={null}
+          className={classNames(
+            "willa-file-preview-dialog",
+            `willa-file-preview-dialog--${resolvedType}`,
+          )}
+          contentClassName="willa-file-preview-dialog__body"
+          onOpenChange={handlePreviewOpenChange}
+        >
+          <FilePreviewSurface
+            {...dialogPreviewProps}
+            resolvedType={resolvedType}
+            size="lg"
+            canExpand={false}
+            mediaPlaybackControl={dialogMediaPlaybackControl}
+          />
+        </Dialog>
       ) : null}
     </>
   );
@@ -238,10 +279,12 @@ export function FilePreviewDialog(props: FilePreviewDialogProps) {
       contentClassName="willa-file-preview-dialog__body"
       onOpenChange={onOpenChange}
     >
-      <FilePreview
+      <FilePreviewSurface
         {...previewProps}
         expandable={false}
         size={previewProps.size ?? "lg"}
+        resolvedType={resolvedType}
+        canExpand={false}
         className={classNames(
           "willa-file-preview--dialog",
           previewProps.className,
@@ -250,6 +293,122 @@ export function FilePreviewDialog(props: FilePreviewDialogProps) {
     </Dialog>
   );
 }
+
+const FilePreviewSurface = (
+  props: FilePreviewProps & {
+    resolvedType: Exclude<FilePreviewType, "auto">;
+    canExpand: boolean;
+    mediaPlaybackControl?: MediaPreviewPlaybackControl;
+    onExpand?: () => void;
+  },
+) => {
+  const {
+    src,
+    name,
+    size = "md",
+    meta,
+    text,
+    language,
+    showLineNumbers,
+    poster,
+    alt,
+    loading,
+    loadingText,
+    error,
+    errorText,
+    downloadName,
+    actions,
+    openInNewWindow = true,
+    className,
+    resolvedType,
+    canExpand,
+    mediaPlaybackControl,
+    onExpand,
+    type,
+    mimeType,
+    expandable,
+    ...sectionProps
+  } = props;
+
+  return (
+    <section
+      {...sectionProps}
+      className={classNames(
+        "willa-file-preview",
+        `willa-file-preview--${resolvedType}`,
+        `willa-file-preview--${size}`,
+        className,
+      )}
+    >
+      <div className="willa-file-preview__header">
+        <FileCardIcon
+          className="willa-file-preview__icon"
+          name={name}
+          size="sm"
+        />
+        <span className="willa-file-preview__heading">
+          <span className="willa-file-preview__name" title={name}>
+            {name}
+          </span>
+          {meta ? (
+            <span className="willa-file-preview__meta">{meta}</span>
+          ) : null}
+        </span>
+        <div className="willa-file-preview__actions">
+          {actions}
+          {canExpand ? (
+            <Button
+              variant="ghost"
+              size="sm"
+              icon={<EnterFullScreenIcon />}
+              onClick={onExpand}
+            >
+              放大
+            </Button>
+          ) : null}
+          {openInNewWindow ? (
+            <Button
+              href={src}
+              target="_blank"
+              rel="noreferrer"
+              variant="ghost"
+              size="sm"
+              icon={<ExternalLinkIcon />}
+            >
+              新窗口
+            </Button>
+          ) : null}
+          <Button
+            href={src}
+            variant="ghost"
+            size="sm"
+            icon={<DownloadIcon />}
+            download={downloadName ?? true}
+          >
+            下载
+          </Button>
+        </div>
+      </div>
+      <div className="willa-file-preview__body">
+        {renderPreviewBody({
+          alt,
+          language,
+          name,
+          poster,
+          resolvedType,
+          showLineNumbers,
+          src,
+          text,
+          loading,
+          loadingText,
+          error,
+          errorText,
+          mediaPlaybackControl,
+        })}
+      </div>
+    </section>
+  );
+};
 
 const renderPreviewBody = (options: {
   resolvedType: Exclude<FilePreviewType, "auto">;
@@ -264,6 +423,7 @@ const renderPreviewBody = (options: {
   loadingText?: ReactNode;
   error?: ReactNode;
   errorText?: ReactNode;
+  mediaPlaybackControl?: MediaPreviewPlaybackControl;
 }) => {
   const hasForcedError = isErrorVisible(options.error);
 
@@ -310,14 +470,12 @@ const renderPreviewBody = (options: {
         errorText={options.errorText}
       >
         {({ onLoad, onError }) => (
-          <video
-            className="willa-file-preview__media"
+          <VideoPreviewPlayer
             src={options.src}
             poster={options.poster}
-            controls
-            onLoadedData={onLoad}
-            onCanPlay={onLoad}
+            onLoad={onLoad}
             onError={onError}
+            playbackControl={options.mediaPlaybackControl}
           />
         )}
       </LoadablePreviewSurface>
@@ -351,6 +509,7 @@ const renderPreviewBody = (options: {
         label={options.alt}
         loadingText={options.loadingText}
         errorText={options.errorText}
+        playbackControl={options.mediaPlaybackControl}
       />
     );
   }
@@ -480,34 +639,159 @@ const isErrorVisible = (error?: ReactNode) => {
   return error !== undefined && error !== null && error !== false;
 };
 
+const VideoPreviewPlayer = (props: {
+  src: string;
+  poster?: string;
+  playbackControl?: MediaPreviewPlaybackControl;
+  onLoad: () => void;
+  onError: () => void;
+}) => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const isPlaybackActive = props.playbackControl?.active ?? true;
+  const playbackState = props.playbackControl?.state;
+
+  const syncPlaybackState = (patch: FilePreviewMediaPlaybackStatePatch) => {
+    if (isPlaybackActive) {
+      props.playbackControl?.onStateChange(patch);
+    }
+  };
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    if (!isPlaybackActive) {
+      video?.pause();
+      return;
+    }
+
+    if (!playbackState) return;
+
+    const nextTime = clampMediaTime(
+      playbackState.currentTime,
+      playbackState.duration || getMediaDuration(video),
+    );
+
+    if (video && Math.abs(video.currentTime - nextTime) > 0.05) {
+      video.currentTime = nextTime;
+    }
+
+    if (!playbackState.shouldResume || !video) return;
+
+    void video.play().catch(() => {
+      syncPlaybackState({ isPlaying: false });
+    });
+  }, [isPlaybackActive, playbackState?.handoffKey]);
+
+  return (
+    <video
+      ref={videoRef}
+      className="willa-file-preview__media"
+      src={props.src}
+      poster={props.poster}
+      controls
+      onLoadedData={props.onLoad}
+      onCanPlay={props.onLoad}
+      onLoadedMetadata={(event) => {
+        syncPlaybackState({ duration: getMediaDuration(event.currentTarget) });
+      }}
+      onTimeUpdate={(event) => {
+        syncPlaybackState({ currentTime: event.currentTarget.currentTime });
+      }}
+      onPlay={() => {
+        syncPlaybackState({ isPlaying: true });
+      }}
+      onPause={() => {
+        syncPlaybackState({ isPlaying: false });
+      }}
+      onEnded={() => {
+        syncPlaybackState({ currentTime: 0, isPlaying: false });
+      }}
+      onError={() => {
+        syncPlaybackState({ isPlaying: false });
+        props.onError();
+      }}
+    />
+  );
+};
+
 const AudioPreviewPlayer = (props: {
   src: string;
   name: string;
   label?: string;
   loadingText?: ReactNode;
   errorText?: ReactNode;
+  playbackControl?: MediaPreviewPlaybackControl;
 }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const seekingController = useMemo(() => createMediaSeekingController(), []);
+  const isPlaybackActive = props.playbackControl?.active ?? true;
+  const playbackState = props.playbackControl?.state;
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const progress = duration > 0 ? Math.min(currentTime / duration, 1) : 0;
+  const endSeeking = seekingController.end;
 
-  const durationLabel = useMemo(() => formatAudioTime(duration), [duration]);
+  const durationLabel = useMemo(() => formatMediaTime(duration), [duration]);
   const currentTimeLabel = useMemo(
-    () => formatAudioTime(currentTime),
+    () => formatMediaTime(currentTime),
     [currentTime],
   );
 
   useEffect(() => {
+    endSeeking();
     setIsPlaying(false);
     setIsLoading(true);
     setHasError(false);
     setCurrentTime(0);
     setDuration(0);
-  }, [props.src]);
+  }, [endSeeking, props.src]);
+
+  useEffect(() => endSeeking, [endSeeking]);
+
+  const syncPlaybackState = (patch: FilePreviewMediaPlaybackStatePatch) => {
+    if (isPlaybackActive) {
+      props.playbackControl?.onStateChange(patch);
+    }
+  };
+
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    if (!isPlaybackActive) {
+      endSeeking();
+      audio?.pause();
+      return;
+    }
+
+    if (!playbackState) return;
+
+    const nextTime = clampMediaTime(
+      playbackState.currentTime,
+      playbackState.duration || getMediaDuration(audio),
+    );
+
+    setCurrentTime(nextTime);
+
+    if (playbackState.duration > 0) {
+      setDuration(playbackState.duration);
+    }
+
+    if (audio && Math.abs(audio.currentTime - nextTime) > 0.05) {
+      audio.currentTime = nextTime;
+    }
+
+    if (!playbackState.shouldResume || !audio) return;
+
+    setIsLoading(true);
+    void audio.play().catch(() => {
+      setIsPlaying(false);
+      setIsLoading(false);
+      syncPlaybackState({ isPlaying: false });
+    });
+  }, [endSeeking, isPlaybackActive, playbackState?.handoffKey]);
 
   const togglePlayback = async () => {
     const audio = audioRef.current;
@@ -525,6 +809,22 @@ const AudioPreviewPlayer = (props: {
     }
 
     audio.pause();
+  };
+
+  const seekTo = (value: number) => {
+    const audio = audioRef.current;
+    const nextTime = clampMediaTime(value, duration || getMediaDuration(audio));
+
+    setCurrentTime(nextTime);
+    syncPlaybackState({ currentTime: nextTime });
+
+    if (audio) {
+      audio.currentTime = nextTime;
+    }
+  };
+
+  const handleSeekInput = (event: SeekInputEvent) => {
+    seekTo(Number(event.currentTarget.value));
   };
 
   return (
@@ -573,13 +873,26 @@ const AudioPreviewPlayer = (props: {
                 step={0.1}
                 value={Math.min(currentTime, duration || currentTime)}
                 disabled={duration <= 0 || hasError}
-                onChange={(event) => {
-                  const nextTime = Number(event.target.value);
-                  setCurrentTime(nextTime);
-                  if (audioRef.current) {
-                    audioRef.current.currentTime = nextTime;
+                onPointerDown={(event) => {
+                  seekingController.begin(registerSeekingEndListeners);
+                  event.currentTarget.setPointerCapture(event.pointerId);
+                }}
+                onPointerUp={(event) => {
+                  endSeeking();
+                  if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+                    event.currentTarget.releasePointerCapture(event.pointerId);
                   }
                 }}
+                onPointerCancel={(event) => {
+                  endSeeking();
+                  if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+                    event.currentTarget.releasePointerCapture(event.pointerId);
+                  }
+                }}
+                onLostPointerCapture={endSeeking}
+                onBlur={endSeeking}
+                onInput={handleSeekInput}
+                onChange={handleSeekInput}
                 aria-label="调整播放进度"
               />
             </div>
@@ -616,25 +929,40 @@ const AudioPreviewPlayer = (props: {
           const nextDuration = event.currentTarget.duration;
           if (Number.isFinite(nextDuration)) {
             setDuration(nextDuration);
+            syncPlaybackState({ duration: nextDuration });
           }
         }}
-        onTimeUpdate={(event) =>
-          setCurrentTime(event.currentTarget.currentTime)
-        }
+        onTimeUpdate={(event) => {
+          if (!seekingController.isSeeking()) {
+            const nextTime = event.currentTarget.currentTime;
+            setCurrentTime(nextTime);
+            syncPlaybackState({ currentTime: nextTime });
+          }
+        }}
         onPlay={() => {
+          endSeeking();
           setIsPlaying(true);
           setIsLoading(false);
           setHasError(false);
+          syncPlaybackState({ isPlaying: true });
         }}
-        onPause={() => setIsPlaying(false)}
+        onPause={() => {
+          endSeeking();
+          setIsPlaying(false);
+          syncPlaybackState({ isPlaying: false });
+        }}
         onEnded={() => {
+          endSeeking();
           setIsPlaying(false);
           setCurrentTime(0);
+          syncPlaybackState({ currentTime: 0, isPlaying: false });
         }}
         onError={() => {
+          endSeeking();
           setIsPlaying(false);
           setIsLoading(false);
           setHasError(true);
+          syncPlaybackState({ isPlaying: false });
         }}
       />
     </div>
@@ -675,16 +1003,6 @@ const getCodeLanguage = (name: string) => getFileCodeLanguage(name);
 
 const getPdfPreviewSrc = (src: string) => {
   return src.includes("#") ? `${src}&view=Fit` : `${src}#view=Fit`;
-};
-
-const formatAudioTime = (seconds: number) => {
-  if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
-
-  const totalSeconds = Math.floor(seconds);
-  const minutes = Math.floor(totalSeconds / 60);
-  const remainSeconds = totalSeconds % 60;
-
-  return `${minutes}:${String(remainSeconds).padStart(2, "0")}`;
 };
 
 const createCsvTableItems = (text?: string) => {

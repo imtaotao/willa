@@ -60,7 +60,13 @@ export {
 export { assignRef, composeRefs } from "#shared/refs";
 export { clampNumber, createNumberRange } from "#shared/number";
 export {
+  clampMediaTime,
+  createMediaSeekingController,
+  formatMediaTime,
+  getMediaBufferedPercent,
+  getMediaDuration,
   type MediaContextProps,
+  type MediaSeekingListenerRegistrar,
   resolveMediaAsset,
   resolveMediaVolume,
 } from "#shared/media";
