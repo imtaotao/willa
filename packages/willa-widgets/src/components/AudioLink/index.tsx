@@ -31,9 +31,12 @@ export function AudioLink(props: AudioLinkProps) {
     volume,
     className,
     onLoadStart,
+    onProgress,
     onCanPlay,
     onLoadedMetadata,
     onTimeUpdate,
+    onWaiting,
+    onStalled,
     onPlay,
     onPause,
     onEnded,
@@ -158,6 +161,7 @@ export function AudioLink(props: AudioLinkProps) {
           setLoadError(null);
           onLoadStart?.(event);
         }}
+        onProgress={onProgress}
         onCanPlay={(event) => {
           setIsReady(true);
           setIsLoading(false);
@@ -165,6 +169,18 @@ export function AudioLink(props: AudioLinkProps) {
         }}
         onLoadedMetadata={onLoadedMetadata}
         onTimeUpdate={onTimeUpdate}
+        onWaiting={(event) => {
+          if (!isReady) {
+            setIsLoading(true);
+          }
+          onWaiting?.(event);
+        }}
+        onStalled={(event) => {
+          if (!isReady) {
+            setIsLoading(true);
+          }
+          onStalled?.(event);
+        }}
         onPlay={(event) => {
           setIsPlaying(true);
           setIsLoading(false);

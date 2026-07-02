@@ -148,6 +148,7 @@
   --willa-audio-toggle-shadow: 0 12px 26px rgba(0, 0, 0, 0.28);
   --willa-audio-toggle-shadow-hover: 0 14px 30px rgba(0, 0, 0, 0.34);
   --willa-audio-progress-bg: rgba(255, 255, 255, 0.1);
+  --willa-audio-progress-buffered: rgba(255, 255, 255, 0.18);
   --willa-audio-progress-fill: linear-gradient(90deg, #34d399, #86efac);
   --willa-audio-thumb-border: transparent;
   --willa-audio-thumb-bg: #86efac;
@@ -175,6 +176,12 @@
   --willa-video-play-bg: rgba(17, 24, 39, 0.9);
   --willa-video-play-color: #ffffff;
   --willa-video-play-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  --willa-video-status-bg: rgba(17, 24, 39, 0.86);
+  --willa-video-status-border: rgba(125, 211, 252, 0.22);
+  --willa-video-status-color: #e5edf7;
+  --willa-video-status-error-bg: rgba(127, 29, 29, 0.72);
+  --willa-video-status-error-border: rgba(248, 113, 113, 0.3);
+  --willa-video-status-error-color: #fecaca;
   --willa-video-link-border: rgba(135, 188, 221, 0.24);
   --willa-video-link-border-hover: rgba(135, 188, 221, 0.32);
   --willa-video-link-bg: rgba(135, 188, 221, 0.08);

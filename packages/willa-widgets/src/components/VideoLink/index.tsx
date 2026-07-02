@@ -9,6 +9,7 @@ import {
   type MediaEventHandlers,
   resolveMediaInline,
 } from "#widgets/internal/media";
+import { useMediaPlaybackState } from "#widgets/internal/useMediaPlaybackState";
 
 export type VideoLinkProps = MediaContextProps &
   MediaEventHandlers<HTMLVideoElement> & {
@@ -32,9 +33,12 @@ export function VideoLink({
   articleSourcePath,
   resolveAssetUrl,
   onLoadStart,
+  onProgress,
   onCanPlay,
   onLoadedMetadata,
   onTimeUpdate,
+  onWaiting,
+  onStalled,
   onPlay,
   onPause,
   onEnded,
@@ -53,21 +57,50 @@ export function VideoLink({
     src,
   });
   const [isOpen, setIsOpen] = useState(false);
+  const playback = useMediaPlaybackState<HTMLVideoElement>({
+    hasSource: Boolean(resolvedSrc),
+    initialLoading: false,
+    sourceKey: resolvedSrc,
+    errorLabel: "video unavailable",
+    loadingLabel: "loading video",
+    bufferingLabel: "buffering video",
+    handlers: {
+      onLoadStart,
+      onProgress,
+      onCanPlay,
+      onLoadedMetadata,
+      onTimeUpdate,
+      onWaiting,
+      onStalled,
+      onPlay,
+      onPause,
+      onEnded,
+      onError,
+    },
+  });
 
   const closePlayer = () => {
     videoRef.current?.pause();
     setIsOpen(false);
+    playback.stopPlayback();
   };
 
   const togglePlayer = () => {
     setIsOpen((open) => {
       if (open) {
         videoRef.current?.pause();
+        playback.stopPlayback();
+      } else {
+        playback.preparePlayback();
       }
 
       return !open;
     });
   };
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [resolvedSrc]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -137,10 +170,15 @@ export function VideoLink({
           "willa-prose-video-link",
           "willa-prose-video-link--player",
           isOpen && "willa-prose-video-link--open",
+          playback.state === "loading" && "willa-prose-video-link--loading",
+          playback.state === "error" && "willa-prose-video-link--error",
         )}
         onClick={togglePlayer}
         aria-expanded={isOpen}
         aria-label={isOpen ? "Hide video player" : "Show video player"}
+        aria-busy={playback.isBusy}
+        data-state={playback.state}
+        title={playback.statusLabel ?? undefined}
       >
         <VideoIcon className="willa-prose-video-link-icon" />
         {content}
@@ -154,22 +192,23 @@ export function VideoLink({
         />
       ) : null}
       {isOpen ? (
-        <span className="willa-prose-video-link-popover">
+        <span
+          className="willa-prose-video-link-popover"
+          data-state={playback.state}
+        >
           <video
             ref={videoRef}
             className="willa-prose-video-link-player"
             controls
             preload="metadata"
             src={resolvedSrc}
-            onLoadStart={onLoadStart}
-            onCanPlay={onCanPlay}
-            onLoadedMetadata={onLoadedMetadata}
-            onTimeUpdate={onTimeUpdate}
-            onPlay={onPlay}
-            onPause={onPause}
-            onEnded={onEnded}
-            onError={onError}
+            {...playback.mediaEventHandlers}
           />
+          {playback.statusLabel ? (
+            <span className="willa-prose-video-link-status" aria-live="polite">
+              {playback.statusLabel}
+            </span>
+          ) : null}
         </span>
       ) : null}
     </span>

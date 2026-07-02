@@ -188,6 +188,7 @@
 }
 
 .willa-prose-video-embed-player-shell {
+  position: relative;
   grid-column: 1 / -1;
   margin: 0 1rem 1rem;
   padding-top: 0.95rem;
@@ -202,6 +203,36 @@
   border: 1px solid var(--willa-line);
   border-radius: 10px;
   background: var(--willa-panel-bg);
+}
+
+.willa-prose-video-embed-status {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 0.475rem);
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 7.5rem;
+  padding: 0.42rem 0.72rem;
+  border: 1px solid var(--willa-video-status-border);
+  border-radius: 999px;
+  background: var(--willa-video-status-bg);
+  color: var(--willa-video-status-color);
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1.2;
+  pointer-events: none;
+  text-transform: lowercase;
+  transform: translate(-50%, -50%);
+  backdrop-filter: blur(10px);
+}
+
+.willa-prose-video-embed-player-shell[data-state="error"]
+  .willa-prose-video-embed-status {
+  border-color: var(--willa-video-status-error-border);
+  background: var(--willa-video-status-error-bg);
+  color: var(--willa-video-status-error-color);
 }
 
 @media (hover: none) {

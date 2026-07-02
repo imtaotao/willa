@@ -17,6 +17,12 @@ const mediaEventProps = [
     description: "内联视频开始加载时触发；仅在传入 src 时生效。",
   },
   {
+    name: "onProgress",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频加载缓冲进度变化时触发；仅在传入 src 时生效。",
+  },
+  {
     name: "onCanPlay",
     type: "ReactEventHandler<HTMLVideoElement>",
     group: "媒体事件",
@@ -33,6 +39,18 @@ const mediaEventProps = [
     type: "ReactEventHandler<HTMLVideoElement>",
     group: "媒体事件",
     description: "内联视频播放进度变化时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onWaiting",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频等待更多数据时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onStalled",
+    type: "ReactEventHandler<HTMLVideoElement>",
+    group: "媒体事件",
+    description: "内联视频取数停滞时触发；仅在传入 src 时生效。",
   },
   {
     name: "onPlay",
@@ -140,6 +158,25 @@ export default defineDoc({
         >
           播放文章视频
         </VideoLink>
+      ),
+    },
+    {
+      title: "加载和错误状态",
+      code: `
+        <VideoLink
+          label="打开不可用视频"
+          provider="Demo"
+          src="/media/missing-video.mp4"
+          href="https://developer.mozilla.org/"
+        />;
+      `,
+      content: (
+        <VideoLink
+          label="打开不可用视频"
+          provider="Demo"
+          src="/media/missing-video.mp4"
+          href="https://developer.mozilla.org/"
+        />
       ),
     },
   ],

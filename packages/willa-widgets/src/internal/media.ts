@@ -14,14 +14,41 @@ export type MediaInlineOptions = MediaContextProps & {
 
 export type MediaEventHandlers<T extends HTMLMediaElement> = {
   onLoadStart?: ReactEventHandler<T>;
+  onProgress?: ReactEventHandler<T>;
   onCanPlay?: ReactEventHandler<T>;
   onLoadedMetadata?: ReactEventHandler<T>;
   onTimeUpdate?: ReactEventHandler<T>;
+  onWaiting?: ReactEventHandler<T>;
+  onStalled?: ReactEventHandler<T>;
   onPlay?: ReactEventHandler<T>;
   onPause?: ReactEventHandler<T>;
   onEnded?: ReactEventHandler<T>;
   onError?: ReactEventHandler<T>;
 };
+
+export function getMediaBufferedPercent(media: HTMLMediaElement) {
+  const { buffered, duration } = media;
+  if (!Number.isFinite(duration) || duration <= 0 || buffered.length === 0) {
+    return 0;
+  }
+
+  let bufferedEnd = 0;
+  const currentTime = media.currentTime;
+
+  for (let index = 0; index < buffered.length; index += 1) {
+    const start = buffered.start(index);
+    const end = buffered.end(index);
+
+    if (currentTime >= start && currentTime <= end) {
+      bufferedEnd = end;
+      break;
+    }
+
+    bufferedEnd = Math.max(bufferedEnd, end);
+  }
+
+  return Math.min(100, Math.max(0, (bufferedEnd / duration) * 100));
+}
 
 export function resolveMediaInline(options: MediaInlineOptions) {
   const normalizedHref = options.href?.trim() ?? "";

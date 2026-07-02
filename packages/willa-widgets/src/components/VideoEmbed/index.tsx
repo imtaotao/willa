@@ -8,6 +8,7 @@ import {
   MediaEmbedContent,
   resolveMediaEmbedAsset,
 } from "#widgets/internal/mediaEmbed";
+import { useMediaPlaybackState } from "#widgets/internal/useMediaPlaybackState";
 
 export type VideoEmbedProps = MediaContextProps &
   MediaEventHandlers<HTMLVideoElement> & {
@@ -35,9 +36,12 @@ export function VideoEmbed({
   articleSourcePath,
   resolveAssetUrl,
   onLoadStart,
+  onProgress,
   onCanPlay,
   onLoadedMetadata,
   onTimeUpdate,
+  onWaiting,
+  onStalled,
   onPlay,
   onPause,
   onEnded,
@@ -52,6 +56,26 @@ export function VideoEmbed({
   const resolvedPoster = resolveMediaEmbedAsset(mediaContext, poster);
   const hasInlinePlayer = Boolean(resolvedSrc);
   const hasExternalLink = Boolean(normalizedHref);
+  const playback = useMediaPlaybackState<HTMLVideoElement>({
+    hasSource: hasInlinePlayer,
+    sourceKey: resolvedSrc,
+    errorLabel: "video unavailable",
+    loadingLabel: "loading video",
+    bufferingLabel: "buffering video",
+    handlers: {
+      onLoadStart,
+      onProgress,
+      onCanPlay,
+      onLoadedMetadata,
+      onTimeUpdate,
+      onWaiting,
+      onStalled,
+      onPlay,
+      onPause,
+      onEnded,
+      onError,
+    },
+  });
 
   useEffect(() => {
     const resolvedVolume = resolveMediaVolume(volume);
@@ -112,6 +136,8 @@ export function VideoEmbed({
         "willa-prose-video-embed--inline",
         className,
       )}
+      data-state={playback.state}
+      aria-busy={playback.isBusy}
     >
       {content}
       {hasExternalLink ? (
@@ -128,22 +154,24 @@ export function VideoEmbed({
       ) : (
         <span className="willa-prose-video-embed-external willa-prose-video-embed-external--placeholder" />
       )}
-      <div className="willa-prose-video-embed-player-shell">
+      <div
+        className="willa-prose-video-embed-player-shell"
+        data-state={playback.state}
+      >
         <video
           ref={videoRef}
           className="willa-prose-video-embed-player"
           controls
           preload="metadata"
+          poster={resolvedPoster}
           src={resolvedSrc}
-          onLoadStart={onLoadStart}
-          onCanPlay={onCanPlay}
-          onLoadedMetadata={onLoadedMetadata}
-          onTimeUpdate={onTimeUpdate}
-          onPlay={onPlay}
-          onPause={onPause}
-          onEnded={onEnded}
-          onError={onError}
+          {...playback.mediaEventHandlers}
         />
+        {playback.statusLabel ? (
+          <span className="willa-prose-video-embed-status" aria-live="polite">
+            {playback.statusLabel}
+          </span>
+        ) : null}
       </div>
     </article>
   );

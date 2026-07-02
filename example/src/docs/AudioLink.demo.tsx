@@ -17,6 +17,12 @@ const mediaEventProps = [
     description: "内联音频开始加载时触发；仅在传入 src 时生效。",
   },
   {
+    name: "onProgress",
+    type: "ReactEventHandler<HTMLAudioElement>",
+    group: "媒体事件",
+    description: "内联音频加载缓冲进度变化时触发；仅在传入 src 时生效。",
+  },
+  {
     name: "onCanPlay",
     type: "ReactEventHandler<HTMLAudioElement>",
     group: "媒体事件",
@@ -33,6 +39,18 @@ const mediaEventProps = [
     type: "ReactEventHandler<HTMLAudioElement>",
     group: "媒体事件",
     description: "内联音频播放进度变化时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onWaiting",
+    type: "ReactEventHandler<HTMLAudioElement>",
+    group: "媒体事件",
+    description: "内联音频等待更多数据时触发；仅在传入 src 时生效。",
+  },
+  {
+    name: "onStalled",
+    type: "ReactEventHandler<HTMLAudioElement>",
+    group: "媒体事件",
+    description: "内联音频取数停滞时触发；仅在传入 src 时生效。",
   },
   {
     name: "onPlay",
@@ -140,6 +158,25 @@ export default defineDoc({
         >
           播放文章音频
         </AudioLink>
+      ),
+    },
+    {
+      title: "加载和错误状态",
+      code: `
+        <AudioLink
+          label="播放不可用音频"
+          provider="Demo"
+          src="/media/missing-audio.mp3"
+          href="https://developer.mozilla.org/"
+        />;
+      `,
+      content: (
+        <AudioLink
+          label="播放不可用音频"
+          provider="Demo"
+          src="/media/missing-audio.mp3"
+          href="https://developer.mozilla.org/"
+        />
       ),
     },
   ],

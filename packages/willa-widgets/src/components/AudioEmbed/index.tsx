@@ -3,7 +3,9 @@ import {
   useMemo,
   useRef,
   useState,
+  type ChangeEvent,
   type CSSProperties,
+  type FormEvent,
 } from "react";
 import {
   ExternalLinkIcon,
@@ -14,7 +16,10 @@ import {
 import classNames from "classnames";
 
 import { resolveMediaVolume, type MediaContextProps } from "@willa-ui/shared";
-import type { MediaEventHandlers } from "#widgets/internal/media";
+import {
+  getMediaBufferedPercent,
+  type MediaEventHandlers,
+} from "#widgets/internal/media";
 import {
   MediaEmbedContent,
   resolveMediaEmbedAsset,
@@ -52,9 +57,12 @@ export function AudioEmbed(props: AudioEmbedProps) {
     volume,
     className,
     onLoadStart,
+    onProgress,
     onCanPlay,
     onLoadedMetadata,
     onTimeUpdate,
+    onWaiting,
+    onStalled,
     onPlay,
     onPause,
     onEnded,
@@ -67,13 +75,19 @@ export function AudioEmbed(props: AudioEmbedProps) {
   const hasExternalLink = Boolean(normalizedHref);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const isSeekingRef = useRef(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [isLoading, setIsLoading] = useState(Boolean(hasInlinePlayer));
+  const [isBuffering, setIsBuffering] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [durationSeconds, setDurationSeconds] = useState(0);
+  const [bufferedPercent, setBufferedPercent] = useState(0);
   const progressValue = durationSeconds > 0 ? currentTime / durationSeconds : 0;
+  const progressRatio = Math.min(Math.max(progressValue, 0), 1);
+  const progressPercent = progressRatio * 100;
+  const progressOffset = 0.45 - progressRatio * 0.9;
 
   const durationLabel = useMemo(() => {
     if (durationSeconds > 0) return formatTime(durationSeconds);
@@ -82,17 +96,22 @@ export function AudioEmbed(props: AudioEmbedProps) {
 
   const statusLabel = loadError
     ? loadError
-    : isLoading || !isReady
+    : isLoading && !isReady
       ? "loading audio"
-      : null;
+      : isBuffering
+        ? "buffering audio"
+        : null;
 
   useEffect(() => {
+    isSeekingRef.current = false;
     setIsPlaying(false);
     setIsReady(false);
     setIsLoading(Boolean(hasInlinePlayer));
+    setIsBuffering(false);
     setLoadError(null);
     setCurrentTime(0);
     setDurationSeconds(0);
+    setBufferedPercent(0);
   }, [hasInlinePlayer, resolvedSrc]);
 
   useEffect(() => {
@@ -103,6 +122,36 @@ export function AudioEmbed(props: AudioEmbedProps) {
   }, [volume, resolvedSrc]);
 
   if ((!hasExternalLink && !hasInlinePlayer) || !normalizedTitle) return null;
+
+  const syncBufferedPercent = (audio: HTMLAudioElement) => {
+    setBufferedPercent(getMediaBufferedPercent(audio));
+  };
+
+  const seekTo = (value: number) => {
+    const audio = audioRef.current;
+    const upperBound = durationSeconds || audio?.duration || 0;
+    const nextTime =
+      Number.isFinite(upperBound) && upperBound > 0
+        ? Math.min(Math.max(value, 0), upperBound)
+        : Math.max(value, 0);
+
+    setCurrentTime(nextTime);
+
+    if (audio) {
+      audio.currentTime = nextTime;
+      syncBufferedPercent(audio);
+    }
+  };
+
+  const handleSeekInput = (
+    event: FormEvent<HTMLInputElement> | ChangeEvent<HTMLInputElement>,
+  ) => {
+    seekTo(Number(event.currentTarget.value));
+  };
+
+  const endSeeking = () => {
+    isSeekingRef.current = false;
+  };
 
   const content = (
     <MediaEmbedContent
@@ -171,7 +220,9 @@ export function AudioEmbed(props: AudioEmbedProps) {
             className={classNames(
               "willa-prose-audio-embed-toggle",
               isPlaying && "willa-prose-audio-embed-toggle--playing",
-              isLoading && "willa-prose-audio-embed-toggle--loading",
+              isLoading &&
+                !isReady &&
+                "willa-prose-audio-embed-toggle--loading",
               loadError && "willa-prose-audio-embed-toggle--error",
             )}
             onClick={async () => {
@@ -202,9 +253,9 @@ export function AudioEmbed(props: AudioEmbedProps) {
                 className="willa-prose-audio-embed-progress"
                 style={
                   {
-                    ["--willa-audio-progress" as string]: `${
-                      progressValue * 100
-                    }%`,
+                    ["--willa-audio-progress" as string]: `${progressPercent}%`,
+                    ["--willa-audio-progress-position" as string]: `calc(${progressPercent}% + ${progressOffset}rem)`,
+                    ["--willa-audio-buffered" as string]: `${bufferedPercent}%`,
                   } as CSSProperties
                 }
               >
@@ -214,13 +265,33 @@ export function AudioEmbed(props: AudioEmbedProps) {
                   max={durationSeconds || 0}
                   step={0.1}
                   value={Math.min(currentTime, durationSeconds || currentTime)}
-                  onChange={(event) => {
-                    const nextTime = Number(event.target.value);
-                    setCurrentTime(nextTime);
-                    if (audioRef.current) {
-                      audioRef.current.currentTime = nextTime;
+                  onPointerDown={(event) => {
+                    isSeekingRef.current = true;
+                    event.currentTarget.setPointerCapture(event.pointerId);
+                  }}
+                  onPointerUp={(event) => {
+                    endSeeking();
+                    if (
+                      event.currentTarget.hasPointerCapture(event.pointerId)
+                    ) {
+                      event.currentTarget.releasePointerCapture(
+                        event.pointerId,
+                      );
                     }
                   }}
+                  onPointerCancel={(event) => {
+                    endSeeking();
+                    if (
+                      event.currentTarget.hasPointerCapture(event.pointerId)
+                    ) {
+                      event.currentTarget.releasePointerCapture(
+                        event.pointerId,
+                      );
+                    }
+                  }}
+                  onBlur={endSeeking}
+                  onInput={handleSeekInput}
+                  onChange={handleSeekInput}
                   aria-label="Seek audio"
                   disabled={durationSeconds <= 0}
                 />
@@ -246,12 +317,19 @@ export function AudioEmbed(props: AudioEmbedProps) {
             src={resolvedSrc}
             onLoadStart={(event) => {
               setIsLoading(true);
+              setIsBuffering(false);
               setLoadError(null);
               onLoadStart?.(event);
+            }}
+            onProgress={(event) => {
+              syncBufferedPercent(event.currentTarget);
+              onProgress?.(event);
             }}
             onCanPlay={(event) => {
               setIsReady(true);
               setIsLoading(false);
+              setIsBuffering(false);
+              syncBufferedPercent(event.currentTarget);
               onCanPlay?.(event);
             }}
             onLoadedMetadata={(event) => {
@@ -259,15 +337,36 @@ export function AudioEmbed(props: AudioEmbedProps) {
               if (Number.isFinite(nextDuration)) {
                 setDurationSeconds(nextDuration);
               }
+              syncBufferedPercent(event.currentTarget);
               onLoadedMetadata?.(event);
             }}
             onTimeUpdate={(event) => {
-              setCurrentTime(event.currentTarget.currentTime);
+              syncBufferedPercent(event.currentTarget);
+              if (!isSeekingRef.current) {
+                setCurrentTime(event.currentTarget.currentTime);
+              }
               onTimeUpdate?.(event);
+            }}
+            onWaiting={(event) => {
+              if (isReady) {
+                setIsBuffering(true);
+              } else {
+                setIsLoading(true);
+              }
+              onWaiting?.(event);
+            }}
+            onStalled={(event) => {
+              if (isReady) {
+                setIsBuffering(true);
+              } else {
+                setIsLoading(true);
+              }
+              onStalled?.(event);
             }}
             onPlay={(event) => {
               setIsPlaying(true);
               setIsLoading(false);
+              setIsBuffering(false);
               setLoadError(null);
               onPlay?.(event);
             }}
@@ -279,6 +378,8 @@ export function AudioEmbed(props: AudioEmbedProps) {
               setIsPlaying(false);
               setIsReady(false);
               setIsLoading(false);
+              setIsBuffering(false);
+              setBufferedPercent(0);
               setLoadError("audio unavailable");
               onError?.(event);
             }}

@@ -275,6 +275,8 @@
 
 .willa-prose-audio-embed-progress {
   --willa-audio-progress: 0%;
+  --willa-audio-progress-position: 0%;
+  --willa-audio-buffered: 0%;
   --willa-audio-thumb-size: 0.9rem;
   position: relative;
   height: 0.45rem;
@@ -289,12 +291,21 @@
   content: "";
   position: absolute;
   inset: 0 auto 0 0;
-  width: min(
-    100%,
-    calc(var(--willa-audio-progress) + var(--willa-audio-thumb-size) / 2)
-  );
+  z-index: 1;
+  width: max(0%, min(100%, var(--willa-audio-progress-position)));
   border-radius: inherit;
   background: var(--willa-audio-progress-fill);
+  pointer-events: none;
+}
+
+.willa-prose-audio-embed-progress::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 0;
+  width: var(--willa-audio-buffered);
+  border-radius: inherit;
+  background: var(--willa-audio-progress-buffered);
   pointer-events: none;
 }
 
@@ -302,7 +313,7 @@
   position: absolute;
   inset: 50% 0 auto;
   display: block;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   height: 0.45rem;
   margin: 0;
