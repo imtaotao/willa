@@ -1,0 +1,1 @@
+import{l as e,p as t,u as n}from"./aidly.esm-bundler-DaTrP4tr.js";import{M as r,N as i}from"./src-D2lZkBJ2.js";var a=t(n()),o=e();function s(e){let{as:t=`div`,theme:n,className:s,children:c,...l}=e,u=i(n??null),d=(0,o.jsx)(t,{...l,...u,className:(0,a.default)(`willa-shell`,s),children:c});return n?(0,o.jsx)(r,{theme:n,children:d}):d}s.displayName=`WillaShell`;export{s as t};

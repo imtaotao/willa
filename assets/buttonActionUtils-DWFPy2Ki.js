@@ -1,0 +1,1 @@
+function e(e,t){return e??(typeof t==`boolean`?t:void 0)}async function t(e,t){if(t.disabled){e.preventDefault();return}t.onClick?.(e),!(e.defaultPrevented||!t.copyText)&&(t.preventDefaultForCopy&&e.preventDefault(),await t.copy(t.copyText,{resetDuration:t.copiedDuration,onCopy:t.onCopyText}))}export{e as n,t};
