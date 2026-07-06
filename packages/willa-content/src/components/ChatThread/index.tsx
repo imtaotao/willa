@@ -3,8 +3,10 @@ import classNames from "classnames";
 import { Avatar } from "#content/components/Avatar";
 import { Collapse } from "#content/components/Collapse";
 
-type ChatMessage = {
+export type ChatThreadMessage = {
   align?: "left" | "right";
+  avatar?: string;
+  avatarName?: string;
   avatarSrc?: string;
   name?: string;
   time?: string;
@@ -13,7 +15,7 @@ type ChatMessage = {
 
 export type ChatThreadProps = {
   title?: string;
-  messages: Array<ChatMessage>;
+  messages: Array<ChatThreadMessage>;
   className?: string;
   collapsible?: boolean;
   defaultOpen?: boolean;
@@ -54,7 +56,7 @@ export function ChatThread(props: ChatThreadProps) {
 }
 
 type ChatMessagesProps = {
-  messages: Array<ChatMessage>;
+  messages: Array<ChatThreadMessage>;
 };
 
 const ChatMessages = (props: ChatMessagesProps) => {
@@ -67,13 +69,15 @@ const ChatMessages = (props: ChatMessagesProps) => {
           ? message.content
           : [message.content];
         const align = message.align ?? "left";
-        const avatarName =
+        const displayName =
           message.name?.trim() || (align === "right" ? "User" : "Assistant");
+        const avatarName =
+          message.avatar?.trim() || message.avatarName?.trim() || displayName;
 
         return (
           <div
             className="willa-chat-message-group"
-            key={`${align}-${avatarName}-${index}`}
+            key={`${align}-${displayName}-${index}`}
           >
             {message.time ? (
               <time className="willa-chat-time">{message.time}</time>
@@ -88,7 +92,7 @@ const ChatMessages = (props: ChatMessagesProps) => {
                 className="willa-chat-avatar"
                 src={message.avatarSrc}
                 name={avatarName}
-                alt={avatarName}
+                alt={displayName}
                 size="md"
                 shape="rounded"
               />

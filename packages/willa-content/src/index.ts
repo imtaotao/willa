@@ -66,7 +66,10 @@ export {
 } from "#content/components/Typography";
 export { Watermark } from "#content/components/Watermark";
 
-export type { ChatThreadProps } from "#content/components/ChatThread";
+export type {
+  ChatThreadMessage,
+  ChatThreadProps,
+} from "#content/components/ChatThread";
 export type {
   AlertClosableOptions,
   AlertProps,

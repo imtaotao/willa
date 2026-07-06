@@ -6,6 +6,7 @@ import { defineDoc } from "#example/catalog/defineDoc";
 const messages = [
   {
     name: "林夏",
+    avatar: "林",
     avatarSrc: "https://github.com/imtaotao.png",
     content: [
       "我把组件文档里的安装示例补齐了。",
@@ -15,13 +16,14 @@ const messages = [
   {
     align: "right" as const,
     name: "周舟",
+    avatarName: "舟",
     avatarSrc: "https://github.com/rauchg.png",
     time: "10:32",
     content: "收到，我再看一下单组件引入的示例。",
   },
   {
     name: "陈然",
-    avatarSrc: "https://github.com/gaearon.png",
+    avatar: "👦",
     content: [
       "顺便把 API 边界写清楚吧。",
       "这个组件只处理复制动作，不需要承载链接按钮。",
@@ -50,6 +52,7 @@ export default defineDoc({
       messages={[
         {
           name: "林夏",
+          avatar: "林",
           avatarSrc: "https://github.com/imtaotao.png",
           content: [
             "我把组件文档里的安装示例补齐了。",
@@ -59,13 +62,14 @@ export default defineDoc({
         {
           align: "right",
           name: "周舟",
+          avatarName: "舟",
           avatarSrc: "https://github.com/rauchg.png",
           time: "10:32",
           content: "收到，我再看一下单组件引入的示例。",
         },
         {
           name: "陈然",
-          avatarSrc: "https://github.com/gaearon.png",
+          avatar: "👦",
           content: [
             "顺便把 API 边界写清楚吧。",
             "这个组件只处理复制动作，不需要承载链接按钮。",
@@ -83,9 +87,10 @@ export default defineDoc({
     },
     {
       name: "messages",
-      type: "Array<{ align?: 'left' | 'right'; avatarSrc?: string; name?: string; time?: string; content: string | Array<string> }>",
+      type: "Array<{ align?: 'left' | 'right'; avatar?: string; avatarName?: string; avatarSrc?: string; name?: string; time?: string; content: string | Array<string> }>",
       required: true,
-      description: "需要渲染的消息列表。",
+      description:
+        "需要渲染的消息列表。avatar 和 avatarName 会作为头像文本，优先级高于 name。",
     },
     {
       name: "collapsible",
