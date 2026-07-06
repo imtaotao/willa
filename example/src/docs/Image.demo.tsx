@@ -72,6 +72,29 @@ export default defineDoc({
         </div>
       ),
     },
+    {
+      title: "原始尺寸",
+      code: `
+        <Image
+          width={704}
+          height={544}
+          src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=704&h=544&q=80"
+          alt="白色背景中的界面截图"
+          title="图片保持原始宽度，容器不强行撑满正文"
+        />;
+      `,
+      content: (
+        <div style={{ width: "min(100%, 56rem)", margin: "0 auto" }}>
+          <Image
+            width={704}
+            height={544}
+            src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=704&h=544&q=80"
+            alt="白色背景中的界面截图"
+            title="图片保持原始宽度，容器不强行撑满正文"
+          />
+        </div>
+      ),
+    },
   ],
   props: [
     {
