@@ -10,7 +10,7 @@ catalog:
   "@types/react-dom": 19.2.3
   "@vitest/coverage-v8": 1.6.0
   aidly: 1.37.0
-  auklet: 0.3.4
+  auklet: 0.8.1
   classnames: 2.5.1
   diff: 9.0.0
   highlight.js: 11.11.1

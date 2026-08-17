@@ -3,7 +3,9 @@ import { defineConfig } from "auklet";
 export const config = defineConfig({
   modules: true,
   styles: {
-    shared: "./src/internal/**/*.css",
+    shared: {
+      inner: "./src/internal/**/*.css",
+    },
     themes: {
       dark: "./src/themes/dark.css",
       light: "./src/themes/light.css",
