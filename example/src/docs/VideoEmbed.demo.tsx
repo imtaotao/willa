@@ -1,11 +1,19 @@
+import { useState } from "react";
 import { VideoEmbed } from "willa/VideoEmbed";
 import "willa/VideoEmbed.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
+import { createMediaEventProps } from "#example/docs/mediaEventProps";
 
 const previewStyle = {
   width: "min(100%, 48rem)",
   margin: "0 auto",
+} as const;
+
+const eventStatusStyle = {
+  margin: "0.75rem 0 0",
+  fontSize: "0.875rem",
+  opacity: 0.72,
 } as const;
 
 const resolveDemoAssetUrl = (_articleSourcePath: string, assetPath: string) =>
@@ -14,74 +22,7 @@ const resolveDemoAssetUrl = (_articleSourcePath: string, assetPath: string) =>
     "",
   )}`;
 
-const mediaEventProps = [
-  {
-    name: "onLoadStart",
-    type: "ReactEventHandler<HTMLVideoElement>",
-    group: "媒体事件",
-    description: "内联视频开始加载时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onProgress",
-    type: "ReactEventHandler<HTMLVideoElement>",
-    group: "媒体事件",
-    description: "内联视频加载缓冲进度变化时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onCanPlay",
-    type: "ReactEventHandler<HTMLVideoElement>",
-    group: "媒体事件",
-    description: "内联视频可以播放时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onLoadedMetadata",
-    type: "ReactEventHandler<HTMLVideoElement>",
-    group: "媒体事件",
-    description: "内联视频元数据加载完成时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onTimeUpdate",
-    type: "ReactEventHandler<HTMLVideoElement>",
-    group: "媒体事件",
-    description: "内联视频播放进度变化时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onWaiting",
-    type: "ReactEventHandler<HTMLVideoElement>",
-    group: "媒体事件",
-    description: "内联视频等待更多数据时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onStalled",
-    type: "ReactEventHandler<HTMLVideoElement>",
-    group: "媒体事件",
-    description: "内联视频取数停滞时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onPlay",
-    type: "ReactEventHandler<HTMLVideoElement>",
-    group: "媒体事件",
-    description: "内联视频开始播放时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onPause",
-    type: "ReactEventHandler<HTMLVideoElement>",
-    group: "媒体事件",
-    description: "内联视频暂停时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onEnded",
-    type: "ReactEventHandler<HTMLVideoElement>",
-    group: "媒体事件",
-    description: "内联视频播放结束时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onError",
-    type: "ReactEventHandler<HTMLVideoElement>",
-    group: "媒体事件",
-    description: "内联视频加载或播放失败时触发；仅在传入 src 时生效。",
-  },
-];
+const mediaEventProps = createMediaEventProps("video");
 
 const VideoEmbedPreview = () => (
   <div style={previewStyle}>
@@ -96,6 +37,34 @@ const VideoEmbedPreview = () => (
     />
   </div>
 );
+
+const VideoEmbedLoopDemo = () => {
+  const [status, setStatus] = useState("等待播放");
+  const [endedCount, setEndedCount] = useState(0);
+
+  return (
+    <div style={previewStyle}>
+      <VideoEmbed
+        title="循环播放事件验证"
+        description="首次需要手动播放；结束后由 onEnded 重新播放。"
+        duration="0:05"
+        provider="MDN"
+        src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+        onPlay={() => setStatus("正在播放")}
+        onPause={() => setStatus("已暂停")}
+        onEnded={(event) => {
+          setEndedCount((count) => count + 1);
+          setStatus("播放结束，正在重新播放");
+          event.currentTarget.currentTime = 0;
+          void event.currentTarget.play();
+        }}
+      />
+      <p style={eventStatusStyle}>
+        状态：{status}；onEnded 已触发 {endedCount} 次
+      </p>
+    </div>
+  );
+};
 
 export default defineDoc({
   id: "video-embed",
@@ -129,6 +98,30 @@ export default defineDoc({
     />;
   `,
   sections: [
+    {
+      title: "事件循环播放",
+      code: `
+        const [status, setStatus] = useState("等待播放");
+        const [endedCount, setEndedCount] = useState(0);
+
+        <VideoEmbed
+          title="循环播放事件验证"
+          description="首次需要手动播放；结束后由 onEnded 重新播放。"
+          duration="0:05"
+          provider="MDN"
+          src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+          onPlay={() => setStatus("正在播放")}
+          onPause={() => setStatus("已暂停")}
+          onEnded={(event) => {
+            setEndedCount((count) => count + 1);
+            setStatus("播放结束，正在重新播放");
+            event.currentTarget.currentTime = 0;
+            void event.currentTarget.play();
+          }}
+        />;
+      `,
+      content: <VideoEmbedLoopDemo />,
+    },
     {
       title: "仅外部链接",
       code: `

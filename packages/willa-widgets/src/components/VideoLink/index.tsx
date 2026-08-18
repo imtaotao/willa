@@ -2,11 +2,14 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ExternalLinkIcon, PlayIcon, VideoIcon } from "@radix-ui/react-icons";
 import classNames from "classnames";
 
-import { resolveMediaVolume, type MediaContextProps } from "@willa-ui/shared";
+import {
+  resolveMediaVolume,
+  type MediaContextProps,
+  type MediaEventHandlers,
+} from "@willa-ui/shared";
 
 import {
   MediaLinkExternalAction,
-  type MediaEventHandlers,
   resolveMediaInline,
 } from "#widgets/internal/media";
 import { useMediaPlaybackState } from "#widgets/internal/useMediaPlaybackState";
@@ -33,15 +36,27 @@ export function VideoLink({
   articleSourcePath,
   resolveAssetUrl,
   onLoadStart,
+  onLoadedData,
   onProgress,
   onCanPlay,
+  onCanPlayThrough,
   onLoadedMetadata,
+  onDurationChange,
+  onSuspend,
+  onAbort,
+  onEmptied,
   onTimeUpdate,
   onWaiting,
   onStalled,
   onPlay,
+  onPlaying,
   onPause,
   onEnded,
+  onSeeking,
+  onSeeked,
+  onRateChange,
+  onVolumeChange,
+  onEncrypted,
   onError,
 }: VideoLinkProps) {
   const wrapRef = useRef<HTMLSpanElement | null>(null);
@@ -66,15 +81,27 @@ export function VideoLink({
     bufferingLabel: "buffering video",
     handlers: {
       onLoadStart,
+      onLoadedData,
       onProgress,
       onCanPlay,
+      onCanPlayThrough,
       onLoadedMetadata,
+      onDurationChange,
+      onSuspend,
+      onAbort,
+      onEmptied,
       onTimeUpdate,
       onWaiting,
       onStalled,
       onPlay,
+      onPlaying,
       onPause,
       onEnded,
+      onSeeking,
+      onSeeked,
+      onRateChange,
+      onVolumeChange,
+      onEncrypted,
       onError,
     },
   });

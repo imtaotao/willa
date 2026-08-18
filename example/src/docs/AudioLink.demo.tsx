@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { AudioLink } from "willa/AudioLink";
 import "willa/AudioLink.css";
 
 import { defineDoc } from "#example/catalog/defineDoc";
+import { createMediaEventProps } from "#example/docs/mediaEventProps";
 
 const resolveDemoAssetUrl = (_articleSourcePath: string, assetPath: string) =>
   `https://interactive-examples.mdn.mozilla.net/media/cc0-audio/${assetPath.replace(
@@ -9,74 +11,39 @@ const resolveDemoAssetUrl = (_articleSourcePath: string, assetPath: string) =>
     "",
   )}`;
 
-const mediaEventProps = [
-  {
-    name: "onLoadStart",
-    type: "ReactEventHandler<HTMLAudioElement>",
-    group: "媒体事件",
-    description: "内联音频开始加载时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onProgress",
-    type: "ReactEventHandler<HTMLAudioElement>",
-    group: "媒体事件",
-    description: "内联音频加载缓冲进度变化时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onCanPlay",
-    type: "ReactEventHandler<HTMLAudioElement>",
-    group: "媒体事件",
-    description: "内联音频可以播放时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onLoadedMetadata",
-    type: "ReactEventHandler<HTMLAudioElement>",
-    group: "媒体事件",
-    description: "内联音频元数据加载完成时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onTimeUpdate",
-    type: "ReactEventHandler<HTMLAudioElement>",
-    group: "媒体事件",
-    description: "内联音频播放进度变化时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onWaiting",
-    type: "ReactEventHandler<HTMLAudioElement>",
-    group: "媒体事件",
-    description: "内联音频等待更多数据时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onStalled",
-    type: "ReactEventHandler<HTMLAudioElement>",
-    group: "媒体事件",
-    description: "内联音频取数停滞时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onPlay",
-    type: "ReactEventHandler<HTMLAudioElement>",
-    group: "媒体事件",
-    description: "内联音频开始播放时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onPause",
-    type: "ReactEventHandler<HTMLAudioElement>",
-    group: "媒体事件",
-    description: "内联音频暂停时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onEnded",
-    type: "ReactEventHandler<HTMLAudioElement>",
-    group: "媒体事件",
-    description: "内联音频播放结束时触发；仅在传入 src 时生效。",
-  },
-  {
-    name: "onError",
-    type: "ReactEventHandler<HTMLAudioElement>",
-    group: "媒体事件",
-    description: "内联音频加载或播放失败时触发；仅在传入 src 时生效。",
-  },
-];
+const eventStatusStyle = {
+  margin: "0.75rem 0 0",
+  fontSize: "0.875rem",
+  opacity: 0.72,
+} as const;
+
+const mediaEventProps = createMediaEventProps("audio");
+
+const AudioLinkLoopDemo = () => {
+  const [status, setStatus] = useState("等待播放");
+  const [endedCount, setEndedCount] = useState(0);
+
+  return (
+    <div>
+      <AudioLink
+        label="循环播放事件验证"
+        provider="MDN"
+        src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"
+        onPlay={() => setStatus("正在播放")}
+        onPause={() => setStatus("已暂停")}
+        onEnded={(event) => {
+          setEndedCount((count) => count + 1);
+          setStatus("播放结束，正在重新播放");
+          event.currentTarget.currentTime = 0;
+          void event.currentTarget.play();
+        }}
+      />
+      <p style={eventStatusStyle}>
+        状态：{status}；onEnded 已触发 {endedCount} 次
+      </p>
+    </div>
+  );
+};
 
 export default defineDoc({
   id: "audio-link",
@@ -115,6 +82,28 @@ export default defineDoc({
     />;
   `,
   sections: [
+    {
+      title: "事件循环播放",
+      code: `
+        const [status, setStatus] = useState("等待播放");
+        const [endedCount, setEndedCount] = useState(0);
+
+        <AudioLink
+          label="循环播放事件验证"
+          provider="MDN"
+          src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"
+          onPlay={() => setStatus("正在播放")}
+          onPause={() => setStatus("已暂停")}
+          onEnded={(event) => {
+            setEndedCount((count) => count + 1);
+            setStatus("播放结束，正在重新播放");
+            event.currentTarget.currentTime = 0;
+            void event.currentTarget.play();
+          }}
+        />;
+      `,
+      content: <AudioLinkLoopDemo />,
+    },
     {
       title: "仅外部链接",
       code: `

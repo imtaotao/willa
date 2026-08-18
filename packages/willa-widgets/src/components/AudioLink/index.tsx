@@ -7,11 +7,14 @@ import {
 } from "@radix-ui/react-icons";
 import classNames from "classnames";
 
-import { resolveMediaVolume, type MediaContextProps } from "@willa-ui/shared";
+import {
+  resolveMediaVolume,
+  type MediaContextProps,
+  type MediaEventHandlers,
+} from "@willa-ui/shared";
 
 import {
   MediaLinkExternalAction,
-  type MediaEventHandlers,
   resolveMediaInline,
 } from "#widgets/internal/media";
 
@@ -31,15 +34,27 @@ export function AudioLink(props: AudioLinkProps) {
     volume,
     className,
     onLoadStart,
+    onLoadedData,
     onProgress,
     onCanPlay,
+    onCanPlayThrough,
     onLoadedMetadata,
+    onDurationChange,
+    onSuspend,
+    onAbort,
+    onEmptied,
     onTimeUpdate,
     onWaiting,
     onStalled,
     onPlay,
+    onPlaying,
     onPause,
     onEnded,
+    onSeeking,
+    onSeeked,
+    onRateChange,
+    onVolumeChange,
+    onEncrypted,
     onError,
   } = props;
   const { content, normalizedHref, resolvedSrc } = resolveMediaInline({
@@ -161,13 +176,25 @@ export function AudioLink(props: AudioLinkProps) {
           setLoadError(null);
           onLoadStart?.(event);
         }}
+        onLoadedData={onLoadedData}
         onProgress={onProgress}
         onCanPlay={(event) => {
           setIsReady(true);
           setIsLoading(false);
           onCanPlay?.(event);
         }}
+        onCanPlayThrough={onCanPlayThrough}
         onLoadedMetadata={onLoadedMetadata}
+        onDurationChange={onDurationChange}
+        onSuspend={onSuspend}
+        onAbort={onAbort}
+        onEmptied={(event) => {
+          setIsPlaying(false);
+          setIsReady(false);
+          setIsLoading(Boolean(resolvedSrc));
+          setLoadError(null);
+          onEmptied?.(event);
+        }}
         onTimeUpdate={onTimeUpdate}
         onWaiting={(event) => {
           if (!isReady) {
@@ -187,6 +214,7 @@ export function AudioLink(props: AudioLinkProps) {
           setLoadError(null);
           onPlay?.(event);
         }}
+        onPlaying={onPlaying}
         onPause={(event) => {
           setIsPlaying(false);
           onPause?.(event);
@@ -195,6 +223,11 @@ export function AudioLink(props: AudioLinkProps) {
           setIsPlaying(false);
           onEnded?.(event);
         }}
+        onSeeking={onSeeking}
+        onSeeked={onSeeked}
+        onRateChange={onRateChange}
+        onVolumeChange={onVolumeChange}
+        onEncrypted={onEncrypted}
         onError={(event) => {
           setIsPlaying(false);
           setIsReady(false);

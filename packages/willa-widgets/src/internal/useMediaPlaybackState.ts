@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-
-import type { MediaEventHandlers } from "./media";
+import type { MediaEventHandlers } from "@willa-ui/shared";
 
 export type MediaPlaybackState =
   | "loading"
@@ -31,15 +30,27 @@ export function useMediaPlaybackState<T extends HTMLMediaElement>({
 }: UseMediaPlaybackStateOptions<T>) {
   const {
     onLoadStart,
-    onProgress,
-    onCanPlay,
+    onLoadedData,
     onLoadedMetadata,
-    onTimeUpdate,
-    onWaiting,
-    onStalled,
+    onDurationChange,
+    onCanPlay,
+    onCanPlayThrough,
+    onSuspend,
+    onAbort,
+    onEmptied,
     onPlay,
+    onPlaying,
     onPause,
     onEnded,
+    onTimeUpdate,
+    onProgress,
+    onSeeking,
+    onSeeked,
+    onRateChange,
+    onVolumeChange,
+    onEncrypted,
+    onWaiting,
+    onStalled,
     onError,
   } = handlers ?? {};
   const [isReady, setIsReady] = useState(false);
@@ -103,16 +114,52 @@ export function useMediaPlaybackState<T extends HTMLMediaElement>({
         setLoadError(null);
         onLoadStart?.(event);
       },
-      onProgress,
+      onLoadedData,
+      onLoadedMetadata: (event) => {
+        setLoadError(null);
+        onLoadedMetadata?.(event);
+      },
+      onDurationChange,
       onCanPlay: (event) => {
         setIsReady(true);
         setIsLoading(false);
         setIsBuffering(false);
         onCanPlay?.(event);
       },
-      onLoadedMetadata: (event) => {
+      onCanPlayThrough,
+      onSuspend,
+      onAbort,
+      onEmptied: (event) => {
+        setIsReady(false);
+        setIsLoading(Boolean(hasSource));
+        setIsBuffering(false);
+        setIsPlaying(false);
+        setHasPlayed(false);
         setLoadError(null);
-        onLoadedMetadata?.(event);
+        onEmptied?.(event);
+      },
+      onPlay: (event) => {
+        setIsPlaying(true);
+        setHasPlayed(true);
+        setIsLoading(false);
+        setIsBuffering(false);
+        setLoadError(null);
+        onPlay?.(event);
+      },
+      onPlaying: (event) => {
+        setIsPlaying(true);
+        setHasPlayed(true);
+        setIsLoading(false);
+        setIsBuffering(false);
+        onPlaying?.(event);
+      },
+      onPause: (event) => {
+        setIsPlaying(false);
+        onPause?.(event);
+      },
+      onEnded: (event) => {
+        setIsPlaying(false);
+        onEnded?.(event);
       },
       onTimeUpdate: (event) => {
         if (isReady) {
@@ -120,6 +167,12 @@ export function useMediaPlaybackState<T extends HTMLMediaElement>({
         }
         onTimeUpdate?.(event);
       },
+      onProgress,
+      onSeeking,
+      onSeeked,
+      onRateChange,
+      onVolumeChange,
+      onEncrypted,
       onWaiting: (event) => {
         if (isReady) {
           setIsBuffering(true);
@@ -136,22 +189,6 @@ export function useMediaPlaybackState<T extends HTMLMediaElement>({
         }
         onStalled?.(event);
       },
-      onPlay: (event) => {
-        setIsPlaying(true);
-        setHasPlayed(true);
-        setIsLoading(false);
-        setIsBuffering(false);
-        setLoadError(null);
-        onPlay?.(event);
-      },
-      onPause: (event) => {
-        setIsPlaying(false);
-        onPause?.(event);
-      },
-      onEnded: (event) => {
-        setIsPlaying(false);
-        onEnded?.(event);
-      },
       onError: (event) => {
         setIsPlaying(false);
         setIsReady(false);
@@ -164,17 +201,30 @@ export function useMediaPlaybackState<T extends HTMLMediaElement>({
     }),
     [
       errorLabel,
+      hasSource,
       isReady,
+      onAbort,
       onCanPlay,
+      onCanPlayThrough,
+      onDurationChange,
+      onEmptied,
       onEnded,
+      onEncrypted,
       onError,
       onLoadStart,
+      onLoadedData,
       onLoadedMetadata,
       onPause,
       onPlay,
+      onPlaying,
       onProgress,
+      onRateChange,
+      onSeeked,
+      onSeeking,
       onStalled,
+      onSuspend,
       onTimeUpdate,
+      onVolumeChange,
       onWaiting,
     ],
   );

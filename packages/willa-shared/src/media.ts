@@ -1,9 +1,36 @@
 import { clampNumber } from "#shared/number";
 import type { ResolveAssetUrl } from "#shared/types";
+import type { ReactEventHandler } from "react";
 
 export type MediaContextProps = {
   articleSourcePath?: string;
   resolveAssetUrl?: ResolveAssetUrl;
+};
+
+export type MediaEventHandlers<T extends HTMLMediaElement> = {
+  onLoadStart?: ReactEventHandler<T>;
+  onLoadedData?: ReactEventHandler<T>;
+  onLoadedMetadata?: ReactEventHandler<T>;
+  onDurationChange?: ReactEventHandler<T>;
+  onCanPlay?: ReactEventHandler<T>;
+  onCanPlayThrough?: ReactEventHandler<T>;
+  onSuspend?: ReactEventHandler<T>;
+  onAbort?: ReactEventHandler<T>;
+  onEmptied?: ReactEventHandler<T>;
+  onPlay?: ReactEventHandler<T>;
+  onPlaying?: ReactEventHandler<T>;
+  onPause?: ReactEventHandler<T>;
+  onEnded?: ReactEventHandler<T>;
+  onTimeUpdate?: ReactEventHandler<T>;
+  onProgress?: ReactEventHandler<T>;
+  onSeeking?: ReactEventHandler<T>;
+  onSeeked?: ReactEventHandler<T>;
+  onRateChange?: ReactEventHandler<T>;
+  onVolumeChange?: ReactEventHandler<T>;
+  onEncrypted?: ReactEventHandler<T>;
+  onWaiting?: ReactEventHandler<T>;
+  onStalled?: ReactEventHandler<T>;
+  onError?: ReactEventHandler<T>;
 };
 
 export type MediaSeekingListenerRegistrar = (

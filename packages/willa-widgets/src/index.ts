@@ -21,8 +21,12 @@ export { VideoLink } from "#widgets/components/VideoLink";
 export { WebEmbed } from "#widgets/components/WebEmbed";
 export { XPostEmbed } from "#widgets/components/XPostEmbed";
 
-export type { AudioEmbedProps } from "#widgets/components/AudioEmbed";
+export type {
+  AudioEmbedHandle,
+  AudioEmbedProps,
+} from "#widgets/components/AudioEmbed";
 export type { AudioLinkProps } from "#widgets/components/AudioLink";
+export type { MediaEventHandlers } from "@willa-ui/shared";
 export type {
   EnglishCardDetail,
   EnglishCardExample,

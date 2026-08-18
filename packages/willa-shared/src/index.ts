@@ -68,6 +68,7 @@ export {
   parseMediaTime,
   setMediaCurrentTime,
   type MediaContextProps,
+  type MediaEventHandlers,
   type MediaSeekingListenerRegistrar,
   resolveMediaAsset,
   resolveMediaVolume,
